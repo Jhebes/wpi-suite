@@ -35,9 +35,8 @@ public class MainView extends JPanel {
 		
 		setLayout(null);
 		
-		//DELETE THIS AND FIX ERRORS BEFORE COMMIT
+		//We may not end up using strings, so I'm going to keep this generic
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		
 		
 		//Create the list of existing sessions
 		JList existingSessionsList = new JList(dummySessions);
