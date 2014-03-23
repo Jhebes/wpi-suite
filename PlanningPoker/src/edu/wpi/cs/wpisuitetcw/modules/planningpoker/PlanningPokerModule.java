@@ -32,26 +32,43 @@ public class PlanningPokerModule implements IJanewayModule {
 
 	/** The tabs used by this module */
 	private ArrayList<JanewayTabModel> tabs;
+
+	/** The name for this module */
 	private String name;
+	
+	/** The top panel used for storing buttons */
+	private JPanel buttonPanel;
+	
+	/** The bottom panel used for the main UI */
+	private JPanel mainPanel;
 
 	/**
 	 * Construct a new PlanningPokerModule for demonstration purposes
 	 */
 	public PlanningPokerModule() {
-
 		// Setup button panel
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new FlowLayout());
+		this.buttonPanel = new JPanel();
+		this.buttonPanel.setLayout(new FlowLayout());
 
 		// Setup the main panel
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new BorderLayout());
-		mainPanel.add(new JLabel(this.name), BorderLayout.PAGE_START);
+		this.mainPanel = new JPanel();
+		this.mainPanel.setLayout(new BorderLayout());
+		this.mainPanel.add(new JLabel(this.name), BorderLayout.PAGE_START);
 
 		tabs = new ArrayList<JanewayTabModel>();
 		JanewayTabModel tab = new JanewayTabModel(this.name, new ImageIcon(),
 				buttonPanel, mainPanel);
 		tabs.add(tab);
+
+		this.name = "Planning Poker";
+	}
+
+	/**
+	 * @see edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule#getTabs()
+	 */
+	@Override
+	public List<JanewayTabModel> getTabs() {
+		return tabs;
 	}
 
 	/**
@@ -62,11 +79,4 @@ public class PlanningPokerModule implements IJanewayModule {
 		return this.name;
 	}
 
-	/**
-	 * @see edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule#getTabs()
-	 */
-	@Override
-	public List<JanewayTabModel> getTabs() {
-		return tabs;
-	}
 }
