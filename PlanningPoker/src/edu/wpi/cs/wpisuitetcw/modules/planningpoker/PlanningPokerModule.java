@@ -34,7 +34,7 @@ public class PlanningPokerModule implements IJanewayModule {
 	private ArrayList<JanewayTabModel> tabs;
 
 	/** The name for this module */
-	private String name;
+	private String name = "Planning Poker";
 	
 	/** The top panel used for storing buttons */
 	private JPanel buttonPanel;
@@ -51,16 +51,18 @@ public class PlanningPokerModule implements IJanewayModule {
 		this.buttonPanel.setLayout(new FlowLayout());
 
 		// Setup the main panel
-		this.mainPanel = new JPanel();
-		this.mainPanel.setLayout(new BorderLayout());
-		this.mainPanel.add(new JLabel(this.name), BorderLayout.PAGE_START);
-
+		this.mainPanel = new MainView();
+		
+		
+		
 		tabs = new ArrayList<JanewayTabModel>();
+		
 		JanewayTabModel tab = new JanewayTabModel(this.name, new ImageIcon(),
 				buttonPanel, mainPanel);
+		
+		
 		tabs.add(tab);
 
-		this.name = "Planning Poker";
 	}
 
 	/**
