@@ -35,12 +35,17 @@ Janeway/janeway.conf
 /Core/WPISuite/src/META-INF/MANIFEST.MF
 /Core/WPISuite/WPISuite_TNG_local
 /Core/WPISuite/WebContent/WEB-INF/lib/DefectTracker.jar
+/Core/WPISuite/WebContent/WEB-INF/lib/PlanningPoker.jar
 /Core/WPISuite/WebContent/WEB-INF/lib/WPISuite-Interfaces.jar
 /Core/WPISuite/WebContent/WEB-INF/lib/PostBoard.jar
 /Core/WPISuite/WebContent/WEB-INF/lib/RequirementManager.jar
 
 .idea
 .idea/*
+*.iml
 
 RequirementManager/build
 RequirementManager/bin
+
+*.fuse*
+

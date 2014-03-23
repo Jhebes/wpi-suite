@@ -52,6 +52,13 @@
 			inheritAll="false"/>
 	</target>
 
+	<target name="depend.PlanningPoker"
+		depends="depend.Janeway">
+		<ant dir="${dependencies.basedir}/PlanningPoker"
+			target="${dependency.target}"
+			inheritAll="false"/>
+	</target>
+
 	<target name="depend.PostBoard"
 		depends="depend.Janeway">
 		<ant dir="${dependencies.basedir}/PostBoard"
