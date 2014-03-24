@@ -6,5 +6,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Network"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/WPISuite"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/WPISuite-Interfaces"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/RequirementManager"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
