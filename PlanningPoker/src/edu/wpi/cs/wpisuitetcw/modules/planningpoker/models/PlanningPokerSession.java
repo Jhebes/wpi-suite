@@ -16,7 +16,7 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
  * 
  */
 public class PlanningPokerSession extends AbstractModel {
-	private ArrayList<PlanningPokerRequirement> reqsList;
+
 	private int id = -1;
 	private boolean isCancelled = false;
 	private Date startTime = null;
@@ -27,6 +27,7 @@ public class PlanningPokerSession extends AbstractModel {
 	// ///////////////////////////////////////////////////////////////
 	public void cancel() {
 		this.isCancelled = true;
+		this.endTime = new Date();
 	}
 
 	public boolean isCancelled() {
@@ -40,15 +41,25 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public void activate() {
 		// If this hasn't been canceled
+
 		if (!this.isCancelled) {
 			// And has a valid amount of requirements
-			if (reqsList.size() >= 0) {
+			if (this.getRequirements().size() >= 0) {
 				// Activate
 				this.startTime = new Date();
 			}
 		}
 	}
-
+	
+	/**
+	 * Gets a list of requirements from the PlanningPokerSession Entity 
+	 * Manager
+	 * @return List of requirements owned by this session
+	 */
+	public ArrayList<PlanningPokerRequirement> getRequirements(){
+		return null;
+		
+	}
 	/**
 	 * Returns the status of this session, i.e. whether or not it is open to
 	 * voting
@@ -56,7 +67,9 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @return The status of the session
 	 */
 	public boolean isActive() {
-		return !(this.startTime == null);
+
+			return !(this.startTime == null);
+
 	}
 
 	public boolean isDone() {
