@@ -1,36 +1,31 @@
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
-import javax.swing.JPanel;
-import javax.swing.JList;
-import javax.swing.border.LineBorder;
+import javax.swing.JTabbedPane;
 
-import java.awt.Color;
-import java.awt.Dimension;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 
-import javax.swing.JButton;
-import javax.swing.SpringLayout;
-
-public class MainView extends JPanel {
+public class MainView extends JTabbedPane {
 
 	/**
 	 *  Serializable ID
 	 */
 	private static final long serialVersionUID = 4184001083813964646L;
-
+	private OverviewPanel overivewPanel;
 	/**
 	 * Create the panel.
 	 */
 	
 	public MainView() {
+		overivewPanel = new OverviewPanel();
+		this.addTab("Overview", overivewPanel);
 		
+		/*
 		//Generate some dummy "sessions" to populate the list of sessions
 		String dummySessions[] =
 		{
 			"Session 1",
 			"Session 2",
-			"Session 3",
-			"Session 4",
-			"Session 5"
+			"Session 3"
 		};
 		
 		setLayout(null);
@@ -62,6 +57,9 @@ public class MainView extends JPanel {
 		add(existingSessionsList);
 		add(btnCreateNewSession);
 		add(btnJoinSession);
+		*/
+		
+		
 
 	}
 }
