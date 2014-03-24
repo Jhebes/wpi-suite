@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
-//import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 
 /**
  * Contains a Planning Poker Session
@@ -82,6 +81,7 @@ public class PlanningPokerSession extends AbstractModel {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 
 	public String getName() {
 		return this.name;
@@ -95,6 +95,41 @@ public class PlanningPokerSession extends AbstractModel {
 		return this.id;
 	}
 
+
+	
+	
+	
+	// Functions for requirements
+	
+	
+	
+	
+	// public void createRequirements
+	
+	
+	/* Adds a requirement to the list of requirements
+	 * @param newReq -> new Requirements to be added
+	 */
+	/*public void addRequirements(ArrayList<PlanningPokerRequirement> newReqs){
+		this.reqsList.append(newReqs);
+	}
+	*/
+	
+	/* Deletes a requirement by session ID
+	 * @param requirementId -> ID of requirement to be deleted
+	 */
+	/*public void deleteRequirement(int requirementId){
+		for(int i = 0; i < reqsList.size(); i++){
+			if(reqsList.get(i).getId() == requirementId){
+				reqsList.remove(i);
+				break;
+			}
+		}
+	}
+	
+	*/
+	
+	
 	// ///////////////////////////////////////////////////////////////
 	/**
 	 * Constructs a PlanningPokerSession for the given string message

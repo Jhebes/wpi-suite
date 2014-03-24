@@ -4,9 +4,15 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
 
+
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+
+import org.w3c.dom.views.AbstractView;
+
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+
 
 /**
  * @author Nicholas Kalamvokis and Matt Suarez
@@ -14,34 +20,30 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
  */
 
 
-public class PlanningPokerRequirement extends AbstractModel{
 
-	public PlanningPokerRequirement() {
-		
-		
-		
-		
+public class PlanningPokerRequirement extends Requirement{
+	private int sessionId; 
+	
+	public int getId() {
+		return sessionId;
 	}
 
-	@Override
-	public void save() {
+
+	public void setId(int id) {
+		this.sessionId = id;
+	}
+
+
+
+	/**
+	 * 
+	 */
+	public PlanningPokerRequirement(int id) {
+		setId(id);
+		System.out.println("Session ID:" + id);
 		
-	}
 
-	@Override
-	public void delete() {
-		
 	}
-
-	@Override
-	public String toJSON() {
-		return new Gson().toJson(this, PlanningPokerSession.class);
-	}
-
-	@Override
-	public Boolean identify(Object o) {
-		
-		return null;
-	}
-
+	
+	
 }
