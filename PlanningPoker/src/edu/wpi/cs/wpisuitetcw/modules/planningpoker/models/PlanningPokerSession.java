@@ -22,7 +22,6 @@ public class PlanningPokerSession extends AbstractModel {
 	private Date startTime = null;
 	private Date endTime = null;
 	private String name = "";
-	private boolean active = false;
 
 	// Getters and Setters
 	// ///////////////////////////////////////////////////////////////
@@ -41,11 +40,10 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public void activate() {
 		// If this is not active and hasn't been canceled
-		if (!this.active && !this.isCancelled) {
+		if (!this.isCancelled) {
 			// And has a valid amount of requirements
 			if (reqsList.size() >= 0) {
 				// Activate
-				this.active = true;
 				this.startTime = new Date();
 			}
 		}
@@ -59,7 +57,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @return The status of the session
 	 */
 	public boolean isActive() {
-		return this.active && !(this.startTime == null);
+			return !(this.startTime == null);
 	}
 
 	public boolean isDone() {
