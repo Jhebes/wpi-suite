@@ -28,6 +28,7 @@ public class PlanningPokerSession extends AbstractModel {
 	// ///////////////////////////////////////////////////////////////
 	public void cancel() {
 		this.isCancelled = true;
+		this.endTime = new Date();
 	}
 
 	public boolean isCancelled() {
