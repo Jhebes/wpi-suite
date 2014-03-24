@@ -6,18 +6,19 @@ import java.util.Date;
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+
+//import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 
 /**
  * Contains a Planning Poker Session
  * 
  * @author Josh Hebert
- *
+ * 
  */
 public class PlanningPokerSession extends AbstractModel {
-	private ArrayList<Requirement> reqsList;
+	private ArrayList<String> reqsList;
 	private int id = -1;
-	private boolean isCanceled = false;
+	private boolean isCancelled = false;
 	private Date startTime = null;
 	private Date endTime = null;
 	private String name = "";
@@ -26,6 +27,11 @@ public class PlanningPokerSession extends AbstractModel {
 	// Getters and Setters
 	// ///////////////////////////////////////////////////////////////
 	public void cancel() {
+		this.isCancelled = true;
+	}
+
+	public boolean isCancelled() {
+		return this.isCancelled;
 	}
 
 	/**
@@ -35,7 +41,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public void activate() {
 		// If this is not active and hasn't been canceled
-		if (!this.active && !this.isCanceled) {
+		if (!this.active && !this.isCancelled) {
 			// And has a valid amount of requirements
 			if (reqsList.size() >= 0) {
 				// Activate
@@ -57,7 +63,10 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	public boolean isDone() {
-		return false;
+		if (endTime == null) {
+			return false;
+		} else
+			return true;
 	}
 
 	public void setName(String name) {
