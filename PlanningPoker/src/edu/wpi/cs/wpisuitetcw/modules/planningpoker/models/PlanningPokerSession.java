@@ -22,20 +22,25 @@ public class PlanningPokerSession extends AbstractModel {
 	private Date startTime;
 	private Date endTime;
 	private String name;
+	private boolean active = false;
+	
+	
 /////////////////////////////////////////////////////////////////
 	public void cancel(){
-		
 	}
 	public void activate(){
-		
+		if(!this.active){
+			this.active = true;
+		}
 	}
 	public boolean isActive(){
-		return false;
+		return this.active;
 	}
+	
 	public boolean isDone(){
 		return false;
 	}
-	
+/////////////////////////////////////////////////////////////////	
 	/**
 	 * Constructs a PlanningPokerSession for the given string message
 	 * @param message
