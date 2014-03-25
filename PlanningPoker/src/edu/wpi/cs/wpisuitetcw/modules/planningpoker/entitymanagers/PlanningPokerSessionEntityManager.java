@@ -11,10 +11,11 @@
  *    Andrew Hurle
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 
 import java.util.List;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
@@ -62,26 +63,33 @@ public class PlanningPokerSessionEntityManager implements
 			throws BadRequestException, ConflictException, WPISuiteException {
 
 		// Parse the message from JSON
-		final PlanningPokerSession newMessage = PlanningPokerSession
+		final PlanningPokerSession newPlanningPokerSession = PlanningPokerSession
 				.fromJson(content);
+
+		int newID;
+		PlanningPokerSession[] allSessions = this.getAll(s);
+		if (allSessions.length == 0) {
+			newID = 1;
+		} else {
+			PlanningPokerSession mostRecent = allSessions[allSessions.length - 1];
+			newID = mostRecent.getID() + 1;
+		}
+		newPlanningPokerSession.setID(newID);
 
 		// Save the message in the database if possible, otherwise throw an
 		// exception
 		// We want the message to be associated with the project the user logged
 		// in to
-		if (!db.save(newMessage, s.getProject())) {
+		if (!db.save(newPlanningPokerSession, s.getProject())) {
 			throw new WPISuiteException();
 		}
 
 		// Return the newly created message (this gets passed back to the
 		// client)
-		return newMessage;
+		return newPlanningPokerSession;
 	}
 
 	/*
-	 * Individual messages cannot be retrieved. This message always throws an
-	 * exception.
-	 * 
 	 * @see
 	 * edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(edu.wpi.cs.wpisuitetng
 	 * .Session, java.lang.String)
@@ -92,7 +100,10 @@ public class PlanningPokerSessionEntityManager implements
 		// Throw an exception if an ID was specified, as this module does not
 		// support
 		// retrieving specific PlanningPokerSessions.
-		throw new WPISuiteException();
+		//List<Model> results = db.retrieveAll(new PlanningPokerSession(), s.getProject());
+		List<Model> results = db.retrieve(
+				new PlanningPokerSession().getClass(), "ID", Integer.parseInt(id), s.getProject());
+		return results.toArray(new PlanningPokerSession[0]);
 	}
 
 	/*

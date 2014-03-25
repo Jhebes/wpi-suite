@@ -1,4 +1,4 @@
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.views;
 
 import javax.swing.JPanel;
 import javax.swing.JList;
