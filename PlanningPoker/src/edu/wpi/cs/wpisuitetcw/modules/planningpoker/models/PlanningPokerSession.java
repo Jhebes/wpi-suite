@@ -101,36 +101,26 @@ public class PlanningPokerSession extends AbstractModel {
 	
 	
 	
-	
 	// Functions for requirements
 	
-	
-	
-	
-	// public void createRequirements
-	
-	
-	/* Adds a requirement to the list of requirements
+	/* Sets sessionIds for the PlanningPokerRequirements
 	 * @param newReq -> new Requirements to be added
 	 */
-	/*public void addRequirements(ArrayList<PlanningPokerRequirement> newReqs){
-		this.reqsList.append(newReqs);
-	}
-	*/
-	
-	/* Deletes a requirement by session ID
-	 * @param requirementId -> ID of requirement to be deleted
-	 */
-	/*public void deleteRequirement(int requirementId){
-		for(int i = 0; i < reqsList.size(); i++){
-			if(reqsList.get(i).getId() == requirementId){
-				reqsList.remove(i);
-				break;
-			}
+	public void addRequirements(ArrayList<PlanningPokerRequirement> newReqs){
+		for(int i = 0; i < newReqs.size(); i++){
+			newReqs.get(i).setSessionId(this.id);
 		}
 	}
 	
-	*/
+	
+	/* Deletes a requirement by requirement ID
+	 * @param requirementId -> ID of requirement to be deleted
+	 */
+	public void deleteRequirements(ArrayList<PlanningPokerRequirement> reqs){
+		for(int i = 0; i < reqs.size(); i++){
+			reqs.get(i).setSessionId(-1);
+		}
+	}
 	
 	
 	// ///////////////////////////////////////////////////////////////
