@@ -2,6 +2,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import javax.swing.JTabbedPane;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 
 public class MainView extends JTabbedPane {
@@ -11,6 +12,7 @@ public class MainView extends JTabbedPane {
 	 */
 	private static final long serialVersionUID = 4184001083813964646L;
 	private OverviewPanel overivewPanel;
+	private CreateSessionPanel createSessionPanel;
 	/**
 	 * Create the panel.
 	 */
@@ -18,6 +20,9 @@ public class MainView extends JTabbedPane {
 	public MainView() {
 		overivewPanel = new OverviewPanel();
 		this.addTab("Overview", overivewPanel);
+		
+		createSessionPanel = new CreateSessionPanel();
+		this.addTab("New Session", createSessionPanel);
 		
 		/*
 		//Generate some dummy "sessions" to populate the list of sessions
