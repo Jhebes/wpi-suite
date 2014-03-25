@@ -3,6 +3,8 @@
  */
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
+import javax.swing.JComponent;
+
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 
 /**
@@ -59,6 +61,16 @@ public class ViewEventController {
 	 */
 	public void setMainView(MainView mainview) {
 		main = mainview;
+		
+	}
+	
+	
+	/**
+	 * Removes the tab for the given JComponent
+	 * @param comp the component to remove
+	 */
+	public void removeTab(JComponent component) {
+		main.remove(component);
 		
 	}
 	
