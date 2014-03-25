@@ -3,16 +3,14 @@
  */
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.buttons;
 
-import java.awt.Image;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 
 /**
@@ -33,18 +31,28 @@ public class SessionButtonsPanel extends ToolbarGroupView {
 		
 		// create the buttons
 		this.createSession = new JButton("<html>Create<br />Session</html>");
-		//@TODO add button listeners to the createSession button
+		// TODO add button listeners to the createSession button
 		
 		this.joinSession = new JButton("<html>Join<br />Session</html>");
-		//@TODO add button listeners to the joinSession button
+		// TODO add button listeners to the joinSession button
 		
-		//@TODO add the image later
+		// TODO add the image later
 //		try {
 //		    Image img = ImageIO.read(new FileInputStream("resources/img/new_session.png"));
 //		    createSession.setIcon(new ImageIcon(img));
 //		    joinSession.setIcon(new ImageIcon(img));
 //		       
 //		} catch (IOException ex) {}
+		
+		// action listener for the createSession button
+		createSession.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// bring up a create session pane
+				ViewEventController.getInstance().createSession();
+			}
+		});
+		
 		
 		sessionPanel.add(this.createSession);
 		sessionPanel.add(this.joinSession);

@@ -3,8 +3,6 @@
  */
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
-import java.awt.Dimension;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -71,7 +69,8 @@ public class OverviewPanel extends JSplitPane {
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		leftPanel.add(Box.createHorizontalStrut(10));
 
-		rightPanel.add(new JLabel("Test Label"));
+		// create a center JLabel
+		rightPanel.add(new JLabel("Overview"));
 
 		this.setRightComponent(rightPanel);
 		this.setLeftComponent(leftPanel);
