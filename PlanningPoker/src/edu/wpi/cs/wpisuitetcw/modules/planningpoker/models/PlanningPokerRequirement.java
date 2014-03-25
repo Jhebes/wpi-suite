@@ -8,14 +8,27 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
  */
 
 public class PlanningPokerRequirement extends Requirement {
-	private int sessionId;
+	private int sessionID;
+	
+	/**
+	 * Constructs the PlanningPokerObject
+	 */
+	public PlanningPokerRequirement() {
+		setSessionID(-1);
+		System.out.println("Session ID:" + this.sessionID);
+	}
 
+	public PlanningPokerRequirement(int id) {
+		setSessionID(id);
+		System.out.println("Session ID:" + id);
+	}
+	
 	/**
 	 * Retrieves the ID of the current Planning Poker Session
 	 * @return Session ID
 	 */
 	public int getSessionID() {
-		return sessionId;
+		return sessionID;
 	}
 
 	/**
@@ -23,16 +36,7 @@ public class PlanningPokerRequirement extends Requirement {
 	 * 
 	 */
 	public void setSessionID(int id) {
-		this.sessionId = id;
-	}
-
-	/**
-	 * Constructs the PlanningPokerObject
-	 */
-	public PlanningPokerRequirement(int id) {
-		setId(id);
-		System.out.println("Session ID:" + id);
-
+		this.sessionID = id;
 	}
 
 }

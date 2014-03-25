@@ -47,23 +47,11 @@ public class PlanningPokerSession extends AbstractModel {
 	public void activate() {
 		// If this hasn't been canceled
 		if (!this.isCancelled) {
-			// And has a valid amount of requirements
-			if (this.getRequirements().size() >= 0) {
 				// Activate
 				this.startTime = new Date();
-			}
 		}
 	}
 
-	/**
-	 * Gets a list of requirements from the PlanningPokerSession Entity Manager
-	 * 
-	 * @return List of requirements owned by this session
-	 */
-	public ArrayList<PlanningPokerRequirement> getRequirements() {
-		return null;
-
-	}
 
 	/**
 	 * Returns the status of this session, i.e. whether or not it is open to
@@ -124,6 +112,30 @@ public class PlanningPokerSession extends AbstractModel {
 		return this.id;
 	}
 
+	
+	// Functions for requirements
+	
+	/* Sets sessionIds for the PlanningPokerRequirements
+	 * @param newReq -> new Requirements to be added
+	 */
+	public void addRequirements(ArrayList<PlanningPokerRequirement> newReqs){
+		for(int i = 0; i < newReqs.size(); i++){
+			newReqs.get(i).setSessionID(this.id);
+		}
+	}
+	
+	
+	/* Deletes a requirement by requirement ID
+	 * @param requirementID -> ID of requirement to be deleted
+	 */
+	public void deleteRequirements(ArrayList<PlanningPokerRequirement> reqs){
+		for(int i = 0; i < reqs.size(); i++){
+			reqs.get(i).setSessionID(-1);
+		}
+	}
+	
+	
+
 	// Functions for requirements
 
 	// public void createRequirements
@@ -148,6 +160,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * reqsList.size(); i++){ if(reqsList.get(i).getId() == requirementId){
 	 * reqsList.remove(i); break; } } }
 	 */
+
 
 
 	/**
