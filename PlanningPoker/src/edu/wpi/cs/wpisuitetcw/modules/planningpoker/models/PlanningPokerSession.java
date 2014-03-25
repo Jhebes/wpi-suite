@@ -39,9 +39,10 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * If this model is eligible for activation, it will be activated. Criteria
-	 * for activation are: -> It cannot already be active -> It cannot have been
-	 * canceled -> It must have at least one requirement
+	 * Activate the session if it meets the following conditions:
+	 * - It cannot already be active 
+	 * - It cannot have been canceled 
+	 * - It must have at least one requirement
 	 */
 	public void activate() {
 		// If this hasn't been canceled
