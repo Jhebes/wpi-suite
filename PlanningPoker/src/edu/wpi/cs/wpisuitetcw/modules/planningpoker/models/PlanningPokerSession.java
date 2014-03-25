@@ -148,6 +148,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * reqsList.remove(i); break; } } }
 	 */
 
+
 	/**
 	 * Constructs a PlanningPokerSession for the given string message
 	 * 
