@@ -57,7 +57,7 @@ public class CreateSessionPanel extends JSplitPane {
 			leftPanel.setAlignmentY(LEFT_ALIGNMENT);
 			leftPanel.add(Box.createHorizontalStrut(10));
 			
-			this.setRightComponent((rightPanel));
+			this.setRightComponent(rightPanel);
 			this.setLeftComponent(leftPanel);
 			this.setDividerLocation(180);
 			
