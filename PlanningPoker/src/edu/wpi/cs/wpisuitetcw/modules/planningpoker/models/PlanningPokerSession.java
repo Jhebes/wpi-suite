@@ -72,10 +72,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @return boolean indicating done-ness of the session
 	 */
 	public boolean isDone() {
-		if (endTime == null) {
-			return false;
-		} else
-			return true;
+		return endTime != null;
 	}
 
 	/**
