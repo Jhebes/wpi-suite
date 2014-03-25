@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 /**
- * Contains a Planning Poker Session
+ * Planning Poker Session class
  * 
  * @author Josh Hebert
  * 
@@ -22,8 +22,10 @@ public class PlanningPokerSession extends AbstractModel {
 	private String name = "";
 
 	/**
-	 * Cancels this session by setting isCancelled to true
-	 * and setting its finish time to the current time
+	 * Cancels a session 
+	 * -------------------
+	 * Implementation: setting isCancelled to true
+	 * and its finish time to the current time
 	 */
 	public void cancel() {
 		this.isCancelled = true;
@@ -31,8 +33,8 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * Checks if this session has been prematurely terminated
-	 * @return Was the session canceled?
+	 * Returns true if this session has been prematurely terminated
+	 * @return Returns true if this session has been prematurely terminated
 	 */
 	public boolean isCancelled() {
 		return this.isCancelled;
@@ -40,36 +42,29 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Activate the session if it meets the following conditions:
-	 * - It cannot already be active 
-	 * - It cannot have been canceled 
-	 * - It must have at least one requirement
+	 * - It isn't active currently
+	 * - It isn't canceled 
+	 * - It must have at least one requirement (Temporarily not included)
 	 */
 	public void activate() {
-		// If this hasn't been canceled
-		if (!this.isCancelled) {
-				// Activate
-				this.startTime = new Date();
+		if (!this.isCancelled && !this.isActive()) {
+			this.startTime = new Date();
 		}
 	}
 
-
 	/**
-	 * Returns the status of this session, i.e. whether or not it is open to
-	 * voting
-	 * 
-	 * @return The status of the session
+	 * Returns true it is open to voting in the meantime
+	 * @return Returns true it is open to voting in the meantime
 	 */
 	public boolean isActive() {
-
 		return !(this.startTime == null);
-
 	}
 
 	/**
-	 * Checks if this session has been assigned a completed time, indicating
-	 * that the session has been terminated in some way
+	 * Return true if this session has been assigned a completed time, 
+	 * indicating that the session has been terminated in some way
 	 * 
-	 * @return boolean indicating done-ness of the session
+	 * @return Return true if this session has been assigned a completed time
 	 */
 	public boolean isDone() {
 		return endTime != null;
@@ -77,7 +72,6 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Sets the name of this session
-	 * 
 	 * @param name
 	 */
 	public void setName(String name) {
@@ -85,7 +79,7 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * 
+	 * Return the name of this session
 	 * @return Name of this session
 	 */
 	public String getName() {
@@ -94,7 +88,6 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Set the ID of this session
-	 * 
 	 * @param id
 	 */
 	public void setID(int id) {
@@ -102,7 +95,7 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * 
+	 * Return the session ID
 	 * @return The Session ID
 	 */
 	public int getID() {
