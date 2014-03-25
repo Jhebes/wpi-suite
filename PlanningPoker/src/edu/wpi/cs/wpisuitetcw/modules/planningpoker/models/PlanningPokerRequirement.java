@@ -17,12 +17,12 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 public class PlanningPokerRequirement extends Requirement{
 	private int sessionId; 
 	
-	public int getId() {
+	public int getSessionId() {
 		return sessionId;
 	}
 
 
-	public void setId(int id) {
+	public void setSessionId(int id) {
 		this.sessionId = id;
 	}
 
@@ -31,10 +31,9 @@ public class PlanningPokerRequirement extends Requirement{
 	/**
 	 * 
 	 */
-	public PlanningPokerRequirement(int id) {
-		setId(id);
-		System.out.println("Session ID:" + id);
-		
+	public PlanningPokerRequirement() {
+		setId(-1);
+		System.out.println("Session ID:" + this.sessionId);
 
 	}
 	
