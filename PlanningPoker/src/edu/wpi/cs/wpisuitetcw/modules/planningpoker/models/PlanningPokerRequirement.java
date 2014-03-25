@@ -1,49 +1,38 @@
-/**
- * 
- */
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
-
-
-import com.google.gson.Gson;
-
-import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-
-import org.w3c.dom.views.AbstractView;
-
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
-
 
 /**
  * @author Nicholas Kalamvokis and Matt Suarez
  * @date 3/24/2014
  */
 
+public class PlanningPokerRequirement extends Requirement {
+	private int sessionId;
 
-
-public class PlanningPokerRequirement extends Requirement{
-	private int sessionId; 
-	
-	public int getId() {
+	/**
+	 * Retrieves the ID of the current Planning Poker Session
+	 * @return Session ID
+	 */
+	public int getSessionID() {
 		return sessionId;
 	}
 
-
-	public void setId(int id) {
+	/**
+	 * Sets the ID of the current Planning Poker Session
+	 * 
+	 */
+	public void setSessionID(int id) {
 		this.sessionId = id;
 	}
 
-
-
 	/**
-	 * 
+	 * Constructs the PlanningPokerObject
 	 */
 	public PlanningPokerRequirement(int id) {
 		setId(id);
 		System.out.println("Session ID:" + id);
-		
 
 	}
-	
-	
+
 }

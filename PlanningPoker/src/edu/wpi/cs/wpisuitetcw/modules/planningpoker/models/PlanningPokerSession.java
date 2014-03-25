@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
-
 /**
  * Contains a Planning Poker Session
  * 
@@ -49,16 +48,17 @@ public class PlanningPokerSession extends AbstractModel {
 			}
 		}
 	}
-	
+
 	/**
-	 * Gets a list of requirements from the PlanningPokerSession Entity 
-	 * Manager
+	 * Gets a list of requirements from the PlanningPokerSession Entity Manager
+	 * 
 	 * @return List of requirements owned by this session
 	 */
-	public ArrayList<PlanningPokerRequirement> getRequirements(){
+	public ArrayList<PlanningPokerRequirement> getRequirements() {
 		return null;
-		
+
 	}
+
 	/**
 	 * Returns the status of this session, i.e. whether or not it is open to
 	 * voting
@@ -67,7 +67,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public boolean isActive() {
 
-			return !(this.startTime == null);
+		return !(this.startTime == null);
 
 	}
 
@@ -81,7 +81,6 @@ public class PlanningPokerSession extends AbstractModel {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
 
 	public String getName() {
 		return this.name;
@@ -95,41 +94,31 @@ public class PlanningPokerSession extends AbstractModel {
 		return this.id;
 	}
 
-
-	
-	
-	
 	// Functions for requirements
-	
-	
-	
-	
+
 	// public void createRequirements
-	
-	
-	/* Adds a requirement to the list of requirements
+
+	/*
+	 * Adds a requirement to the list of requirements
+	 * 
 	 * @param newReq -> new Requirements to be added
 	 */
-	/*public void addRequirements(ArrayList<PlanningPokerRequirement> newReqs){
-		this.reqsList.append(newReqs);
-	}
-	*/
-	
-	/* Deletes a requirement by session ID
+	/*
+	 * public void addRequirements(ArrayList<PlanningPokerRequirement> newReqs){
+	 * this.reqsList.append(newReqs); }
+	 */
+
+	/*
+	 * Deletes a requirement by session ID
+	 * 
 	 * @param requirementId -> ID of requirement to be deleted
 	 */
-	/*public void deleteRequirement(int requirementId){
-		for(int i = 0; i < reqsList.size(); i++){
-			if(reqsList.get(i).getId() == requirementId){
-				reqsList.remove(i);
-				break;
-			}
-		}
-	}
-	
-	*/
-	
-	
+	/*
+	 * public void deleteRequirement(int requirementId){ for(int i = 0; i <
+	 * reqsList.size(); i++){ if(reqsList.get(i).getId() == requirementId){
+	 * reqsList.remove(i); break; } } }
+	 */
+
 	// ///////////////////////////////////////////////////////////////
 	/**
 	 * Constructs a PlanningPokerSession for the given string message
