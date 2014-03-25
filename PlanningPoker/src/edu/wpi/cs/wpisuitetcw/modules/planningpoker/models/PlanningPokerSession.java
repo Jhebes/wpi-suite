@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
-
 /**
  * Contains a Planning Poker Session
  * 
@@ -22,13 +21,19 @@ public class PlanningPokerSession extends AbstractModel {
 	private Date endTime = null;
 	private String name = "";
 
-	// Getters and Setters
-	// ///////////////////////////////////////////////////////////////
+	/**
+	 * Cancels this session by setting isCancelled to true
+	 * and setting its finish time to the current time
+	 */
 	public void cancel() {
 		this.isCancelled = true;
 		this.endTime = new Date();
 	}
 
+	/**
+	 * Checks if this session has been prematurely terminated
+	 * @return Was the session canceled?
+	 */
 	public boolean isCancelled() {
 		return this.isCancelled;
 	}
@@ -40,7 +45,6 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public void activate() {
 		// If this hasn't been canceled
-
 		if (!this.isCancelled) {
 			// And has a valid amount of requirements
 			if (this.getRequirements().size() >= 0) {
@@ -49,16 +53,17 @@ public class PlanningPokerSession extends AbstractModel {
 			}
 		}
 	}
-	
+
 	/**
-	 * Gets a list of requirements from the PlanningPokerSession Entity 
-	 * Manager
+	 * Gets a list of requirements from the PlanningPokerSession Entity Manager
+	 * 
 	 * @return List of requirements owned by this session
 	 */
-	public ArrayList<PlanningPokerRequirement> getRequirements(){
+	public ArrayList<PlanningPokerRequirement> getRequirements() {
 		return null;
-		
+
 	}
+
 	/**
 	 * Returns the status of this session, i.e. whether or not it is open to
 	 * voting
@@ -67,10 +72,16 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public boolean isActive() {
 
-			return !(this.startTime == null);
+		return !(this.startTime == null);
 
 	}
 
+	/**
+	 * Checks if this session has been assigned a completed time, indicating
+	 * that the session has been terminated in some way
+	 * 
+	 * @return boolean indicating done-ness of the session
+	 */
 	public boolean isDone() {
 		if (endTime == null) {
 			return false;
@@ -78,59 +89,65 @@ public class PlanningPokerSession extends AbstractModel {
 			return true;
 	}
 
+	/**
+	 * Sets the name of this session
+	 * 
+	 * @param name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-	
 
+	/**
+	 * 
+	 * @return Name of this session
+	 */
 	public String getName() {
 		return this.name;
 	}
 
+	/**
+	 * Set the ID of this session
+	 * 
+	 * @param id
+	 */
 	public void setID(int id) {
 		this.id = id;
 	}
 
+	/**
+	 * 
+	 * @return The Session ID
+	 */
 	public int getID() {
 		return this.id;
 	}
 
-
-	
-	
-	
 	// Functions for requirements
-	
-	
-	
-	
+
 	// public void createRequirements
-	
-	
-	/* Adds a requirement to the list of requirements
+
+	/*
+	 * Adds a requirement to the list of requirements
+	 * 
 	 * @param newReq -> new Requirements to be added
 	 */
-	/*public void addRequirements(ArrayList<PlanningPokerRequirement> newReqs){
-		this.reqsList.append(newReqs);
-	}
-	*/
-	
-	/* Deletes a requirement by session ID
+	/*
+	 * public void addRequirements(ArrayList<PlanningPokerRequirement> newReqs){
+	 * this.reqsList.append(newReqs); }
+	 */
+
+	/*
+	 * Deletes a requirement by session ID
+	 * 
 	 * @param requirementId -> ID of requirement to be deleted
 	 */
-	/*public void deleteRequirement(int requirementId){
-		for(int i = 0; i < reqsList.size(); i++){
-			if(reqsList.get(i).getId() == requirementId){
-				reqsList.remove(i);
-				break;
-			}
-		}
-	}
-	
-	*/
-	
-	
-	// ///////////////////////////////////////////////////////////////
+	/*
+	 * public void deleteRequirement(int requirementId){ for(int i = 0; i <
+	 * reqsList.size(); i++){ if(reqsList.get(i).getId() == requirementId){
+	 * reqsList.remove(i); break; } } }
+	 */
+
 	/**
 	 * Constructs a PlanningPokerSession for the given string message
 	 * 
