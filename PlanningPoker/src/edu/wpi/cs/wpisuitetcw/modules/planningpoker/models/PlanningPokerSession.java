@@ -57,7 +57,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @return Returns true it is open to voting in the meantime
 	 */
 	public boolean isActive() {
-		return !(this.startTime == null);
+		return this.startTime != null;
 	}
 
 	/**
