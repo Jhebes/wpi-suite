@@ -3,7 +3,7 @@
  */
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.sessions.SessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 
 /**
  * @author troyling
@@ -37,7 +37,7 @@ public class ViewEventController {
 	 * Opens a new tab for the creation of a session
 	 */
 	public void createSession() {
-		SessionPanel newSession = new SessionPanel(-1);
+		CreateSessionPanel newSession = new CreateSessionPanel();
 		main.addTab("New Session", null, newSession, "New session.");
 		main.invalidate(); // force the tabbedpane to redraw
 		main.repaint();
