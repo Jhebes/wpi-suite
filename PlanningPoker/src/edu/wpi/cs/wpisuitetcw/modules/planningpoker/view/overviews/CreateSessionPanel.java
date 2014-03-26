@@ -21,7 +21,7 @@ public class CreateSessionPanel extends JSplitPane {
 	private final JPanel rightPanel;
 	//The left leftPanel contains reqList, name, and Deadline.
 	private final JPanel leftPanel;
-		
+	public JList<String> existingReqsList;
 		//Constructor for our Create Session Panel
 		public CreateSessionPanel(){
 			rightPanel = new JPanel();
@@ -31,7 +31,7 @@ public class CreateSessionPanel extends JSplitPane {
 			String dummyReqs[] = {"dummy1", "dummy2"};
 			
 			//Creates a List view in the UI that displays the dummy list
-			JList<String> existingReqsList = new JList<String>(dummyReqs);
+			existingReqsList = new JList<String>(dummyReqs);
 			existingReqsList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 			existingReqsList.setLayoutOrientation(JList.VERTICAL);
 			existingReqsList.setVisibleRowCount(-1);

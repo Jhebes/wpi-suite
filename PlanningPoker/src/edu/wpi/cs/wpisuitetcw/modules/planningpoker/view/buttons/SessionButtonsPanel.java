@@ -3,9 +3,11 @@
  */
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.buttons;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -53,10 +55,22 @@ public class SessionButtonsPanel extends ToolbarGroupView {
 			}
 		});
 		
+		// Hide joinSessions button for now...
+		joinSession.setVisible(false);
+		//createSession.setPreferredSize(new Dimension(createSession.getHeight(), 50));
+		
+		createSession.setAlignmentX(CENTER_ALIGNMENT);
+		
+		sessionPanel.add(Box.createHorizontalStrut(75));
+		
+		
 		
 		sessionPanel.add(this.createSession);
+		//sessionPanel.add(Box.createHorizontalStrut(125));
 		sessionPanel.add(this.joinSession);
 		sessionPanel.setOpaque(false);
+		
+		sessionPanel.add(Box.createHorizontalStrut(75));
 		
 		this.add(sessionPanel);
 	}
