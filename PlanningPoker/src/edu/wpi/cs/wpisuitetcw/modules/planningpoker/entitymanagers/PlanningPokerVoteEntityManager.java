@@ -88,20 +88,26 @@ public PlanningPokerVote makeEntity(Session s, String content) throws BadRequest
 	 * @return the updated model
 	 * @throws WPISuiteException
 	 */
-	public PlanningPokerVote update(Session s, String content) throws WPISuiteException;
+	public PlanningPokerVote update(Session s, String content) throws WPISuiteException{
+		throw new WPISuiteException();
+	}
 	
 	/**
 	 * Saves the given model of class T to the database
 	 * @param model	the Model to update.
 	 */
-	public void save(Session s, T model) throws WPISuiteException;
+	public void save(Session s, PlanningPokerVote model) throws WPISuiteException{
+		db.save(model);
+	}
 	
 	/* Delete */
 	/**
 	 * Deletes the entity with the given unique identifier, id.
 	 * @param id	the unique identifier for the entity
 	 */
-	public boolean deleteEntity(Session s, String id) throws WPISuiteException;
+	public boolean deleteEntity(Session s, String id) throws WPISuiteException{
+		// db.delete( a PlanningPokerVote);
+	}
 	
 	/* Advanced Get*/
 	/**
@@ -109,19 +115,25 @@ public PlanningPokerVote makeEntity(Session s, String content) throws BadRequest
 	 * @param s	The session that requested this action
 	 * @param args[] A String array containing the entire path of the GET that initiated this action
 	 */
-	public String advancedGet(Session s, String[] args) throws WPISuiteException;
+	public String advancedGet(Session s, String[] args) throws WPISuiteException{
+		return null;
+	}
 	
 	/**
 	 * Deletes all entities of Model class T
 	 */
-	public void deleteAll(Session s) throws WPISuiteException;
+	public void deleteAll(Session s) throws WPISuiteException{
+		return null;
+	}
 	
 	/* Utility Methods */
 	/**
 	 * 
 	 * @return	the number of records of this Manager's Model class T
 	 */
-	public int Count() throws WPISuiteException;
+	public int Count() throws WPISuiteException{
+		return db.retrieveAll(new PlanningPokerVote()).size();
+	}
 
 	/* Advanced Put*/
 	/**
@@ -134,7 +146,9 @@ public PlanningPokerVote makeEntity(Session s, String content) throws BadRequest
 	 * @param args[] A String array containing the entire path of the PUT that initiated this action
 	 * @param content The content body of the request
 	 */
-	public String advancedPut(Session s, String[] args, String content) throws WPISuiteException;
+	public String advancedPut(Session s, String[] args, String content) throws WPISuiteException{
+		return null;
+	}
 
 	/*Advanced Post*/
 	/**
@@ -154,12 +168,8 @@ public PlanningPokerVote makeEntity(Session s, String content) throws BadRequest
 	 * @param content - The String payload of the request
 	 * @return - a String to be sent back as the body of the request
 	 */
-	public String advancedPost(Session s, String string, String content) throws WPISuiteException;
-
-	@Override
-	public void save(Session s, PlanningPokerVote model)
-			throws WPISuiteException {
-		// TODO Auto-generated method stub
-		
+	public String advancedPost(Session s, String string, String content) throws WPISuiteException{
+		return null;
 	}
+
 }
