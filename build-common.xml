@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="build-common" default="compile">
+<project name="build-common" default="compile" >
 	<import file="dependencies.xml"/>
 
 	<property name="core-lib" location="${dependencies.basedir}/Core/WPISuite/WebContent/WEB-INF/lib"/>
 	<property name="junit-jar" location="${dependencies.basedir}/junit-4.8.2.jar"/>
+	<property name="jacoco-jar" location="${dependencies.basedir}/lib/jacocoant.jar"/>
 	<property name="janeway-lib" location="${dependencies.basedir}/Janeway/lib"/>
 	<property name="java-version" value="1.7"/>
+
+	<!-- Get Jacoco test coverage library. -->
+	<taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+		<classpath path="${jacoco-jar}" />
+	</taskdef>
 
 	<!-- build.xml files that import this one should override the following targets -->
 
@@ -25,6 +31,9 @@
 		<echo message="${ant.project.name} - build-common.test - no tests"/>
 	</target>
 
+	<target name="test-coverage" depends="compile" description="Runs tests">
+		<echo message="${ant.project.name} - build-common.test-coverage - no test to cover"/>
+	</target>
 
 	<!--
 		The following targets can be used in any build.xml that imports this file. Examples follow.
@@ -63,5 +72,12 @@
 		description="Runs tests for this single project">
 		<mkdir dir="${test-results}"/>
 		<antcall target="test"/>
+	</target>
+
+	<target name="test-coverage.single" depends="compile.deps"
+		description="Runs tests with coverage for this single project">
+		<mkdir dir="${test-results}"/>
+		<mkdir dir="${coverage-results}"/>
+		<antcall target="test-coverage"/>
 	</target>
 </project>
