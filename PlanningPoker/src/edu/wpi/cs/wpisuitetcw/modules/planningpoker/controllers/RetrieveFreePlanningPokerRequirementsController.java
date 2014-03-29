@@ -5,10 +5,6 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    Chris Casola
- *    JPage
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
@@ -18,6 +14,10 @@ import javax.swing.JOptionPane;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.Request;
+import edu.wpi.cs.wpisuitetng.network.RequestObserver;
+import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
  * Controller to handle retrieving free requirements from the server and
@@ -40,6 +40,7 @@ public class RetrieveFreePlanningPokerRequirementsController {
 	public RetrieveFreePlanningPokerRequirementsController(
 			CreateSessionPanel panel) {
 		this.panel = panel;
+		this.refreshData();
 	}
 
 	/**
@@ -47,8 +48,12 @@ public class RetrieveFreePlanningPokerRequirementsController {
 	 * 
 	 * @throws NotImplementedException
 	 */
-	public void refreshData() throws NotImplementedException {
-		throw new NotImplementedException();
+	public void refreshData(){
+//		final RequestObserver requestObserver = new RetrieveFreePlanningPokerRequirementsRequestObserver(this);
+//		Request request;
+//		request = Network.getInstance().makeRequest("planningpoker/requirement", HttpMethod.GET);
+//		request.addObserver(requestObserver);
+//		request.send();
 	}
 
 	/**
@@ -60,9 +65,8 @@ public class RetrieveFreePlanningPokerRequirementsController {
 	 *            an array of requirements returned by the server
 	 * @throws NotImplementedException
 	 */
-	public void receivedData(PlanningPokerRequirement[] requirements)
-			throws NotImplementedException {
-		throw new NotImplementedException();
+	public void receivedData(PlanningPokerRequirement[] requirements){
+		panel.updateRequirements(requirements);
 	}
 
 	/**
