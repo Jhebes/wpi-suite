@@ -6,6 +6,7 @@
 .metadata\.plugins\*
 Servers\.settings\*
 Servers\.settings
+Servers/.project
 javadoc
 test-results
 dist
