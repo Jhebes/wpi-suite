@@ -31,7 +31,11 @@
 		<echo message="${ant.project.name} - build-common.test - no tests"/>
 	</target>
 
-	<target name="test-coverage" depends="compile" description="Runs tests">
+	<target name="test-coverage" depends="compile" description="Runs tests with coverage">
+		<echo message="${ant.project.name} - build-common.test-coverage - no test to cover"/>
+	</target>
+
+	<target name="report" depends="compile" description="Runs tests with coverage and generates reports">
 		<echo message="${ant.project.name} - build-common.test-coverage - no test to cover"/>
 	</target>
 
@@ -79,5 +83,12 @@
 		<mkdir dir="${test-results}"/>
 		<mkdir dir="${coverage-results}"/>
 		<antcall target="test-coverage"/>
+	</target>
+
+	<target name="report.single" depends="compile.deps"
+		description="Runs tests with coverage and generates reports for this single project">
+		<mkdir dir="${test-results}"/>
+		<mkdir dir="${coverage-results}"/>
+		<antcall target="report"/>
 	</target>
 </project>

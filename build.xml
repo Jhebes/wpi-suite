@@ -48,4 +48,12 @@
 			<param name="dependency.target" value="test-coverage"/>
 		</antcall>
 	</target>
+
+	<target name="report" description="Runs tests with coverage and builds a report">
+		<mkdir dir="${test-results}"/>
+		<mkdir dir="${coverage-results}"/>
+		<antcall target="depend.all">
+			<param name="dependency.target" value="report"/>
+		</antcall>
+	</target>
 </project>
