@@ -42,4 +42,4 @@ RequirementManager/build
 RequirementManager/bin
 
 *.fuse*
-
+.sonar
