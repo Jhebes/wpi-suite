@@ -9,6 +9,7 @@ Servers\.settings
 Servers/.project
 javadoc
 test-results
+coverage-results
 dist
 
 # Package Files #
@@ -43,3 +44,5 @@ RequirementManager/bin
 
 *.fuse*
 .sonar
+
+jacoco.exec
