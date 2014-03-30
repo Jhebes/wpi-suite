@@ -71,14 +71,12 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 	//check requirements in
 	@Test
 	/**
-	 * Tests that the controller can refresh its data when the observer receives the response
+	 * Tests that the controller sends a valid request.
 	 * @throws WPISuiteException
 	 */
-	public void testRefreshData() throws WPISuiteException {
-		assertNull(panel.getRequirements());
+	public void testRefreshDataSendsValidRequest() throws WPISuiteException {
 		controller.refreshData();
-		assertNotNull(panel.getRequirements());
-
+		
 		// See whether the request was sent
 		MockRequest request = ((MockNetwork) Network.getInstance())
 				.getLastRequestMade();
@@ -89,7 +87,6 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 
 		// Validate the request
 		assertEquals("/planningpoker/requirement", request.getUrl().getPath());
-		assertEquals(HttpMethod.GET, request.getHttpMethod());	
+		assertEquals(HttpMethod.GET, request.getHttpMethod());
 	}
-	//test view has changed
 }
