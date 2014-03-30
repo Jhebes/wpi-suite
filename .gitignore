@@ -6,8 +6,10 @@
 .metadata\.plugins\*
 Servers\.settings\*
 Servers\.settings
+Servers/.project
 javadoc
 test-results
+coverage-results
 dist
 
 # Package Files #
@@ -22,14 +24,7 @@ Janeway/modules/*.jar
 # Janeway configuration file (user specific) #
 Janeway/janeway.conf
 
-/Core/Servers3/.project
-/Core/Servers3/.settings/org.eclipse.wst.server.core.prefs
-/Core/Servers3/Tomcat v7.0 Server at localhost-config/catalina.policy
-/Core/Servers3/Tomcat v7.0 Server at localhost-config/catalina.properties
-/Core/Servers3/Tomcat v7.0 Server at localhost-config/context.xml
-/Core/Servers3/Tomcat v7.0 Server at localhost-config/server.xml
-/Core/Servers3/Tomcat v7.0 Server at localhost-config/tomcat-users.xml
-/Core/Servers3/Tomcat v7.0 Server at localhost-config/web.xml
+/Core/Servers*
 /Core/WPISuite/build/classes/META-INF/MANIFEST.MF
 /Core/WPISuite-Interfaces/build/MANIFEST.MF
 /Core/WPISuite/src/META-INF/MANIFEST.MF
@@ -48,4 +43,6 @@ RequirementManager/build
 RequirementManager/bin
 
 *.fuse*
+.sonar
 
+jacoco.exec
