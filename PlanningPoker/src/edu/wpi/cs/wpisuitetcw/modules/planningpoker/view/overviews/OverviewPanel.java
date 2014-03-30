@@ -10,6 +10,8 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -25,6 +27,8 @@ import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventController;
 
 
 /**
@@ -56,10 +60,38 @@ public class OverviewPanel extends JSplitPane {
 		closedSessionBtn = new JButton("Closed Sessions");
 		allSessionsBtn = new JButton("All Sessions");
 		
+		// Listener for Open Sessions Button
+		openSessionBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TO_DO: Get real data
+				System.out.println("YOU CLICKED ME!");
+			}
+		});
+		
+		// Listener for Closed Sessions Button
+		closedSessionBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TO_DO: Get real data
+				System.out.println("YOU CLICKED ME!");
+			}
+		});
+		
+		// Listener for All Sessions Button
+		allSessionsBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TO_DO: Get real data
+				System.out.println("YOU CLICKED ME!");
+			}
+		});
+		
 		// Add the buttons to the leftPanel
 		leftPanel.add( openSessionBtn );
 		leftPanel.add( closedSessionBtn );
 		leftPanel.add( allSessionsBtn );
+	
 		
 		
 		// Dummy Data for now, eventually this will be generated from BD
@@ -211,9 +243,6 @@ public class OverviewPanel extends JSplitPane {
 				{
 					new Integer(47), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				}
-				
-				
-				
 		};
 		
 		// Create Table using data above
@@ -225,11 +254,8 @@ public class OverviewPanel extends JSplitPane {
 	        public boolean isCellEditable(int row, int column) {                
 	                return false;               
 	        };
-	        
-	        public void valueChanged(ListSelectionEvent e) {
-				
-			}
 	    };
+	     
 	    
 	    // Add mouse listener to check for mouse clicks on the table
 	    table.addMouseListener(new MouseAdapter() {
@@ -243,10 +269,8 @@ public class OverviewPanel extends JSplitPane {
 	    	});
 	    
 	    
-		
 		// Sets table bg to white
 		table.setBackground(Color.WHITE);
-		
 
 		
 		// Set layout for right panel
