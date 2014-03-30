@@ -16,7 +16,6 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
@@ -117,10 +116,12 @@ public class PlanningPokerRequirementEntityManager implements
 	 * .Session)
 	 */
 	@Override
-	public PlanningPokerRequirement[] getAll(Session s) throws WPISuiteException {
+	public PlanningPokerRequirement[] getAll(Session s)
+			throws WPISuiteException {
 		// Ask the database to retrieve all objects of the type
 		// PlanningPokerRequirement.
-		// Passing a dummy PlanningPokerRequirement lets the db know what type of
+		// Passing a dummy PlanningPokerRequirement lets the db know what type
+		// of
 		// object to retrieve
 		// Passing the project makes it only get messages from that project
 		List<Model> messages = db.retrieveAll(new PlanningPokerRequirement(),
@@ -141,7 +142,8 @@ public class PlanningPokerRequirementEntityManager implements
 	public PlanningPokerRequirement update(Session s, String content)
 			throws WPISuiteException {
 
-		// This module does not allow PlanningPokerRequirements to be modified, so
+		// This module does not allow PlanningPokerRequirements to be modified,
+		// so
 		// throw an exception
 		throw new WPISuiteException();
 	}
@@ -169,7 +171,8 @@ public class PlanningPokerRequirementEntityManager implements
 	@Override
 	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
 
-		// This module does not allow PlanningPokerRequirements to be deleted, so
+		// This module does not allow PlanningPokerRequirements to be deleted,
+		// so
 		// throw an exception
 		throw new WPISuiteException();
 	}
@@ -184,7 +187,8 @@ public class PlanningPokerRequirementEntityManager implements
 	@Override
 	public void deleteAll(Session s) throws WPISuiteException {
 
-		// This module does not allow PlanningPokerRequirements to be deleted, so
+		// This module does not allow PlanningPokerRequirements to be deleted,
+		// so
 		// throw an exception
 		throw new WPISuiteException();
 	}
@@ -194,7 +198,8 @@ public class PlanningPokerRequirementEntityManager implements
 	 */
 	@Override
 	public int Count() throws WPISuiteException {
-		// Return the number of PlanningPokerRequirements currently in the database
+		// Return the number of PlanningPokerRequirements currently in the
+		// database
 		return db.retrieveAll(new PlanningPokerRequirement()).size();
 	}
 
