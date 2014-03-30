@@ -61,51 +61,8 @@ public class PlanningPokerRequirement extends Requirement {
 	}
 
 	@Override
-	public void save() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void delete() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public String toJSON() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Boolean identify(Object o) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Permission getPermission(User u) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setPermission(Permission p, User u) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Project getProject() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setProject(Project p) {
-		// TODO Auto-generated method stub
-		
+		return new Gson().toJson(this, PlanningPokerRequirement.class);
 	}
 
 }
