@@ -3,53 +3,67 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.Permission;
-import edu.wpi.cs.wpisuitetng.modules.Model;
-import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
+ * This model encapsulates a requirement in the context of planning poker. A
+ * requirement in planning poker is identical to a requirement in the canonical
+ * RequirementsManager module, but has the additional trait of belonging to a
+ * particular planning poker session.
+ * 
  * @author Nicholas Kalamvokis and Matt Suarez
  * @date 3/24/2014
  */
-
 public class PlanningPokerRequirement extends Requirement {
 	private int sessionID;
 
 	/**
-	 * Constructs the PlanningPokerObject
+	 * Default constructor for PlanningPokerRequirement. Sets the session ID to
+	 * -1 (meaning no session), and the name/description to blank.
 	 */
 	public PlanningPokerRequirement() {
-		setSessionID(-1);
-		System.out.println("Session ID:" + this.sessionID);
-	}
-
-	public PlanningPokerRequirement(int sessionID) {
-		setSessionID(sessionID);
-		System.out.println("Session ID:" + sessionID);
-	}
-	
-	public PlanningPokerRequirement(int sessionID, String name, String description) {
-		super(-1, name, description);
-		setSessionID(sessionID);
-		System.out.println("Session ID:" + sessionID);
+		this(-1);
 	}
 
 	/**
-	 * Retrieves the ID of the current Planning Poker Session
+	 * Constructor for Planning Poker requirement. Lets you specify the session
+	 * ID while defaulting to a blank name and description.
 	 * 
-	 * @return Session ID
+	 * @param sessionID
+	 *            The planning poker session ID
+	 */
+	public PlanningPokerRequirement(int sessionID) {
+		this(-1, "", "");
+	}
+
+	/**
+	 * Constructor for planning poker requirement.
+	 * 
+	 * @param sessionID
+	 *            The planning poker session ID
+	 * @param name
+	 *            The name for this requirement
+	 * @param description
+	 *            A description of this requirement
+	 */
+	public PlanningPokerRequirement(int sessionID, String name,
+			String description) {
+		super(-1, name, description);
+		setSessionID(sessionID);
+	}
+
+	/**
+	 * @return This requirement's planning poker session ID.
 	 */
 	public int getSessionID() {
 		return sessionID;
 	}
 
 	/**
-	 * Sets the ID of the current Planning Poker Session
-	 * 
+	 * @param sessionID
+	 *            The planning poker session ID for this requirement.
 	 */
-	public void setSessionID(int id) {
-		this.sessionID = id;
+	public void setSessionID(int sessionID) {
+		this.sessionID = sessionID;
 	}
 
 	/**
@@ -80,6 +94,9 @@ public class PlanningPokerRequirement extends Requirement {
 		return parser.fromJson(json, PlanningPokerRequirement[].class);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String toJSON() {
 		return new Gson().toJson(this, PlanningPokerRequirement.class);
