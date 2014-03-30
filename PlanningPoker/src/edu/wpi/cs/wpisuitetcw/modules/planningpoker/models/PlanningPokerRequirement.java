@@ -24,9 +24,15 @@ public class PlanningPokerRequirement extends Requirement {
 		System.out.println("Session ID:" + this.sessionID);
 	}
 
-	public PlanningPokerRequirement(int id) {
-		setSessionID(id);
-		System.out.println("Session ID:" + id);
+	public PlanningPokerRequirement(int sessionID) {
+		setSessionID(sessionID);
+		System.out.println("Session ID:" + sessionID);
+	}
+	
+	public PlanningPokerRequirement(int sessionID, String name, String description) {
+		super(-1, name, description);
+		setSessionID(sessionID);
+		System.out.println("Session ID:" + sessionID);
 	}
 
 	/**
