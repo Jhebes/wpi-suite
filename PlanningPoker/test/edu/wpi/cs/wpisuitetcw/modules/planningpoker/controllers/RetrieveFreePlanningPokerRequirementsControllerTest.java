@@ -58,17 +58,19 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 		Network.initNetwork(new MockNetwork());
 		Network.getInstance().setDefaultNetworkConfiguration(
 				new NetworkConfiguration("http://wpisuitetng"));
-		
+
 		db = new MockData(new HashSet<Object>());
 		db.save(session, testProject);
 		db.save(bob);
-		PlanningPokerRequirementEntityManager em = new PlanningPokerRequirementEntityManager(db);
+		PlanningPokerRequirementEntityManager em = new PlanningPokerRequirementEntityManager(
+				db);
 		PlanningPokerRequirement ppreq = new PlanningPokerRequirement();
 		em.makeEntity(defaultSession, ppreq.toJSON());
 		panel = new CreateSessionPanel();
 		controller = new RetrieveFreePlanningPokerRequirementsController(panel);
 	}
-	//check requirements in
+
+	// check requirements in
 	@Test
 	/**
 	 * Tests that the controller sends a valid request.
@@ -76,7 +78,7 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 	 */
 	public void testRefreshDataSendsValidRequest() throws WPISuiteException {
 		controller.refreshData();
-		
+
 		// See whether the request was sent
 		MockRequest request = ((MockNetwork) Network.getInstance())
 				.getLastRequestMade();
@@ -88,5 +90,17 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 		// Validate the request
 		assertEquals("/planningpoker/requirement", request.getUrl().getPath());
 		assertEquals(HttpMethod.GET, request.getHttpMethod());
+	}
+	@Test
+	/**
+	 * Test that Data is sent to gui
+	 */
+	public void testRecievedData(){
+		assertNull(panel.getRequirements());
+		controller.refreshData();
+		PlanningPokerRequirement ppreq = new PlanningPokerRequirement(-1, "Test", "");
+		PlanningPokerRequirement[] requirements = {ppreq};
+		controller.receivedData(requirements);
+		assertNotNull(panel.getRequirements());
 	}
 }
