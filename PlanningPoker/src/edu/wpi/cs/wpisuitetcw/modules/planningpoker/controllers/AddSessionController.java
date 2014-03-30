@@ -19,11 +19,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.PlanningPokerSessionEntityManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
-
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -45,7 +45,7 @@ public class AddSessionController implements ActionListener {
 	 * @param view
 	 *            the view where the user enters data for the new session
 	 */
-	public AddSessionController(CreateSessionPanel view) {
+	public AddSessionController(CreateSessionPanel view, PlanningPokerSessionEntityManager manager) {
 		/*
 		 * TODO: This should also have a manager for the CreateSessionPanel, so
 		 * that errors can be fed back to the panel rather than thrown as

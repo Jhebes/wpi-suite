@@ -152,7 +152,7 @@ public class PlanningPokerSessionEntityManager implements
 	public void save(Session s, PlanningPokerSession model)
 			throws WPISuiteException {
 
-		// Save the given defect in the database
+		// Save the given session in the database
 		db.save(model);
 	}
 
