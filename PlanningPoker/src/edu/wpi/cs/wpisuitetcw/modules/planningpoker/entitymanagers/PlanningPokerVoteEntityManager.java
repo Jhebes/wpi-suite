@@ -60,16 +60,16 @@ public PlanningPokerVote makeEntity(Session s, String content) throws BadRequest
 	
 	/* Retrieve */	
 	/**
-	 * Retrieves the entity with the given unique identifier, id.
+	 * Retrieves the PlanningPokerVote with the given unique identifier, id.
 	 * @param id	the unique identifier value
-	 * @return	the entity with the given ID
+	 * @return	the PlanningPokerVote with the given ID
 	 * @throws NotFoundException if entity does not exist
 	 */
 	public PlanningPokerVote[] getEntity(Session s, String id) throws NotFoundException, WPISuiteException;
 	
 	/**
-	 * Retrieves all entities of Model class T
-	 * @return	an ArrayList<T> with all instances of T
+	 * Retrieves all entities of Model class PlanningPokerVote
+	 * @return	an ArrayList<PlanningPokerVote> with all instances of PlanningPokerVote
 	 */
 	public PlanningPokerVote[] getAll(Session s) throws WPISuiteException{
 		List<Model> votes = db.retrieveAll(new PlanningPokerVote(),
@@ -100,7 +100,7 @@ public PlanningPokerVote makeEntity(Session s, String content) throws BadRequest
 		db.save(model);
 	}
 	
-	/* Delete */
+	/* Delete */  // NEEDS REVIEW
 	/**
 	 * Deletes the entity with the given unique identifier, id.
 	 * @param id	the unique identifier for the entity
