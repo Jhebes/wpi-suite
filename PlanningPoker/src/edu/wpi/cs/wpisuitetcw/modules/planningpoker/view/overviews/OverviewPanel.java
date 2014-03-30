@@ -4,8 +4,12 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -15,6 +19,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 
 
@@ -31,64 +36,212 @@ public class OverviewPanel extends JSplitPane {
 	private final JButton openSessionBtn;
 	private final JButton closedSessionBtn;
 	private final JButton allSessionsBtn;
-	private final Dimension buttonDimension;
 
 	public OverviewPanel() {
+		// Create the right side of the panel
 		rightPanel = new JPanel();
+		
+		// Create the left side
 		leftPanel = new JPanel();
-		buttonDimension = new Dimension(100, 50);
 		
-
-		// Right PrightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-		JLabel overviewLabel = new JLabel("Overview");
-		overviewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		// Set leftPanel to GridLayout
+		leftPanel.setLayout(new GridLayout( 6, 1, 1, 20 ) );
 		
-		rightPanel.add(overviewLabel, BorderLayout.CENTER);
-		rightPanel.add(Box.createVerticalStrut(500));
+		// Initialize the buttons
+		openSessionBtn = new JButton("Open Sessions");
+		closedSessionBtn = new JButton("Closed Sessions");
+		allSessionsBtn = new JButton("All Sessions");
 		
-		JButton joinButton = new JButton("Join");
-		joinButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-		rightPanel.add(joinButton);
-		
-		
-		this.leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-		
-		this.openSessionBtn = new JButton("Open Sessions");
-		this.closedSessionBtn = new JButton("Closed Sessions");
-		this.allSessionsBtn = new JButton("All Sessions");
-		
-		this.openSessionBtn.setPreferredSize(buttonDimension);
-		this.closedSessionBtn.setPreferredSize(buttonDimension);
-		this.allSessionsBtn.setPreferredSize(buttonDimension);
-		
-		this.leftPanel.add(openSessionBtn, BorderLayout.NORTH);
-		this.leftPanel.add(closedSessionBtn, BorderLayout.CENTER);
-		this.leftPanel.add(allSessionsBtn, BorderLayout.SOUTH);
-		
-	
-		
-		this.leftPanel.add(Box.createHorizontalStrut(50));
-
+		// Add the buttons to the leftPanel
+		leftPanel.add( openSessionBtn );
+		leftPanel.add( closedSessionBtn );
+		leftPanel.add( allSessionsBtn );
 		
 		
+		// Dummy Data for now, eventually this will be generated from BD
 		
+		String[] colNames = {"ID", "Name", "Start Date", "Description", "Status"};
 		
+		Object[][] tableData = {
+				{
+					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				}
+				
+				
+				
+		};
 		
+		// Create Table using data above
+		JTable table = new JTable(tableData, colNames);
 		
+		// Sets table bg to white
+		table.setBackground(Color.WHITE);
 		
+		// Set layout for right panel
+		rightPanel.setLayout(new BorderLayout());
 		
+		// Add table inside a JScrollPane to rightPanel
+		JScrollPane jsp = new JScrollPane(table);
+		
+		// Add the JSP to the rightPanel
+		rightPanel.add(jsp);
+		
+		// Set panels background to white (matching table)
+		rightPanel.setBackground(Color.WHITE);
+		
+		// Add panels to main JSplitPane
 		this.setRightComponent(rightPanel);
 		this.setLeftComponent(leftPanel);
+		
+		// Set divider location between right and left panel
 		this.setDividerLocation(180);
 
-		int v = ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
-		int h = ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
-		JScrollPane jsp = new JScrollPane(leftPanel, v, h);
-		this.add(jsp);
 
 	}
 
+	
+	// Getters
 	public JButton getOpenSessionBtn() {
 		return openSessionBtn;
 	}
@@ -100,4 +253,5 @@ public class OverviewPanel extends JSplitPane {
 	public JButton getAllSessionsBtn() {
 		return allSessionsBtn;
 	}
+	
 }
