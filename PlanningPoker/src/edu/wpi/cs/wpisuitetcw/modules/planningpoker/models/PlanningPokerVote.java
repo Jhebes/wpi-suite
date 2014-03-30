@@ -40,11 +40,11 @@ public class PlanningPokerVote extends AbstractModel {
 		this.card = c;
 	}
 	
-	/* database interaction */
+	/* database interaction */ // NEED HELP
 	public void save();
 	public void delete();
 	
-	/* serializing */
+	/* serializing */  // NEED HELP
 	
 	/** toJSON : serializing this Model's contents into a JSON/GSON string
 	 * @return	A string containing the serialized JSON representation of this Model.
