@@ -90,4 +90,7 @@
 		<copy file="${janeway-jar-dest}" todir="${dist}/janeway/modules" overwrite="true" />
 	</target>
 
+	<target name="doc">
+		<javadoc sourcepath="src" destdir="${doc-dir}"/>
+	</target>
 </project>
