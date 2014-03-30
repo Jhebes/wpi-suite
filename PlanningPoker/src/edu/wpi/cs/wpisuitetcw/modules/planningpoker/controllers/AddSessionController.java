@@ -55,11 +55,12 @@ public class AddSessionController implements ActionListener {
 		this.view = view;
 	}
 
+
 	/*
 	 * This method is called when the user clicks the "Create" button
 	 * 
 	 * @see
-	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
