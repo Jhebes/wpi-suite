@@ -51,11 +51,11 @@ public class PlanningPokerSessionEntityManager implements
 		this.db = db;
 	}
 
-	/*
+	/**
 	 * Saves a PlanningPokerSession when it is received from a client
 	 * 
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.
-	 * wpisuitetng.Session, java.lang.String)
+	 *      wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
 	public PlanningPokerSession makeEntity(Session s, String content)
@@ -78,13 +78,12 @@ public class PlanningPokerSessionEntityManager implements
 		return newMessage;
 	}
 
-	/*
+	/**
 	 * Individual messages cannot be retrieved. This message always throws an
 	 * exception.
 	 * 
-	 * @see
-	 * edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(edu.wpi.cs.wpisuitetng
-	 * .Session, java.lang.String)
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(edu.wpi.cs.wpisuitetng
+	 *      .Session, java.lang.String)
 	 */
 	@Override
 	public PlanningPokerSession[] getEntity(Session s, String id)
@@ -95,12 +94,11 @@ public class PlanningPokerSessionEntityManager implements
 		throw new WPISuiteException();
 	}
 
-	/*
+	/**
 	 * Returns all of the messages that have been stored.
 	 * 
-	 * @see
-	 * edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(edu.wpi.cs.wpisuitetng
-	 * .Session)
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(edu.wpi.cs.wpisuitetng
+	 *      .Session)
 	 */
 	@Override
 	public PlanningPokerSession[] getAll(Session s) throws WPISuiteException {
@@ -116,92 +114,83 @@ public class PlanningPokerSessionEntityManager implements
 		return messages.toArray(new PlanningPokerSession[0]);
 	}
 
-	/*
-	 * Message cannot be updated. This method always throws an exception.
+	/**
+	 * Sessions cannot be updated. This method always throws an exception.
 	 * 
-	 * @see
-	 * edu.wpi.cs.wpisuitetng.modules.EntityManager#update(edu.wpi.cs.wpisuitetng
-	 * .Session, java.lang.String)
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(edu.wpi.cs.wpisuitetng
+	 *      .Session, java.lang.String)
 	 */
 	@Override
 	public PlanningPokerSession update(Session s, String content)
 			throws WPISuiteException {
-
-		// This module does not allow PlanningPokerSessions to be modified, so
-		// throw an exception
 		throw new WPISuiteException();
 	}
 
-	/*
-	 * @see
-	 * edu.wpi.cs.wpisuitetng.modules.EntityManager#save(edu.wpi.cs.wpisuitetng
-	 * .Session, edu.wpi.cs.wpisuitetng.modules.Model)
+	/**
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#save(edu.wpi.cs.wpisuitetng
+	 *      .Session, edu.wpi.cs.wpisuitetng.modules.Model)
 	 */
 	@Override
 	public void save(Session s, PlanningPokerSession model)
 			throws WPISuiteException {
 
-		// Save the given defect in the database
 		db.save(model);
 	}
 
-	/*
-	 * Messages cannot be deleted
+	/**
+	 * Sessions cannot be deleted.
 	 * 
-	 * @see
-	 * edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(edu.wpi.cs.
-	 * wpisuitetng.Session, java.lang.String)
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(edu.wpi.cs.
+	 *      wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
 	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
-
-		// This module does not allow PlanningPokerSessions to be deleted, so
-		// throw an exception
 		throw new WPISuiteException();
 	}
 
-	/*
-	 * Messages cannot be deleted
+	/**
+	 * Sessions cannot be deleted.
 	 * 
-	 * @see
-	 * edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(edu.wpi.cs.wpisuitetng
-	 * .Session)
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(edu.wpi.cs.wpisuitetng
+	 *      .Session)
 	 */
 	@Override
 	public void deleteAll(Session s) throws WPISuiteException {
-
-		// This module does not allow PlanningPokerSessions to be deleted, so
-		// throw an exception
 		throw new WPISuiteException();
 	}
 
-	/*
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
 	 */
 	@Override
 	public int Count() throws WPISuiteException {
-		// Return the number of PlanningPokerSessions currently in the database
 		return db.retrieveAll(new PlanningPokerSession()).size();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String advancedGet(Session s, String[] args)
 			throws WPISuiteException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String advancedPut(Session s, String[] args, String content)
 			throws WPISuiteException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String advancedPost(Session s, String string, String content)
 			throws WPISuiteException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
