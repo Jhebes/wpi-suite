@@ -40,7 +40,6 @@ public class RetrieveFreePlanningPokerRequirementsController {
 	public RetrieveFreePlanningPokerRequirementsController(
 			CreateSessionPanel panel) {
 		this.panel = panel;
-		this.refreshData();
 	}
 
 	/**
