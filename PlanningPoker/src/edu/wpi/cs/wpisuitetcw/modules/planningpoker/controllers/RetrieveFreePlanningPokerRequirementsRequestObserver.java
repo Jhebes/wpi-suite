@@ -9,6 +9,7 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -34,12 +35,12 @@ public class RetrieveFreePlanningPokerRequirementsRequestObserver implements Req
 	public void responseSuccess(IRequest iReq) {
 		// cast observable to request
 		Request request = (Request) iReq;
-
+		
 		// get the response from the request
 		ResponseModel response = request.getResponse();
 
 		if (response.getStatusCode() == 200) {
-			
+			controller.receivedData(PlanningPokerRequirement.fromJsonArray(response.getBody()));
 		}
 		else {
 			controller.errorReceivingData("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());

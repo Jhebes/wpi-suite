@@ -60,6 +60,20 @@ public class PlanningPokerRequirement extends Requirement {
 		return parser.fromJson(json, PlanningPokerRequirement.class);
 	}
 
+	/**
+	 * Returns an array of PlanningPokerRequirements parsed from the given
+	 * JSON-encoded string.
+	 * 
+	 * @param json
+	 *            string containing a JSON-encoded array of Requirement
+	 * 
+	 * @return an array of Requirement deserialized from the given JSON string
+	 */
+	public static PlanningPokerRequirement[] fromJsonArray(String json) {
+		final Gson parser = new Gson();
+		return parser.fromJson(json, PlanningPokerRequirement[].class);
+	}
+
 	@Override
 	public String toJSON() {
 		return new Gson().toJson(this, PlanningPokerRequirement.class);

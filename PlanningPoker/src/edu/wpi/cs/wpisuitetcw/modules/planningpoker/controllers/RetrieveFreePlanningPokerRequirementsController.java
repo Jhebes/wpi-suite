@@ -49,11 +49,11 @@ public class RetrieveFreePlanningPokerRequirementsController {
 	 * @throws NotImplementedException
 	 */
 	public void refreshData(){
-//		final RequestObserver requestObserver = new RetrieveFreePlanningPokerRequirementsRequestObserver(this);
-//		Request request;
-//		request = Network.getInstance().makeRequest("planningpoker/requirement", HttpMethod.GET);
-//		request.addObserver(requestObserver);
-//		request.send();
+		final RequestObserver requestObserver = new RetrieveFreePlanningPokerRequirementsRequestObserver(this);
+		Request request;
+		request = Network.getInstance().makeRequest("planningpoker/requirement", HttpMethod.GET);
+		request.addObserver(requestObserver);
+		request.send();
 	}
 
 	/**
