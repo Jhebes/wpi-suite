@@ -10,6 +10,8 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -21,6 +23,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 
 /**
@@ -70,142 +74,142 @@ public class OverviewPanel extends JSplitPane {
 					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+					new Integer(2), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(3), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+					new Integer(4), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(5), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+					new Integer(6), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(7), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+					new Integer(8), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(9), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+					new Integer(10), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(11), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+					new Integer(12), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(13), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+					new Integer(14), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(15), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+					new Integer(16), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(17), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+					new Integer(18), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(19), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+					new Integer(20), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(21), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+					new Integer(22), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(23), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+					new Integer(24), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(25), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+					new Integer(26), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(27), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+					new Integer(28), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(29), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+					new Integer(30), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(31), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+					new Integer(32), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(33), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+					new Integer(34), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(35), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(36), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(37), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(38), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(39), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(40), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(41), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(42), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(43), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(44), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(45), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(46), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				},
 				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+					new Integer(47), "This is another name", "2/22/2222", "numbah two", "In Progress"
 				}
 				
 				
@@ -213,10 +217,37 @@ public class OverviewPanel extends JSplitPane {
 		};
 		
 		// Create Table using data above
-		JTable table = new JTable(tableData, colNames);
+		//final JTable table = new JTable(tableData, colNames);
+		
+		final JTable table = new JTable(tableData, colNames) {
+	        private static final long serialVersionUID = 1L;
+
+	        public boolean isCellEditable(int row, int column) {                
+	                return false;               
+	        };
+	        
+	        public void valueChanged(ListSelectionEvent e) {
+				
+			}
+	    };
+	    
+	    // Add mouse listener to check for mouse clicks on the table
+	    table.addMouseListener(new MouseAdapter() {
+	    	  public void mouseClicked(MouseEvent e) {
+	    		 // Check to see if user double clicked
+	    	     if (e.getClickCount() == 2) { 
+	    	    	 System.out.println(table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+	    	    	 // TO_DO: OPEN SESSION DETAIL VIEW HERE
+	    	     }
+	    	   }
+	    	});
+	    
+	    
 		
 		// Sets table bg to white
 		table.setBackground(Color.WHITE);
+		
+
 		
 		// Set layout for right panel
 		rightPanel.setLayout(new BorderLayout());
