@@ -24,9 +24,15 @@ public class PlanningPokerRequirement extends Requirement {
 		System.out.println("Session ID:" + this.sessionID);
 	}
 
-	public PlanningPokerRequirement(int id) {
-		setSessionID(id);
-		System.out.println("Session ID:" + id);
+	public PlanningPokerRequirement(int sessionID) {
+		setSessionID(sessionID);
+		System.out.println("Session ID:" + sessionID);
+	}
+	
+	public PlanningPokerRequirement(int sessionID, String name, String description) {
+		super(-1, name, description);
+		setSessionID(sessionID);
+		System.out.println("Session ID:" + sessionID);
 	}
 
 	/**
@@ -60,52 +66,23 @@ public class PlanningPokerRequirement extends Requirement {
 		return parser.fromJson(json, PlanningPokerRequirement.class);
 	}
 
-	@Override
-	public void save() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void delete() {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * Returns an array of PlanningPokerRequirements parsed from the given
+	 * JSON-encoded string.
+	 * 
+	 * @param json
+	 *            string containing a JSON-encoded array of Requirement
+	 * 
+	 * @return an array of Requirement deserialized from the given JSON string
+	 */
+	public static PlanningPokerRequirement[] fromJsonArray(String json) {
+		final Gson parser = new Gson();
+		return parser.fromJson(json, PlanningPokerRequirement[].class);
 	}
 
 	@Override
 	public String toJSON() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Boolean identify(Object o) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Permission getPermission(User u) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setPermission(Permission p, User u) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Project getProject() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setProject(Project p) {
-		// TODO Auto-generated method stub
-		
+		return new Gson().toJson(this, PlanningPokerRequirement.class);
 	}
 
 }
