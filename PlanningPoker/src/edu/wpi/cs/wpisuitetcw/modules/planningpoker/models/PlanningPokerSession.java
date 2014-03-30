@@ -15,10 +15,19 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
  */
 public class PlanningPokerSession extends AbstractModel {
 
+	//The id of the session
 	private int id = -1;
+	
+	//Whether or not the session has been canceled prematurely
 	private boolean isCancelled = false;
+	
+	//When the session was created
 	private Date startTime = null;
+	
+	//When the session should end (has ended, depending on time perspective)
 	private Date endTime = null;
+	
+	//The name of the session;
 	private String name = "";
 
 	/**
@@ -32,6 +41,16 @@ public class PlanningPokerSession extends AbstractModel {
 		this.endTime = new Date();
 	}
 
+	
+	/**
+	 * Sets the end date of this session
+	 * @param d The date that the session should end
+	 */
+	public void setEndTime(Date d){
+		this.endTime = d;
+	}
+	
+	
 	/**
 	 * Returns true if this session has been prematurely terminated
 	 * @return Returns true if this session has been prematurely terminated
