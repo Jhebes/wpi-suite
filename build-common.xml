@@ -39,6 +39,10 @@
 		<echo message="${ant.project.name} - build-common.test-coverage - no test to cover"/>
 	</target>
 
+	<target name="doc" description="Generates documentation">
+		<echo message="${ant.project.name} - build-common.test-coverage - not implemented"/>
+	</target>
+
 	<!--
 		The following targets can be used in any build.xml that imports this file. Examples follow.
 		
