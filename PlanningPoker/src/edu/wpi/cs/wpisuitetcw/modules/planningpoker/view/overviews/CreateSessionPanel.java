@@ -1,7 +1,10 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
+import java.util.ArrayList;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -24,6 +27,9 @@ public class CreateSessionPanel extends JSplitPane {
 	private final JPanel rightPanel;
 	// The left leftPanel contains reqList, name, and Deadline.
 	private final JPanel leftPanel;
+	
+	DefaultListModel<String> existingRequirementsNames;
+	JList<String> existingRequirements;
 
 	/** List of requirements available to this create session tab. */
 	private PlanningPokerRequirement[] requirements = null;
@@ -44,18 +50,18 @@ public class CreateSessionPanel extends JSplitPane {
 		RetrieveFreePlanningPokerRequirementsController controller = 
 				new RetrieveFreePlanningPokerRequirementsController(this);
 		
-		// Dummy list of Reqs for the session
-		String dummyReqs[] = { "dummy1", "dummy2" };
+		existingRequirementsNames = new DefaultListModel<String>();
 
 		// Creates a List view in the UI that displays the dummy list
-		JList<String> existingReqsList = new JList<String>(dummyReqs);
-		existingReqsList
+		existingRequirements = new JList<String>(existingRequirementsNames);
+		existingRequirements
 				.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		existingReqsList.setLayoutOrientation(JList.VERTICAL);
-		existingReqsList.setVisibleRowCount(-1);
+		existingRequirements.setLayoutOrientation(JList.VERTICAL);
+		existingRequirements.setVisibleRowCount(-1);
 
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-
+		
+		
 		// Creates a Name text field in the leftPane
 		leftPanel.add(new JLabel("Name:"));
 		JTextField nameField = new JTextField(20);
@@ -70,7 +76,7 @@ public class CreateSessionPanel extends JSplitPane {
 
 		// Creates a list of Reqs for the session
 		leftPanel.add(new JLabel("Requirements:"));
-		leftPanel.add(existingReqsList);
+		leftPanel.add(existingRequirements);
 
 		leftPanel.setAlignmentY(LEFT_ALIGNMENT);
 		leftPanel.add(Box.createHorizontalStrut(10));
@@ -81,8 +87,21 @@ public class CreateSessionPanel extends JSplitPane {
 		
 		controller.refreshData();
 	}
+	
+	public void updateRequirementsList(String[] names) {
+		System.out.println("Updating requirements list.");
+		existingRequirementsNames.removeAllElements();
+		for (String name : names) {
+			existingRequirementsNames.addElement(name);			
+		}
+	}
 
 	public void updateRequirements(PlanningPokerRequirement[] requirements) {
-		this.requirements = requirements;
+		setRequirements(requirements);
+		ArrayList<String> names = new ArrayList<String>();
+		for (PlanningPokerRequirement requirement : requirements) {
+			names.add(requirement.getName());
+		}
+		updateRequirementsList(names.toArray(new String[0]));
 	}
 }
