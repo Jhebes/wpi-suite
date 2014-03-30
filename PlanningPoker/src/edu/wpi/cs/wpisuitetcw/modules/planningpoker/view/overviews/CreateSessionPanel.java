@@ -1,14 +1,15 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-import javax.swing.BoxLayout;
 import javax.swing.ListSelectionModel;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.RetrieveFreePlanningPokerRequirementsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 
 /**
@@ -40,6 +41,9 @@ public class CreateSessionPanel extends JSplitPane {
 		rightPanel = new JPanel();
 		leftPanel = new JPanel();
 
+		RetrieveFreePlanningPokerRequirementsController controller = 
+				new RetrieveFreePlanningPokerRequirementsController(this);
+		
 		// Dummy list of Reqs for the session
 		String dummyReqs[] = { "dummy1", "dummy2" };
 
@@ -74,7 +78,8 @@ public class CreateSessionPanel extends JSplitPane {
 		this.setRightComponent(rightPanel);
 		this.setLeftComponent(leftPanel);
 		this.setDividerLocation(180);
-
+		
+		controller.refreshData();
 	}
 
 	public void updateRequirements(PlanningPokerRequirement[] requirements) {
