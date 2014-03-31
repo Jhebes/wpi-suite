@@ -16,7 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 
 /**
@@ -56,7 +56,7 @@ public class SessionButtonsPanel extends ToolbarGroupView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// bring up a create session pane
-				ViewEventController.getInstance().createSession();
+				ViewEventManager.getInstance().createSession();
 			}
 		});
 
@@ -71,7 +71,7 @@ public class SessionButtonsPanel extends ToolbarGroupView {
 
 		sessionPanel.add(this.createSession);
 		// sessionPanel.add(Box.createHorizontalStrut(125));
-//		sessionPanel.add(this.joinSession);
+		// sessionPanel.add(this.joinSession);
 		sessionPanel.setOpaque(false);
 
 		sessionPanel.add(Box.createHorizontalStrut(75));

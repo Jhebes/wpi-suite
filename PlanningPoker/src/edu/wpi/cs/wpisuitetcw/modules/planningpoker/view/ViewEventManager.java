@@ -11,8 +11,8 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSession
  * @author troyling
  * 
  */
-public class ViewEventController {
-	private static ViewEventController instance = null;
+public class ViewEventManager {
+	private static ViewEventManager instance = null;
 	private MainView main;
 	private ToolbarView toolbarView;
 
@@ -20,7 +20,7 @@ public class ViewEventController {
 	 * Default constructor for ViewEventController. It is set to private to
 	 * prevent instantiation.
 	 */
-	private ViewEventController() {
+	private ViewEventManager() {
 	}
 
 	/**
@@ -28,9 +28,9 @@ public class ViewEventController {
 	 * 
 	 * @return The instance of the controller
 	 */
-	public static ViewEventController getInstance() {
+	public static ViewEventManager getInstance() {
 		if (instance == null) {
-			instance = new ViewEventController();
+			instance = new ViewEventManager();
 		}
 		return instance;
 	}

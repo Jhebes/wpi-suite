@@ -28,7 +28,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
 
 /**
