@@ -47,7 +47,7 @@ public class PlanningPokerRequirement extends Requirement {
 	 */
 	public PlanningPokerRequirement(int sessionID, String name,
 			String description) {
-		super(-1, name, description);
+		super(sessionID, name, description);
 		setSessionID(sessionID);
 	}
 
