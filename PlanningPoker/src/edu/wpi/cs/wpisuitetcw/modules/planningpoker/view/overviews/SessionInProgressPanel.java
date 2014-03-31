@@ -75,7 +75,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		RightPanel.setLayout(new BoxLayout(RightPanel, BoxLayout.X_AXIS));
 		
 		JSplitPane detailWindowSplitPane = new JSplitPane();
-		detailWindowSplitPane.setResizeWeight(0.95);
+		detailWindowSplitPane.setResizeWeight(1.0);
 		detailWindowSplitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		RightPanel.add(detailWindowSplitPane);
 		
