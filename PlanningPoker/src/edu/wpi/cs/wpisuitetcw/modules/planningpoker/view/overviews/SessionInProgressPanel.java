@@ -81,17 +81,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		
 		JPanel votingPanel = new JPanel();
 		detailWindowSplitPane.setRightComponent(votingPanel);
-		
-		JLabel lblEstimate = new JLabel("Estimate:");
-		
-		textField = new JTextField();
-		textField.setColumns(10);
-		
-		JButton btnSubmit = new JButton("Submit");
 		votingPanel.setLayout(new BoxLayout(votingPanel, BoxLayout.X_AXIS));
-		votingPanel.add(lblEstimate);
-		votingPanel.add(textField);
-		votingPanel.add(btnSubmit);
 		
 		JPanel requirementsPanel = new JPanel();
 		detailWindowSplitPane.setLeftComponent(requirementsPanel);
@@ -113,6 +103,19 @@ public class SessionInProgressPanel extends JSplitPane {
 		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		requiementsDetailPanel.add(lblNewLabel);
+		
+		JPanel panel = new JPanel();
+		requiementsDetailPanel.add(panel, BorderLayout.SOUTH);
+		
+		JLabel lblEstimate = new JLabel("Estimate:");
+		panel.add(lblEstimate);
+		
+		textField = new JTextField();
+		panel.add(textField);
+		textField.setColumns(10);
+		
+		JButton btnSubmit = new JButton("Submit");
+		panel.add(btnSubmit);
 
 	}
 }
