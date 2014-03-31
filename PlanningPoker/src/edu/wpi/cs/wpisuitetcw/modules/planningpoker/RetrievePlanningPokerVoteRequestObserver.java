@@ -5,25 +5,24 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.search.controllers.RetrieveDefectController;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * An observer for a request to retrieve a defect with the provided id
+ * An observer for a request to retrieve a vote with the provided id
  */
 public class RetrievePlanningPokerVoteRequestObserver implements RequestObserver {
 
-	/** The retrieve defect controller using this observer */
-	protected RetrieveDefectController controller;
+	/** The retrieve vote controller using this observer */
+	protected RetrievePlanningPokerVoteController controller;
 
 	/**
 	 * Construct a new observer
 	 * @param controller the controller managing the request
 	 */
-	public RetrievePlanningPokerVoteRequestObserver(RetrieveDefectController controller) {
+	public RetrievePlanningPokerVoteRequestObserver(RetrievePlanningPokerVoteController controller) {
 		this.controller = controller;
 	}
 
@@ -37,17 +36,17 @@ public class RetrievePlanningPokerVoteRequestObserver implements RequestObserver
 
 		// check the response code of the request
 		if (response.getStatusCode() != 200) {
-			controller.errorRetrievingDefect("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
+			controller.errorRetrievingPlanningPokerVote("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
 			return;
 		}
 
 		// parse the PlanningPokerVote received from the core
-		PlanningPokerVote[] defects = PlanningPokerVote.fromJSONArray(response.getBody());
-		if (defects.length > 0 && defects[0] != null) {
-			controller.showPlanningPokerVote(defects[0]);
+		PlanningPokerVote[] votes = PlanningPokerVote.fromJSONArray(response.getBody());
+		if (votes.length > 0 && votes[0] != null) {
+			controller.showPlanningPokerVote(votes[0]);
 		}
 		else {
-			controller.errorRetrievingPlanningPokerVote("No defects received.");
+			controller.errorRetrievingPlanningPokerVote("No votes received.");
 		}
 	}
 
