@@ -22,7 +22,6 @@ import java.util.Date;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
-import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -93,15 +92,7 @@ public class AddSessionController implements ActionListener {
 		session.setEndTime(d);
 
 		// Add all checked requirements
-		ArrayList<PlanningPokerRequirement> reqs = new ArrayList<PlanningPokerRequirement>();
-
-		try {
-			reqs = view.getRequirements();
-		} catch (WPISuiteException e) {
-			// If no requirements have been selected
-			return;
-		}
-
+		ArrayList<PlanningPokerRequirement> reqs = view.getRequirements();
 		session.addRequirements(reqs);
 
 		// Send a request to the core to save this message
