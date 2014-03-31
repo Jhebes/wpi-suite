@@ -9,7 +9,10 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.HashSet;
 
@@ -19,7 +22,6 @@ import org.junit.Test;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.MockData;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.MockNetwork;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.MockRequest;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.PlanningPokerRequirementEntityManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
@@ -62,19 +64,13 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 		db = new MockData(new HashSet<Object>());
 		db.save(session, testProject);
 		db.save(bob);
-		PlanningPokerRequirementEntityManager em = new PlanningPokerRequirementEntityManager(
-				db);
-		PlanningPokerRequirement ppreq = new PlanningPokerRequirement();
-		em.makeEntity(defaultSession, ppreq.toJSON());
 		panel = new CreateSessionPanel();
 		controller = new RetrieveFreePlanningPokerRequirementsController(panel);
 	}
 
-	// check requirements in
 	@Test
 	/**
 	 * Tests that the controller sends a valid request.
-	 * @throws WPISuiteException
 	 */
 	public void testRefreshDataSendsValidRequest() throws WPISuiteException {
 		controller.refreshData();
@@ -91,16 +87,18 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 		assertEquals("/planningpoker/requirement", request.getUrl().getPath());
 		assertEquals(HttpMethod.GET, request.getHttpMethod());
 	}
+
 	@Test
 	/**
 	 * Test that Data is sent to gui
 	 */
-	public void testRecievedData(){
-		assertNull(panel.getRequirements());
+	public void testRecievedData() {
+		assertEquals(panel.getRequirements().length, 0);
 		controller.refreshData();
-		PlanningPokerRequirement ppreq = new PlanningPokerRequirement(-1, "Test", "");
-		PlanningPokerRequirement[] requirements = {ppreq};
+		PlanningPokerRequirement ppreq = new PlanningPokerRequirement(-1,
+				"Test", "");
+		PlanningPokerRequirement[] requirements = { ppreq };
 		controller.receivedData(requirements);
-		assertNotNull(panel.getRequirements());
+		assertFalse(panel.getRequirements().length == 0);
 	}
 }

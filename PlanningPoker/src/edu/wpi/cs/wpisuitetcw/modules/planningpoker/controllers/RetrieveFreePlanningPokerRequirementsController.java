@@ -62,7 +62,6 @@ public class RetrieveFreePlanningPokerRequirementsController {
 	 * 
 	 * @param requirements
 	 *            an array of requirements returned by the server
-	 * @throws NotImplementedException
 	 */
 	public void receivedData(PlanningPokerRequirement[] requirements){
 		panel.updateRequirements(requirements);

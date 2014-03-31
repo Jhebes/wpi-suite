@@ -48,8 +48,12 @@ public class RetrieveFreePlanningPokerRequirementsRequestObserver implements
 		ResponseModel response = request.getResponse();
 
 		if (response.getStatusCode() == 200) {
-			controller.receivedData(PlanningPokerRequirement
-					.fromJsonArray(response.getBody()));
+			PlanningPokerRequirement[] requirements = PlanningPokerRequirement
+					.fromJsonArray(response.getBody());
+			if (requirements == null) {
+				requirements = new PlanningPokerRequirement[0];
+			}
+			controller.receivedData(requirements);
 		} else {
 			controller.errorReceivingData("Received "
 					+ iReq.getResponse().getStatusCode()
