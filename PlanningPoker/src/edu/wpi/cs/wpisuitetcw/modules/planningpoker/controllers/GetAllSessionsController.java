@@ -42,7 +42,7 @@ public class GetAllSessionsController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// Send a request to the core to retrieve the sessions
-		final Request request = Network.getInstance().makeRequest("planningpoker/planningpokersession", HttpMethod.GET);
+		final Request request = Network.getInstance().makeRequest("planningpoker/session", HttpMethod.GET);
 		request.addObserver(new GetAllSessionsRequestObserver(this));
 		request.send(); // send the request
 	}
@@ -54,7 +54,7 @@ public class GetAllSessionsController implements ActionListener {
 	 * @param messages an array of messages received from the server
 	 */
 	public void receivedSessions(PlanningPokerSession[] sessions) {
-		//Uncomment when view is updated
+		//Uncomment when view is updated to receive this
 		//this.view.receiveSessionList(sessions);
 	}
 }

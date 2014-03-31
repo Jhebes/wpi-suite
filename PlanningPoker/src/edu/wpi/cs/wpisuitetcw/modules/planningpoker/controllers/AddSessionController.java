@@ -108,7 +108,7 @@ public class AddSessionController implements ActionListener {
 		// Send a request to the core to save this message
 		// Create the request
 		final Request request = Network.getInstance().makeRequest(
-				"planningpoker/planningpokersession", HttpMethod.PUT);
+				"planningpoker/session", HttpMethod.PUT);
 		// Set the data to be the session to save (converted to JSON)
 		request.setBody(session.toJSON());
 		// Listen for the server's response
