@@ -34,13 +34,22 @@ import java.awt.Font;
 
 import javax.swing.JSeparator;
 import java.awt.SystemColor;
+import javax.swing.JInternalFrame;
+import javax.swing.JList;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import com.jgoodies.forms.factories.FormFactory;
+import javax.swing.JButton;
 
 public class SessionInProgressPanel extends JSplitPane {
+	private JTextField textField;
 
 	/**
 	 * Create the panel.
 	 */
 	public SessionInProgressPanel() {
+		setResizeWeight(0.15);
 		
 		JPanel LeftPanel = new JPanel();
 		LeftPanel.setBackground(SystemColor.menu);
@@ -78,7 +87,52 @@ public class SessionInProgressPanel extends JSplitPane {
 		
 		setLeftComponent(LeftPanel);
 		setRightComponent(RightPanel);
-		RightPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		RightPanel.setLayout(new BoxLayout(RightPanel, BoxLayout.X_AXIS));
+		
+		JSplitPane detailWindowSplitPane = new JSplitPane();
+		detailWindowSplitPane.setResizeWeight(1.0);
+		detailWindowSplitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		RightPanel.add(detailWindowSplitPane);
+		
+		JPanel votingPanel = new JPanel();
+		detailWindowSplitPane.setRightComponent(votingPanel);
+		votingPanel.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("35dlu:grow"),},
+			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("max(1dlu;default)"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblEstimate = new JLabel("Estimate:");
+		votingPanel.add(lblEstimate, "2, 2, right, default");
+		
+		textField = new JTextField();
+		votingPanel.add(textField, "4, 2, left, default");
+		textField.setColumns(10);
+		
+		JButton btnSubmit = new JButton("Submit");
+		votingPanel.add(btnSubmit, "2, 6");
+		
+		JPanel requirementsPanel = new JPanel();
+		detailWindowSplitPane.setLeftComponent(requirementsPanel);
+		requirementsPanel.setLayout(new BoxLayout(requirementsPanel, BoxLayout.X_AXIS));
+		
+		JSplitPane requirmentsDetailsSplitPane = new JSplitPane();
+		requirmentsDetailsSplitPane.setResizeWeight(0.6);
+		requirementsPanel.add(requirmentsDetailsSplitPane);
+		
+		JList requirmentsList = new JList();
+		requirmentsDetailsSplitPane.setLeftComponent(requirmentsList);
+		
+		JPanel requiementsDetailPanel = new JPanel();
+		requirmentsDetailsSplitPane.setRightComponent(requiementsDetailPanel);
+		requiementsDetailPanel.setLayout(new BoxLayout(requiementsDetailPanel, BoxLayout.X_AXIS));
 
 	}
 }
