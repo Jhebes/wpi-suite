@@ -1,14 +1,16 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
-import java.awt.GridLayout;
+import java.awt.Color;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+
+import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
 /**
  * 
@@ -17,64 +19,69 @@ import javax.swing.JTextField;
  */
 
 public class CreateSessionPanel extends JSplitPane {
-
+	final int DEFAULT_DATA_SIZE = 30; // default data size for database entry
+	
 	// The right panel holds info about selected requirements
-	private final JPanel rightPanel;
+	private final ScrollablePanel rightPanel;
 	// The left leftPanel contains reqList, name, and Deadline.
-	private final JPanel leftPanel;
+	private final ScrollablePanel leftPanel;
 	private final JButton addReqButton;
 	private final JButton makeActiveButton;
 
 	// Constructor for our Create Session Panel
 	public CreateSessionPanel() {
-		rightPanel = new JPanel();
-		leftPanel = new JPanel();
+		// initialize left and right panel
+		rightPanel = new ScrollablePanel();
+		leftPanel = new ScrollablePanel();
+		
+		// create labels for each data field
+		JLabel labelName = new JLabel("Name *");
+		JLabel labelDeadline = new JLabel("Deadline *");
+		JLabel labelDropdownType = new JLabel("Type *");
+		
+		// create textfield
+		// TODO check with java team to see what the limit size for each data is
+		JTextField fieldName = new JTextField(DEFAULT_DATA_SIZE);
+		JTextField fieldDeadline = new JTextField(DEFAULT_DATA_SIZE);
+		
+		// create dropdown menu
+		JComboBox<SessionLiveType> dropdownType = new JComboBox<SessionLiveType>(SessionLiveType.values());
+		dropdownType.setEditable(false);
+		dropdownType.setBackground(Color.WHITE);
+		
+		// create buttons and listeners
 		addReqButton = new JButton("<html>Add New <br /> Requirement</html>");
 		makeActiveButton = new JButton("<html>Make Active</html>");
 
-		// //Dummy list of Reqs for the session
-		// String dummyReqs[] = {"dummy1", "dummy2"};
-		//
-		// //Creates a List view in the UI that displays the dummy list
-		// JList<String> existingReqsList = new JList<String>(dummyReqs);
-		// existingReqsList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		// existingReqsList.setLayoutOrientation(JList.VERTICAL);
-		// existingReqsList.setVisibleRowCount(-1);
+		// setup left panel
+		// MigLayout is a convenient way of creating responsive layout with Swing
+		leftPanel.setLayout(new MigLayout("", "", "shrink"));
+		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
 
-		// Setting up leftPane
-		leftPanel.setLayout(new GridLayout( 6, 1, 1, 20 ) );
-		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+		// labels and textfields 
+		leftPanel.add(labelName, "wrap");
+		leftPanel.add(fieldName, "growx, pushx, shrinkx, span, wrap");
 
-		// Creates a Name text field in the leftPane
-		leftPanel.add(new JLabel("Name:"));
-		JTextField nameField = new JTextField(20);
-		nameField.setMaximumSize(nameField.getPreferredSize());
-		leftPanel.add(nameField);
+		leftPanel.add(labelDeadline, "wrap");
+		leftPanel.add(fieldDeadline, "growx, pushx, shrinkx, span, wrap");
+		
+		// dropdowns 
+		leftPanel.add(labelDropdownType, "wrap");
+		leftPanel.add(dropdownType, "growx, pushx, shrinkx, span, wrap");
 
-		// Creates a deadline text field in the leftPane
-		leftPanel.add(new JLabel("Deadline:"));
-		JTextField deadlineField = new JTextField(20);
-		deadlineField.setMaximumSize(deadlineField.getPreferredSize());
-		leftPanel.add(deadlineField);
-
-		// add buttons to the leftPane
-		leftPanel.add(addReqButton);
-
-		leftPanel.add(makeActiveButton);
-
+		// buttons
+		leftPanel.add(addReqButton, "wrap, span");
+		leftPanel.add(makeActiveButton, "wrap, span");
+		
+		
 		// Creates a list of Reqs for the session
 		// leftPanel.add(new JLabel("Requirements:"));
 		// leftPanel.add(existingReqsList);
-
-		leftPanel.setAlignmentY(LEFT_ALIGNMENT);
-		leftPanel.add(Box.createHorizontalStrut(10));
-
+		
 		// Adding UI to the rightPane
-
 		this.setRightComponent(rightPanel);
 		this.setLeftComponent(leftPanel);
 		this.setDividerLocation(180);
-
 	}
 
 	/**
@@ -85,7 +92,7 @@ public class CreateSessionPanel extends JSplitPane {
 	public JButton getAddReqButton() {
 		return this.addReqButton;
 	}
-	
+
 	/**
 	 * Method getMakeActiveButton.
 	 * 
