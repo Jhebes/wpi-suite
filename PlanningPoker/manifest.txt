@@ -1,1 +1,0 @@
-module_class edu.wpi.cs.wpisuitetcw.modules.planningpoker.PlanningPoker

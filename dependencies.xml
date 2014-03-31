@@ -37,9 +37,9 @@
 			inheritAll="false"/>
 	</target>
 
-	<!-- Note that WPISuite depends on DefectTracker and PlanningPoker because of the lack of dynamic loading -->
+	<!-- Note that WPISuite depends on DefectTracker because of the lack of dynamic loading -->
 	<target name="depend.WPISuite"
-		depends="depend.WPISuite-Interfaces, depend.DefectTracker, depend.PlanningPoker, depend.PostBoard, depend.RequirementManager">
+		depends="depend.WPISuite-Interfaces, depend.DefectTracker, depend.PostBoard, depend.RequirementManager">
 		<ant dir="${dependencies.basedir}/Core/WPISuite"
 			target="${dependency.target}"
 			inheritAll="false"/>
@@ -62,14 +62,6 @@
 	<target name="depend.RequirementManager"
 		depends="depend.Janeway">
 		<ant dir="${dependencies.basedir}/RequirementManager"
-			target="${dependency.target}"
-			inheritAll="false"/>
-	</target>
-
-	<!-- Depends on Requirements Manager until we can build a nice interface using the Proxy pattern -->
-	<target name="depend.PlanningPoker"
-		depends="depend.Janeway, depend.RequirementManager">
-		<ant dir="${dependencies.basedir}/PlanningPoker"
 			target="${dependency.target}"
 			inheritAll="false"/>
 	</target>
