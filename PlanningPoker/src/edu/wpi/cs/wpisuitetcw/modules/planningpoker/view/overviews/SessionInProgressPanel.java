@@ -3,43 +3,20 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 import javax.swing.JSplitPane;
 import javax.swing.JPanel;
 
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.BorderLayout;
-
 import javax.swing.BoxLayout;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-
 import java.awt.Color;
 
-import javax.swing.BorderFactory;
-import javax.swing.SpringLayout;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-
 import java.awt.Component;
 
 import javax.swing.Box;
 import javax.swing.JTextField;
 
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-
-import javax.swing.JTable;
-import javax.swing.JTree;
-
 import java.awt.Font;
 
-import javax.swing.JSeparator;
 import java.awt.SystemColor;
-import javax.swing.JInternalFrame;
 import javax.swing.JList;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.factories.FormFactory;
+
 import javax.swing.JButton;
 
 public class SessionInProgressPanel extends JSplitPane {
@@ -96,28 +73,17 @@ public class SessionInProgressPanel extends JSplitPane {
 		
 		JPanel votingPanel = new JPanel();
 		detailWindowSplitPane.setRightComponent(votingPanel);
-		votingPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("35dlu:grow"),},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("max(1dlu;default)"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+		votingPanel.setLayout(new BoxLayout(votingPanel, BoxLayout.X_AXIS));
 		
 		JLabel lblEstimate = new JLabel("Estimate:");
-		votingPanel.add(lblEstimate, "2, 2, right, default");
+		votingPanel.add(lblEstimate);
 		
 		textField = new JTextField();
-		votingPanel.add(textField, "4, 2, left, default");
+		votingPanel.add(textField);
 		textField.setColumns(10);
 		
 		JButton btnSubmit = new JButton("Submit");
-		votingPanel.add(btnSubmit, "2, 6");
+		votingPanel.add(btnSubmit);
 		
 		JPanel requirementsPanel = new JPanel();
 		detailWindowSplitPane.setLeftComponent(requirementsPanel);
