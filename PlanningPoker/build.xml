@@ -35,6 +35,9 @@
 		<javac srcdir="src" destdir="build" includeJavaRuntime="yes" debug="true" target="${java-version}" debuglevel="lines,vars,source" includeantruntime="false">
 			<classpath refid="classpath" />
 		</javac>
+		<copy todir="build">
+			<fileset dir="src" includes="**/*.png" />
+		</copy>
 	</target>
 
 	<!-- Janeway and the Core need to load jars containing our module -->
