@@ -103,6 +103,9 @@ public class CreateSessionPanel extends JSplitPane {
 	 *            The list of new requirements
 	 */
 	public void updateRequirements(PlanningPokerRequirement[] requirements) {
+		if (requirements == null) {
+			return;
+		}
 		setRequirements(requirements);
 		ArrayList<String> names = new ArrayList<String>();
 		for (PlanningPokerRequirement requirement : requirements) {

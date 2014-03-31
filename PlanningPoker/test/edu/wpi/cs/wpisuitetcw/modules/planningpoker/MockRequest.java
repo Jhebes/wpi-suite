@@ -35,13 +35,13 @@ public class MockRequest extends Request {
 		ResponseModel response = new ResponseModel();
 		if (shouldError) {
 			response.setStatusCode(500);
-			response.setBody("TWC");
+			response.setBody("");
 			this.setResponse(response);
 			this.notifyObserversResponseError();
 		} else {
 
 			response.setStatusCode(200);
-			response.setBody("TWC");
+			response.setBody("");
 			this.setResponse(response);
 			this.notifyObserversResponseSuccess();
 		}
