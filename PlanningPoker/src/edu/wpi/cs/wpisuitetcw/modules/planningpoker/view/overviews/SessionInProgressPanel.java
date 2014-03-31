@@ -44,32 +44,39 @@ public class SessionInProgressPanel extends JSplitPane {
 		
 		JPanel LeftPanel = new JPanel();
 		LeftPanel.setBackground(SystemColor.menu);
-		setLeftComponent(LeftPanel);
 		LeftPanel.setLayout(new BoxLayout(LeftPanel, BoxLayout.Y_AXIS));
-		
-		JLabel lblSessionInfo = new JLabel("Session Info:");
-		Border empty = BorderFactory.createEmptyBorder();
 		
 		Component verticalStrut = Box.createVerticalStrut(10);
 		LeftPanel.add(verticalStrut);
-		lblSessionInfo.setBorder(empty);
 		
+		JLabel lblSessionInfo = new JLabel("Session Info:");
 		lblSessionInfo.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblSessionInfo.setAlignmentY(Component.TOP_ALIGNMENT);
-		lblSessionInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
 		LeftPanel.add(lblSessionInfo);
 		
-		Component verticalStrut_1 = Box.createVerticalStrut(20);
-		LeftPanel.add(verticalStrut_1);
+		Component verticalStrut2 = Box.createVerticalStrut(20);
+		LeftPanel.add(verticalStrut2);
 		
 		JLabel lblName = new JLabel("Name:");
 		lblName.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblName.setAlignmentY(Component.CENTER_ALIGNMENT);
-		lblName.setAlignmentX(Component.LEFT_ALIGNMENT);
 		LeftPanel.add(lblName);
 		
+		JLabel name = new JLabel("Planning Poker", JLabel.CENTER);
+		LeftPanel.add(name);
+		
+		Component verticalStrut3 = Box.createVerticalStrut(20);
+		LeftPanel.add(verticalStrut3);
+		
+		JLabel lblDate = new JLabel("Session Ends:");
+		lblDate.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		LeftPanel.add(lblDate);	
+		
+		JLabel date = new JLabel("12/13/14", JLabel.CENTER);
+		LeftPanel.add(date);
+
 		JPanel RightPanel = new JPanel();
 		RightPanel.setBackground(Color.WHITE);
+		
+		setLeftComponent(LeftPanel);
 		setRightComponent(RightPanel);
 		RightPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
