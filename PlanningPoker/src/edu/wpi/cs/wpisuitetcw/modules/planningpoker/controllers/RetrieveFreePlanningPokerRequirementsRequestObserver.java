@@ -51,9 +51,16 @@ public class RetrieveFreePlanningPokerRequirementsRequestObserver implements
 		ResponseModel response = request.getResponse();
 
 		if (response.getStatusCode() == 200) {
+			ArrayList<PlanningPokerRequirement> reqs = new ArrayList<PlanningPokerRequirement>();
 			PlanningPokerRequirement[] requirements = PlanningPokerRequirement
 					.fromJsonArray(response.getBody());
-			controller.receivedData((ArrayList<PlanningPokerRequirement>) Arrays.asList(requirements));
+			if (requirements == null) {
+				requirements = new PlanningPokerRequirement[0];
+			}
+			for (PlanningPokerRequirement req : requirements) {
+				reqs.add(req);
+			}
+			controller.receivedData(reqs);
 		} else {
 			controller.errorReceivingData("Received "
 					+ iReq.getResponse().getStatusCode()
