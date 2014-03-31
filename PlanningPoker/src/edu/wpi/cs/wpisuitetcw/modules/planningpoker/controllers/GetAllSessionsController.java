@@ -42,8 +42,8 @@ public class GetAllSessionsController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// Send a request to the core to retrieve the sessions
-		final Request request = Network.getInstance().makeRequest("planningpoker/planningpokersession", HttpMethod.GET); // GET == read
-		request.addObserver(new GetAllSessionsRequestObserver(this)); // add an observer to process the response
+		final Request request = Network.getInstance().makeRequest("planningpoker/planningpokersession", HttpMethod.GET);
+		request.addObserver(new GetAllSessionsRequestObserver(this));
 		request.send(); // send the request
 	}
 	

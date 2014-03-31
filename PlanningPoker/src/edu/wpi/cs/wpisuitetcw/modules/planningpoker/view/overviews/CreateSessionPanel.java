@@ -17,7 +17,7 @@ import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 /**
  * 
  * @author Rob, Ben, Jenny
- *
+ * 
  */
 
 public class CreateSessionPanel extends JSplitPane {
@@ -28,7 +28,8 @@ public class CreateSessionPanel extends JSplitPane {
 	private final JPanel leftPanel;
 	private JList<String> existingReqsList;
 
-	private JTextField nameField;
+	public JTextField nameField;
+	public JTextField deadlineField;
 
 	// Constructor for our Create Session Panel
 	public CreateSessionPanel() {
@@ -55,7 +56,7 @@ public class CreateSessionPanel extends JSplitPane {
 
 		// Creates a deadline text field in the leftPane
 		leftPanel.add(new JLabel("Deadline:"));
-		JTextField deadlineField = new JTextField(20);
+		deadlineField = new JTextField(20);
 		deadlineField.setMaximumSize(deadlineField.getPreferredSize());
 		leftPanel.add(deadlineField);
 

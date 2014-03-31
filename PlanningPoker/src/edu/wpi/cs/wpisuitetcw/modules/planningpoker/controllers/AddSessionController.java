@@ -34,7 +34,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * database
  * 
  * @author Josh Hebert
- *
+ * 
  */
 public class AddSessionController implements ActionListener {
 	private final CreateSessionPanel view;
@@ -45,7 +45,7 @@ public class AddSessionController implements ActionListener {
 	 * @param view
 	 *            the view where the user enters data for the new session
 	 */
-	public AddSessionController(CreateSessionPanel view, PlanningPokerSessionEntityManager manager) {
+	public AddSessionController(CreateSessionPanel view) {
 		/*
 		 * TODO: This should also have a manager for the CreateSessionPanel, so
 		 * that errors can be fed back to the panel rather than thrown as
@@ -54,7 +54,6 @@ public class AddSessionController implements ActionListener {
 
 		this.view = view;
 	}
-
 
 	/*
 	 * This method is called when the user clicks the "Create" button
@@ -65,16 +64,20 @@ public class AddSessionController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		// Get the name of the session
-		String name = "Test Session";
-		
+		String name = this.view.nameField.getText();
+
+		// Dummy Data
 		// Date fields with some dummy data
-		String year = "1";
-		String month = "1";
-		String day = "1";
+		// String year = "1";
+		// String month = "1";
+		// String day = "1";
+
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date d;
 		try {
-			d = sdf.parse(String.format("%s/%s/%s", day, month, year));
+			// d = sdf.parse(String.format("%s/%s/%s", day, month, year));
+			d = sdf.parse(this.view.deadlineField.getText());
+
 		} catch (ParseException e) {
 			// The user put in bad date data and we should return an error on
 			// the gui
