@@ -56,4 +56,11 @@
 			<param name="dependency.target" value="report"/>
 		</antcall>
 	</target>
+
+	<!-- Generate javadocs for current project into ${doc.dir} -->
+	<target name="doc" description="Generate documentation">
+		<antcall target="depend.all">
+			<param name="dependency.target" value="doc"/>
+		</antcall>
+	</target>
 </project>
