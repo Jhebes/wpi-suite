@@ -20,6 +20,7 @@ import javax.swing.JList;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -34,8 +35,6 @@ public class SessionInProgressPanel extends JSplitPane {
 	 * Create the panel.
 	 */
 	public SessionInProgressPanel() {
-		setResizeWeight(0.15);
-		
 		JPanel LeftPanel = new JPanel();
 		LeftPanel.setBackground(SystemColor.menu);
 		LeftPanel.setLayout(new BoxLayout(LeftPanel, BoxLayout.Y_AXIS));
@@ -67,35 +66,18 @@ public class SessionInProgressPanel extends JSplitPane {
 		JLabel date = new JLabel("12/13/14", JLabel.CENTER);
 		LeftPanel.add(date);
 
-		JPanel RightPanel = new JPanel();
+		JSplitPane RightPanel = new JSplitPane();
 		RightPanel.setBackground(Color.WHITE);
-		
-		setLeftComponent(LeftPanel);
-		setRightComponent(RightPanel);
 		RightPanel.setLayout(new BoxLayout(RightPanel, BoxLayout.X_AXIS));
 		
-		JSplitPane detailWindowSplitPane = new JSplitPane();
-		detailWindowSplitPane.setResizeWeight(1.0);
-		detailWindowSplitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		RightPanel.add(detailWindowSplitPane);
-		
-		JPanel votingPanel = new JPanel();
-		detailWindowSplitPane.setRightComponent(votingPanel);
-		votingPanel.setLayout(new BoxLayout(votingPanel, BoxLayout.X_AXIS));
-		
 		JPanel requirementsPanel = new JPanel();
-		detailWindowSplitPane.setLeftComponent(requirementsPanel);
 		requirementsPanel.setLayout(new BoxLayout(requirementsPanel, BoxLayout.X_AXIS));
 		
-		JSplitPane requirmentsDetailsSplitPane = new JSplitPane();
-		requirmentsDetailsSplitPane.setResizeWeight(0.8);
-		requirementsPanel.add(requirmentsDetailsSplitPane);
-		
-		JList requirmentsList = new JList();
-		requirmentsDetailsSplitPane.setLeftComponent(requirmentsList);
+		JList requirementsList = new JList();
+		RightPanel.setLeftComponent(requirementsList);
 		
 		JPanel requiementsDetailPanel = new JPanel();
-		requirmentsDetailsSplitPane.setRightComponent(requiementsDetailPanel);
+		RightPanel.setRightComponent(requiementsDetailPanel);
 		requiementsDetailPanel.setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblNewLabel = new JLabel("Requirement Detail:");
@@ -117,5 +99,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		JButton btnSubmit = new JButton("Submit");
 		panel.add(btnSubmit);
 
+		setLeftComponent(LeftPanel);
+		setRightComponent(RightPanel);
 	}
 }
