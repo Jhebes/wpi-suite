@@ -100,9 +100,11 @@ public class PlanningPokerSessionEntityManager implements
 		// Throw an exception if an ID was specified, as this module does not
 		// support
 		// retrieving specific PlanningPokerSessions.
-		//List<Model> results = db.retrieveAll(new PlanningPokerSession(), s.getProject());
+		// List<Model> results = db.retrieveAll(new PlanningPokerSession(),
+		// s.getProject());
 		List<Model> results = db.retrieve(
-				new PlanningPokerSession().getClass(), "ID", Integer.parseInt(id), s.getProject());
+				new PlanningPokerSession().getClass(), "ID",
+				Integer.parseInt(id), s.getProject());
 		return results.toArray(new PlanningPokerSession[0]);
 	}
 
@@ -152,7 +154,7 @@ public class PlanningPokerSessionEntityManager implements
 	public void save(Session s, PlanningPokerSession model)
 			throws WPISuiteException {
 
-		// Save the given defect in the database
+		// Save the given session in the database
 		db.save(model);
 	}
 

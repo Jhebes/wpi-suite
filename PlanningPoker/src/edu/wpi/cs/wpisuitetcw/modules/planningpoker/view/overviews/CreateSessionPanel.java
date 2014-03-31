@@ -17,8 +17,8 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirem
 
 /**
  * Panel for New Session tab.
- * @author Rob, Ben, Jenny
  * 
+ * @author Rob, Ben, Jenny
  */
 public class CreateSessionPanel extends JSplitPane {
 
@@ -26,7 +26,11 @@ public class CreateSessionPanel extends JSplitPane {
 	private final JPanel rightPanel;
 	/** The left leftPanel contains reqList, name, and deadline. */
 	private final JPanel leftPanel;
-
+	/** The name textbox */
+	public JTextField nameField;
+	/** The deadline textbox */
+	public JTextField deadlineField;
+	
 	/** Model used for requirements JList */
 	DefaultListModel<String> existingRequirementsNames;
 	
@@ -34,7 +38,7 @@ public class CreateSessionPanel extends JSplitPane {
 	JList<String> existingRequirements;
 
 	/** List of requirements available to this create session tab. */
-	private PlanningPokerRequirement[] requirements = null;
+	private ArrayList<PlanningPokerRequirement> requirements = null;
 
 		/**
 	 * Constructs a new Create Session panel
@@ -59,13 +63,13 @@ public class CreateSessionPanel extends JSplitPane {
 
 		// Creates a Name text field in the leftPane
 		leftPanel.add(new JLabel("Name:"));
-		JTextField nameField = new JTextField(20);
+		nameField = new JTextField(20);
 		nameField.setMaximumSize(nameField.getPreferredSize());
 		leftPanel.add(nameField);
 
 		// Creates a deadline text field in the leftPane
 		leftPanel.add(new JLabel("Deadline:"));
-		JTextField deadlineField = new JTextField(20);
+		deadlineField = new JTextField(20);
 		deadlineField.setMaximumSize(deadlineField.getPreferredSize());
 		leftPanel.add(deadlineField);
 
@@ -102,10 +106,7 @@ public class CreateSessionPanel extends JSplitPane {
 	 * @param requirements
 	 *            The list of new requirements
 	 */
-	public void updateRequirements(PlanningPokerRequirement[] requirements) {
-		if (requirements == null) {
-			return;
-		}
+	public void updateRequirements(ArrayList<PlanningPokerRequirement> requirements) {
 		setRequirements(requirements);
 		ArrayList<String> names = new ArrayList<String>();
 		for (PlanningPokerRequirement requirement : requirements) {
@@ -113,12 +114,12 @@ public class CreateSessionPanel extends JSplitPane {
 		}
 		updateRequirementsList(names.toArray(new String[0]));
 	}
-	
+
 	/**
 	 * 
 	 * @return The internal list of planning poker requirements
 	 */
-	public PlanningPokerRequirement[] getRequirements() {
+	public ArrayList<PlanningPokerRequirement> getRequirements() {
 		return requirements;
 	}
 
@@ -127,7 +128,7 @@ public class CreateSessionPanel extends JSplitPane {
 	 * @param requirements
 	 *            A list of new planning poker requirements
 	 */
-	public void setRequirements(PlanningPokerRequirement[] requirements) {
+	public void setRequirements(ArrayList<PlanningPokerRequirement> requirements) {
 		this.requirements = requirements;
 	}
 }

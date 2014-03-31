@@ -14,6 +14,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import org.junit.Before;
@@ -93,12 +94,11 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 	 * Test that Data is sent to gui
 	 */
 	public void testRecievedData() {
-		assertEquals(panel.getRequirements().length, 0);
+		assertEquals(panel.getRequirements().size(), 0);
 		controller.refreshData();
-		PlanningPokerRequirement ppreq = new PlanningPokerRequirement(-1,
-				"Test", "");
-		PlanningPokerRequirement[] requirements = { ppreq };
+		ArrayList<PlanningPokerRequirement> requirements = new ArrayList<PlanningPokerRequirement>();
+		requirements.add(new PlanningPokerRequirement(-1, "Test", ""));
 		controller.receivedData(requirements);
-		assertFalse(panel.getRequirements().length == 0);
+		assertFalse(panel.getRequirements().size() == 0);
 	}
 }
