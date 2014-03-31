@@ -19,7 +19,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * @author psover
  * 
  */
-public class RetrieveFreePlanningPokerRequestObserverTest {
+public class RetrieveFreePlanningPokerRequirementsRequestObserverTest {
 
 	RetrieveFreePlanningPokerRequirementsController controller;
 	RetrieveFreePlanningPokerRequirementsRequestObserver observer;
