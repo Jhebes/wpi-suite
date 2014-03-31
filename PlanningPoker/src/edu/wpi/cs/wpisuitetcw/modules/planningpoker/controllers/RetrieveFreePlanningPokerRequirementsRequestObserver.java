@@ -9,6 +9,9 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -48,8 +51,9 @@ public class RetrieveFreePlanningPokerRequirementsRequestObserver implements
 		ResponseModel response = request.getResponse();
 
 		if (response.getStatusCode() == 200) {
-			controller.receivedData(PlanningPokerRequirement
-					.fromJsonArray(response.getBody()));
+			PlanningPokerRequirement[] requirements = PlanningPokerRequirement
+					.fromJsonArray(response.getBody());
+			controller.receivedData((ArrayList<PlanningPokerRequirement>) Arrays.asList(requirements));
 		} else {
 			controller.errorReceivingData("Received "
 					+ iReq.getResponse().getStatusCode()

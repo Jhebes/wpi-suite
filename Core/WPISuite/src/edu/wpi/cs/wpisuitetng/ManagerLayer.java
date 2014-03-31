@@ -77,6 +77,7 @@ public class ManagerLayer {
 		map.put("postboardpostboardmessage", new PostBoardEntityManager(data));
 		map.put("requirementmanager" + "requirement", new RequirementEntityManager(data));
 		map.put("requirementmanager" + "iteration", new IterationEntityManager(data));
+		map.put("planningpoker" + "session", new PlanningPokerSessionEntityManager(data));	
 		map.put("planningpoker" + "requirement", new PlanningPokerRequirementEntityManager(data));
 
 		//add just your module to this list

@@ -9,8 +9,13 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import org.junit.Before;
@@ -99,7 +104,8 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 		assertNull(panel.getRequirements());
 		controller.refreshData();
 		PlanningPokerRequirement ppreq = new PlanningPokerRequirement(-1, "Test", "");
-		PlanningPokerRequirement[] requirements = {ppreq};
+		ArrayList<PlanningPokerRequirement> requirements = new ArrayList<PlanningPokerRequirement>();
+		requirements.add(ppreq);
 		controller.receivedData(requirements);
 		assertNotNull(panel.getRequirements());
 	}

@@ -34,7 +34,7 @@ Janeway/janeway.conf
 /Core/WPISuite/WebContent/WEB-INF/lib/WPISuite-Interfaces.jar
 /Core/WPISuite/WebContent/WEB-INF/lib/PostBoard.jar
 /Core/WPISuite/WebContent/WEB-INF/lib/RequirementManager.jar
-/Core/WPISuite/WebContent/WEB-INF/lib/*.jar
+/Core/WPISuite/WebContent/WEB-INF/lib/PlanningPoker.jar
 .idea
 .idea/*
 *.iml

@@ -9,6 +9,8 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
@@ -61,10 +63,10 @@ public class RetrieveFreePlanningPokerRequirementsController {
 	 * response is received
 	 * 
 	 * @param requirements
-	 *            an array of requirements returned by the server
+	 *            an array list of requirements returned by the server
 	 * @throws NotImplementedException
 	 */
-	public void receivedData(PlanningPokerRequirement[] requirements){
+	public void receivedData(ArrayList<PlanningPokerRequirement> requirements){
 		panel.updateRequirements(requirements);
 	}
 
