@@ -17,33 +17,37 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
 /**
- * This observer handles responses to requests for all
- * post board messages.
+ * This observer handles responses to requests for all post board messages.
  * 
- *
+ * 
  */
 public class GetAllSessionsRequestObserver implements RequestObserver {
-	
+
 	public GetAllSessionsController controller;
-	
-	
+
 	public GetAllSessionsRequestObserver(GetAllSessionsController controller) {
 		this.controller = controller;
 	}
 
 	/*
-	 * Parse the messages out of the response body and pass them to the controller
+	 * Parse the messages out of the response body and pass them to the
+	 * controller
 	 * 
-	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 * @see
+	 * edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi
+	 * .cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		PlanningPokerSession[] sessions = PlanningPokerSession.fromJsonArray(iReq.getResponse().getBody());
+		PlanningPokerSession[] sessions = PlanningPokerSession
+				.fromJsonArray(iReq.getResponse().getBody());
 		controller.receivedSessions(sessions);
 	}
 
 	/*
-	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 * @see
+	 * edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.
+	 * cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
@@ -53,11 +57,13 @@ public class GetAllSessionsRequestObserver implements RequestObserver {
 	/*
 	 * Put an error message in the PostBoardPanel if the request fails.
 	 * 
-	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 * @see
+	 * edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng
+	 * .network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		
+
 	}
 
 }
