@@ -18,6 +18,14 @@ import java.awt.SystemColor;
 import javax.swing.JList;
 
 import javax.swing.JButton;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 public class SessionInProgressPanel extends JSplitPane {
 	private JTextField textField;
@@ -67,22 +75,22 @@ public class SessionInProgressPanel extends JSplitPane {
 		RightPanel.setLayout(new BoxLayout(RightPanel, BoxLayout.X_AXIS));
 		
 		JSplitPane detailWindowSplitPane = new JSplitPane();
-		detailWindowSplitPane.setResizeWeight(1.0);
+		detailWindowSplitPane.setResizeWeight(0.95);
 		detailWindowSplitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		RightPanel.add(detailWindowSplitPane);
 		
 		JPanel votingPanel = new JPanel();
 		detailWindowSplitPane.setRightComponent(votingPanel);
-		votingPanel.setLayout(new BoxLayout(votingPanel, BoxLayout.X_AXIS));
 		
 		JLabel lblEstimate = new JLabel("Estimate:");
-		votingPanel.add(lblEstimate);
 		
 		textField = new JTextField();
-		votingPanel.add(textField);
 		textField.setColumns(10);
 		
 		JButton btnSubmit = new JButton("Submit");
+		votingPanel.setLayout(new BoxLayout(votingPanel, BoxLayout.X_AXIS));
+		votingPanel.add(lblEstimate);
+		votingPanel.add(textField);
 		votingPanel.add(btnSubmit);
 		
 		JPanel requirementsPanel = new JPanel();
@@ -90,7 +98,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		requirementsPanel.setLayout(new BoxLayout(requirementsPanel, BoxLayout.X_AXIS));
 		
 		JSplitPane requirmentsDetailsSplitPane = new JSplitPane();
-		requirmentsDetailsSplitPane.setResizeWeight(0.6);
+		requirmentsDetailsSplitPane.setResizeWeight(0.8);
 		requirementsPanel.add(requirmentsDetailsSplitPane);
 		
 		JList requirmentsList = new JList();
@@ -98,7 +106,13 @@ public class SessionInProgressPanel extends JSplitPane {
 		
 		JPanel requiementsDetailPanel = new JPanel();
 		requirmentsDetailsSplitPane.setRightComponent(requiementsDetailPanel);
-		requiementsDetailPanel.setLayout(new BoxLayout(requiementsDetailPanel, BoxLayout.X_AXIS));
+		requiementsDetailPanel.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblNewLabel = new JLabel("Requirement Detail:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		requiementsDetailPanel.add(lblNewLabel);
 
 	}
 }
