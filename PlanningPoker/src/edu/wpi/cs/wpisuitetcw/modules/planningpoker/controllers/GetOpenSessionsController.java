@@ -65,7 +65,7 @@ public class GetOpenSessionsController implements ActionListener {
 	 *            an array of open sessions received from the server
 	 */
 	public void receiveOpenSessions(PlanningPokerSession[] sessions) {
-		this.view.addSessions(sessions);
+		// Add data to the model
 	}
 
 }

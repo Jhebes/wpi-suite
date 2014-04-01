@@ -278,14 +278,6 @@ public class OverviewPanel extends JSplitPane {
 
 
 	}
-
-	/**
-	 * Add the list of given sessions to the right panel
-	 * 
-	 */
-	public void addSessions(PlanningPokerSession[] sessions) {
-		
-	}
 	
 	// Getters
 	public JButton getOpenSessionBtn() {

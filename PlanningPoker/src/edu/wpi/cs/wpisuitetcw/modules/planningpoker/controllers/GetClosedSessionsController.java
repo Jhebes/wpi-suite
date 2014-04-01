@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.SessionsTableModel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -31,6 +32,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class GetClosedSessionsController implements ActionListener {
 	private final OverviewPanel view;
+	private final PlanningPokerSession[] data = null;
 
 	/**
 	 * Construct a GetClosedSessionsController for the given view
@@ -65,7 +67,7 @@ public class GetClosedSessionsController implements ActionListener {
 	 *            an array of sessions received from the server
 	 */
 	public void receiveClosedSessions(PlanningPokerSession[] sessions) {
-		this.view.addSessions(sessions);
+		// Add data to the model
 	}
 
 }
