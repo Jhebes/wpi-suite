@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -42,6 +43,7 @@ public class CreateSessionPanel extends JSplitPane {
 	private final JComboBox<SessionLiveType> dropdownType;
 	
 	private final JXDatePicker deadlinePicker;
+	private final JSpinner pickerDeadlineTime;
 
 	// Constructor for our Create Session Panel
 	public CreateSessionPanel() {
@@ -60,7 +62,7 @@ public class CreateSessionPanel extends JSplitPane {
 		deadlinePicker.setFormats(new SimpleDateFormat("MM/dd/yyyy"));
 		
 		// create time selector
-		JSpinner pickerDeadlineTime = new JSpinner( new SpinnerDateModel() );
+		pickerDeadlineTime = new JSpinner( new SpinnerDateModel() );
 		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(pickerDeadlineTime, "HH:mm:ss");
 		pickerDeadlineTime.setEditor(timeEditor);
 		pickerDeadlineTime.setValue(new Date()); // will only show the current time
@@ -122,8 +124,25 @@ public class CreateSessionPanel extends JSplitPane {
 		return dropdownType;
 	}
 
-	public JXDatePicker getDeadlinePicker() {
-		return deadlinePicker;
+	/**
+	 * This returns the date object of what user enters
+	 * @return date for the deadline object
+	 */
+	public Date getDeadline() {
+		Date date = deadlinePicker.getDate();
+		Date time = (Date) pickerDeadlineTime.getValue();
+		Calendar calendar1 = new GregorianCalendar();
+		Calendar calendar2 = new GregorianCalendar();
+		
+		calendar1.setTime(date);
+		calendar2.setTime(time);
+		
+		// adding the time to date object
+		calendar1.set(Calendar.HOUR_OF_DAY, calendar2.get(Calendar.HOUR_OF_DAY));
+		calendar1.set(Calendar.MINUTE, calendar2.get(Calendar.MINUTE));
+		calendar1.set(Calendar.SECOND, calendar2.get(Calendar.SECOND));
+		
+		Date deadline = calendar1.getTime();
+		return deadline;
 	}
-
 }

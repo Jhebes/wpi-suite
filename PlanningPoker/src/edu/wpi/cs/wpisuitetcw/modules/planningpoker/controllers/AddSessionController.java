@@ -68,7 +68,7 @@ public class AddSessionController implements ActionListener {
 		// String month = "1";
 		// String day = "1";
 
-		Date d = this.view.getDeadlinePicker().getDate();
+		Date d = this.view.getDeadline();
 
 		// Create a new session and populate its data
 		PlanningPokerSession session = new PlanningPokerSession();
