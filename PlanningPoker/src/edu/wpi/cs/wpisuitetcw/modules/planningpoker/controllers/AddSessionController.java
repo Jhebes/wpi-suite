@@ -32,27 +32,6 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * database
  * 
  * @author Josh Hebert
-<<<<<<< HEAD
- *
- */
-public class AddSessionController implements ActionListener {
-	
-	private final CreateSessionPanel view;
-	
-	/**
-	 * Construct an AddSessionController for the given view
-	 * @param model the model containing the messages
-	 * @param view the view where the user enters new messages
-	 */
-	public AddSessionController(CreateSessionPanel view) {
-		this.view = view;
-	}
-
-	/* 
-	 * This method is called when the user clicks the "Create" button
-	 * 
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-=======
  * 
  */
 public class AddSessionController implements ActionListener {
@@ -79,64 +58,10 @@ public class AddSessionController implements ActionListener {
 	 * 
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
->>>>>>> create-getSession
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		// Get the name of the session
-<<<<<<< HEAD
-		String name = "Test Session";
-		
-		//Date fields with some dummy data
-		String year = "1";
-		String month = "1";
-		String day = "1";
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		
-		
-		Date d;
-		try {
-			d = sdf.parse(String.format("%s/%s/%s", day, month, year));
-		} catch (ParseException e) {
-			//This shouldn't happen...
-			//If it does, the user put in bad date data and we should return an error on the gui
-			
-			//Not this
-			e.printStackTrace();
-			
-			return;
-		}
-		
-		//Create a new session and populate its data
-		PlanningPokerSession session = new PlanningPokerSession();
-		session.setName(name);
-		session.setEndTime(d);
-		// Add all checked requirements
-		ArrayList<PlanningPokerRequirement> reqs = new ArrayList<PlanningPokerRequirement>();
-
-//		for(int i = 0; i < view.existingReqsList.getComponentCount(); ++i){
-//			//Check if element is checked off
-//			if(....){
-//				//Add it to the list of reqs
-//			}
-//		}
-
-		session.addRequirements(reqs);
-		
-		
-		
-		/*
-		 * Put validity checks here
-		 */
-		
-		
-		// Send a request to the core to save this message
-		final Request request = Network.getInstance().makeRequest("planningpoker/planningpokersession", HttpMethod.PUT); // PUT == create
-		request.setBody(session.toJSON()); 
-		request.addObserver(new AddSessionRequestObserver(this)); // add an observer to process the response
-		request.send(); // send the request
-		
-=======
 		String name = this.view.nameField.getText();
 
 		// Dummy Data
@@ -180,6 +105,5 @@ public class AddSessionController implements ActionListener {
 		request.addObserver(new AddSessionRequestObserver(this));
 		// Send the request on its way
 		request.send();
->>>>>>> create-getSession
 	}
 }
