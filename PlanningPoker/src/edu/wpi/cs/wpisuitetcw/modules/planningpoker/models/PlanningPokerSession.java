@@ -31,6 +31,15 @@ public class PlanningPokerSession extends AbstractModel {
 	private String name = "";
 
 	/**
+	 * Constructs a PlanningPokerSession for the given string message
+	 * 
+	 * @param message
+	 */
+	public PlanningPokerSession() {
+
+	}
+
+	/**
 	 * Cancels a session by setting isCancelled to true
 	 * and its finish time to the current time
 	 */
@@ -168,16 +177,6 @@ public class PlanningPokerSession extends AbstractModel {
 	 * reqsList.remove(i); break; } } }
 	 */
 
-
-
-	/**
-	 * Constructs a PlanningPokerSession for the given string message
-	 * 
-	 * @param message
-	 */
-	public PlanningPokerSession() {
-
-	}
 
 	/**
 	 * Converts the model to a JSON String
