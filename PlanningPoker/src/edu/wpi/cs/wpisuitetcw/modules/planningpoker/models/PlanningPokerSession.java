@@ -38,6 +38,26 @@ public class PlanningPokerSession extends AbstractModel {
 	public PlanningPokerSession() {
 
 	}
+	
+	/**
+	 * Return true if the session is closed
+	 * 
+	 * @return Return true if the session if closed
+	 */
+	public boolean isClosed() {
+		// TODO implement
+		return true;
+	}
+	
+	/**
+	 * Return true if the session is open
+	 * 
+	 * @return Return true if the session is open
+	 */
+	public boolean isOpen() {
+		// TODO implement
+		return true;
+	}
 
 	/**
 	 * Cancels a session by setting isCancelled to true
