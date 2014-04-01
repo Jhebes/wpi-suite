@@ -1,21 +1,19 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 
@@ -35,6 +33,10 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Scrol
 
 public class CreateSessionPanel extends JSplitPane {
 	final int DEFAULT_DATA_SIZE = 30; // default data size for database entry
+	private final String EXPLANATIONSTRING = "A planning poker session (game) allows user to "
+			+ "select one or more requirements for estimation for "
+			+ "the team to estimate. A deadline for submission is optional. "
+			+ "This will let the team reach a consensus on the amount of effort it will take to realize the requirements.";
 
 	// The right panel holds info about selected requirements
 	private final ScrollablePanel rightPanel;
@@ -60,6 +62,17 @@ public class CreateSessionPanel extends JSplitPane {
 		JLabel labelName = new JLabel("Name *");
 		JLabel labelDeadline = new JLabel("Deadline");
 		JLabel labelDropdownType = new JLabel("Type *");
+		// JLabel labelExplanation = new JLabel(EXPLANATIONSTRING);
+
+		// text area
+		JTextArea textAreaExp = new JTextArea(5, 15);
+		textAreaExp.setText(EXPLANATIONSTRING);
+		textAreaExp.setWrapStyleWord(true);
+		textAreaExp.setLineWrap(true);
+		textAreaExp.setBorder(BorderFactory.createEmptyBorder());
+		textAreaExp.setOpaque(false);
+		textAreaExp.setFocusable(false);
+		textAreaExp.setEditable(false);
 
 		// create date picker
 		deadlinePicker = new JXDatePicker();
@@ -115,13 +128,18 @@ public class CreateSessionPanel extends JSplitPane {
 
 		// center the container
 		JPanel container = new JPanel();
-		container.setLayout(new GridBagLayout());
-		container.add(rightPanel, new GridBagConstraints());
+		// container.setLayout(new GridBagLayout());
+		// container.add(rightPanel, new GridBagConstraints());
+		container.add(rightPanel);
+
+		// add the label to the left panel
+		leftPanel.add(textAreaExp);
 
 		// setup the layout
 		this.setLeftComponent(leftPanel);
 		this.setRightComponent(container);
 		this.setDividerLocation(180);
+		this.setEnabled(false);
 	}
 
 	/**
