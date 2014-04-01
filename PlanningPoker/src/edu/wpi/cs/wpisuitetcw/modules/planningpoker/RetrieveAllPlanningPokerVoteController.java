@@ -58,7 +58,7 @@ public class RetrieveAllPlanningPokerVoteController {
 			this.data = votes;
 
 			// set the column names
-			String[] columnNames = {"ID", "Title", "Description", "Creator", "Assignee", "Status", "Created", "Last Modified"};
+			String[] columnNames = {"ID", "Card Value"}; //"Title", "Description", "Creator", "Assignee", "Status", "Created", "Last Modified"};
 			view.getSearchPanel().getResultsPanel().getModel().setColumnNames(columnNames);
 
 			// put the data in the table
