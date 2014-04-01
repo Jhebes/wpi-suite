@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 /**
- * Planning Poker Session class
+ * PlanningPokerSession class represent a planning poker session
  * 
  * @author Josh Hebert
  * 
@@ -31,9 +31,7 @@ public class PlanningPokerSession extends AbstractModel {
 	private String name = "";
 
 	/**
-	 * Cancels a session 
-	 * -------------------
-	 * Implementation: setting isCancelled to true
+	 * Cancels a session by setting isCancelled to true
 	 * and its finish time to the current time
 	 */
 	public void cancel() {
