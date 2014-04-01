@@ -51,7 +51,7 @@ public class CreateSessionPanel extends JSplitPane {
 
 		// create labels for each data field
 		JLabel labelName = new JLabel("Name *");
-		JLabel labelDeadline = new JLabel("Deadline *");
+		JLabel labelDeadline = new JLabel("Deadline");
 		JLabel labelDropdownType = new JLabel("Type *");
 
 		// create date picker
