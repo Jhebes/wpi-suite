@@ -1,7 +1,7 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.util.ArrayList;
-
+import java.awt.event.ActionEvent;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -14,6 +14,7 @@ import javax.swing.ListSelectionModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.RetrieveFreePlanningPokerRequirementsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
+import javax.swing.JButton;
 
 /**
  * Panel for New Session tab.
@@ -30,25 +31,25 @@ public class CreateSessionPanel extends JSplitPane {
 	public JTextField nameField;
 	/** The deadline textbox */
 	public JTextField deadlineField;
-	
+
 	/** Model used for requirements JList */
 	DefaultListModel<String> existingRequirementsNames;
-	
+
 	/** list of existing requirements */
 	JList<String> existingRequirements;
 
 	/** List of requirements available to this create session tab. */
 	private ArrayList<PlanningPokerRequirement> requirements = null;
+	private JButton btnTest;
 
-		/**
+	/**
 	 * Constructs a new Create Session panel
 	 */
 	public CreateSessionPanel() {
 		rightPanel = new JPanel();
 		leftPanel = new JPanel();
 
-		RetrieveFreePlanningPokerRequirementsController controller = new RetrieveFreePlanningPokerRequirementsController(
-				this);
+		
 
 		existingRequirementsNames = new DefaultListModel<String>();
 
@@ -81,10 +82,10 @@ public class CreateSessionPanel extends JSplitPane {
 		leftPanel.add(Box.createHorizontalStrut(10));
 
 		this.setRightComponent(rightPanel);
+		
+		
 		this.setLeftComponent(leftPanel);
 		this.setDividerLocation(180);
-
-		controller.refreshData();
 	}
 
 	/**
@@ -106,7 +107,8 @@ public class CreateSessionPanel extends JSplitPane {
 	 * @param requirements
 	 *            The list of new requirements
 	 */
-	public void updateRequirements(ArrayList<PlanningPokerRequirement> requirements) {
+	public void updateRequirements(
+			ArrayList<PlanningPokerRequirement> requirements) {
 		setRequirements(requirements);
 		ArrayList<String> names = new ArrayList<String>();
 		for (PlanningPokerRequirement requirement : requirements) {

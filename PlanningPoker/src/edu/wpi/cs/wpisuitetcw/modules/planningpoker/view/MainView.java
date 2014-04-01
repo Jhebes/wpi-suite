@@ -1,3 +1,5 @@
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
+
 
 
 import java.awt.Component;
@@ -6,7 +8,9 @@ import javax.swing.Icon;
 import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ClosableTabComponent;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 
 public class MainView extends JTabbedPane {
 
@@ -15,6 +19,8 @@ public class MainView extends JTabbedPane {
 	 */
 	private static final long serialVersionUID = 4184001083813964646L;
 	private OverviewPanel overivewPanel;
+	private CreateSessionPanel createSessionPanel;
+	private SessionInProgressPanel sessionInProgressPanel;
 
 	/**
 	 * Create the panel.
@@ -23,6 +29,12 @@ public class MainView extends JTabbedPane {
 	public MainView() {
 		overivewPanel = new OverviewPanel();
 		this.addTab("Overview", overivewPanel);
+		
+		createSessionPanel = new CreateSessionPanel();
+		this.addTab("New Session", createSessionPanel);
+		
+		sessionInProgressPanel = new SessionInProgressPanel();
+		this.addTab("In Progress", sessionInProgressPanel);
 	}
 	
 	/**
