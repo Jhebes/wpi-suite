@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 /**
- * PlanningPokerSession class represent a planning poker session
+ * PlanningPokerSession class represents a planning poker session
  * 
  * @author Josh Hebert
  * 
@@ -151,7 +151,8 @@ public class PlanningPokerSession extends AbstractModel {
 	
 	// Functions for requirements
 	
-	/* Sets sessionIds for the PlanningPokerRequirements
+	/**
+	 * Sets sessionIds for the PlanningPokerRequirements
 	 * @param newReq -> new Requirements to be added
 	 */
 	public void addRequirements(ArrayList<PlanningPokerRequirement> newReqs){
@@ -160,8 +161,8 @@ public class PlanningPokerSession extends AbstractModel {
 		}
 	}
 	
-	
-	/* Deletes a requirement by requirement ID
+	/**
+	 * Deletes a requirement by requirement ID
 	 * @param requirementID -> ID of requirement to be deleted
 	 */
 	public void deleteRequirements(ArrayList<PlanningPokerRequirement> reqs){
