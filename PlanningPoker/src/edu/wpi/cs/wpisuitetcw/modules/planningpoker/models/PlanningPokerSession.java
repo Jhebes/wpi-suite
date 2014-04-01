@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 /**
- * Planning Poker Session class
+ * PlanningPokerSession class represent a planning poker session
  * 
  * @author Josh Hebert
  * 
@@ -31,9 +31,36 @@ public class PlanningPokerSession extends AbstractModel {
 	private String name = "";
 
 	/**
-	 * Cancels a session 
-	 * -------------------
-	 * Implementation: setting isCancelled to true
+	 * Constructs a PlanningPokerSession for the given string message
+	 * 
+	 * @param message
+	 */
+	public PlanningPokerSession() {
+
+	}
+	
+	/**
+	 * Return true if the session is closed
+	 * 
+	 * @return Return true if the session if closed
+	 */
+	public boolean isClosed() {
+		// TODO implement
+		return true;
+	}
+	
+	/**
+	 * Return true if the session is open
+	 * 
+	 * @return Return true if the session is open
+	 */
+	public boolean isOpen() {
+		// TODO implement
+		return true;
+	}
+
+	/**
+	 * Cancels a session by setting isCancelled to true
 	 * and its finish time to the current time
 	 */
 	public void cancel() {
@@ -170,16 +197,6 @@ public class PlanningPokerSession extends AbstractModel {
 	 * reqsList.remove(i); break; } } }
 	 */
 
-
-
-	/**
-	 * Constructs a PlanningPokerSession for the given string message
-	 * 
-	 * @param message
-	 */
-	public PlanningPokerSession() {
-
-	}
 
 	/**
 	 * Converts the model to a JSON String

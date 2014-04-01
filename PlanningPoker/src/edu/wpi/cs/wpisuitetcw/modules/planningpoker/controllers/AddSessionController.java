@@ -32,6 +32,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * database
  * 
  * @author Josh Hebert
+<<<<<<< HEAD
  *
  */
 public class AddSessionController implements ActionListener {
@@ -51,10 +52,39 @@ public class AddSessionController implements ActionListener {
 	 * This method is called when the user clicks the "Create" button
 	 * 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+=======
+ * 
+ */
+public class AddSessionController implements ActionListener {
+	private final CreateSessionPanel view;
+
+	/**
+	 * Construct an AddSessionController for the given view
+	 * 
+	 * @param view
+	 *            the view where the user enters data for the new session
+	 */
+	public AddSessionController(CreateSessionPanel view) {
+		/*
+		 * TODO: This should also have a manager for the CreateSessionPanel, so
+		 * that errors can be fed back to the panel rather than thrown as
+		 * exceptions
+		 */
+
+		this.view = view;
+	}
+
+	/*
+	 * This method is called when the user clicks the "Create" button
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
+>>>>>>> create-getSession
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		// Get the name of the session
+<<<<<<< HEAD
 		String name = "Test Session";
 		
 		//Date fields with some dummy data
@@ -106,5 +136,50 @@ public class AddSessionController implements ActionListener {
 		request.addObserver(new AddSessionRequestObserver(this)); // add an observer to process the response
 		request.send(); // send the request
 		
+=======
+		String name = this.view.nameField.getText();
+
+		// Dummy Data
+		// Date fields with some dummy data
+		// String year = "1";
+		// String month = "1";
+		// String day = "1";
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Date d;
+		try {
+			// d = sdf.parse(String.format("%s/%s/%s", day, month, year));
+			d = sdf.parse(this.view.deadlineField.getText());
+
+		} catch (ParseException e) {
+			// The user put in bad date data and we should return an error on
+			// the gui
+
+			// Not this
+			e.printStackTrace();
+
+			return;
+		}
+
+		// Create a new session and populate its data
+		PlanningPokerSession session = new PlanningPokerSession();
+		session.setName(name);
+		session.setEndTime(d);
+
+		// Add all checked requirements
+		ArrayList<PlanningPokerRequirement> reqs = view.getRequirements();
+		session.addRequirements(reqs);
+
+		// Send a request to the core to save this message
+		// Create the request
+		final Request request = Network.getInstance().makeRequest(
+				"planningpoker/session", HttpMethod.PUT);
+		// Set the data to be the session to save (converted to JSON)
+		request.setBody(session.toJSON());
+		// Listen for the server's response
+		request.addObserver(new AddSessionRequestObserver(this));
+		// Send the request on its way
+		request.send();
+>>>>>>> create-getSession
 	}
 }

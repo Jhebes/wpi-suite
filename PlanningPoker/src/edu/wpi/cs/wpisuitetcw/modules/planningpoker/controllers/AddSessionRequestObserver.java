@@ -24,15 +24,24 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * 
  */
 public class AddSessionRequestObserver implements RequestObserver {
-
+	//The controller this is tied to
 	private final AddSessionController controller;
 
+	
+	/**
+	 * Creates a listener attached to the controller
+	 * @param controller Tied controller
+	 */
 	public AddSessionRequestObserver(AddSessionController controller) {
 		this.controller = controller;
 	}
 
 	/*
+<<<<<<< HEAD
 	 * Parse the message that was received from the server then pass them to the
+=======
+	 * Parse the session that was received from the server then pass them to the
+>>>>>>> create-getSession
 	 * controller.
 	 * 
 	 * @see
@@ -45,18 +54,21 @@ public class AddSessionRequestObserver implements RequestObserver {
 		final ResponseModel response = iReq.getResponse();
 
 		// Parse the message out of the response body
-		final PlanningPokerSession session = PlanningPokerSession
-				.fromJson(response.getBody());
-
-		//System.out.println("Received a session!");
+		final PlanningPokerSession session = PlanningPokerSession.fromJson(response.getBody());
 
 	}
 
+	/**
+	 * What do we do if there's an error?
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		System.err.println("The request to add a session failed.");
 	}
 
+	/**
+	 * What do we do when there's a general network failure?
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		System.err.println("The request to add a session failed.");
