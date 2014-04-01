@@ -24,7 +24,6 @@ import org.junit.Test;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.MockData;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.MockNetwork;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.MockRequest;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.PlanningPokerRequirementEntityManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
@@ -67,20 +66,13 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 		db = new MockData(new HashSet<Object>());
 		db.save(session, testProject);
 		db.save(bob);
-		PlanningPokerRequirementEntityManager em = new PlanningPokerRequirementEntityManager(
-				db);
-		PlanningPokerRequirement ppreq = new PlanningPokerRequirement();
-		em.makeEntity(defaultSession, ppreq.toJSON());
-		// TODO: pass the new SessionView instead of the CreateSessionPanel
 		panel = new CreateSessionPanel();
 		controller = new RetrieveFreePlanningPokerRequirementsController(panel);
 	}
 
-	// check requirements in
 	@Test
 	/**
 	 * Tests that the controller sends a valid request.
-	 * @throws WPISuiteException
 	 */
 	public void testRefreshDataSendsValidRequest() throws WPISuiteException {
 		controller.refreshData();
@@ -97,6 +89,7 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 		assertEquals("/planningpoker/requirement", request.getUrl().getPath());
 		assertEquals(HttpMethod.GET, request.getHttpMethod());
 	}
+
 	@Test
 	/**
 	 * Test that Data is sent to gui
@@ -104,9 +97,8 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 	public void testRecievedData(){
 //		assertNull(panel.getRequirements());
 		controller.refreshData();
-		PlanningPokerRequirement ppreq = new PlanningPokerRequirement(-1, "Test", "");
 		ArrayList<PlanningPokerRequirement> requirements = new ArrayList<PlanningPokerRequirement>();
-		requirements.add(ppreq);
+		requirements.add(new PlanningPokerRequirement(-1, "Test", ""));
 		controller.receivedData(requirements);
 //		assertNotNull(panel.getRequirements());
 	}

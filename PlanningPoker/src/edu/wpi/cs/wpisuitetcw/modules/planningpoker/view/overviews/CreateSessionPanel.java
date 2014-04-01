@@ -22,6 +22,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.Sessi
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
 /**
+ * Panel for New Session tab.
  * 
  * @author Rob, Ben, Jenny
  */
