@@ -2,9 +2,9 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.util.ArrayList;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -12,6 +12,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.RetrieveFreePlanningPokerRequirementsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 
@@ -73,13 +74,18 @@ public class CreateSessionPanel extends JSplitPane {
 		deadlineField.setMaximumSize(deadlineField.getPreferredSize());
 		leftPanel.add(deadlineField);
 
-		// Creates a list of Reqs for the session
+		/*// Creates a list of Reqs for the session
 		leftPanel.add(new JLabel("Requirements:"));
 		leftPanel.add(existingRequirements);
 
 		leftPanel.setAlignmentY(LEFT_ALIGNMENT);
-		leftPanel.add(Box.createHorizontalStrut(10));
-
+		leftPanel.add(Box.createHorizontalStrut(10));*/
+		JButton SaveButton = new JButton("Save");// TODO make big
+		rightPanel.add(SaveButton);
+		
+		// action listener for the SaveButton button
+		SaveButton.addActionListener(new AddSessionController(this));
+		
 		this.setRightComponent(rightPanel);
 		this.setLeftComponent(leftPanel);
 		this.setDividerLocation(180);

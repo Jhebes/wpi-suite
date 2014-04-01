@@ -21,6 +21,7 @@ import java.util.Date;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -92,10 +93,16 @@ public class AddSessionController implements ActionListener {
 		session.setEndTime(d);
 
 		// Add all checked requirements
-		ArrayList<PlanningPokerRequirement> reqs = view.getRequirements();
-		session.addRequirements(reqs);
+		// ArrayList<PlanningPokerRequirement> reqs = view.getRequirements();
+		// session.addRequirements(reqs);
 
-		// Send a request to the core to save this message
+		this.saveSession(session);
+		
+	}
+	/*
+	 * Send a request to the core to save this message
+	 */
+	public void saveSession(PlanningPokerSession session){
 		// Create the request
 		final Request request = Network.getInstance().makeRequest(
 				"planningpoker/session", HttpMethod.PUT);
@@ -105,5 +112,11 @@ public class AddSessionController implements ActionListener {
 		request.addObserver(new AddSessionRequestObserver(this));
 		// Send the request on its way
 		request.send();
+		
+	}
+	//removes a tab and opens another
+	public void onSuccess(PlanningPokerSession session){
+		ViewEventController.getInstance().removeTab(session.panel);
+		ViewEventController.openSessionView(session.getID());
 	}
 }
