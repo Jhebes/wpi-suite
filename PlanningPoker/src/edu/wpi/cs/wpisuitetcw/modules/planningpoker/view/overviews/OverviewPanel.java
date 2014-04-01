@@ -17,6 +17,8 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllSessionsController;
+
 
 /**
  * @author troyling, Jake, Zack
@@ -46,9 +48,18 @@ public class OverviewPanel extends JSplitPane {
 		leftPanel.setLayout(new GridLayout( 6, 1, 1, 20 ) );
 		
 		// Initialize the buttons
-		openSessionBtn = new JButton("Open Sessions");
+		openSessionBtn = new JButton("Open Sessions");		
 		closedSessionBtn = new JButton("Closed Sessions");
 		allSessionsBtn = new JButton("All Sessions");
+		
+		// Construct the get open sessions and add it to the submit button
+		openSessionBtn.addActionListener(new GetOpenSessionsController(this));
+		
+		// Construct the get open sessions and add it to the submit button
+		closedSessionBtn.addActionListener(new GetClosedSessionsController(this));
+		
+		// Construct the get open sessions and add it to the submit button
+		allSessionsBtn.addActionListener(new GetAllSessionsController(this));
 		
 		// Add the buttons to the leftPanel
 		leftPanel.add( openSessionBtn );
