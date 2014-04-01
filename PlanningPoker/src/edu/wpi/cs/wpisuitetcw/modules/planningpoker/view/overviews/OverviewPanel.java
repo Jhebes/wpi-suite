@@ -5,22 +5,26 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
-import javax.swing.border.EmptyBorder;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionEvent;
-
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllSessionsController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetClosedSessionsController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetOpenSessionsController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import javax.swing.event.ListSelectionListener;
 
 
 /**
@@ -28,8 +32,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
  * 
  */
 public class OverviewPanel extends JSplitPane {
-	/**
-	 * 4	 */
+
 	private static final long serialVersionUID = 1L;
 	private final JPanel rightPanel;
 	private final JPanel leftPanel;
@@ -51,7 +54,7 @@ public class OverviewPanel extends JSplitPane {
 		leftPanel.setLayout(new GridLayout( 6, 1, 1, 20 ) );
 		
 		// Initialize the buttons
-		openSessionBtn = new JButton("Open Sessions");		
+		openSessionBtn = new JButton("Open Sessions");
 		closedSessionBtn = new JButton("Closed Sessions");
 		allSessionsBtn = new JButton("All Sessions");
 		
@@ -74,155 +77,7 @@ public class OverviewPanel extends JSplitPane {
 		
 		String[] colNames = {"ID", "Name", "Start Date", "Description", "Status"};
 		
-		Object[][] tableData = {
-				{
-					new Integer(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
-				},
-				{
-					new Integer(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(2), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
-				},
-				{
-					new Integer(3), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(4), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
-				},
-				{
-					new Integer(5), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(6), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
-				},
-				{
-					new Integer(7), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(8), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
-				},
-				{
-					new Integer(9), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(10), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
-				},
-				{
-					new Integer(11), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(12), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
-				},
-				{
-					new Integer(13), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(14), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
-				},
-				{
-					new Integer(15), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(16), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
-				},
-				{
-					new Integer(17), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(18), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
-				},
-				{
-					new Integer(19), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(20), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
-				},
-				{
-					new Integer(21), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(22), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
-				},
-				{
-					new Integer(23), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(24), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
-				},
-				{
-					new Integer(25), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(26), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
-				},
-				{
-					new Integer(27), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(28), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
-				},
-				{
-					new Integer(29), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(30), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
-				},
-				{
-					new Integer(31), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(32), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
-				},
-				{
-					new Integer(33), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(34), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
-				},
-				{
-					new Integer(35), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(36), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(37), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(38), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(39), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(40), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(41), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(42), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(43), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(44), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(45), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(46), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				},
-				{
-					new Integer(47), "This is another name", "2/22/2222", "numbah two", "In Progress"
-				}
-				
-				
-				
-		};
+		Object[][] tableData = {};
 		
 		// Create Table using data above
 		//final JTable table = new JTable(tableData, colNames);
@@ -233,10 +88,6 @@ public class OverviewPanel extends JSplitPane {
 	        public boolean isCellEditable(int row, int column) {                
 	                return false;               
 	        };
-	        
-	        public void valueChanged(ListSelectionEvent e) {
-				
-			}
 	    };
 	    
 	    // Add mouse listener to check for mouse clicks on the table
@@ -251,10 +102,8 @@ public class OverviewPanel extends JSplitPane {
 	    	});
 	    
 	    
-		
 		// Sets table bg to white
 		table.setBackground(Color.WHITE);
-		
 
 		
 		// Set layout for right panel
