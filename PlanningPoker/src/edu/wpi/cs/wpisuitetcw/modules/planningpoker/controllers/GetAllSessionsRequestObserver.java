@@ -17,7 +17,7 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
 /**
- * This observer handles responses to requests for all post board messages.
+ * This observer handles responses to requests for all planning poker session
  * 
  * 
  */
@@ -30,7 +30,7 @@ public class GetAllSessionsRequestObserver implements RequestObserver {
 	}
 
 	/*
-	 * Parse the messages out of the response body and pass them to the
+	 * Parse the session out of the response body and pass them to the
 	 * controller
 	 * 
 	 * @see
@@ -55,7 +55,7 @@ public class GetAllSessionsRequestObserver implements RequestObserver {
 	}
 
 	/*
-	 * Put an error message in the PostBoardPanel if the request fails.
+	 * What to do when we fail to get sessions from the server
 	 * 
 	 * @see
 	 * edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng

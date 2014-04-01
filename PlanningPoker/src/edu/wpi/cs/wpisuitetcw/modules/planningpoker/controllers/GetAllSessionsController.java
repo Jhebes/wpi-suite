@@ -27,12 +27,25 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class GetAllSessionsController implements ActionListener {
 
+	// The view the sessions should be pushed to
 	private CreateSessionPanel view;
 
+	/**
+	 * Instantiates a new controller tied to the specified view
+	 * 
+	 * @param view
+	 *            The view to which the returned sessions should be pushed to
+	 */
 	public GetAllSessionsController(CreateSessionPanel view) {
 		this.view = view;
 	}
 
+	/**
+	 * Initiate the request to the server on click
+	 * 
+	 * @param e
+	 *            The triggering event
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// Send a request to the core to retrieve the sessions
@@ -43,11 +56,10 @@ public class GetAllSessionsController implements ActionListener {
 	}
 
 	/**
-	 * Add the given messages to the local model (they were received from the
-	 * core). This method is called by the GetMessagesRequestObserver
+	 * Add the retrieved sessions to the view
 	 * 
-	 * @param messages
-	 *            an array of messages received from the server
+	 * @param sessions
+	 *            An array of session received from the server
 	 */
 	public void receivedSessions(PlanningPokerSession[] sessions) {
 		// Uncomment when view is updated to receive this
