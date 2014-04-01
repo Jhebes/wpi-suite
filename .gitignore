@@ -9,6 +9,7 @@ Servers\.settings
 Servers/.project
 javadoc
 test-results
+coverage-results
 dist
 
 # Package Files #
@@ -33,7 +34,7 @@ Janeway/janeway.conf
 /Core/WPISuite/WebContent/WEB-INF/lib/WPISuite-Interfaces.jar
 /Core/WPISuite/WebContent/WEB-INF/lib/PostBoard.jar
 /Core/WPISuite/WebContent/WEB-INF/lib/RequirementManager.jar
-/Core/WPISuite/WebContent/WEB-INF/lib/*.jar
+/Core/WPISuite/WebContent/WEB-INF/lib/PlanningPoker.jar
 .idea
 .idea/*
 *.iml
@@ -43,3 +44,5 @@ RequirementManager/bin
 
 *.fuse*
 .sonar
+
+jacoco.exec
