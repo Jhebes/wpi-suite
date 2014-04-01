@@ -35,7 +35,7 @@ public class GetClosedSessionsController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// Send a request to the core to get the closed sessions
-		final Request request = Network.getInstance().makeRequest("planningpoker/planningpokersession", HttpMethod.GET);
+		final Request request = Network.getInstance().makeRequest("planningpoker/session", HttpMethod.GET);
 		request.addObserver(new GetClosedSessionsRequestObserver(this));
 		request.send();
 	}

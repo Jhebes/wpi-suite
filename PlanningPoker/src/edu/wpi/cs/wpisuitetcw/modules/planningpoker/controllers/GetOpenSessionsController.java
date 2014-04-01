@@ -10,6 +10,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
+import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
  * This controller responds when the users click on "Open Sessions"
@@ -32,7 +33,7 @@ public class GetOpenSessionsController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// Send a request to the core to get the open sessions
-		final Request request = Network.getInstance().makeRequest("planningpoker/planningpokersession", HttpMethod.GET);
+		final Request request = Network.getInstance().makeRequest("planningpoker/session", HttpMethod.GET);
 		request.addObserver(new GetOpenSessionsRequestObserver(this));
 		request.send();
 	}

@@ -20,6 +20,7 @@ import javax.swing.event.ListSelectionEvent;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetClosedSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetOpenSessionsController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 
 
 /**
@@ -278,6 +279,13 @@ public class OverviewPanel extends JSplitPane {
 
 	}
 
+	/**
+	 * Add the list of given sessions to the right panel
+	 * 
+	 */
+	public void addSessions(PlanningPokerSession[] sessions) {
+		
+	}
 	
 	// Getters
 	public JButton getOpenSessionBtn() {
