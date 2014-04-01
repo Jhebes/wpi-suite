@@ -40,13 +40,13 @@ public class CreateSessionPanel extends JSplitPane {
 	private final ScrollablePanel rightPanel;
 	// The left leftPanel contains reqList, name, and Deadline.
 	private final ScrollablePanel leftPanel;
-
+	// name of the session
 	private final JTextField nameTextField;
-
+	// save button for the panel
 	private final JButton btnSaveSession;
-
+	// dropdown menu
 	private final JComboBox<SessionLiveType> dropdownType;
-
+	// deadline date and time picker
 	private final JXDatePicker deadlinePicker;
 	private final JSpinner pickerDeadlineTime;
 
@@ -124,18 +124,6 @@ public class CreateSessionPanel extends JSplitPane {
 		this.setDividerLocation(180);
 	}
 
-	public JTextField getNameTextField() {
-		return nameTextField;
-	}
-
-	public JButton getBtnSaveSession() {
-		return btnSaveSession;
-	}
-
-	public JComboBox<SessionLiveType> getDropdownType() {
-		return dropdownType;
-	}
-
 	/**
 	 * This returns the date object of what user enters
 	 * 
@@ -158,5 +146,32 @@ public class CreateSessionPanel extends JSplitPane {
 
 		Date deadline = calendar1.getTime();
 		return deadline;
+	}
+
+	/**
+	 * Return the name of the session
+	 * 
+	 * @return name of session
+	 */
+	public JTextField getNameTextField() {
+		return nameTextField;
+	}
+
+	/**
+	 * Return the save button
+	 * 
+	 * @return save button
+	 */
+	public JButton getBtnSaveSession() {
+		return btnSaveSession;
+	}
+
+	/**
+	 * Return the dropdown menu for selecting the type
+	 * 
+	 * @return dropdown menu for session type
+	 */
+	public JComboBox<SessionLiveType> getDropdownType() {
+		return dropdownType;
 	}
 }
