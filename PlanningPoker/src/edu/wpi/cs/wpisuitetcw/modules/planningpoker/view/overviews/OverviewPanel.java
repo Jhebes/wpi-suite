@@ -18,6 +18,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllSessionsController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetClosedSessionsController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetOpenSessionsController;
 
 
 /**
@@ -58,8 +60,8 @@ public class OverviewPanel extends JSplitPane {
 		// Construct the get open sessions and add it to the submit button
 		closedSessionBtn.addActionListener(new GetClosedSessionsController(this));
 		
-		// Construct the get open sessions and add it to the submit button
-		allSessionsBtn.addActionListener(new GetAllSessionsController(this));
+		// TODO Construct the get open sessions and add it to the submit button
+		//allSessionsBtn.addActionListener(new GetAllSessionsController(this));
 		
 		// Add the buttons to the leftPanel
 		leftPanel.add( openSessionBtn );
