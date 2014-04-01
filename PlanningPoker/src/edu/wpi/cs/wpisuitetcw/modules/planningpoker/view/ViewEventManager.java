@@ -8,6 +8,7 @@ import javax.swing.JComponent;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 
 /**
+ * 
  * @author troyling
  * 
  */
@@ -56,7 +57,6 @@ public class ViewEventManager {
 	
 	/**
 	 * Sets the main view to the given view.
-	
 	 * @param mainview MainView
 	 */
 	public void setMainView(MainView mainview) {

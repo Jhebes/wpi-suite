@@ -3,12 +3,15 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -30,8 +33,6 @@ public class CreateSessionPanel extends JSplitPane {
 	private final ScrollablePanel rightPanel;
 	// The left leftPanel contains reqList, name, and Deadline.
 	private final ScrollablePanel leftPanel;
-	private final JButton addReqButton;
-	private final JButton makeActiveButton;
 
 	// Constructor for our Create Session Panel
 	public CreateSessionPanel() {
@@ -44,10 +45,16 @@ public class CreateSessionPanel extends JSplitPane {
 		JLabel labelDeadline = new JLabel("Deadline *");
 		JLabel labelDropdownType = new JLabel("Type *");
 
-		// create datepicker
-		JXDatePicker pickerDeadline = new JXDatePicker();
-		pickerDeadline.setDate(Calendar.getInstance().getTime());
-		pickerDeadline.setFormats(new SimpleDateFormat("MM/dd/yyyy"));
+		// create date picker
+		JXDatePicker pickerDeadlineDate = new JXDatePicker();
+		pickerDeadlineDate.setDate(Calendar.getInstance().getTime());
+		pickerDeadlineDate.setFormats(new SimpleDateFormat("MM/dd/yyyy"));
+		
+		// create time selector
+		JSpinner pickerDeadlineTime = new JSpinner( new SpinnerDateModel() );
+		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(pickerDeadlineTime, "HH:mm:ss");
+		pickerDeadlineTime.setEditor(timeEditor);
+		pickerDeadlineTime.setValue(new Date()); // will only show the current time
 
 		// create textfield
 		// TODO check with java team to see what the limit size for each data is
@@ -61,30 +68,30 @@ public class CreateSessionPanel extends JSplitPane {
 		dropdownType.setBackground(Color.WHITE);
 
 		// create buttons and listeners
-		addReqButton = new JButton("<html>Add New <br /> Requirement</html>");
-		makeActiveButton = new JButton("<html>Make Active</html>");
+		JButton btnSaveSession = new JButton("Save");
 
-		// setup left panel
+		// setup right panel
 		// MigLayout is a convenient way of creating responsive layout with
 		// Swing
-		leftPanel.setLayout(new MigLayout("", "", "shrink"));
-		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
+		rightPanel.setLayout(new MigLayout("", "", "shrink"));
+		rightPanel.setAlignmentX(LEFT_ALIGNMENT);
 
 		// labels and textfields
-		leftPanel.add(labelName, "wrap");
-		leftPanel.add(fieldName, "growx, pushx, shrinkx, span, wrap");
+		rightPanel.add(labelName, "wrap");
+		rightPanel.add(fieldName, "width 150px, left, wrap");
 
-		leftPanel.add(labelDeadline, "wrap");
-		leftPanel.add(pickerDeadline, "growx, pushx, shrinkx, span, wrap");
+		rightPanel.add(labelDeadline, "wrap");
+		rightPanel.add(pickerDeadlineDate, "width 100px");
+		
+		rightPanel.add(pickerDeadlineTime, "width 100px, wrap");
 		// leftPanel.add(fieldDeadline, "growx, pushx, shrinkx, span, wrap");
 
 		// dropdowns
-		leftPanel.add(labelDropdownType, "wrap");
-		leftPanel.add(dropdownType, "growx, pushx, shrinkx, span, wrap");
-
+		rightPanel.add(labelDropdownType, "wrap");
+		rightPanel.add(dropdownType, "width 150px, left, wrap");
+		
 		// buttons
-		leftPanel.add(addReqButton, "wrap, span");
-		leftPanel.add(makeActiveButton, "wrap, span");
+		rightPanel.add(btnSaveSession, "width 150px, left, wrap");
 
 		// Adding UI to the rightPane
 		this.setLeftComponent(leftPanel);
@@ -92,21 +99,4 @@ public class CreateSessionPanel extends JSplitPane {
 		this.setDividerLocation(180);
 	}
 
-	/**
-	 * Method getAddReqButton.
-	 * 
-	 * @return addReqButton
-	 */
-	public JButton getAddReqButton() {
-		return this.addReqButton;
-	}
-
-	/**
-	 * Method getMakeActiveButton.
-	 * 
-	 * @return makeActiveButton
-	 */
-	public JButton getMakeActiveButton() {
-		return this.makeActiveButton;
-	}
 }
