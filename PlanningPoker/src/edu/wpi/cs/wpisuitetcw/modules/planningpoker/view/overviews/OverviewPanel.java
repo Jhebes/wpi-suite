@@ -3,17 +3,23 @@
  */
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
-import java.awt.Component;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventController;
 
 /**
  * @author troyling, Jake, Zack
@@ -21,63 +27,226 @@ import javax.swing.ScrollPaneConstants;
  */
 public class OverviewPanel extends JSplitPane {
 	/**
-	 * 
+	 * 4
 	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel rightPanel;
 	private final JPanel leftPanel;
+	private final JButton openSessionBtn;
+	private final JButton closedSessionBtn;
+	private final JButton allSessionsBtn;
 
 	public OverviewPanel() {
+		// Create the right side of the panel
 		rightPanel = new JPanel();
+
+		// Create the left side
 		leftPanel = new JPanel();
 
-		// list of sessions
-		String dummySessions[] = { "Session 1", "Session 2", "Session 3",
-				"Session 4", "Session 5", "Session 6", "Session 7",
-				"Session 8", "Session 9", "Session 10", "Session 11",
-				"Session 12", "Session 13", "Session 14", "Session 15",
-				"Session 16", "Session 17", "Session 18", "Session 19",
-				"Session 20", "Session 21", "Session 22", "Session 23",
-				"Session 24", "Session 25", "Session 26", "Session 27",
-				"Session 28", "Session 29", "Session 30", "Session 31",
-				"Session 32", "Session 33", "Session 34", "Session 35",
-				"Session 36", "Session 37", "Session 38", "Session 39",
-				"Session 40", "Session 41", "Session 42", "Session 43",
-				"Session 44", "Session 45", "Session 46", "Session 47",
-				"Session 48", "Session 49", "Session 50", "Session 51",
-				"Session 52", "Session 53", "Session 54", "Session 55",
-				"Session 56", "Session 57", "Session 58"};
+		// adds some padding
+		leftPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		
+		// Set leftPanel to GridLayout
+		leftPanel.setLayout(new GridLayout(6, 1, 1, 20));
 
-		// Create the list of existing sessions
-		JList<String> existingSessionsList = new JList<String>(dummySessions);
+		// Initialize the buttons
+		openSessionBtn = new JButton("Open Sessions");
+		closedSessionBtn = new JButton("Closed Sessions");
+		allSessionsBtn = new JButton("All Sessions");
 
-		leftPanel.add(existingSessionsList);
-		
-		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-		leftPanel.add(Box.createHorizontalStrut(10));
+		// Listener for Open Sessions Button
+		openSessionBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TO_DO: Get real data
+				System.out.println("YOU CLICKED ME!");
+			}
+		});
 
-		
-		// Right Panel
-		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-		JLabel overviewLabel = new JLabel("Overview");
-		overviewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-		rightPanel.add(overviewLabel);
-		rightPanel.add(Box.createVerticalStrut(500));
-		
-		JButton joinButton = new JButton("Join");
-		joinButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-		rightPanel.add(joinButton);
+		// Listener for Closed Sessions Button
+		closedSessionBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TO_DO: Get real data
+				System.out.println("YOU CLICKED ME!");
+			}
+		});
 
+		// Listener for All Sessions Button
+		allSessionsBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TO_DO: Get real data
+				System.out.println("YOU CLICKED ME!");
+			}
+		});
+
+		// Add the buttons to the leftPanel
+		leftPanel.add(openSessionBtn);
+		leftPanel.add(closedSessionBtn);
+		leftPanel.add(allSessionsBtn);
+
+		// Dummy Data for now, eventually this will be generated from BD
+
+		String[] colNames = { "ID", "Name", "Start Date", "Description",
+				"Status" };
+
+		Object[][] tableData = {
+				{ new Integer(0), "This is a name", "1/11/1111",
+						"WEEEE a description", "In Progress" },
+				{ new Integer(1), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(2), "This is a name", "1/11/1111",
+						"WEEEE a description", "In Progress" },
+				{ new Integer(3), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(4), "This is a name", "1/11/1111",
+						"WEEEE a description", "In Progress" },
+				{ new Integer(5), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(6), "This is a name", "1/11/1111",
+						"WEEEE a description", "In Progress" },
+				{ new Integer(7), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(8), "This is a name", "1/11/1111",
+						"WEEEE a description", "In Progress" },
+				{ new Integer(9), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(10), "This is a name", "1/11/1111",
+						"WEEEE a description", "In Progress" },
+				{ new Integer(11), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(12), "This is a name", "1/11/1111",
+						"WEEEE a description", "In Progress" },
+				{ new Integer(13), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(14), "This is a name", "1/11/1111",
+						"WEEEE a description", "In Progress" },
+				{ new Integer(15), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(16), "This is a name", "1/11/1111",
+						"WEEEE a description", "In Progress" },
+				{ new Integer(17), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(18), "This is a name", "1/11/1111",
+						"WEEEE a description", "In Progress" },
+				{ new Integer(19), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(20), "This is a name", "1/11/1111",
+						"WEEEE a description", "In Progress" },
+				{ new Integer(21), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(22), "This is a name", "1/11/1111",
+						"WEEEE a description", "In Progress" },
+				{ new Integer(23), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(24), "This is a name", "1/11/1111",
+						"WEEEE a description", "In Progress" },
+				{ new Integer(25), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(26), "This is a name", "1/11/1111",
+						"WEEEE a description", "In Progress" },
+				{ new Integer(27), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(28), "This is a name", "1/11/1111",
+						"WEEEE a description", "In Progress" },
+				{ new Integer(29), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(30), "This is a name", "1/11/1111",
+						"WEEEE a description", "In Progress" },
+				{ new Integer(31), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(32), "This is a name", "1/11/1111",
+						"WEEEE a description", "In Progress" },
+				{ new Integer(33), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(34), "This is a name", "1/11/1111",
+						"WEEEE a description", "In Progress" },
+				{ new Integer(35), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(36), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(37), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(38), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(39), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(40), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(41), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(42), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(43), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(44), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(45), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(46), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" },
+				{ new Integer(47), "This is another name", "2/22/2222",
+						"numbah two", "In Progress" } };
+
+		// Create Table using data above
+		// final JTable table = new JTable(tableData, colNames);
+
+		final JTable table = new JTable(tableData, colNames) {
+			private static final long serialVersionUID = 1L;
+
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			};
+		};
+
+		// Add mouse listener to check for mouse clicks on the table
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				// Check to see if user double clicked
+				if (e.getClickCount() == 2) {
+					System.out.println(table.getValueAt(table.getSelectedRow(),
+							table.getSelectedColumn()));
+					// TO_DO: OPEN SESSION DETAIL VIEW HERE
+				}
+			}
+		});
+
+		// Sets table bg to white
+		table.setBackground(Color.WHITE);
+
+		// Set layout for right panel
+		rightPanel.setLayout(new BorderLayout());
+
+		// Add table inside a JScrollPane to rightPanel
+		JScrollPane jsp = new JScrollPane(table);
+
+		// Add the JSP to the rightPanel
+		rightPanel.add(jsp);
+
+		// Set panels background to white (matching table)
+		rightPanel.setBackground(Color.WHITE);
+
+		// Add panels to main JSplitPane
 		this.setRightComponent(rightPanel);
 		this.setLeftComponent(leftPanel);
+
+		// Set divider location between right and left panel
 		this.setDividerLocation(180);
 
-		int v = ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
-		int h = ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
-		JScrollPane jsp = new JScrollPane(leftPanel, v, h);
-		this.add(jsp);
-
 	}
+
+	// Getters
+	public JButton getOpenSessionBtn() {
+		return openSessionBtn;
+	}
+
+	public JButton getClosedSessionBtn() {
+		return closedSessionBtn;
+	}
+
+	public JButton getAllSessionsBtn() {
+		return allSessionsBtn;
+	}
+
 }
