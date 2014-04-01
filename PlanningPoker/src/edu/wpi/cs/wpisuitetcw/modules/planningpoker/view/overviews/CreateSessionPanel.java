@@ -149,6 +149,19 @@ public class CreateSessionPanel extends JSplitPane {
 	}
 
 	/**
+	 * Determine whether user has entered anything in the panel Name of the
+	 * session if the only thing to be entered now
+	 * 
+	 * @return true if anything is entered; false otherwise
+	 */
+	public boolean anythingEntered() {
+		if (!(nameTextField.getText().equals(""))) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Return the name of the session
 	 * 
 	 * @return name of session
