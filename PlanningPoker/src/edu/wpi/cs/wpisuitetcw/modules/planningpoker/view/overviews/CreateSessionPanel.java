@@ -41,7 +41,7 @@ public class CreateSessionPanel extends JSplitPane {
 	/** List of requirements available to this create session tab. */
 	private ArrayList<PlanningPokerRequirement> requirements = null;
 
-		/**
+	/**
 	 * Constructs a new Create Session panel
 	 */
 	public CreateSessionPanel() {
