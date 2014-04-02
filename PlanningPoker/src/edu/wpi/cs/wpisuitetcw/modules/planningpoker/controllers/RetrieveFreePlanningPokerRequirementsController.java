@@ -67,7 +67,7 @@ public class RetrieveFreePlanningPokerRequirementsController {
 	 * @throws NotImplementedException
 	 */
 	public void receivedData(ArrayList<PlanningPokerRequirement> requirements){
-		panel.updateRequirements(requirements);
+		//panel.updateRequirements(requirements);
 	}
 
 	/**

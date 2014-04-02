@@ -1,135 +1,129 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
-import java.util.ArrayList;
+import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerDateModel;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.RetrieveFreePlanningPokerRequirementsController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
+import net.miginfocom.swing.MigLayout;
+
+import org.jdesktop.swingx.JXDatePicker;
+
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
 /**
  * Panel for New Session tab.
  * 
  * @author Rob, Ben, Jenny
  */
+
 public class CreateSessionPanel extends JSplitPane {
+	final int DEFAULT_DATA_SIZE = 30; // default data size for database entry
 
-	/** The right panel holds info about selected requirements */
-	private final JPanel rightPanel;
-	/** The left leftPanel contains reqList, name, and deadline. */
-	private final JPanel leftPanel;
-
-	/** The name textbox */
-	public JTextField nameField;
-	/** The deadline textbox */
-	public JTextField deadlineField;
+	// The right panel holds info about selected requirements
+	private final ScrollablePanel rightPanel;
+	// The left leftPanel contains reqList, name, and Deadline.
+	private final ScrollablePanel leftPanel;
 	
-	/** Model used for requirements JList */
-	DefaultListModel<String> existingRequirementsNames;
+	private final JTextField nameTextField;
 	
-	/** list of existing requirements */
-	JList<String> existingRequirements;
+	private final JButton btnSaveSession;
+	
+	private final JComboBox<SessionLiveType> dropdownType;
+	
+	private final JXDatePicker deadlinePicker;
 
-	/** List of requirements available to this create session tab. */
-	private ArrayList<PlanningPokerRequirement> requirements = null;
-
-	/**
-	 * Constructs a new Create Session panel
-	 */
+	// Constructor for our Create Session Panel
 	public CreateSessionPanel() {
-		rightPanel = new JPanel();
-		leftPanel = new JPanel();
+		// initialize left and right panel
+		rightPanel = new ScrollablePanel();
+		leftPanel = new ScrollablePanel();
 
-		RetrieveFreePlanningPokerRequirementsController controller = new RetrieveFreePlanningPokerRequirementsController(
-				this);
+		// create labels for each data field
+		JLabel labelName = new JLabel("Name *");
+		JLabel labelDeadline = new JLabel("Deadline *");
+		JLabel labelDropdownType = new JLabel("Type *");
 
-		existingRequirementsNames = new DefaultListModel<String>();
+		// create date picker
+		deadlinePicker = new JXDatePicker();
+		deadlinePicker.setDate(Calendar.getInstance().getTime());
+		deadlinePicker.setFormats(new SimpleDateFormat("MM/dd/yyyy"));
+		
+		// create time selector
+		JSpinner pickerDeadlineTime = new JSpinner( new SpinnerDateModel() );
+		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(pickerDeadlineTime, "HH:mm:ss");
+		pickerDeadlineTime.setEditor(timeEditor);
+		pickerDeadlineTime.setValue(new Date()); // will only show the current time
 
-		// Creates a List view in the UI that displays the dummy list
-		existingRequirements = new JList<String>(existingRequirementsNames);
-		existingRequirements
-				.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		existingRequirements.setLayoutOrientation(JList.VERTICAL);
-		existingRequirements.setVisibleRowCount(-1);
+		// create textfield
+		// TODO check with other people to see what the limit size for each data is
+		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
+		// JTextField fieldDeadline = new JTextField(DEFAULT_DATA_SIZE);
 
-		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+		// create dropdown menu
+		dropdownType = new JComboBox<SessionLiveType>(
+				SessionLiveType.values());
+		dropdownType.setEditable(false);
+		dropdownType.setBackground(Color.WHITE);
 
-		// Creates a Name text field in the leftPane
-		leftPanel.add(new JLabel("Name:"));
-		nameField = new JTextField(20);
-		nameField.setMaximumSize(nameField.getPreferredSize());
-		leftPanel.add(nameField);
+		// create buttons and listeners
+		btnSaveSession = new JButton("Save");
 
-		// Creates a deadline text field in the leftPane
-		leftPanel.add(new JLabel("Deadline:"));
-		deadlineField = new JTextField(20);
-		deadlineField.setMaximumSize(deadlineField.getPreferredSize());
-		leftPanel.add(deadlineField);
+		// setup right panel
+		// MigLayout is a convenient way of creating responsive layout with
+		// Swing
+		rightPanel.setLayout(new MigLayout("", "", "shrink"));
+		rightPanel.setAlignmentX(LEFT_ALIGNMENT);
 
-		// Creates a list of Reqs for the session
-		leftPanel.add(new JLabel("Requirements:"));
-		leftPanel.add(existingRequirements);
+		// labels and textfields
+		rightPanel.add(labelName, "wrap");
+		rightPanel.add(nameTextField, "width 150px, left, wrap");
 
-		leftPanel.setAlignmentY(LEFT_ALIGNMENT);
-		leftPanel.add(Box.createHorizontalStrut(10));
+		rightPanel.add(labelDeadline, "wrap");
+		rightPanel.add(deadlinePicker, "width 100px");
+		
+		rightPanel.add(pickerDeadlineTime, "width 100px, wrap");
+		// leftPanel.add(fieldDeadline, "growx, pushx, shrinkx, span, wrap");
 
-		this.setRightComponent(rightPanel);
+		// dropdowns
+		rightPanel.add(labelDropdownType, "wrap");
+		rightPanel.add(dropdownType, "width 150px, left, wrap");
+		
+		// buttons
+		rightPanel.add(btnSaveSession, "width 150px, left, wrap");
+		
+		btnSaveSession.addActionListener(new AddSessionController(this));
+
+		// Adding UI to the rightPane
 		this.setLeftComponent(leftPanel);
+		this.setRightComponent(rightPanel);
 		this.setDividerLocation(180);
-
-		controller.refreshData();
 	}
 
-	/**
-	 * Updates the requirement list model with a new list of names.
-	 * 
-	 * @param names
-	 *            The new list of names
-	 */
-	public void updateRequirementsList(String[] names) {
-		existingRequirementsNames.removeAllElements();
-		for (String name : names) {
-			existingRequirementsNames.addElement(name);
-		}
+	public JTextField getNameTextField() {
+		return nameTextField;
 	}
 
-	/**
-	 * Updates internal list of requirements as well as the model for the list.
-	 * 
-	 * @param requirements
-	 *            The list of new requirements
-	 */
-	public void updateRequirements(ArrayList<PlanningPokerRequirement> requirements) {
-		setRequirements(requirements);
-		ArrayList<String> names = new ArrayList<String>();
-		for (PlanningPokerRequirement requirement : requirements) {
-			names.add(requirement.getName());
-		}
-		updateRequirementsList(names.toArray(new String[0]));
+	public JButton getBtnSaveSession() {
+		return btnSaveSession;
 	}
 
-	/**
-	 * 
-	 * @return The internal list of planning poker requirements
-	 */
-	public ArrayList<PlanningPokerRequirement> getRequirements() {
-		return requirements;
+	public JComboBox<SessionLiveType> getDropdownType() {
+		return dropdownType;
 	}
 
-	/**
-	 * 
-	 * @param requirements
-	 *            A list of new planning poker requirements
-	 */
-	public void setRequirements(ArrayList<PlanningPokerRequirement> requirements) {
-		this.requirements = requirements;
+	public JXDatePicker getDeadlinePicker() {
+		return deadlinePicker;
 	}
+
 }

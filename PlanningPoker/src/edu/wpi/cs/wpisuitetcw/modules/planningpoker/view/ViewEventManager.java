@@ -6,13 +6,15 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 import javax.swing.JComponent;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 
 /**
+ * 
  * @author troyling
  * 
  */
-public class ViewEventController {
-	private static ViewEventController instance = null;
+public class ViewEventManager {
+	private static ViewEventManager instance = null;
 	private MainView main;
 	private ToolbarView toolbarView;
 
@@ -20,7 +22,7 @@ public class ViewEventController {
 	 * Default constructor for ViewEventController. It is set to private to
 	 * prevent instantiation.
 	 */
-	private ViewEventController() {
+	private ViewEventManager() {
 	}
 
 	/**
@@ -28,9 +30,9 @@ public class ViewEventController {
 	 * 
 	 * @return The instance of the controller
 	 */
-	public static ViewEventController getInstance() {
+	public static ViewEventManager getInstance() {
 		if (instance == null) {
-			instance = new ViewEventController();
+			instance = new ViewEventManager();
 		}
 		return instance;
 	}
@@ -56,7 +58,6 @@ public class ViewEventController {
 	
 	/**
 	 * Sets the main view to the given view.
-	
 	 * @param mainview MainView
 	 */
 	public void setMainView(MainView mainview) {
@@ -72,6 +73,11 @@ public class ViewEventController {
 	public void removeTab(JComponent component) {
 		main.remove(component);
 		
+	}
+
+	public void openSessionView(int id) throws NotImplementedException {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
 	}
 	
 	

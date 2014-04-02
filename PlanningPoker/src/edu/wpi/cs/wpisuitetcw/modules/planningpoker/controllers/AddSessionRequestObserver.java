@@ -55,6 +55,8 @@ public class AddSessionRequestObserver implements RequestObserver {
 
 		// Parse the message out of the response body
 		final PlanningPokerSession session = PlanningPokerSession.fromJson(response.getBody());
+		
+		controller.onSuccess(session);
 
 	}
 
