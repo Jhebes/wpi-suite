@@ -256,6 +256,10 @@ public class PlanningPokerSession extends AbstractModel {
 		// i.e., add isActivated, etc.
 		if (isCancelled) {
 			return "Cancelled";
+		} else if (isOpen()) {
+			return "Open";
+		} else if (isClosed()) {
+			return "Closed";
 		} else {
 			return "New";
 		}		

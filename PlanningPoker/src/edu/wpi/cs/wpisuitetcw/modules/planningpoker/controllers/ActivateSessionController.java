@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTableSessionTableModel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -34,7 +35,7 @@ public class ActivateSessionController implements ActionListener {
 	public void onSuccess() {
 		ViewEventManager.getInstance().removeTab(panel);
 		ViewEventManager.getInstance().viewSession(session);
-		//asdf
+		GetAllSessionsController.getInstance().retrieveSessions();
 	}
 
 }

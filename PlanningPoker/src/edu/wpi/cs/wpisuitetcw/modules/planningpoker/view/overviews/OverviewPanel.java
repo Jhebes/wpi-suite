@@ -88,12 +88,6 @@ public class OverviewPanel extends JSplitPane {
 			}
 		};
 
-		openSessionBtn.addActionListener(new GetOpenSessionsController(this));
-		closedSessionBtn
-				.addActionListener(new GetClosedSessionsController(this));
-		allSessionsBtn
-				.addActionListener(GetAllSessionsController.getInstance());
-
 		// Add the buttons to the leftPanel
 		leftPanel.add(openSessionBtn);
 		leftPanel.add(closedSessionBtn);
