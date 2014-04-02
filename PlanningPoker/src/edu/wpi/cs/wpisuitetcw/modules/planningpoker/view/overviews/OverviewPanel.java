@@ -19,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventController;
 
 /**
@@ -26,9 +27,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventController;
  * 
  */
 public class OverviewPanel extends JSplitPane {
-	/**
-	 * 4
-	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel rightPanel;
 	private final JPanel leftPanel;
@@ -92,103 +90,152 @@ public class OverviewPanel extends JSplitPane {
 				"Status" };
 
 		Object[][] tableData = {
-				{ new Integer(0), "This is a name", "1/11/1111",
-						"WEEEE a description", "In Progress" },
-				{ new Integer(1), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(2), "This is a name", "1/11/1111",
-						"WEEEE a description", "In Progress" },
-				{ new Integer(3), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(4), "This is a name", "1/11/1111",
-						"WEEEE a description", "In Progress" },
-				{ new Integer(5), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(6), "This is a name", "1/11/1111",
-						"WEEEE a description", "In Progress" },
-				{ new Integer(7), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(8), "This is a name", "1/11/1111",
-						"WEEEE a description", "In Progress" },
-				{ new Integer(9), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(10), "This is a name", "1/11/1111",
-						"WEEEE a description", "In Progress" },
-				{ new Integer(11), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(12), "This is a name", "1/11/1111",
-						"WEEEE a description", "In Progress" },
-				{ new Integer(13), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(14), "This is a name", "1/11/1111",
-						"WEEEE a description", "In Progress" },
-				{ new Integer(15), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(16), "This is a name", "1/11/1111",
-						"WEEEE a description", "In Progress" },
-				{ new Integer(17), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(18), "This is a name", "1/11/1111",
-						"WEEEE a description", "In Progress" },
-				{ new Integer(19), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(20), "This is a name", "1/11/1111",
-						"WEEEE a description", "In Progress" },
-				{ new Integer(21), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(22), "This is a name", "1/11/1111",
-						"WEEEE a description", "In Progress" },
-				{ new Integer(23), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(24), "This is a name", "1/11/1111",
-						"WEEEE a description", "In Progress" },
-				{ new Integer(25), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(26), "This is a name", "1/11/1111",
-						"WEEEE a description", "In Progress" },
-				{ new Integer(27), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(28), "This is a name", "1/11/1111",
-						"WEEEE a description", "In Progress" },
-				{ new Integer(29), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(30), "This is a name", "1/11/1111",
-						"WEEEE a description", "In Progress" },
-				{ new Integer(31), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(32), "This is a name", "1/11/1111",
-						"WEEEE a description", "In Progress" },
-				{ new Integer(33), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(34), "This is a name", "1/11/1111",
-						"WEEEE a description", "In Progress" },
-				{ new Integer(35), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(36), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(37), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(38), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(39), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(40), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(41), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(42), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(43), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(44), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(45), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(46), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" },
-				{ new Integer(47), "This is another name", "2/22/2222",
-						"numbah two", "In Progress" } };
-
+				{
+					Integer.valueOf(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					Integer.valueOf(1), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(2), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					Integer.valueOf(3), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(4), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					Integer.valueOf(5), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(6), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					Integer.valueOf(7), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(8), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					Integer.valueOf(9), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(10), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					Integer.valueOf(11), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(12), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					Integer.valueOf(13), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(14), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					Integer.valueOf(15), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(16), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					Integer.valueOf(17), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(18), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					Integer.valueOf(19), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(20), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					Integer.valueOf(21), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(22), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					Integer.valueOf(23), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(24), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					Integer.valueOf(25), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(26), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					Integer.valueOf(27), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(28), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					Integer.valueOf(29), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(30), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					Integer.valueOf(31), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(32), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					Integer.valueOf(33), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(34), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
+				},
+				{
+					Integer.valueOf(35), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(36), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(37), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(38), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(39), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(40), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(41), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(42), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(43), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(44), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(45), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(46), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				},
+				{
+					Integer.valueOf(47), "This is another name", "2/22/2222", "numbah two", "In Progress"
+				}
+		};
+		
 		// Create Table using data above
 		// final JTable table = new JTable(tableData, colNames);
 
@@ -247,6 +294,10 @@ public class OverviewPanel extends JSplitPane {
 
 	public JButton getAllSessionsBtn() {
 		return allSessionsBtn;
+	}
+	
+	public void recieveSessionList(PlanningPokerSession[] pps) {
+		
 	}
 
 }
