@@ -16,7 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTableSessionTableModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -27,14 +27,35 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class GetAllSessionsController implements ActionListener {
 
-	private CreateSessionPanel view;
+	private static GetAllSessionsController instance;
+	
+	/**
+	 * Instantiates a new controller tied to the specified view.
+	 * Private because this is a singleton.
+	 */
+	private GetAllSessionsController() {
+	}
+	
+	public static GetAllSessionsController getInstance() {
+		if (instance == null) {
+			instance = new GetAllSessionsController();
+		}
+		return instance;
+	}
+	
 
-	public GetAllSessionsController(CreateSessionPanel view) {
-		this.view = view;
+	public void receivedSessions(PlanningPokerSession[] sessions) {
+		OverviewTableSessionTableModel.getInstance().refreshSessions(sessions);
 	}
 
+	/**
+	 * Initiate the request to the server on click
+	 * 
+	 * @param e
+	 *            The triggering event
+	 */
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {		
 		// Send a request to the core to retrieve the sessions
 		final Request request = Network.getInstance().makeRequest(
 				"planningpoker/session", HttpMethod.GET);
@@ -43,14 +64,11 @@ public class GetAllSessionsController implements ActionListener {
 	}
 
 	/**
-	 * Add the given messages to the local model (they were received from the
-	 * core). This method is called by the GetMessagesRequestObserver
-	 * 
-	 * @param messages
-	 *            an array of messages received from the server
+	 * Retrieves the sessions from the database.
 	 */
-	public void receivedSessions(PlanningPokerSession[] sessions) {
-		// Uncomment when view is updated to receive this
-		// this.view.receiveSessionList(sessions);
+	public void retrieveSessions() {
+		actionPerformed(null);
 	}
+	
+	
 }

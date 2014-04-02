@@ -19,6 +19,7 @@ import java.util.Date;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTableSessionTableModel;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -77,7 +78,7 @@ public class AddSessionController implements ActionListener {
 		// Create a new session and populate its data
 		PlanningPokerSession session = new PlanningPokerSession();
 		session.setName(name);
-		session.setEndTime(d);
+		session.setDeadline(d);
 
 		// Add all checked requirements
 		// ArrayList<PlanningPokerRequirement> reqs = view.getRequirements();
@@ -87,7 +88,6 @@ public class AddSessionController implements ActionListener {
 		this.sessionName = name;
 		
 		this.saveSession(session);
-
 	}
 
 	/*
@@ -110,5 +110,6 @@ public class AddSessionController implements ActionListener {
 	public void onSuccess(PlanningPokerSession session) {
 		ViewEventManager.getInstance().removeTab(this.view);
 		ViewEventManager.getInstance().viewSession(this.sessionName);
+		GetAllSessionsController.getInstance().retrieveSessions();
 	}
 }

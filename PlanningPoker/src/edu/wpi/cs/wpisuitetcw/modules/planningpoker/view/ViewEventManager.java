@@ -86,7 +86,5 @@ public class ViewEventManager {
 		main.remove(component);
 		
 	}
-
-	
 	
 }
