@@ -98,6 +98,7 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 	public void testRecievedData(){
 //		assertNull(panel.getRequirements());
 		controller.refreshData();
+		PlanningPokerRequirement ppreq = new PlanningPokerRequirement(-1, "Test", "");
 		ArrayList<PlanningPokerRequirement> requirements = new ArrayList<PlanningPokerRequirement>();
 		requirements.add(new PlanningPokerRequirement(-1, "Test", ""));
 		controller.receivedData(requirements);

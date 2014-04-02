@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 /**
- * Planning Poker Session class
+ * PlanningPokerSession class represents a planning poker session
  * 
  * @author Josh Hebert
  * 
@@ -26,14 +26,42 @@ public class PlanningPokerSession extends AbstractModel {
 	
 	//When the session should end (has ended, depending on time perspective)
 	private Date endTime = null;
-	
-	//The name of the session;
+
+	// TODO: fix
+	private Date deadline = null;
+
+	// The name of the session;
 	private String name = "";
 
 	/**
-	 * Cancels a session 
-	 * -------------------
-	 * Implementation: setting isCancelled to true
+	 * Constructs a PlanningPokerSession for the given string message
+	 * 
+	 * @param message
+	 */
+	public PlanningPokerSession() {
+
+	}
+	
+	/**
+	 * Return true if the session is closed
+	 * 
+	 * @return Return true if the session if closed
+	 */
+	public boolean isClosed() {
+		return getStatus().equals("Closed");
+	}
+	
+	/**
+	 * Return true if the session is open
+	 * 
+	 * @return Return true if the session is open
+	 */
+	public boolean isOpen() {
+		return getStatus().equals("Open");
+	}
+
+	/**
+	 * Cancels a session by setting isCancelled to true
 	 * and its finish time to the current time
 	 */
 	public void cancel() {
@@ -44,15 +72,17 @@ public class PlanningPokerSession extends AbstractModel {
 	
 	/**
 	 * Sets the end date of this session
-	 * @param d The date that the session should end
+	 * 
+	 * @param d
+	 *            The date that the session should end
 	 */
-	public void setEndTime(Date d){
+	public void setEndTime(Date d) {
 		this.endTime = d;
 	}
-	
-	
+
 	/**
 	 * Returns true if this session has been prematurely terminated
+	 * 
 	 * @return Returns true if this session has been prematurely terminated
 	 */
 	public boolean isCancelled() {
@@ -73,6 +103,7 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Returns true it is open to voting in the meantime
+	 * 
 	 * @return Returns true it is open to voting in the meantime
 	 */
 	public boolean isActive() {
@@ -80,7 +111,7 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * Return true if this session has been assigned a completed time, 
+	 * Return true if this session has been assigned a completed time,
 	 * indicating that the session has been terminated in some way
 	 * 
 	 * @return Return true if this session has been assigned a completed time
@@ -91,6 +122,7 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Sets the name of this session
+	 * 
 	 * @param name
 	 */
 	public void setName(String name) {
@@ -99,6 +131,7 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Return the name of this session
+	 * 
 	 * @return Name of this session
 	 */
 	public String getName() {
@@ -107,6 +140,7 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Set the ID of this session
+	 * 
 	 * @param id
 	 */
 	public void setID(int id) {
@@ -124,7 +158,16 @@ public class PlanningPokerSession extends AbstractModel {
 	
 	// Functions for requirements
 	
-	/* Sets sessionIds for the PlanningPokerRequirements
+	public Date getDeadline() {
+		return deadline;
+	}
+
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
+	}
+
+	/**
+	 * Sets sessionIds for the PlanningPokerRequirements
 	 * @param newReq -> new Requirements to be added
 	 */
 	public void addRequirements(ArrayList<PlanningPokerRequirement> newReqs){
@@ -133,8 +176,8 @@ public class PlanningPokerSession extends AbstractModel {
 		}
 	}
 	
-	
-	/* Deletes a requirement by requirement ID
+	/**
+	 * Deletes a requirement by requirement ID
 	 * @param requirementID -> ID of requirement to be deleted
 	 */
 	public void deleteRequirements(ArrayList<PlanningPokerRequirement> reqs){
@@ -170,17 +213,6 @@ public class PlanningPokerSession extends AbstractModel {
 	 * reqsList.remove(i); break; } } }
 	 */
 
-
-
-	/**
-	 * Constructs a PlanningPokerSession for the given string message
-	 * 
-	 * @param message
-	 */
-	public PlanningPokerSession() {
-
-	}
-
 	/**
 	 * Converts the model to a JSON String
 	 */
@@ -214,6 +246,19 @@ public class PlanningPokerSession extends AbstractModel {
 	public static PlanningPokerSession[] fromJsonArray(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, PlanningPokerSession[].class);
+	}
+	
+	/**
+	 * @return The current status of this session.
+	 */
+	public String getStatus() {
+		// TODO: Add more statuses as more methods get implemented
+		// i.e., add isActivated, etc.
+		if (isCancelled) {
+			return "Cancelled";
+		} else {
+			return "New";
+		}		
 	}
 
 	/*
