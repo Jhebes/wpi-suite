@@ -5,11 +5,9 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -18,10 +16,10 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllSessionsController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetClosedSessionsController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetOpenSessionsController;
 
 /**
  * @author troyling, Jake, Zack
@@ -57,6 +55,10 @@ public class OverviewPanel extends JSplitPane {
 		leftPanel.add(openSessionBtn);
 		leftPanel.add(closedSessionBtn);
 		leftPanel.add(allSessionsBtn);
+		
+		openSessionBtn.addActionListener(new GetOpenSessionsController(this));
+		closedSessionBtn.addActionListener(new GetClosedSessionsController(this));
+		allSessionsBtn.addActionListener(GetAllSessionsController.getInstance());
 
 		// Create Table using data above
 

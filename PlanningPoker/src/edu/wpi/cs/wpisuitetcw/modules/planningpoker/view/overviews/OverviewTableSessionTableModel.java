@@ -41,6 +41,7 @@ public class OverviewTableSessionTableModel extends DefaultTableModel {
 	 *            The new list of sessions
 	 */
 	public void refreshSessions(PlanningPokerSession[] sessions) {
+		this.setDataVector(null, colNames);
 		for (PlanningPokerSession session : sessions) {
 			Object[] row = { 
 				session.getID(), 

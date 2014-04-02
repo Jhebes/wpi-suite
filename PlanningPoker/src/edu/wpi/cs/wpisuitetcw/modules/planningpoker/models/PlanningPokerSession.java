@@ -48,8 +48,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @return Return true if the session if closed
 	 */
 	public boolean isClosed() {
-		// TODO implement
-		return true;
+		return getStatus().equals("Closed");
 	}
 	
 	/**
@@ -58,8 +57,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @return Return true if the session is open
 	 */
 	public boolean isOpen() {
-		// TODO implement
-		return true;
+		return getStatus().equals("Open");
 	}
 
 	/**
