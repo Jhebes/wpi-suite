@@ -1,36 +1,24 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
-import javax.swing.JSplitPane;
-import javax.swing.JPanel;
-import javax.swing.BoxLayout;
-
+import java.awt.BorderLayout;
 import java.awt.Color;
-
-import javax.swing.JLabel;
-
 import java.awt.Component;
-
-import javax.swing.Box;
-import javax.swing.JTextField;
-
 import java.awt.Font;
 import java.awt.SystemColor;
 
-import javax.swing.JList;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddVoteController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.RetrieveAllPlanningPokerVoteController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 
 public class SessionInProgressPanel extends JSplitPane {
@@ -106,6 +94,13 @@ public class SessionInProgressPanel extends JSplitPane {
 		btnSubmit.addActionListener(new AddVoteController(this));
 		panel.add(btnSubmit);
 
+		
+		JButton btnGetAllVotes = new JButton("Get All Votes");
+		btnGetAllVotes.addActionListener(new RetrieveAllPlanningPokerVoteController(this, new PlanningPokerRequirement()));
+		panel.add(btnGetAllVotes);
+		
+		
+		
 		setLeftComponent(LeftPanel);
 		setRightComponent(RightPanel);
 	}
@@ -115,7 +110,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		for(PlanningPokerVote v: votes){
 			text += String.valueOf(v.getCardValue()) + "\n";
 		}
-		System.out.println("Recieved votes: " + text);
+		//System.out.println("Recieved votes: " + text);
 		this.textField.setText(text);
 	}
 	

@@ -78,10 +78,12 @@ public class PlanningPokerVoteEntityManager implements
 	@Override
 	public PlanningPokerVote[] getEntity(Session s, String id)
 			throws NotFoundException {
+		
 		final int intID = Integer.parseInt(id);
 		if (intID < 1) {
 			throw new NotFoundException();
 		}
+		
 		PlanningPokerVote[] votes = null;
 		try {
 			votes = db.retrieve(PlanningPokerVote.class, "id", intID,
@@ -168,6 +170,7 @@ public class PlanningPokerVoteEntityManager implements
 	 */
 	@Override
 	public void deleteAll(Session s) throws WPISuiteException {
+		System.out.println("Deleting all votes...");
 		db.deleteAll(new PlanningPokerVote(), s.getProject());
 	}
 
