@@ -103,8 +103,6 @@ public class OverviewPanel extends JSplitPane {
 			public void mouseClicked(MouseEvent e) {
 				// Check to see if user double clicked
 				if (e.getClickCount() == 2) {
-					System.out.println(table.getValueAt(table.getSelectedRow(),
-							table.getSelectedColumn()));
 					JTable resultsTable = (JTable) e.getSource();
 					int row = resultsTable.rowAtPoint(e.getPoint());
 					

@@ -3,6 +3,9 @@
  */
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
@@ -43,10 +46,16 @@ public class OverviewTableSessionTableModel extends DefaultTableModel {
 	public void refreshSessions(PlanningPokerSession[] sessions) {
 		this.setDataVector(null, colNames);
 		for (PlanningPokerSession session : sessions) {
+			Date deadline = session.getDeadline();
+			String formattedDeadline = "";
+			if (deadline != null) {
+				formattedDeadline = DateFormat.getInstance().format(deadline);	
+			}
+			
 			Object[] row = { 
 				session.getID(), 
 				session.getName(),
-				session.getDeadline(), 
+				formattedDeadline, 
 				session.getStatus()
 			};
 			this.addRow(row);
