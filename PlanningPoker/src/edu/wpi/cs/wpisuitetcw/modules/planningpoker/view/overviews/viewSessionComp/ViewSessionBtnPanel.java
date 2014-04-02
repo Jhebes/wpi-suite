@@ -3,9 +3,13 @@
  */
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.ActivateSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 
 /**
@@ -24,6 +28,8 @@ public class ViewSessionBtnPanel extends JPanel{
 		// set up buttons
 		this.addBtn = new JButton("Add Requirements");
 		this.activateBtn = new JButton("Activate Session");
+		
+		activateBtn.addActionListener(new ActivateSessionController(parentPanel, parentPanel.getPPSession()));
 		
 		// add buttons
 		this.add(this.addBtn);

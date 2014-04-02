@@ -17,10 +17,10 @@ import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionTableModel;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
-import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
@@ -50,8 +50,6 @@ public class RetrieveFreePlanningPokerRequirementsController implements ActionLi
 
 	/**
 	 * Sends a request for all of the requirements
-	 * 
-	 * @throws NotImplementedException
 	 */
 	public void refreshData(){
 		final Request request = Network.getInstance().makeRequest("planningpoker/requirement", HttpMethod.GET);
@@ -69,7 +67,7 @@ public class RetrieveFreePlanningPokerRequirementsController implements ActionLi
 	 * @throws NotImplementedException
 	 */
 	public void receivedData(ArrayList<PlanningPokerRequirement> requirements){
-		//panel.updateRequirements(requirements);
+		ViewSessionTableModel.getInstance().refreshRequirements(requirements);
 	}
 
 	/**

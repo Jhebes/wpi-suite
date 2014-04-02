@@ -65,6 +65,7 @@ public class OverviewPanel extends JSplitPane {
 		final JTable table = new JTable(
 				OverviewTableSessionTableModel.getInstance()) {
 			private static final long serialVersionUID = 1L;
+			private boolean initialized = false;
 
 			public boolean isCellEditable(int row, int column) {
 				return false;
@@ -72,6 +73,18 @@ public class OverviewPanel extends JSplitPane {
 
 			public void valueChanged(ListSelectionEvent e) {
 
+			}
+			
+			@Override
+			public void repaint() {
+				try {
+					if (!initialized) {
+						GetAllSessionsController.getInstance().retrieveSessions();
+						initialized = true;
+					}
+				} catch (Exception e) {
+					
+				}
 			}
 		};
 
@@ -96,8 +109,9 @@ public class OverviewPanel extends JSplitPane {
 
 					if (row > -1) {
 						// Gets the name, which is index 1
-						String sessionName = (String) table.getValueAt(row, 1);
-						ViewEventManager.getInstance().viewSession(sessionName);
+						PlanningPokerSession session = OverviewTableSessionTableModel
+								.getInstance().getSessions()[row];
+						ViewEventManager.getInstance().viewSession(session);
 					}
 				}
 			}

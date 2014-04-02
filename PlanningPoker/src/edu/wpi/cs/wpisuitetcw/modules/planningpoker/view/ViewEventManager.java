@@ -5,7 +5,9 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import javax.swing.JComponent;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 
 /**
@@ -51,11 +53,19 @@ public class ViewEventManager {
 	/**
 	 * Opens a new tab for viewing a session
 	 */
-	public void viewSession(String sessionName) {
-		ViewSessionPanel viewSession = new ViewSessionPanel(sessionName);
-		main.addTab(sessionName, null, viewSession, "View Session.");
-		main.repaint();
-		main.setSelectedComponent(viewSession);
+	public void viewSession(PlanningPokerSession session) {
+		if (session.isActive()) {
+			SessionInProgressPanel panel = new SessionInProgressPanel();
+			main.addTab(session.getName(), null, panel, "Session in progress.");
+			main.repaint();
+			main.setSelectedComponent(panel);
+		} else {
+			ViewSessionPanel viewSession = new ViewSessionPanel(session);
+			main.addTab(session.getName(), null, viewSession, "View Session.");
+			main.repaint();
+			main.setSelectedComponent(viewSession);
+		}
+		
 	}
 	
 	

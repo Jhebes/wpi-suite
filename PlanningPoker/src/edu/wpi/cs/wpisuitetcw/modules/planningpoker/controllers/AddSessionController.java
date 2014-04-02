@@ -104,7 +104,7 @@ public class AddSessionController implements ActionListener {
 	// removes a tab and opens another
 	public void onSuccess(PlanningPokerSession session) {
 		ViewEventManager.getInstance().removeTab(this.view);
-		ViewEventManager.getInstance().viewSession(this.sessionName);
+		ViewEventManager.getInstance().viewSession(session);
 		GetAllSessionsController.getInstance().retrieveSessions();
 	}
 }

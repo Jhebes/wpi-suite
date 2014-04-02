@@ -18,23 +18,15 @@ public class MainView extends JTabbedPane {
 	 * Serializable ID
 	 */
 	private static final long serialVersionUID = 4184001083813964646L;
-	private OverviewPanel overivewPanel;
-	private CreateSessionPanel createSessionPanel;
-	private SessionInProgressPanel sessionInProgressPanel;
+	private OverviewPanel overviewPanel;
 
 	/**
 	 * Create the panel.
 	 */
 
 	public MainView() {
-		overivewPanel = new OverviewPanel();
-		this.addTab("Overview", overivewPanel);
-		
-		createSessionPanel = new CreateSessionPanel();
-		this.addTab("New Session", createSessionPanel);
-		
-		sessionInProgressPanel = new SessionInProgressPanel();
-		this.addTab("In Progress", sessionInProgressPanel);
+		overviewPanel = new OverviewPanel();
+		this.addTab("Overview", overviewPanel);
 	}
 	
 	/**

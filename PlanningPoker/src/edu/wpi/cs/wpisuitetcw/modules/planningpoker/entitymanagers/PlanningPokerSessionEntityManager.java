@@ -140,9 +140,26 @@ public class PlanningPokerSessionEntityManager implements
 	public PlanningPokerSession update(Session s, String content)
 			throws WPISuiteException {
 
-		// This module does not allow PlanningPokerSessions to be modified, so
-		// throw an exception
-		throw new WPISuiteException();
+		PlanningPokerSession updatedSession = PlanningPokerSession.fromJson(content);
+		/*
+		 * Because of the disconnected objects problem in db4o, we can't just save PlanningPokerSessions.
+		 * We have to get the original defect from db4o, copy properties from updatedPlanningPokerSession,
+		 * then save the original PlanningPokerSession again.
+		 */
+		List<Model> oldPlanningPokerSessions = db.retrieve(PlanningPokerSession.class, "id", updatedSession.getID(), s.getProject());
+		if(oldPlanningPokerSessions.size() < 1 || oldPlanningPokerSessions.get(0) == null) {
+			throw new BadRequestException("PlanningPokerSession with ID does not exist.");
+		}
+				
+		PlanningPokerSession existingSession = (PlanningPokerSession)oldPlanningPokerSessions.get(0);		
+
+		// copy values to old PlanningPokerSession and fill in our changeset appropriately
+		existingSession.copyFrom(updatedSession);
+		
+		if(!db.save(existingSession, s.getProject())) {
+			throw new WPISuiteException("Could not save when updating existing session.");
+		}
+		return existingSession;
 	}
 
 	/*

@@ -48,7 +48,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @return Return true if the session if closed
 	 */
 	public boolean isClosed() {
-		return getStatus().equals("Closed");
+		return isDone();
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @return Return true if the session is open
 	 */
 	public boolean isOpen() {
-		return getStatus().equals("Open");
+		return isActive();
 	}
 
 	/**
@@ -285,6 +285,14 @@ public class PlanningPokerSession extends AbstractModel {
 	@Override
 	public Boolean identify(Object o) {
 		return null;
+	}
+
+	public void copyFrom(PlanningPokerSession updatedSession) {
+		this.isCancelled = updatedSession.isCancelled;
+		this.startTime = updatedSession.startTime;
+		this.endTime = updatedSession.endTime;
+		this.deadline = updatedSession.deadline;
+		this.name = updatedSession.name;
 	}
 
 }

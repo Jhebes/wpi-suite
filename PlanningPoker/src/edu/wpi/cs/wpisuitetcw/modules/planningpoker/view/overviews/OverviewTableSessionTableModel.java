@@ -22,6 +22,7 @@ public class OverviewTableSessionTableModel extends DefaultTableModel {
 
 	private static OverviewTableSessionTableModel instance;
 	private final String[] colNames = { "ID", "Name", "Deadline", "Status" };
+	private PlanningPokerSession[] sessions = {};
 
 	/**
 	 * Constructs a table session for the overview table.
@@ -45,6 +46,7 @@ public class OverviewTableSessionTableModel extends DefaultTableModel {
 	 */
 	public void refreshSessions(PlanningPokerSession[] sessions) {
 		this.setDataVector(null, colNames);
+		this.sessions = sessions;
 		for (PlanningPokerSession session : sessions) {
 			Date deadline = session.getDeadline();
 			String formattedDeadline = "";
@@ -60,6 +62,14 @@ public class OverviewTableSessionTableModel extends DefaultTableModel {
 			};
 			this.addRow(row);
 		}
+	}
+
+	public PlanningPokerSession[] getSessions() {
+		return sessions;
+	}
+
+	public void setSessions(PlanningPokerSession[] sessions) {
+		this.sessions = sessions;
 	}
 
 }
