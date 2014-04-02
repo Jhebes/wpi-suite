@@ -71,9 +71,11 @@ public class PlanningPokerVote extends AbstractModel {
 	 */
 	@Override
 	public String toString() {
-		return ("ID: " + this.id + "   Session ID: " + this.session.getID()
-				+ "   Requirement ID: " + this.requirement.getId()
-				+ "   User ID: " + this.user.getIdNum() + "   Card Info: " + this.cardValue);
+//		return ("ID: " + this.id + "   Session ID: " + this.session.getID()
+//				+ "   Requirement ID: " + this.requirement.getId()
+//				+ "   User ID: " + this.user.getIdNum() + "   Card Info: " + this.cardValue);
+		
+		return "ID: " + this.id + ", Value: " + this.cardValue;
 	}
 
 	

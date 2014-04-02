@@ -103,7 +103,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		textField.setColumns(10);
 
 		JButton btnSubmit = new JButton("Submit");
-		btnSubmit.addActionListener(new AddVoteController());
+		btnSubmit.addActionListener(new AddVoteController(this));
 		panel.add(btnSubmit);
 
 		setLeftComponent(LeftPanel);

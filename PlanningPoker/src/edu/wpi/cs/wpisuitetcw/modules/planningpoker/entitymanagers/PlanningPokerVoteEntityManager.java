@@ -44,14 +44,23 @@ public class PlanningPokerVoteEntityManager implements
 	public PlanningPokerVote makeEntity(Session s, String content)
 			throws BadRequestException, ConflictException, WPISuiteException {
 
-		final PlanningPokerVote newVote = PlanningPokerVote.fromJson(content);
 
+		final PlanningPokerVote newVote = PlanningPokerVote.fromJson(content);
+		int newID;
+		PlanningPokerVote[] allSessions = this.getAll(s);
+		if (allSessions.length == 0) {
+			newID = 1;
+		} else {
+			PlanningPokerVote mostRecent = allSessions[allSessions.length - 1];
+			newID = mostRecent.getID() + 1;
+		}
+		newVote.setID(newID);
 		// try to save the vote to the database throw WPISuiteException if this
 		// doesn't work
 		if (!db.save(newVote, s.getProject())) {
 			throw new WPISuiteException();
 		}
-
+		
 		// return the new vote
 		return newVote;
 	}

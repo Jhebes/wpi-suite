@@ -15,7 +15,6 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
-
 /**
  * Handles requests to server to store sessions of Planning Poker
  * 
@@ -25,7 +24,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 public class AddVoteRequestObserver implements RequestObserver {
 
 	// The controller this is tied to
-	//private final AddVoteController controller;
+	// private final AddVoteController controller;
 
 	/**
 	 * Creates a listener attached to the controller
@@ -34,7 +33,7 @@ public class AddVoteRequestObserver implements RequestObserver {
 	 *            Tied controller
 	 */
 	public AddVoteRequestObserver(AddVoteController addVoteController) {
-		//this.controller = addVoteController;
+		// this.controller = addVoteController;
 	}
 
 	/*
@@ -47,9 +46,7 @@ public class AddVoteRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-
 		System.out.println("Vote successfully stored!");
-
 	}
 
 	/**
@@ -57,7 +54,8 @@ public class AddVoteRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		System.err.println("The request to add a vote failed. (Response Error)");
+		System.err
+				.println("The request to add a vote failed. (Response Error)");
 	}
 
 	/**
@@ -65,7 +63,8 @@ public class AddVoteRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		System.err.println("The request to add a vote failed. (General Failure)");
+		System.err
+				.println("The request to add a vote failed. (General Failure)");
 	}
 
 }

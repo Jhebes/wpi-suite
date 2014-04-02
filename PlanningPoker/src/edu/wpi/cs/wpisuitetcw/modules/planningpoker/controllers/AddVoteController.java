@@ -16,7 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
-
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -31,8 +31,10 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class AddVoteController implements ActionListener {
 
-	public AddVoteController() {
-
+	private SessionInProgressPanel view;
+	
+	public AddVoteController(SessionInProgressPanel view) {
+		this.view = view;
 	}
 
 	/*
@@ -44,13 +46,11 @@ public class AddVoteController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		PlanningPokerVote vote = new PlanningPokerVote();
-		vote.setID((int)(Math.random()*1000));
-		vote.setCardValue((int)(Math.random()*1000));
+		vote.setCardValue(Integer.parseInt(view.getTextField().getText()));
 		
 		// Send a request to the core to save this message
 		// Create the request
-		final Request request = Network.getInstance().makeRequest(
-				"planningpoker/vote", HttpMethod.PUT);
+		final Request request = Network.getInstance().makeRequest("planningpoker/vote", HttpMethod.PUT);
 		// Set the data to be the session to save (converted to JSON)
 		request.setBody(vote.toJSON());
 		
