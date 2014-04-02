@@ -21,6 +21,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllSessionsCo
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetClosedSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetOpenSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
 /**
  * @author troyling, Jake, Zack
@@ -85,16 +86,19 @@ public class OverviewPanel extends JSplitPane {
 		leftPanel.add(closedSessionBtn);
 		leftPanel.add(allSessionsBtn);
 
-		// Dummy Data for now, eventually this will be generated from BD
-
 		// Add mouse listener to check for mouse clicks on the table
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				// Check to see if user double clicked
 				if (e.getClickCount() == 2) {
-					System.out.println(table.getValueAt(table.getSelectedRow(),
-							table.getSelectedColumn()));
-					// TO_DO: OPEN SESSION DETAIL VIEW HERE
+					JTable resultsTable = (JTable) e.getSource();
+					int row = resultsTable.rowAtPoint(e.getPoint());
+
+					if (row > -1) {
+						// Gets the name, which is index 1
+						String sessionName = (String) table.getValueAt(row, 1);
+						ViewEventManager.getInstance().viewSession(sessionName);
+					}
 				}
 			}
 		});
