@@ -10,11 +10,13 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -23,12 +25,12 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
  * Controller to handle retrieving free requirements from the server and
- * displaying them in the {@link CreateSessionPanel}
+ * displaying them in the {@link ViewSessionPanel}
  */
 public class RetrieveFreePlanningPokerRequirementsController {
 
 	/** The create session panel */
-	protected CreateSessionPanel panel;
+	protected ViewSessionPanel panel;
 
 	/** The requirements retrieved from the server */
 	protected PlanningPokerRequirement[] data = null;
@@ -40,7 +42,7 @@ public class RetrieveFreePlanningPokerRequirementsController {
 	 *            the create session panel
 	 */
 	public RetrieveFreePlanningPokerRequirementsController(
-			CreateSessionPanel panel) {
+			ViewSessionPanel panel) {//our view
 		this.panel = panel;
 	}
 
@@ -67,7 +69,7 @@ public class RetrieveFreePlanningPokerRequirementsController {
 	 * @throws NotImplementedException
 	 */
 	public void receivedData(ArrayList<PlanningPokerRequirement> requirements){
-		//panel.updateRequirements(requirements);
+		this.data = (PlanningPokerRequirement[]) requirements.toArray();
 	}
 
 	/**
