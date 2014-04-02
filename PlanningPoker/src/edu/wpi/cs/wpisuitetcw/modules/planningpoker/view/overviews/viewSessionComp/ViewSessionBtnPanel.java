@@ -13,14 +13,21 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPa
  *
  */
 public class ViewSessionBtnPanel extends JPanel{
+	private final JButton activateBtn;
 	private final JButton addBtn;
 	private final ViewSessionPanel parentPanel;
 	
+	
 	public ViewSessionBtnPanel(ViewSessionPanel parentPanel) {
 		this.parentPanel = parentPanel;
-		this.addBtn = new JButton("Add");
 		
+		// set up buttons
+		this.addBtn = new JButton("Add Requirements");
+		this.activateBtn = new JButton("Activate Session");
+		
+		// add buttons
 		this.add(this.addBtn);
+		this.add(this.activateBtn);
 	}
 	
 

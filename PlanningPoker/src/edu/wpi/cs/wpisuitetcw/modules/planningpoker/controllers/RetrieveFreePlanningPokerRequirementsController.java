@@ -24,11 +24,10 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Controller to handle retrieving free requirements from the server and
- * displaying them in the {@link CreateSessionPanel}
+ * Controller to handle retrieving free requirements from the server.
  */
 public class RetrieveFreePlanningPokerRequirementsController implements ActionListener{
-
+	private static RetrieveFreePlanningPokerRequirementsController instance;
 	/** The create session panel */
 	protected CreateSessionPanel panel;
 
@@ -37,13 +36,16 @@ public class RetrieveFreePlanningPokerRequirementsController implements ActionLi
 
 	/**
 	 * Constructs a new RetrieveFreePlanningPokerRequirementsController
-	 * 
-	 * @param panel
-	 *            the create session panel
 	 */
-	public RetrieveFreePlanningPokerRequirementsController(
-			CreateSessionPanel panel) {
-		this.panel = panel;
+	private RetrieveFreePlanningPokerRequirementsController() {
+		
+	}
+	
+	public static RetrieveFreePlanningPokerRequirementsController getInstance() {
+		if (instance == null) {
+			instance = new RetrieveFreePlanningPokerRequirementsController();
+		}
+		return instance;
 	}
 
 	/**
