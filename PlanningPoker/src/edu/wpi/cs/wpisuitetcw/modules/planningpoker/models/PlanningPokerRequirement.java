@@ -1,5 +1,7 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
+import java.util.ArrayList;
+
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
@@ -15,6 +17,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
  */
 public class PlanningPokerRequirement extends Requirement {
 	private int sessionID;
+	private ArrayList<PlanningPokerVote> votes = new ArrayList<PlanningPokerVote>();
 
 	/**
 	 * Default constructor for PlanningPokerRequirement. Sets the session ID to
@@ -49,6 +52,10 @@ public class PlanningPokerRequirement extends Requirement {
 			String description) {
 		super(sessionID, name, description);
 		setSessionID(sessionID);
+	}
+
+	public void addVote(PlanningPokerVote vote) {
+		votes.add(vote);
 	}
 
 	/**

@@ -243,7 +243,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @return an array of PlanningPokerSession deserialized from the given json
 	 *         string
 	 */
-	public static PlanningPokerSession[] fromJsonArray(String json) {
+	public static PlanningPokerSession[] fromJSONArray(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, PlanningPokerSession[].class);
 	}
