@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.MainView;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ToolbarView;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
 
@@ -31,8 +31,8 @@ public class PlanningPoker implements IJanewayModule {
 		MainView mainview = new MainView();
 
 		// add toolbar and mainview to the ViewEventController instance
-		ViewEventController.getInstance().setToolBar(toolbarPanel);
-		ViewEventController.getInstance().setMainView(mainview);
+		ViewEventManager.getInstance().setToolBar(toolbarPanel);
+		ViewEventManager.getInstance().setMainView(mainview);
 
 		// add this to tab
 		JanewayTabModel tab1 = new JanewayTabModel(getName(), new ImageIcon(),

@@ -24,7 +24,6 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * 
  */
 public class AddSessionRequestObserver implements RequestObserver {
-
 	//The controller this is tied to
 	private final AddSessionController controller;
 
@@ -38,7 +37,11 @@ public class AddSessionRequestObserver implements RequestObserver {
 	}
 
 	/*
+<<<<<<< HEAD
+	 * Parse the message that was received from the server then pass them to the
+=======
 	 * Parse the session that was received from the server then pass them to the
+>>>>>>> create-getSession
 	 * controller.
 	 * 
 	 * @see
@@ -52,6 +55,8 @@ public class AddSessionRequestObserver implements RequestObserver {
 
 		// Parse the message out of the response body
 		final PlanningPokerSession session = PlanningPokerSession.fromJson(response.getBody());
+		
+		controller.onSuccess(session);
 
 	}
 
