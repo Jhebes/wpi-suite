@@ -12,12 +12,12 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Scrol
  * @author troyling
  * 
  */
-public class ViewSessionPkgPanel extends JPanel{
+public class ViewSessionReqPanel extends JPanel{
 	private final ViewSessionPanel parentPanel;
 	private final ScrollablePanel sessionReqPanel;
 	private final ScrollablePanel allReqPanel;
 
-	public ViewSessionPkgPanel(ViewSessionPanel parentPanel) {
+	public ViewSessionReqPanel(ViewSessionPanel parentPanel) {
 		this.parentPanel = parentPanel;
 		this.sessionReqPanel = new ScrollablePanel();
 		this.allReqPanel = new ScrollablePanel();

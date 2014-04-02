@@ -11,7 +11,7 @@ import javax.swing.JSplitPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionBtnPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionInfoPanel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionPkgPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionReqPanel;
 
 /**
  * @author troyling
@@ -20,7 +20,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionCo
 public class ViewSessionPanel extends JSplitPane {
 	final private ViewSessionBtnPanel buttonPanel;
 	final private ViewSessionInfoPanel infoPanel;
-	final private ViewSessionPkgPanel pkgPanel;
+	final private ViewSessionReqPanel pkgPanel;
 
 	/**
 	 * Create a view session panel
@@ -28,7 +28,7 @@ public class ViewSessionPanel extends JSplitPane {
 	public ViewSessionPanel(String sessionName) {
 		this.infoPanel = new ViewSessionInfoPanel(this, sessionName);
 		this.buttonPanel = new ViewSessionBtnPanel(this);
-		this.pkgPanel = new ViewSessionPkgPanel(this);
+		this.pkgPanel = new ViewSessionReqPanel(this);
 
 		// delete these
 		infoPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
