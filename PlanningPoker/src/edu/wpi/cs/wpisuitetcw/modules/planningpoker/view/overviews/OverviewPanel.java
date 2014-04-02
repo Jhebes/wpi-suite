@@ -20,6 +20,7 @@ import javax.swing.event.ListSelectionEvent;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetClosedSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetOpenSessionsController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
 
 /**
@@ -104,7 +105,14 @@ public class OverviewPanel extends JSplitPane {
 				if (e.getClickCount() == 2) {
 					System.out.println(table.getValueAt(table.getSelectedRow(),
 							table.getSelectedColumn()));
-					// TO_DO: OPEN SESSION DETAIL VIEW HERE
+					JTable resultsTable = (JTable) e.getSource();
+					int row = resultsTable.rowAtPoint(e.getPoint());
+					
+					if (row > -1) {
+						// Gets the name, which is index 1
+						String sessionName = (String) table.getValueAt(row, 1);
+						ViewEventManager.getInstance().viewSession(sessionName);
+					}
 				}
 			}
 		});
