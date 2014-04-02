@@ -22,13 +22,11 @@ import javax.swing.event.ListSelectionEvent;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventController;
 
-
 /**
  * @author troyling, Jake, Zack
  * 
  */
 public class OverviewPanel extends JSplitPane {
-
 	private static final long serialVersionUID = 1L;
 	private final JPanel rightPanel;
 	private final JPanel leftPanel;
@@ -39,7 +37,7 @@ public class OverviewPanel extends JSplitPane {
 	public OverviewPanel() {
 		// Create the right side of the panel
 		rightPanel = new JPanel();
-		
+
 		// Create the left side
 		leftPanel = new JPanel();
 
@@ -47,13 +45,13 @@ public class OverviewPanel extends JSplitPane {
 		leftPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		
 		// Set leftPanel to GridLayout
-		leftPanel.setLayout(new GridLayout( 6, 1, 1, 20 ) );
-		
+		leftPanel.setLayout(new GridLayout(6, 1, 1, 20));
+
 		// Initialize the buttons
 		openSessionBtn = new JButton("Open Sessions");
 		closedSessionBtn = new JButton("Closed Sessions");
 		allSessionsBtn = new JButton("All Sessions");
-		
+
 		// Listener for Open Sessions Button
 		openSessionBtn.addActionListener(new ActionListener() {
 			@Override
@@ -62,7 +60,7 @@ public class OverviewPanel extends JSplitPane {
 				System.out.println("YOU CLICKED ME!");
 			}
 		});
-		
+
 		// Listener for Closed Sessions Button
 		closedSessionBtn.addActionListener(new ActionListener() {
 			@Override
@@ -71,7 +69,7 @@ public class OverviewPanel extends JSplitPane {
 				System.out.println("YOU CLICKED ME!");
 			}
 		});
-		
+
 		// Listener for All Sessions Button
 		allSessionsBtn.addActionListener(new ActionListener() {
 			@Override
@@ -80,18 +78,17 @@ public class OverviewPanel extends JSplitPane {
 				System.out.println("YOU CLICKED ME!");
 			}
 		});
-		
+
 		// Add the buttons to the leftPanel
-		leftPanel.add( openSessionBtn );
-		leftPanel.add( closedSessionBtn );
-		leftPanel.add( allSessionsBtn );
-	
-		
-		
+		leftPanel.add(openSessionBtn);
+		leftPanel.add(closedSessionBtn);
+		leftPanel.add(allSessionsBtn);
+
 		// Dummy Data for now, eventually this will be generated from BD
-		
-		String[] colNames = {"ID", "Name", "Start Date", "Description", "Status"};
-		
+
+		String[] colNames = { "ID", "Name", "Start Date", "Description",
+				"Status" };
+
 		Object[][] tableData = {
 				{
 					Integer.valueOf(0), "This is a name", "1/11/1111", "WEEEE a description", "In Progress"
@@ -240,56 +237,52 @@ public class OverviewPanel extends JSplitPane {
 		};
 		
 		// Create Table using data above
-		//final JTable table = new JTable(tableData, colNames);
-		
-		final JTable table = new JTable(tableData, colNames) {
-	        private static final long serialVersionUID = 1L;
+		// final JTable table = new JTable(tableData, colNames);
 
-	        public boolean isCellEditable(int row, int column) {                
-	                return false;               
-	        };
-	    };
-	     
-	    
-	    // Add mouse listener to check for mouse clicks on the table
-	    table.addMouseListener(new MouseAdapter() {
-	    	  public void mouseClicked(MouseEvent e) {
-	    		 // Check to see if user double clicked
-	    	     if (e.getClickCount() == 2) { 
-	    	    	 System.out.println(table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
-	    	    	 // TO_DO: OPEN SESSION DETAIL VIEW HERE
-	    	     }
-	    	   }
-	    	});
-	    
-	    
+		final JTable table = new JTable(tableData, colNames) {
+			private static final long serialVersionUID = 1L;
+
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			};
+		};
+
+		// Add mouse listener to check for mouse clicks on the table
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				// Check to see if user double clicked
+				if (e.getClickCount() == 2) {
+					System.out.println(table.getValueAt(table.getSelectedRow(),
+							table.getSelectedColumn()));
+					// TO_DO: OPEN SESSION DETAIL VIEW HERE
+				}
+			}
+		});
+
 		// Sets table bg to white
 		table.setBackground(Color.WHITE);
 
-		
 		// Set layout for right panel
 		rightPanel.setLayout(new BorderLayout());
-		
+
 		// Add table inside a JScrollPane to rightPanel
 		JScrollPane jsp = new JScrollPane(table);
-		
+
 		// Add the JSP to the rightPanel
 		rightPanel.add(jsp);
-		
+
 		// Set panels background to white (matching table)
 		rightPanel.setBackground(Color.WHITE);
-		
+
 		// Add panels to main JSplitPane
 		this.setRightComponent(rightPanel);
 		this.setLeftComponent(leftPanel);
-		
+
 		// Set divider location between right and left panel
 		this.setDividerLocation(180);
 
-
 	}
 
-	
 	// Getters
 	public JButton getOpenSessionBtn() {
 		return openSessionBtn;
@@ -303,9 +296,8 @@ public class OverviewPanel extends JSplitPane {
 		return allSessionsBtn;
 	}
 	
-	
 	public void recieveSessionList(PlanningPokerSession[] pps) {
 		
 	}
-	
+
 }

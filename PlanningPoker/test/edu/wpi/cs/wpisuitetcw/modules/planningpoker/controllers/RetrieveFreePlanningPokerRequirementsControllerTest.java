@@ -14,6 +14,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -74,7 +75,7 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 	 * Tests that the controller sends a valid request.
 	 */
 	public void testRefreshDataSendsValidRequest() throws WPISuiteException {
-		controller.refreshData();
+		controller.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null)); 
 
 		// See whether the request was sent
 		MockRequest request = ((MockNetwork) Network.getInstance())
@@ -95,7 +96,7 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 	 */
 	public void testRecievedData() {
 		assertEquals(panel.getRequirements().size(), 0);
-		controller.refreshData();
+		controller.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null)); 
 		ArrayList<PlanningPokerRequirement> requirements = new ArrayList<PlanningPokerRequirement>();
 		requirements.add(new PlanningPokerRequirement(-1, "Test", ""));
 		controller.receivedData(requirements);

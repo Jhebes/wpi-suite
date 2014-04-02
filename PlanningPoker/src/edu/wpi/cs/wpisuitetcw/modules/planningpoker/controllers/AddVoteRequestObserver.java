@@ -12,26 +12,33 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
 /**
- * This observer handles responses to requests for all planning poker session
+ * Handles requests to server to store sessions of Planning Poker
  * 
+ * @author Josh Hebert
  * 
  */
-public class GetAllSessionsRequestObserver implements RequestObserver {
+public class AddVoteRequestObserver implements RequestObserver {
 
-	public GetAllSessionsController controller;
+	// The controller this is tied to
+	// private final AddVoteController controller;
 
-	public GetAllSessionsRequestObserver(GetAllSessionsController controller) {
-		this.controller = controller;
+	/**
+	 * Creates a listener attached to the controller
+	 * 
+	 * @param addVoteController
+	 *            Tied controller
+	 */
+	public AddVoteRequestObserver(AddVoteController addVoteController) {
+		// this.controller = addVoteController;
 	}
 
 	/*
-	 * Parse the session out of the response body and pass them to the
-	 * controller
+	 * Parse the session that was received from the server then pass them to the
+	 * controller.
 	 * 
 	 * @see
 	 * edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi
@@ -39,30 +46,25 @@ public class GetAllSessionsRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		PlanningPokerSession[] sessions = PlanningPokerSession.fromJSONArray(iReq.getResponse().getBody());
-		controller.receivedSessions(sessions);
+		System.out.println("Vote successfully stored!");
 	}
 
-	/*
-	 * @see
-	 * edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.
-	 * cs.wpisuitetng.network.models.IRequest)
+	/**
+	 * What do we do if there's an error?
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		fail(iReq, null);
+		System.err
+				.println("The request to add a vote failed. (Response Error)");
 	}
 
-	/*
-	 * What to do when we fail to get sessions from the server
-	 * 
-	 * @see
-	 * edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng
-	 * .network.models.IRequest, java.lang.Exception)
+	/**
+	 * What do we do when there's a general network failure?
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-
+		System.err
+				.println("The request to add a vote failed. (General Failure)");
 	}
 
 }
