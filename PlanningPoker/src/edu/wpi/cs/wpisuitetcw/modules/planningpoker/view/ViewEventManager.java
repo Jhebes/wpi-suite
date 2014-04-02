@@ -6,7 +6,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 import javax.swing.JComponent;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
-import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 
 /**
  * 
@@ -47,6 +47,18 @@ public class ViewEventManager {
 		main.repaint();
 		main.setSelectedComponent(newSession);
 	}
+	
+	/**
+	 * Opens a new tab for viewing a session
+	 */
+	public void viewSession(String sessionName) {
+		ViewSessionPanel viewSession = new ViewSessionPanel(sessionName);
+		main.addTab(sessionName, null, viewSession, "View Session.");
+		main.repaint();
+		main.setSelectedComponent(viewSession);
+	}
+	
+	
 	/**
 	 * Sets the toolbarview to the given toolbar
 	 * @param tb the toolbar to be set as active.
@@ -75,10 +87,6 @@ public class ViewEventManager {
 		
 	}
 
-	public void openSessionView(int id) throws NotImplementedException {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
-	}
 	
 	
 }

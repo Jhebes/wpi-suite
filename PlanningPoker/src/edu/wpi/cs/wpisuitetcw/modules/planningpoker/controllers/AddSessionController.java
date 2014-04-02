@@ -34,6 +34,9 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class AddSessionController implements ActionListener {
 	private final CreateSessionPanel view;
+	
+	// TODO this should be deleted in the future
+	private String sessionName;
 
 	/**
 	 * Construct an AddSessionController for the given view
@@ -67,9 +70,10 @@ public class AddSessionController implements ActionListener {
 		// String year = "1";
 		// String month = "1";
 		// String day = "1";
-
-		Date d = this.view.getDeadlinePicker().getDate();
-
+		
+		// TODO Session type should be stored 
+		Date d = this.view.getDeadline();
+		
 		// Create a new session and populate its data
 		PlanningPokerSession session = new PlanningPokerSession();
 		session.setName(name);
@@ -79,6 +83,9 @@ public class AddSessionController implements ActionListener {
 		// ArrayList<PlanningPokerRequirement> reqs = view.getRequirements();
 		// session.addRequirements(reqs);
 
+		// TODO this should be deleted in the future
+		this.sessionName = name;
+		
 		this.saveSession(session);
 
 	}
@@ -102,10 +109,6 @@ public class AddSessionController implements ActionListener {
 	// removes a tab and opens another
 	public void onSuccess(PlanningPokerSession session) {
 		ViewEventManager.getInstance().removeTab(this.view);
-		try {
-			ViewEventManager.getInstance().openSessionView(session.getID());
-		} catch (NotImplementedException e) {
-			e.printStackTrace();
-		}
+		ViewEventManager.getInstance().viewSession(this.sessionName);
 	}
 }
