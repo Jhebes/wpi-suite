@@ -27,7 +27,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.MockRequest;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
@@ -48,7 +47,7 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 
 	PlanningPokerSession session;
 	RetrieveFreePlanningPokerRequirementsController controller;
-	ViewSessionPanel panel;
+	CreateSessionPanel panel;
 
 	@Before
 	public void setUp() throws Exception {
@@ -67,8 +66,8 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 		db = new MockData(new HashSet<Object>());
 		db.save(session, testProject);
 		db.save(bob);
-		panel = new ViewSessionPanel(testProject.getName());
-		controller = new RetrieveFreePlanningPokerRequirementsController(panel);
+		panel = new CreateSessionPanel();
+		controller = RetrieveFreePlanningPokerRequirementsController.getInstance();
 	}
 
 	@Test
