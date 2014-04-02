@@ -9,6 +9,8 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -25,7 +27,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * Controller to handle retrieving free requirements from the server and
  * displaying them in the {@link CreateSessionPanel}
  */
-public class RetrieveFreePlanningPokerRequirementsController {
+public class RetrieveFreePlanningPokerRequirementsController implements ActionListener{
 	private static RetrieveFreePlanningPokerRequirementsController instance;
 	/** The create session panel */
 	protected CreateSessionPanel panel;
@@ -49,13 +51,9 @@ public class RetrieveFreePlanningPokerRequirementsController {
 	 * 
 	 * @throws NotImplementedException
 	 */
-	public void refreshData() {
-		final RequestObserver requestObserver = new RetrieveFreePlanningPokerRequirementsRequestObserver(
-				this);
-		Request request;
-		request = Network.getInstance().makeRequest(
-				"planningpoker/requirement", HttpMethod.GET);
-		request.addObserver(requestObserver);
+	public void refreshData(){
+		final Request request = Network.getInstance().makeRequest("planningpoker/requirement", HttpMethod.GET);
+		request.addObserver(new RetrieveFreePlanningPokerRequirementsRequestObserver(this));
 		request.send();
 	}
 
@@ -82,5 +80,11 @@ public class RetrieveFreePlanningPokerRequirementsController {
 				"An error occurred retrieving requirements from the server. "
 						+ error, "Error Communicating with Server",
 				JOptionPane.ERROR_MESSAGE);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		this.refreshData();
+		
 	}
 }

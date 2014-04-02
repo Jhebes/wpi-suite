@@ -48,7 +48,7 @@ public class GetOpenSessionsRequestObserver implements RequestObserver {
 	public void responseSuccess(IRequest iReq) {
 		// Parse all sessions out of the response body
 		PlanningPokerSession[] sessions = PlanningPokerSession
-											.fromJsonArray(iReq
+											.fromJSONArray(iReq
 															.getResponse()
 															.getBody());
 

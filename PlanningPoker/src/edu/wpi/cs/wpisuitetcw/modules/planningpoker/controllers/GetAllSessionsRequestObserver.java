@@ -39,8 +39,7 @@ public class GetAllSessionsRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		PlanningPokerSession[] sessions = PlanningPokerSession
-				.fromJsonArray(iReq.getResponse().getBody());
+		PlanningPokerSession[] sessions = PlanningPokerSession.fromJSONArray(iReq.getResponse().getBody());
 		controller.receivedSessions(sessions);
 	}
 

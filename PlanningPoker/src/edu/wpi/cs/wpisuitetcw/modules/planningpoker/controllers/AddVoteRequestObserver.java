@@ -12,10 +12,8 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
-import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
  * Handles requests to server to store sessions of Planning Poker
@@ -23,21 +21,23 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * @author Josh Hebert
  * 
  */
-public class AddSessionRequestObserver implements RequestObserver {
-	//The controller this is tied to
-	private final AddSessionController controller;
+public class AddVoteRequestObserver implements RequestObserver {
 
-	
+	// The controller this is tied to
+	// private final AddVoteController controller;
+
 	/**
 	 * Creates a listener attached to the controller
-	 * @param a Tied controller
+	 * 
+	 * @param addVoteController
+	 *            Tied controller
 	 */
-	public AddSessionRequestObserver(AddSessionController a) {
-		this.controller = a;
+	public AddVoteRequestObserver(AddVoteController addVoteController) {
+		// this.controller = addVoteController;
 	}
 
 	/*
-	 * Parse the message that was received from the server then pass them to the
+	 * Parse the session that was received from the server then pass them to the
 	 * controller.
 	 * 
 	 * @see
@@ -46,14 +46,7 @@ public class AddSessionRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		// Get the response to the given request
-		final ResponseModel response = iReq.getResponse();
-
-		// Parse the message out of the response body
-		final PlanningPokerSession session = PlanningPokerSession.fromJson(response.getBody());
-		
-		controller.onSuccess(session);
-
+		System.out.println("Vote successfully stored!");
 	}
 
 	/**
@@ -61,7 +54,8 @@ public class AddSessionRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		System.err.println("The request to add a session failed.");
+		System.err
+				.println("The request to add a vote failed. (Response Error)");
 	}
 
 	/**
@@ -69,7 +63,8 @@ public class AddSessionRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		System.err.println("The request to add a session failed.");
+		System.err
+				.println("The request to add a vote failed. (General Failure)");
 	}
 
 }

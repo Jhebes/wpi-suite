@@ -20,14 +20,14 @@ import javax.swing.event.ListSelectionEvent;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetClosedSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetOpenSessionsController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
-
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 
 /**
  * @author troyling, Jake, Zack
  * 
  */
 public class OverviewPanel extends JSplitPane {
+
 	private static final long serialVersionUID = 1L;
 	private final JPanel rightPanel;
 	private final JPanel leftPanel;
@@ -53,21 +53,17 @@ public class OverviewPanel extends JSplitPane {
 		closedSessionBtn = new JButton("Closed Sessions");
 		allSessionsBtn = new JButton("All Sessions");
 
-		// Add the buttons to the leftPanel
-		leftPanel.add(openSessionBtn);
-		leftPanel.add(closedSessionBtn);
-		leftPanel.add(allSessionsBtn);
-		
 		openSessionBtn.addActionListener(new GetOpenSessionsController(this));
-		closedSessionBtn.addActionListener(new GetClosedSessionsController(this));
-		allSessionsBtn.addActionListener(GetAllSessionsController.getInstance());
+		closedSessionBtn
+				.addActionListener(new GetClosedSessionsController(this));
+		allSessionsBtn
+				.addActionListener(GetAllSessionsController.getInstance());
 
 		// Create Table using data above
 
 		final JTable table = new JTable(
 				OverviewTableSessionTableModel.getInstance()) {
 			private static final long serialVersionUID = 1L;
-			private boolean initialized = false;
 
 			public boolean isCellEditable(int row, int column) {
 				return false;
@@ -76,41 +72,29 @@ public class OverviewPanel extends JSplitPane {
 			public void valueChanged(ListSelectionEvent e) {
 
 			}
-
-			@Override
-			public void repaint() {
-				// because janeway is terrible and instantiates this class
-				// before the network objects
-				if (!initialized) {
-					try {
-						GetAllSessionsController.getInstance()
-								.retrieveSessions();
-						initialized = true;
-					} catch (Exception e) {
-
-					}
-				}
-				
-				super.repaint();
-			}
 		};
 
-		// Create Table using data above
-		// final JTable table = new JTable(tableData, colNames);
+		openSessionBtn.addActionListener(new GetOpenSessionsController(this));
+		closedSessionBtn
+				.addActionListener(new GetClosedSessionsController(this));
+		allSessionsBtn
+				.addActionListener(GetAllSessionsController.getInstance());
+
+		// Add the buttons to the leftPanel
+		leftPanel.add(openSessionBtn);
+		leftPanel.add(closedSessionBtn);
+		leftPanel.add(allSessionsBtn);
+
+		// Dummy Data for now, eventually this will be generated from BD
 
 		// Add mouse listener to check for mouse clicks on the table
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				// Check to see if user double clicked
 				if (e.getClickCount() == 2) {
-					JTable resultsTable = (JTable) e.getSource();
-					int row = resultsTable.rowAtPoint(e.getPoint());
-					
-					if (row > -1) {
-						// Gets the name, which is index 1
-						String sessionName = (String) table.getValueAt(row, 1);
-						ViewEventManager.getInstance().viewSession(sessionName);
-					}
+					System.out.println(table.getValueAt(table.getSelectedRow(),
+							table.getSelectedColumn()));
+					// TO_DO: OPEN SESSION DETAIL VIEW HERE
 				}
 			}
 		});
@@ -150,6 +134,10 @@ public class OverviewPanel extends JSplitPane {
 
 	public JButton getAllSessionsBtn() {
 		return allSessionsBtn;
+	}
+
+	public void recieveSessionList(PlanningPokerSession[] pps) {
+
 	}
 
 }

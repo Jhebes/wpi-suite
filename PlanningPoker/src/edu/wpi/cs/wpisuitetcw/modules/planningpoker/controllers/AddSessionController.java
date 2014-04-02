@@ -14,8 +14,12 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
@@ -84,16 +88,7 @@ public class AddSessionController implements ActionListener {
 		// ArrayList<PlanningPokerRequirement> reqs = view.getRequirements();
 		// session.addRequirements(reqs);
 
-		// TODO this should be deleted in the future
-		this.sessionName = name;
-		
-		this.saveSession(session);
-	}
-
-	/*
-	 * Send a request to the core to save this message
-	 */
-	public void saveSession(PlanningPokerSession session) {
+		// Send a request to the core to save this message
 		// Create the request
 		final Request request = Network.getInstance().makeRequest(
 				"planningpoker/session", HttpMethod.PUT);
@@ -103,8 +98,8 @@ public class AddSessionController implements ActionListener {
 		request.addObserver(new AddSessionRequestObserver(this));
 		// Send the request on its way
 		request.send();
-
 	}
+
 
 	// removes a tab and opens another
 	public void onSuccess(PlanningPokerSession session) {

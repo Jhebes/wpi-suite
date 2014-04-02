@@ -2,14 +2,17 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.Color;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
@@ -22,6 +25,7 @@ import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.JXDatePicker;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
@@ -51,6 +55,15 @@ public class CreateSessionPanel extends JSplitPane {
 	// deadline date and time picker
 	private final JXDatePicker deadlinePicker;
 	private final JSpinner pickerDeadlineTime;
+
+	/** Model used for requirements JList */
+	DefaultListModel<String> existingRequirementsNames;
+
+	/** list of existing requirements */
+	JList<String> existingRequirements;
+
+	/** List of requirements available to this create session tab. */
+	private ArrayList<PlanningPokerRequirement> requirements = null;
 
 	// Constructor for our Create Session Panel
 	public CreateSessionPanel() {
@@ -88,8 +101,6 @@ public class CreateSessionPanel extends JSplitPane {
 													// time
 
 		// create textfield
-		// TODO check with other people to see what the limit size for each data
-		// is
 		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
 		// JTextField fieldDeadline = new JTextField(DEFAULT_DATA_SIZE);
 
@@ -204,5 +215,51 @@ public class CreateSessionPanel extends JSplitPane {
 	 */
 	public JComboBox<SessionLiveType> getDropdownType() {
 		return dropdownType;
+	}
+
+	/**
+	 * Updates the requirement list model with a new list of names.
+	 * 
+	 * @param names
+	 *            The new list of names
+	 */
+	public void updateRequirementsList(String[] names) {
+		existingRequirementsNames.removeAllElements();
+		for (String name : names) {
+			existingRequirementsNames.addElement(name);
+		}
+	}
+
+	/**
+	 * Updates internal list of requirements as well as the model for the list.
+	 * 
+	 * @param requirements
+	 *            The list of new requirements
+	 */
+	public void updateRequirements(
+			ArrayList<PlanningPokerRequirement> requirements) {
+		setRequirements(requirements);
+		ArrayList<String> names = new ArrayList<String>();
+		for (PlanningPokerRequirement requirement : requirements) {
+			names.add(requirement.getName());
+		}
+		updateRequirementsList(names.toArray(new String[0]));
+	}
+
+	/**
+	 * 
+	 * @return The internal list of planning poker requirements
+	 */
+	public ArrayList<PlanningPokerRequirement> getRequirements() {
+		return requirements;
+	}
+
+	/**
+	 * 
+	 * @param requirements
+	 *            A list of new planning poker requirements
+	 */
+	public void setRequirements(ArrayList<PlanningPokerRequirement> requirements) {
+		this.requirements = requirements;
 	}
 }

@@ -8,6 +8,10 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/WPISuite"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/WPISuite-Interfaces"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/RequirementManager"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/DefectTracker"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PostBoard"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="lib/jgoodies-forms-1.8.0.jar"/>
 	<classpathentry kind="lib" path="/Janeway/lib/miglayout-4.0-swing.jar"/>
 	<classpathentry kind="lib" path="/Janeway/lib/swingx-all-1.6.4.jar"/>
 	<classpathentry kind="lib" path="/Janeway/lib/gnujaxp.jar"/>
