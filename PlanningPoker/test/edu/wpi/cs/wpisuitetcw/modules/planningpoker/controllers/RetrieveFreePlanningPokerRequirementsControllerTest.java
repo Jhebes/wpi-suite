@@ -67,7 +67,7 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 		db.save(session, testProject);
 		db.save(bob);
 		panel = new CreateSessionPanel();
-		controller = new RetrieveFreePlanningPokerRequirementsController(panel);
+		controller = RetrieveFreePlanningPokerRequirementsController.getInstance();
 	}
 
 	@Test

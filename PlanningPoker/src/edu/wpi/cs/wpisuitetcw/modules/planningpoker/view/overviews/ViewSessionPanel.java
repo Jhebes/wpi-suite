@@ -30,11 +30,6 @@ public class ViewSessionPanel extends JSplitPane {
 		this.buttonPanel = new ViewSessionBtnPanel(this);
 		this.pkgPanel = new ViewSessionReqPanel(this);
 
-		// delete these
-		infoPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-		buttonPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
-		pkgPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-
 		// set sub panels
 		JSplitPane contentPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				true, infoPanel, pkgPanel);

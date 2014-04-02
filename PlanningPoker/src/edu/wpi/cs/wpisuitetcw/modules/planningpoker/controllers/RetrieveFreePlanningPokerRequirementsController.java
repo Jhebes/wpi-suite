@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionTableModel;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -26,7 +27,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * displaying them in the {@link CreateSessionPanel}
  */
 public class RetrieveFreePlanningPokerRequirementsController {
-
+	private static RetrieveFreePlanningPokerRequirementsController instance;
 	/** The create session panel */
 	protected CreateSessionPanel panel;
 
@@ -39,9 +40,15 @@ public class RetrieveFreePlanningPokerRequirementsController {
 	 * @param panel
 	 *            the create session panel
 	 */
-	public RetrieveFreePlanningPokerRequirementsController(
-			CreateSessionPanel panel) {
-		this.panel = panel;
+	private RetrieveFreePlanningPokerRequirementsController() {
+
+	}
+
+	public static RetrieveFreePlanningPokerRequirementsController getInstance() {
+		if (instance == null) {
+			instance = new RetrieveFreePlanningPokerRequirementsController();
+		}
+		return instance;
 	}
 
 	/**
@@ -49,10 +56,12 @@ public class RetrieveFreePlanningPokerRequirementsController {
 	 * 
 	 * @throws NotImplementedException
 	 */
-	public void refreshData(){
-		final RequestObserver requestObserver = new RetrieveFreePlanningPokerRequirementsRequestObserver(this);
+	public void refreshData() {
+		final RequestObserver requestObserver = new RetrieveFreePlanningPokerRequirementsRequestObserver(
+				this);
 		Request request;
-		request = Network.getInstance().makeRequest("planningpoker/requirement", HttpMethod.GET);
+		request = Network.getInstance().makeRequest(
+				"planningpoker/requirement", HttpMethod.GET);
 		request.addObserver(requestObserver);
 		request.send();
 	}
@@ -66,8 +75,8 @@ public class RetrieveFreePlanningPokerRequirementsController {
 	 *            an array list of requirements returned by the server
 	 * @throws NotImplementedException
 	 */
-	public void receivedData(ArrayList<PlanningPokerRequirement> requirements){
-		//panel.updateRequirements(requirements);
+	public void receivedData(ArrayList<PlanningPokerRequirement> requirements) {
+		ViewSessionTableModel.getInstance().refreshRequirements(requirements);
 	}
 
 	/**

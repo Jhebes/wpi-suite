@@ -3,16 +3,26 @@
  */
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp;
 
-import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Panel;
 
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllSessionsController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.RetrieveFreePlanningPokerRequirementsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionTableModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
 /**
  * @author troyling
  * 
  */
-public class ViewSessionReqPanel extends JPanel{
+public class ViewSessionReqPanel extends JSplitPane {
 	private final ViewSessionPanel parentPanel;
 	private final ScrollablePanel sessionReqPanel;
 	private final ScrollablePanel allReqPanel;
@@ -22,6 +32,53 @@ public class ViewSessionReqPanel extends JPanel{
 		this.sessionReqPanel = new ScrollablePanel();
 		this.allReqPanel = new ScrollablePanel();
 
-	}
+		// setup panels
+		Panel rightPanel = new Panel();
+		Panel leftPanel = new Panel();
 
+		// setup tables
+		final JTable allReqTable = new JTable(
+				ViewSessionTableModel.getInstance()) {
+			private static final long serialVersionUID = 1L;
+			private boolean initialized = false;
+
+			public boolean isCellEditable(int row, int colunm) {
+				return false;
+			}
+
+			public void valueChanged(ListSelectionEvent e) {
+
+			}
+			
+			@Override
+			public void repaint() {
+				// because janeway is terrible and instantiates this class
+				// before the network objects
+				if (!initialized) {
+					try {
+						RetrieveFreePlanningPokerRequirementsController
+						.getInstance().refreshData();
+						initialized = true;
+					} catch (Exception e) {
+
+					}
+				}
+				
+				super.repaint();
+			}
+		};
+		
+		allReqTable.setBackground(Color.WHITE);
+		
+		// add table to rightPanel
+		rightPanel.setLayout(new BorderLayout());
+		JScrollPane allReqSp = new JScrollPane(allReqTable);
+		rightPanel.add(allReqSp);
+		
+		// setup panels
+		this.setLeftComponent(leftPanel);
+		this.setRightComponent(rightPanel);
+		this.setResizeWeight(0.5);
+		this.setEnabled(false);
+	}
 }
