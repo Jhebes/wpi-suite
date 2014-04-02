@@ -3,7 +3,7 @@
  *
  */
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
-import edu.wpi.cs.wpisuitetng.modules.votetracker.search.views.ResultsPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -23,14 +23,15 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class RetrievePlanningPokerVoteController extends MouseAdapter {
 
 	/** The results panel */
-	protected ResultsPanel view;
+	protected SessionInProgressPanel view;
 
 	/**
 	 * Construct the controller
 	 * 
-	 * @param view the parent view 
+	 * @param view
+	 *            the parent view
 	 */
-	public RetrievePlanningPokerVoteController(ResultsPanel view) {
+	public RetrievePlanningPokerVoteController(SessionInProgressPanel view) {
 		this.view = view;
 	}
 
@@ -53,21 +54,28 @@ public class RetrievePlanningPokerVoteController extends MouseAdapter {
 
 				// Create and send a request for the vote with the given ID
 				Request request;
-				request = Network.getInstance().makeRequest("votetracker/vote/" + voteId, HttpMethod.GET);
-				request.addObserver(new RetrievePlanningPokerVoteRequestObserver(this));
+				request = Network.getInstance().makeRequest(
+						"votetracker/vote/" + voteId, HttpMethod.GET);
+				request.addObserver(new RetrievePlanningPokerVoteRequestObserver(
+						this));
 				request.send();
 			}
 		}
 	}
 
 	/**
-	 * Called by {@link RetrievePlanningPokerVoteRequestObserver} when the response
-	 * is received from the server.
-	 * @param vote the vote that was retrieved
+	 * Called by {@link RetrievePlanningPokerVoteRequestObserver} when the
+	 * response is received from the server.
+	 * 
+	 * @param vote
+	 *            the vote that was retrieved
 	 */
 	public void showPlanningPokerVote(PlanningPokerVote vote) {
 		// Make a new vote view to display the vote that was received
-		view.getTabController().addEditPlanningPokerVoteTab(vote);
+
+		view.setTextField(view.getTextField().getText() + "\n"
+				+ String.valueOf(vote.getCardValue()));
+
 	}
 
 	/**
@@ -75,8 +83,8 @@ public class RetrievePlanningPokerVoteController extends MouseAdapter {
 	 * occurred retrieving the vote from the server.
 	 */
 	public void errorRetrievingPlanningPokerVote(String error) {
-		JOptionPane.showMessageDialog(view, 
-				"An error occurred opening the vote you selected. " + error, "Error opening vote", 
-				JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(view,
+				"An error occurred opening the vote you selected. " + error,
+				"Error opening vote", JOptionPane.ERROR_MESSAGE);
 	}
 }

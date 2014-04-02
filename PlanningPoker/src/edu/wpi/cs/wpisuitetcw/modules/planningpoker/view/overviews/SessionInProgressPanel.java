@@ -2,31 +2,36 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import javax.swing.JSplitPane;
 import javax.swing.JPanel;
-
 import javax.swing.BoxLayout;
+
 import java.awt.Color;
 
 import javax.swing.JLabel;
+
 import java.awt.Component;
 
 import javax.swing.Box;
 import javax.swing.JTextField;
 
 import java.awt.Font;
-
 import java.awt.SystemColor;
-import javax.swing.JList;
 
+import javax.swing.JList;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddVoteController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 
 public class SessionInProgressPanel extends JSplitPane {
 	private JTextField textField;
@@ -98,9 +103,28 @@ public class SessionInProgressPanel extends JSplitPane {
 		textField.setColumns(10);
 
 		JButton btnSubmit = new JButton("Submit");
+		btnSubmit.addActionListener(new AddVoteController());
 		panel.add(btnSubmit);
 
 		setLeftComponent(LeftPanel);
 		setRightComponent(RightPanel);
 	}
+
+	public void receiveVotes(PlanningPokerVote[] votes) {
+		String text = "";
+		for(PlanningPokerVote v: votes){
+			text += String.valueOf(v.getCardValue()) + "\n";
+		}
+		System.out.println("Recieved votes: " + text);
+		this.textField.setText(text);
+	}
+	
+	public JTextField getTextField() {
+		return textField;
+	}
+
+	public void setTextField(String t) {
+		this.textField.setText(t);
+	}
+	
 }

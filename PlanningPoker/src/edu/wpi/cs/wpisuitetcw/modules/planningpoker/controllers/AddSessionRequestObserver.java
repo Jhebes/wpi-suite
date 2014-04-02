@@ -31,10 +31,10 @@ public class AddSessionRequestObserver implements RequestObserver {
 	
 	/**
 	 * Creates a listener attached to the controller
-	 * @param controller Tied controller
+	 * @param a Tied controller
 	 */
-	public AddSessionRequestObserver(AddSessionController controller) {
-		this.controller = controller;
+	public AddSessionRequestObserver(AddSessionController a) {
+		this.controller = a;
 	}
 
 	/*

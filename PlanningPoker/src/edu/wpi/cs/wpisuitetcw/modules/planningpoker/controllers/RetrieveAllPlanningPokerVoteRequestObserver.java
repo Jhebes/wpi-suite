@@ -3,7 +3,7 @@
  *
  */
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetng.network.Request;

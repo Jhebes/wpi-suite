@@ -5,7 +5,6 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 
 import java.util.List;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetng.Session; //Not sure
 import edu.wpi.cs.wpisuitetng.database.Data;
@@ -16,7 +15,6 @@ import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
-
 
 /**
  * @author Nick Kalamvokis and Matt Suarez
@@ -45,10 +43,11 @@ public class PlanningPokerVoteEntityManager implements
 	// Need review, not sure what to do with content and saving to database
 	public PlanningPokerVote makeEntity(Session s, String content)
 			throws BadRequestException, ConflictException, WPISuiteException {
-		
+
 		final PlanningPokerVote newVote = PlanningPokerVote.fromJson(content);
-		
-		// try to save the vote to the database throw WPISuiteException if this doesn't work
+
+		// try to save the vote to the database throw WPISuiteException if this
+		// doesn't work
 		if (!db.save(newVote, s.getProject())) {
 			throw new WPISuiteException();
 		}
@@ -76,8 +75,8 @@ public class PlanningPokerVoteEntityManager implements
 		}
 		PlanningPokerVote[] votes = null;
 		try {
-			votes = db.retrieve(PlanningPokerVote.class, "id", intID, s.getProject())
-					.toArray(new PlanningPokerVote[0]);
+			votes = db.retrieve(PlanningPokerVote.class, "id", intID,
+					s.getProject()).toArray(new PlanningPokerVote[0]);
 		} catch (WPISuiteException e) {
 			e.printStackTrace();
 		}
@@ -154,7 +153,9 @@ public class PlanningPokerVoteEntityManager implements
 
 	/**
 	 * Deletes all entities of Model class T
-	 * @param s Current session
+	 * 
+	 * @param s
+	 *            Current session
 	 */
 	@Override
 	public void deleteAll(Session s) throws WPISuiteException {

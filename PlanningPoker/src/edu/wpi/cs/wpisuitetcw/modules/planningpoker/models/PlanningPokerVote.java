@@ -20,6 +20,10 @@ public class PlanningPokerVote extends AbstractModel {
 	private User user;
 	private int cardValue;
 
+	public PlanningPokerVote(){
+		System.out.println("Using default constructor for vote (BAD)");
+	}
+	
 	public PlanningPokerVote(PlanningPokerSession pps,
 			PlanningPokerRequirement ppr, User u, int val) {
 		this.session = pps;
@@ -58,7 +62,20 @@ public class PlanningPokerVote extends AbstractModel {
 	public String toJSON() {
 		return new Gson().toJson(this, PlanningPokerVote.class);
 	}
-	
+
+
+	/**
+	 * toString : enforce an override. May simply call serializeToJSON.
+	 * 
+	 * @return The string representation of this Model
+	 */
+	@Override
+	public String toString() {
+		return ("ID: " + this.id + "   Session ID: " + this.session.getID()
+				+ "   Requirement ID: " + this.requirement.getId()
+				+ "   User ID: " + this.user.getIdNum() + "   Card Info: " + this.cardValue);
+	}
+
 	
 	/**
 	 * Convert from JSON back to a Planning Poker Session
@@ -73,17 +90,20 @@ public class PlanningPokerVote extends AbstractModel {
 	}
 
 	/**
-	 * toString : enforce an override. May simply call serializeToJSON.
+	 * Returns an array of PlanningPokerSession parsed from the given
+	 * JSON-encoded string.
 	 * 
-	 * @return The string representation of this Model
+	 * @param json
+	 *            a string containing a JSON-encoded array of
+	 *            PlanningPokerSession
+	 * @return an array of PlanningPokerSession deserialized from the given json
+	 *         string
 	 */
-	@Override
-	public String toString() {
-		return ("ID: " + this.id + "   Session ID: " + this.session.getID()
-				+ "   Requirement ID: " + this.requirement.getId()
-				+ "   User ID: " + this.user.getIdNum() + "   Card Info: " + this.cardValue);
+	public static PlanningPokerVote[] fromJSONArray(String json) {
+		final Gson parser = new Gson();
+		return parser.fromJson(json, PlanningPokerVote[].class);
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -91,10 +111,7 @@ public class PlanningPokerVote extends AbstractModel {
 	public Boolean identify(Object o) {
 		return ((Integer) o).equals(this.id);
 	}
-	
 
-	public PlanningPokerVote() {
-	}
 
 	public int getID() {
 		return id;
@@ -111,5 +128,5 @@ public class PlanningPokerVote extends AbstractModel {
 	public void setCardValue(int cardValue) {
 		this.cardValue = cardValue;
 	}
-	
+
 }
