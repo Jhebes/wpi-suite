@@ -55,6 +55,8 @@ public class CreateSessionPanel extends JSplitPane {
 	// deadline date and time picker
 	private final JXDatePicker deadlinePicker;
 	private final JSpinner pickerDeadlineTime;
+	
+	private JLabel labelName;
 
 	/** Model used for requirements JList */
 	DefaultListModel<String> existingRequirementsNames;
@@ -72,7 +74,7 @@ public class CreateSessionPanel extends JSplitPane {
 		leftPanel = new ScrollablePanel();
 
 		// create labels for each data field
-		JLabel labelName = new JLabel("Name *");
+		labelName = new JLabel("Name *");
 		JLabel labelDeadline = new JLabel("Deadline");
 		JLabel labelDropdownType = new JLabel("Type *");
 		// JLabel labelExplanation = new JLabel(EXPLANATIONSTRING);
@@ -198,6 +200,16 @@ public class CreateSessionPanel extends JSplitPane {
 	public JTextField getNameTextField() {
 		return nameTextField;
 	}
+	
+	/**
+	 * Return the name JLabel
+	 * 
+	 * @return the name JLabel
+	 */
+		public JLabel getLabelName() {
+		return this.labelName;
+	}
+	
 
 	/**
 	 * Return the save button
