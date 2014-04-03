@@ -158,7 +158,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	 * @param sessionDeadlineTime Deadline Time (hh:mm AM) of Session as a String
 	 */
 	void setSessionDeadline(String sessionDeadlineDate, String sessionDeadlineTime) {
-		deadline = new JLabel(sessionDeadlineDate + " at " + sessionDeadlineTime, JLabel.LEFT);
+		deadline = new JLabel("<html>" + sessionDeadlineDate + " at " + sessionDeadlineTime + "</html>", JLabel.LEFT);
 	}
 	
 	/**
