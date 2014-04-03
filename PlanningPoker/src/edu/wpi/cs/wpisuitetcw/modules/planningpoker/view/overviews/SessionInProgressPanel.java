@@ -20,9 +20,11 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddVoteControlle
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.RetrieveAllPlanningPokerVoteController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
+import javax.swing.JTabbedPane;
+import java.awt.GridLayout;
+import javax.swing.JTree;
 
 public class SessionInProgressPanel extends JSplitPane {
-	private JTextField textField;
 
 	/**
 	 * Create the panel.
@@ -59,52 +61,50 @@ public class SessionInProgressPanel extends JSplitPane {
 		JLabel date = new JLabel("12/13/14", JLabel.CENTER);
 		LeftPanel.add(date);
 
-		JSplitPane RightPanel = new JSplitPane();
-		RightPanel.setBackground(Color.WHITE);
-		RightPanel.setLayout(new BoxLayout(RightPanel, BoxLayout.X_AXIS));
-
 		JPanel requirementsPanel = new JPanel();
 		requirementsPanel.setLayout(new BoxLayout(requirementsPanel,
 				BoxLayout.X_AXIS));
-
-		JList requirementsList = new JList();
-		RightPanel.setLeftComponent(requirementsList);
-
-		JPanel requiementsDetailPanel = new JPanel();
-		RightPanel.setRightComponent(requiementsDetailPanel);
-		requiementsDetailPanel.setLayout(new BorderLayout(0, 0));
-
-		JLabel lblNewLabel = new JLabel("Requirement Detail:");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		requiementsDetailPanel.add(lblNewLabel);
-
-		JPanel panel = new JPanel();
-		requiementsDetailPanel.add(panel, BorderLayout.SOUTH);
-
-		JLabel lblEstimate = new JLabel("Estimate:");
-		panel.add(lblEstimate);
-
-		textField = new JTextField();
-		panel.add(textField);
-		textField.setColumns(10);
-
-		JButton btnSubmit = new JButton("Submit");
-		btnSubmit.addActionListener(new AddVoteController(this));
-		panel.add(btnSubmit);
-
-		
-		JButton btnGetAllVotes = new JButton("Get All Votes");
-		btnGetAllVotes.addActionListener(new RetrieveAllPlanningPokerVoteController(this, new PlanningPokerRequirement()));
-		panel.add(btnGetAllVotes);
 		
 		
 		
 		setLeftComponent(LeftPanel);
-		setRightComponent(RightPanel);
+		
+		JSplitPane splitTopBottom = new JSplitPane();
+		splitTopBottom.setResizeWeight(0.8);
+		splitTopBottom.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		setRightComponent(splitTopBottom);
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		splitTopBottom.setRightComponent(tabbedPane);
+		
+		JPanel statsTab = new JPanel();
+		tabbedPane.addTab("Statistics", null, statsTab, null);
+		
+		JPanel voteTab = new JPanel();
+		tabbedPane.addTab("Voting", null, voteTab, null);
+		
+		JSplitPane splitLeftRight = new JSplitPane();
+		splitLeftRight.setResizeWeight(0.8);
+		splitTopBottom.setLeftComponent(splitLeftRight);
+		
+		JPanel reqsView = new JPanel();
+		splitLeftRight.setLeftComponent(reqsView);
+		
+		JList reqsList = new JList();
+		reqsView.add(reqsList);
+		
+		JPanel ReqsDetail = new JPanel();
+		splitLeftRight.setRightComponent(ReqsDetail);
+		ReqsDetail.setLayout(new BorderLayout(0, 0));
+		
+		JList list = new JList();
+		ReqsDetail.add(list, BorderLayout.CENTER);
+		
+		JLabel lblRequirementDetail = new JLabel("Requirement Detail:");
+		lblRequirementDetail.setHorizontalAlignment(SwingConstants.CENTER);
+		ReqsDetail.add(lblRequirementDetail, BorderLayout.NORTH);
 	}
-
+/*
 	public void receiveVotes(PlanningPokerVote[] votes) {
 		String text = "";
 		for(PlanningPokerVote v: votes){
@@ -121,5 +121,5 @@ public class SessionInProgressPanel extends JSplitPane {
 	public void setTextField(String t) {
 		this.textField.setText(t);
 	}
-	
+	*/
 }
