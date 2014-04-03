@@ -10,6 +10,7 @@ import java.util.GregorianCalendar;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -79,6 +80,9 @@ public class CreateSessionPanel extends JSplitPane {
 		JLabel labelDropdownType = new JLabel("Type *");
 		// JLabel labelExplanation = new JLabel(EXPLANATIONSTRING);
 
+		// checkbox for deadline
+		JCheckBox cbDeadline = new JCheckBox();
+		
 		// text area
 		JTextArea textAreaExp = new JTextArea(5, 15);
 		textAreaExp.setText(EXPLANATIONSTRING);
@@ -117,22 +121,27 @@ public class CreateSessionPanel extends JSplitPane {
 		// setup right panel
 		// MigLayout is a convenient way of creating responsive layout with
 		// Swing
-		rightPanel.setLayout(new MigLayout("", "", "shrink"));
+		rightPanel.setLayout(new MigLayout("", "[]10[]", "shrink"));
 		rightPanel.setAlignmentX(LEFT_ALIGNMENT);
 
 		// labels and textfields
-		rightPanel.add(labelName, "wrap");
-		rightPanel.add(nameTextField, "width 150px, left, wrap");
+		rightPanel.add(labelName);
+		rightPanel.add(labelDropdownType, "wrap");
+		
+		rightPanel.add(nameTextField, "width 150px, left");
+		rightPanel.add(dropdownType, "width 150px, right, wrap");
 
-		rightPanel.add(labelDeadline, "wrap");
+		// textarea
+		
+		// optional deadline
+		rightPanel.add(labelDeadline);
+		rightPanel.add(cbDeadline, "wrap");
+		
 		rightPanel.add(deadlinePicker, "width 100px");
-
 		rightPanel.add(pickerDeadlineTime, "width 100px, wrap");
 		// leftPanel.add(fieldDeadline, "growx, pushx, shrinkx, span, wrap");
-
-		// dropdowns
-		rightPanel.add(labelDropdownType, "wrap");
-		rightPanel.add(dropdownType, "width 150px, left, wrap");
+		
+		
 
 		// buttons
 		rightPanel.add(btnSaveSession, "width 150px, left, wrap");
