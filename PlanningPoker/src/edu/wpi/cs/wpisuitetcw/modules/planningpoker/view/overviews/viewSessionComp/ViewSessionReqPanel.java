@@ -5,9 +5,16 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionC
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.Panel;
 import java.util.Vector;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -31,17 +38,26 @@ public class ViewSessionReqPanel extends JPanel {
 	private final ScrollablePanel allReqPanel;
 	private final JPanel buttonsPanel;
 	private final JTextArea description;
+	private final JButton moveRequirementToAll;
+	private final JButton moveAllRequirementsToAll;
+	private final JButton moveRequirementToSession;
+	private final JButton moveAllRequirementsToSession;
 	private final JTable allReqTable;
 	private final JTable sessionReqTable;
 
 	public ViewSessionReqPanel(ViewSessionPanel parentPanel) {
-		this.setLayout(new BorderLayout());
+		this.setLayout(new GridBagLayout());
 		this.parentPanel = parentPanel;
 		this.sessionReqPanel = new ScrollablePanel();
 		this.allReqPanel = new ScrollablePanel();
 		this.buttonsPanel = new JPanel();
 		this.description = new JTextArea();
-
+		this.moveRequirementToAll = new JButton(" < ");
+		this.moveAllRequirementsToAll = new JButton(" << ");
+		this.moveRequirementToSession = new JButton(" > ");
+		this.moveAllRequirementsToSession = new JButton(" >> ");
+				
+		
 		// setup panels
 		Panel leftPanel = new Panel();
 		Panel rightPanel = new Panel();
@@ -83,9 +99,9 @@ public class ViewSessionReqPanel extends JPanel {
 		allReqTable.setBackground(Color.WHITE);
 		
 		// add table to rightPanel
-		rightPanel.setLayout(new BorderLayout());
+		leftPanel.setLayout(new BorderLayout());
 		JScrollPane allReqSp = new JScrollPane(allReqTable);
-		rightPanel.add(allReqSp);
+		leftPanel.add(allReqSp);
 		
 		// table for left pain
 		sessionReqTable = new JTable(
@@ -120,19 +136,68 @@ public class ViewSessionReqPanel extends JPanel {
 		};
 		
 		
-		leftPanel.setLayout(new BorderLayout());
+		rightPanel.setLayout(new BorderLayout());
 		JScrollPane sessionReqSp = new JScrollPane(sessionReqTable);
-		leftPanel.add(sessionReqSp);
+		rightPanel.add(sessionReqSp);
 		
 		
+		moveAllRequirementsToSession.setPreferredSize(new Dimension(70,50));
+		moveRequirementToSession.setPreferredSize(new Dimension(70,50));
+		moveRequirementToAll.setPreferredSize(new Dimension(70,50));
+		moveAllRequirementsToAll.setPreferredSize(new Dimension(70,50));
+		
+		// setup buttons panel
+		buttonsPanel.setLayout(new GridLayout(0, 1, 0, 20));
+		buttonsPanel.add(moveAllRequirementsToSession);
+		buttonsPanel.add(moveRequirementToSession);
+		buttonsPanel.add(moveRequirementToAll);
+		buttonsPanel.add(moveAllRequirementsToAll);
+
+		// buttons panel goes in the center
 		centerPanel.setLayout(new BorderLayout());
 		centerPanel.add(buttonsPanel);
 		
+		// text field for description goes in the bottom of the panel
+		JScrollPane descriptionSp = new JScrollPane(description);
+		description.setLineWrap(true);
+		bottomPanel.setLayout(new BorderLayout());
+		bottomPanel.add(descriptionSp);
+		
+		GridBagConstraints c = new GridBagConstraints();
+
+		c.weighty = 1.0;
+		c.weightx = 1.0;
+		// c.insets = new Insets(10,0,0,0); // this is how we pad
+		c.gridx = 0;
+		c.gridy = 0;
+		this.add(leftPanel, c);
+		
+		c.weighty = 1.0;
+		c.weightx = 1.0;
+		c.gridx = 1;
+		c.gridy = 0;
+		this.add(centerPanel, c);
+		
+		c.weighty = 1.0;
+		c.weightx = 1.0;
+		c.gridx = 2;
+		c.gridy = 0;
+		this.add(rightPanel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.ipady = 40;
+		c.weighty = 0;
+		c.weightx = 0;
+		c.gridwidth = 3;
+		c.gridx = 0;
+		c.gridy = 1;
+		this.add(bottomPanel, c);
+		
 		// setup panels
-		this.add(leftPanel, BorderLayout.LINE_START);
-		this.add(rightPanel, BorderLayout.LINE_END);
+		/*this.add(leftPanel, BorderLayout.WEST);
+		this.add(rightPanel, BorderLayout.EAST);
 		this.add(centerPanel, BorderLayout.CENTER);
-		this.add()
-		this.setEnabled(false);
+		this.add(bottomPanel, BorderLayout.SOUTH);
+		this.setEnabled(false);*/
 	}
 }
