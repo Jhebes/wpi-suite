@@ -86,17 +86,4 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 		assertEquals("/planningpoker/requirement", request.getUrl().getPath());
 		assertEquals(HttpMethod.GET, request.getHttpMethod());
 	}
-
-	@Test
-	/**
-	 * Test that Data is sent to gui
-	 */
-	public void testRecievedData() {
-		assertEquals(panel.getRequirements().size(), 0);
-		controller.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null)); 
-		ArrayList<PlanningPokerRequirement> requirements = new ArrayList<PlanningPokerRequirement>();
-		requirements.add(new PlanningPokerRequirement(-1, "Test", ""));
-		controller.receivedData(requirements);
-		assertFalse(panel.getRequirements().size() == 0);
-	}
 }
