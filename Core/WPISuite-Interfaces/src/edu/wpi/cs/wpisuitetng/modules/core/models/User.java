@@ -29,6 +29,8 @@ public class User extends AbstractModel
 	private String username;
 	private int idNum;
 	private Role role;
+	private String aim;
+	private String email;
 	
 	transient private String password; // excluded from serialization, still stored.
 	
@@ -38,13 +40,20 @@ public class User extends AbstractModel
 	 * @param username	User's username (nickname)
 	 * @param idNum	User's ID number
 	 */
-	public User(String name, String username, String password, int idNum)
+	public User(String name, String username, String password, String aim, String email, int idNum)
 	{
 		this.name = name;
 		this.username = username;
 		this.password = password;
+		this.aim = aim;
+		this.email = email;
 		this.idNum = idNum;
 		this.role = Role.USER;
+	}
+	
+	public User(String name, String username, String password, int idNum)
+	{
+		this(name, username, password, "", "", idNum);
 	}
 	
 	@Override
@@ -65,6 +74,16 @@ public class User extends AbstractModel
 				}
 				
 				if(this.password != null && !this.password.equals(((User)other).password))
+				{
+					return false;
+				}
+				
+				if(this.aim != null && !this.aim.equals(((User)other).aim))
+				{
+					return false;
+				}
+				
+				if(this.email != null && !this.email.equals(((User)other).email))
 				{
 					return false;
 				}
@@ -105,6 +124,16 @@ public class User extends AbstractModel
 		return this.password;
 	}
 	
+	public String getAIM()
+	{
+		return this.aim;
+	}
+	
+	public String getEmail()
+	{
+		return this.email;
+	}
+	
 	/* Accessors */
 	public String getName()
 	{
@@ -120,6 +149,7 @@ public class User extends AbstractModel
 	{
 		return username;
 	}
+	
 	
 	/* database interaction */
 	public void save()
@@ -222,6 +252,7 @@ public class User extends AbstractModel
 		this.idNum = newidNum;
 		return this;
 	}
+
 	
 	
 	public Role getRole()
