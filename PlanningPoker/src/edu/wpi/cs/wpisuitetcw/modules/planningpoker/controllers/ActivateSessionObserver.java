@@ -13,30 +13,28 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * Handles requests to server to store sessions of Planning Poker
- * 
- * @author Josh Hebert
+ * Handles requests to server to activate a session of Planning Poker
  * 
  */
-public class AddSessionRequestObserver implements RequestObserver {
-	//The controller this is tied to
-	private final AddSessionController controller;
-
-	
+public class ActivateSessionObserver implements RequestObserver {
+	private final ActivateSessionController controller;
+		
 	/**
 	 * Creates a listener attached to the controller
 	 * @param a Tied controller
 	 */
-	public AddSessionRequestObserver(AddSessionController a) {
+	public ActivateSessionObserver(ActivateSessionController a) {
 		this.controller = a;
 	}
 
-	/*
+	/**
 	 * Parse the message that was received from the server then pass them to the
 	 * controller.
 	 * 
@@ -45,14 +43,8 @@ public class AddSessionRequestObserver implements RequestObserver {
 	 * .cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
-	public void responseSuccess(IRequest iReq) {
-		// Get the response to the given request
-		final ResponseModel response = iReq.getResponse();
-
-		// Parse the message out of the response body
-		final PlanningPokerSession session = PlanningPokerSession.fromJson(response.getBody());
-		
-		controller.onSuccess(session);
+	public void responseSuccess(IRequest iReq) {		
+		controller.onSuccess();
 
 	}
 

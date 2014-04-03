@@ -21,7 +21,10 @@ import java.util.Date;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTableSessionTableModel;
+import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -36,6 +39,9 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class AddSessionController implements ActionListener {
 	private final CreateSessionPanel view;
+	
+	// TODO this should be deleted in the future
+	private String sessionName;
 
 	/**
 	 * Construct an AddSessionController for the given view
@@ -62,38 +68,25 @@ public class AddSessionController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		// Get the name of the session
-		String name = this.view.nameField.getText();
+		String name = this.view.getNameTextField().getText();
 
 		// Dummy Data
 		// Date fields with some dummy data
 		// String year = "1";
 		// String month = "1";
 		// String day = "1";
-
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date d;
-		try {
-			// d = sdf.parse(String.format("%s/%s/%s", day, month, year));
-			d = sdf.parse(this.view.deadlineField.getText());
-
-		} catch (ParseException e) {
-			// The user put in bad date data and we should return an error on
-			// the gui
-
-			// Not this
-			e.printStackTrace();
-
-			return;
-		}
-
+		
+		// TODO Session type should be stored 
+		Date d = this.view.getDeadline();
+		
 		// Create a new session and populate its data
 		PlanningPokerSession session = new PlanningPokerSession();
 		session.setName(name);
-		session.setEndTime(d);
+		session.setDeadline(d);
 
 		// Add all checked requirements
-		ArrayList<PlanningPokerRequirement> reqs = view.getRequirements();
-		session.addRequirements(reqs);
+		// ArrayList<PlanningPokerRequirement> reqs = view.getRequirements();
+		// session.addRequirements(reqs);
 
 		// Send a request to the core to save this message
 		// Create the request
@@ -105,5 +98,13 @@ public class AddSessionController implements ActionListener {
 		request.addObserver(new AddSessionRequestObserver(this));
 		// Send the request on its way
 		request.send();
+	}
+
+
+	// removes a tab and opens another
+	public void onSuccess(PlanningPokerSession session) {
+		ViewEventManager.getInstance().removeTab(this.view);
+		ViewEventManager.getInstance().viewSession(session);
+		GetAllSessionsController.getInstance().retrieveSessions();
 	}
 }

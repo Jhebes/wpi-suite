@@ -19,9 +19,8 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/PostBoard"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/RequirementManager"/>
 	<classpathentry kind="lib" path="/DefectTracker/src"/>
-	<classpathentry kind="lib" path="/PostBoard/src"/>
 	<classpathentry kind="lib" path="/RequirementManager/src"/>
 	<classpathentry kind="lib" path="/WPISuite-Interfaces/src"/>
-	<classpathentry kind="src" path="/PlanningPoker"/>
+	<classpathentry kind="lib" path="/PlanningPoker/src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

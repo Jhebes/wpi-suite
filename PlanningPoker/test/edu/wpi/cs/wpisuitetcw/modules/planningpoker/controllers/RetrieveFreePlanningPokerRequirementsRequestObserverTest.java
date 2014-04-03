@@ -29,8 +29,7 @@ public class RetrieveFreePlanningPokerRequirementsRequestObserverTest {
 		Network.initNetwork(new MockNetwork());
 		Network.getInstance().setDefaultNetworkConfiguration(
 				new NetworkConfiguration("http://wpisuitetng"));
-		controller = new RetrieveFreePlanningPokerRequirementsController(
-				new CreateSessionPanel());
+		controller = RetrieveFreePlanningPokerRequirementsController.getInstance();
 	}
 
 	@Test

@@ -9,24 +9,26 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionTableModel;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
-import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Controller to handle retrieving free requirements from the server and
- * displaying them in the {@link CreateSessionPanel}
+ * Controller to handle retrieving free requirements from the server.
  */
-public class RetrieveFreePlanningPokerRequirementsController {
-
+public class RetrieveFreePlanningPokerRequirementsController implements ActionListener{
+	private static RetrieveFreePlanningPokerRequirementsController instance;
 	/** The create session panel */
 	protected CreateSessionPanel panel;
 
@@ -35,25 +37,24 @@ public class RetrieveFreePlanningPokerRequirementsController {
 
 	/**
 	 * Constructs a new RetrieveFreePlanningPokerRequirementsController
-	 * 
-	 * @param panel
-	 *            the create session panel
 	 */
-	public RetrieveFreePlanningPokerRequirementsController(
-			CreateSessionPanel panel) {
-		this.panel = panel;
+	private RetrieveFreePlanningPokerRequirementsController() {
+		
+	}
+	
+	public static RetrieveFreePlanningPokerRequirementsController getInstance() {
+		if (instance == null) {
+			instance = new RetrieveFreePlanningPokerRequirementsController();
+		}
+		return instance;
 	}
 
 	/**
 	 * Sends a request for all of the requirements
-	 * 
-	 * @throws NotImplementedException
 	 */
 	public void refreshData(){
-		final RequestObserver requestObserver = new RetrieveFreePlanningPokerRequirementsRequestObserver(this);
-		Request request;
-		request = Network.getInstance().makeRequest("planningpoker/requirement", HttpMethod.GET);
-		request.addObserver(requestObserver);
+		final Request request = Network.getInstance().makeRequest("planningpoker/session/0", HttpMethod.GET);
+		request.addObserver(new RetrieveFreePlanningPokerRequirementsRequestObserver(this));
 		request.send();
 	}
 
@@ -62,12 +63,12 @@ public class RetrieveFreePlanningPokerRequirementsController {
 	 * {@link RetrieveFreePlanningPokerRequirementsRequestObserver} when the
 	 * response is received
 	 * 
-	 * @param requirements
+	 * @param session
 	 *            an array list of requirements returned by the server
 	 * @throws NotImplementedException
 	 */
-	public void receivedData(ArrayList<PlanningPokerRequirement> requirements){
-		panel.updateRequirements(requirements);
+	public void receivedData(PlanningPokerSession session){
+		ViewSessionTableModel.getInstance().refreshRequirements(session.getRequirements());
 	}
 
 	/**
@@ -80,5 +81,11 @@ public class RetrieveFreePlanningPokerRequirementsController {
 				"An error occurred retrieving requirements from the server. "
 						+ error, "Error Communicating with Server",
 				JOptionPane.ERROR_MESSAGE);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		this.refreshData();
+		
 	}
 }

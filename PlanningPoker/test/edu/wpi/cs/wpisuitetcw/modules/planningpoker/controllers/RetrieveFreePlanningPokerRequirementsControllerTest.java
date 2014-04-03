@@ -9,11 +9,9 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -66,7 +64,7 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 		db.save(session, testProject);
 		db.save(bob);
 		panel = new CreateSessionPanel();
-		controller = new RetrieveFreePlanningPokerRequirementsController(panel);
+		controller = RetrieveFreePlanningPokerRequirementsController.getInstance();
 	}
 
 	@Test
@@ -74,7 +72,7 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 	 * Tests that the controller sends a valid request.
 	 */
 	public void testRefreshDataSendsValidRequest() throws WPISuiteException {
-		controller.refreshData();
+		controller.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null)); 
 
 		// See whether the request was sent
 		MockRequest request = ((MockNetwork) Network.getInstance())
@@ -87,18 +85,5 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 		// Validate the request
 		assertEquals("/planningpoker/requirement", request.getUrl().getPath());
 		assertEquals(HttpMethod.GET, request.getHttpMethod());
-	}
-
-	@Test
-	/**
-	 * Test that Data is sent to gui
-	 */
-	public void testRecievedData() {
-		assertEquals(panel.getRequirements().size(), 0);
-		controller.refreshData();
-		ArrayList<PlanningPokerRequirement> requirements = new ArrayList<PlanningPokerRequirement>();
-		requirements.add(new PlanningPokerRequirement(-1, "Test", ""));
-		controller.receivedData(requirements);
-		assertFalse(panel.getRequirements().size() == 0);
 	}
 }

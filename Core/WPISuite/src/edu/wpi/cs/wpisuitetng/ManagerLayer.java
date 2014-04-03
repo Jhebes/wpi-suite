@@ -21,6 +21,7 @@ import javax.servlet.http.Cookie;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.PlanningPokerRequirementEntityManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.PlanningPokerSessionEntityManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.PlanningPokerVoteEntityManager;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.database.DataStore;
 import edu.wpi.cs.wpisuitetng.exceptions.AuthenticationException;
@@ -34,7 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.entitymanagers.UserManager;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.defecttracker.entitymanagers.CommentManager;
 import edu.wpi.cs.wpisuitetng.modules.defecttracker.entitymanagers.DefectManager;
-import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardEntityManager;
+//import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationEntityManager;
 
@@ -74,11 +75,12 @@ public class ManagerLayer {
 		map.put("coreuser", new UserManager(data));
 		map.put("defecttrackerdefect", new DefectManager(data));
 		map.put("defecttrackercomment", new CommentManager(data));
-		map.put("postboardpostboardmessage", new PostBoardEntityManager(data));
+//		map.put("postboardpostboardmessage", new PostBoardEntityManager(data));
 		map.put("requirementmanager" + "requirement", new RequirementEntityManager(data));
 		map.put("requirementmanager" + "iteration", new IterationEntityManager(data));
 		map.put("planningpoker" + "session", new PlanningPokerSessionEntityManager(data));	
 		map.put("planningpoker" + "requirement", new PlanningPokerRequirementEntityManager(data));
+		map.put("planningpoker" + "vote", new PlanningPokerVoteEntityManager(data));
 
 		//add just your module to this list
 		String[] fullModuleList = {"core","defecttracker","postboard","requirementmanager","planningpoker"};

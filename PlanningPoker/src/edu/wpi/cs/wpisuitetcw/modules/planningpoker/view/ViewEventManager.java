@@ -5,14 +5,18 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import javax.swing.JComponent;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 
 /**
+ * 
  * @author troyling
  * 
  */
-public class ViewEventController {
-	private static ViewEventController instance = null;
+public class ViewEventManager {
+	private static ViewEventManager instance = null;
 	private MainView main;
 	private ToolbarView toolbarView;
 
@@ -20,7 +24,7 @@ public class ViewEventController {
 	 * Default constructor for ViewEventController. It is set to private to
 	 * prevent instantiation.
 	 */
-	private ViewEventController() {
+	private ViewEventManager() {
 	}
 
 	/**
@@ -28,9 +32,9 @@ public class ViewEventController {
 	 * 
 	 * @return The instance of the controller
 	 */
-	public static ViewEventController getInstance() {
+	public static ViewEventManager getInstance() {
 		if (instance == null) {
-			instance = new ViewEventController();
+			instance = new ViewEventManager();
 		}
 		return instance;
 	}
@@ -45,6 +49,26 @@ public class ViewEventController {
 		main.repaint();
 		main.setSelectedComponent(newSession);
 	}
+	
+	/**
+	 * Opens a new tab for viewing a session
+	 */
+	public void viewSession(PlanningPokerSession session) {
+		if (session.isActive()) {
+			SessionInProgressPanel panel = new SessionInProgressPanel();
+			main.addTab(session.getName(), null, panel, "Session in progress.");
+			main.repaint();
+			main.setSelectedComponent(panel);
+		} else {
+			ViewSessionPanel viewSession = new ViewSessionPanel(session);
+			main.addTab(session.getName(), null, viewSession, "View Session.");
+			main.repaint();
+			main.setSelectedComponent(viewSession);
+		}
+		
+	}
+	
+	
 	/**
 	 * Sets the toolbarview to the given toolbar
 	 * @param tb the toolbar to be set as active.
@@ -56,7 +80,6 @@ public class ViewEventController {
 	
 	/**
 	 * Sets the main view to the given view.
-	
 	 * @param mainview MainView
 	 */
 	public void setMainView(MainView mainview) {
@@ -73,6 +96,5 @@ public class ViewEventController {
 		main.remove(component);
 		
 	}
-	
 	
 }
