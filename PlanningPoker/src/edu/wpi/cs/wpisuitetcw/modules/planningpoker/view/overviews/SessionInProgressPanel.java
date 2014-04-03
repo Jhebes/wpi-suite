@@ -145,11 +145,11 @@ public class SessionInProgressPanel extends JSplitPane {
 	 * @param sessionName
 	 */
 	void setSessionName(String sessionName) {
-		name = new JLabel(sessionName, JLabel.CENTER);
+		name = new JLabel(sessionName, JLabel.LEFT);
 	}
 	
 	void setSessionDescription(String sessionDescription) {
-		description = new JLabel("<html>" + sessionDescription + "</html>", JLabel.CENTER);
+		description = new JLabel("<html>" + sessionDescription + "</html>", JLabel.LEFT);
 	}
 	
 	/**
@@ -158,7 +158,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	 * @param sessionDeadlineTime Deadline Time (hh:mm AM) of Session as a String
 	 */
 	void setSessionDeadline(String sessionDeadlineDate, String sessionDeadlineTime) {
-		deadline = new JLabel(sessionDeadlineDate + " at " + sessionDeadlineTime, JLabel.CENTER);
+		deadline = new JLabel(sessionDeadlineDate + " at " + sessionDeadlineTime, JLabel.LEFT);
 	}
 	
 	/**
