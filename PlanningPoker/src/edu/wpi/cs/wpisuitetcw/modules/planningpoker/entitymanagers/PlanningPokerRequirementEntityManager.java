@@ -16,6 +16,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
@@ -95,11 +96,17 @@ public class PlanningPokerRequirementEntityManager implements
 	@Override
 	public PlanningPokerRequirement[] getEntity(Session s, String id)
 			throws NotFoundException, WPISuiteException {
-		// Throw an exception if an ID was specified, as this module does not
-		// support retrieving specific PlanningPokerRequirements.
 		List<Model> results = db.retrieve(
 				new PlanningPokerRequirement().getClass(), "ID",
 				Integer.parseInt(id), s.getProject());
+		// If the default session does not exist, create it
+		if (id.equals("0") && results.size() == 0) {
+			PlanningPokerSession defaultSession = new PlanningPokerSession();
+			defaultSession.setName("No session");
+			if (makeEntity(s, defaultSession.toJSON()) != null) {
+				results.add(defaultSession);
+			}
+		} 
 		return results.toArray(new PlanningPokerRequirement[0]);
 	}
 

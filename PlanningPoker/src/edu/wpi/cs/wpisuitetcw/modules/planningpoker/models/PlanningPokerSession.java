@@ -170,6 +170,22 @@ public class PlanningPokerSession extends AbstractModel {
 		this.deadline = deadline;
 	}
 	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public ArrayList<PlanningPokerRequirement> getRequirements() {
+		return requirements;
+	}
+
+	public void setRequirements(ArrayList<PlanningPokerRequirement> requirements) {
+		this.requirements = requirements;
+	}
+
 	public void addRequirement(PlanningPokerRequirement req) {
 		requirements.add(req);
 	}
