@@ -32,6 +32,10 @@ public class PlanningPokerSession extends AbstractModel {
 
 	// The name of the session;
 	private String name = "";
+	
+	private String description = "";
+	
+	private ArrayList<PlanningPokerRequirement> requirements;
 
 	/**
 	 * Constructs a PlanningPokerSession for the given string message
@@ -39,7 +43,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @param message
 	 */
 	public PlanningPokerSession() {
-
+		requirements = new ArrayList<PlanningPokerRequirement>();
 	}
 	
 	/**
@@ -165,15 +169,17 @@ public class PlanningPokerSession extends AbstractModel {
 	public void setDeadline(Date deadline) {
 		this.deadline = deadline;
 	}
+	
+	public void addRequirement(PlanningPokerRequirement req) {
+		requirements.add(req);
+	}
 
 	/**
 	 * Sets sessionIds for the PlanningPokerRequirements
 	 * @param newReq -> new Requirements to be added
 	 */
 	public void addRequirements(ArrayList<PlanningPokerRequirement> newReqs){
-		for(int i = 0; i < newReqs.size(); i++){
-			newReqs.get(i).setSessionID(this.id);
-		}
+		requirements.addAll(newReqs);
 	}
 	
 	/**
@@ -181,38 +187,9 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @param requirementID -> ID of requirement to be deleted
 	 */
 	public void deleteRequirements(ArrayList<PlanningPokerRequirement> reqs){
-		for(int i = 0; i < reqs.size(); i++){
-			reqs.get(i).setSessionID(-1);
-		}
+		requirements.removeAll(reqs);
 	}
 	
-	
-
-	// Functions for requirements
-
-	// public void createRequirements
-
-	/*
-	 * Adds a requirement to the list of requirements
-	 * 
-	 * @param newReq -> new Requirements to be added
-	 */
-	/*
-	 * public void addRequirements(ArrayList<PlanningPokerRequirement> newReqs){
-	 * this.reqsList.append(newReqs); }
-	 */
-
-	/*
-	 * Deletes a requirement by session ID
-	 * 
-	 * @param requirementId -> ID of requirement to be deleted
-	 */
-	/*
-	 * public void deleteRequirement(int requirementId){ for(int i = 0; i <
-	 * reqsList.size(); i++){ if(reqsList.get(i).getId() == requirementId){
-	 * reqsList.remove(i); break; } } }
-	 */
-
 	/**
 	 * Converts the model to a JSON String
 	 */
@@ -297,6 +274,8 @@ public class PlanningPokerSession extends AbstractModel {
 		this.endTime = updatedSession.endTime;
 		this.deadline = updatedSession.deadline;
 		this.name = updatedSession.name;
+		this.description = updatedSession.description;
+		this.requirements = updatedSession.requirements;
 	}
 
 }
