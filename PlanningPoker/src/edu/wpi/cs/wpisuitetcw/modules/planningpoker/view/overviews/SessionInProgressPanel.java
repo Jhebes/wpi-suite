@@ -1,10 +1,8 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.SystemColor;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -22,18 +20,20 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirem
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import javax.swing.JTabbedPane;
 import java.awt.GridLayout;
-import javax.swing.JTree;
 import javax.swing.AbstractListModel;
 
 public class SessionInProgressPanel extends JSplitPane {
-	private JTextField textField;
+	
+	private JTextField vote;
+	private	 JLabel name;
+	private	 JLabel description;
+	private JLabel deadline;
 
 	/**
 	 * Create the panel.
 	 */
 	public SessionInProgressPanel() {
 		JPanel LeftPanel = new JPanel();
-		LeftPanel.setBackground(SystemColor.menu);
 		LeftPanel.setLayout(new BoxLayout(LeftPanel, BoxLayout.Y_AXIS));
 
 		Component verticalStrut = Box.createVerticalStrut(10);
@@ -50,31 +50,35 @@ public class SessionInProgressPanel extends JSplitPane {
 		lblName.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LeftPanel.add(lblName);
 
-		JLabel name = new JLabel("Planning Poker", JLabel.CENTER);
+		setSessionName("Planning Poker");
 		LeftPanel.add(name);
 
 		Component verticalStrut3 = Box.createVerticalStrut(20);
 		LeftPanel.add(verticalStrut3);
+		
+		JLabel lblDescription = new JLabel("Description:");
+		lblDescription.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		LeftPanel.add(lblDescription);
 
-		JLabel lblDate = new JLabel("Session Ends:");
+		setSessionDescription("A sweet session where you do stuff and all is well.");
+		LeftPanel.add(description);
+
+		Component verticalStrut4 = Box.createVerticalStrut(20);
+		LeftPanel.add(verticalStrut4);
+
+		JLabel lblDate = new JLabel("Deadline:");
 		lblDate.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LeftPanel.add(lblDate);
 
-		JLabel date = new JLabel("12/13/14", JLabel.CENTER);
-		LeftPanel.add(date);
+		setSessionDeadline("12/13/14", "12:00 PM");
+		LeftPanel.add(deadline);
 
 		JPanel requirementsPanel = new JPanel();
-		requirementsPanel.setLayout(new BoxLayout(requirementsPanel,
-				BoxLayout.X_AXIS));
-		
-		
-		
-		setLeftComponent(LeftPanel);
+		requirementsPanel.setLayout(new BoxLayout(requirementsPanel, BoxLayout.X_AXIS));
 		
 		JSplitPane splitTopBottom = new JSplitPane();
 		splitTopBottom.setResizeWeight(0.8);
 		splitTopBottom.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		setRightComponent(splitTopBottom);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		splitTopBottom.setRightComponent(tabbedPane);
@@ -95,9 +99,9 @@ public class SessionInProgressPanel extends JSplitPane {
 		JLabel lblEstimate = new JLabel("Estimate:");
 		voteTab.add(lblEstimate);
 		
-		textField = new JTextField();
-		voteTab.add(textField);
-		textField.setColumns(10);
+		vote = new JTextField();
+		voteTab.add(vote);
+		vote.setColumns(10);
 		
 		JButton btnSubmit = new JButton("Submit");
 		voteTab.add(btnSubmit);
@@ -107,22 +111,19 @@ public class SessionInProgressPanel extends JSplitPane {
 		splitTopBottom.setLeftComponent(splitLeftRight);
 		
 		JPanel reqsView = new JPanel();
-		splitLeftRight.setLeftComponent(reqsView);
 		
-		JList reqsList = new JList();
+		JList<String> reqsList = new JList<String>();
 		reqsView.add(reqsList);
 		
 		JPanel ReqsDetail = new JPanel();
-		splitLeftRight.setRightComponent(ReqsDetail);
 		ReqsDetail.setLayout(new BorderLayout(0, 0));
-		
-		JList list = new JList();
-		list.setModel(new AbstractListModel() {
+		JList<String> list = new JList<String>();
+		list.setModel(new AbstractListModel<String>() {
 			String[] values = new String[] {"ID:", "", "", "Name:", "", "", "Description:", ""};
 			public int getSize() {
 				return values.length;
 			}
-			public Object getElementAt(int index) {
+			public String getElementAt(int index) {
 				return values[index];
 			}
 		});
@@ -131,7 +132,43 @@ public class SessionInProgressPanel extends JSplitPane {
 		JLabel lblRequirementDetail = new JLabel("Requirement Detail:");
 		lblRequirementDetail.setHorizontalAlignment(SwingConstants.CENTER);
 		ReqsDetail.add(lblRequirementDetail, BorderLayout.NORTH);
+		
+		splitLeftRight.setLeftComponent(reqsView);
+		splitLeftRight.setRightComponent(ReqsDetail);
+		
+		setLeftComponent(LeftPanel);
+		setRightComponent(splitTopBottom);
 	}
+	
+	/**
+	 * 
+	 * @param sessionName
+	 */
+	void setSessionName(String sessionName) {
+		name = new JLabel(sessionName, JLabel.CENTER);
+	}
+	
+	void setSessionDescription(String sessionDescription) {
+		description = new JLabel("<html>" + sessionDescription + "</html>", JLabel.CENTER);
+	}
+	
+	/**
+	 * 
+	 * @param sessionDeadlineDate Deadline Date (mm/dd/yyyy) of Session as a String
+	 * @param sessionDeadlineTime Deadline Time (hh:mm AM) of Session as a String
+	 */
+	void setSessionDeadline(String sessionDeadlineDate, String sessionDeadlineTime) {
+		deadline = new JLabel(sessionDeadlineDate + " at " + sessionDeadlineTime, JLabel.CENTER);
+	}
+	
+	/**
+	 * 
+	 * @return vote parsed as an integer
+	 */
+	int getVote() {
+		return Integer.getInteger(vote.toString());
+	}
+	
 /*
 	public void receiveVotes(PlanningPokerVote[] votes) {
 		String text = "";
@@ -140,10 +177,6 @@ public class SessionInProgressPanel extends JSplitPane {
 		}
 		//System.out.println("Recieved votes: " + text);
 		this.textField.setText(text);
-	}
-	
-	public JTextField getTextField() {
-		return textField;
 	}
 
 	public void setTextField(String t) {
