@@ -15,6 +15,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTableSessionTableModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -61,6 +62,13 @@ public class GetAllSessionsController implements ActionListener {
 				"planningpoker/session", HttpMethod.GET);
 		request.addObserver(new GetAllSessionsRequestObserver(this));
 		request.send(); // send the request
+		
+		PlanningPokerRequirement ppReq = new PlanningPokerRequirement(-1, "Name", "desc");
+		// Send a request to the core to retrieve the sessions
+				final Request request2 = Network.getInstance().makeRequest(
+						"planningpoker/requirement", HttpMethod.PUT);
+				request2.setBody(ppReq.toJSON());
+				request2.send(); // send the request
 	}
 
 	/**

@@ -8,9 +8,11 @@ import java.awt.Color;
 import java.awt.Panel;
 import java.util.Vector;
 
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionEvent;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllSessionsController;
@@ -23,21 +25,28 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Scrol
  * @author troyling
  * 
  */
-public class ViewSessionReqPanel extends JSplitPane {
+public class ViewSessionReqPanel extends JPanel {
 	private final ViewSessionPanel parentPanel;
 	private final ScrollablePanel sessionReqPanel;
 	private final ScrollablePanel allReqPanel;
+	private final JPanel buttonsPanel;
+	private final JTextArea description;
 	private final JTable allReqTable;
 	private final JTable sessionReqTable;
 
 	public ViewSessionReqPanel(ViewSessionPanel parentPanel) {
+		this.setLayout(new BorderLayout());
 		this.parentPanel = parentPanel;
 		this.sessionReqPanel = new ScrollablePanel();
 		this.allReqPanel = new ScrollablePanel();
+		this.buttonsPanel = new JPanel();
+		this.description = new JTextArea();
 
 		// setup panels
-		Panel rightPanel = new Panel();
 		Panel leftPanel = new Panel();
+		Panel rightPanel = new Panel();
+		Panel centerPanel = new Panel();
+		Panel bottomPanel = new Panel();
 
 		// setup tables
 		allReqTable = new JTable(
@@ -50,7 +59,7 @@ public class ViewSessionReqPanel extends JSplitPane {
 			}
 
 			public void valueChanged(ListSelectionEvent e) {
-
+				
 			}
 			
 			@Override
@@ -110,14 +119,20 @@ public class ViewSessionReqPanel extends JSplitPane {
 			}
 		};
 		
+		
 		leftPanel.setLayout(new BorderLayout());
 		JScrollPane sessionReqSp = new JScrollPane(sessionReqTable);
 		leftPanel.add(sessionReqSp);
 		
+		
+		centerPanel.setLayout(new BorderLayout());
+		centerPanel.add(buttonsPanel);
+		
 		// setup panels
-		this.setLeftComponent(leftPanel);
-		this.setRightComponent(rightPanel);
-		this.setResizeWeight(0.5);
+		this.add(leftPanel, BorderLayout.LINE_START);
+		this.add(rightPanel, BorderLayout.LINE_END);
+		this.add(centerPanel, BorderLayout.CENTER);
+		this.add()
 		this.setEnabled(false);
 	}
 }
