@@ -23,8 +23,10 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import javax.swing.JTabbedPane;
 import java.awt.GridLayout;
 import javax.swing.JTree;
+import javax.swing.AbstractListModel;
 
 public class SessionInProgressPanel extends JSplitPane {
+	private JTextField textField;
 
 	/**
 	 * Create the panel.
@@ -79,9 +81,26 @@ public class SessionInProgressPanel extends JSplitPane {
 		
 		JPanel statsTab = new JPanel();
 		tabbedPane.addTab("Statistics", null, statsTab, null);
+		statsTab.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JLabel lblCurrentEstimate = new JLabel("Current Estimate:");
+		statsTab.add(lblCurrentEstimate);
+		
+		JLabel lblNumberOfVotes = new JLabel("Number of Votes:");
+		statsTab.add(lblNumberOfVotes);
 		
 		JPanel voteTab = new JPanel();
 		tabbedPane.addTab("Voting", null, voteTab, null);
+		
+		JLabel lblEstimate = new JLabel("Estimate:");
+		voteTab.add(lblEstimate);
+		
+		textField = new JTextField();
+		voteTab.add(textField);
+		textField.setColumns(10);
+		
+		JButton btnSubmit = new JButton("Submit");
+		voteTab.add(btnSubmit);
 		
 		JSplitPane splitLeftRight = new JSplitPane();
 		splitLeftRight.setResizeWeight(0.8);
@@ -98,6 +117,15 @@ public class SessionInProgressPanel extends JSplitPane {
 		ReqsDetail.setLayout(new BorderLayout(0, 0));
 		
 		JList list = new JList();
+		list.setModel(new AbstractListModel() {
+			String[] values = new String[] {"ID:", "", "", "Name:", "", "", "Description:", ""};
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
 		ReqsDetail.add(list, BorderLayout.CENTER);
 		
 		JLabel lblRequirementDetail = new JLabel("Requirement Detail:");
