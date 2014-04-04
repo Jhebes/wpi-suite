@@ -53,15 +53,23 @@ public class ViewSessionReqPanel extends JPanel {
 	private final JTable allReqTable;
 	private final JTable sessionReqTable;
 	
-	public int[] getSelectedRequirements(JTable ReqTable)	{
-		int[] selectedRows = allReqTable.getSelectedRows();
+	public int[] getLeftSelectedRequirements()	{
+		int[] selectedRows = this.allReqTable.getSelectedRows();
 		int[] selectedIDs = {};
 		for(int i = 0; i < selectedRows.length; i++){
-			selectedIDs[i] = (int)(allReqTable.getValueAt(selectedRows[i],0));
+			selectedIDs[i] = (int)(this.allReqTable.getValueAt(selectedRows[i],0));
 		}
 		return selectedIDs;
 	}
 	
+	public int[] getRightSelectedRequirements()	{
+		int[] selectedRows = this.sessionReqTable.getSelectedRows();
+		int[] selectedIDs = {};
+		for(int i = 0; i < selectedRows.length; i++){
+			selectedIDs[i] = (int)(this.sessionReqTable.getValueAt(selectedRows[i],0));
+		}
+		return selectedIDs;
+	}
 	
 	public ViewSessionReqPanel(ViewSessionPanel parentPanel) {
 		this.setLayout(new GridBagLayout());
