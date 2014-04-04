@@ -15,8 +15,10 @@ import java.util.Vector;
 
 
 
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -46,22 +48,37 @@ public class ViewSessionReqPanel extends JPanel {
 	private final JButton moveAllRequirementsToAll;
 	private final JButton moveRequirementToSession;
 	private final JButton moveAllRequirementsToSession;
+	private final JButton addRequirementToAll;
+	private final JButton addRequirementToSession;
 	private final JTable allReqTable;
 	private final JTable sessionReqTable;
-
+	
+	public int[] getSelectedRequirements(JTable ReqTable)	{
+		int[] selectedRows = allReqTable.getSelectedRows();
+		int[] selectedIDs = {};
+		for(int i = 0; i < selectedRows.length; i++){
+			selectedIDs[i] = (int)(allReqTable.getValueAt(selectedRows[i],0));
+		}
+		return selectedIDs;
+	}
+	
+	
 	public ViewSessionReqPanel(ViewSessionPanel parentPanel) {
 		this.setLayout(new GridBagLayout());
 		this.parentPanel = parentPanel;
 		this.sessionReqPanel = new ScrollablePanel();
 		this.allReqPanel = new ScrollablePanel();
 		this.buttonsPanel = new JPanel();
-		this.description = new JTextArea("Description:");
-		this.name = new JTextField("Name:");
+		this.description = new JTextArea("");
+		this.name = new JTextField("");
 		this.moveRequirementToAll = new JButton(" < ");
 		this.moveAllRequirementsToAll = new JButton(" << ");
 		this.moveRequirementToSession = new JButton(" > ");
 		this.moveAllRequirementsToSession = new JButton(" >> ");
-
+		this.addRequirementToAll = new JButton("Add Requirement to All");
+		this.addRequirementToSession = new JButton("Add Requirement to Session");
+		
+		
 		// setup panels
 		Panel namePanel = new Panel();
 		Panel leftPanel = new Panel();
@@ -139,9 +156,10 @@ public class ViewSessionReqPanel extends JPanel {
 		};
 
 		
-		sessionReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		allReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		
+		//sessionReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		//allReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		sessionReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+		allReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 		rightPanel.setLayout(new BorderLayout());
 		JScrollPane sessionReqSp = new JScrollPane(sessionReqTable);
 		rightPanel.add(sessionReqSp);
@@ -163,21 +181,22 @@ public class ViewSessionReqPanel extends JPanel {
 		centerPanel.add(buttonsPanel);
 
 		// text field for name goes in the top of the panel
+		JLabel nameLabel = new JLabel("Name:");
 		namePanel.setLayout(new BorderLayout());
-		namePanel.add(name);
-		
-		// IMPLEMENT GETSELECTEDLEFT() AND GETSELECTEDRIGHT()
+		namePanel.add(nameLabel, BorderLayout.NORTH);
+		namePanel.add(name, BorderLayout.SOUTH);
 		
 		
 		// text field for description goes in the bottom of the panel
+		JLabel descriptionLabel = new JLabel("Description:");
 		JScrollPane descriptionSp = new JScrollPane(description);
 		description.setLineWrap(true);
 		bottomPanel.setLayout(new BorderLayout());
-		bottomPanel.add(descriptionSp);
+		bottomPanel.add(descriptionLabel, BorderLayout.NORTH);
+		bottomPanel.add(descriptionSp, BorderLayout.CENTER);
 
 		GridBagConstraints c = new GridBagConstraints();
 
-		// c.insets = new Insets(10,0,0,0); // this is how we pad
 		
 		c.weighty = .2;
 		c.weightx = .2;
@@ -187,12 +206,23 @@ public class ViewSessionReqPanel extends JPanel {
 		
 		c.weighty = 1.0;
 		c.weightx = 1.0;
+		
+		c.anchor = GridBagConstraints.CENTER;
+		c.gridx = 1;
+		c.gridy = 1;
+		this.add(addRequirementToAll, c);
+		
+		c.anchor = GridBagConstraints.WEST;
+		c.insets = new Insets(10,10,10,10);
+		c.gridx = 2;
+		c.gridy = 1;
+		this.add(addRequirementToSession, c);
+		
 		c.insets = new Insets(10,10,10,10);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 1;
 		this.add(namePanel, c);
-		
 		
 		c.weighty = 1.0;
 		c.weightx = 1.0;
@@ -209,8 +239,6 @@ public class ViewSessionReqPanel extends JPanel {
 		c.gridy = 0;
 		c.fill = GridBagConstraints.BOTH;
 		this.add(rightPanel, c);
-
-	
 		
 		c.ipady = 100;
 		c.insets = new Insets(10,10,10,10);
@@ -222,11 +250,5 @@ public class ViewSessionReqPanel extends JPanel {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		this.add(bottomPanel, c);
 
-		// setup panels
-		/*
-		 * this.add(leftPanel, BorderLayout.WEST); this.add(rightPanel,
-		 * BorderLayout.EAST); this.add(centerPanel, BorderLayout.CENTER);
-		 * this.add(bottomPanel, BorderLayout.SOUTH); this.setEnabled(false);
-		 */
 	}
 }
