@@ -26,6 +26,7 @@ import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.JXDatePicker;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateSessionPanelController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
@@ -57,9 +58,11 @@ public class CreateSessionPanel extends JSplitPane {
 	// deadline date and time picker
 	private final JXDatePicker deadlinePicker;
 	private final JSpinner pickerDeadlineTime;
-	
+
 	private JLabel labelName;
 	private final JTextArea descriptionBox;
+
+	private JCheckBox cbDeadline;
 
 	/** Model used for requirements JList */
 	DefaultListModel<String> existingRequirementsNames;
@@ -80,11 +83,14 @@ public class CreateSessionPanel extends JSplitPane {
 		labelName = new JLabel("Name *");
 		JLabel labelDeadline = new JLabel("Deadline");
 		JLabel labelDropdownType = new JLabel("Type *");
+		JLabel labelDescriptionBox = new JLabel("Description *");
+
 		// JLabel labelExplanation = new JLabel(EXPLANATIONSTRING);
 
 		// checkbox for deadline
-		JCheckBox cbDeadline = new JCheckBox();
-		
+		cbDeadline = new JCheckBox();
+		cbDeadline.addActionListener(new CreateSessionPanelController(this));
+
 		// text area
 		JTextArea textAreaExp = new JTextArea(5, 15);
 		textAreaExp.setText(EXPLANATIONSTRING);
@@ -99,14 +105,16 @@ public class CreateSessionPanel extends JSplitPane {
 		deadlinePicker = new JXDatePicker();
 		deadlinePicker.setDate(Calendar.getInstance().getTime());
 		deadlinePicker.setFormats(new SimpleDateFormat("MM/dd/yyyy"));
+		deadlinePicker.setEnabled(false);
 
 		// create time selector
 		pickerDeadlineTime = new JSpinner(new SpinnerDateModel());
 		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(
 				pickerDeadlineTime, "HH:mm:ss");
 		pickerDeadlineTime.setEditor(timeEditor);
-		pickerDeadlineTime.setValue(new Date()); // will only show the current
-													// time
+		pickerDeadlineTime.setValue(new Date());// will only show the current
+												// time
+		pickerDeadlineTime.setEnabled(false);
 
 		// create textfield
 		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
@@ -120,6 +128,7 @@ public class CreateSessionPanel extends JSplitPane {
 		dropdownType = new JComboBox<SessionLiveType>(SessionLiveType.values());
 		dropdownType.setEditable(false);
 		dropdownType.setBackground(Color.WHITE);
+		// labelDropdownType.setAlignmentX(dropdownType.getAlignmentX());
 
 		// create buttons and listeners
 		btnSaveSession = new JButton("Save");
@@ -132,27 +141,21 @@ public class CreateSessionPanel extends JSplitPane {
 
 		// labels and textfields
 		rightPanel.add(labelName);
-		rightPanel.add(labelDropdownType, "wrap");
-		
+		rightPanel.add(labelDropdownType, "right, wrap");
+
 		rightPanel.add(nameTextField, "width 150px, left");
 		rightPanel.add(dropdownType, "width 150px, right, wrap");
 
 		// textarea
-		
+		rightPanel.add(labelDescriptionBox, "wrap");
+		rightPanel.add(descriptionBox, "width 500px, span, wrap");
+
 		// optional deadline
 		rightPanel.add(labelDeadline);
 		rightPanel.add(cbDeadline, "wrap");
-		
+
 		rightPanel.add(deadlinePicker, "width 100px");
-
 		rightPanel.add(pickerDeadlineTime, "width 100px, wrap");
-		
-		rightPanel.add(labelDescriptionBox, "wrap");
-		rightPanel.add(descriptionBox, "width 500px, wrap");
-
-		// dropdowns
-		rightPanel.add(labelDropdownType, "wrap");
-		rightPanel.add(dropdownType, "width 150px, left, wrap");
 
 		// buttons
 		rightPanel.add(btnSaveSession, "width 150px, left, wrap");
@@ -174,6 +177,7 @@ public class CreateSessionPanel extends JSplitPane {
 		this.setDividerLocation(180);
 		this.setEnabled(false);
 	}
+
 	/**
 	 * This returns the description of what user enters
 	 * 
@@ -228,16 +232,15 @@ public class CreateSessionPanel extends JSplitPane {
 	public JTextField getNameTextField() {
 		return nameTextField;
 	}
-	
+
 	/**
 	 * Return the name JLabel
 	 * 
 	 * @return the name JLabel
 	 */
-		public JLabel getLabelName() {
+	public JLabel getLabelName() {
 		return this.labelName;
 	}
-	
 
 	/**
 	 * Return the save button
@@ -302,4 +305,16 @@ public class CreateSessionPanel extends JSplitPane {
 	public void setRequirements(ArrayList<PlanningPokerRequirement> requirements) {
 		this.requirements = requirements;
 	}
+
+	public void toggleDeadline() {
+		if (this.cbDeadline.isEnabled()) {
+			this.deadlinePicker.setEnabled(true);
+			this.pickerDeadlineTime.setEnabled(true);
+		} else {
+			this.deadlinePicker.setEnabled(false);
+			this.pickerDeadlineTime.setEnabled(false);
+		}
+
+	}
+
 }
