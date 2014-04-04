@@ -13,6 +13,8 @@ import java.awt.Insets;
 import java.awt.Panel;
 import java.util.Vector;
 
+
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -20,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllSessionsController;
@@ -38,6 +41,7 @@ public class ViewSessionReqPanel extends JPanel {
 	private final ScrollablePanel allReqPanel;
 	private final JPanel buttonsPanel;
 	private final JTextArea description;
+	private final JTextField name;
 	private final JButton moveRequirementToAll;
 	private final JButton moveAllRequirementsToAll;
 	private final JButton moveRequirementToSession;
@@ -51,22 +55,22 @@ public class ViewSessionReqPanel extends JPanel {
 		this.sessionReqPanel = new ScrollablePanel();
 		this.allReqPanel = new ScrollablePanel();
 		this.buttonsPanel = new JPanel();
-		this.description = new JTextArea();
+		this.description = new JTextArea("Description:");
+		this.name = new JTextField("Name:");
 		this.moveRequirementToAll = new JButton(" < ");
 		this.moveAllRequirementsToAll = new JButton(" << ");
 		this.moveRequirementToSession = new JButton(" > ");
 		this.moveAllRequirementsToSession = new JButton(" >> ");
-				
-		
+
 		// setup panels
+		Panel namePanel = new Panel();
 		Panel leftPanel = new Panel();
 		Panel rightPanel = new Panel();
 		Panel centerPanel = new Panel();
 		Panel bottomPanel = new Panel();
 
 		// setup tables
-		allReqTable = new JTable(
-				ViewSessionTableModel.getInstance()) {
+		allReqTable = new JTable(ViewSessionTableModel.getInstance()) {
 			private static final long serialVersionUID = 1L;
 			private boolean initialized = false;
 
@@ -75,9 +79,9 @@ public class ViewSessionReqPanel extends JPanel {
 			}
 
 			public void valueChanged(ListSelectionEvent e) {
-				
+
 			}
-			
+
 			@Override
 			public void repaint() {
 				// because janeway is terrible and instantiates this class
@@ -85,27 +89,26 @@ public class ViewSessionReqPanel extends JPanel {
 				if (!initialized) {
 					try {
 						RetrieveFreePlanningPokerRequirementsController
-						.getInstance().refreshData();
+								.getInstance().refreshData();
 						initialized = true;
 					} catch (Exception e) {
 
 					}
 				}
-				
+
 				super.repaint();
 			}
 		};
-		
+
 		allReqTable.setBackground(Color.WHITE);
-		
+
 		// add table to rightPanel
 		leftPanel.setLayout(new BorderLayout());
 		JScrollPane allReqSp = new JScrollPane(allReqTable);
 		leftPanel.add(allReqSp);
-		
+
 		// table for left pain
-		sessionReqTable = new JTable(
-				ViewSessionTableModel.getInstance()) {
+		sessionReqTable = new JTable(ViewSessionTableModel.getInstance()) {
 			private static final long serialVersionUID = 2L;
 			private boolean initialized = false;
 
@@ -116,7 +119,7 @@ public class ViewSessionReqPanel extends JPanel {
 			public void valueChanged(ListSelectionEvent e) {
 
 			}
-			
+
 			@Override
 			public void repaint() {
 				// because janeway is terrible and instantiates this class
@@ -124,28 +127,30 @@ public class ViewSessionReqPanel extends JPanel {
 				if (!initialized) {
 					try {
 						RetrieveFreePlanningPokerRequirementsController
-						.getInstance().refreshData();
+								.getInstance().refreshData();
 						initialized = true;
 					} catch (Exception e) {
 
 					}
 				}
-				
+
 				super.repaint();
 			}
 		};
+
 		
+		sessionReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		allReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		
 		rightPanel.setLayout(new BorderLayout());
 		JScrollPane sessionReqSp = new JScrollPane(sessionReqTable);
 		rightPanel.add(sessionReqSp);
-		
-		
-		moveAllRequirementsToSession.setPreferredSize(new Dimension(70,50));
-		moveRequirementToSession.setPreferredSize(new Dimension(70,50));
-		moveRequirementToAll.setPreferredSize(new Dimension(70,50));
-		moveAllRequirementsToAll.setPreferredSize(new Dimension(70,50));
-		
+
+		moveAllRequirementsToSession.setPreferredSize(new Dimension(70, 50));
+		moveRequirementToSession.setPreferredSize(new Dimension(70, 50));
+		moveRequirementToAll.setPreferredSize(new Dimension(70, 50));
+		moveAllRequirementsToAll.setPreferredSize(new Dimension(70, 50));
+
 		// setup buttons panel
 		buttonsPanel.setLayout(new GridLayout(0, 1, 0, 20));
 		buttonsPanel.add(moveAllRequirementsToSession);
@@ -156,48 +161,72 @@ public class ViewSessionReqPanel extends JPanel {
 		// buttons panel goes in the center
 		centerPanel.setLayout(new BorderLayout());
 		centerPanel.add(buttonsPanel);
+
+		// text field for name goes in the top of the panel
+		namePanel.setLayout(new BorderLayout());
+		namePanel.add(name);
+		
+		// IMPLEMENT GETSELECTEDLEFT() AND GETSELECTEDRIGHT()
+		
 		
 		// text field for description goes in the bottom of the panel
 		JScrollPane descriptionSp = new JScrollPane(description);
 		description.setLineWrap(true);
 		bottomPanel.setLayout(new BorderLayout());
 		bottomPanel.add(descriptionSp);
-		
+
 		GridBagConstraints c = new GridBagConstraints();
 
-		c.weighty = 1.0;
-		c.weightx = 1.0;
 		// c.insets = new Insets(10,0,0,0); // this is how we pad
-		c.gridx = 0;
-		c.gridy = 0;
-		this.add(leftPanel, c);
 		
-		c.weighty = 1.0;
-		c.weightx = 1.0;
+		c.weighty = .2;
+		c.weightx = .2;
 		c.gridx = 1;
 		c.gridy = 0;
 		this.add(centerPanel, c);
 		
 		c.weighty = 1.0;
 		c.weightx = 1.0;
+		c.insets = new Insets(10,10,10,10);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 1;
+		this.add(namePanel, c);
+		
+		
+		c.weighty = 1.0;
+		c.weightx = 1.0;
+		c.insets = new Insets(10,10,0,0);
+		c.gridx = 0;
+		c.gridy = 0;
+		c.fill = GridBagConstraints.BOTH;
+		this.add(leftPanel, c);
+
+		c.weighty = 1.0;
+		c.weightx = 1.0;
+		c.insets = new Insets(10,0,0,10);
 		c.gridx = 2;
 		c.gridy = 0;
+		c.fill = GridBagConstraints.BOTH;
 		this.add(rightPanel, c);
+
+	
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.ipady = 40;
+		c.ipady = 100;
+		c.insets = new Insets(10,10,10,10);
 		c.weighty = 0;
 		c.weightx = 0;
 		c.gridwidth = 3;
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 2;
+		c.fill = GridBagConstraints.HORIZONTAL;
 		this.add(bottomPanel, c);
-		
+
 		// setup panels
-		/*this.add(leftPanel, BorderLayout.WEST);
-		this.add(rightPanel, BorderLayout.EAST);
-		this.add(centerPanel, BorderLayout.CENTER);
-		this.add(bottomPanel, BorderLayout.SOUTH);
-		this.setEnabled(false);*/
+		/*
+		 * this.add(leftPanel, BorderLayout.WEST); this.add(rightPanel,
+		 * BorderLayout.EAST); this.add(centerPanel, BorderLayout.CENTER);
+		 * this.add(bottomPanel, BorderLayout.SOUTH); this.setEnabled(false);
+		 */
 	}
 }
