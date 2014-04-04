@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,40 +27,30 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 /**
  * Controller to handle retrieving free requirements from the server.
  */
-public class RetrieveFreePlanningPokerRequirementsController implements ActionListener{
-	private static RetrieveFreePlanningPokerRequirementsController instance;
+public class GetRequirementVotesController implements ActionListener{
 	/** The create session panel */
 	protected CreateSessionPanel panel;
 
 	/** The requirements retrieved from the server */
 	protected PlanningPokerRequirement[] data = null;
 
+	
+	//The id of the session to retrieve
+	private int id;
+	//The requirement to get votes for
+	private PlanningPokerRequirement req;
 	/**
 	 * Constructs a new RetrieveFreePlanningPokerRequirementsController
 	 */
-	private RetrieveFreePlanningPokerRequirementsController() {
-		
+	private GetRequirementVotesController(int id, PlanningPokerRequirement req) {
+		this.id = id;
+		this.req = req;
 	}
 	
-	public static RetrieveFreePlanningPokerRequirementsController getInstance() {
-		if (instance == null) {
-			instance = new RetrieveFreePlanningPokerRequirementsController();
-		}
-		return instance;
-	}
-
-	/**
-	 * Sends a request for all of the requirements
-	 */
-	public void refreshData(){
-		final Request request = Network.getInstance().makeRequest("planningpoker/session/0", HttpMethod.GET);
-		request.addObserver(new RetrieveFreePlanningPokerRequirementsRequestObserver(this));
-		request.send();
-	}
 
 	/**
 	 * This method is called by the
-	 * {@link RetrieveFreePlanningPokerRequirementsRequestObserver} when the
+	 * {@link GetRequirementsVotesRequestObserver} when the
 	 * response is received
 	 * 
 	 * @param session
@@ -68,12 +58,12 @@ public class RetrieveFreePlanningPokerRequirementsController implements ActionLi
 	 * @throws NotImplementedException
 	 */
 	public void receivedData(PlanningPokerSession session){
-		ViewSessionTableModel.getInstance().refreshRequirements(session.getRequirements());
+		PlanningPokerRequirement r = session.getReqByName(this.req.getName());
 	}
 
 	/**
 	 * This method is called by the
-	 * {@link RetrieveFreePlanningPokerRequirementsRequestObserver} when an
+	 * {@link GetRequirementsVotesRequestObserver} when an
 	 * error occurs retrieving the requirements from the server.
 	 */
 	public void errorReceivingData(String error) {
@@ -85,7 +75,8 @@ public class RetrieveFreePlanningPokerRequirementsController implements ActionLi
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.refreshData();
-		
+		final Request request = Network.getInstance().makeRequest("planningpoker/session/".concat(String.valueOf(this.id)), HttpMethod.GET);
+		request.addObserver(new GetRequirementsVotesRequestObserver(this));
+		request.send();
 	}
 }

@@ -14,12 +14,15 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddVoteController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.RetrieveAllPlanningPokerVoteController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.GetVoteController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
+
 import javax.swing.JTabbedPane;
+
 import java.awt.GridLayout;
+
 import javax.swing.AbstractListModel;
 
 public class SessionInProgressPanel extends JSplitPane {

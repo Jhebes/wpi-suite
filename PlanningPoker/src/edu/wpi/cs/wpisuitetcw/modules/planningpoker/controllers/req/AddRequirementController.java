@@ -10,10 +10,11 @@
  *    Chris Casola
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GenericPUTRequestObserver;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
@@ -25,21 +26,19 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * This controller responds when the user clicks the "Create" button by using
- * all entered information to construct a new session and storing in the
- * database
+ * This controller adds all the requirements to the specified session
  * 
  * @author Josh Hebert
  * 
  */
-public class AddVoteController implements ActionListener {
+public class AddRequirementController implements ActionListener {
 
 	private PlanningPokerSession session = null;
-	private SessionInProgressPanel view;
-	private PlanningPokerRequirement req = null;
-	
-	public AddVoteController(SessionInProgressPanel view) {
-		this.view = view;
+	private ViewSessionReqPanel view;
+
+	public AddRequirementController(PlanningPokerSession s, ViewSessionReqPanel v) {
+		this.session = s;
+		this.view = v;
 	}
 
 	/*
@@ -50,20 +49,28 @@ public class AddVoteController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		PlanningPokerVote vote = new PlanningPokerVote();
-		//session = view.getSession();
-		//req = session.getReqByName(view.getSelectedRequirement());
-		session.addVoteToRequirement(req, vote);
 		
-		//Update the session remotely
-		final Request request = Network.getInstance().makeRequest(
-				"planningpoker/session/".concat(String.valueOf(session.getID())), HttpMethod.POST);
+		ArrayList<PlanningPokerRequirement> r = new ArrayList<PlanningPokerRequirement>();
+		for(PlanningPokerRequirement i: this.view.getSelectedLeft()){
+			r.add(i);
+		}
+		
+		this.session.addRequirements(r);
+		
+		
+		this.view.addToRight(this.view.getSelectedLeft());
+		
+		// Update the session remotely
+		final Request request = Network.getInstance()
+				.makeRequest(
+						"planningpoker/session/".concat(String.valueOf(this.session
+								.getID())), HttpMethod.POST);
 		// Set the data to be the session to save (converted to JSON)
-		request.setBody(session.toJSON());
+		request.setBody(this.session.toJSON());
 		// Listen for the server's response
 		request.addObserver(new GenericPUTRequestObserver(this));
 		// Send the request on its way
 		request.send();
-	
+
 	}
 }

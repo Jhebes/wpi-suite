@@ -95,6 +95,18 @@ public class PlanningPokerSession extends AbstractModel {
 		requirements.add(req);
 	}
 
+	public void addVoteToRequirement(PlanningPokerRequirement req, PlanningPokerVote v){
+		requirements.get(requirements.indexOf(req)).addVote(v);
+	}
+	
+	public PlanningPokerRequirement getReqByName(String n){
+		for(PlanningPokerRequirement r : requirements){
+			if(r.getName().equals(n)){
+				return r;
+			}
+		}
+		throw new NullPointerException();
+	}
 	/**
 	 * Appends new requirements to the planning poker session.
 	 * 

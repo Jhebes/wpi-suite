@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,11 +22,11 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * An observer for a request to retrieve planning poker sessions that have
  * not been assigned to a planning poker session.
  */
-public class RetrieveFreePlanningPokerRequirementsRequestObserver implements
+public class GetRequirementsVotesRequestObserver implements
 		RequestObserver {
 
 	/** The controller managing the request */
-	protected RetrieveFreePlanningPokerRequirementsController controller;
+	protected GetRequirementVotesController controller;
 
 	/**
 	 * Constructs the observer
@@ -34,8 +34,8 @@ public class RetrieveFreePlanningPokerRequirementsRequestObserver implements
 	 * @param controller
 	 *            The controller to update upon receiving the server response
 	 */
-	public RetrieveFreePlanningPokerRequirementsRequestObserver(
-			RetrieveFreePlanningPokerRequirementsController controller) {
+	public GetRequirementsVotesRequestObserver(
+			GetRequirementVotesController controller) {
 		this.controller = controller;
 	}
 
