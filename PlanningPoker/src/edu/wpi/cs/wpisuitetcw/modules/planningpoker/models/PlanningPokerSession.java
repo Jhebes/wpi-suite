@@ -32,6 +32,9 @@ public class PlanningPokerSession extends AbstractModel {
 
 	// The name of the session;
 	private String name = "";
+	
+	//description of the session
+	private String description = "";
 
 	/**
 	 * Constructs a PlanningPokerSession for the given string message
@@ -165,7 +168,9 @@ public class PlanningPokerSession extends AbstractModel {
 	public void setDeadline(Date deadline) {
 		this.deadline = deadline;
 	}
-
+	public void setDescription(String description){
+		this.description = description;
+	}
 	/**
 	 * Sets sessionIds for the PlanningPokerRequirements
 	 * @param newReq -> new Requirements to be added

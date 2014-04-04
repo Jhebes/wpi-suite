@@ -83,11 +83,13 @@ public class AddSessionController implements ActionListener {
 
 			// TODO Session type should be stored
 			Date d = this.view.getDeadline();
+			String des = this.view.getDescriptionBox().getText();
 
 			// Create a new session and populate its data
 			PlanningPokerSession session = new PlanningPokerSession();
 			session.setName(name);
 			session.setDeadline(d);
+			session.setDescription(des);
 
 			// Add all checked requirements
 			// ArrayList<PlanningPokerRequirement> reqs =
@@ -108,7 +110,7 @@ public class AddSessionController implements ActionListener {
 		else {
 			//If the user doesn't enter a name ADD a requires text warning/ maybe a popup.
 			//TODO: maybe make the warning a pop-up
-			this.view.getLabelName().setText("Name *  REQUIRES NAME");
+			//this.view.getLabelName.setText("Name *  REQUIRES NAME");
 			this.view.repaint();
 		}
 

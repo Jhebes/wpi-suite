@@ -38,6 +38,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Scrol
 
 public class CreateSessionPanel extends JSplitPane {
 	final int DEFAULT_DATA_SIZE = 30; // default data size for database entry
+	// final int LARGE_DATA_SIZE = 100;
 	private final String EXPLANATIONSTRING = "A planning poker session (game) allows user to "
 			+ "select one or more requirements for estimation for "
 			+ "the team to estimate. A deadline for submission is optional. "
@@ -58,6 +59,7 @@ public class CreateSessionPanel extends JSplitPane {
 	private final JSpinner pickerDeadlineTime;
 	
 	private JLabel labelName;
+	private final JTextArea descriptionBox;
 
 	/** Model used for requirements JList */
 	DefaultListModel<String> existingRequirementsNames;
@@ -108,7 +110,11 @@ public class CreateSessionPanel extends JSplitPane {
 
 		// create textfield
 		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
-		// JTextField fieldDeadline = new JTextField(DEFAULT_DATA_SIZE);
+
+		descriptionBox = new JTextArea(20, 200);
+		descriptionBox.setLineWrap(true);
+		descriptionBox.setWrapStyleWord(true);
+		descriptionBox.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
 		// create dropdown menu
 		dropdownType = new JComboBox<SessionLiveType>(SessionLiveType.values());
@@ -138,10 +144,15 @@ public class CreateSessionPanel extends JSplitPane {
 		rightPanel.add(cbDeadline, "wrap");
 		
 		rightPanel.add(deadlinePicker, "width 100px");
+
 		rightPanel.add(pickerDeadlineTime, "width 100px, wrap");
-		// leftPanel.add(fieldDeadline, "growx, pushx, shrinkx, span, wrap");
 		
-		
+		rightPanel.add(labelDescriptionBox, "wrap");
+		rightPanel.add(descriptionBox, "width 500px, wrap");
+
+		// dropdowns
+		rightPanel.add(labelDropdownType, "wrap");
+		rightPanel.add(dropdownType, "width 150px, left, wrap");
 
 		// buttons
 		rightPanel.add(btnSaveSession, "width 150px, left, wrap");
@@ -162,6 +173,14 @@ public class CreateSessionPanel extends JSplitPane {
 		this.setRightComponent(container);
 		this.setDividerLocation(180);
 		this.setEnabled(false);
+	}
+	/**
+	 * This returns the description of what user enters
+	 * 
+	 * @return description for session
+	 */
+	public JTextArea getDescriptionBox() {
+		return descriptionBox;
 	}
 
 	/**
