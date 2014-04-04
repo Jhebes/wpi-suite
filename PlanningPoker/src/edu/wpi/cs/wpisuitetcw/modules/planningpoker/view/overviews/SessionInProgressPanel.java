@@ -6,123 +6,170 @@ import java.awt.Font;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.GetVoteController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
+
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
 import javax.swing.JTabbedPane;
 
 import java.awt.GridLayout;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+
 import javax.swing.AbstractListModel;
 
 public class SessionInProgressPanel extends JSplitPane {
 	
+	private PlanningPokerSession session;
 	private JTextField vote;
 	private	 JLabel name;
 	private	 JLabel description;
 	private JLabel deadline;
+	private JList<String> reqNamesList;
+	private PlanningPokerRequirement[] reqsList;
+	private JButton btnSubmit;
+	private String selectedReqName;
 
 	/**
 	 * Create the panel.
 	 */
 	public SessionInProgressPanel() {
+		this.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+		
+		// Set up Session Info Panel
 		JPanel LeftPanel = new JPanel();
 		LeftPanel.setLayout(new BoxLayout(LeftPanel, BoxLayout.Y_AXIS));
 
+		// Padding
 		Component verticalStrut = Box.createVerticalStrut(10);
 		LeftPanel.add(verticalStrut);
 
+		// "Session Info" label
 		JLabel lblSessionInfo = new JLabel("Session Info:");
 		lblSessionInfo.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		LeftPanel.add(lblSessionInfo);
 
+		// Padding
 		Component verticalStrut2 = Box.createVerticalStrut(20);
 		LeftPanel.add(verticalStrut2);
 
+		// "Name" label
 		JLabel lblName = new JLabel("Name:");
 		lblName.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LeftPanel.add(lblName);
 
+		// Call setter for session name (TBR)
 		setSessionName("Planning Poker");
 		LeftPanel.add(name);
 
+		// Padding
 		Component verticalStrut3 = Box.createVerticalStrut(20);
 		LeftPanel.add(verticalStrut3);
 		
+		// "Description" label
 		JLabel lblDescription = new JLabel("Description:");
 		lblDescription.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LeftPanel.add(lblDescription);
 
+		// Call setter for session description (TBR)
 		setSessionDescription("A sweet session where you do stuff and all is well.");
 		LeftPanel.add(description);
 
+		// Padding
 		Component verticalStrut4 = Box.createVerticalStrut(20);
 		LeftPanel.add(verticalStrut4);
 
+		// "Deadline" label
 		JLabel lblDate = new JLabel("Deadline:");
 		lblDate.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LeftPanel.add(lblDate);
 
+		// Call setter for session deadline (TBR)
 		setSessionDeadline("12/13/14", "12:00 PM");
 		LeftPanel.add(deadline);
 
+		// Set up Reqs Panel
 		JPanel requirementsPanel = new JPanel();
 		requirementsPanel.setLayout(new BoxLayout(requirementsPanel, BoxLayout.X_AXIS));
 		
+		// Split out panes
 		JSplitPane splitTopBottom = new JSplitPane();
 		splitTopBottom.setResizeWeight(0.8);
 		splitTopBottom.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		
+		// Set up tabs at bottom
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		splitTopBottom.setRightComponent(tabbedPane);
 		
+		// Set up "Stats Tab"
 		JPanel statsTab = new JPanel();
 		tabbedPane.addTab("Statistics", null, statsTab, null);
 		statsTab.setLayout(new GridLayout(1, 0, 0, 0));
 		
+		// Holder label (TBM)
 		JLabel lblCurrentEstimate = new JLabel("Current Estimate:");
 		statsTab.add(lblCurrentEstimate);
 		
+		// Holder label (TBM)
 		JLabel lblNumberOfVotes = new JLabel("Number of Votes:");
 		statsTab.add(lblNumberOfVotes);
 		
+		// Set up "Vote Tab"
 		JPanel voteTab = new JPanel();
 		tabbedPane.addTab("Voting", null, voteTab, null);
 		
+		// "Estimate" label
 		JLabel lblEstimate = new JLabel("Estimate:");
 		voteTab.add(lblEstimate);
 		
-		vote = new JTextField();
+		// Text box for vote
+		vote = new JTextField(10);
 		voteTab.add(vote);
-		vote.setColumns(10);
 		
-		JButton btnSubmit = new JButton("Submit");
+		// Submit button
+		btnSubmit = new JButton("Submit");
+		btnSubmit.addActionListener(new AddVoteController(this));
 		voteTab.add(btnSubmit);
 		
+		// Split into Reqs list and Reqs info
 		JSplitPane splitLeftRight = new JSplitPane();
 		splitLeftRight.setResizeWeight(0.8);
-		splitTopBottom.setLeftComponent(splitLeftRight);
+		splitLeftRight.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		
 		JPanel reqsView = new JPanel();
+
+		String[] testReqs = {"Test Req 1", "Test Req 2"};
 		
-		JList<String> reqsList = new JList<String>();
-		reqsView.add(reqsList);
+		reqNamesList = new JList<String>(testReqs);
+		reqsView.add(reqNamesList);
 		
-		JPanel ReqsDetail = new JPanel();
-		ReqsDetail.setLayout(new BorderLayout(0, 0));
+		reqNamesList.addMouseListener(new MouseAdapter() {
+			@SuppressWarnings("unchecked")
+			public void mouseClicked(MouseEvent e) {
+				selectedReqName = ((JList<String>) e.getSource()).getSelectedValue();
+				System.out.println(selectedReqName);
+			}
+		});
+		
+		JPanel reqsDetail = new JPanel();
+		reqsDetail.setLayout(new BorderLayout(0, 0));
 		JList<String> list = new JList<String>();
 		list.setModel(new AbstractListModel<String>() {
-			String[] values = new String[] {"ID:", "", "", "Name:", "", "", "Description:", ""};
+			String[] values = new String[] {"ID:", "", "", "Name:", selectedReqName, "", "Description:", ""};
 			public int getSize() {
 				return values.length;
 			}
@@ -130,14 +177,18 @@ public class SessionInProgressPanel extends JSplitPane {
 				return values[index];
 			}
 		});
-		ReqsDetail.add(list, BorderLayout.CENTER);
+		reqsDetail.add(list, BorderLayout.CENTER);
 		
 		JLabel lblRequirementDetail = new JLabel("Requirement Detail:");
 		lblRequirementDetail.setHorizontalAlignment(SwingConstants.CENTER);
-		ReqsDetail.add(lblRequirementDetail, BorderLayout.NORTH);
+		reqsDetail.add(lblRequirementDetail, BorderLayout.NORTH);
 		
+		// Set all components
 		splitLeftRight.setLeftComponent(reqsView);
-		splitLeftRight.setRightComponent(ReqsDetail);
+		splitLeftRight.setRightComponent(reqsDetail);
+
+		splitTopBottom.setTopComponent(splitLeftRight);
+		splitTopBottom.setBottomComponent(tabbedPane);
 		
 		setLeftComponent(LeftPanel);
 		setRightComponent(splitTopBottom);
@@ -145,14 +196,30 @@ public class SessionInProgressPanel extends JSplitPane {
 	
 	/**
 	 * 
-	 * @param sessionName
+	 * @return Session Model for this Panel
 	 */
-	void setSessionName(String sessionName) {
-		name = new JLabel(sessionName, JLabel.CENTER);
+	public PlanningPokerSession getSession() {
+		return session;
+	}
+
+	/**
+	 * 
+	 * @param session
+	 */
+	public void setSession(PlanningPokerSession session) {
+		this.session = session;
 	}
 	
-	void setSessionDescription(String sessionDescription) {
-		description = new JLabel("<html>" + sessionDescription + "</html>", JLabel.CENTER);
+	/**
+	 * 
+	 * @param sessionName
+	 */
+	public void setSessionName(String sessionName) {
+		name = new JLabel(sessionName, JLabel.LEFT);
+	}
+	
+	public void setSessionDescription(String sessionDescription) {
+		description = new JLabel("<html>" + sessionDescription + "</html>", JLabel.LEFT);
 	}
 	
 	/**
@@ -160,30 +227,38 @@ public class SessionInProgressPanel extends JSplitPane {
 	 * @param sessionDeadlineDate Deadline Date (mm/dd/yyyy) of Session as a String
 	 * @param sessionDeadlineTime Deadline Time (hh:mm AM) of Session as a String
 	 */
-	void setSessionDeadline(String sessionDeadlineDate, String sessionDeadlineTime) {
-		deadline = new JLabel(sessionDeadlineDate + " at " + sessionDeadlineTime, JLabel.CENTER);
+	public void setSessionDeadline(String sessionDeadlineDate, String sessionDeadlineTime) {
+		deadline = new JLabel("<html>" + sessionDeadlineDate + " at " + sessionDeadlineTime + "</html>", JLabel.LEFT);
 	}
 	
 	/**
 	 * 
-	 * @return vote parsed as an integer
+	 * @return List of Reqs for this session
 	 */
-	int getVote() {
-		return Integer.getInteger(vote.toString());
-	}
-	
-/*
-	public void receiveVotes(PlanningPokerVote[] votes) {
-		String text = "";
-		for(PlanningPokerVote v: votes){
-			text += String.valueOf(v.getCardValue()) + "\n";
-		}
-		//System.out.println("Recieved votes: " + text);
-		this.textField.setText(text);
+	public PlanningPokerRequirement[] getReqsList() {
+		return reqsList;
 	}
 
-	public void setTextField(String t) {
-		this.textField.setText(t);
+	/**
+	 * 
+	 * @param reqsList
+	 */
+	public void setReqsList(PlanningPokerRequirement[] reqsList) {
+		this.reqsList = reqsList;
 	}
-	*/
+	/**
+	 * 
+	 * @return Requirement Name selected in the list
+	 */
+	public String getSelectedRequirement() {
+		return selectedReqName;
+	}
+
+	/**
+	 * 
+	 * @return vote parsed as an integer
+	 */
+	public int getVote() {
+		return Integer.getInteger(vote.toString());
+	}
 }

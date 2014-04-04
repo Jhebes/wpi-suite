@@ -51,9 +51,16 @@ public class AddVoteController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		PlanningPokerVote vote = new PlanningPokerVote();
-		//session = view.getSession();
-		//req = session.getReqByName(view.getSelectedRequirement());
+		session = view.getSession();
+		try{
+			req = session.getReqByName(view.getSelectedRequirement());
+		}catch(NullPointerException e){
+			System.out.println("No req found by that name!");
+			return;
+		}
 		session.addVoteToRequirement(req, vote);
+		
+		System.out.println("Added vote to requirement " + req.getName());
 		
 		//Update the session remotely
 		final Request request = Network.getInstance().makeRequest(

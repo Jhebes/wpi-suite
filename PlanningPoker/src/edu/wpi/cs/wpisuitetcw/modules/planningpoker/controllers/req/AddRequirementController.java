@@ -21,6 +21,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirem
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionReqPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -51,7 +52,7 @@ public class AddRequirementController implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		
 		ArrayList<PlanningPokerRequirement> r = new ArrayList<PlanningPokerRequirement>();
-		for(PlanningPokerRequirement i: this.view.getSelectedLeft()){
+		/*for(PlanningPokerRequirement i: this.view.getSelectedLeft()){
 			r.add(i);
 		}
 		
@@ -59,7 +60,7 @@ public class AddRequirementController implements ActionListener {
 		
 		
 		this.view.addToRight(this.view.getSelectedLeft());
-		
+		*/
 		// Update the session remotely
 		final Request request = Network.getInstance()
 				.makeRequest(
