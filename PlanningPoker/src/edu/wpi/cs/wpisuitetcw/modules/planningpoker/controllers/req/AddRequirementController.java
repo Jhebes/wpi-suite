@@ -42,6 +42,22 @@ public class AddRequirementController implements ActionListener {
 		this.view = v;
 	}
 
+	public void receivedData(PlanningPokerSession s){
+		PlanningPokerRequirement r;
+		
+		for(String a : v.getLeftSelectedRequirements){
+				r = s.getReqByName(a);
+				ArrayList<PlanningPokerRequirement> d = new ArrayList<PlanningPokerRequirement>();
+				d.add(r);
+				s.deleteRequirements(d);
+				session.addRequirement(r);
+		}
+		
+		final Request request = Network.getInstance().makeRequest("planningpoker/session/".concat(String.valueOf(s.getID())), HttpMethod.POST);
+		request.addObserver(new GenericPUTRequestObserver(this));
+		request.send();
+	}
+	
 	/*
 	 * This method is called when the user clicks the vote button
 	 * 
@@ -50,28 +66,11 @@ public class AddRequirementController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		
-		ArrayList<PlanningPokerRequirement> r = new ArrayList<PlanningPokerRequirement>();
-		/*for(PlanningPokerRequirement i: this.view.getSelectedLeft()){
-			r.add(i);
-		}
-		
-		this.session.addRequirements(r);
-		
-		
-		this.view.addToRight(this.view.getSelectedLeft());
-		*/
-		// Update the session remotely
-		final Request request = Network.getInstance()
-				.makeRequest(
-						"planningpoker/session/".concat(String.valueOf(this.session
-								.getID())), HttpMethod.POST);
-		// Set the data to be the session to save (converted to JSON)
-		request.setBody(this.session.toJSON());
-		// Listen for the server's response
-		request.addObserver(new GenericPUTRequestObserver(this));
-		// Send the request on its way
+		final Request request = Network.getInstance().makeRequest("planningpoker/session/0", HttpMethod.GET);
+		request.addObserver(new AddRequirementsRequestObserver(this));
 		request.send();
+		
+		
 
 	}
 }
