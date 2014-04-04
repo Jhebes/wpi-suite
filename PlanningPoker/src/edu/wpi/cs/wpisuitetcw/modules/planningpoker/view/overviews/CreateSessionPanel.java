@@ -89,7 +89,7 @@ public class CreateSessionPanel extends JSplitPane {
 
 		// checkbox for deadline
 		cbDeadline = new JCheckBox();
-		cbDeadline.addActionListener(new CreateSessionPanelController(this));
+		cbDeadline.addItemListener(new CreateSessionPanelController(this));
 
 		// text area
 		JTextArea textAreaExp = new JTextArea(5, 15);
@@ -305,12 +305,16 @@ public class CreateSessionPanel extends JSplitPane {
 	public void setRequirements(ArrayList<PlanningPokerRequirement> requirements) {
 		this.requirements = requirements;
 	}
-
-	public void toggleDeadline() {
-		if (this.cbDeadline.isEnabled()) {
+	/**
+	 * Enables or disables the deadline picker depending on whether or not the 
+	 * deadline checkbox is selected or not.
+	 * @param onOff
+	 */
+	public void toggleDeadline(boolean onOff) {
+		if (this.cbDeadline.isEnabled() && onOff == true) {
 			this.deadlinePicker.setEnabled(true);
 			this.pickerDeadlineTime.setEnabled(true);
-		} else {
+		} else if (onOff == false) {
 			this.deadlinePicker.setEnabled(false);
 			this.pickerDeadlineTime.setEnabled(false);
 		}
