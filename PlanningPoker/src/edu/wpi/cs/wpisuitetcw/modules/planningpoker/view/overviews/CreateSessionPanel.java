@@ -113,7 +113,7 @@ public class CreateSessionPanel extends JSplitPane {
 				pickerDeadlineTime, "HH:mm:ss");
 		pickerDeadlineTime.setEditor(timeEditor);
 		pickerDeadlineTime.setValue(new Date());// will only show the current
-												// time
+		// time
 		pickerDeadlineTime.setEnabled(false);
 
 		// create textfield
@@ -305,20 +305,21 @@ public class CreateSessionPanel extends JSplitPane {
 	public void setRequirements(ArrayList<PlanningPokerRequirement> requirements) {
 		this.requirements = requirements;
 	}
-	/**
-	 * Enables or disables the deadline picker depending on whether or not the 
-	 * deadline checkbox is selected or not.
-	 * @param onOff
-	 */
-	public void toggleDeadline(boolean onOff) {
-		if (this.cbDeadline.isEnabled() && onOff == true) {
-			this.deadlinePicker.setEnabled(true);
-			this.pickerDeadlineTime.setEnabled(true);
-		} else if (onOff == false) {
-			this.deadlinePicker.setEnabled(false);
-			this.pickerDeadlineTime.setEnabled(false);
-		}
 
+	/**
+	 * Enable the deadline picker and fill in the place holder
+	 */
+	public void enableDeadlineField() {
+		this.deadlinePicker.setEnabled(true);
+		this.pickerDeadlineTime.setEnabled(true);
+	}
+	
+	/**
+	 * Disable the deadline picker and remote the data
+	 */
+	public void disableDeadlineField() {
+		this.deadlinePicker.setEnabled(false);
+		this.pickerDeadlineTime.setEnabled(false);
 	}
 
 }
