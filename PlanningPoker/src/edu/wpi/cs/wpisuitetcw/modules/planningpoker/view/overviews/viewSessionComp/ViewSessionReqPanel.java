@@ -16,6 +16,7 @@ import java.util.Vector;
 
 
 
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -26,6 +27,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.text.Document;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.RetrieveFreePlanningPokerRequirementsController;
@@ -129,8 +131,10 @@ public class ViewSessionReqPanel extends JPanel {
 		allReqTable.setBackground(Color.WHITE);
 
 		// add table to rightPanel
+		JLabel leftLabel = new JLabel("All Requirements");
 		leftPanel.setLayout(new BorderLayout());
 		JScrollPane allReqSp = new JScrollPane(allReqTable);
+		leftPanel.add(leftLabel, BorderLayout.NORTH);
 		leftPanel.add(allReqSp);
 
 		// table for left pain
@@ -165,12 +169,14 @@ public class ViewSessionReqPanel extends JPanel {
 		};
 
 		
-		//sessionReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		//allReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		sessionReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
-		allReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+		sessionReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		allReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		//sessionReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+		//allReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+		JLabel rightLabel = new JLabel("Current Session's Requirements");
 		rightPanel.setLayout(new BorderLayout());
 		JScrollPane sessionReqSp = new JScrollPane(sessionReqTable);
+		rightPanel.add(rightLabel, BorderLayout.NORTH);
 		rightPanel.add(sessionReqSp);
 
 		moveAllRequirementsToSession.setPreferredSize(new Dimension(70, 50));
@@ -206,15 +212,12 @@ public class ViewSessionReqPanel extends JPanel {
 
 		GridBagConstraints c = new GridBagConstraints();
 
-		
-		c.weighty = .2;
-		c.weightx = .2;
+		c.insets = new Insets(10,10,10,10);
+		c.weighty = 0;
+		c.weightx = 0;
 		c.gridx = 1;
 		c.gridy = 0;
 		this.add(centerPanel, c);
-		
-		c.weighty = 1.0;
-		c.weightx = 1.0;
 		
 		c.anchor = GridBagConstraints.CENTER;
 		c.gridx = 1;
@@ -222,28 +225,28 @@ public class ViewSessionReqPanel extends JPanel {
 		this.add(addRequirementToAll, c);
 		
 		c.anchor = GridBagConstraints.WEST;
-		c.insets = new Insets(10,10,10,10);
 		c.gridx = 2;
 		c.gridy = 1;
 		this.add(addRequirementToSession, c);
 		
-		c.insets = new Insets(10,10,10,10);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 1;
 		this.add(namePanel, c);
 		
+		c.anchor = GridBagConstraints.WEST;
 		c.weighty = 1.0;
 		c.weightx = 1.0;
-		c.insets = new Insets(10,10,0,0);
+		c.insets = new Insets(10,10,10,0);
 		c.gridx = 0;
 		c.gridy = 0;
 		c.fill = GridBagConstraints.BOTH;
 		this.add(leftPanel, c);
 
+		c.anchor = GridBagConstraints.EAST;
 		c.weighty = 1.0;
 		c.weightx = 1.0;
-		c.insets = new Insets(10,0,0,10);
+		c.insets = new Insets(10,0,10,10);
 		c.gridx = 2;
 		c.gridy = 0;
 		c.fill = GridBagConstraints.BOTH;
