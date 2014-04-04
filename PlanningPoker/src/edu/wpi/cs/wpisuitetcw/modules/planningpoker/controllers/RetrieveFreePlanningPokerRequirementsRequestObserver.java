@@ -12,14 +12,14 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * An observer for a request to retrieve planning poker requirements that have
+ * An observer for a request to retrieve planning poker sessions that have
  * not been assigned to a planning poker session.
  */
 public class RetrieveFreePlanningPokerRequirementsRequestObserver implements
@@ -51,16 +51,8 @@ public class RetrieveFreePlanningPokerRequirementsRequestObserver implements
 		ResponseModel response = request.getResponse();
 
 		if (response.getStatusCode() == 200) {
-			ArrayList<PlanningPokerRequirement> reqs = new ArrayList<PlanningPokerRequirement>();
-			PlanningPokerRequirement[] requirements = PlanningPokerRequirement
-					.fromJsonArray(response.getBody());
-			if (requirements == null) {
-				requirements = new PlanningPokerRequirement[0];
-			}
-			for (PlanningPokerRequirement req : requirements) {
-				reqs.add(req);
-			}
-			controller.receivedData(reqs);
+			PlanningPokerSession session = PlanningPokerSession.fromJson(response.getBody());
+			controller.receivedData(session);
 		} else {
 			controller.errorReceivingData("Received "
 					+ iReq.getResponse().getStatusCode()

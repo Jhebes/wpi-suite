@@ -15,42 +15,47 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
  */
 public class PlanningPokerSession extends AbstractModel {
 
-	//The id of the session
+	/** The id of the session */
 	private int id = -1;
-	
-	//Whether or not the session has been canceled prematurely
-	private boolean isCancelled = false;
-	
-	//When the session was created
-	private Date startTime = null;
-	
-	//When the session should end (has ended, depending on time perspective)
-	private Date endTime = null;
 
-	// TODO: fix
-	private Date deadline = null;
-
-	// The name of the session;
+	/** The name of the session */
 	private String name = "";
 
+	/** The description for this session */
+	private String description = "";
+
+	/** The deadline for this session (optional) */
+	private Date deadline = null;
+
+	/** When the session was created */
+	private Date startTime = null;
+
+	/** When the session should end (has ended, depending on time perspective) */
+	private Date endTime = null;
+
+	/** List of requirements associated this session */
+	private ArrayList<PlanningPokerRequirement> requirements;
+
+	/** Whether or not the session has been canceled prematurely */
+	private boolean isCancelled = false;
+
 	/**
-	 * Constructs a PlanningPokerSession for the given string message
-	 * 
-	 * @param message
+	 * Constructs a PlanningPokerSession.
 	 */
 	public PlanningPokerSession() {
-
+		requirements = new ArrayList<PlanningPokerRequirement>();
 	}
-	
+
 	/**
-	 * Return true if the session is closed
+	 * Return true if the session is closed TODO: make isClosed the
+	 * authoritative command and deprecate isDone.
 	 * 
 	 * @return Return true if the session if closed
 	 */
 	public boolean isClosed() {
 		return isDone();
 	}
-	
+
 	/**
 	 * Return true if the session is open
 	 * 
@@ -61,39 +66,9 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * Cancels a session by setting isCancelled to true
-	 * and its finish time to the current time
-	 */
-	public void cancel() {
-		this.isCancelled = true;
-		this.endTime = new Date();
-	}
-
-	
-	/**
-	 * Sets the end date of this session
-	 * 
-	 * @param d
-	 *            The date that the session should end
-	 */
-	public void setEndTime(Date d) {
-		this.endTime = d;
-	}
-
-	/**
-	 * Returns true if this session has been prematurely terminated
-	 * 
-	 * @return Returns true if this session has been prematurely terminated
-	 */
-	public boolean isCancelled() {
-		return this.isCancelled;
-	}
-
-	/**
-	 * Activate the session if it meets the following conditions:
-	 * - It isn't active currently
-	 * - It isn't canceled 
-	 * - It must have at least one requirement (Temporarily not included)
+	 * Activate the session if it meets the following conditions: - It isn't
+	 * active currently - It isn't canceled - It must have at least one
+	 * requirement (Temporarily not included)
 	 */
 	public void activate() {
 		if (!this.isCancelled && !this.isActive()) {
@@ -102,116 +77,43 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * Returns true it is open to voting in the meantime
-	 * 
-	 * @return Returns true it is open to voting in the meantime
+	 * Cancels a session by setting isCancelled to true and its finish time to
+	 * the current time
 	 */
-	public boolean isActive() {
-		return this.startTime != null;
+	public void cancel() {
+		this.isCancelled = true;
+		this.endTime = new Date();
 	}
 
 	/**
-	 * Return true if this session has been assigned a completed time,
-	 * indicating that the session has been terminated in some way
+	 * Adds a single requirement to this session.
 	 * 
-	 * @return Return true if this session has been assigned a completed time
+	 * @param req
+	 *            The new session to add
 	 */
-	public boolean isDone() {
-		return endTime != null;
+	public void addRequirement(PlanningPokerRequirement req) {
+		requirements.add(req);
 	}
 
 	/**
-	 * Sets the name of this session
+	 * Appends new requirements to the planning poker session.
 	 * 
-	 * @param name
+	 * @param newReqs
+	 *            New Requirements to be added
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void addRequirements(ArrayList<PlanningPokerRequirement> newReqs) {
+		requirements.addAll(newReqs);
 	}
 
 	/**
-	 * Return the name of this session
+	 * Deletes a set of requirement from this session.
 	 * 
-	 * @return Name of this session
+	 * @param reqs
+	 *            The requirements to delete
 	 */
-	public String getName() {
-		return this.name;
+	public void deleteRequirements(ArrayList<PlanningPokerRequirement> reqs) {
+		requirements.removeAll(reqs);
 	}
-
-	/**
-	 * Set the ID of this session
-	 * 
-	 * @param id
-	 */
-	public void setID(int id) {
-		this.id = id;
-	}
-
-	/**
-	 * Return the session ID
-	 * @return The Session ID
-	 */
-	public int getID() {
-		return this.id;
-	}
-
-	
-	// Functions for requirements
-	
-	public Date getDeadline() {
-		return deadline;
-	}
-
-	public void setDeadline(Date deadline) {
-		this.deadline = deadline;
-	}
-
-	/**
-	 * Sets sessionIds for the PlanningPokerRequirements
-	 * @param newReq -> new Requirements to be added
-	 */
-	public void addRequirements(ArrayList<PlanningPokerRequirement> newReqs){
-		for(int i = 0; i < newReqs.size(); i++){
-			newReqs.get(i).setSessionID(this.id);
-		}
-	}
-	
-	/**
-	 * Deletes a requirement by requirement ID
-	 * @param requirementID -> ID of requirement to be deleted
-	 */
-	public void deleteRequirements(ArrayList<PlanningPokerRequirement> reqs){
-		for(int i = 0; i < reqs.size(); i++){
-			reqs.get(i).setSessionID(-1);
-		}
-	}
-	
-	
-
-	// Functions for requirements
-
-	// public void createRequirements
-
-	/*
-	 * Adds a requirement to the list of requirements
-	 * 
-	 * @param newReq -> new Requirements to be added
-	 */
-	/*
-	 * public void addRequirements(ArrayList<PlanningPokerRequirement> newReqs){
-	 * this.reqsList.append(newReqs); }
-	 */
-
-	/*
-	 * Deletes a requirement by session ID
-	 * 
-	 * @param requirementId -> ID of requirement to be deleted
-	 */
-	/*
-	 * public void deleteRequirement(int requirementId){ for(int i = 0; i <
-	 * reqsList.size(); i++){ if(reqsList.get(i).getId() == requirementId){
-	 * reqsList.remove(i); break; } } }
-	 */
 
 	/**
 	 * Converts the model to a JSON String
@@ -247,7 +149,122 @@ public class PlanningPokerSession extends AbstractModel {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, PlanningPokerSession[].class);
 	}
-	
+
+	/**
+	 * Sets the end date of this session
+	 * 
+	 * @param d
+	 *            The date that the session should end
+	 */
+	public void setEndTime(Date d) {
+		this.endTime = d;
+	}
+
+	/**
+	 * Returns true if this session has been prematurely terminated
+	 * 
+	 * @return Returns true if this session has been prematurely terminated
+	 */
+	public boolean isCancelled() {
+		return this.isCancelled;
+	}
+
+	/**
+	 * Returns true it is open to voting in the meantime
+	 * 
+	 * @return Returns true it is open to voting in the meantime
+	 */
+	public boolean isActive() {
+		return this.startTime != null;
+	}
+
+	/**
+	 * Return true if this session has been assigned a completed time,
+	 * indicating that the session has been terminated in some way
+	 * 
+	 * @return Return true if this session has been assigned a completed time
+	 */
+	public boolean isDone() {
+		return endTime != null;
+	}
+
+	/**
+	 * @param name
+	 *            The new session name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * Return the name of this session
+	 * 
+	 * @return Name of this session
+	 */
+	public String getName() {
+		return this.name;
+	}
+
+	/**
+	 * @param The
+	 *            id to set
+	 */
+	public void setID(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return The Session ID
+	 */
+	public int getID() {
+		return this.id;
+	}
+
+	/**
+	 * @return The deadline for this session.
+	 */
+	public Date getDeadline() {
+		return deadline;
+	}
+
+	/**
+	 * @param deadline
+	 *            The new deadline for this session.
+	 */
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
+	}
+
+	/**
+	 * @return The description for this session.
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description
+	 *            A new description for this session.
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+	 * @return The list of requirements associated with his session.
+	 */
+	public ArrayList<PlanningPokerRequirement> getRequirements() {
+		return requirements;
+	}
+
+	/**
+	 * @param requirements
+	 *            The new list of requirements.
+	 */
+	public void setRequirements(ArrayList<PlanningPokerRequirement> requirements) {
+		this.requirements = requirements;
+	}
+
 	/**
 	 * @return The current status of this session.
 	 */
@@ -262,7 +279,7 @@ public class PlanningPokerSession extends AbstractModel {
 			return "Closed";
 		} else {
 			return "New";
-		}		
+		}
 	}
 
 	/*
@@ -297,6 +314,8 @@ public class PlanningPokerSession extends AbstractModel {
 		this.endTime = updatedSession.endTime;
 		this.deadline = updatedSession.deadline;
 		this.name = updatedSession.name;
+		this.description = updatedSession.description;
+		this.requirements = updatedSession.requirements;
 	}
 
 }
