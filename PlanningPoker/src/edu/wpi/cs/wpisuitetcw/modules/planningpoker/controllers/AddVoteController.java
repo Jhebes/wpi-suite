@@ -46,7 +46,7 @@ public class AddVoteController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		PlanningPokerVote vote = new PlanningPokerVote();
-		vote.setCardValue(Integer.parseInt(view.getTextField().getText()));
+		//vote.setCardValue(Integer.parseInt(view.getTextField().getText()));
 		
 		// Send a request to the core to save this message
 		// Create the request
