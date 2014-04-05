@@ -15,6 +15,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -32,10 +33,14 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class AddVoteController implements ActionListener {
 
 	private SessionInProgressPanel view;
+	private PlanningPokerSession session;
 	
-	public AddVoteController(SessionInProgressPanel view) {
+	public AddVoteController(SessionInProgressPanel view, PlanningPokerSession session) {
 		this.view = view;
+		this.session = session;
 	}
+	
+	
 
 	/*
 	 * This method is called when the user clicks the "Create" button
@@ -46,7 +51,7 @@ public class AddVoteController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		PlanningPokerVote vote = new PlanningPokerVote();
-		vote.setCardValue(Integer.parseInt(view.getTextField().getText()));
+		//vote.setCardValue(Integer.parseInt(view.getTextField().getText()));
 		
 		// Send a request to the core to save this message
 		// Create the request
@@ -59,5 +64,6 @@ public class AddVoteController implements ActionListener {
 		
 		// Send the request on its way
 		request.send();
+		session.voteStatus();
 	}
 }

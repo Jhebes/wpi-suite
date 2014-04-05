@@ -73,8 +73,8 @@ public class RetrievePlanningPokerVoteController extends MouseAdapter {
 	public void showPlanningPokerVote(PlanningPokerVote vote) {
 		// Make a new vote view to display the vote that was received
 
-		view.setTextField(view.getTextField().getText() + "\n"
-				+ String.valueOf(vote.getCardValue()));
+		//view.setTextField(view.getTextField().getText() + "\n"
+		//		+ String.valueOf(vote.getCardValue()));
 
 	}
 

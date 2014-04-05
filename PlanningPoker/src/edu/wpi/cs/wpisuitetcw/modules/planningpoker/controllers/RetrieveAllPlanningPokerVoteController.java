@@ -59,7 +59,7 @@ public class RetrieveAllPlanningPokerVoteController implements ActionListener {
 				System.out.println(v.getCardValue());
 			}
 			
-			view.receiveVotes(votes);
+			//view.receiveVotes(votes);
 		}
 	}
 
