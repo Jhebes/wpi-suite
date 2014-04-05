@@ -59,7 +59,7 @@ public class AddVoteController implements ActionListener {
 			return;
 		}
 		session.addVoteToRequirement(req, vote);
-		
+	
 		System.out.println("Added vote to requirement " + req.getName());
 		
 		//Update the session remotely

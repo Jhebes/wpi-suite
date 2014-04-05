@@ -26,7 +26,7 @@ public class GetRequirementsVotesRequestObserver implements
 		RequestObserver {
 
 	/** The controller managing the request */
-	protected GetRequirementVotesController controller;
+	protected GetRequirementsVotesController controller;
 
 	/**
 	 * Constructs the observer
@@ -35,7 +35,7 @@ public class GetRequirementsVotesRequestObserver implements
 	 *            The controller to update upon receiving the server response
 	 */
 	public GetRequirementsVotesRequestObserver(
-			GetRequirementVotesController controller) {
+			GetRequirementsVotesController controller) {
 		this.controller = controller;
 	}
 
