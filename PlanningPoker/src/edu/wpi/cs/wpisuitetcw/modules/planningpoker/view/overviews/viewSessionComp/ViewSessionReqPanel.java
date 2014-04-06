@@ -11,7 +11,13 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Panel;
+import java.util.ArrayList;
 import java.util.Vector;
+
+
+
+
+
 
 
 
@@ -34,8 +40,11 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.text.Document;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.AddRequirementController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveAllRequirementsToAllController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveAllRequirementsToCurrentSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveRequirementToAllController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveRequirementToCurrentSessionController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.RetrieveFreePlanningPokerRequirementsController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.RetrievePlanningPokerRequirementsForSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
@@ -60,9 +69,9 @@ public class ViewSessionReqPanel extends JPanel {
 	private final JButton moveAllRequirementsToSession;
 	private final JButton addRequirementToAll;
 	private final JButton addRequirementToSession;
-	private final JTable allReqTable;
-	private final JTable sessionReqTable;
-	private PlanningPokerSession session;
+	public final JTable allReqTable;
+	public final JTable sessionReqTable;
+	private final PlanningPokerSession session;
 	
 	
 	public String getNewReqName(){
@@ -70,26 +79,45 @@ public class ViewSessionReqPanel extends JPanel {
 	}
 	
 	public String getNewReqDesc(){
+
 		return this.description.getText();
 	}
 	
-	public String[] getLeftSelectedRequirements()	{
-		int[] selectedRows = this.allReqTable.getSelectedRows();
-		String[] selectedNames = {};
-		for(int i = 0; i < selectedRows.length; i++){
-			selectedNames[i] = this.allReqTable.getValueAt(selectedRows[i],1).toString();
+	public ArrayList<String> getAllLeftRequirements(){
+		ArrayList<String> selectedNames = new ArrayList<String>();
+		for(int i = 0; i < this.allReqTable.getRowCount(); ++i){
+			selectedNames.add(this.allReqTable.getValueAt(i,1).toString());
 		}
 		return selectedNames;
 	}
 	
-	public String[] getRightSelectedRequirements()	{
-		int[] selectedRows = this.sessionReqTable.getSelectedRows();
-		String[] selectedNames = {};
-		for(int i = 0; i < selectedRows.length; i++){
-			selectedNames[i] = this.sessionReqTable.getValueAt(selectedRows[i],1).toString();
+	public ArrayList<String> getAllRightRequirements(){
+		ArrayList<String> selectedNames = new ArrayList<String>();
+		for(int i = 0; i < this.sessionReqTable.getRowCount(); ++i){
+			selectedNames.add(this.sessionReqTable.getValueAt(i,1).toString());
 		}
 		return selectedNames;
 	}
+	
+	public ArrayList<String> getLeftSelectedRequirements()	{
+		int[] selectedRows = this.allReqTable.getSelectedRows();
+		
+		ArrayList<String> selectedNames = new ArrayList<String>();
+		for(int i = 0; i < selectedRows.length; i++){
+			selectedNames.add(this.allReqTable.getValueAt(selectedRows[i],1).toString());
+		}
+		return selectedNames;
+	}
+	public ArrayList<String> getRightSelectedRequirements()	{
+		int[] selectedRows = this.sessionReqTable.getSelectedRows();
+		
+		ArrayList<String> selectedNames = new ArrayList<String>();
+		for(int i = 0; i < selectedRows.length; i++){
+			selectedNames.add(this.sessionReqTable.getValueAt(selectedRows[i],1).toString());
+		}
+		return selectedNames;
+	}
+
 	
 	
 	public ViewSessionReqPanel(ViewSessionPanel parentPanel, PlanningPokerSession s) {
@@ -118,7 +146,7 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// setup tables
 		// Left Table
-		allReqTable = new JTable(ViewSessionTableManager.getInstance().get(1)) {
+		allReqTable = new JTable(new ViewSessionTableManager().get(1)) {
 			private static final long serialVersionUID = 1L;
 			private boolean initialized = false;
 
@@ -138,8 +166,8 @@ public class ViewSessionReqPanel extends JPanel {
 				if (!initialized) {
 					try {
 						System.out.println("Trying to get free reqs...");
-						RetrieveFreePlanningPokerRequirementsController
-								.getInstance().refreshData();
+						RetrievePlanningPokerRequirementsForSessionController
+								.getInstance().refreshData(1);
 						initialized = true;
 					} catch (Exception e) {
 
@@ -161,7 +189,7 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// table for left pain
 		//Right table
-		sessionReqTable = new JTable(ViewSessionTableManager.getInstance().get(this.session.getID())) {
+		sessionReqTable = new JTable(new ViewSessionTableManager().get(this.session.getID())) {
 			private static final long serialVersionUID = 2L;
 			private boolean initialized = false;
 
@@ -179,8 +207,8 @@ public class ViewSessionReqPanel extends JPanel {
 				// before the network objects
 				if (!initialized) {
 					try {
-						RetrieveFreePlanningPokerRequirementsController
-								.getInstance().refreshData();
+						RetrievePlanningPokerRequirementsForSessionController
+								.getInstance().refreshData(session.getID());
 						initialized = true;
 					} catch (Exception e) {
 
@@ -209,8 +237,11 @@ public class ViewSessionReqPanel extends JPanel {
 
 		//Action Handlers 
 		this.addRequirementToAll.addActionListener(new AddRequirementController(this));
-		this.addRequirementToSession.addActionListener(new RetrieveFreePlanningPokerRequirementsController());
+		
 		this.moveRequirementToSession.addActionListener(new MoveRequirementToCurrentSessionController(this.session, this));
+		this.moveRequirementToAll.addActionListener(new MoveRequirementToAllController(this.session, this));
+		this.moveAllRequirementsToSession.addActionListener(new MoveAllRequirementsToCurrentSessionController(this.session, this));
+		this.moveAllRequirementsToAll.addActionListener(new MoveAllRequirementsToAllController(this.session, this));
 		
 		// setup buttons panel
 		buttonsPanel.setLayout(new GridLayout(0, 1, 0, 20));

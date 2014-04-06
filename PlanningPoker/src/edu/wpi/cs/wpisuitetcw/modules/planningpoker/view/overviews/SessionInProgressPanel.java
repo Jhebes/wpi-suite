@@ -17,21 +17,22 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
-
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
 import javax.swing.JTabbedPane;
 
 import java.awt.GridLayout;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.AbstractListModel;
+
 
 public class SessionInProgressPanel extends JSplitPane {
 	
@@ -48,7 +49,8 @@ public class SessionInProgressPanel extends JSplitPane {
 	/**
 	 * Create the panel.
 	 */
-	public SessionInProgressPanel() {
+	public SessionInProgressPanel(PlanningPokerSession session) {
+		this.session = session;
 		this.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		
 		// Set up Session Info Panel
@@ -152,9 +154,25 @@ public class SessionInProgressPanel extends JSplitPane {
 		
 		JPanel reqsView = new JPanel();
 
-		String[] testReqs = {"Test Req 1", "Test Req 2"};
+		ArrayList<String> testReqs = new ArrayList<String>(); 
 		
-		reqNamesList = new JList<String>(testReqs);
+		ViewSessionTableManager a = new ViewSessionTableManager();
+		ViewSessionTableModel v = a.get(this.session.getID());
+		Vector vector = v.getDataVector();
+		
+		
+		
+		for(int i = 0; i < vector.size(); ++i){
+			testReqs.add((String)(((Vector)vector.elementAt(i)).elementAt(1)));
+		}
+
+		String[] reqArr = new String[testReqs.size()];
+		for(int i = 0; i< testReqs.size(); ++i){
+			reqArr[i] = testReqs.get(i);
+		}
+		
+		
+		reqNamesList = new JList<String>(reqArr);
 		reqsView.add(reqNamesList);
 		
 		reqNamesList.addMouseListener(new MouseAdapter() {

@@ -46,16 +46,19 @@ public class MoveRequirementToCurrentSessionController implements ActionListener
 	public void receivedData(PlanningPokerSession s){
 		PlanningPokerRequirement r;
 		
-		//for(String a : this.view.getLeftSelectedRequirements()){
-				r = s.getReqByName("TEST");
+		for(String a : this.view.getLeftSelectedRequirements()){
+				r = s.getReqByName(a);
 				ArrayList<PlanningPokerRequirement> d = new ArrayList<PlanningPokerRequirement>();
 				d.add(r);
 				s.deleteRequirements(d);
 				session.addRequirement(r);
-				ViewSessionTableManager.getInstance().refreshRequirements(0, s.getRequirements());
-				ViewSessionTableManager.getInstance().refreshRequirements(session.getID(), session.getRequirements());
+				ViewSessionTableManager a1 = new ViewSessionTableManager();
+				a1.refreshRequirements(1, s.getRequirements());
 				
-		//}
+
+				ViewSessionTableManager a2 = new ViewSessionTableManager();
+				a2.refreshRequirements(session.getID(), session.getRequirements());
+		}
 		
 		final Request request = Network.getInstance().makeRequest("planningpoker/session/".concat(String.valueOf(s.getID())), HttpMethod.POST);
 		request.setBody(session.toJSON());
@@ -66,6 +69,10 @@ public class MoveRequirementToCurrentSessionController implements ActionListener
 		request2.setBody(s.toJSON());
 		request2.addObserver(new GenericPUTRequestObserver(this));
 		request2.send();
+		
+		
+		this.view.allReqTable.repaint();
+		this.view.sessionReqTable.repaint();
 	}
 	
 	/*

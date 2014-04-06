@@ -14,6 +14,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GenericPUTRequestObserver;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
@@ -27,81 +28,51 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * This controller responds when the user clicks the "Create" button by using
- * all entered information to construct a new session and storing in the
- * database
+ * This controller adds all the requirements to the specified session
  * 
  * @author Josh Hebert
  * 
  */
-public class AddRequirementController implements ActionListener {
+public class MoveAllRequirementsToCurrentSessionController implements ActionListener {
 
-
+	private PlanningPokerSession session = null;
 	private ViewSessionReqPanel view;
 
-	
-	public AddRequirementController(ViewSessionReqPanel view) {
-		this.view = view;
-		System.out.println("Constructed the action listener");
+	public MoveAllRequirementsToCurrentSessionController(PlanningPokerSession s, ViewSessionReqPanel v) {
+		this.session = s;
+		this.view = v;
 	}
 
-	
-	public void addReq(PlanningPokerSession s){
+	public void receivedData(PlanningPokerSession s){
+		PlanningPokerRequirement r;
 		
-		System.out.println("Constructing update");
-		PlanningPokerRequirement r = new PlanningPokerRequirement();
-		r.setName(this.view.getNewReqName());
-		r.setDescription(this.view.getNewReqDesc());
-		s.addRequirement(r);
+		for(String a : this.view.getAllLeftRequirements()){
+				r = s.getReqByName(a);
+				ArrayList<PlanningPokerRequirement> d = new ArrayList<PlanningPokerRequirement>();
+				d.add(r);
+				s.deleteRequirements(d);
+				session.addRequirement(r);
+				ViewSessionTableManager a1 = new ViewSessionTableManager();
+				a1.refreshRequirements(1, s.getRequirements());
+				
+
+				ViewSessionTableManager a2 = new ViewSessionTableManager();
+				a2.refreshRequirements(session.getID(), session.getRequirements());
+		}
 		
-		System.out.println("Sending update");
-		//Get Session 1
-		//Update the session remotely
-		final Request request = Network.getInstance().makeRequest(
-				"planningpoker/session", HttpMethod.POST);
-		request.setBody(s.toJSON());
-		// Listen for the server's response
+		final Request request = Network.getInstance().makeRequest("planningpoker/session/".concat(String.valueOf(s.getID())), HttpMethod.POST);
+		request.setBody(session.toJSON());
 		request.addObserver(new GenericPUTRequestObserver(this));
-		// Send the request on its way
 		request.send();
-		System.out.println("Update Sent");
-		
-		
 		
 		final Request request2 = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.POST);
 		request2.setBody(s.toJSON());
 		request2.addObserver(new GenericPUTRequestObserver(this));
 		request2.send();
 		
-		new ViewSessionTableManager().fetch(s.getID());
 		
 		this.view.allReqTable.repaint();
-		
-		
-		
-	}
-	
-	public void buildNewSession0(){
-		System.out.println("Constructing new session");
-		PlanningPokerRequirement r = new PlanningPokerRequirement();
-
-		r.setName("TEST");
-		r.setDescription("TEST");
-		PlanningPokerSession s = new PlanningPokerSession();
-		s.setID(0);
-		s.addRequirement(r);
-		
-		System.out.println("Sending new session 0");
-		//Get Session 1
-		//Update the session remotely
-		final Request request = Network.getInstance().makeRequest(
-				"planningpoker/session", HttpMethod.PUT);
-		request.setBody(s.toJSON());
-		// Listen for the server's response
-		request.addObserver(new GenericPUTRequestObserver(this));
-		// Send the request on its way
-		request.send();
-		System.out.println("Update Sent");
+		this.view.sessionReqTable.repaint();
 	}
 	
 	/*
@@ -112,15 +83,11 @@ public class AddRequirementController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		
-		System.out.println("Requesting null session");
-		
 		final Request request = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.GET);
-		request.addObserver(new AddRequirementRequestObserver(this));
+		request.addObserver(new MoveAllRequirementsToCurrentRequestObserver(this));
 		request.send();
 		
-	
-		System.out.println("Request Sent");
-	
+		
+
 	}
 }
