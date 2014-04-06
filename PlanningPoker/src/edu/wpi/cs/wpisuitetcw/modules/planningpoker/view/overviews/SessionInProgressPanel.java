@@ -28,6 +28,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	private	 JLabel name;
 	private	 JLabel description;
 	private JLabel deadline;
+	private JTextField textField;
 
 	/**
 	 * Create the panel.
@@ -169,7 +170,6 @@ public class SessionInProgressPanel extends JSplitPane {
 		return Integer.getInteger(vote.toString());
 	}
 	
-/*
 	public void receiveVotes(PlanningPokerVote[] votes) {
 		String text = "";
 		for(PlanningPokerVote v: votes){
@@ -178,9 +178,12 @@ public class SessionInProgressPanel extends JSplitPane {
 		//System.out.println("Recieved votes: " + text);
 		this.textField.setText(text);
 	}
+	
+	public JTextField getTextField() {
+  		return textField;
+  	}
 
 	public void setTextField(String t) {
 		this.textField.setText(t);
 	}
-	*/
 }
