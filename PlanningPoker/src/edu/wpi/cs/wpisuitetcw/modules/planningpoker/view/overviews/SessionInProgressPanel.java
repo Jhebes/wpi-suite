@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.GetRequirementsVotesController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
@@ -35,16 +36,17 @@ import javax.swing.AbstractListModel;
 
 
 public class SessionInProgressPanel extends JSplitPane {
-	
+	private  JList<PlanningPokerVote> voteList;
 	private PlanningPokerSession session;
 	private JTextField vote;
-	private	 JLabel name;
-	private	 JLabel description;
+	private	JLabel name;
+	private	JLabel description;
 	private JLabel deadline;
 	private PlanningPokerRequirement[] reqsList;
 	private JButton btnSubmit;
 	private String selectedReqName;
 	private JTable reqsViewTable;
+
 
 	/**
 	 * Create the panel.
@@ -130,6 +132,9 @@ public class SessionInProgressPanel extends JSplitPane {
 		JLabel lblNumberOfVotes = new JLabel("Number of Votes:");
 		statsTab.add(lblNumberOfVotes);
 		
+		voteList = new JList();
+		statsTab.add(voteList);
+		
 		// Set up "Vote Tab"
 		JPanel voteTab = new JPanel();
 		tabbedPane.addTab("Voting", null, voteTab, null);
@@ -146,6 +151,12 @@ public class SessionInProgressPanel extends JSplitPane {
 		btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new AddVoteController(this, this.session));
 		voteTab.add(btnSubmit);
+		
+		// Refresh Button
+		JButton btnRefresh;
+		btnRefresh = new JButton("*DEV* Refresh");
+		btnRefresh.addActionListener(new GetRequirementsVotesController(this, this.session));
+		voteTab.add(btnRefresh);
 		
 		// Split into Reqs list and Reqs info
 		JSplitPane splitLeftRight = new JSplitPane();
@@ -173,6 +184,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		
 		JPanel reqsDetail = new JPanel();
 		reqsDetail.setLayout(new BorderLayout(0, 0));
+		
 		JList<String> list = new JList<String>();
 		list.setModel(new AbstractListModel<String>() {
 			String[] values = new String[] {"ID:", "", "", "Name:", selectedReqName, "", "Description:", ""};
@@ -266,5 +278,12 @@ public class SessionInProgressPanel extends JSplitPane {
 	 */
 	public int getVote() {
 		return Integer.getInteger(vote.toString());
+	}
+	/**
+	 * Sets the contents of the list of votes for the specified requirement
+	 * @param votes
+	 */
+	public void setVoteList(ArrayList<PlanningPokerVote> votes){
+			this.voteList.setListData((PlanningPokerVote[]) votes.toArray());
 	}
 }
