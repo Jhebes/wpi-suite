@@ -22,11 +22,11 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * An observer for a request to retrieve planning poker sessions that have
  * not been assigned to a planning poker session.
  */
-public class RetrieveFreePlanningPokerRequirementsRequestObserver implements
+public class RetrievePlanningPokerRequirementsForSessionRequestObserver implements
 		RequestObserver {
 
 	/** The controller managing the request */
-	protected RetrieveFreePlanningPokerRequirementsController controller;
+	protected RetrievePlanningPokerRequirementsForSessionController controller;
 
 	/**
 	 * Constructs the observer
@@ -34,8 +34,8 @@ public class RetrieveFreePlanningPokerRequirementsRequestObserver implements
 	 * @param controller
 	 *            The controller to update upon receiving the server response
 	 */
-	public RetrieveFreePlanningPokerRequirementsRequestObserver(
-			RetrieveFreePlanningPokerRequirementsController controller) {
+	public RetrievePlanningPokerRequirementsForSessionRequestObserver(
+			RetrievePlanningPokerRequirementsForSessionController controller) {
 		this.controller = controller;
 	}
 
@@ -52,9 +52,14 @@ public class RetrieveFreePlanningPokerRequirementsRequestObserver implements
 
 		if (response.getStatusCode() == 200) {
 			PlanningPokerSession session[] = PlanningPokerSession.fromJSONArray(response.getBody());
-			if(session.length >= 1){
-				controller.receivedData(session[0]);
+
+			for(PlanningPokerSession s : session){
+				if(s.getID() == this.controller.target){
+					System.out.println("Got session with id: "  + s.getID() + " back");
+					controller.receivedData(s);
+				}
 			}
+			
 		} else {
 			controller.errorReceivingData("Received "
 					+ iReq.getResponse().getStatusCode()

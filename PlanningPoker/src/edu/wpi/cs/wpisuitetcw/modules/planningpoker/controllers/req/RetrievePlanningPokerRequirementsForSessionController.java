@@ -28,24 +28,23 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 /**
  * Controller to handle retrieving free requirements from the server.
  */
-public class RetrieveFreePlanningPokerRequirementsController implements ActionListener{
-	private static RetrieveFreePlanningPokerRequirementsController instance;
+public class RetrievePlanningPokerRequirementsForSessionController{
+	private static RetrievePlanningPokerRequirementsForSessionController instance;
 	/** The create session panel */
 	protected CreateSessionPanel panel;
 
 	/** The requirements retrieved from the server */
 	protected PlanningPokerRequirement[] data = null;
-
+	public int target;
 	/**
 	 * Constructs a new RetrieveFreePlanningPokerRequirementsController
 	 */
-	public RetrieveFreePlanningPokerRequirementsController() {
-		
+	public RetrievePlanningPokerRequirementsForSessionController() {
 	}
 	
-	public static RetrieveFreePlanningPokerRequirementsController getInstance() {
+	public static RetrievePlanningPokerRequirementsForSessionController getInstance() {
 		if (instance == null) {
-			instance = new RetrieveFreePlanningPokerRequirementsController();
+			instance = new RetrievePlanningPokerRequirementsForSessionController();
 		}
 		return instance;
 	}
@@ -53,15 +52,17 @@ public class RetrieveFreePlanningPokerRequirementsController implements ActionLi
 	/**
 	 * Sends a request for all of the requirements
 	 */
-	public void refreshData(){
-		final Request request = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.GET);
-		request.addObserver(new RetrieveFreePlanningPokerRequirementsRequestObserver(this));
+	public void refreshData(int t){
+		this.target = t;
+		System.out.println("Refreshing table for session " + t);
+		final Request request = Network.getInstance().makeRequest("planningpoker/session/", HttpMethod.GET);
+		request.addObserver(new RetrievePlanningPokerRequirementsForSessionRequestObserver(this));
 		request.send();
 	}
 
 	/**
 	 * This method is called by the
-	 * {@link RetrieveFreePlanningPokerRequirementsRequestObserver} when the
+	 * {@link RetrievePlanningPokerRequirementsForSessionRequestObserver} when the
 	 * response is received
 	 * 
 	 * @param session
@@ -69,16 +70,17 @@ public class RetrieveFreePlanningPokerRequirementsController implements ActionLi
 	 * @throws NotImplementedException
 	 */
 	public void receivedData(PlanningPokerSession session){
-		System.out.println("Current requirements are:");
-		for(PlanningPokerRequirement r: session.getRequirements()){
-			System.out.println(r.getName());
-		}
-		ViewSessionTableManager.getInstance().refreshRequirements(1, session.getRequirements());
+//		System.out.println("Current requirements are:");
+//		for(PlanningPokerRequirement r: session.getRequirements()){
+//			System.out.println(r.getName());
+//		}
+		ViewSessionTableManager a = new ViewSessionTableManager();
+		a.refreshRequirements(this.target, session.getRequirements());
 	}
 
 	/**
 	 * This method is called by the
-	 * {@link RetrieveFreePlanningPokerRequirementsRequestObserver} when an
+	 * {@link RetrievePlanningPokerRequirementsForSessionRequestObserver} when an
 	 * error occurs retrieving the requirements from the server.
 	 */
 	public void errorReceivingData(String error) {
@@ -88,9 +90,5 @@ public class RetrieveFreePlanningPokerRequirementsController implements ActionLi
 				JOptionPane.ERROR_MESSAGE);
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		this.refreshData();
-		
-	}
+
 }
