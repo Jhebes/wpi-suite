@@ -6,6 +6,7 @@ import java.util.Date;
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * PlanningPokerSession class represents a planning poker session
@@ -36,8 +37,14 @@ public class PlanningPokerSession extends AbstractModel {
 	/** List of requirements associated this session */
 	private ArrayList<PlanningPokerRequirement> requirements;
 
+	/** List of users in the session */
+	private ArrayList<User> users;
+
 	/** Whether or not the session has been canceled prematurely */
 	private boolean isCancelled = false;
+
+	/** Whether or not the voting on the requirements is complete */
+	private boolean votingComplete = false;
 
 	/**
 	 * Constructs a PlanningPokerSession.
@@ -108,6 +115,16 @@ public class PlanningPokerSession extends AbstractModel {
 		throw new NullPointerException();
 	}
 	/**
+	 * Adds a single user to this session.
+	 * 
+	 * @param new_user
+	 *            The new user to add
+	 */
+	public void addUser(User new_user) {
+		users.add(new_user);
+	}
+
+	/**
 	 * Appends new requirements to the planning poker session.
 	 * 
 	 * @param newReqs
@@ -118,6 +135,16 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
+	 * Appends new users to the planning poker session.
+	 * 
+	 * @param newUsers
+	 *            New users to be added
+	 */
+	public void addUsers(ArrayList<User> newUsers) {
+		users.addAll(newUsers);
+	}
+
+	/**
 	 * Deletes a set of requirement from this session.
 	 * 
 	 * @param reqs
@@ -125,6 +152,38 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public void deleteRequirements(ArrayList<PlanningPokerRequirement> reqs) {
 		requirements.removeAll(reqs);
+	}
+
+	/**
+	 * Deletes a set of users from this session.
+	 * 
+	 * @param newUsers
+	 *            The users to delete
+	 */
+	public void deleteUsers(ArrayList<User> newUsers) {
+		requirements.removeAll(newUsers);
+	}
+
+	/**
+	 * This function compares the total number of votes to the number of votes
+	 * needed to end the voting.
+	 * 
+	 * *sets the votingComplete flag
+	 * 
+	 * Should be called after every vote is added to a requirement
+	 */
+	public void voteStatus() {
+		int totalVotes = requirements.size() * users.size();
+		int votes = 0;
+
+		for (int i = 0; i < requirements.size(); i++) {
+			votes += requirements.get(i).votes.size();
+		}
+
+		if (votes == totalVotes) {
+			setVotingComplete(true);
+		}
+
 	}
 
 	/**
@@ -275,6 +334,25 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public void setRequirements(ArrayList<PlanningPokerRequirement> requirements) {
 		this.requirements = requirements;
+	}
+
+	/**
+	 * 
+	 * @return voting complete boolean
+	 */
+
+	public boolean isVotingComplete() {
+		return votingComplete;
+	}
+
+	/**
+	 * 
+	 * @param votingComplete
+	 *            If all the users in the session have voted
+	 */
+
+	public void setVotingComplete(boolean votingComplete) {
+		this.votingComplete = votingComplete;
 	}
 
 	/**

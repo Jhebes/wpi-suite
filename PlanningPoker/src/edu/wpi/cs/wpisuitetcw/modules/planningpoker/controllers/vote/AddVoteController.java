@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GenericPUTRequestObserver;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
+
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
@@ -36,11 +37,15 @@ public class AddVoteController implements ActionListener {
 
 	private PlanningPokerSession session = null;
 	private SessionInProgressPanel view;
+
 	private PlanningPokerRequirement req = null;
-	
-	public AddVoteController(SessionInProgressPanel view) {
+
+	public AddVoteController(SessionInProgressPanel view, PlanningPokerSession session) {
 		this.view = view;
+		this.session = session;
 	}
+	
+	
 
 	/*
 	 * This method is called when the user clicks the vote button
@@ -71,6 +76,8 @@ public class AddVoteController implements ActionListener {
 		request.addObserver(new GenericPUTRequestObserver(this));
 		// Send the request on its way
 		request.send();
-	
+
+		session.voteStatus();
+
 	}
 }
