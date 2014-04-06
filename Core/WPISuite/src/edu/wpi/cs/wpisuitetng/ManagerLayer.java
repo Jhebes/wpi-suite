@@ -35,7 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.entitymanagers.UserManager;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.defecttracker.entitymanagers.CommentManager;
 import edu.wpi.cs.wpisuitetng.modules.defecttracker.entitymanagers.DefectManager;
-//import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardEntityManager;
+import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationEntityManager;
 
@@ -75,7 +75,7 @@ public class ManagerLayer {
 		map.put("coreuser", new UserManager(data));
 		map.put("defecttrackerdefect", new DefectManager(data));
 		map.put("defecttrackercomment", new CommentManager(data));
-//		map.put("postboardpostboardmessage", new PostBoardEntityManager(data));
+		map.put("postboardpostboardmessage", new PostBoardEntityManager(data));
 		map.put("requirementmanager" + "requirement", new RequirementEntityManager(data));
 		map.put("requirementmanager" + "iteration", new IterationEntityManager(data));
 		map.put("planningpoker" + "session", new PlanningPokerSessionEntityManager(data));	
