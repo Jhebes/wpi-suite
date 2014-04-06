@@ -5,13 +5,14 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Chris Casola
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -19,68 +20,79 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * An observer for a request to retrieve planning poker sessions that have
- * not been assigned to a planning poker session.
+ * Handles requests to server to store sessions of Planning Poker
+ * 
+ * @author Josh Hebert
+ * 
  */
-public class RetrieveFreePlanningPokerRequirementsRequestObserver implements
-		RequestObserver {
+public class AddRequirementRequestObserver implements RequestObserver {
 
-	/** The controller managing the request */
-	protected RetrieveFreePlanningPokerRequirementsController controller;
+	// The controller this is tied to
+	private final AddRequirementController controller;
 
 	/**
-	 * Constructs the observer
+	 * Creates a listener attached to the controller
 	 * 
-	 * @param controller
-	 *            The controller to update upon receiving the server response
+	 * @param addVoteController
+	 *            Tied controller
 	 */
-	public RetrieveFreePlanningPokerRequirementsRequestObserver(
-			RetrieveFreePlanningPokerRequirementsController controller) {
-		this.controller = controller;
+	public AddRequirementRequestObserver(AddRequirementController c) {
+		
+		this.controller = c;
 	}
 
-	/**
-	 * {@inheritDoc}
+	/*
+	 * Parse the session that was received from the server then pass them to the
+	 * controller.
+	 * 
+	 * @see
+	 * edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi
+	 * .cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
+		
 		// cast observable to request
 		Request request = (Request) iReq;
 
 		// get the response from the request
 		ResponseModel response = request.getResponse();
-
+		System.out.println("Got response");
 		if (response.getStatusCode() == 200) {
+			System.out.println("Decoding response");
 			PlanningPokerSession session[] = PlanningPokerSession.fromJSONArray(response.getBody());
-			if(session.length >= 1){
-				controller.receivedData(session[0]);
+			System.out.println("Success!");
+			if(session.length == 0){
+				controller.buildNewSession0();
+			}else{
+				
+				controller.addReq(session[0]);
 			}
+			
 		} else {
-			controller.errorReceivingData("Received "
-					+ iReq.getResponse().getStatusCode()
-					+ " error from server: "
-					+ iReq.getResponse().getStatusMessage());
+			
 		}
+		
+		
+		
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * What do we do if there's an error?
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		// an error occurred
-		controller.errorReceivingData("Received "
-				+ iReq.getResponse().getStatusCode() + " error from server: "
-				+ iReq.getResponse().getStatusMessage());
+		System.err
+				.println("The request to add a requirement failed. (Response Error)");
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * What do we do when there's a general network failure?
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		// an error occurred
-		controller.errorReceivingData("Unable to complete request: "
-				+ exception.getMessage());
+		System.err
+				.println("The request to add a requirement failed. (General Failure)");
 	}
+
 }

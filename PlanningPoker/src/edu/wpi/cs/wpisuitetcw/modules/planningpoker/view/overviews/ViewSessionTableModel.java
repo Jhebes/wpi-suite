@@ -14,19 +14,13 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirem
  *
  */
 public class ViewSessionTableModel extends DefaultTableModel{
-	private static ViewSessionTableModel instance;
 	private final String[] colNames = {"ID", "Name", "Priority"};
 	
-	private ViewSessionTableModel() {
+	public ViewSessionTableModel() {
 		setColumnIdentifiers(colNames);
 	}
 	
-	public static ViewSessionTableModel getInstance() {
-		if(instance == null) {
-			instance = new ViewSessionTableModel();
-		}
-		return instance;
-	}
+	
 	
 	
 	/**
@@ -36,6 +30,7 @@ public class ViewSessionTableModel extends DefaultTableModel{
 	 *            The new list of requirements
 	 */
 	public void refreshRequirements(List<PlanningPokerRequirement> requirements) {
+
 		this.setDataVector(null, colNames);
 		for (PlanningPokerRequirement requirement : requirements) {			
 			Object[] row = { 

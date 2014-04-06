@@ -63,12 +63,7 @@ public class GetAllSessionsController implements ActionListener {
 		request.addObserver(new GetAllSessionsRequestObserver(this));
 		request.send(); // send the request
 		
-		PlanningPokerRequirement ppReq = new PlanningPokerRequirement(-1, "Name", "desc");
-		// Send a request to the core to retrieve the sessions
-				final Request request2 = Network.getInstance().makeRequest(
-						"planningpoker/requirement", HttpMethod.PUT);
-				request2.setBody(ppReq.toJSON());
-				request2.send(); // send the request
+	
 	}
 
 	/**

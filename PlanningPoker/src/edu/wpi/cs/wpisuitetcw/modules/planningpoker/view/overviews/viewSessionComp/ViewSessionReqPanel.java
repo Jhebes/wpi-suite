@@ -17,6 +17,10 @@ import java.util.Vector;
 
 
 
+
+
+
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -29,8 +33,12 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.text.Document;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.AddRequirementController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveRequirementToCurrentSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.RetrieveFreePlanningPokerRequirementsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetAllSessionsController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionTableModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
@@ -54,6 +62,16 @@ public class ViewSessionReqPanel extends JPanel {
 	private final JButton addRequirementToSession;
 	private final JTable allReqTable;
 	private final JTable sessionReqTable;
+	private PlanningPokerSession session;
+	
+	
+	public String getNewReqName(){
+		return this.name.getText();
+	}
+	
+	public String getNewReqDesc(){
+		return this.description.getText();
+	}
 	
 	public String[] getLeftSelectedRequirements()	{
 		int[] selectedRows = this.allReqTable.getSelectedRows();
@@ -74,7 +92,8 @@ public class ViewSessionReqPanel extends JPanel {
 	}
 	
 	
-	public ViewSessionReqPanel(ViewSessionPanel parentPanel) {
+	public ViewSessionReqPanel(ViewSessionPanel parentPanel, PlanningPokerSession s) {
+		this.session = s;
 		this.setLayout(new GridBagLayout());
 		this.parentPanel = parentPanel;
 		this.sessionReqPanel = new ScrollablePanel();
@@ -98,7 +117,8 @@ public class ViewSessionReqPanel extends JPanel {
 		Panel bottomPanel = new Panel();
 
 		// setup tables
-		allReqTable = new JTable(ViewSessionTableModel.getInstance()) {
+		// Left Table
+		allReqTable = new JTable(ViewSessionTableManager.getInstance().get(1)) {
 			private static final long serialVersionUID = 1L;
 			private boolean initialized = false;
 
@@ -114,8 +134,10 @@ public class ViewSessionReqPanel extends JPanel {
 			public void repaint() {
 				// because janeway is terrible and instantiates this class
 				// before the network objects
+				
 				if (!initialized) {
 					try {
+						System.out.println("Trying to get free reqs...");
 						RetrieveFreePlanningPokerRequirementsController
 								.getInstance().refreshData();
 						initialized = true;
@@ -138,7 +160,8 @@ public class ViewSessionReqPanel extends JPanel {
 		leftPanel.add(allReqSp);
 
 		// table for left pain
-		sessionReqTable = new JTable(ViewSessionTableModel.getInstance()) {
+		//Right table
+		sessionReqTable = new JTable(ViewSessionTableManager.getInstance().get(this.session.getID())) {
 			private static final long serialVersionUID = 2L;
 			private boolean initialized = false;
 
@@ -184,6 +207,11 @@ public class ViewSessionReqPanel extends JPanel {
 		moveRequirementToAll.setPreferredSize(new Dimension(70, 50));
 		moveAllRequirementsToAll.setPreferredSize(new Dimension(70, 50));
 
+		//Action Handlers 
+		this.addRequirementToAll.addActionListener(new AddRequirementController(this));
+		this.addRequirementToSession.addActionListener(new RetrieveFreePlanningPokerRequirementsController());
+		this.moveRequirementToSession.addActionListener(new MoveRequirementToCurrentSessionController(this.session, this));
+		
 		// setup buttons panel
 		buttonsPanel.setLayout(new GridLayout(0, 1, 0, 20));
 		buttonsPanel.add(moveAllRequirementsToSession);

@@ -27,7 +27,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 /**
  * Controller to handle retrieving free requirements from the server.
  */
-public class GetRequirementVotesController implements ActionListener{
+public class GetRequirementsVotesController implements ActionListener{
 	/** The create session panel */
 	protected CreateSessionPanel panel;
 
@@ -42,7 +42,7 @@ public class GetRequirementVotesController implements ActionListener{
 	/**
 	 * Constructs a new RetrieveFreePlanningPokerRequirementsController
 	 */
-	private GetRequirementVotesController(int id, PlanningPokerRequirement req) {
+	private GetRequirementsVotesController(int id, PlanningPokerRequirement req) {
 		this.id = id;
 		this.req = req;
 	}

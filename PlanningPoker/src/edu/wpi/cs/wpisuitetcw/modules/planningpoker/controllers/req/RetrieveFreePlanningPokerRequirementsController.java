@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
@@ -38,7 +39,7 @@ public class RetrieveFreePlanningPokerRequirementsController implements ActionLi
 	/**
 	 * Constructs a new RetrieveFreePlanningPokerRequirementsController
 	 */
-	private RetrieveFreePlanningPokerRequirementsController() {
+	public RetrieveFreePlanningPokerRequirementsController() {
 		
 	}
 	
@@ -53,7 +54,7 @@ public class RetrieveFreePlanningPokerRequirementsController implements ActionLi
 	 * Sends a request for all of the requirements
 	 */
 	public void refreshData(){
-		final Request request = Network.getInstance().makeRequest("planningpoker/session/0", HttpMethod.GET);
+		final Request request = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.GET);
 		request.addObserver(new RetrieveFreePlanningPokerRequirementsRequestObserver(this));
 		request.send();
 	}
@@ -68,7 +69,11 @@ public class RetrieveFreePlanningPokerRequirementsController implements ActionLi
 	 * @throws NotImplementedException
 	 */
 	public void receivedData(PlanningPokerSession session){
-		ViewSessionTableModel.getInstance().refreshRequirements(session.getRequirements());
+		System.out.println("Current requirements are:");
+		for(PlanningPokerRequirement r: session.getRequirements()){
+			System.out.println(r.getName());
+		}
+		ViewSessionTableManager.getInstance().refreshRequirements(1, session.getRequirements());
 	}
 
 	/**
