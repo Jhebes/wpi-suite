@@ -53,6 +53,7 @@ public class CreateSessionPanel extends JSplitPane {
 	private final JTextField nameTextField;
 	// save button for the panel
 	private final JButton btnSaveSession;
+	private final JButton btnCreateNewDeck;
 	// dropdown menu
 	private final JComboBox<SessionLiveType> dropdownType;
 	private final JComboBox<String> deckType;
@@ -133,22 +134,23 @@ public class CreateSessionPanel extends JSplitPane {
 		dropdownType = new JComboBox<SessionLiveType>(SessionLiveType.values());
 		dropdownType.setEditable(false);
 		dropdownType.setBackground(Color.WHITE);
-		
+
 		deckType = new JComboBox<String>();
 		deckType.addItem("Default");
 		deckType.addItem("Fibonacci");
 		deckType.setEditable(false);
 		deckType.setBackground(Color.WHITE);
-		
+
 		// labelDropdownType.setAlignmentX(dropdownType.getAlignmentX());
 
 		// create buttons and listeners
 		btnSaveSession = new JButton("Save");
+		btnCreateNewDeck = new JButton("Create New Deck");
 
 		// setup right panel
 		// MigLayout is a convenient way of creating responsive layout with
 		// Swing
-		rightPanel.setLayout(new MigLayout("", "", "[]5[]"));
+		rightPanel.setLayout(new MigLayout("", "[]10[]", "[]5[]"));
 		rightPanel.setAlignmentX(LEFT_ALIGNMENT);
 
 		// labels and textfields
@@ -157,19 +159,22 @@ public class CreateSessionPanel extends JSplitPane {
 
 		rightPanel.add(nameTextField, "width 150px, left");
 		rightPanel.add(dropdownType, "width 150px, right, wrap");
-		
+
 		rightPanel.add(labeDeck, "width 150px, left, wrap");
-		rightPanel.add(deckType, "width 150px, left, wrap");
+		rightPanel.add(deckType, "width 150px, left, split2");
+		rightPanel.add(new JLabel("<html> &nbsp&nbsp&nbsp&nbsp Or</html>"),
+				"center, split2"); // Text
+		rightPanel.add(btnCreateNewDeck, "width 150px, right, wrap");
 
 		// textarea
 		rightPanel.add(labelDescriptionBox, "wrap");
 		rightPanel.add(descriptionBox, "width 400px, span, wrap");
 
 		// optional deadline
-		rightPanel.add(labelDeadline);
+		rightPanel.add(labelDeadline, "split2");
 		rightPanel.add(cbDeadline, "wrap");
 
-		rightPanel.add(deadlinePicker, "width 100px");
+		rightPanel.add(deadlinePicker, "width 100px, split2");
 		rightPanel.add(pickerDeadlineTime, "width 100px, wrap");
 
 		// buttons
@@ -217,7 +222,8 @@ public class CreateSessionPanel extends JSplitPane {
 	 * @return date for the deadline object
 	 */
 	public Date getDeadline() {
-		//checks to see if the deadline picker is enabled, if it is return a deadline.
+		// checks to see if the deadline picker is enabled, if it is return a
+		// deadline.
 		if (this.deadlinePicker.isEnabled()) {
 			Date date = deadlinePicker.getDate();
 			Date time = (Date) pickerDeadlineTime.getValue();
@@ -248,7 +254,7 @@ public class CreateSessionPanel extends JSplitPane {
 	 * 
 	 * @return true if anything is entered; false otherwise
 	 */
-	public boolean requiredFieldEntered() {	
+	public boolean requiredFieldEntered() {
 		// this is to avoid short circuit evaluation
 		boolean nameEntered = sessionNameEntered();
 		boolean desEntered = sessionDescriptionEntered();
