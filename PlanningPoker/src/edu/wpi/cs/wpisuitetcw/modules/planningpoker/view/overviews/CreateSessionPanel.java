@@ -55,12 +55,14 @@ public class CreateSessionPanel extends JSplitPane {
 	private final JButton btnSaveSession;
 	// dropdown menu
 	private final JComboBox<SessionLiveType> dropdownType;
+	private final JComboBox<String> deckType;
 	// deadline date and time picker
 	private final JXDatePicker deadlinePicker;
 	private final JSpinner pickerDeadlineTime;
 
 	private JLabel labelName;
 	private JLabel labelDescriptionBox;
+	private JLabel labeDeck;
 
 	private final JTextArea descriptionBox;
 	// check box for enabling date and time deadline.
@@ -86,6 +88,7 @@ public class CreateSessionPanel extends JSplitPane {
 		JLabel labelDeadline = new JLabel("Deadline");
 		JLabel labelDropdownType = new JLabel("Type *");
 		labelDescriptionBox = new JLabel("Description *");
+		labeDeck = new JLabel("Deck *");
 
 		// JLabel labelExplanation = new JLabel(EXPLANATIONSTRING);
 
@@ -121,7 +124,7 @@ public class CreateSessionPanel extends JSplitPane {
 		// create textfield
 		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
 
-		descriptionBox = new JTextArea(20, 200);
+		descriptionBox = new JTextArea(10, 200);
 		descriptionBox.setLineWrap(true);
 		descriptionBox.setWrapStyleWord(true);
 		descriptionBox.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -130,6 +133,13 @@ public class CreateSessionPanel extends JSplitPane {
 		dropdownType = new JComboBox<SessionLiveType>(SessionLiveType.values());
 		dropdownType.setEditable(false);
 		dropdownType.setBackground(Color.WHITE);
+		
+		deckType = new JComboBox<String>();
+		deckType.addItem("Default");
+		deckType.addItem("Fibonacci");
+		deckType.setEditable(false);
+		deckType.setBackground(Color.WHITE);
+		
 		// labelDropdownType.setAlignmentX(dropdownType.getAlignmentX());
 
 		// create buttons and listeners
@@ -143,14 +153,17 @@ public class CreateSessionPanel extends JSplitPane {
 
 		// labels and textfields
 		rightPanel.add(labelName);
-		rightPanel.add(labelDropdownType, "right, wrap");
+		rightPanel.add(labelDropdownType, "wrap, right");
 
 		rightPanel.add(nameTextField, "width 150px, left");
 		rightPanel.add(dropdownType, "width 150px, right, wrap");
+		
+		rightPanel.add(labeDeck, "width 150px, left, wrap");
+		rightPanel.add(deckType, "width 150px, left, wrap");
 
 		// textarea
 		rightPanel.add(labelDescriptionBox, "wrap");
-		rightPanel.add(descriptionBox, "width 500px, span, wrap");
+		rightPanel.add(descriptionBox, "width 400px, span, wrap");
 
 		// optional deadline
 		rightPanel.add(labelDeadline);
