@@ -71,7 +71,7 @@ public class AddSessionController implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		// if a name was entered create the session
 		// otherwise the button will do nothing
-		if (this.view.anythingEntered() == true) {
+		if (this.view.requiredFieldEntered() == true) {
 			// Get the name of the session
 			String name = this.view.getNameTextField().getText();
 
@@ -108,9 +108,8 @@ public class AddSessionController implements ActionListener {
 			request.send();
 		} 
 		else {
-			//If the user doesn't enter a name ADD a requires text warning/ maybe a popup.
+			// user has yet entered all required data
 			//TODO: maybe make the warning a pop-up
-			//this.view.getLabelName.setText("Name *  REQUIRES NAME");
 			this.view.repaint();
 		}
 

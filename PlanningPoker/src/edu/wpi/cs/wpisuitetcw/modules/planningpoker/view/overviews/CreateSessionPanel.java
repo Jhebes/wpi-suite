@@ -60,6 +60,8 @@ public class CreateSessionPanel extends JSplitPane {
 	private final JSpinner pickerDeadlineTime;
 
 	private JLabel labelName;
+	private JLabel labelDescriptionBox;
+
 	private final JTextArea descriptionBox;
 
 	private JCheckBox cbDeadline;
@@ -83,7 +85,7 @@ public class CreateSessionPanel extends JSplitPane {
 		labelName = new JLabel("Name *");
 		JLabel labelDeadline = new JLabel("Deadline");
 		JLabel labelDropdownType = new JLabel("Type *");
-		JLabel labelDescriptionBox = new JLabel("Description *");
+		labelDescriptionBox = new JLabel("Description *");
 
 		// JLabel labelExplanation = new JLabel(EXPLANATIONSTRING);
 
@@ -188,6 +190,15 @@ public class CreateSessionPanel extends JSplitPane {
 	}
 
 	/**
+	 * return the label for the description textarea
+	 * 
+	 * @return description label
+	 */
+	public JLabel getLabelDescriptionBox() {
+		return this.labelDescriptionBox;
+	}
+
+	/**
 	 * This returns the date object of what user enters
 	 * 
 	 * @return date for the deadline object
@@ -212,16 +223,49 @@ public class CreateSessionPanel extends JSplitPane {
 	}
 
 	/**
-	 * Determine whether user has entered anything in the panel Name of the
-	 * session if the only thing to be entered now
+	 * Determine whether user has entered anything in all required fields
 	 * 
 	 * @return true if anything is entered; false otherwise
 	 */
-	public boolean anythingEntered() {
-		if (!(nameTextField.getText().equals(""))) {
+	public boolean requiredFieldEntered() {	
+		// this is to avoid short circuit evaluation
+		boolean nameEntered = sessionNameEntered();
+		boolean desEntered = sessionDescriptionEntered();
+		return nameEntered && desEntered;
+	}
+
+	/**
+	 * Determine if anything is entered in the session name checkbox
+	 * 
+	 * @return true if so; false otherwise
+	 */
+	private boolean sessionNameEntered() {
+		// textbox for session name
+		if (this.nameTextField.getText().equals("")) {
+			this.labelName
+					.setText("<html>Name * <font color='red'>REQUIRES</font></html>");
+			return false;
+		} else {
+			this.labelName.setText("Name *");
 			return true;
 		}
-		return false;
+	}
+
+	/**
+	 * determine if anything is entered in the textarea for session description
+	 * 
+	 * @return true if so; false otherwise
+	 */
+	private boolean sessionDescriptionEntered() {
+		// textarea for session description
+		if (this.descriptionBox.getText().equals("")) {
+			this.labelDescriptionBox
+					.setText("<html>Description * <font color='red'>REQUIRES</font></html>");
+			return false;
+		} else {
+			this.labelDescriptionBox.setText("Description *");
+			return true;
+		}
 	}
 
 	/**
@@ -313,7 +357,7 @@ public class CreateSessionPanel extends JSplitPane {
 		this.deadlinePicker.setEnabled(true);
 		this.pickerDeadlineTime.setEnabled(true);
 	}
-	
+
 	/**
 	 * Disable the deadline picker and remote the data
 	 */
