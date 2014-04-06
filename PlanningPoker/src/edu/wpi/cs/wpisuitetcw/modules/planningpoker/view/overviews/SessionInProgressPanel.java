@@ -38,7 +38,7 @@ import javax.swing.table.TableModel;
 
 public class SessionInProgressPanel extends JSplitPane {
 
-	private final PlanningPokerSession session;
+	private PlanningPokerSession session;
 	private JTextField vote;
 	private JLabel name;
 	private JLabel description;
@@ -176,13 +176,14 @@ public class SessionInProgressPanel extends JSplitPane {
 			reqArr[i] = testReqs.get(i);
 		}
 
-		reqsViewTable = new JTable();
+		reqsViewTable = new JTable(){
+			public boolean isCellEditable(int row, int column){
+		        return false;
+		   }
+		};
 		
-				
-		reqsViewTable.setFillsViewportHeight(true);
-		// TODO: Make sure you add the table model here after construction!
-		//reqsViewTable.getColumnModel().getColumn(1).setResizable(false);
 		this.getReqsViewTable();
+		//this.reqsViewTable.
 		reqsView.setLayout(new BorderLayout(0, 0));
 		reqsView.add(reqsViewTable);
 

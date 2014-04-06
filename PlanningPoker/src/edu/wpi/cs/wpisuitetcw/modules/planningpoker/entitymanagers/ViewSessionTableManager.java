@@ -8,7 +8,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.RetrievePlan
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionTableModel;
 
-public class ViewSessionTableManager {
+public class ViewSessionTableManager{
 	private static HashMap<Integer, ViewSessionTableModel> t = new HashMap<Integer, ViewSessionTableModel>();
 
 	public ViewSessionTableModel get(int i){
