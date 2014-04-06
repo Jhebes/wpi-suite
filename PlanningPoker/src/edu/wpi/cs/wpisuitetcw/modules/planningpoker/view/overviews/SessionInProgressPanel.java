@@ -246,12 +246,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	}
 
 	/**
-	 * 
-	 * @param session
-	 */
-	public void setSession(PlanningPokerSession session) {
-		this.session = session;
-	}
+
 
 	/**
 	 * 
