@@ -77,10 +77,16 @@ public class ViewSessionReqPanel extends JPanel {
 	public String getNewReqName(){
 		return this.name.getText();
 	}
+	public void clearNewReqName(){
+		this.name.setText("");
+	}
 	
 	public String getNewReqDesc(){
 
 		return this.description.getText();
+	}
+	public void clearNewReqDesc(){
+		this.description.setText("");
 	}
 	
 	public ArrayList<String> getAllLeftRequirements(){
