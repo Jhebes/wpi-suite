@@ -63,7 +63,7 @@ public class CreateSessionPanel extends JSplitPane {
 	private JLabel labelDescriptionBox;
 
 	private final JTextArea descriptionBox;
-
+	// check box for enabling date and time deadline.
 	private JCheckBox cbDeadline;
 
 	/** Model used for requirements JList */
@@ -204,22 +204,30 @@ public class CreateSessionPanel extends JSplitPane {
 	 * @return date for the deadline object
 	 */
 	public Date getDeadline() {
-		Date date = deadlinePicker.getDate();
-		Date time = (Date) pickerDeadlineTime.getValue();
-		Calendar calendar1 = new GregorianCalendar();
-		Calendar calendar2 = new GregorianCalendar();
+		//checks to see if the deadline picker is enabled, if it is return a deadline.
+		if (this.deadlinePicker.isEnabled()) {
+			Date date = deadlinePicker.getDate();
+			Date time = (Date) pickerDeadlineTime.getValue();
+			Calendar calendar1 = new GregorianCalendar();
+			Calendar calendar2 = new GregorianCalendar();
 
-		calendar1.setTime(date);
-		calendar2.setTime(time);
+			calendar1.setTime(date);
+			calendar2.setTime(time);
 
-		// adding the time to date object
-		calendar1
-				.set(Calendar.HOUR_OF_DAY, calendar2.get(Calendar.HOUR_OF_DAY));
-		calendar1.set(Calendar.MINUTE, calendar2.get(Calendar.MINUTE));
-		calendar1.set(Calendar.SECOND, calendar2.get(Calendar.SECOND));
+			// adding the time to date object
+			calendar1.set(Calendar.HOUR_OF_DAY,
+					calendar2.get(Calendar.HOUR_OF_DAY));
+			calendar1.set(Calendar.MINUTE, calendar2.get(Calendar.MINUTE));
+			calendar1.set(Calendar.SECOND, calendar2.get(Calendar.SECOND));
 
-		Date deadline = calendar1.getTime();
-		return deadline;
+			Date deadline = calendar1.getTime();
+
+			return deadline;
+		} else {
+			// if the deadline picker isn't enabled don't return a deadline.
+			Date deadline = null;
+			return deadline;
+		}
 	}
 
 	/**
