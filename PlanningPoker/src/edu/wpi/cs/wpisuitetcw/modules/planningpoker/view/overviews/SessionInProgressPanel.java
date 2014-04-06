@@ -41,10 +41,10 @@ public class SessionInProgressPanel extends JSplitPane {
 	private	 JLabel name;
 	private	 JLabel description;
 	private JLabel deadline;
-	private JList<String> reqNamesList;
 	private PlanningPokerRequirement[] reqsList;
 	private JButton btnSubmit;
 	private String selectedReqName;
+	private JTable reqsViewTable;
 
 	/**
 	 * Create the panel.
@@ -168,17 +168,8 @@ public class SessionInProgressPanel extends JSplitPane {
 			reqArr[i] = testReqs.get(i);
 		}
 		
-		//Puts extracted reqs on display
-		reqNamesList = new JList<String>(reqArr);
-		reqsView.add(reqNamesList);
-		
-		reqNamesList.addMouseListener(new MouseAdapter() {
-			@SuppressWarnings("unchecked")
-			public void mouseClicked(MouseEvent e) {
-				selectedReqName = ((JList<String>) e.getSource()).getSelectedValue();
-				System.out.println(selectedReqName);
-			}
-		});
+		reqsViewTable = new JTable();
+		reqsView.add(reqsViewTable);
 		
 		JPanel reqsDetail = new JPanel();
 		reqsDetail.setLayout(new BorderLayout(0, 0));
