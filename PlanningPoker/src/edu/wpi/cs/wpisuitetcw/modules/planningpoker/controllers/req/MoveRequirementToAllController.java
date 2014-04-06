@@ -28,7 +28,7 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * This controller adds all the requirements to the specified session
+ * This controller adds all the requirements from the specified session to the all pool
  * 
  * @author Josh Hebert
  * 

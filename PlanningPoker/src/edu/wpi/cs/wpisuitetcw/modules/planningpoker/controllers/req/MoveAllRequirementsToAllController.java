@@ -28,7 +28,7 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * This controller adds all the requirements to the specified session
+ * This controller adds all the requirements to the "All" pool
  * 
  * @author Josh Hebert
  * 
@@ -43,9 +43,14 @@ public class MoveAllRequirementsToAllController implements ActionListener {
 		this.view = v;
 	}
 
+	/**
+	 * Processes the received session
+	 * @param s The pooll session that holds all unassigned reqs
+	 */
 	public void receivedData(PlanningPokerSession s){
 		PlanningPokerRequirement r;
 		
+		//Move the requested reqs from session to all
 		for(String a : this.view.getAllRightRequirements()){
 				r = session.getReqByName(a);
 				ArrayList<PlanningPokerRequirement> d = new ArrayList<PlanningPokerRequirement>();
@@ -60,6 +65,8 @@ public class MoveAllRequirementsToAllController implements ActionListener {
 				a2.refreshRequirements(session.getID(), session.getRequirements());
 		}
 		
+		
+		//Updates both
 		final Request request = Network.getInstance().makeRequest("planningpoker/session/".concat(String.valueOf(s.getID())), HttpMethod.POST);
 		request.setBody(session.toJSON());
 		request.addObserver(new GenericPUTRequestObserver(this));
@@ -70,13 +77,13 @@ public class MoveAllRequirementsToAllController implements ActionListener {
 		request2.addObserver(new GenericPUTRequestObserver(this));
 		request2.send();
 		
-		
+		//Updates the view
 		this.view.allReqTable.repaint();
 		this.view.sessionReqTable.repaint();
 	}
 	
 	/*
-	 * This method is called when the user clicks the vote button
+	 * This method is called when the user clicks the << button
 	 * 
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
