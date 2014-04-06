@@ -148,12 +148,12 @@ public class CreateSessionPanel extends JSplitPane {
 		// setup right panel
 		// MigLayout is a convenient way of creating responsive layout with
 		// Swing
-		rightPanel.setLayout(new MigLayout("", "[]10[]", "shrink"));
+		rightPanel.setLayout(new MigLayout("", "", "[]5[]"));
 		rightPanel.setAlignmentX(LEFT_ALIGNMENT);
 
 		// labels and textfields
-		rightPanel.add(labelName);
-		rightPanel.add(labelDropdownType, "wrap, right");
+		rightPanel.add(labelName, "width 240px, left");
+		rightPanel.add(labelDropdownType, "left, wrap");
 
 		rightPanel.add(nameTextField, "width 150px, left");
 		rightPanel.add(dropdownType, "width 150px, right, wrap");
