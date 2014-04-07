@@ -6,6 +6,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 import javax.swing.JComponent;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateNewDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
@@ -65,7 +66,16 @@ public class ViewEventManager {
 			main.repaint();
 			main.setSelectedComponent(viewSession);
 		}
-		
+	}
+	
+	/**
+	 *  Opens a new tab for creatign a new deck of cards
+	 */
+	public void createDeck() {
+		CreateNewDeckPanel deckPanel = new CreateNewDeckPanel();
+		main.addTab("New Deck", null, deckPanel, "New Deck");
+		main.repaint();
+		main.setSelectedComponent(deckPanel);
 	}
 	
 	
