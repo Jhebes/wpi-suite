@@ -51,8 +51,8 @@ public class GetRequirementsVotesRequestObserver implements
 		ResponseModel response = request.getResponse();
 
 		if (response.getStatusCode() == 200) {
-			PlanningPokerSession session = PlanningPokerSession.fromJson(response.getBody());
-			controller.receivedData(session);
+			PlanningPokerSession session[] = PlanningPokerSession.fromJSONArray(response.getBody());
+			controller.receivedData(session[0]);
 		} else {
 			controller.errorReceivingData("Received "
 					+ iReq.getResponse().getStatusCode()

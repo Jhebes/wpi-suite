@@ -38,8 +38,12 @@ import javax.swing.table.TableModel;
 
 public class SessionInProgressPanel extends JSplitPane {
 
+<<<<<<< HEAD
 
 	private final PlanningPokerSession session;
+=======
+	private PlanningPokerSession session;
+>>>>>>> 24ac007ea7dd8db398d838db5dc8230b0d5a84be
 	private JTextField vote;
 	private JLabel name;
 	private JLabel description;
@@ -137,6 +141,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		JLabel lblNumberOfVotes = new JLabel("Number of Votes:");
 		statsTab.add(lblNumberOfVotes);
 
+
 		JList voteList = new JList();
 		statsTab.add(voteList);
 
@@ -191,10 +196,6 @@ public class SessionInProgressPanel extends JSplitPane {
 		   }
 		};
 		
-				
-		reqsViewTable.setFillsViewportHeight(true);
-		// TODO: Make sure you add the table model here after construction!
-		//reqsViewTable.getColumnModel().getColumn(1).setResizable(false);
 		this.getReqsViewTable();
 		//this.reqsViewTable.
 		reqsView.setLayout(new BorderLayout(0, 0));
@@ -244,8 +245,6 @@ public class SessionInProgressPanel extends JSplitPane {
 	public PlanningPokerSession getSession() {
 		return session;
 	}
-
-	/**
 
 
 	/**
@@ -306,7 +305,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	 * @return vote parsed as an integer
 	 */
 	public int getVote() {
-		return Integer.getInteger(vote.toString());
+		return Integer.parseInt(vote.getText());
 	}
 	/**
 	 * Sets the contents of the list of votes for the specified requirement

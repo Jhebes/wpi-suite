@@ -56,9 +56,12 @@ public class AddVoteController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		PlanningPokerVote vote = new PlanningPokerVote();
+		vote.setCardValue(view.getVote());
 		session = view.getSession();
+		String r = view.getSelectedRequirement();
+		System.out.println("Attempting to get Req: " + r);
 		try{
-			req = session.getReqByName(view.getSelectedRequirement());
+			this.req = session.getReqByName(r);
 		}catch(NullPointerException e){
 			System.out.println("No req found by that name!");
 			return;
@@ -77,7 +80,7 @@ public class AddVoteController implements ActionListener {
 		// Send the request on its way
 		request.send();
 
-		session.voteStatus();
+		//session.voteStatus();
 
 	}
 }

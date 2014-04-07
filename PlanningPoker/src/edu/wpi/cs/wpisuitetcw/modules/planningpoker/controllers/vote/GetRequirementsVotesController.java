@@ -17,7 +17,9 @@ import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionTableModel;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -29,22 +31,22 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class GetRequirementsVotesController implements ActionListener{
 	/** The create session panel */
-	protected CreateSessionPanel panel;
+	protected SessionInProgressPanel view;
 
 	/** The requirements retrieved from the server */
 	protected PlanningPokerRequirement[] data = null;
 
 	
 	//The id of the session to retrieve
-	private int id;
+	private PlanningPokerSession session;
 	//The requirement to get votes for
 	private PlanningPokerRequirement req;
 	/**
 	 * Constructs a new RetrieveFreePlanningPokerRequirementsController
 	 */
-	private GetRequirementsVotesController(int id, PlanningPokerRequirement req) {
-		this.id = id;
-		this.req = req;
+	public GetRequirementsVotesController(SessionInProgressPanel view, PlanningPokerSession session) {
+		this.session = session;
+		this.view = view;
 	}
 	
 
@@ -58,7 +60,16 @@ public class GetRequirementsVotesController implements ActionListener{
 	 * @throws NotImplementedException
 	 */
 	public void receivedData(PlanningPokerSession session){
+		this.req = this.session.getReqByName(this.view.getSelectedRequirement());
 		PlanningPokerRequirement r = session.getReqByName(this.req.getName());
+		//ArrayList<PlanningPokerVote> votes = new ArrayList<PlanningPokerVote>();
+
+		System.out.println("Votes for selected requirement:");
+		for(PlanningPokerVote v : r.votes){
+			System.out.print(v.getCardValue()+ " ");
+		}
+		System.out.println();
+		view.setVoteList(r.votes);
 	}
 
 	/**
@@ -67,7 +78,7 @@ public class GetRequirementsVotesController implements ActionListener{
 	 * error occurs retrieving the requirements from the server.
 	 */
 	public void errorReceivingData(String error) {
-		JOptionPane.showMessageDialog(panel,
+		JOptionPane.showMessageDialog(view,
 				"An error occurred retrieving requirements from the server. "
 						+ error, "Error Communicating with Server",
 				JOptionPane.ERROR_MESSAGE);
@@ -75,7 +86,7 @@ public class GetRequirementsVotesController implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		final Request request = Network.getInstance().makeRequest("planningpoker/session/".concat(String.valueOf(this.id)), HttpMethod.GET);
+		final Request request = Network.getInstance().makeRequest("planningpoker/session/".concat(String.valueOf(this.session.getID())), HttpMethod.GET);
 		request.addObserver(new GetRequirementsVotesRequestObserver(this));
 		request.send();
 	}

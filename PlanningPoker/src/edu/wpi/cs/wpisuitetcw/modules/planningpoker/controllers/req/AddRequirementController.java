@@ -51,7 +51,9 @@ public class AddRequirementController implements ActionListener {
 		System.out.println("Constructing update");
 		PlanningPokerRequirement r = new PlanningPokerRequirement();
 		r.setName(this.view.getNewReqName());
+		this.view.clearNewReqName();
 		r.setDescription(this.view.getNewReqDesc());
+		this.view.clearNewReqDesc();
 		s.addRequirement(r);
 		
 		System.out.println("Sending update");
