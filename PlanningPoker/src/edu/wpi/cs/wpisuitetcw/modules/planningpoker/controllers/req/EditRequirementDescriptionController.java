@@ -27,55 +27,59 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
-
 /**
  * This controller adds all the requirements to the specified session
  * 
- * @author Josh Hebert
+ * @author Manny DeMaio, Louie Mistretta
  * 
  */
-public class MoveAllRequirementsToCurrentSessionController implements ActionListener {
+public class EditRequirementDescriptionController implements ActionListener {
 
 	private PlanningPokerSession session = null;
 	private ViewSessionReqPanel view;
 
-	public MoveAllRequirementsToCurrentSessionController(PlanningPokerSession s, ViewSessionReqPanel v) {
+	public EditRequirementDescriptionController(PlanningPokerSession s,
+			ViewSessionReqPanel v) {
 		this.session = s;
 		this.view = v;
 	}
 
-	public void receivedData(PlanningPokerSession s){
+	public void receivedData(PlanningPokerSession s) {
 		PlanningPokerRequirement r;
-		
-		for(String a : this.view.getAllLeftRequirements()){
-				r = s.getReqByName(a);
-				ArrayList<PlanningPokerRequirement> d = new ArrayList<PlanningPokerRequirement>();
-				d.add(r);
-				s.deleteRequirements(d);
-				session.addRequirement(r);
-				ViewSessionTableManager a1 = new ViewSessionTableManager();
-				a1.refreshRequirements(1, s.getRequirements());
-				
+		ArrayList<PlanningPokerRequirement> a = new ArrayList<PlanningPokerRequirement>();
+		ArrayList<String> requirementNames = this.view
+				.getLeftSelectedRequirements();
+		r = s.getReqByName(requirementNames.get(0));
+		a.add(r);
+		s.deleteRequirements(a);
+		a.remove(r);
+		r.setDescription(this.view.getNewReqDesc());
+		a.add(r);
+		s.addRequirements(a);
+		ViewSessionTableManager a1 = new ViewSessionTableManager();
+		a1.refreshRequirements(1, s.getRequirements());
+		/*
+		 * ViewSessionTableManager a2 = new ViewSessionTableManager();
+		 * a2.refreshRequirements(session.getID(), session.getRequirements());
+		 
 
-				ViewSessionTableManager a2 = new ViewSessionTableManager();
-				a2.refreshRequirements(session.getID(), session.getRequirements());
-		}
-		
-		final Request request = Network.getInstance().makeRequest("planningpoker/session/".concat(String.valueOf(s.getID())), HttpMethod.POST);
+		final Request request = Network.getInstance().makeRequest(
+				"planningpoker/session/".concat(String.valueOf(s.getID())),
+				HttpMethod.POST);
 		request.setBody(session.toJSON());
 		request.addObserver(new GenericPUTRequestObserver(this));
 		request.send();
-		
-		final Request request2 = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.POST);
+*/
+		final Request request2 = Network.getInstance().makeRequest(
+				"planningpoker/session/1", HttpMethod.POST);
 		request2.setBody(s.toJSON());
 		request2.addObserver(new GenericPUTRequestObserver(this));
 		request2.send();
-		
-		
+
 		this.view.allReqTable.repaint();
 		this.view.sessionReqTable.repaint();
 	}
-	
+
 	/*
 	 * This method is called when the user clicks the vote button
 	 * 
@@ -84,11 +88,10 @@ public class MoveAllRequirementsToCurrentSessionController implements ActionList
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		final Request request = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.GET);
-		request.addObserver(new MoveAllRequirementsToCurrentRequestObserver(this));
+		final Request request = Network.getInstance().makeRequest(
+				"planningpoker/session/1", HttpMethod.GET);
+		request.addObserver(new EditRequirementDescriptionObserver(this));
 		request.send();
-		
-		
 
 	}
 }
