@@ -55,7 +55,7 @@ public class ViewEventManager {
 	 */
 	public void viewSession(PlanningPokerSession session) {
 		if (session.isActive()) {
-			SessionInProgressPanel panel = new SessionInProgressPanel();
+			SessionInProgressPanel panel = new SessionInProgressPanel(session);
 			main.addTab(session.getName(), null, panel, "Session in progress.");
 			main.repaint();
 			main.setSelectedComponent(panel);
