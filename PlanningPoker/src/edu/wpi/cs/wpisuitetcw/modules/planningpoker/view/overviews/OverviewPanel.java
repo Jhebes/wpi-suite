@@ -63,8 +63,7 @@ public class OverviewPanel extends JSplitPane {
 
 		// Create Table using data above
 
-		final JTable table = new JTable(
-				OverviewTableSessionTableModel.getInstance()) {
+		final JTable table = new JTable(OverviewTableSessionTableModel.getInstance()) {
 			private static final long serialVersionUID = 1L;
 			private boolean initialized = false;
 
@@ -116,15 +115,11 @@ public class OverviewPanel extends JSplitPane {
 		table.setBackground(Color.WHITE);
 		
 		//allow sorting in table
-		table.setAutoCreateRowSorter(true);
+		table.setAutoCreateRowSorter(true);//update model
 		table.getTableHeader().addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				JTable resultsTable = (JTable) e.getSource();
-				int column = resultsTable.columnAtPoint(e.getPoint());
-				PlanningPokerSession session = OverviewTableSessionTableModel
-						.getInstance().getSessions()[column];
-				ViewEventManager.getInstance().viewSession(session);
-				repaint();
+				rightPanel.updateUI();
+				
 			}
 		});
 		table.getTableHeader().setReorderingAllowed(false);
@@ -132,7 +127,7 @@ public class OverviewPanel extends JSplitPane {
 		// disallow moving of columns
 		table.getTableHeader().setReorderingAllowed(false);
 		
-		// Set layout for right panel
+		// Set layout for right panel;
 		rightPanel.setLayout(new BorderLayout());
 
 		// Add table inside a JScrollPane to rightPanel
