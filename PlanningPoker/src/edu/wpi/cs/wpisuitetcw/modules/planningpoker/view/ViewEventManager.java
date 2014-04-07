@@ -96,5 +96,16 @@ public class ViewEventManager {
 		main.remove(component);
 		
 	}
+
+	/**
+	 * Creates the import requirements panel.
+	 */
+	public void createImportRequirementsPanel() {
+		ImportRequirementsPanel newPanel = new ImportRequirementsPanel();
+		main.addTab("Import Requirements", null, newPanel, "Import a new requirement.");
+		main.invalidate();
+		main.repaint();
+		main.setSelectedComponent(newPanel);
+	}
 	
 }
