@@ -3,7 +3,9 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.GridLayout;
 
+import javax.swing.AbstractListModel;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -11,16 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddVoteController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.RetrieveAllPlanningPokerVoteController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
-import javax.swing.JTabbedPane;
-import java.awt.GridLayout;
-import javax.swing.AbstractListModel;
 
 public class SessionInProgressPanel extends JSplitPane {
 	
