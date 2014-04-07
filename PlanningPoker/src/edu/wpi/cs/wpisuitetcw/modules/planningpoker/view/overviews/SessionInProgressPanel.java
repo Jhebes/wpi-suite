@@ -17,14 +17,19 @@ import javax.swing.SwingConstants;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddVoteController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.RetrieveAllPlanningPokerVoteController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
+
 import javax.swing.JTabbedPane;
+
 import java.awt.GridLayout;
+
 import javax.swing.AbstractListModel;
 
 public class SessionInProgressPanel extends JSplitPane {
 	
 	private JTextField vote;
+	private JLabel ownerName;
 	private	 JLabel name;
 	private	 JLabel description;
 	private JLabel deadline;
@@ -32,7 +37,9 @@ public class SessionInProgressPanel extends JSplitPane {
 	/**
 	 * Create the panel.
 	 */
-	public SessionInProgressPanel() {
+	public SessionInProgressPanel(PlanningPokerSession ppSession) {
+		PlanningPokerSession session = ppSession;
+		
 		JPanel LeftPanel = new JPanel();
 		LeftPanel.setLayout(new BoxLayout(LeftPanel, BoxLayout.Y_AXIS));
 
@@ -45,12 +52,23 @@ public class SessionInProgressPanel extends JSplitPane {
 
 		Component verticalStrut2 = Box.createVerticalStrut(20);
 		LeftPanel.add(verticalStrut2);
+		
+		JLabel lblOwnerName = new JLabel("Owner Name:");
+		lblOwnerName.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		LeftPanel.add(lblOwnerName);
+		
+		setOwnerUsername(session.getOwnerUserName());
+		LeftPanel.add(ownerName);
+		
+		Component verticalStrut21 = Box.createVerticalStrut(20);
+		LeftPanel.add(verticalStrut21);
+		
 
 		JLabel lblName = new JLabel("Name:");
 		lblName.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LeftPanel.add(lblName);
 
-		setSessionName("Planning Poker");
+		setSessionName(session.getName());
 		LeftPanel.add(name);
 
 		Component verticalStrut3 = Box.createVerticalStrut(20);
@@ -60,7 +78,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		lblDescription.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LeftPanel.add(lblDescription);
 
-		setSessionDescription("A sweet session where you do stuff and all is well.");
+		setSessionDescription(session.getDescription());
 		LeftPanel.add(description);
 
 		Component verticalStrut4 = Box.createVerticalStrut(20);
@@ -69,7 +87,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		JLabel lblDate = new JLabel("Deadline:");
 		lblDate.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LeftPanel.add(lblDate);
-
+		//TODO: make it so this can take a real date.
 		setSessionDeadline("12/13/14", "12:00 PM");
 		LeftPanel.add(deadline);
 
@@ -146,6 +164,10 @@ public class SessionInProgressPanel extends JSplitPane {
 	 */
 	void setSessionName(String sessionName) {
 		name = new JLabel(sessionName, JLabel.CENTER);
+	}
+	
+	void setOwnerUsername(String userName){
+		ownerName = new JLabel(userName, JLabel.CENTER);
 	}
 	
 	void setSessionDescription(String sessionDescription) {

@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.google.gson.Gson;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
@@ -18,6 +19,9 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/** The id of the session */
 	private int id = -1;
+	
+	/** The user name of the creator of this session*/
+	private String ownerUserName = "";
 
 	/** The name of the session */
 	private String name = "";
@@ -262,6 +266,24 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public String getName() {
 		return this.name;
+	}
+	
+	/**
+	 * 
+	 * @param userName
+	 * 
+	 */
+	public void setOwnerUserName(String userName) {
+		this.ownerUserName = userName;
+	}
+	
+	/**
+	 * 
+	 * @return the user name of the Owner of this session
+	 */
+	
+	public String getOwnerUserName() {
+		return this.ownerUserName;
 	}
 
 	/**
