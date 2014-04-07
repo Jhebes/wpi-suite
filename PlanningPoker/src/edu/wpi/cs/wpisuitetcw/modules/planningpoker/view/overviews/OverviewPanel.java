@@ -110,6 +110,7 @@ public class OverviewPanel extends JSplitPane {
 				}
 			}
 		});
+		
 
 		// Sets table bg to white
 		table.setBackground(Color.WHITE);
