@@ -6,6 +6,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -38,6 +39,7 @@ public class CreateNewDeckPanel extends JPanel {
 	private final JPanel topPanel;
 	private final JPanel centerPanel;
 	private final JPanel bottomPanel;
+	private final ArrayList<JTextField> cardList;
 
 	// subject to change
 	private final JTextField textboxVal;
@@ -53,6 +55,8 @@ public class CreateNewDeckPanel extends JPanel {
 		centerPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
 		bottomPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
+		cardList = new ArrayList<JTextField>();
+
 		// text labels
 		this.labelName = new JLabel(DECK_NAME_LABEL);
 
@@ -60,11 +64,13 @@ public class CreateNewDeckPanel extends JPanel {
 		this.textboxName = new JTextField(15);
 		textboxVal = new JTextField(3);
 
+		cardList.add(textboxVal);
+
 		// buttons
 		this.btnAddCard = new JButton(ADD_CARD_LABEL);
 		this.btnCreate = new JButton(CREATE_LABEL_STRING);
 		this.btnCancel = new JButton(CANCEL_LABEL_STRING);
-		
+
 		// action listeners
 		btnAddCard.addActionListener(new AddNewCardController(this));
 		btnCreate.addActionListener(new CreateNewDeckController(this));
@@ -75,14 +81,15 @@ public class CreateNewDeckPanel extends JPanel {
 		topPanel.add(textboxName);
 
 		// setup centerPanel
-		centerPanel.setLayout(new MigLayout("center, wrap 5", "[] 5 []", "[] 5 []"));
+		centerPanel.setLayout(new MigLayout("center, wrap 5", "[] 5 []",
+				"[] 5 []"));
 		centerPanel.add(btnAddCard, "wrap, center, span");
 		centerPanel.add(textboxVal);
-		
+
 		// setup bottomPanel
 		bottomPanel.add(btnCreate);
 		bottomPanel.add(btnCancel);
-		
+
 		// setup the overal layout
 		this.setLayout(new MigLayout("", "", ""));
 		this.add(topPanel, "dock north");
@@ -91,21 +98,23 @@ public class CreateNewDeckPanel extends JPanel {
 	}
 
 	/**
-	 * Add a new textfiled for now
-	 * 
+	 * Add a new textbox to the view and the list as well
 	 */
-	public void addNewCard(){
-		JTextField val = new JTextField(3);
-		this.centerPanel.add(val);
+	public void addNewCard() {
+		ArrayList<JTextField> cardList = this.getCardList();
+		JTextField txtBoxVal = new JTextField(3);
+		cardList.add(txtBoxVal);
+		this.centerPanel.add(txtBoxVal);
+		System.out.println("There are " + cardList.size() + " textboxes");
 	}
-	
-	
+
 	/**
 	 * Adds listener to button
+	 * 
 	 * @param button
 	 * @param panel
 	 */
-	public void addAction(JButton button, final CreateNewDeckPanel panel){
+	public void addAction(JButton button, final CreateNewDeckPanel panel) {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -113,12 +122,48 @@ public class CreateNewDeckPanel extends JPanel {
 			}
 		});
 	}
-	
+
+	/**
+	 * This function extracts all values from textboxes
+	 * 
+	 * @return an array list with the card values user enters
+	 */
+	public ArrayList<Integer> getNewDeckValues() {
+		ArrayList<Integer> cardValues = new ArrayList<Integer>();
+		for (JTextField txtbox : this.cardList) {
+			cardValues.add(Integer.parseInt(txtbox.getText()));
+		}
+		return cardValues;
+	}
+
+	/**
+	 * Confirm that all values entered in textboxes are integers
+	 */
+	public boolean validateCardValues() {
+		// TODO implement this or equivalent validater
+		return false;
+	}
+
+	/**
+	 * @return the textbox field for name of the deck
+	 */
+	public JTextField getTextboxName() {
+		return textboxName;
+	}
+
 	/**
 	 * 
 	 * @return the center panel of this deck creation instance
 	 */
-	public JPanel getCenterPanel(){
+	public JPanel getCenterPanel() {
 		return this.centerPanel;
 	}
+
+	/**
+	 * @return a list of textboxes for entering new card value
+	 */
+	public ArrayList<JTextField> getCardList() {
+		return cardList;
+	}
+
 }
