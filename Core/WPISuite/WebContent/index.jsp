@@ -14,8 +14,8 @@ String[] coreuser = {
 		"username",
 		"name",
 		"password",
-		"AIM",
-		"Email",
+		"aim",
+		"email",
 		"idNum"
 };
 int coreuserlength = 6;
