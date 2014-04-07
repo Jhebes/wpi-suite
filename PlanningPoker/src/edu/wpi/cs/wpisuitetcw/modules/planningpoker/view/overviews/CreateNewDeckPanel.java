@@ -30,9 +30,6 @@ public class CreateNewDeckPanel extends JPanel {
 	private final String DECK_NAME_LABEL = "Name *";
 
 	// instance fields
-	// private final JPanel leftPanel;
-	// private final JPanel rightPanel;
-	// private final JPanel container;
 	private final JLabel labelName;
 	private final JButton btnAddCard;
 	private final JButton btnCreate;
@@ -73,32 +70,24 @@ public class CreateNewDeckPanel extends JPanel {
 		btnCreate.addActionListener(new CreateNewDeckController(this));
 		this.addAction(btnCancel, this);
 
-		// set up the right panel
-		this.setLayout(new MigLayout("", "", ""));
-
+		// set up the top panel
 		topPanel.add(labelName);
 		topPanel.add(textboxName);
-		this.add(topPanel, "dock north");
-		// this.add(Box.createVerticalStrut(40));
 
-		// this.add(labelName, "left");
-		// this.add(textboxName, "left, wrap");
-		centerPanel.setLayout(new MigLayout("wrap 5", "[] 5 []", "[] 5 []"));
+		// setup centerPanel
+		centerPanel.setLayout(new MigLayout("center, wrap 5", "[] 5 []", "[] 5 []"));
 		centerPanel.add(btnAddCard, "wrap, center, span");
 		centerPanel.add(textboxVal);
-		this.add(centerPanel, "dock center");
-
+		
+		// setup bottomPanel
 		bottomPanel.add(btnCreate);
 		bottomPanel.add(btnCancel);
+		
+		// setup the overal layout
+		this.setLayout(new MigLayout("", "", ""));
+		this.add(topPanel, "dock north");
+		this.add(centerPanel, "dock center");
 		this.add(bottomPanel, "center, dock south");
-
-		// rightpanel
-		// rightPanel.add(container);
-
-		// this.setLeftComponent(leftPanel);
-		// this.setRightComponent(rightPanel);
-		// this.setDividerLocation(180);
-		// this.setEnabled(false);
 	}
 
 	/**
@@ -109,14 +98,7 @@ public class CreateNewDeckPanel extends JPanel {
 		JTextField val = new JTextField(3);
 		this.centerPanel.add(val);
 	}
-	/**
-	 * 
-	 * @return the center panel of this deck creation instance
-	 */
 	
-	public JPanel getCenterPanel(){
-		return this.centerPanel;
-	}
 	
 	/**
 	 * Adds listener to button
@@ -130,5 +112,13 @@ public class CreateNewDeckPanel extends JPanel {
 				ViewEventManager.getInstance().removeTab(panel);
 			}
 		});
+	}
+	
+	/**
+	 * 
+	 * @return the center panel of this deck creation instance
+	 */
+	public JPanel getCenterPanel(){
+		return this.centerPanel;
 	}
 }
