@@ -1,11 +1,11 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
-import java.text.DateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 
 import javax.swing.table.DefaultTableModel;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 
 public class ImportRequirementsTableModel extends DefaultTableModel {
 	/**
@@ -15,7 +15,8 @@ public class ImportRequirementsTableModel extends DefaultTableModel {
 
 	private static ImportRequirementsTableModel instance;
 	private final String[] colNames = { "Name", "Description" };
-	private PlanningPokerSession[] sessions = {};
+	private ArrayList<PlanningPokerRequirement> requirements = null;
+	private ArrayList<Requirement> unimportedRequirements = null;
 
 	/**
 	 * Constructs a table session for the overview table.
@@ -30,38 +31,65 @@ public class ImportRequirementsTableModel extends DefaultTableModel {
 		}
 		return instance;
 	}
-
-	/**
-	 * Refreshes the sessions.
-	 * 
-	 * @param sessions
-	 *            The new list of sessions
-	 */
-	public void refreshSessions(PlanningPokerSession[] sessions) {
+	
+	public void updateTableModel() {
+		if (this.unimportedRequirements == null || this.requirements == null) {
+			return;
+		}
 		this.setDataVector(null, colNames);
-		this.sessions = sessions;
-		for (PlanningPokerSession session : sessions) {
-			Date deadline = session.getDeadline();
-			String formattedDeadline = "";
-			if (deadline != null) {
-				formattedDeadline = DateFormat.getInstance().format(deadline);	
+		ArrayList<Integer> existingIDs = new ArrayList<Integer>();
+		for (PlanningPokerRequirement requirement : requirements) {
+			existingIDs.add(requirement.getId());
+		}
+		
+		for (Requirement requirement : this.unimportedRequirements) {
+			if (existingIDs.contains(requirement.getId())) {
+				continue;
 			}
-			
 			Object[] row = { 
-				session.getID(), 
-				session.getName(),
-				formattedDeadline, 
-				session.getStatus()
+					requirement.getName(),
+					requirement.getDescription()
 			};
 			this.addRow(row);
 		}
 	}
 
-	public PlanningPokerSession[] getSessions() {
-		return sessions;
+	/**
+	 * Refreshes the unimported requirements.
+	 * 
+	 * @param requirements
+	 *            The new list of requirements
+	 */
+	public void refreshUnimportedRequirements(ArrayList<Requirement> requirements) {
+		this.unimportedRequirements = requirements;
+		updateTableModel();
+	}
+	
+	/**
+	 * Refreshes the requirements.
+	 * 
+	 * @param requirements
+	 *            The new list of sessions
+	 */
+	public void refreshRequirements(ArrayList<PlanningPokerRequirement> requirements) {
+		this.requirements = requirements;
+		updateTableModel();
 	}
 
-	public void setSessions(PlanningPokerSession[] sessions) {
-		this.sessions = sessions;
+	public ArrayList<Requirement> getUnimportedRequirements() {
+		return this.unimportedRequirements;
+	}
+
+	public void setUnimportedRequirements(
+			ArrayList<Requirement> unimportedRequirements) {
+		this.unimportedRequirements = unimportedRequirements;
+	}
+
+	public ArrayList<PlanningPokerRequirement> getRequirements() {
+		return requirements;
+	}
+
+	public void setRequirements(ArrayList<PlanningPokerRequirement> requirements) {
+		this.requirements = requirements;
 	}
 }

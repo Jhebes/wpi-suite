@@ -108,5 +108,10 @@ public class PlanningPokerRequirement extends Requirement {
 	public String toJSON() {
 		return new Gson().toJson(this, PlanningPokerRequirement.class);
 	}
-
+	
+	public boolean equals(Object other) {
+		PlanningPokerRequirement otherRequirement = new PlanningPokerRequirement();
+		return this.getId() == otherRequirement.getId() && 
+				this.getName().equals(otherRequirement.getName());
+	}
 }

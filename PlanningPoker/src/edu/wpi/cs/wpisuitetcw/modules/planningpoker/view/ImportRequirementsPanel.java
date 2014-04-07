@@ -11,6 +11,8 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllRequirementsController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetUnimportedRequirementsController;
 import net.miginfocom.swing.MigLayout;
 
 public class ImportRequirementsPanel extends JSplitPane {
@@ -74,6 +76,8 @@ public class ImportRequirementsPanel extends JSplitPane {
 
 	public void createRightPanel() {
 		requirementsTableModel = ImportRequirementsTableModel.getInstance();
+		GetAllRequirementsController.getInstance().refreshData();
+		GetUnimportedRequirementsController.getInstance().refreshData();
 
 		final JTable requirementsTable = new JTable(requirementsTableModel);
 		requirementsTable.getTableHeader().setReorderingAllowed(false);
