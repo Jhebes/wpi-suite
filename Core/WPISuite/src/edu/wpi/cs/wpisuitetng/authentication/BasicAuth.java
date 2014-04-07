@@ -15,9 +15,9 @@ package edu.wpi.cs.wpisuitetng.authentication;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import edu.wpi.cs.wpisuitetng.exceptions.AuthenticationException;
-
 import org.apache.commons.codec.binary.Base64;
+
+import edu.wpi.cs.wpisuitetng.exceptions.AuthenticationException;
 
 /**
  * BasicAuth implementation of the Authenticator.

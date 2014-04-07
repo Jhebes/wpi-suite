@@ -26,7 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.wpi.cs.wpisuitetng.authentication.Authenticator;
 import edu.wpi.cs.wpisuitetng.authentication.BasicAuth;
-import edu.wpi.cs.wpisuitetng.exceptions.*;
+import edu.wpi.cs.wpisuitetng.exceptions.AuthenticationException;
+import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 
 /**
  * Servlet implementation class WPILoginServlet

@@ -14,8 +14,8 @@
 
 package edu.wpi.cs.wpisuitetng.modules.defecttracker.defect;
 
-import javax.swing.SwingUtilities;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import edu.wpi.cs.wpisuitetng.modules.defecttracker.models.Defect;
 import edu.wpi.cs.wpisuitetng.network.Request;

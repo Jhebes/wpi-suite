@@ -6,7 +6,6 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.buttons;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;

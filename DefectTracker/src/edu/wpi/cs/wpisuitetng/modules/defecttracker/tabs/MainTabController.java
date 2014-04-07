@@ -27,8 +27,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 import javax.swing.event.ChangeListener;
 
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.DefectView;
 import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.DefectPanel.Mode;
+import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.DefectView;
 import edu.wpi.cs.wpisuitetng.modules.defecttracker.models.Defect;
 
 /**

@@ -13,6 +13,7 @@
 package edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar;
 
 import java.awt.Component;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JToolBar;

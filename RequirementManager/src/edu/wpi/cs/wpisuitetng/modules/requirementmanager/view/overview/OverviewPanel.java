@@ -9,8 +9,6 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
-import java.awt.Dimension;
-
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
