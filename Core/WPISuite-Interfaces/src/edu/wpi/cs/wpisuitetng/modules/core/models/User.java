@@ -39,6 +39,8 @@ public class User extends AbstractModel
 	 * @param name	User's full name
 	 * @param username	User's username (nickname)
 	 * @param idNum	User's ID number
+	 * @param aim User's AIM screen name
+	 * @param email User's Email address
 	 */
 	public User(String name, String username, String password, String aim, String email, int idNum)
 	{
@@ -51,6 +53,13 @@ public class User extends AbstractModel
 		this.role = Role.USER;
 	}
 	
+	/**
+	 * The secondary constructor for a User. Allows users to be created using old constructor after
+	 * adding aim and email support to User. 
+	 * @param name	User's full name
+	 * @param username	User's username (nickname)
+	 * @param idNum	User's ID number
+	 */
 	public User(String name, String username, String password, int idNum)
 	{
 		this(name, username, password, "", "", idNum);
@@ -78,11 +87,13 @@ public class User extends AbstractModel
 					return false;
 				}
 				
+				// Check new aim field
 				if(this.aim != null && !this.aim.equals(((User)other).aim))
 				{
 					return false;
 				}
 				
+				// Check new email field
 				if(this.email != null && !this.email.equals(((User)other).email))
 				{
 					return false;
@@ -124,11 +135,17 @@ public class User extends AbstractModel
 		return this.password;
 	}
 	
+	/**
+	 *  Gets the users AIM
+	 */
 	public String getAIM()
 	{
 		return this.aim;
 	}
 	
+	/**
+	 *  Gets the users Email
+	 */
 	public String getEmail()
 	{
 		return this.email;

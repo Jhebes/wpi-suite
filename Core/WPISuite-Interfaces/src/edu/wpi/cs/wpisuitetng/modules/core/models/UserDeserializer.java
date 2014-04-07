@@ -73,11 +73,13 @@ public class UserDeserializer implements JsonDeserializer<User> {
 			 name = deflated.get("name").getAsString();
 		 }
 		 
+		 // Check for new aim field
 		 if(deflated.has("aim")  && !deflated.get("aim").getAsString().equals(""))
 		 {
 			 aim = deflated.get("aim").getAsString();
 		 }
 		 
+		 // Check for new email field
 		 if(deflated.has("email")  && !deflated.get("email").getAsString().equals(""))
 		 {
 			 email = deflated.get("email").getAsString();
