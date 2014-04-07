@@ -3,6 +3,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 import java.awt.Color;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -11,9 +12,9 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
+import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllRequirementsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetUnimportedRequirementsController;
-import net.miginfocom.swing.MigLayout;
 
 public class ImportRequirementsPanel extends JSplitPane {
 
@@ -79,13 +80,42 @@ public class ImportRequirementsPanel extends JSplitPane {
 		GetAllRequirementsController.getInstance().refreshData();
 		GetUnimportedRequirementsController.getInstance().refreshData();
 
-		final JTable requirementsTable = new JTable(requirementsTableModel);
+		final JTable requirementsTable = new JTable(requirementsTableModel) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 5011870013482891222L;
+
+			public boolean isCellEditable(int row, int column) {
+				return column == 0;
+			}
+			
+			@Override
+            public Class getColumnClass(int column) {
+                switch (column) {
+                    case 0:
+                        return Boolean.class;
+                    case 1:
+                        return String.class;
+                    case 2:
+                        return String.class;
+                    default:
+                        return String.class;
+                }
+            }
+		};
 		requirementsTable.getTableHeader().setReorderingAllowed(false);
 		requirementsTable.setBackground(Color.WHITE);
 		
 		JScrollPane jsp = new JScrollPane(requirementsTable);
 		
-		rightPanel.add(jsp);
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new MigLayout());
+		buttonPanel.add(new JButton("Import Checked"));
+
+		rightPanel.setLayout(new MigLayout());
+		rightPanel.add(jsp, "dock center");
+		rightPanel.add(buttonPanel, "dock south");
 	}
 
 }

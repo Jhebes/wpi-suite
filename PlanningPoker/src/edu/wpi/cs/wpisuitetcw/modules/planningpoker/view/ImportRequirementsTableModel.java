@@ -14,7 +14,7 @@ public class ImportRequirementsTableModel extends DefaultTableModel {
 	private static final long serialVersionUID = -7397557876939565130L;
 
 	private static ImportRequirementsTableModel instance;
-	private final String[] colNames = { "Name", "Description" };
+	private final String[] colNames = { "Import?", "Name", "Description" };
 	private ArrayList<PlanningPokerRequirement> requirements = null;
 	private ArrayList<Requirement> unimportedRequirements = null;
 
@@ -47,6 +47,7 @@ public class ImportRequirementsTableModel extends DefaultTableModel {
 				continue;
 			}
 			Object[] row = { 
+					false,
 					requirement.getName(),
 					requirement.getDescription()
 			};
