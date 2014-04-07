@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -113,7 +114,24 @@ public class OverviewPanel extends JSplitPane {
 
 		// Sets table bg to white
 		table.setBackground(Color.WHITE);
-
+		
+		//allow sorting in table
+		table.setAutoCreateRowSorter(true);
+		table.getTableHeader().addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				JTable resultsTable = (JTable) e.getSource();
+				int column = resultsTable.columnAtPoint(e.getPoint());
+				PlanningPokerSession session = OverviewTableSessionTableModel
+						.getInstance().getSessions()[column];
+				ViewEventManager.getInstance().viewSession(session);
+				repaint();
+			}
+		});
+		table.getTableHeader().setReorderingAllowed(false);
+		
+		// disallow moving of columns
+		table.getTableHeader().setReorderingAllowed(false);
+		
 		// Set layout for right panel
 		rightPanel.setLayout(new BorderLayout());
 

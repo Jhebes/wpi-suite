@@ -24,6 +24,7 @@ import javax.swing.AbstractListModel;
 
 public class SessionInProgressPanel extends JSplitPane {
 	
+	private static final String textField = null;
 	private JTextField vote;
 	private	 JLabel name;
 	private	 JLabel description;
@@ -168,19 +169,18 @@ public class SessionInProgressPanel extends JSplitPane {
 	int getVote() {
 		return Integer.getInteger(vote.toString());
 	}
+
 	
-/*
 	public void receiveVotes(PlanningPokerVote[] votes) {
 		String text = "";
 		for(PlanningPokerVote v: votes){
 			text += String.valueOf(v.getCardValue()) + "\n";
 		}
 		//System.out.println("Recieved votes: " + text);
-		this.textField.setText(text);
+		//this.textField.setText(text);
 	}
 
-	public void setTextField(String t) {
-		this.textField.setText(t);
+	public void getTextField(String t) {
+		//this.textField.setText(t);
 	}
-	*/
 }
