@@ -17,7 +17,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
  */
 public class PlanningPokerRequirement extends Requirement {
 	private int sessionID;
-	private ArrayList<PlanningPokerVote> votes = new ArrayList<PlanningPokerVote>();
+	public ArrayList<PlanningPokerVote> votes = new ArrayList<PlanningPokerVote>();
 
 	/**
 	 * Default constructor for PlanningPokerRequirement. Sets the session ID to
