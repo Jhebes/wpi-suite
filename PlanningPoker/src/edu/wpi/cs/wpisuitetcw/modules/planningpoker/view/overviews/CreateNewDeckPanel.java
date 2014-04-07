@@ -4,6 +4,8 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -13,6 +15,8 @@ import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddNewCardController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateNewDeckController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
 /**
  * @author troyling
@@ -64,7 +68,10 @@ public class CreateNewDeckPanel extends JPanel {
 		this.btnCreate = new JButton(CREATE_LABEL_STRING);
 		this.btnCancel = new JButton(CANCEL_LABEL_STRING);
 		
+		// action listeners
 		btnAddCard.addActionListener(new AddNewCardController(this));
+		btnCreate.addActionListener(new CreateNewDeckController(this));
+		this.addAction(btnCancel, this);
 
 		// set up the right panel
 		this.setLayout(new MigLayout("", "", ""));
@@ -109,5 +116,19 @@ public class CreateNewDeckPanel extends JPanel {
 	
 	public JPanel getCenterPanel(){
 		return this.centerPanel;
+	}
+	
+	/**
+	 * Adds listener to button
+	 * @param button
+	 * @param panel
+	 */
+	public void addAction(JButton button, final CreateNewDeckPanel panel){
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ViewEventManager.getInstance().removeTab(panel);
+			}
+		});
 	}
 }
