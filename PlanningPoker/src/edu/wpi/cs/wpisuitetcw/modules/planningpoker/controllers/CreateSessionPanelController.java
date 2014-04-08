@@ -15,7 +15,6 @@ import java.awt.event.ItemListener;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 
 /**
- * @author troyling, remckenna
  * 
  * Controller for CreateSessionPanel buttons.
  */

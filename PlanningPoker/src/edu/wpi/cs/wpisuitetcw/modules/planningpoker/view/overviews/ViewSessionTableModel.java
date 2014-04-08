@@ -15,10 +15,6 @@ import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 
-/**
- * @author troyling, Jenny
- *
- */
 public class ViewSessionTableModel extends DefaultTableModel{
 	private static ViewSessionTableModel instance;
 	private final String[] colNames = {"ID", "Name", "Priority"};

@@ -14,10 +14,6 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
-/**
- * @author Nick Kalamvokis and Matt Suarez
- * 
- */
 public class PlanningPokerVote extends AbstractModel {
 
 	private int id;

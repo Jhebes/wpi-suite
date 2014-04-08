@@ -16,11 +16,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSession
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 
-/**
- * 
- * @author troyling
- * 
- */
 public class ViewEventManager {
 	private static ViewEventManager instance = null;
 	private MainView main;

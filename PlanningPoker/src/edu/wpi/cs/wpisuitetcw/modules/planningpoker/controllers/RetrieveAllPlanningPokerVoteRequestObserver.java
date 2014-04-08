@@ -7,10 +7,7 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
-/**
- * @author Nick Kalamvokis and Matt Suarez
- *
- */
+
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 

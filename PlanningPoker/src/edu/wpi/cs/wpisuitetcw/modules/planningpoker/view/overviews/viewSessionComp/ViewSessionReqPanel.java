@@ -25,10 +25,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPa
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionTableModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
-/**
- * @author troyling
- * 
- */
 public class ViewSessionReqPanel extends JSplitPane {
 	private final ViewSessionPanel parentPanel;
 	private final ScrollablePanel sessionReqPanel;

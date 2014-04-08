@@ -1,11 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
- *
+ * Copyright (c) 2014 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
+ * Contributors: Team Combat Wombat
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
@@ -34,8 +34,6 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * This controller responds when the user clicks the "Create" button by using
  * all entered information to construct a new session and storing in the
  * database
- * 
- * @author Josh Hebert
  * 
  */
 public class AddSessionController implements ActionListener {

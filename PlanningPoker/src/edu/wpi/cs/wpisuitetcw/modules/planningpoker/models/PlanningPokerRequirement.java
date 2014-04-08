@@ -21,8 +21,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
  * RequirementsManager module, but has the additional trait of belonging to a
  * particular planning poker session.
  * 
- * @author Nicholas Kalamvokis and Matt Suarez
- * @date 3/24/2014
  */
 public class PlanningPokerRequirement extends Requirement {
 	private int sessionID;

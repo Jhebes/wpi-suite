@@ -15,8 +15,6 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 /**
  * Sets up upper toolbar of PlanningPoker tab
  * 
- * @author troyling
- * 
  */
 public class ToolbarView extends DefaultToolbarView {
 	private final SessionButtonsPanel sessionPanel = new SessionButtonsPanel();

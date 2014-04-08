@@ -20,10 +20,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
 
-/**
- * @author troyling
- * 
- */
 public class PlanningPoker implements IJanewayModule {
 	private ArrayList<JanewayTabModel> tabs;
 
