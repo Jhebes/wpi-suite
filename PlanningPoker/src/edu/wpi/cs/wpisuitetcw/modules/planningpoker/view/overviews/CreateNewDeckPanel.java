@@ -4,6 +4,7 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.Color;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
@@ -26,6 +28,8 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
  */
 public class CreateNewDeckPanel extends JPanel {
 	// constants
+	private final int CARD_WIDTH = 146;
+	private final String CARD_COUNT_LABEL = "# of Cards: ";
 	private final String ADD_CARD_LABEL = "[+] New Card";
 	private final String CREATE_LABEL_STRING = "Create";
 	private final String CANCEL_LABEL_STRING = "Cancel";
@@ -33,6 +37,8 @@ public class CreateNewDeckPanel extends JPanel {
 
 	// instance fields
 	private final JLabel labelName;
+	private final JLabel labelCount;
+	private final JLabel labelNumCards;
 	private final JButton btnAddCard;
 	private final JButton btnCreate;
 	private final JButton btnCancel;
@@ -41,6 +47,9 @@ public class CreateNewDeckPanel extends JPanel {
 	private final JPanel centerPanel;
 	private final JPanel bottomPanel;
 	private final ArrayList<Card> cardList;
+
+	private final JPanel cardPanel;
+	private final JScrollPane cardSP;
 
 	// subject to change
 	// private final JTextField textboxVal;
@@ -51,15 +60,12 @@ public class CreateNewDeckPanel extends JPanel {
 		centerPanel = new JPanel();
 		bottomPanel = new JPanel();
 
-		// delete these
-		topPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
-		centerPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-		bottomPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-
 		cardList = new ArrayList<Card>();
 
 		// text labels
 		this.labelName = new JLabel(DECK_NAME_LABEL);
+		this.labelCount = new JLabel(CARD_COUNT_LABEL);
+		this.labelNumCards = new JLabel("1");
 
 		// textfields
 		this.textboxName = new JTextField(15);
@@ -86,16 +92,42 @@ public class CreateNewDeckPanel extends JPanel {
 		topPanel.add(textboxName);
 
 		// setup centerPanel
-		centerPanel.setLayout(new MigLayout("center, wrap 5", "[] 5 []",
-				"[] 5 []"));
-		centerPanel.add(btnAddCard, "wrap, center, span");
-		centerPanel.add(starterCard);
+		// centerPanel includes the add button and additional cards
+		// centerPanel.setLayout(new MigLayout("center, wrap 5", "[] 5 []",
+		// "[] 5 []"));
+		centerPanel.setLayout(new MigLayout());
+
+		// sub panels
+		JPanel centerTopPanel = new JPanel();
+
+		// add a new panel to the scrollpane, since cards are panels which
+		// cannot be drawn on scrollpane directly
+		cardPanel = new JPanel();
+		
+		JPanel container = new JPanel();
+		container.setLayout(new GridBagLayout());
+		
+		
+		cardSP = new JScrollPane(container);
+
+		
+		
+		centerTopPanel.add(btnAddCard, "center, split3");
+		centerTopPanel.add(labelCount);
+		centerTopPanel.add(labelNumCards);
+		
+		cardPanel.add(starterCard);
+		container.add(cardPanel);
+
+		// add sub panels to center panels
+		centerPanel.add(centerTopPanel, "dock north, center");
+		centerPanel.add(cardSP, "dock center");
 
 		// setup bottomPanel
 		bottomPanel.add(btnCreate);
 		bottomPanel.add(btnCancel);
 
-		// setup the overal layout
+		// setup the entire layout
 		this.setLayout(new MigLayout("", "", ""));
 		this.add(topPanel, "dock north");
 		this.add(centerPanel, "dock center");
@@ -103,15 +135,26 @@ public class CreateNewDeckPanel extends JPanel {
 	}
 
 	/**
-	 * Add a new textbox to the view and the list as well
+	 * Add a new card to both the storing array and the view
 	 */
 	public void addNewCard() {
 		ArrayList<Card> cardList = this.getCardList();
-		// JTextField txtBoxVal = new JTextField(3);
+		
 		Card aCard = new Card();
 		cardList.add(aCard);
-		this.centerPanel.add(aCard);
-		System.out.println("There are " + cardList.size() + " card");
+
+		this.cardPanel.add(aCard);
+		this.updateNumCard();
+		
+		// TODO This yet moves to the rightmost position when a new card is added.
+		this.cardSP.getHorizontalScrollBar().setValue((int) (this.cardPanel.getBounds().getWidth() + CARD_WIDTH));
+	}
+	
+	/**
+	 * update the total number of cards
+	 */
+	private void updateNumCard() {
+		this.labelNumCards.setText(Integer.toString(this.cardList.size()));
 	}
 
 	/**
@@ -171,5 +214,4 @@ public class CreateNewDeckPanel extends JPanel {
 	public ArrayList<Card> getCardList() {
 		return cardList;
 	}
-
 }
