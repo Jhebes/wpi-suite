@@ -31,6 +31,7 @@ public class CreateNewDeckPanel extends JPanel {
 	private final int CARD_WIDTH = 146;
 	private final String CARD_COUNT_LABEL = "# of Cards: ";
 	private final String ADD_CARD_LABEL = "[+] New Card";
+	private final String REMOVE_CARD_LABEL = "[-] Remove Card";
 	private final String CREATE_LABEL_STRING = "Create";
 	private final String CANCEL_LABEL_STRING = "Cancel";
 	private final String DECK_NAME_LABEL = "Name *";
@@ -40,6 +41,7 @@ public class CreateNewDeckPanel extends JPanel {
 	private final JLabel labelCount;
 	private final JLabel labelNumCards;
 	private final JButton btnAddCard;
+	private final JButton btnRemoveCard;
 	private final JButton btnCreate;
 	private final JButton btnCancel;
 	private final JTextField textboxName;
@@ -79,15 +81,20 @@ public class CreateNewDeckPanel extends JPanel {
 
 		// buttons
 		this.btnAddCard = new JButton(ADD_CARD_LABEL);
+		this.btnRemoveCard = new JButton(REMOVE_CARD_LABEL);
 		this.btnCreate = new JButton(CREATE_LABEL_STRING);
 		this.btnCancel = new JButton(CANCEL_LABEL_STRING);
 
 		// action listeners
 		btnAddCard.addActionListener(new AddNewCardController(this));
+		
+		
+		
 		btnCreate.addActionListener(new CreateNewDeckController(this));
 		
 		//TODO: Make sure that this action listener for btnCreate is correct.
 		this.addAction(btnCancel, this);
+		this.removeCardAction(btnRemoveCard, this);
 
 		// set up the top panel
 		topPanel.add(labelName);
@@ -115,6 +122,7 @@ public class CreateNewDeckPanel extends JPanel {
 		
 		
 		centerTopPanel.add(btnAddCard, "center, split3");
+		centerTopPanel.add(btnRemoveCard, "center, split 4");
 		centerTopPanel.add(labelCount);
 		centerTopPanel.add(labelNumCards);
 		
@@ -153,6 +161,19 @@ public class CreateNewDeckPanel extends JPanel {
 	}
 	
 	/**
+	 * Remove a card from the view and the array
+	 */
+	public void removeLastCard(){
+	    ArrayList<Card> cardList = this.getCardList();
+	    
+	    Card aCard = cardList.get(cardList.size() - 1);
+	    if(cardList.size() > 1){
+			cardList.remove(cardList.size() - 1);
+			this.cardPanel.remove(aCard);
+			updateNumCard();
+	    }
+	}
+	/**
 	 * update the total number of cards
 	 */
 	private void updateNumCard() {
@@ -170,6 +191,23 @@ public class CreateNewDeckPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ViewEventManager.getInstance().removeTab(panel);
+			}
+		});
+	}	
+	/**
+	 * Adds an action listener that provides functionality to remove playing cards from the list and view.
+	 * @param button
+	 * @param panel
+	 */
+	public void removeCardAction(JButton button, final CreateNewDeckPanel panel) {
+		button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				panel.removeLastCard();
+				panel.updateUI();
+				
+				
 			}
 		});
 	}
