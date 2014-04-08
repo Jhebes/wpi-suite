@@ -29,7 +29,7 @@ public class ViewSessionPanel extends JSplitPane {
 		this.session = session;
 		this.infoPanel = new ViewSessionInfoPanel(this, session);
 		this.buttonPanel = new ViewSessionBtnPanel(this);
-		this.pkgPanel = new ViewSessionReqPanel(this);
+		this.pkgPanel = new ViewSessionReqPanel(this, session);
 
 		// set sub panels
 		JSplitPane contentPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,

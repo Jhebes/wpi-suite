@@ -10,10 +10,13 @@
  *    Chris Casola
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GenericPUTRequestObserver;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
@@ -32,9 +35,11 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class AddVoteController implements ActionListener {
 
+	private PlanningPokerSession session = null;
 	private SessionInProgressPanel view;
-	private PlanningPokerSession session;
-	
+
+	private PlanningPokerRequirement req = null;
+
 	public AddVoteController(SessionInProgressPanel view, PlanningPokerSession session) {
 		this.view = view;
 		this.session = session;
@@ -43,7 +48,7 @@ public class AddVoteController implements ActionListener {
 	
 
 	/*
-	 * This method is called when the user clicks the "Create" button
+	 * This method is called when the user clicks the vote button
 	 * 
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
@@ -51,19 +56,31 @@ public class AddVoteController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		PlanningPokerVote vote = new PlanningPokerVote();
-		//vote.setCardValue(Integer.parseInt(view.getTextField().getText()));
+		vote.setCardValue(view.getVote());
+		session = view.getSession();
+		String r = view.getSelectedRequirement();
+		System.out.println("Attempting to get Req: " + r);
+		try{
+			this.req = session.getReqByName(r);
+		}catch(NullPointerException e){
+			System.out.println("No req found by that name!");
+			return;
+		}
+		session.addVoteToRequirement(req, vote);
+	
+		System.out.println("Added vote to requirement " + req.getName());
 		
-		// Send a request to the core to save this message
-		// Create the request
-		final Request request = Network.getInstance().makeRequest("planningpoker/vote", HttpMethod.PUT);
+		//Update the session remotely
+		final Request request = Network.getInstance().makeRequest(
+				"planningpoker/session/".concat(String.valueOf(session.getID())), HttpMethod.POST);
 		// Set the data to be the session to save (converted to JSON)
-		request.setBody(vote.toJSON());
-		
+		request.setBody(session.toJSON());
 		// Listen for the server's response
-		request.addObserver(new AddVoteRequestObserver(this));
-		
+		request.addObserver(new GenericPUTRequestObserver(this));
 		// Send the request on its way
 		request.send();
-		session.voteStatus();
+
+		//session.voteStatus();
+
 	}
 }

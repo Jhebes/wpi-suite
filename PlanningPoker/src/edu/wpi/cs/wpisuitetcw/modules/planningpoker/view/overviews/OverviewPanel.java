@@ -17,9 +17,9 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllSessionsController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetClosedSessionsController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetOpenSessionsController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetAllSessionsController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetClosedSessionsController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetOpenSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
@@ -110,6 +110,7 @@ public class OverviewPanel extends JSplitPane {
 				}
 			}
 		});
+		
 
 		// Sets table bg to white
 		table.setBackground(Color.WHITE);

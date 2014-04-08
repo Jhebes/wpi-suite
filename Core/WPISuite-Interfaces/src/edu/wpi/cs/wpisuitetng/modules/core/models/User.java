@@ -29,6 +29,8 @@ public class User extends AbstractModel
 	private String username;
 	private int idNum;
 	private Role role;
+	private String aim;
+	private String email;
 	
 	transient private String password; // excluded from serialization, still stored.
 	
@@ -37,14 +39,30 @@ public class User extends AbstractModel
 	 * @param name	User's full name
 	 * @param username	User's username (nickname)
 	 * @param idNum	User's ID number
+	 * @param aim User's AIM screen name
+	 * @param email User's Email address
 	 */
-	public User(String name, String username, String password, int idNum)
+	public User(String name, String username, String password, String aim, String email, int idNum)
 	{
 		this.name = name;
 		this.username = username;
 		this.password = password;
+		this.aim = aim;
+		this.email = email;
 		this.idNum = idNum;
 		this.role = Role.USER;
+	}
+	
+	/**
+	 * The secondary constructor for a User. Allows users to be created using old constructor after
+	 * adding aim and email support to User. 
+	 * @param name	User's full name
+	 * @param username	User's username (nickname)
+	 * @param idNum	User's ID number
+	 */
+	public User(String name, String username, String password, int idNum)
+	{
+		this(name, username, password, "", "", idNum);
 	}
 	
 	@Override
@@ -65,6 +83,18 @@ public class User extends AbstractModel
 				}
 				
 				if(this.password != null && !this.password.equals(((User)other).password))
+				{
+					return false;
+				}
+				
+				// Check new aim field
+				if(this.aim != null && !this.aim.equals(((User)other).aim))
+				{
+					return false;
+				}
+				
+				// Check new email field
+				if(this.email != null && !this.email.equals(((User)other).email))
 				{
 					return false;
 				}
@@ -105,6 +135,22 @@ public class User extends AbstractModel
 		return this.password;
 	}
 	
+	/**
+	 *  Gets the users AIM
+	 */
+	public String getAIM()
+	{
+		return this.aim;
+	}
+	
+	/**
+	 *  Gets the users Email
+	 */
+	public String getEmail()
+	{
+		return this.email;
+	}
+	
 	/* Accessors */
 	public String getName()
 	{
@@ -120,6 +166,7 @@ public class User extends AbstractModel
 	{
 		return username;
 	}
+	
 	
 	/* database interaction */
 	public void save()
@@ -222,6 +269,7 @@ public class User extends AbstractModel
 		this.idNum = newidNum;
 		return this;
 	}
+
 	
 	
 	public Role getRole()

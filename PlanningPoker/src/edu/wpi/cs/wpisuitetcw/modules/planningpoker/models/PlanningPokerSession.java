@@ -18,6 +18,9 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/** The id of the session */
 	private int id = -1;
+	
+	/** The user name of the creator of this session*/
+	private String ownerUserName = "";
 
 	/** The name of the session */
 	private String name = "";
@@ -102,6 +105,18 @@ public class PlanningPokerSession extends AbstractModel {
 		requirements.add(req);
 	}
 
+	public void addVoteToRequirement(PlanningPokerRequirement req, PlanningPokerVote v){
+		requirements.get(requirements.indexOf(req)).addVote(v);
+	}
+	
+	public PlanningPokerRequirement getReqByName(String n){
+		for(PlanningPokerRequirement r : requirements){
+			if(r.getName().equals(n)){
+				return r;
+			}
+		}
+		throw new NullPointerException();
+	}
 	/**
 	 * Adds a single user to this session.
 	 * 
@@ -262,6 +277,24 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public String getName() {
 		return this.name;
+	}
+	
+	/**
+	 * 
+	 * @param userName
+	 * 
+	 */
+	public void setOwnerUserName(String userName) {
+		this.ownerUserName = userName;
+	}
+	
+	/**
+	 * 
+	 * @return the user name of the Owner of this session
+	 */
+	
+	public String getOwnerUserName() {
+		return this.ownerUserName;
 	}
 
 	/**
