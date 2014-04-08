@@ -1,6 +1,8 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -10,7 +12,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllRequirementsController;
@@ -21,6 +25,8 @@ public class ImportRequirementsPanel extends JSplitPane {
 	private final JPanel rightPanel;
 	private final JPanel leftPanel;
 	private DefaultTableModel requirementsTableModel;
+	private String strName;
+	private String strDesc;
 	private JTextArea name;
 	private JTextArea description;
 
@@ -52,7 +58,6 @@ public class ImportRequirementsPanel extends JSplitPane {
 
 	public void createLeftPanel() {
 		name = new JTextArea();
-		name.setText("Test");
 		name.setWrapStyleWord(true);
 		name.setLineWrap(true);
 		name.setBorder(BorderFactory.createEmptyBorder());
@@ -61,7 +66,6 @@ public class ImportRequirementsPanel extends JSplitPane {
 		name.setEditable(false);
 
 		description = new JTextArea();
-		description.setText("Test");
 		description.setWrapStyleWord(true);
 		description.setLineWrap(true);
 		description.setBorder(BorderFactory.createEmptyBorder());
@@ -85,7 +89,7 @@ public class ImportRequirementsPanel extends JSplitPane {
 			 * 
 			 */
 			private static final long serialVersionUID = 5011870013482891222L;
-
+			
 			public boolean isCellEditable(int row, int column) {
 				return column == 0;
 			}
@@ -104,6 +108,27 @@ public class ImportRequirementsPanel extends JSplitPane {
                 }
             }
 		};
+		
+		requirementsTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JTable table = (JTable) e.getSource();
+				int row = table.getSelectedRow();
+
+				if (row != -1){
+					String name = (String) table.getValueAt(row, 1);
+					String desc = (String) table.getValueAt(row, 2);
+					this.setSuperClassVariables(name, desc);
+				}
+			}
+			
+			public void setSuperClassVariables(String name, String desc) {
+				strName = name;
+				strDesc = desc;
+				setReqLabels();
+			}
+		});
+		
 		requirementsTable.getTableHeader().setReorderingAllowed(false);
 		requirementsTable.setBackground(Color.WHITE);
 		
@@ -118,4 +143,8 @@ public class ImportRequirementsPanel extends JSplitPane {
 		rightPanel.add(buttonPanel, "dock south");
 	}
 
+	public void setReqLabels() {
+		name.setText(strName);
+		description.setText(strDesc);
+	}
 }
