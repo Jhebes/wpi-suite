@@ -93,7 +93,7 @@ public class OverviewSessionTable extends JTable {
 	@Override
 	public void repaint() {
 		try {
-			if (!initialized) {			// Prevent get sessions from not-yet-constructed model
+			if (!initialized) {		// Prevent get sessions from not-yet-constructed model
 				GetAllSessionsController.getInstance().retrieveSessions();
 				initialized = true;
 			}
@@ -106,10 +106,12 @@ public class OverviewSessionTable extends JTable {
 	@Override
     public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
         Component tempComp = super.prepareRenderer(renderer, row, column);
-
+        
+        // Set the component's padding
         if (JComponent.class.isInstance(tempComp)) {
             ((JComponent) tempComp).setBorder(paddingBorder);
         }
+        
 		return tempComp;
     }
 }
