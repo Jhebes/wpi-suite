@@ -70,42 +70,10 @@ public class OverviewSessionTable extends JTable {
 		initialized = false;
 
 		// Modify the default single click listener
-		addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				
-				if (getRowCount() > 0) {
-					int mouseY = e.getY();
-					Rectangle lastRow = getCellRect(getRowCount() - 1, 0, true);
-					int lastRowY = lastRow.y + lastRow.height;
-
-					// Cancel selection when user clicks below the last row
-					if (mouseY > lastRowY) {
-						getSelectionModel().clearSelection();
-					}
-					
-					// Repaint to avoid highlight bug
-					repaint(0, 0, getWidth(), getHeight());
-				}
-			}
-		});
+		modifyOneClickResponse();
 		
 		// Open a chosen session's information when user double clicks on a session row
-		addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {
-					// Get the double clicked row
-					JTable resultsTable = (JTable) e.getSource();
-					int row = resultsTable.rowAtPoint(e.getPoint());
-
-					if (row > -1) {
-						// Gets the name, which is index 1
-						PlanningPokerSession session = OverviewTableSessionTableModel
-														.getInstance().getSessions()[row];
-						ViewEventManager.getInstance().viewSession(session);
-					}
-				}
-			}
-		});		
+		modifyDoubleClicksResponse();
 	}
 	
 	/**
@@ -146,4 +114,50 @@ public class OverviewSessionTable extends JTable {
         
 		return tempComp;
     }
+	
+	/*
+	 * Re-implement mouseClick listener to avoid fragment highlight bug
+	 */
+	private void modifyOneClickResponse() {
+		addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				
+				if (getRowCount() > 0) {
+					int mouseY = e.getY();
+					Rectangle lastRow = getCellRect(getRowCount() - 1, 0, true);
+					int lastRowY = lastRow.y + lastRow.height;
+
+					// Cancel selection when user clicks below the last row
+					if (mouseY > lastRowY) {
+						getSelectionModel().clearSelection();
+					}
+					
+					// Repaint to avoid highlight bug
+					repaint(0, 0, getWidth(), getHeight());
+				}
+			}
+		});
+	}
+	
+	/*
+	 * Exhibit a double clicked session's information in a new tab
+	 */
+	public void modifyDoubleClicksResponse() {
+		addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					// Get the double clicked row
+					JTable resultsTable = (JTable) e.getSource();
+					int row = resultsTable.rowAtPoint(e.getPoint());
+
+					if (row > -1) {
+						// Gets the name, which is index 1
+						PlanningPokerSession session = OverviewTableSessionTableModel
+														.getInstance().getSessions()[row];
+						ViewEventManager.getInstance().viewSession(session);
+					}
+				}
+			}
+		});		
+	}
 }
