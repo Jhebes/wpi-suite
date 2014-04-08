@@ -18,6 +18,7 @@ import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddNewCardController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateNewDeckController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
 
 /**
  * @author troyling
@@ -39,10 +40,10 @@ public class CreateNewDeckPanel extends JPanel {
 	private final JPanel topPanel;
 	private final JPanel centerPanel;
 	private final JPanel bottomPanel;
-	private final ArrayList<JTextField> cardList;
+	private final ArrayList<Card> cardList;
 
 	// subject to change
-	private final JTextField textboxVal;
+	// private final JTextField textboxVal;
 
 	public CreateNewDeckPanel() {
 		// sub panels
@@ -55,16 +56,20 @@ public class CreateNewDeckPanel extends JPanel {
 		centerPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
 		bottomPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
-		cardList = new ArrayList<JTextField>();
+		cardList = new ArrayList<Card>();
 
 		// text labels
 		this.labelName = new JLabel(DECK_NAME_LABEL);
 
 		// textfields
 		this.textboxName = new JTextField(15);
-		textboxVal = new JTextField(3);
 
-		cardList.add(textboxVal);
+		// cards
+		Card starterCard = new Card();
+		cardList.add(starterCard);
+
+		// textboxVal = new JTextField(3);
+		// cardList.add(textboxVal);
 
 		// buttons
 		this.btnAddCard = new JButton(ADD_CARD_LABEL);
@@ -84,7 +89,7 @@ public class CreateNewDeckPanel extends JPanel {
 		centerPanel.setLayout(new MigLayout("center, wrap 5", "[] 5 []",
 				"[] 5 []"));
 		centerPanel.add(btnAddCard, "wrap, center, span");
-		centerPanel.add(textboxVal);
+		centerPanel.add(starterCard);
 
 		// setup bottomPanel
 		bottomPanel.add(btnCreate);
@@ -101,11 +106,12 @@ public class CreateNewDeckPanel extends JPanel {
 	 * Add a new textbox to the view and the list as well
 	 */
 	public void addNewCard() {
-		ArrayList<JTextField> cardList = this.getCardList();
-		JTextField txtBoxVal = new JTextField(3);
-		cardList.add(txtBoxVal);
-		this.centerPanel.add(txtBoxVal);
-		System.out.println("There are " + cardList.size() + " textboxes");
+		ArrayList<Card> cardList = this.getCardList();
+		// JTextField txtBoxVal = new JTextField(3);
+		Card aCard = new Card();
+		cardList.add(aCard);
+		this.centerPanel.add(aCard);
+		System.out.println("There are " + cardList.size() + " card");
 	}
 
 	/**
@@ -130,8 +136,8 @@ public class CreateNewDeckPanel extends JPanel {
 	 */
 	public ArrayList<Integer> getNewDeckValues() {
 		ArrayList<Integer> cardValues = new ArrayList<Integer>();
-		for (JTextField txtbox : this.cardList) {
-			cardValues.add(Integer.parseInt(txtbox.getText()));
+		for (Card aCard : this.cardList) {
+			cardValues.add(Integer.parseInt(aCard.getTxtboxValue().getText()));
 		}
 		return cardValues;
 	}
@@ -162,7 +168,7 @@ public class CreateNewDeckPanel extends JPanel {
 	/**
 	 * @return a list of textboxes for entering new card value
 	 */
-	public ArrayList<JTextField> getCardList() {
+	public ArrayList<Card> getCardList() {
 		return cardList;
 	}
 
