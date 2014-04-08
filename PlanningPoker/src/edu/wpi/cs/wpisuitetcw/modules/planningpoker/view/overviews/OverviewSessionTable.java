@@ -84,7 +84,6 @@ public class OverviewSessionTable extends JTable {
 				}
 			}
 		});
-		 System.out.println("finished constructing the table");
 	}
 	
 	/**
