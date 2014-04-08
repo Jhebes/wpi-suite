@@ -27,6 +27,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTableSessionTableModel;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -87,6 +88,7 @@ public class AddSessionController implements ActionListener {
 
 			// Create a new session and populate its data
 			PlanningPokerSession session = new PlanningPokerSession();
+			session.setOwnerUserName(ConfigManager.getConfig().getUserName());
 			session.setName(name);
 			session.setDeadline(d);
 			session.setDescription(des);
