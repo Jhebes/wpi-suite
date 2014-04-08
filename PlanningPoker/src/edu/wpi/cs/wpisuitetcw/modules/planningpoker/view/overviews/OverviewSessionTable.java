@@ -75,12 +75,14 @@ public class OverviewSessionTable extends JTable {
 					int mouseY = e.getY();
 					Rectangle lastRow = getCellRect(getRowCount() - 1, 0, true);
 					int lastRowY = lastRow.y + lastRow.height;
-					repaint(0, 0, getWidth(), getHeight());
 
+					// Cancel selection when user clicks below the last row
 					if (mouseY > lastRowY) {
 						getSelectionModel().clearSelection();
-						repaint(0, 0, getWidth(), getHeight());
 					}
+					
+					// Repaint to avoid highlight bug
+					repaint(0, 0, getWidth(), getHeight());
 				}
 			}
 		});
@@ -89,6 +91,8 @@ public class OverviewSessionTable extends JTable {
 	/**
 	 * Always return false to prevent user editing data
 	 * directly on the session table
+	 * @param row The number represents the row of the table
+	 * @param column The number represents the column of the table
 	 */
 	public boolean isCellEditable(int row, int column) {
 		return false;
