@@ -28,6 +28,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.TableCellRenderer;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllSessionsController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
 /**
  * This table handles the display of the sessions table.
@@ -67,7 +69,7 @@ public class OverviewSessionTable extends JTable {
 		// Set initialized to false since the model is not ready to load
 		initialized = false;
 
-		/* Create double-click event listener */
+		// Modify the default single click listener
 		addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				
@@ -86,6 +88,24 @@ public class OverviewSessionTable extends JTable {
 				}
 			}
 		});
+		
+		// Open a chosen session's information when user double clicks on a session row
+		addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					// Get the double clicked row
+					JTable resultsTable = (JTable) e.getSource();
+					int row = resultsTable.rowAtPoint(e.getPoint());
+
+					if (row > -1) {
+						// Gets the name, which is index 1
+						PlanningPokerSession session = OverviewTableSessionTableModel
+														.getInstance().getSessions()[row];
+						ViewEventManager.getInstance().viewSession(session);
+					}
+				}
+			}
+		});		
 	}
 	
 	/**
