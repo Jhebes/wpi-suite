@@ -39,6 +39,9 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/** List of users in the session */
 	private ArrayList<User> users;
+	
+	/** The deck to be used for this session */
+	private PlanningPokerDeck deck;
 
 	/** Whether or not the session has been canceled prematurely */
 	private boolean isCancelled = false;
@@ -278,6 +281,24 @@ public class PlanningPokerSession extends AbstractModel {
 	public int getID() {
 		return this.id;
 	}
+	
+	/**
+	 * Returns the deck
+	 * @return deck
+	 * 			the deck for this session
+	 */
+	public PlanningPokerDeck getDeck() {
+		return deck;
+	}
+
+	/**
+	 * Sets the deck!
+	 * @param deck
+	 * 			the inputed deck
+	 */
+	public void setDeck(PlanningPokerDeck deck) {
+		this.deck = deck;
+	}
 
 	/**
 	 * @return The deadline for this session.
@@ -330,7 +351,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 
 	public boolean isVotingComplete() {
-		return votingComplete;
+		return this.votingComplete;
 	}
 
 	/**
@@ -339,8 +360,8 @@ public class PlanningPokerSession extends AbstractModel {
 	 *            If all the users in the session have voted
 	 */
 
-	public void setVotingComplete(boolean votingComplete) {
-		this.votingComplete = votingComplete;
+	public void setVotingComplete(boolean votingComplete_in) {
+		this.votingComplete = votingComplete_in;
 	}
 
 	/**
@@ -395,5 +416,7 @@ public class PlanningPokerSession extends AbstractModel {
 		this.description = updatedSession.description;
 		this.requirements = updatedSession.requirements;
 	}
+
+
 
 }
