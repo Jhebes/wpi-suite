@@ -87,7 +87,6 @@ public class CreateNewDeckPanel extends JPanel {
 		btnCreate.addActionListener(new CreateNewDeckController(this));
 		
 		//TODO: Make sure that this action listener for btnCreate is correct.
-		this.addAction(btnCreate, this);
 		this.addAction(btnCancel, this);
 
 		// set up the top panel
@@ -186,6 +185,14 @@ public class CreateNewDeckPanel extends JPanel {
 			cardValues.add(Integer.parseInt(aCard.getTxtboxValue().getText()));
 		}
 		return cardValues;
+	}
+	
+	// to be deleted
+	/**
+	 *  puts indicators for users to identify non-integer card values
+	 */
+	public void informInvalidCardValue() {
+		System.out.println("It's working!");
 	}
 
 	/**

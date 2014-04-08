@@ -22,8 +22,6 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 /**
  * Sets up Session button panel
  * 
- * @author troyling, Jake, Zack
- * 
  */
 public class SessionButtonsPanel extends ToolbarGroupView {
 	private final JPanel sessionPanel = new JPanel();
