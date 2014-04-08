@@ -85,6 +85,9 @@ public class CreateNewDeckPanel extends JPanel {
 		// action listeners
 		btnAddCard.addActionListener(new AddNewCardController(this));
 		btnCreate.addActionListener(new CreateNewDeckController(this));
+		
+		//TODO: Make sure that this action listener for btnCreate is correct.
+		this.addAction(btnCreate, this);
 		this.addAction(btnCancel, this);
 
 		// set up the top panel
