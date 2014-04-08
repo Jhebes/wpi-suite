@@ -85,6 +85,7 @@ public class OverviewPanel extends JSplitPane {
 				} catch (Exception e) {
 					
 				}
+				repaint(0, 0, getWidth(), getHeight());
 			}
 		};
 
