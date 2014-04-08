@@ -13,6 +13,7 @@ public class ViewSessionTableManager{
 
 	public ViewSessionTableModel get(int i){
 		System.out.println("Processing query for table for session " + i);
+		this.fetch(i);
 		return ViewSessionTableManager.t.get(i);
 	}
 	
