@@ -6,49 +6,55 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import net.miginfocom.swing.MigLayout;
 
 /**
  * @author troyling, Rob
  * 
  */
 public class Card extends JPanel {
-	// const
-	private final Dimension CARD_DIMENSION = new Dimension(292, 388);
+	// constants
+	private final Dimension CARD_DIMENSION = new Dimension(146, 194);
 
 	private int value = 0;
 	private final JTextField txtboxValue;
+
 	private Image cardPicture = null;
 
 	public Card() {
 		txtboxValue = new JTextField(3);
-		try {
-			cardPicture = ImageIO.read(getClass().getResource("card.png"));
-		} catch (IOException ex) {
 
+		// load background image
+		try {
+			Image img = ImageIO.read(getClass().getResource("new_card.png"));
+			ImageIcon icon = new ImageIcon(img);
+			this.cardPicture = icon.getImage();
+		} catch (IOException ex) {
 		}
 
-		// setup the panel - card representation
-		this.setSize(CARD_DIMENSION);
-		this.setLayout(new MigLayout());
-		this.add(txtboxValue, "dock center");
-		this.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+		// setup the card panel
+		this.setLayout(new GridBagLayout());
+		this.add(txtboxValue);
+		this.setPreferredSize(CARD_DIMENSION);
+
+		// delete this
+		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 	}
 
 	@Override
-	public void paintComponent(final Graphics g) {
-		System.out.println("Hi I am here.");
+	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if (this.cardPicture != null)
-			g.drawImage(cardPicture, 0, 0, null);
+		if (cardPicture != null) {
+			g.drawImage(cardPicture, -3, 0, this);
+		}
 	}
 
 	/**
