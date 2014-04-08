@@ -150,8 +150,9 @@ public class OverviewSessionTable extends JTable {
 					JTable resultsTable = (JTable) e.getSource();
 					int row = resultsTable.rowAtPoint(e.getPoint());
 
+					// Get the session of the clicked row and
+					// Exhibit it in a new tab
 					if (row > -1) {
-						// Gets the name, which is index 1
 						PlanningPokerSession session = OverviewTableSessionTableModel
 														.getInstance().getSessions()[row];
 						ViewEventManager.getInstance().viewSession(session);
