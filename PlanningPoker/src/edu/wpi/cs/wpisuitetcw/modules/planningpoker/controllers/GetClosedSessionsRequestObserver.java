@@ -20,6 +20,9 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
 /**
+ * This observer handles responses to requests for all closed planning poker
+ * sessions
+ * 
  * @author Hoang Ngo
  * 
  */

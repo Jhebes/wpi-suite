@@ -1,6 +1,15 @@
-/**
- * 
- */
+/*******************************************************************************
+ * Copyright (c) 2013 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Chris Casola
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.BorderLayout;
@@ -15,7 +24,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetClosedSessionsController;
@@ -60,57 +68,13 @@ public class OverviewPanel extends JSplitPane {
 		allSessionsBtn
 				.addActionListener(GetAllSessionsController.getInstance());
 
-		// Create Table using data above
-
-		final JTable table = new JTable(
-				OverviewTableSessionTableModel.getInstance()) {
-			private static final long serialVersionUID = 1L;
-			private boolean initialized = false;
-
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			};
-
-			public void valueChanged(ListSelectionEvent e) {
-
-			}
-			
-			@Override
-			public void repaint() {
-				try {
-					if (!initialized) {
-						GetAllSessionsController.getInstance().retrieveSessions();
-						initialized = true;
-					}
-				} catch (Exception e) {
-					
-				}
-			}
-		};
+		// Construct a table to exhibit the list of existing sessions
+		final OverviewSessionTable table = new OverviewSessionTable(OverviewTableSessionTableModel.getInstance());
 
 		// Add the buttons to the leftPanel
 		leftPanel.add(openSessionBtn);
 		leftPanel.add(closedSessionBtn);
 		leftPanel.add(allSessionsBtn);
-
-		// Add mouse listener to check for mouse clicks on the table
-		table.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				// Check to see if user double clicked
-				if (e.getClickCount() == 2) {
-					JTable resultsTable = (JTable) e.getSource();
-					int row = resultsTable.rowAtPoint(e.getPoint());
-
-					if (row > -1) {
-						// Gets the name, which is index 1
-						PlanningPokerSession session = OverviewTableSessionTableModel
-								.getInstance().getSessions()[row];
-						ViewEventManager.getInstance().viewSession(session);
-					}
-				}
-			}
-		});
-		
 
 		// Sets table bg to white
 		table.setBackground(Color.WHITE);
