@@ -69,6 +69,10 @@ public class GetOpenSessionsController implements ActionListener {
 		this.receivedSessions(sessions);	
 	}
 	
+	/**
+	 * Update the list of sessions
+	 * @param sessions A new list of sessions
+	 */
 	public void receivedSessions(PlanningPokerSession[] sessions) {
 		// TODO: make a superclass for this method
 		OverviewTableSessionTableModel.getInstance().refreshSessions(sessions);

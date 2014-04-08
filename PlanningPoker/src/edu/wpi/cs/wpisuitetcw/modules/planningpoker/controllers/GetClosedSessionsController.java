@@ -70,6 +70,10 @@ public class GetClosedSessionsController implements ActionListener {
 		this.receivedSessions(sessions);
 	}
 	
+	/**
+	 * Update the sessions' list
+	 * @param sessions A new list of sessions
+	 */
 	public void receivedSessions(PlanningPokerSession[] sessions) {
 		OverviewTableSessionTableModel.getInstance().refreshSessions(sessions);
 	}
