@@ -68,8 +68,7 @@ public class OverviewPanel extends JSplitPane {
 		allSessionsBtn
 				.addActionListener(GetAllSessionsController.getInstance());
 
-		// Create Table using data above
-
+		// Construct a table to exhibit the list of existing sessions
 		final OverviewSessionTable table = new OverviewSessionTable(OverviewTableSessionTableModel.getInstance());
 
 		// Add the buttons to the leftPanel
