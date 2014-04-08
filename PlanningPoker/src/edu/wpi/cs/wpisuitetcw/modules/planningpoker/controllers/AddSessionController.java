@@ -19,12 +19,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.swing.JLabel;
+
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTableSessionTableModel;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -39,7 +42,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class AddSessionController implements ActionListener {
 	private final CreateSessionPanel view;
-	
+
 	// TODO this should be deleted in the future
 	private String sessionName;
 
@@ -67,39 +70,52 @@ public class AddSessionController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		// Get the name of the session
-		String name = this.view.getNameTextField().getText();
+		// if a name was entered create the session
+		// otherwise the button will do nothing
+		if (this.view.requiredFieldEntered() == true) {
+			// Get the name of the session
+			String name = this.view.getNameTextField().getText();
 
-		// Dummy Data
-		// Date fields with some dummy data
-		// String year = "1";
-		// String month = "1";
-		// String day = "1";
-		
-		// TODO Session type should be stored 
-		Date d = this.view.getDeadline();
-		
-		// Create a new session and populate its data
-		PlanningPokerSession session = new PlanningPokerSession();
-		session.setName(name);
-		session.setDeadline(d);
+			// Dummy Data
+			// Date fields with some dummy data
+			// String year = "1";
+			// String month = "1";
+			// String day = "1";
 
-		// Add all checked requirements
-		// ArrayList<PlanningPokerRequirement> reqs = view.getRequirements();
-		// session.addRequirements(reqs);
+			// TODO Session type should be stored
+			Date d = this.view.getDeadline();
+			String des = this.view.getDescriptionBox().getText();
 
-		// Send a request to the core to save this message
-		// Create the request
-		final Request request = Network.getInstance().makeRequest(
-				"planningpoker/session", HttpMethod.PUT);
-		// Set the data to be the session to save (converted to JSON)
-		request.setBody(session.toJSON());
-		// Listen for the server's response
-		request.addObserver(new AddSessionRequestObserver(this));
-		// Send the request on its way
-		request.send();
+			// Create a new session and populate its data
+			PlanningPokerSession session = new PlanningPokerSession();
+			session.setOwnerUserName(ConfigManager.getConfig().getUserName());
+			session.setName(name);
+			session.setDeadline(d);
+			session.setDescription(des);
+
+			// Add all checked requirements
+			// ArrayList<PlanningPokerRequirement> reqs =
+			// view.getRequirements();
+			// session.addRequirements(reqs);
+
+			// Send a request to the core to save this message
+			// Create the request
+			final Request request = Network.getInstance().makeRequest(
+					"planningpoker/session", HttpMethod.PUT);
+			// Set the data to be the session to save (converted to JSON)
+			request.setBody(session.toJSON());
+			// Listen for the server's response
+			request.addObserver(new AddSessionRequestObserver(this));
+			// Send the request on its way
+			request.send();
+		} 
+		else {
+			// user has yet entered all required data
+			//TODO: maybe make the warning a pop-up
+			this.view.repaint();
+		}
+
 	}
-
 
 	// removes a tab and opens another
 	public void onSuccess(PlanningPokerSession session) {
