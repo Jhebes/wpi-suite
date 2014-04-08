@@ -32,14 +32,14 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
 /**
- * This table handles the display of the sessions table.
+ * This table handles the display and mouse responses of the sessions table.
  * 
  * @author Hoang Ngo
  *
  */
 public class OverviewSessionTable extends JTable {
 	private OverviewTableSessionTableModel tableModel;
-	private boolean initialized;	// Avoid loading data from not-yet-loadded model	
+	private boolean initialized;	// Avoid loading data from not-yet-loaded model	
 	private Border paddingBorder;
 
 	/**
