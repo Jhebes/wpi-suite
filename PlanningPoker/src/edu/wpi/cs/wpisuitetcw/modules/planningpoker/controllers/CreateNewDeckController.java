@@ -25,6 +25,7 @@ public class CreateNewDeckController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//System.out.println("You hit me");
+		// TODO firgure out a way to represent the card object
 		String deckName = this.view.getTextboxName().getText();
 		ArrayList<Integer> newDeckValues = this.view.getNewDeckValues();
 		
