@@ -15,7 +15,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetClosedSessionsController;
@@ -62,32 +61,7 @@ public class OverviewPanel extends JSplitPane {
 
 		// Create Table using data above
 
-		final JTable table = new JTable(
-				OverviewTableSessionTableModel.getInstance()) {
-			private static final long serialVersionUID = 1L;
-			private boolean initialized = false;
-
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			};
-
-			public void valueChanged(ListSelectionEvent e) {
-
-			}
-			
-			@Override
-			public void repaint() {
-				try {
-					if (!initialized) {
-						GetAllSessionsController.getInstance().retrieveSessions();
-						initialized = true;
-					}
-				} catch (Exception e) {
-					
-				}
-				repaint(0, 0, getWidth(), getHeight());
-			}
-		};
+		final OverviewSessionTable table = new OverviewSessionTable(OverviewTableSessionTableModel.getInstance());
 
 		// Add the buttons to the leftPanel
 		leftPanel.add(openSessionBtn);
