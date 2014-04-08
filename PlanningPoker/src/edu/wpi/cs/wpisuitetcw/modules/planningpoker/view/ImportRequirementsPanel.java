@@ -128,9 +128,11 @@ public class ImportRequirementsPanel extends JSplitPane {
 				setReqLabels();
 			}
 		});
-		
+
 		requirementsTable.getTableHeader().setReorderingAllowed(false);
 		requirementsTable.setBackground(Color.WHITE);
+		requirementsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		requirementsTable.getColumnModel().getColumn(0).setWidth(10);
 		
 		JScrollPane jsp = new JScrollPane(requirementsTable);
 		
