@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (c) 2014 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team Combat Wombat
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
 import java.util.ArrayList;
@@ -280,6 +289,15 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 	
 	/**
+	 * Return the users in this session
+	 * 
+	 * @return users in this session
+	 */
+	public ArrayList<User> getUsers() {
+		return this.users;
+	}
+	
+/**
 	 * 
 	 * @param userName
 	 * 
@@ -287,9 +305,8 @@ public class PlanningPokerSession extends AbstractModel {
 	public void setOwnerUserName(String userName) {
 		this.ownerUserName = userName;
 	}
-	
+
 	/**
-	 * 
 	 * @return the user name of the Owner of this session
 	 */
 	

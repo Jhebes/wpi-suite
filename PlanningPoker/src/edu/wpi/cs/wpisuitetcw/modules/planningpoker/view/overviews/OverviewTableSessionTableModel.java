@@ -1,10 +1,17 @@
-/**
+/*******************************************************************************
+ * Copyright (c) 2014 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
- */
+ * Contributors: Team Combat Wombat
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -47,6 +54,9 @@ public class OverviewTableSessionTableModel extends DefaultTableModel {
 	public void refreshSessions(PlanningPokerSession[] sessions) {
 		this.setDataVector(null, colNames);
 		this.sessions = sessions;
+		if (sessions == null) {
+			return;
+		}
 		for (PlanningPokerSession session : sessions) {
 			Date deadline = session.getDeadline();
 			String formattedDeadline = "";
