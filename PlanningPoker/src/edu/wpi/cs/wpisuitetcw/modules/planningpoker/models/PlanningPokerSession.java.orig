@@ -7,7 +7,6 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
-
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
 import java.util.ArrayList;
@@ -15,15 +14,11 @@ import java.util.Date;
 
 import com.google.gson.Gson;
 
-import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * PlanningPokerSession class represents a planning poker session
- * 
- * @author Josh Hebert
- * 
  */
 public class PlanningPokerSession extends AbstractModel {
 
@@ -310,9 +305,8 @@ public class PlanningPokerSession extends AbstractModel {
 	public void setOwnerUserName(String userName) {
 		this.ownerUserName = userName;
 	}
-	
+
 	/**
-	 * 
 	 * @return the user name of the Owner of this session
 	 */
 	
@@ -413,8 +407,8 @@ public class PlanningPokerSession extends AbstractModel {
 	 *            If all the users in the session have voted
 	 */
 
-	public void setVotingComplete(boolean votingComplete) {
-		this.votingComplete = votingComplete;
+	public void setVotingComplete(boolean votingComplete_in) {
+		this.votingComplete = votingComplete_in;
 	}
 
 	/**
@@ -470,4 +464,9 @@ public class PlanningPokerSession extends AbstractModel {
 		this.requirements = updatedSession.requirements;
 	}
 
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> dev
 }
