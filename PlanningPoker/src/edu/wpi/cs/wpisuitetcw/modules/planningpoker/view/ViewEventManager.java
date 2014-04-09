@@ -1,10 +1,17 @@
-/**
+/*******************************************************************************
+ * Copyright (c) 2014 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
- */
+ * Contributors: Team Combat Wombat
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import javax.swing.JComponent;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateNewDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
@@ -56,11 +63,12 @@ public class ViewEventManager {
 	 */
 	public void viewSession(PlanningPokerSession session) {
 		if (session.isActive()) {
-			SessionInProgressPanel panel = new SessionInProgressPanel();
+			SessionInProgressPanel panel = new SessionInProgressPanel(session);
 			main.addTab(session.getName(), null, panel, "Session in progress.");
 			main.repaint();
 			main.setSelectedComponent(panel);
 		} else {
+			
 			ViewSessionPanel viewSession = new ViewSessionPanel(session);
 			main.addTab(session.getName(), null, viewSession, "View Session.");
 			main.repaint();

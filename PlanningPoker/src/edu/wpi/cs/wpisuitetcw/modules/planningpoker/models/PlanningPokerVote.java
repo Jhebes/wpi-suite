@@ -1,7 +1,15 @@
-/**
+/*******************************************************************************
+ * Copyright (c) 2014 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
- */
+ * Contributors: Team Combat Wombat
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
+
+import java.util.UUID;
 
 import com.google.gson.Gson;
 
@@ -14,32 +22,20 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  */
 public class PlanningPokerVote extends AbstractModel {
 
-	private int id;
-	private PlanningPokerSession session;
-	private PlanningPokerRequirement requirement;
-	private User user;
+	private UUID id;
+	private String user;
 	private int cardValue;
 
-	public PlanningPokerVote(){
-		System.out.println("Using default constructor for vote (BAD)");
+	public PlanningPokerVote() {
 	}
 	
-	public PlanningPokerVote(PlanningPokerSession pps,
-			PlanningPokerRequirement ppr, User u, int val) {
-		this.session = pps;
-		this.requirement = ppr;
+	public PlanningPokerVote(String u, int val) {
 		this.user = u;
 		this.cardValue = val;
+		this.id = UUID.randomUUID();
 	}
 
-	public PlanningPokerVote(int id, PlanningPokerSession pps,
-			PlanningPokerRequirement ppr, User u, int val) {
-		this.id = id;
-		this.session = pps;
-		this.requirement = ppr;
-		this.user = u;
-		this.cardValue = val;
-	}
+	
 
 	/* database interaction */
 	@Override
@@ -71,11 +67,7 @@ public class PlanningPokerVote extends AbstractModel {
 	 */
 	@Override
 	public String toString() {
-//		return ("ID: " + this.id + "   Session ID: " + this.session.getID()
-//				+ "   Requirement ID: " + this.requirement.getId()
-//				+ "   User ID: " + this.user.getIdNum() + "   Card Info: " + this.cardValue);
-		
-		return "ID: " + this.id + ", Value: " + this.cardValue;
+		return "ID: " + this.user + ", Value: " + this.cardValue;
 	}
 
 	
@@ -115,11 +107,11 @@ public class PlanningPokerVote extends AbstractModel {
 	}
 
 
-	public int getID() {
+	public UUID getID() {
 		return id;
 	}
 
-	public void setID(int id) {
+	public void setID(UUID id) {
 		this.id = id;
 	}
 
