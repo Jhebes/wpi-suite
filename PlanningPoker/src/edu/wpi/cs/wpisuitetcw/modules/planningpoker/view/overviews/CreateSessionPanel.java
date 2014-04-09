@@ -46,6 +46,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Scrol
 
 /**
  * Panel for New Session tab.
+ * 
  */
 
 public class CreateSessionPanel extends JSplitPane {

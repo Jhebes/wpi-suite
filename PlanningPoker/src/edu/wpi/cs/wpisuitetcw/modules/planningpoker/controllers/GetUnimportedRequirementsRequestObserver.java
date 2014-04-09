@@ -8,9 +8,11 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -60,6 +62,15 @@ public class GetUnimportedRequirementsRequestObserver implements
 					+ iReq.getResponse().getStatusCode()
 					+ " error from server: "
 					+ iReq.getResponse().getStatusMessage());
+			return;
+		}
+
+		// parse the PlanningPokerVote received from the core
+		PlanningPokerVote[] votes = PlanningPokerVote.fromJSONArray(response.getBody());
+		if (votes.length > 0 && votes[0] != null) {
+			controller.showPlanningPokerVote(votes[0]);
+		} else {
+			controller.errorRetrievingPlanningPokerVote("No votes received.");
 		}
 	}
 

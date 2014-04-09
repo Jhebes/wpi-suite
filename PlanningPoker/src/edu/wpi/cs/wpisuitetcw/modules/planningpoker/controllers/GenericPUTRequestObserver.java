@@ -19,10 +19,12 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
  * Handles requests to server to store pieces of data in the database
+ * 
  */
 public class GenericPUTRequestObserver implements RequestObserver {
 	//The controller this is tied to
 	private final ActionListener controller;
+
 	
 	/**
 	 * Creates a listener attached to the controller
@@ -44,6 +46,8 @@ public class GenericPUTRequestObserver implements RequestObserver {
 	public void responseSuccess(IRequest iReq) {
 		// Get the response to the given request
 		final ResponseModel response = iReq.getResponse();
+	
+
 	}
 
 	/**

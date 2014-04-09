@@ -11,6 +11,7 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 
 import java.util.List;
+
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetng.Session; //Not sure
 import edu.wpi.cs.wpisuitetng.database.Data;
@@ -21,6 +22,7 @@ import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
+
 
 public class PlanningPokerVoteEntityManager implements
 		EntityManager<PlanningPokerVote> {
