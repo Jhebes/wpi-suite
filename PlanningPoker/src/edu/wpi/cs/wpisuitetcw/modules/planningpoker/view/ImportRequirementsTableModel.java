@@ -37,19 +37,20 @@ public class ImportRequirementsTableModel extends DefaultTableModel {
 			return;
 		}
 		this.setDataVector(null, colNames);
-		ArrayList<Integer> existingIDs = new ArrayList<Integer>();
+		ArrayList<Requirement> existingRequirements = new ArrayList<Requirement>();
 		for (PlanningPokerRequirement requirement : requirements) {
-			existingIDs.add(requirement.getId());
+			existingRequirements.add(requirement.getInnerRequirement());
 		}
 		
-		for (Requirement requirement : this.unimportedRequirements) {
-			if (existingIDs.contains(requirement.getId())) {
+		for (Requirement unimportedRequirement : this.unimportedRequirements) {
+			if (existingRequirements.contains(unimportedRequirement)) {
 				continue;
 			}
+			PlanningPokerRequirement requirement = new PlanningPokerRequirement(unimportedRequirement);
 			Object[] row = { 
-					false,
-					requirement.getName(),
-					requirement.getDescription()
+					false,  // checkbox defaults off
+					requirement,  // serializes to its name
+					requirement.getInnerRequirement().getDescription()
 			};
 			this.addRow(row);
 		}

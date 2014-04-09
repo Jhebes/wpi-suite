@@ -12,13 +12,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllRequirementsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetUnimportedRequirementsController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.ImportRequirementController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 
 public class ImportRequirementsPanel extends JSplitPane {
 
@@ -116,7 +116,7 @@ public class ImportRequirementsPanel extends JSplitPane {
 				int row = table.getSelectedRow();
 
 				if (row != -1){
-					String name = (String) table.getValueAt(row, 1);
+					String name = ((PlanningPokerRequirement) table.getValueAt(row, 1)).getName();
 					String desc = (String) table.getValueAt(row, 2);
 					this.setSuperClassVariables(name, desc);
 				}
@@ -131,12 +131,18 @@ public class ImportRequirementsPanel extends JSplitPane {
 		
 		requirementsTable.getTableHeader().setReorderingAllowed(false);
 		requirementsTable.setBackground(Color.WHITE);
+		// Hide the requirement column, but keep the data
+//		requirementsTable.removeColumn(requirementsTable.getColumn(3));
 		
 		JScrollPane jsp = new JScrollPane(requirementsTable);
 		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new MigLayout());
-		buttonPanel.add(new JButton("Import Checked"));
+		
+		JButton importButton = new JButton("Import Checked");
+		importButton.addActionListener(new ImportRequirementController());
+
+		buttonPanel.add(importButton);
 
 		rightPanel.setLayout(new MigLayout());
 		rightPanel.add(jsp, "dock center");
