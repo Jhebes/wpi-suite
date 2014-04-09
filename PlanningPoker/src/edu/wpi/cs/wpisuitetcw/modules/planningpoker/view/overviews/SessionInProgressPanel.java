@@ -265,19 +265,9 @@ public class SessionInProgressPanel extends JSplitPane {
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		panel.add(verticalStrut_1);
 		
-		JLabel lblId = new JLabel("ID:");
-		panel.add(lblId);
-		
-		JLabel label = new JLabel("<dynamic>");
-		panel.add(label);
-		
-		Component verticalStrut_2 = Box.createVerticalStrut(20);
-		panel.add(verticalStrut_2);
-		
 		JLabel lblName_1 = new JLabel("Name:");
 		panel.add(lblName_1);
 		
-		JLabel label_1 = new JLabel("<dynamic>");
 		panel.add(label_1);
 		
 		Component verticalStrut_3 = Box.createVerticalStrut(20);
@@ -286,7 +276,6 @@ public class SessionInProgressPanel extends JSplitPane {
 		JLabel lblDescription_1 = new JLabel("Description:");
 		panel.add(lblDescription_1);
 		
-		JLabel label_2 = new JLabel("<dynamic>");
 		panel.add(label_2);
 
 		splitTopBottom.setTopComponent(splitLeftRight);
