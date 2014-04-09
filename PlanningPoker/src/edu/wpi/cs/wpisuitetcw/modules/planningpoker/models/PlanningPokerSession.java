@@ -263,6 +263,15 @@ public class PlanningPokerSession extends AbstractModel {
 	public String getName() {
 		return this.name;
 	}
+	
+	/**
+	 * Return the users in this session
+	 * 
+	 * @return users in this session
+	 */
+	public ArrayList<User> getUsers() {
+		return this.users;
+	}
 
 	/**
 	 * @param The

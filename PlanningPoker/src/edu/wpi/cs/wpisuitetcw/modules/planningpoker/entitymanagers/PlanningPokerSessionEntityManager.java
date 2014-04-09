@@ -263,12 +263,12 @@ public class PlanningPokerSessionEntityManager implements
 
 		String command = args[2];
 		if (command.equals("sendEmail")) {
-			if (args.length < 3) {
+			if (args.length < 5) {
 				throw new WPISuiteException(
 						"Usage: /sendMail/(start|end)/<redesign>/");
 			}
-			String notificationType = args[1];
-			String email = args[3];
+			String notificationType = args[3];
+			String email = args[4];
 			sendNotification(notificationType, email);
 		}
 

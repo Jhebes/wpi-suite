@@ -7,6 +7,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTableSessionTableModel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -36,6 +37,12 @@ public class ActivateSessionController implements ActionListener {
 		ViewEventManager.getInstance().removeTab(panel);
 		ViewEventManager.getInstance().viewSession(session);
 		GetAllSessionsController.getInstance().retrieveSessions();
+		
+//		for (User s : this.session.getUsers())
+//		{
+			SendEmailController.getInstance().sendEmail("start", "jake.bluefire66@gmail.com");
+//		}
+		
 	}
 
 }

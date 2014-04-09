@@ -21,12 +21,36 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * 
  */
 public class SendEmailController {
-
-	public static String makeURL(String notificationType, String recipient) {
-		return "planningpoker/sessions/" + notificationType + "/" + recipient;
+	
+	private static SendEmailController instance;
+	
+	/**
+	 * Instantiates a new controller tied to the specified view.
+	 * Private because this is a singleton.
+	 */
+	private SendEmailController() {
 	}
 	
-	public static void sendEmail(String notificationType, String recipient) {
+	public static SendEmailController getInstance() {
+		if (instance == null) {
+			instance = new SendEmailController();
+		}
+		return instance;
+	}
+
+	/**
+	 * Returns a formatted URL to database 
+	 */
+	public static String makeURL(String notificationType, String recipient) {
+		return "Advanced/planningpoker/session/sendEmail/" + notificationType + "/" + recipient;
+	}
+	
+	/**
+	 * Sends a notification to a user on session activate or close.
+	 * @param notificationType is this a "start" notification or "end" notification
+	 * @param recipient who is receiving this notification
+	 */
+	public void sendEmail(String notificationType, String recipient) {
 		// Send a request to the core to retrieve the sessions
 		final Request request = Network.getInstance().makeRequest(
 				makeURL(notificationType, recipient), HttpMethod.GET);
