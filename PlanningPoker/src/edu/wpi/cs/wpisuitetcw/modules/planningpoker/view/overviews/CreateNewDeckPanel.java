@@ -3,13 +3,11 @@
  */
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
-import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,6 +26,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
  */
 public class CreateNewDeckPanel extends JPanel {
 	// constants
+	private final String NAME_ERR_MSG = "<html><font color='red'>REQUIRES</font></html>";
 	private final int CARD_WIDTH = 146;
 	private final String CARD_COUNT_LABEL = "# of Cards: ";
 	private final String ADD_CARD_LABEL = "[+] New Card";
@@ -40,6 +39,7 @@ public class CreateNewDeckPanel extends JPanel {
 	private final JLabel labelName;
 	private final JLabel labelCount;
 	private final JLabel labelNumCards;
+	private final JLabel labelNameErr;
 	private final JButton btnAddCard;
 	private final JButton btnRemoveCard;
 	private final JButton btnCreate;
@@ -68,9 +68,12 @@ public class CreateNewDeckPanel extends JPanel {
 		this.labelName = new JLabel(DECK_NAME_LABEL);
 		this.labelCount = new JLabel(CARD_COUNT_LABEL);
 		this.labelNumCards = new JLabel("1");
+		this.labelNameErr = new JLabel(NAME_ERR_MSG);
+
+		this.labelNameErr.setVisible(false);
 
 		// textfields
-		this.textboxName = new JTextField(15);
+		this.textboxName = new JTextField(21);
 
 		// cards
 		Card starterCard = new Card();
@@ -87,18 +90,17 @@ public class CreateNewDeckPanel extends JPanel {
 
 		// action listeners
 		btnAddCard.addActionListener(new AddNewCardController(this));
-		
-		
-		
 		btnCreate.addActionListener(new CreateNewDeckController(this));
-		
-		//TODO: Make sure that this action listener for btnCreate is correct.
 		this.addAction(btnCancel, this);
 		this.removeCardAction(btnRemoveCard, this);
 
 		// set up the top panel
-		topPanel.add(labelName);
-		topPanel.add(textboxName);
+		JPanel topContainer = new JPanel();
+		topContainer.setLayout(new MigLayout());
+		topContainer.add(labelNameErr, "center, span, split3");
+		topContainer.add(labelName);
+		topContainer.add(textboxName);
+		topPanel.add(topContainer);
 
 		// setup centerPanel
 		// centerPanel includes the add button and additional cards
@@ -112,20 +114,17 @@ public class CreateNewDeckPanel extends JPanel {
 		// add a new panel to the scrollpane, since cards are panels which
 		// cannot be drawn on scrollpane directly
 		cardPanel = new JPanel();
-		
+
 		JPanel container = new JPanel();
 		container.setLayout(new GridBagLayout());
-		
-		
+
 		cardSP = new JScrollPane(container);
 
-		
-		
 		centerTopPanel.add(btnAddCard, "center, split3");
 		centerTopPanel.add(btnRemoveCard, "center, split 4");
 		centerTopPanel.add(labelCount);
 		centerTopPanel.add(labelNumCards);
-		
+
 		cardPanel.add(starterCard);
 		container.add(cardPanel);
 
@@ -149,30 +148,33 @@ public class CreateNewDeckPanel extends JPanel {
 	 */
 	public void addNewCard() {
 		ArrayList<Card> cardList = this.getCardList();
-		
+
 		Card aCard = new Card();
 		cardList.add(aCard);
 
 		this.cardPanel.add(aCard);
 		this.updateNumCard();
-		
-		// TODO This yet moves to the rightmost position when a new card is added.
-		this.cardSP.getHorizontalScrollBar().setValue((int) (this.cardPanel.getBounds().getWidth() + CARD_WIDTH));
+
+		// TODO This yet moves to the rightmost position when a new card is
+		// added.
+		this.cardSP.getHorizontalScrollBar().setValue(
+				(int) (this.cardPanel.getBounds().getWidth() + CARD_WIDTH));
 	}
-	
+
 	/**
 	 * Remove a card from the view and the array
 	 */
-	public void removeLastCard(){
-	    ArrayList<Card> cardList = this.getCardList();
-	    
-	    Card aCard = cardList.get(cardList.size() - 1);
-	    if(cardList.size() > 1){
+	public void removeLastCard() {
+		ArrayList<Card> cardList = this.getCardList();
+
+		Card aCard = cardList.get(cardList.size() - 1);
+		if (cardList.size() > 1) {
 			cardList.remove(cardList.size() - 1);
 			this.cardPanel.remove(aCard);
 			updateNumCard();
-	    }
+		}
 	}
+
 	/**
 	 * update the total number of cards
 	 */
@@ -193,21 +195,23 @@ public class CreateNewDeckPanel extends JPanel {
 				ViewEventManager.getInstance().removeTab(panel);
 			}
 		});
-	}	
+	}
+
 	/**
-	 * Adds an action listener that provides functionality to remove playing cards from the list and view.
+	 * Adds an action listener that provides functionality to remove playing
+	 * cards from the list and view.
+	 * 
 	 * @param button
 	 * @param panel
 	 */
 	public void removeCardAction(JButton button, final CreateNewDeckPanel panel) {
 		button.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				panel.removeLastCard();
 				panel.updateUI();
-				
-				
+
 			}
 		});
 	}
@@ -224,10 +228,29 @@ public class CreateNewDeckPanel extends JPanel {
 		}
 		return cardValues;
 	}
-	
+
+	/**
+	 * determine if the deck name textbox is empty
+	 * 
+	 * @return true if so; false otherwise
+	 */
+	public boolean isDeckNameEntered() {
+		System.out.println("Hi here.");
+		if (this.textboxName.getText().equals("")) {
+			// nothing is entered
+			System.out.println("Name not entered");
+			this.labelNameErr.setVisible(true);
+			return false;
+		} else {
+			System.out.println("Name entered");
+			this.labelNameErr.setVisible(false);
+			return true;
+		}
+	}
+
 	// to be deleted
 	/**
-	 *  puts indicators for users to identify non-integer card values
+	 * puts indicators for users to identify non-integer card values
 	 */
 	public void informInvalidCardValue() {
 		System.out.println("It's working!");

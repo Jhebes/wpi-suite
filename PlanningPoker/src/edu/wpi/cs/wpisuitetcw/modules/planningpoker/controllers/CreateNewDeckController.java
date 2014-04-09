@@ -26,19 +26,11 @@ public class CreateNewDeckController implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// System.out.println("You hit me");
-		// TODO firgure out a way to represent the card object
-		String deckName = this.view.getTextboxName().getText();
-		// ArrayList<Integer> newDeckValues = this.view.getNewDeckValues();
-		//
-		// System.out.println("Name is: " + deckName);
-		// for(int i : newDeckValues) {
-		// System.out.println("Valu is: " + i);
-		// }
+		//String deckName = this.view.getTextboxName().getText();
 
 		// make sure all cards are validated
-		if(validateCardValues()) {
-			//inputs are good
+		if(validateAllInputs()) {
+			// all inputs are good
 			// TODO store in database
 			
 			// close the tab
@@ -49,6 +41,16 @@ public class CreateNewDeckController implements ActionListener {
 			this.view.repaint();
 		}
 		
+	}
+	
+	/**
+	 * Validate all the inputs
+	 * @return true if valid; false otherwise
+	 */
+	private boolean validateAllInputs() {
+		boolean areCardsValid = validateCardValues();
+		boolean isNameEntered = this.view.isDeckNameEntered();
+		return areCardsValid && isNameEntered;
 	}
 	
 	/**
