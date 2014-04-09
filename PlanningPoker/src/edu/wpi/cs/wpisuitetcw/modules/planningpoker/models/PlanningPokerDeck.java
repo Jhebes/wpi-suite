@@ -7,14 +7,11 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 /**
- * This class represents the deck for voting
- * 
- * @author Manny DeMaio, Louie MIstretta
- * 
+ * This class represents the deck for voting 
  */
 
 public class PlanningPokerDeck extends AbstractModel {
-	private ArrayList<int[]> deck;
+	private ArrayList<Integer> deck;
 	public String deckName;
 	private int id;
 
@@ -26,8 +23,10 @@ public class PlanningPokerDeck extends AbstractModel {
 	public PlanningPokerDeck() {
 		int[] defaultDeck = {0,1,1,2,3,5,8,13};
 		this.deckName = "Default Deck";
-		deck = new ArrayList<int[]>();
-		this.deck.add(defaultDeck);
+		deck = new ArrayList<Integer>();
+		for(int i : defaultDeck) {
+			this.deck.add(i);
+		}
 	}
 	
 	/**
@@ -35,9 +34,9 @@ public class PlanningPokerDeck extends AbstractModel {
 	 * @param deck_in
 	 * 			the inputed deck
 	 */
-	public PlanningPokerDeck(String name_in, ArrayList<int[]> deck_in){
+	public PlanningPokerDeck(String name_in, ArrayList<Integer> deck_in){
 		this.deckName = name_in;
-		deck.addAll(deck_in);
+		this.deck = deck_in;
 	}
 
 	

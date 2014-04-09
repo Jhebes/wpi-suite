@@ -10,10 +10,6 @@ import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateNewDeckPanel;
 
-/**
- * @author troyling, remckenna
- *
- */
 public class AddNewCardController implements ActionListener {
 	private CreateNewDeckPanel view;
 	

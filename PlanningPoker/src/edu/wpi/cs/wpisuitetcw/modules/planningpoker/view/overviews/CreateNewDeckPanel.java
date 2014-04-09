@@ -20,10 +20,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateNewDeckCon
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
 
-/**
- * @author troyling
- * 
- */
 public class CreateNewDeckPanel extends JPanel {
 	// constants
 	private final String NAME_ERR_MSG = "<html><font color='red'>REQUIRES</font></html>";
