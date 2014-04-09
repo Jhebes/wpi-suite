@@ -32,6 +32,11 @@ public class CreateNewDeckController implements ActionListener {
 		if(validateAllInputs()) {
 			// all inputs are good
 			// TODO store in database
+			String deckName = this.view.getTextboxName().getText();
+			ArrayList<Integer> deck = this.view.getAllCardsValue(); 
+			
+			System.out.println("DeckName is: " + deckName);
+			System.out.println("Card value: " + deck.toString());
 			
 			// close the tab
 			ViewEventManager.getInstance().removeTab(this.view);

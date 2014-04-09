@@ -270,6 +270,18 @@ public class CreateNewDeckPanel extends JPanel {
 	public JTextField getTextboxName() {
 		return textboxName;
 	}
+	
+	/**
+	 * get a deck of cards with values
+	 * @return an arraylist of card values
+	 */
+	public ArrayList<Integer> getAllCardsValue() {
+		ArrayList<Integer> deckValues = new ArrayList<Integer>();
+		for(Card aCard : this.cardList) {
+			deckValues.add(aCard.getValue());
+		}
+		return deckValues;
+	}
 
 	/**
 	 * 

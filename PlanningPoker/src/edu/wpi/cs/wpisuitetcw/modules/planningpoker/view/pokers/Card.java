@@ -27,7 +27,6 @@ public class Card extends JPanel {
 	private final String ERROR_MSG = "<html><font color='red'>Please enter a <br />positive integer</font></html>";
 	private final Dimension CARD_DIMENSION = new Dimension(146, 194);
 
-	private int value = 0;
 	private final JTextField txtboxValue;
 	private final JLabel labelError;
 
@@ -133,22 +132,18 @@ public class Card extends JPanel {
 	}
 
 	/**
-	 * Get the value of the card
+	 * return the value of the card
 	 * 
-	 * @return the value of the card
+	 * @return
 	 */
 	public int getValue() {
+		int value;
+		try {
+			value = Integer.parseInt(this.txtboxValue.getText());
+		} catch (NumberFormatException e) {
+			value = 0;
+		}
 		return value;
-	}
-
-	/**
-	 * Set the value of card
-	 * 
-	 * @param value
-	 *            of the card
-	 */
-	public void setValue(int value) {
-		this.value = value;
 	}
 
 }
