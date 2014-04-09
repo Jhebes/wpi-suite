@@ -17,6 +17,15 @@ public class ViewSessionTableManager{
 		return ViewSessionTableManager.t.get(i);
 	}
 	
+	public void init(int i){
+		System.out.println("Initializing session " + String.valueOf(i));
+		ViewSessionTableModel a = ViewSessionTableManager.t.get(i);
+		if(a == null){
+			a = new ViewSessionTableModel();
+			
+		}
+		ViewSessionTableManager.t.put(i, a);
+	}
 	
 	public void refreshRequirements(int i, List<PlanningPokerRequirement> requirements) {
 		

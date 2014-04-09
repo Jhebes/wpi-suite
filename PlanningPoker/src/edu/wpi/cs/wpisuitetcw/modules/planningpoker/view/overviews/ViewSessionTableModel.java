@@ -11,18 +11,16 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirem
 
 /**
  * @author troyling, Jenny
- *
+ * 
  */
-public class ViewSessionTableModel extends DefaultTableModel{
-	private final String[] colNames = {"ID", "Name", "Priority"};
-	
+public class ViewSessionTableModel extends DefaultTableModel {
+	private final String[] colNames = { "ID", "Name", "Priority" };
+
 	public ViewSessionTableModel() {
 		setColumnIdentifiers(colNames);
+		this.setDataVector(null, colNames);
 	}
-	
-	
-	
-	
+
 	/**
 	 * Refreshes the requirements.
 	 * 
@@ -30,18 +28,12 @@ public class ViewSessionTableModel extends DefaultTableModel{
 	 *            The new list of requirements
 	 */
 	public void refreshRequirements(List<PlanningPokerRequirement> requirements) {
-
+		//Sets column of the table to null
 		this.setDataVector(null, colNames);
-		for (PlanningPokerRequirement requirement : requirements) {			
-			Object[] row = { 
-					requirement.getId(),
-					requirement.getName(),
-					requirement.getPriority()
-			};
+		for (PlanningPokerRequirement requirement : requirements) {
+			Object[] row = { requirement.getId(), requirement.getName(),
+					requirement.getPriority() };
 			this.addRow(row);
 		}
 	}
 }
-
-
-

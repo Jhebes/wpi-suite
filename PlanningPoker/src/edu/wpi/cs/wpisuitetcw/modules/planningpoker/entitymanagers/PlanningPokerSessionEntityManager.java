@@ -21,9 +21,12 @@ import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
 import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
+import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
+import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * This is the entity manager for the PlanningPokerSession in the PlanningPoker
@@ -136,7 +139,19 @@ public class PlanningPokerSessionEntityManager implements
 	@Override
 	public PlanningPokerSession update(Session s, String content)
 			throws WPISuiteException {
-
+		
+		/*
+		//Check Authentication/Ownership
+		//TODO
+		private void ensureRole(Session session, Role role) throws WPISuiteException {
+			User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
+			if(!user.getRole().equals(role)) {
+				throw new UnauthorizedException();
+			}
+		}
+		*/
+		
+		
 		PlanningPokerSession updatedSession = PlanningPokerSession.fromJson(content);
 		/*
 		 * Because of the disconnected objects problem in db4o, we can't just save PlanningPokerSessions.

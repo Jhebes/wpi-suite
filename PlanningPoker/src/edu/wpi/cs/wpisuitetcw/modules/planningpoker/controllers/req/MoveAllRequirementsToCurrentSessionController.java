@@ -53,14 +53,9 @@ public class MoveAllRequirementsToCurrentSessionController implements ActionList
 				d.add(r);
 				s.deleteRequirements(d);
 				session.addRequirement(r);
-				ViewSessionTableManager a1 = new ViewSessionTableManager();
-				a1.refreshRequirements(1, s.getRequirements());
 				
-
-				ViewSessionTableManager a2 = new ViewSessionTableManager();
-				a2.refreshRequirements(session.getID(), session.getRequirements());
 		}
-		
+
 		final Request request = Network.getInstance().makeRequest("planningpoker/session/".concat(String.valueOf(s.getID())), HttpMethod.POST);
 		request.setBody(session.toJSON());
 		request.addObserver(new GenericPUTRequestObserver(this));
@@ -71,7 +66,10 @@ public class MoveAllRequirementsToCurrentSessionController implements ActionList
 		request2.addObserver(new GenericPUTRequestObserver(this));
 		request2.send();
 		
-		
+		ViewSessionTableManager a1 = new ViewSessionTableManager();
+		a1.refreshRequirements(1, s.getRequirements());
+		ViewSessionTableManager a2 = new ViewSessionTableManager();
+		a2.refreshRequirements(session.getID(), session.getRequirements());
 		this.view.allReqTable.repaint();
 		this.view.sessionReqTable.repaint();
 	}

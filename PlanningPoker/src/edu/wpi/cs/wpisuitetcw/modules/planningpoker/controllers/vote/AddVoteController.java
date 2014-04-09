@@ -17,10 +17,11 @@ import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GenericPUTRequestObserver;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
-
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.janeway.config.Configuration;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -39,7 +40,7 @@ public class AddVoteController implements ActionListener {
 	private SessionInProgressPanel view;
 
 	private PlanningPokerRequirement req = null;
-
+	
 	public AddVoteController(SessionInProgressPanel view, PlanningPokerSession session) {
 		this.view = view;
 		this.session = session;
@@ -55,8 +56,14 @@ public class AddVoteController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		PlanningPokerVote vote = new PlanningPokerVote();
-		vote.setCardValue(view.getVote());
+		
+		System.out.print("Requesting user is: ");
+		String username = "NAME?";
+		Configuration c = ConfigManager.getConfig();
+		username = c.getUserName();
+		System.out.println(username);
+		
+		PlanningPokerVote vote = new PlanningPokerVote(username, view.getVote());
 		session = view.getSession();
 		String r = view.getSelectedRequirement();
 		System.out.println("Attempting to get Req: " + r);

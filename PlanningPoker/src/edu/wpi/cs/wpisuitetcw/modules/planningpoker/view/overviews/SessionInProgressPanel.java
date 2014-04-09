@@ -40,7 +40,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	private String selectedReqName;
 	private JTable reqsViewTable;
 	private ViewSessionTableManager reqsViewTableManager = new ViewSessionTableManager();
-	public JList<PlanningPokerVote> voteList;
+	public JList<String> voteList;
 
 	/**
 	 * Create the panel.
@@ -138,7 +138,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		JLabel lblNumberOfVotes = new JLabel("Number of Votes:");
 		statsTab.add(lblNumberOfVotes);
 
-		voteList = new JList<PlanningPokerVote>();
+		voteList = new JList<String>();
 		statsTab.add(voteList);
 
 		// Set up "Vote Tab"
@@ -321,9 +321,9 @@ public class SessionInProgressPanel extends JSplitPane {
 	 * @param votes
 	 */
 	public void setVoteList(ArrayList<PlanningPokerVote> votes) {
-		PlanningPokerVote[] array = new PlanningPokerVote[votes.size()];
+		String[] array = new String[votes.size()];
 		for(int i = 0; i < votes.size(); ++i){
-			array[i] = votes.get(i);
+			array[i] = votes.get(i).toString() ;
 		}
 		this.voteList.setListData(array);
 	}

@@ -5,6 +5,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import javax.swing.JComponent;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
@@ -60,6 +61,7 @@ public class ViewEventManager {
 			main.repaint();
 			main.setSelectedComponent(panel);
 		} else {
+			
 			ViewSessionPanel viewSession = new ViewSessionPanel(session);
 			main.addTab(session.getName(), null, viewSession, "View Session.");
 			main.repaint();

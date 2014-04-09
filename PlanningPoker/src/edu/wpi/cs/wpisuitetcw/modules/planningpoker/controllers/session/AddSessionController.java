@@ -21,6 +21,7 @@ import java.util.Date;
 
 import javax.swing.JLabel;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
@@ -92,7 +93,7 @@ public class AddSessionController implements ActionListener {
 			session.setName(name);
 			session.setDeadline(d);
 			session.setDescription(des);
-
+			
 			// Add all checked requirements
 			// ArrayList<PlanningPokerRequirement> reqs =
 			// view.getRequirements();
@@ -119,7 +120,12 @@ public class AddSessionController implements ActionListener {
 
 	// removes a tab and opens another
 	public void onSuccess(PlanningPokerSession session) {
+		ViewSessionTableManager a1 = new ViewSessionTableManager();
+		a1.init(session.getID());
+		
+		
 		ViewEventManager.getInstance().removeTab(this.view);
+
 		ViewEventManager.getInstance().viewSession(session);
 		GetAllSessionsController.getInstance().retrieveSessions();
 	}
