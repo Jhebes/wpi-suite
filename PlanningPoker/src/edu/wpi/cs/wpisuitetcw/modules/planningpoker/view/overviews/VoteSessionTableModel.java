@@ -25,10 +25,10 @@ public class VoteSessionTableModel extends DefaultTableModel{
 	
 	
 	/**
-	 * Refreshes the requirements.
+	 * Refreshes the votes.
 	 * 
-	 * @param sessions
-	 *            The new list of requirements
+	 * @param votes
+	 *            The new list of votes.
 	 */
 	public void refreshVotes(List<PlanningPokerVote> votes) {
 

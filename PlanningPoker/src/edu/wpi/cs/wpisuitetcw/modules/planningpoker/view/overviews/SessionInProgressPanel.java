@@ -332,7 +332,6 @@ public class SessionInProgressPanel extends JSplitPane {
 	 * sets the reqsViewTable with the appropriate information
 	 */
 	public void getReqsViewTable() {
-		reqsViewTable.setModel(this.reqsViewTableManager.get(this.session
-				.getID()));
+		reqsViewTable.setModel(new ViewSessionTableModel());
 	}
 }
