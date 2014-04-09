@@ -2,6 +2,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
@@ -38,11 +39,22 @@ public class ActivateSessionController implements ActionListener {
 		ViewEventManager.getInstance().viewSession(session);
 		GetAllSessionsController.getInstance().retrieveSessions();
 		
-		
-		//String sendTo = s.getEmail();
-		SendEmailController.getInstance().sendEmail("start", "jake.bluefire66@gmail.com");
-			
-		
+		// Send email to everyone in a session
+		if (this.session.getUsers() != null)
+		{
+			for (User user : this.session.getUsers())
+			{
+				String sendTo = user.getEmail();
+				if (sendTo != "" || !sendTo.equals(""))
+				{
+					SendEmailController.getInstance().sendEmail("start", sendTo);
+				}
+			}
+		}
+		else
+		{
+			SendEmailController.getInstance().sendEmail("start", "jake.bluefire66@gmail.com");
+		}
 	}
 
 }

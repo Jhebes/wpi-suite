@@ -10,9 +10,6 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * PlanningPokerSession class represents a planning poker session
- * 
- * @author Josh Hebert
- * 
  */
 public class PlanningPokerSession extends AbstractModel {
 
