@@ -7,6 +7,7 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
 import java.awt.event.ItemEvent;
@@ -15,8 +16,6 @@ import java.awt.event.ItemListener;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 
 /**
- * @author troyling, remckenna
- * 
  * Controller for CreateSessionPanel buttons.
  */
 public class CreateSessionPanelController implements ItemListener {

@@ -7,6 +7,7 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.BorderLayout;
@@ -30,10 +31,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetOpenS
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
-/**
- * @author troyling, Jake, Zack
- * 
- */
 public class OverviewPanel extends JSplitPane {
 
 	private static final long serialVersionUID = 1L;
