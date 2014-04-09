@@ -16,6 +16,9 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.Request;
+import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
  * PlanningPokerSession class represents a planning poker session
@@ -452,6 +455,12 @@ public class PlanningPokerSession extends AbstractModel {
 	@Override
 	public Boolean identify(Object o) {
 		return null;
+	}
+	
+	public void update(){
+		final Request request = Network.getInstance().makeRequest("planningpoker/session", HttpMethod.POST);
+		request.setBody(this.toJSON());
+		request.send();
 	}
 
 	public void copyFrom(PlanningPokerSession updatedSession) {
