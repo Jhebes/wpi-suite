@@ -6,14 +6,21 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors:
- *    Chris Casola
- *    Andrew Hurle
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetng.Session;
@@ -21,9 +28,12 @@ import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
 import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
+import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
+import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * This is the entity manager for the PlanningPokerSession in the PlanningPoker
@@ -35,6 +45,8 @@ public class PlanningPokerSessionEntityManager implements
 
 	/** The database */
 	Data db;
+	String emailUsername;
+	String emailPassword;
 
 	/**
 	 * Constructs the entity manager. This constructor is called by
@@ -47,6 +59,28 @@ public class PlanningPokerSessionEntityManager implements
 	 */
 	public PlanningPokerSessionEntityManager(Data db) {
 		this.db = db;
+
+		Properties props = new Properties();
+		InputStream input = null;
+
+		try {
+			input = new FileInputStream(".planningpoker.properties");
+			props.load(input);
+
+			// set the properties value
+			emailUsername = props.getProperty("email.username", "");
+			emailPassword = props.getProperty("email.password", "");
+		} catch (IOException io) {
+			io.printStackTrace();
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	/*
@@ -137,24 +171,33 @@ public class PlanningPokerSessionEntityManager implements
 	public PlanningPokerSession update(Session s, String content)
 			throws WPISuiteException {
 
-		PlanningPokerSession updatedSession = PlanningPokerSession.fromJson(content);
+		PlanningPokerSession updatedSession = PlanningPokerSession
+				.fromJson(content);
 		/*
-		 * Because of the disconnected objects problem in db4o, we can't just save PlanningPokerSessions.
-		 * We have to get the original defect from db4o, copy properties from updatedPlanningPokerSession,
-		 * then save the original PlanningPokerSession again.
+		 * Because of the disconnected objects problem in db4o, we can't just
+		 * save PlanningPokerSessions. We have to get the original defect from
+		 * db4o, copy properties from updatedPlanningPokerSession, then save the
+		 * original PlanningPokerSession again.
 		 */
-		List<Model> oldPlanningPokerSessions = db.retrieve(PlanningPokerSession.class, "id", updatedSession.getID(), s.getProject());
-		if(oldPlanningPokerSessions.size() < 1 || oldPlanningPokerSessions.get(0) == null) {
-			throw new BadRequestException("PlanningPokerSession with ID does not exist.");
+		List<Model> oldPlanningPokerSessions = db.retrieve(
+				PlanningPokerSession.class, "id", updatedSession.getID(),
+				s.getProject());
+		if (oldPlanningPokerSessions.size() < 1
+				|| oldPlanningPokerSessions.get(0) == null) {
+			throw new BadRequestException(
+					"PlanningPokerSession with ID does not exist.");
 		}
 				
 		PlanningPokerSession existingSession = (PlanningPokerSession)oldPlanningPokerSessions.get(0);		
 
-		// copy values to old PlanningPokerSession and fill in our changeset appropriately
+
+		// copy values to old PlanningPokerSession and fill in our changeset
+		// appropriately
 		existingSession.copyFrom(updatedSession);
-		
-		if(!db.save(existingSession, s.getProject())) {
-			throw new WPISuiteException("Could not save when updating existing session.");
+
+		if (!db.save(existingSession, s.getProject())) {
+			throw new WPISuiteException(
+					"Could not save when updating existing session.");
 		}
 		return existingSession;
 	}
@@ -214,15 +257,28 @@ public class PlanningPokerSessionEntityManager implements
 	@Override
 	public String advancedGet(Session s, String[] args)
 			throws WPISuiteException {
-		// TODO Auto-generated method stub
+		if (args.length == 0) {
+			throw new WPISuiteException("Not enough arguments.");
+		}
+
+		String command = args[2];
+		if (command.equals("sendEmail")) {
+			if (args.length < 5) {
+				throw new WPISuiteException(
+						"Usage: /sendMail/(start|end)/<redesign>/");
+			}
+			String notificationType = args[3];
+			String email = args[4];
+			sendNotification(notificationType, email);
+		}
+
 		return null;
 	}
 
 	@Override
 	public String advancedPut(Session s, String[] args, String content)
 			throws WPISuiteException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new WPISuiteException();
 	}
 
 	@Override
@@ -232,4 +288,56 @@ public class PlanningPokerSessionEntityManager implements
 		return null;
 	}
 
+	private void sendNotification(String notificationType, String toAddress) {
+		String subject, body;
+		if (notificationType.equals("start")) {
+			subject = "Planning Poker";
+			body = "A new planning poker session has begun!";
+		} else if (notificationType.equals("end")) {
+			subject = "Planning Poker";
+			body = "A planning poker session has ended!";
+		} else {
+			return;
+		}
+		
+		
+		Properties props = new Properties();
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.debug", "true");
+		props.put("mail.smtp.port", 587);
+		props.put("mail.smtp.socketFactory.port", 587);
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.transport.protocol", "smtp");
+		javax.mail.Session mailSession = null;
+		
+		mailSession = javax.mail.Session.getInstance(props,
+				new javax.mail.Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(emailUsername,
+								emailPassword);
+					}
+				});
+
+		try {
+
+			Transport transport = mailSession.getTransport();
+
+			MimeMessage message = new MimeMessage(mailSession);
+
+			message.setSubject(subject);
+			message.setFrom(new InternetAddress(emailUsername));
+			String[] to = new String[] { toAddress };
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+					to[0]));
+			message.setContent(body, "text/html");
+			transport.connect();
+
+			transport.sendMessage(message,
+					message.getRecipients(Message.RecipientType.TO));
+			transport.close();
+		} catch (Exception exception) {
+
+		}
+	}
 }

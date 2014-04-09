@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (c) 2014 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team Combat Wombat
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
 import java.util.ArrayList;
@@ -17,7 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
  */
 public class PlanningPokerRequirement extends Requirement {
 	private int sessionID;
-	private ArrayList<PlanningPokerVote> votes = new ArrayList<PlanningPokerVote>();
+	public ArrayList<PlanningPokerVote> votes = new ArrayList<PlanningPokerVote>();
 
 	/**
 	 * Default constructor for PlanningPokerRequirement. Sets the session ID to
@@ -54,6 +63,8 @@ public class PlanningPokerRequirement extends Requirement {
 		setSessionID(sessionID);
 	}
 
+	
+	
 	public void addVote(PlanningPokerVote vote) {
 		votes.add(vote);
 	}

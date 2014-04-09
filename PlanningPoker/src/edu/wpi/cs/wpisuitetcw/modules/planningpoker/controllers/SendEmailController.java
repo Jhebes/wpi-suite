@@ -12,11 +12,6 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTableSessionTableModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -25,50 +20,41 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * This retrieves all sessions from the core and publishes them to the view
  * 
  */
-public class GetAllSessionsController implements ActionListener {
-
-	private static GetAllSessionsController instance;
+public class SendEmailController {
+	
+	private static SendEmailController instance;
 	
 	/**
 	 * Instantiates a new controller tied to the specified view.
 	 * Private because this is a singleton.
 	 */
-	private GetAllSessionsController() {
+	private SendEmailController() {
 	}
 	
-	public static GetAllSessionsController getInstance() {
+	public static SendEmailController getInstance() {
 		if (instance == null) {
-			instance = new GetAllSessionsController();
+			instance = new SendEmailController();
 		}
 		return instance;
 	}
-	
-
-	public void receivedSessions(PlanningPokerSession[] sessions) {
-		OverviewTableSessionTableModel.getInstance().refreshSessions(sessions);
-	}
 
 	/**
-	 * Initiate the request to the server on click
-	 * 
-	 * @param e
-	 *            The triggering event
+	 * Returns a formatted URL to database 
 	 */
-	@Override
-	public void actionPerformed(ActionEvent e) {		
+	public static String makeURL(String notificationType, String recipient) {
+		return "Advanced/planningpoker/session/sendEmail/" + notificationType + "/" + recipient;
+	}
+	
+	/**
+	 * Sends a notification to a user on session activate or close.
+	 * @param notificationType is this a "start" notification or "end" notification
+	 * @param recipient who is receiving this notification
+	 */
+	public void sendEmail(String notificationType, String recipient) {
 		// Send a request to the core to retrieve the sessions
 		final Request request = Network.getInstance().makeRequest(
-				"planningpoker/session", HttpMethod.GET);
-		request.addObserver(new GetAllSessionsRequestObserver(this));
+				makeURL(notificationType, recipient), HttpMethod.GET);
 		request.send(); // send the request
 	}
 
-	/**
-	 * Retrieves the sessions from the database.
-	 */
-	public void retrieveSessions() {
-		actionPerformed(null);
-	}
-	
-	
 }

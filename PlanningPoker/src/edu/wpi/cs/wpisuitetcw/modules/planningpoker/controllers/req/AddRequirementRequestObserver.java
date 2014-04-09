@@ -10,9 +10,11 @@
  *    Chris Casola
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
@@ -23,21 +25,24 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * @author Josh Hebert
  * 
  */
-public class AddSessionRequestObserver implements RequestObserver {
-	//The controller this is tied to
-	private final AddSessionController controller;
+public class AddRequirementRequestObserver implements RequestObserver {
 
-	
+	// The controller this is tied to
+	private final AddRequirementController controller;
+
 	/**
 	 * Creates a listener attached to the controller
-	 * @param a Tied controller
+	 * 
+	 * @param addVoteController
+	 *            Tied controller
 	 */
-	public AddSessionRequestObserver(AddSessionController a) {
-		this.controller = a;
+	public AddRequirementRequestObserver(AddRequirementController c) {
+		
+		this.controller = c;
 	}
 
 	/*
-	 * Parse the message that was received from the server then pass them to the
+	 * Parse the session that was received from the server then pass them to the
 	 * controller.
 	 * 
 	 * @see
@@ -46,14 +51,30 @@ public class AddSessionRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		// Get the response to the given request
-		final ResponseModel response = iReq.getResponse();
-
-		// Parse the message out of the response body
-		final PlanningPokerSession session = PlanningPokerSession.fromJson(response.getBody());
 		
-		controller.onSuccess(session);
+		// cast observable to request
+		Request request = (Request) iReq;
 
+		// get the response from the request
+		ResponseModel response = request.getResponse();
+		System.out.println("Got response");
+		if (response.getStatusCode() == 200) {
+			System.out.println("Decoding response");
+			PlanningPokerSession session[] = PlanningPokerSession.fromJSONArray(response.getBody());
+			System.out.println("Success!");
+			if(session.length == 0){
+				controller.buildNewSession0();
+			}else{
+				
+				controller.addReq(session[0]);
+			}
+			
+		} else {
+			
+		}
+		
+		
+		
 	}
 
 	/**
@@ -61,7 +82,8 @@ public class AddSessionRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		System.err.println("The request to add a session failed.");
+		System.err
+				.println("The request to add a requirement failed. (Response Error)");
 	}
 
 	/**
@@ -69,7 +91,8 @@ public class AddSessionRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		System.err.println("The request to add a session failed.");
+		System.err
+				.println("The request to add a requirement failed. (General Failure)");
 	}
 
 }

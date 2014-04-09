@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (c) 2014 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team Combat Wombat
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
 import java.util.ArrayList;
@@ -6,17 +15,18 @@ import java.util.Date;
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * PlanningPokerSession class represents a planning poker session
- * 
- * @author Josh Hebert
- * 
  */
 public class PlanningPokerSession extends AbstractModel {
 
 	/** The id of the session */
 	private int id = -1;
+	
+	/** The user name of the creator of this session*/
+	private String ownerUserName = "";
 
 	/** The name of the session */
 	private String name = "";
@@ -36,8 +46,14 @@ public class PlanningPokerSession extends AbstractModel {
 	/** List of requirements associated this session */
 	private ArrayList<PlanningPokerRequirement> requirements;
 
+	/** List of users in the session */
+	private ArrayList<User> users;
+
 	/** Whether or not the session has been canceled prematurely */
 	private boolean isCancelled = false;
+
+	/** Whether or not the voting on the requirements is complete */
+	private boolean votingComplete = false;
 
 	/**
 	 * Constructs a PlanningPokerSession.
@@ -95,6 +111,28 @@ public class PlanningPokerSession extends AbstractModel {
 		requirements.add(req);
 	}
 
+	public void addVoteToRequirement(PlanningPokerRequirement req, PlanningPokerVote v){
+		requirements.get(requirements.indexOf(req)).addVote(v);
+	}
+	
+	public PlanningPokerRequirement getReqByName(String n){
+		for(PlanningPokerRequirement r : requirements){
+			if(r.getName().equals(n)){
+				return r;
+			}
+		}
+		throw new NullPointerException();
+	}
+	/**
+	 * Adds a single user to this session.
+	 * 
+	 * @param new_user
+	 *            The new user to add
+	 */
+	public void addUser(User new_user) {
+		users.add(new_user);
+	}
+
 	/**
 	 * Appends new requirements to the planning poker session.
 	 * 
@@ -106,6 +144,16 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
+	 * Appends new users to the planning poker session.
+	 * 
+	 * @param newUsers
+	 *            New users to be added
+	 */
+	public void addUsers(ArrayList<User> newUsers) {
+		users.addAll(newUsers);
+	}
+
+	/**
 	 * Deletes a set of requirement from this session.
 	 * 
 	 * @param reqs
@@ -113,6 +161,38 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public void deleteRequirements(ArrayList<PlanningPokerRequirement> reqs) {
 		requirements.removeAll(reqs);
+	}
+
+	/**
+	 * Deletes a set of users from this session.
+	 * 
+	 * @param newUsers
+	 *            The users to delete
+	 */
+	public void deleteUsers(ArrayList<User> newUsers) {
+		requirements.removeAll(newUsers);
+	}
+
+	/**
+	 * This function compares the total number of votes to the number of votes
+	 * needed to end the voting.
+	 * 
+	 * *sets the votingComplete flag
+	 * 
+	 * Should be called after every vote is added to a requirement
+	 */
+	public void voteStatus() {
+		int totalVotes = requirements.size() * users.size();
+		int votes = 0;
+
+		for (int i = 0; i < requirements.size(); i++) {
+			votes += requirements.get(i).votes.size();
+		}
+
+		if (votes == totalVotes) {
+			setVotingComplete(true);
+		}
+
 	}
 
 	/**
@@ -204,6 +284,32 @@ public class PlanningPokerSession extends AbstractModel {
 	public String getName() {
 		return this.name;
 	}
+	
+	/**
+	 * Return the users in this session
+	 * 
+	 * @return users in this session
+	 */
+	public ArrayList<User> getUsers() {
+		return this.users;
+	}
+	
+/**
+	 * 
+	 * @param userName
+	 * 
+	 */
+	public void setOwnerUserName(String userName) {
+		this.ownerUserName = userName;
+	}
+
+	/**
+	 * @return the user name of the Owner of this session
+	 */
+	
+	public String getOwnerUserName() {
+		return this.ownerUserName;
+	}
 
 	/**
 	 * @param The
@@ -263,6 +369,25 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public void setRequirements(ArrayList<PlanningPokerRequirement> requirements) {
 		this.requirements = requirements;
+	}
+
+	/**
+	 * 
+	 * @return voting complete boolean
+	 */
+
+	public boolean isVotingComplete() {
+		return votingComplete;
+	}
+
+	/**
+	 * 
+	 * @param votingComplete
+	 *            If all the users in the session have voted
+	 */
+
+	public void setVotingComplete(boolean votingComplete) {
+		this.votingComplete = votingComplete;
 	}
 
 	/**

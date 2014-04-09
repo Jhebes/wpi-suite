@@ -1,6 +1,12 @@
-/**
+/*******************************************************************************
+ * Copyright (c) 2014 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
- */
+ * Contributors: Team Combat Wombat
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 
 import java.util.List;
@@ -46,15 +52,7 @@ public class PlanningPokerVoteEntityManager implements
 
 
 		final PlanningPokerVote newVote = PlanningPokerVote.fromJson(content);
-		int newID;
-		PlanningPokerVote[] allSessions = this.getAll(s);
-		if (allSessions.length == 0) {
-			newID = 1;
-		} else {
-			PlanningPokerVote mostRecent = allSessions[allSessions.length - 1];
-			newID = mostRecent.getID() + 1;
-		}
-		newVote.setID(newID);
+		
 		// try to save the vote to the database throw WPISuiteException if this
 		// doesn't work
 		if (!db.save(newVote, s.getProject())) {
