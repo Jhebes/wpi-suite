@@ -190,8 +190,6 @@ public class PlanningPokerSessionEntityManager implements
 				
 		PlanningPokerSession existingSession = (PlanningPokerSession)oldPlanningPokerSessions.get(0);		
 
-		PlanningPokerSession existingSession = (PlanningPokerSession) oldPlanningPokerSessions
-				.get(0);
 
 		// copy values to old PlanningPokerSession and fill in our changeset
 		// appropriately

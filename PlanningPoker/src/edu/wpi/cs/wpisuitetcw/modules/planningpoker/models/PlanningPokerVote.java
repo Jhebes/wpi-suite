@@ -26,6 +26,9 @@ public class PlanningPokerVote extends AbstractModel {
 	private String user;
 	private int cardValue;
 
+	public PlanningPokerVote() {
+	}
+	
 	public PlanningPokerVote(String u, int val) {
 		this.user = u;
 		this.cardValue = val;
