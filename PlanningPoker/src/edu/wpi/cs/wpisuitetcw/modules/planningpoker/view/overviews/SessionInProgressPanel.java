@@ -346,6 +346,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	 * 
 	 * @param votes
 	 */
+	/*
 	public void setVoteList(ArrayList<PlanningPokerVote> votes) {
 		String[] array = new String[votes.size()];
 		for(int i = 0; i < votes.size(); ++i){
@@ -353,6 +354,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		}
 		this.voteList.setListData(array);
 	}
+	*/
 
 	/**
 	 * sets the reqsViewTable with the appropriate information
