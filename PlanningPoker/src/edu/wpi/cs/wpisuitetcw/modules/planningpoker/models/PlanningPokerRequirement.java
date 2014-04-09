@@ -20,21 +20,21 @@ public class PlanningPokerRequirement extends AbstractModel {
 	private Requirement innerRequirement;
 	private int sessionID;
 	public ArrayList<PlanningPokerVote> votes = new ArrayList<PlanningPokerVote>();
-	
+
 	public PlanningPokerRequirement() {
 		this(new Requirement());
 	}
-	
+
 	public PlanningPokerRequirement(Requirement requirement) {
 		this(requirement, -1);
 	}
-	
+
 	public PlanningPokerRequirement(Requirement requirement, int sessionID) {
 		id = UUID.randomUUID();
 		innerRequirement = requirement;
 		this.sessionID = sessionID;
 	}
-	
+
 	public void addVote(PlanningPokerVote vote) {
 		votes.add(vote);
 	}
@@ -84,12 +84,12 @@ public class PlanningPokerRequirement extends AbstractModel {
 		PlanningPokerRequirement ppReq = new PlanningPokerRequirement();
 		ppReq.innerRequirement = requirement;
 		return ppReq;
-	}	
-	
+	}
+
 	public String toString() {
 		return this.innerRequirement.getName();
 	}
-	
+
 	/**
 	 * @return This requirement's planning poker session ID.
 	 */
@@ -112,7 +112,7 @@ public class PlanningPokerRequirement extends AbstractModel {
 	public void setInnerRequirement(Requirement innerRequirement) {
 		this.innerRequirement = innerRequirement;
 	}
-	
+
 	public UUID getId() {
 		return id;
 	}
@@ -120,7 +120,7 @@ public class PlanningPokerRequirement extends AbstractModel {
 	public void setId(UUID id) {
 		this.id = id;
 	}
-	
+
 	public String getName() {
 		return this.getInnerRequirement().getName();
 	}
@@ -128,32 +128,38 @@ public class PlanningPokerRequirement extends AbstractModel {
 	public void setName(String name) {
 		this.getInnerRequirement().setName(name);
 	}
-	
+
 	public String getDescription() {
 		return this.getInnerRequirement().getDescription();
 	}
-	
+
 	public void setDescription(String description) {
 		this.getInnerRequirement().setDescription(description);
 	}
 
 	@Override
 	public void save() {
-		
+
 	}
 
 	@Override
 	public void delete() {
-		
+
 	}
 
 	@Override
 	public Boolean identify(Object o) {
 		return this.id.equals(((PlanningPokerRequirement) o).id);
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		return this.id.equals(((PlanningPokerRequirement) o).id);
+	}
+
+	public void copyFrom(PlanningPokerRequirement updatedRequirement) {
+		this.innerRequirement = updatedRequirement.innerRequirement;
+		this.sessionID = updatedRequirement.sessionID;
+		this.votes = updatedRequirement.votes;
 	}
 }

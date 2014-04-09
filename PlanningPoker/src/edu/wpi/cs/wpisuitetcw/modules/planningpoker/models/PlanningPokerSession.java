@@ -5,8 +5,12 @@ import java.util.Date;
 
 import com.google.gson.Gson;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GenericPUTRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.Request;
+import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
  * PlanningPokerSession class represents a planning poker session
@@ -427,6 +431,16 @@ public class PlanningPokerSession extends AbstractModel {
 		this.name = updatedSession.name;
 		this.description = updatedSession.description;
 		this.requirements = updatedSession.requirements;
+	}
+
+	/**
+	 * Updates the database with this model.
+	 */
+	public void update() {
+		final Request request = Network.getInstance().makeRequest(
+				"planningpoker/session", HttpMethod.POST);
+		request.setBody(this.toJSON());
+		request.send();
 	}
 
 }

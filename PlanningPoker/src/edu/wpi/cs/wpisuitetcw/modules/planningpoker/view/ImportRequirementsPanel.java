@@ -81,7 +81,6 @@ public class ImportRequirementsPanel extends JSplitPane {
 
 	public void createRightPanel() {
 		requirementsTableModel = ImportRequirementsTableModel.getInstance();
-		GetAllRequirementsController.getInstance().refreshData();
 		GetUnimportedRequirementsController.getInstance().refreshData();
 
 		final JTable requirementsTable = new JTable(requirementsTableModel) {

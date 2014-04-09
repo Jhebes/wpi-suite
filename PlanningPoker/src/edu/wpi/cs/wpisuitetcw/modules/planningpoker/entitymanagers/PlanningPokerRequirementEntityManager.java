@@ -63,6 +63,7 @@ public class PlanningPokerRequirementEntityManager implements
 	public PlanningPokerRequirement makeEntity(Session s, String content)
 			throws BadRequestException, ConflictException, WPISuiteException {
 
+		System.out.println("Making new requirement");
 		// Parse the message from JSON
 		final PlanningPokerRequirement newPlanningPokerRequirement = PlanningPokerRequirement
 				.fromJson(content);

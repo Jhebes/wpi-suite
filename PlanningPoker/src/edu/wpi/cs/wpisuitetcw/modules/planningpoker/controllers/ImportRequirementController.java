@@ -2,11 +2,10 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ImportRequirementsTableModel;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -17,6 +16,8 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class ImportRequirementController implements ActionListener {
 
+	private PlanningPokerRequirement requirement;
+	
 	public ImportRequirementController() {
 
 	}
@@ -30,23 +31,21 @@ public class ImportRequirementController implements ActionListener {
 			if ((Boolean) dtm.getValueAt(i, 0)) {
 				PlanningPokerRequirement ppreq = (PlanningPokerRequirement) dtm
 						.getValueAt(i, 1);
-				Requirement req = ppreq.getInnerRequirement();
-				importRequirement(req);
+				importRequirement(ppreq);
 			}
 		}
 	}
 
-	public void importRequirement(Requirement requirement) {
-		PlanningPokerRequirement newRequirement = new PlanningPokerRequirement(requirement);
+	public void importRequirement(PlanningPokerRequirement requirement) {
+		this.requirement = requirement;
 		final Request request = Network.getInstance().makeRequest(
-				"planningpoker/requirement", HttpMethod.PUT);
-		request.setBody(newRequirement.toJSON());
+				"planningpoker/session/1", HttpMethod.GET);
 		request.addObserver(new ImportRequirementRequestObserver(this));
 		request.send();
 	}
 
-	public void onSuccess() {
-
+	public void onSuccess(PlanningPokerSession freeReqsSession) {
+		freeReqsSession.addRequirement(requirement);
+		freeReqsSession.update();
 	}
-
 }

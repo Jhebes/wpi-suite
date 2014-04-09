@@ -12,8 +12,11 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
+import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
  * Handles requests to server to import a planning poker requirement
@@ -21,10 +24,12 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  */
 public class ImportRequirementRequestObserver implements RequestObserver {
 	private final ImportRequirementController controller;
-		
+
 	/**
 	 * Creates a listener attached to the controller
-	 * @param a Tied controller
+	 * 
+	 * @param a
+	 *            Tied controller
 	 */
 	public ImportRequirementRequestObserver(ImportRequirementController a) {
 		this.controller = a;
@@ -34,13 +39,26 @@ public class ImportRequirementRequestObserver implements RequestObserver {
 	 * Parse the message that was received from the server then pass them to the
 	 * controller.
 	 * 
-	 * @see
-	 * edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi
-	 * .cs.wpisuitetng.network.models.IRequest)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi
+	 *      .cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
-	public void responseSuccess(IRequest iReq) {		
-		controller.onSuccess();
+	public void responseSuccess(IRequest iReq) {
+		// cast observable to request
+		Request request = (Request) iReq;
+
+		// get the response from the request
+		ResponseModel response = request.getResponse();
+
+		if (response.getStatusCode() == 200) {
+			PlanningPokerSession session[] = PlanningPokerSession
+					.fromJSONArray(response.getBody());
+
+			for (PlanningPokerSession s : session) {
+				controller.onSuccess(s);
+			}
+
+		}
 	}
 
 	/**
@@ -48,7 +66,7 @@ public class ImportRequirementRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		System.err.println("The request to add a session failed.");
+		System.err.println("The request to import a requirement failed.");
 	}
 
 	/**
@@ -56,7 +74,7 @@ public class ImportRequirementRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		System.err.println("The request to add a session failed.");
+		System.err.println("The request to import a requirement failed.");
 	}
 
 }

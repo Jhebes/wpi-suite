@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTableSessionTableModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 
 public class ImportRequirementsTableModel extends DefaultTableModel {
@@ -31,27 +33,31 @@ public class ImportRequirementsTableModel extends DefaultTableModel {
 		}
 		return instance;
 	}
-	
+
 	public void updateTableModel() {
-		if (this.unimportedRequirements == null || this.requirements == null) {
-			return;
+
+		this.requirements = new ArrayList<PlanningPokerRequirement>();
+		PlanningPokerSession[] sessions = OverviewTableSessionTableModel
+				.getInstance().getSessions();
+		for (PlanningPokerSession session : sessions) {
+			this.requirements.addAll(session.getRequirements());
 		}
 		this.setDataVector(null, colNames);
 		ArrayList<Requirement> existingRequirements = new ArrayList<Requirement>();
 		for (PlanningPokerRequirement requirement : requirements) {
 			existingRequirements.add(requirement.getInnerRequirement());
 		}
-		
+
 		for (Requirement unimportedRequirement : this.unimportedRequirements) {
 			if (existingRequirements.contains(unimportedRequirement)) {
 				continue;
 			}
-			PlanningPokerRequirement requirement = new PlanningPokerRequirement(unimportedRequirement);
+			PlanningPokerRequirement requirement = new PlanningPokerRequirement(
+					unimportedRequirement);
 			Object[] row = { 
-					false,  // checkbox defaults off
-					requirement,  // serializes to its name
-					requirement.getInnerRequirement().getDescription()
-			};
+					false, // checkbox defaults off
+					requirement, // serializes to its name
+					requirement.getInnerRequirement().getDescription() };
 			this.addRow(row);
 		}
 	}
@@ -62,18 +68,20 @@ public class ImportRequirementsTableModel extends DefaultTableModel {
 	 * @param requirements
 	 *            The new list of requirements
 	 */
-	public void refreshUnimportedRequirements(ArrayList<Requirement> requirements) {
+	public void refreshUnimportedRequirements(
+			ArrayList<Requirement> requirements) {
 		this.unimportedRequirements = requirements;
 		updateTableModel();
 	}
-	
+
 	/**
 	 * Refreshes the requirements.
 	 * 
 	 * @param requirements
 	 *            The new list of sessions
 	 */
-	public void refreshRequirements(ArrayList<PlanningPokerRequirement> requirements) {
+	public void refreshRequirements(
+			ArrayList<PlanningPokerRequirement> requirements) {
 		this.requirements = requirements;
 		updateTableModel();
 	}
