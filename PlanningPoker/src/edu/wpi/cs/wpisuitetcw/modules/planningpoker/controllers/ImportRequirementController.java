@@ -44,7 +44,6 @@ public class ImportRequirementController implements ActionListener {
 		request.send();
 	}
 
-	
 	public void onSuccess(PlanningPokerSession freeReqsSession) {
 		freeReqsSession.addRequirement(requirement);
 		freeReqsSession.update();
