@@ -39,7 +39,20 @@ public class PlanningPokerDeck extends AbstractModel {
 		this.deck = deck_in;
 	}
 
-	
+	/**
+	 * Returns an array of PlanningPokerSession parsed from the given
+	 * JSON-encoded string.
+	 * 
+	 * @param json
+	 *            a string containing a JSON-encoded array of
+	 *            PlanningPokerSession
+	 * @return an array of PlanningPokerDeck deserialized from the given json
+	 *         string
+	 */
+	public static PlanningPokerDeck[] fromJSONArray(String json) {
+		final Gson parser = new Gson();
+		return parser.fromJson(json, PlanningPokerDeck[].class);
+	}
 	
 	
 	@Override
