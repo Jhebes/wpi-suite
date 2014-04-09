@@ -27,9 +27,6 @@ import edu.wpi.cs.wpisuitetng.modules.Model;
  * This is the entity manager for the PlanningPokerSession in the PostBoard
  * module.
  * 
- * @author Emanuel DeMaio
- * @author Louie Mistretta
- * 
  */
 public class UserSessionMapEntityManager implements
 		EntityManager<UserSessionMap> {

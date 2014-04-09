@@ -25,7 +25,6 @@ import javax.swing.JTabbedPane;
  * This provides a tab component with a close button to the left of the title.
  * This file is imported from RequirementManager module.
  * @version $Revision: 1.0 $
- * @author justinhess
  */
 @SuppressWarnings("serial")
 public class ClosableTabComponent extends JPanel implements ActionListener {

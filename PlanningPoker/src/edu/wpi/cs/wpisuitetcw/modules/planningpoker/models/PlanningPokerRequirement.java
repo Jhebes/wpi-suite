@@ -22,6 +22,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
  * requirement in planning poker is identical to a requirement in the canonical
  * RequirementsManager module, but has the additional trait of belonging to a
  * particular planning poker session.
+ * 
  */
 public class PlanningPokerRequirement extends AbstractModel {
 
@@ -30,22 +31,60 @@ public class PlanningPokerRequirement extends AbstractModel {
 	private int sessionID;
 	public ArrayList<PlanningPokerVote> votes = new ArrayList<PlanningPokerVote>();
 
+	/**
+	 * Default constructor for PlanningPokerRequirement. Sets the session ID to
+	 * -1 (meaning no session), and the name/description to blank.
+	 */
 	public PlanningPokerRequirement() {
 		this(new Requirement());
 	}
 
-	public PlanningPokerRequirement(Requirement requirement) {
+	/**
+	 * Constructor for Planning Poker requirement. Lets you specify the session
+	 * ID while defaulting to a blank name and description.
+	 * 
+	 * @param sessionID
+	 *            The planning poker session ID
+	 */
+	public PlanningPokerRequirement(int sessionID) {
 		this(requirement, -1);
 	}
 
+	/**
+	 * Constructor for planning poker requirement.
+	 * 
+	 * @param sessionID
+	 *            The planning poker session ID
+	 * @param name
+	 *            The name for this requirement
+	 * @param description
+	 *            A description of this requirement
+	 */
 	public PlanningPokerRequirement(Requirement requirement, int sessionID) {
 		id = UUID.randomUUID();
 		innerRequirement = requirement;
 		this.sessionID = sessionID;
 	}
 
+	
+	
 	public void addVote(PlanningPokerVote vote) {
 		votes.add(vote);
+	}
+
+	/**
+	 * @return This requirement's planning poker session ID.
+	 */
+	public int getSessionID() {
+		return sessionID;
+	}
+
+	/**
+	 * @param sessionID
+	 *            The planning poker session ID for this requirement.
+	 */
+	public void setSessionID(int sessionID) {
+		this.sessionID = sessionID;
 	}
 
 	/**
@@ -147,6 +186,8 @@ public class PlanningPokerRequirement extends AbstractModel {
 	}
 
 	@Override
+	public String toJSON() {
+		return new Gson().toJson(this, PlanningPokerRequirement.class);
 	public void save() {
 
 	}

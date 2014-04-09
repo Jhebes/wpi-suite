@@ -19,10 +19,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionCo
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionInfoPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionReqPanel;
 
-/**
- * @author troyling
- * 
- */
 public class ViewSessionPanel extends JSplitPane {
 	final private ViewSessionBtnPanel buttonPanel;
 	final private ViewSessionInfoPanel infoPanel;

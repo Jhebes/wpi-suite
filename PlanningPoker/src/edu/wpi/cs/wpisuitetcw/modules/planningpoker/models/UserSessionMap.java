@@ -19,8 +19,6 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * sessions a user is in to be known and allows all the users in a single
  * session to be known
  * 
- * @author Emanuel DeMaio, Louie Mistretta
- * 
  */
 public class UserSessionMap extends AbstractModel {
 	User user;

@@ -1,11 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
- *
+ * Copyright (c) 2014 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
+ * Contributors: Team Combat Wombat
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
@@ -19,10 +19,12 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
  * Handles requests to server to store pieces of data in the database
+ * 
  */
 public class GenericPUTRequestObserver implements RequestObserver {
 	//The controller this is tied to
 	private final ActionListener controller;
+
 	
 	/**
 	 * Creates a listener attached to the controller
@@ -44,6 +46,8 @@ public class GenericPUTRequestObserver implements RequestObserver {
 	public void responseSuccess(IRequest iReq) {
 		// Get the response to the given request
 		final ResponseModel response = iReq.getResponse();
+	
+
 	}
 
 	/**
