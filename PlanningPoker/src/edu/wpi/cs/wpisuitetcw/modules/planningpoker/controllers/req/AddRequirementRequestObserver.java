@@ -6,12 +6,18 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
+ * Contributors:
+ *    Chris Casola
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
+import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
  * Handles requests to server to store sessions of Planning Poker
@@ -19,10 +25,10 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  * @author Josh Hebert
  * 
  */
-public class AddVoteRequestObserver implements RequestObserver {
+public class AddRequirementRequestObserver implements RequestObserver {
 
 	// The controller this is tied to
-	// private final AddVoteController controller;
+	private final AddRequirementController controller;
 
 	/**
 	 * Creates a listener attached to the controller
@@ -30,8 +36,9 @@ public class AddVoteRequestObserver implements RequestObserver {
 	 * @param addVoteController
 	 *            Tied controller
 	 */
-	public AddVoteRequestObserver(AddVoteController addVoteController) {
-		// this.controller = addVoteController;
+	public AddRequirementRequestObserver(AddRequirementController c) {
+		
+		this.controller = c;
 	}
 
 	/*
@@ -44,7 +51,30 @@ public class AddVoteRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		System.out.println("Vote successfully stored!");
+		
+		// cast observable to request
+		Request request = (Request) iReq;
+
+		// get the response from the request
+		ResponseModel response = request.getResponse();
+		System.out.println("Got response");
+		if (response.getStatusCode() == 200) {
+			System.out.println("Decoding response");
+			PlanningPokerSession session[] = PlanningPokerSession.fromJSONArray(response.getBody());
+			System.out.println("Success!");
+			if(session.length == 0){
+				controller.buildNewSession0();
+			}else{
+				
+				controller.addReq(session[0]);
+			}
+			
+		} else {
+			
+		}
+		
+		
+		
 	}
 
 	/**
@@ -53,7 +83,7 @@ public class AddVoteRequestObserver implements RequestObserver {
 	@Override
 	public void responseError(IRequest iReq) {
 		System.err
-				.println("The request to add a vote failed. (Response Error)");
+				.println("The request to add a requirement failed. (Response Error)");
 	}
 
 	/**
@@ -62,7 +92,7 @@ public class AddVoteRequestObserver implements RequestObserver {
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		System.err
-				.println("The request to add a vote failed. (General Failure)");
+				.println("The request to add a requirement failed. (General Failure)");
 	}
 
 }
