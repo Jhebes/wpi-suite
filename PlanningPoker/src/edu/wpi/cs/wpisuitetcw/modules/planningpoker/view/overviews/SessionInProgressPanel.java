@@ -13,6 +13,8 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -50,11 +52,15 @@ public class SessionInProgressPanel extends JSplitPane {
 	private JTable reqsViewTable;
 	private ViewSessionTableManager reqsViewTableManager = new ViewSessionTableManager();
 	private JList voteList;
+	private JLabel label_1 = new JLabel("");
+	private JLabel label_2 = new JLabel("");
+	private String reqName;
+	private String reqDescription;
 
 	/**
 	 * Create the panel.
 	 */
-	public SessionInProgressPanel(PlanningPokerSession session) {
+	public SessionInProgressPanel(final PlanningPokerSession session) {
 		this.session = session;
 		this.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 
@@ -200,6 +206,30 @@ public class SessionInProgressPanel extends JSplitPane {
 				return false;
 			}
 		};
+		
+		reqsViewTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JTable table = (JTable) e.getSource();
+				int row = table.getSelectedRow();
+
+				if (row != -1){
+					ViewSessionTableManager m = new ViewSessionTableManager();
+					Vector v = m.get(session.getID()).getDataVector();
+					String name = (String)((Vector) v.elementAt(row)).elementAt(1);
+					PlanningPokerRequirement r = session.getReqByName(name);
+					this.setSuperClassVariables(name, r.getDescription());
+				}
+
+			}
+			public void setSuperClassVariables(String name, String desc){
+				System.out.println(name);
+				System.out.println(desc);			
+				reqName = name;
+				reqDescription = desc;
+				setReqLabels();
+			}
+		});
 
 		reqsViewTable.setFillsViewportHeight(true);
 		// TODO: Make sure you add the table model here after construction!
@@ -361,5 +391,10 @@ public class SessionInProgressPanel extends JSplitPane {
 	 */
 	public void getReqsViewTable() {
 		reqsViewTable.setModel(reqsViewTableManager.get(session.getID()));
+	}
+	
+	public void setReqLabels() {
+		label_1.setText("<html>"+reqName+"</html>");
+		label_2.setText("<html>"+reqDescription+"</html>");
 	}
 }
