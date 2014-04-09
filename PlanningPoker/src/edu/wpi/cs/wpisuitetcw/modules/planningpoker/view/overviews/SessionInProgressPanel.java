@@ -40,7 +40,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	private String selectedReqName;
 	private JTable reqsViewTable;
 	private ViewSessionTableManager reqsViewTableManager = new ViewSessionTableManager();
-	public JList<String> voteList;
+	private JTable voteTable;
 
 	/**
 	 * Create the panel.
@@ -137,9 +137,9 @@ public class SessionInProgressPanel extends JSplitPane {
 		// Holder label (TBM)
 		JLabel lblNumberOfVotes = new JLabel("Number of Votes:");
 		statsTab.add(lblNumberOfVotes);
-
-		voteList = new JList<String>();
-		statsTab.add(voteList);
+		
+		voteTable = new JTable();
+		statsTab.add(voteTable);
 
 		// Set up "Vote Tab"
 		JPanel voteTab = new JPanel();
@@ -205,20 +205,6 @@ public class SessionInProgressPanel extends JSplitPane {
 
 		JPanel ReqsDetail = new JPanel();
 		ReqsDetail.setLayout(new BorderLayout(0, 0));
-		JList<String> list = new JList<String>();
-		list.setModel(new AbstractListModel<String>() {
-			String[] values = new String[] { "ID:", "", "", "Name:",
-					selectedReqName, "", "Description:", "" };
-
-			public int getSize() {
-				return values.length;
-			}
-
-			public String getElementAt(int index) {
-				return values[index];
-			}
-		});
-		reqsDetail.add(list, BorderLayout.CENTER);
 
 		JLabel lblRequirementDetail = new JLabel("Requirement Detail:");
 		lblRequirementDetail.setHorizontalAlignment(SwingConstants.CENTER);
@@ -232,6 +218,37 @@ public class SessionInProgressPanel extends JSplitPane {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		reqsView.add(lblNewLabel, BorderLayout.NORTH);
 		splitLeftRight.setRightComponent(reqsDetail);
+		
+		JPanel panel = new JPanel();
+		reqsDetail.add(panel, BorderLayout.CENTER);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		
+		Component verticalStrut_1 = Box.createVerticalStrut(20);
+		panel.add(verticalStrut_1);
+		
+		JLabel lblId = new JLabel("ID:");
+		panel.add(lblId);
+		
+		JLabel label = new JLabel("<dynamic>");
+		panel.add(label);
+		
+		Component verticalStrut_2 = Box.createVerticalStrut(20);
+		panel.add(verticalStrut_2);
+		
+		JLabel lblName_1 = new JLabel("Name:");
+		panel.add(lblName_1);
+		
+		JLabel label_1 = new JLabel("<dynamic>");
+		panel.add(label_1);
+		
+		Component verticalStrut_3 = Box.createVerticalStrut(20);
+		panel.add(verticalStrut_3);
+		
+		JLabel lblDescription_1 = new JLabel("Description:");
+		panel.add(lblDescription_1);
+		
+		JLabel label_2 = new JLabel("<dynamic>");
+		panel.add(label_2);
 
 		splitTopBottom.setTopComponent(splitLeftRight);
 		splitTopBottom.setBottomComponent(tabbedPane);
