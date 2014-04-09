@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,36 +14,37 @@ public class ViewSessionTableManager {
 
 	public ViewSessionTableModel get(int i) {
 		System.out.println("Processing query for table for session " + i);
+		this.fetch(i);
 		return ViewSessionTableManager.t.get(i);
 	}
-
-	/**
-	 * Refreshes the requirements list. Replaces the exising list in the
-	 * hashmap.
-	 * 
-	 * @param i
-	 *            The ID of the planning poker session.
-	 * @param requirements
-	 *            The list of new requirements.
-	 */
-	public void refreshRequirements(int i,
-			List<PlanningPokerRequirement> requirements) {
-
+	
+	public void init(int i){
+		System.out.println("Initializing session " + String.valueOf(i));
 		ViewSessionTableModel a = ViewSessionTableManager.t.get(i);
-		if (a == null) {
+		if(a == null){
+			a = new ViewSessionTableModel();
+			
+		}
+		ViewSessionTableManager.t.put(i, a);
+	}
+	
+	public void refreshRequirements(int i, List<PlanningPokerRequirement> requirements) {
+		
+		ViewSessionTableModel a = ViewSessionTableManager.t.get(i);
+		if(a == null){
 			System.out.println("Not present, building");
 			a = new ViewSessionTableModel();
-
+			
 		}
 		a.refreshRequirements(requirements);
 		ViewSessionTableManager.t.put(i, a);
 		System.out.println("Done");
 	}
-
-	public void fetch(int i) {
+	public void fetch(int i){
 		System.out.println("Fetching session details for session " + i);
 		RetrievePlanningPokerRequirementsForSessionController a = new RetrievePlanningPokerRequirementsForSessionController();
 		a.refreshData(i);
 	}
-
+	
+	
 }

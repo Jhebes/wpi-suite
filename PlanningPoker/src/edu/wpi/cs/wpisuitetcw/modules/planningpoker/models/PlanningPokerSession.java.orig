@@ -407,8 +407,8 @@ public class PlanningPokerSession extends AbstractModel {
 	 *            If all the users in the session have voted
 	 */
 
-	public void setVotingComplete(boolean votingComplete) {
-		this.votingComplete = votingComplete;
+	public void setVotingComplete(boolean votingComplete_in) {
+		this.votingComplete = votingComplete_in;
 	}
 
 	/**
@@ -464,4 +464,9 @@ public class PlanningPokerSession extends AbstractModel {
 		this.requirements = updatedSession.requirements;
 	}
 
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> dev
 }

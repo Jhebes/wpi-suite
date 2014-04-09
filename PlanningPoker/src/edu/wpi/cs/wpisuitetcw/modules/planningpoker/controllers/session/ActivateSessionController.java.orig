@@ -1,3 +1,6 @@
+<<<<<<< HEAD:PlanningPoker/src/edu/wpi/cs/wpisuitetcw/modules/planningpoker/controllers/session/ActivateSessionController.java
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
+=======
 /*******************************************************************************
  * Copyright (c) 2014 WPI-Suite
  * All rights reserved. This program and the accompanying materials
@@ -7,14 +10,15 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
+>>>>>>> origin/dev:PlanningPoker/src/edu/wpi/cs/wpisuitetcw/modules/planningpoker/controllers/ActivateSessionController.java
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendEmailController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTableSessionTableModel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -47,26 +51,11 @@ public class ActivateSessionController implements ActionListener {
 		ViewEventManager.getInstance().viewSession(session);
 		GetAllSessionsController.getInstance().retrieveSessions();
 		
-		// Send email to everyone in a session
-		if (this.session.getUsers() != null)
-		{
-			for (User user : this.session.getUsers())
-			{
-				String sendTo = user.getEmail();
-				if (!sendTo.equals(""))
-				{
-					SendEmailController.getInstance().sendEmail("start", sendTo);
-				}
-				else
-				{
-					SendEmailController.getInstance().sendEmail("start", "teamcombatwombat@gmail.com");
-				}
-			}
-		}
-		else
-		{
-			SendEmailController.getInstance().sendEmail("start", "teamcombatwombat@gmail.com");
-		}
+		
+		//String sendTo = s.getEmail();
+		SendEmailController.getInstance().sendEmail("start", "jake.bluefire66@gmail.com");
+			
+		
 	}
 
 }

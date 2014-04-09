@@ -39,10 +39,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
-/**
- * @author troyling
- * 
- */
 public class ViewSessionReqPanel extends JPanel {
 	private final ViewSessionPanel parentPanel;
 	private final ScrollablePanel sessionReqPanel;
@@ -60,22 +56,39 @@ public class ViewSessionReqPanel extends JPanel {
 	public final JTable sessionReqTable;
 	private final PlanningPokerSession session;
 	
-	
+	/**
+	 * @return this.name.getText() This requirement's name
+	 */
 	public String getNewReqName(){
 		return this.name.getText();
 	}
+	
+	/**
+	 * @return this.name.setText("") Clear this requirement's name
+	 */
 	public void clearNewReqName(){
 		this.name.setText("");
 	}
 	
+	/**
+	 * @return this.description.getText() The description of this requirement
+	 */
 	public String getNewReqDesc(){
 
 		return this.description.getText();
 	}
+	
+	/**
+	 * Sets the description to a default of an empty String
+	 */
 	public void clearNewReqDesc(){
 		this.description.setText("");
 	}
 	
+	/**
+	 * Gets all requirements from the left requirement pane
+	 * @return selectedNames The ArrayList<String> of names on the left requriements panel
+	 */
 	public ArrayList<String> getAllLeftRequirements(){
 		ArrayList<String> selectedNames = new ArrayList<String>();
 		for(int i = 0; i < this.allReqTable.getRowCount(); ++i){
@@ -84,6 +97,10 @@ public class ViewSessionReqPanel extends JPanel {
 		return selectedNames;
 	}
 	
+	/**
+	 * Gets all requirements from the right requirement pane
+	 * @return selectedNames The ArrayList<String> of names on the right requriements panel
+	 */
 	public ArrayList<String> getAllRightRequirements(){
 		ArrayList<String> selectedNames = new ArrayList<String>();
 		for(int i = 0; i < this.sessionReqTable.getRowCount(); ++i){
@@ -92,6 +109,10 @@ public class ViewSessionReqPanel extends JPanel {
 		return selectedNames;
 	}
 	
+	/**
+	 * Gets all selected requirements from the left requirement pane
+	 * @return selectedNames The ArrayList<String> of names on the left requriements panel
+	 */
 	public ArrayList<String> getLeftSelectedRequirements()	{
 		int[] selectedRows = this.allReqTable.getSelectedRows();
 		
@@ -102,6 +123,11 @@ public class ViewSessionReqPanel extends JPanel {
 		}
 		return selectedNames;
 	}
+	
+	/**
+	 * Gets all selected requirements from the right requirement pane
+	 * @return selectedNames The ArrayList<String> of selected names on the right requriements panel
+	 */
 	public ArrayList<String> getRightSelectedRequirements()	{
 		int[] selectedRows = this.sessionReqTable.getSelectedRows();
 		
@@ -113,8 +139,6 @@ public class ViewSessionReqPanel extends JPanel {
 		return selectedNames;
 	}
 
-	
-	
 	public ViewSessionReqPanel(ViewSessionPanel parentPanel, PlanningPokerSession s) {
 		this.session = s;
 		this.setLayout(new GridBagLayout());
@@ -217,8 +241,8 @@ public class ViewSessionReqPanel extends JPanel {
 		
 		sessionReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		allReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		//sessionReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
-		//allReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+		
+		//rightPanel formatting
 		JLabel rightLabel = new JLabel("Current Session's Requirements");
 		rightPanel.setLayout(new BorderLayout());
 		JScrollPane sessionReqSp = new JScrollPane(sessionReqTable);
@@ -232,7 +256,6 @@ public class ViewSessionReqPanel extends JPanel {
 
 		//Action Handlers 
 		this.addRequirementToAll.addActionListener(new AddRequirementController(this));
-		
 		this.moveRequirementToSession.addActionListener(new MoveRequirementToCurrentSessionController(this.session, this));
 		this.moveRequirementToAll.addActionListener(new MoveRequirementToAllController(this.session, this));
 		this.moveAllRequirementsToSession.addActionListener(new MoveAllRequirementsToCurrentSessionController(this.session, this));
@@ -255,7 +278,6 @@ public class ViewSessionReqPanel extends JPanel {
 		namePanel.add(nameLabel, BorderLayout.NORTH);
 		namePanel.add(name, BorderLayout.SOUTH);
 		
-		
 		// text field for description goes in the bottom of the panel
 		JLabel descriptionLabel = new JLabel("Description:");
 		JScrollPane descriptionSp = new JScrollPane(description);
@@ -265,7 +287,8 @@ public class ViewSessionReqPanel extends JPanel {
 		bottomPanel.add(descriptionSp, BorderLayout.CENTER);
 
 		GridBagConstraints c = new GridBagConstraints();
-
+		
+		//constraints for centerPanel
 		c.insets = new Insets(10,10,10,10);
 		c.weighty = 0;
 		c.weightx = 0;
@@ -273,21 +296,25 @@ public class ViewSessionReqPanel extends JPanel {
 		c.gridy = 0;
 		this.add(centerPanel, c);
 		
+		//constraints for addRequirementToAll button
 		c.anchor = GridBagConstraints.CENTER;
 		c.gridx = 1;
 		c.gridy = 1;
 		this.add(addRequirementToAll, c);
 		
+		//constraints for addRequirementToSessoin button
 		c.anchor = GridBagConstraints.WEST;
 		c.gridx = 2;
 		c.gridy = 1;
 		this.add(addRequirementToSession, c);
 		
+		//constraints for namePanel
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 1;
 		this.add(namePanel, c);
 		
+		//constraints for leftPanel
 		c.anchor = GridBagConstraints.WEST;
 		c.weighty = 1.0;
 		c.weightx = 1.0;
@@ -297,6 +324,7 @@ public class ViewSessionReqPanel extends JPanel {
 		c.fill = GridBagConstraints.BOTH;
 		this.add(leftPanel, c);
 
+		//constraints for rightPanel
 		c.anchor = GridBagConstraints.EAST;
 		c.weighty = 1.0;
 		c.weightx = 1.0;
@@ -306,6 +334,7 @@ public class ViewSessionReqPanel extends JPanel {
 		c.fill = GridBagConstraints.BOTH;
 		this.add(rightPanel, c);
 		
+		//constraints for bottomPanel
 		c.ipady = 100;
 		c.insets = new Insets(10,10,10,10);
 		c.weighty = 0;
@@ -315,6 +344,5 @@ public class ViewSessionReqPanel extends JPanel {
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		this.add(bottomPanel, c);
-
 	}
 }

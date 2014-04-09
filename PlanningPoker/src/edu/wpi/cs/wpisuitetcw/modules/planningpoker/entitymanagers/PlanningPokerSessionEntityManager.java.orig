@@ -170,9 +170,26 @@ public class PlanningPokerSessionEntityManager implements
 	@Override
 	public PlanningPokerSession update(Session s, String content)
 			throws WPISuiteException {
+<<<<<<< HEAD
+		
+		/*
+		//Check Authentication/Ownership
+		//TODO
+		private void ensureRole(Session session, Role role) throws WPISuiteException {
+			User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
+			if(!user.getRole().equals(role)) {
+				throw new UnauthorizedException();
+			}
+		}
+		*/
+		
+		
+		PlanningPokerSession updatedSession = PlanningPokerSession.fromJson(content);
+=======
 
 		PlanningPokerSession updatedSession = PlanningPokerSession
 				.fromJson(content);
+>>>>>>> origin/dev
 		/*
 		 * Because of the disconnected objects problem in db4o, we can't just
 		 * save PlanningPokerSessions. We have to get the original defect from
@@ -187,9 +204,9 @@ public class PlanningPokerSessionEntityManager implements
 			throw new BadRequestException(
 					"PlanningPokerSession with ID does not exist.");
 		}
-				
-		PlanningPokerSession existingSession = (PlanningPokerSession)oldPlanningPokerSessions.get(0);		
 
+		PlanningPokerSession existingSession = (PlanningPokerSession) oldPlanningPokerSessions
+				.get(0);
 
 		// copy values to old PlanningPokerSession and fill in our changeset
 		// appropriately
