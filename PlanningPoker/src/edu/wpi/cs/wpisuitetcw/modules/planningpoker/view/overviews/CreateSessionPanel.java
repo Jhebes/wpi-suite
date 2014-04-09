@@ -34,8 +34,8 @@ import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.swingx.JXDatePicker;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateSessionPanelController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.AddSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;

@@ -21,6 +21,7 @@ import org.junit.Test;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.MockData;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.MockNetwork;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.MockRequest;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.RetrievePlanningPokerRequirementsForSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
@@ -43,7 +44,7 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 	Data db;
 
 	PlanningPokerSession session;
-	RetrieveFreePlanningPokerRequirementsController controller;
+	RetrievePlanningPokerRequirementsForSessionController controller;
 	CreateSessionPanel panel;
 
 	@Before
@@ -64,7 +65,7 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 		db.save(session, testProject);
 		db.save(bob);
 		panel = new CreateSessionPanel();
-		controller = RetrieveFreePlanningPokerRequirementsController.getInstance();
+		controller = RetrievePlanningPokerRequirementsForSessionController.getInstance();
 	}
 
 	@Test
@@ -72,7 +73,7 @@ public class RetrieveFreePlanningPokerRequirementsControllerTest {
 	 * Tests that the controller sends a valid request.
 	 */
 	public void testRefreshDataSendsValidRequest() throws WPISuiteException {
-		controller.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null)); 
+		controller.refreshData(1); 
 
 		// See whether the request was sent
 		MockRequest request = ((MockNetwork) Network.getInstance())

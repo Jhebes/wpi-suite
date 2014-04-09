@@ -11,6 +11,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -53,6 +54,9 @@ public class OverviewTableSessionTableModel extends DefaultTableModel {
 	public void refreshSessions(PlanningPokerSession[] sessions) {
 		this.setDataVector(null, colNames);
 		this.sessions = sessions;
+		if (sessions == null) {
+			return;
+		}
 		for (PlanningPokerSession session : sessions) {
 			Date deadline = session.getDeadline();
 			String formattedDeadline = "";

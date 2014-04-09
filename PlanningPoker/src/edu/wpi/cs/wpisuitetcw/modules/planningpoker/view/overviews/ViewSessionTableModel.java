@@ -15,12 +15,14 @@ import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 
+
 public class ViewSessionTableModel extends DefaultTableModel{
 	private static ViewSessionTableModel instance;
 	private final String[] colNames = {"ID", "Name", "Priority"};
 	
 	private ViewSessionTableModel() {
 		setColumnIdentifiers(colNames);
+		this.setDataVector(null, colNames);
 	}
 	
 	public static ViewSessionTableModel getInstance() {
@@ -38,6 +40,7 @@ public class ViewSessionTableModel extends DefaultTableModel{
 	 *            The new list of requirements
 	 */
 	public void refreshRequirements(List<PlanningPokerRequirement> requirements) {
+		//Sets column of the table to null
 		this.setDataVector(null, colNames);
 		for (PlanningPokerRequirement requirement : requirements) {			
 			Object[] row = { 

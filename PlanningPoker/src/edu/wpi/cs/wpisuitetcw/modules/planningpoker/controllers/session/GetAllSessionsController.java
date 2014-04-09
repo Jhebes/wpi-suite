@@ -8,11 +8,13 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTableSessionTableModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -43,6 +45,11 @@ public class GetAllSessionsController implements ActionListener {
 	
 
 	public void receivedSessions(PlanningPokerSession[] sessions) {
+		for(PlanningPokerSession s : sessions){
+			
+			ViewSessionTableManager a = new ViewSessionTableManager();
+			a.fetch(s.getID());
+		}
 		OverviewTableSessionTableModel.getInstance().refreshSessions(sessions);
 	}
 
@@ -59,6 +66,8 @@ public class GetAllSessionsController implements ActionListener {
 				"planningpoker/session", HttpMethod.GET);
 		request.addObserver(new GetAllSessionsRequestObserver(this));
 		request.send(); // send the request
+		
+	
 	}
 
 	/**

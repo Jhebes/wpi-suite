@@ -10,29 +10,31 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
+import java.awt.event.ActionListener;
+
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * Handles requests to server to activate a session of Planning Poker
+ * Handles requests to server to store pieces of data in the database
  * 
  */
-public class ActivateSessionObserver implements RequestObserver {
-	private final ActivateSessionController controller;
-		
+public class GenericPUTRequestObserver implements RequestObserver {
+	//The controller this is tied to
+	private final ActionListener controller;
+
+	
 	/**
 	 * Creates a listener attached to the controller
 	 * @param a Tied controller
 	 */
-	public ActivateSessionObserver(ActivateSessionController a) {
+	public GenericPUTRequestObserver(ActionListener a) {
 		this.controller = a;
 	}
 
-	/**
+	/*
 	 * Parse the message that was received from the server then pass them to the
 	 * controller.
 	 * 
@@ -41,8 +43,10 @@ public class ActivateSessionObserver implements RequestObserver {
 	 * .cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
-	public void responseSuccess(IRequest iReq) {		
-		controller.onSuccess();
+	public void responseSuccess(IRequest iReq) {
+		// Get the response to the given request
+		final ResponseModel response = iReq.getResponse();
+	
 
 	}
 
@@ -51,7 +55,7 @@ public class ActivateSessionObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		System.err.println("The request to add a session failed.");
+		System.err.println("The request to add a new entry failed. (ERR)");
 	}
 
 	/**
@@ -59,7 +63,7 @@ public class ActivateSessionObserver implements RequestObserver {
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		System.err.println("The request to add a session failed.");
+		System.err.println("The request to add a session failed. (NETW)");
 	}
 
 }

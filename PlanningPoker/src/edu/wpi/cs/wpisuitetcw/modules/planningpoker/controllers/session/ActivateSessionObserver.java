@@ -8,32 +8,32 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
+import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * Handles requests to server to store sessions of Planning Poker
+ * Handles requests to server to activate a session of Planning Poker
  * 
  */
-public class AddVoteRequestObserver implements RequestObserver {
-
-	// The controller this is tied to
-	// private final AddVoteController controller;
-
+public class ActivateSessionObserver implements RequestObserver {
+	private final ActivateSessionController controller;
+		
 	/**
 	 * Creates a listener attached to the controller
-	 * 
-	 * @param addVoteController
-	 *            Tied controller
+	 * @param a Tied controller
 	 */
-	public AddVoteRequestObserver(AddVoteController addVoteController) {
-		// this.controller = addVoteController;
+	public ActivateSessionObserver(ActivateSessionController a) {
+		this.controller = a;
 	}
 
-	/*
-	 * Parse the session that was received from the server then pass them to the
+	/**
+	 * Parse the message that was received from the server then pass them to the
 	 * controller.
 	 * 
 	 * @see
@@ -41,8 +41,9 @@ public class AddVoteRequestObserver implements RequestObserver {
 	 * .cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
-	public void responseSuccess(IRequest iReq) {
-		System.out.println("Vote successfully stored!");
+	public void responseSuccess(IRequest iReq) {		
+		controller.onSuccess();
+
 	}
 
 	/**
@@ -50,8 +51,7 @@ public class AddVoteRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		System.err
-				.println("The request to add a vote failed. (Response Error)");
+		System.err.println("The request to add a session failed.");
 	}
 
 	/**
@@ -59,8 +59,7 @@ public class AddVoteRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		System.err
-				.println("The request to add a vote failed. (General Failure)");
+		System.err.println("The request to add a session failed.");
 	}
 
 }

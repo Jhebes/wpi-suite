@@ -8,7 +8,7 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,20 +21,21 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * This controller responds when the users click on "Open Sessions" by
- * exhibiting all the open planning poker sessions on the overview panel
+ * This controller responds when the users click on "Closed Session" button by
+ * displaying all the closed planning poker sessions on the overview panel
  * 
  */
-public class GetOpenSessionsController implements ActionListener {
+public class GetClosedSessionsController implements ActionListener {
 	private final OverviewPanel view;
+	private final PlanningPokerSession[] data = null;
 
 	/**
-	 * Construct a GetOpenSessionsController for the given view
+	 * Construct a GetClosedSessionsController for the given view
 	 * 
 	 * @param view
-	 *            the view where the Open Sessions button lies on
+	 *            the view where the closed session button lies on
 	 */
-	public GetOpenSessionsController(OverviewPanel view) {
+	public GetClosedSessionsController(OverviewPanel view) {
 		this.view = view;
 	}
 
@@ -46,26 +47,25 @@ public class GetOpenSessionsController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// Send a request to the core to get the open sessions
+		// Send a request to the core to get the closed sessions
 		final Request request = Network.getInstance().makeRequest(
 				"planningpoker/session", HttpMethod.GET);
-		request.addObserver(new GetOpenSessionsRequestObserver(this));
+		request.addObserver(new GetClosedSessionsRequestObserver(this));
 		request.send();
 	}
 
 	/**
-	 * Add given open sessions to the overview panel This method is called by
-	 * the GetOpenSessionsRequestObserver
+	 * Add given closed sessions to the overview panel This method is called by
+	 * the GetClosedSessionsRequestObserver
 	 * 
 	 * @param sessions
-	 *            an array of open sessions received from the server
+	 *            an array of sessions received from the server
 	 */
-	public void receiveOpenSessions(PlanningPokerSession[] sessions) {
-		this.receivedSessions(sessions);	
+	public void receiveClosedSessions(PlanningPokerSession[] sessions) {
+		this.receivedSessions(sessions);
 	}
 	
 	public void receivedSessions(PlanningPokerSession[] sessions) {
-		// TODO: make a superclass for this method
 		OverviewTableSessionTableModel.getInstance().refreshSessions(sessions);
 	}
 

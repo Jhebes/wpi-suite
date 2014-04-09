@@ -61,6 +61,8 @@ public class PlanningPokerRequirement extends Requirement {
 		setSessionID(sessionID);
 	}
 
+	
+	
 	public void addVote(PlanningPokerVote vote) {
 		votes.add(vote);
 	}
