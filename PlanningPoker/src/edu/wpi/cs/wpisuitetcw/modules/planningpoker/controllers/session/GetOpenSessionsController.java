@@ -24,6 +24,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * This controller responds when the users click on "Open Sessions" by
  * exhibiting all the open planning poker sessions on the overview panel
  * 
+ * 
  */
 public class GetOpenSessionsController implements ActionListener {
 	private final OverviewPanel view;

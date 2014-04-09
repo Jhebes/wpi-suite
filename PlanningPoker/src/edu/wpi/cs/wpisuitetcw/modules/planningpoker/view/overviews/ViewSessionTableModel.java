@@ -24,7 +24,7 @@ public class ViewSessionTableModel extends DefaultTableModel{
 		setColumnIdentifiers(colNames);
 		this.setDataVector(null, colNames);
 	}
-
+	
 	/**
 	 * Refreshes the requirements.
 	 * 
@@ -41,3 +41,6 @@ public class ViewSessionTableModel extends DefaultTableModel{
 		}
 	}
 }
+
+
+

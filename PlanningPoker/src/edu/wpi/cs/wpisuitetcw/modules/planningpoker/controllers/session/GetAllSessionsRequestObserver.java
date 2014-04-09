@@ -17,7 +17,6 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 /**
  * This observer handles responses to requests for all planning poker session
  * 
- * 
  */
 public class GetAllSessionsRequestObserver implements RequestObserver {
 
