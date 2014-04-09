@@ -120,7 +120,8 @@ public class ViewSessionReqPanel extends JPanel {
 		
 		ArrayList<String> selectedNames = new ArrayList<String>();
 		for(int i = 0; i < selectedRows.length; i++){
-			selectedNames.add(this.allReqTable.getValueAt(selectedRows[i],1).toString());
+			// Get the 0th column which should be the name
+			selectedNames.add(this.allReqTable.getValueAt(selectedRows[i],0).toString());
 		}
 		return selectedNames;
 	}
@@ -134,7 +135,8 @@ public class ViewSessionReqPanel extends JPanel {
 		
 		ArrayList<String> selectedNames = new ArrayList<String>();
 		for(int i = 0; i < selectedRows.length; i++){
-			selectedNames.add(this.sessionReqTable.getValueAt(selectedRows[i],1).toString());
+			// Get the 0th column which should be the name
+			selectedNames.add(this.sessionReqTable.getValueAt(selectedRows[i],0).toString());
 		}
 		return selectedNames;
 	}

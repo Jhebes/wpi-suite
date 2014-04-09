@@ -13,6 +13,7 @@ import javax.swing.JComponent;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateNewDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
@@ -68,7 +69,16 @@ public class ViewEventManager {
 			main.repaint();
 			main.setSelectedComponent(viewSession);
 		}
-		
+	}
+	
+	/**
+	 *  Opens a new tab for creatign a new deck of cards
+	 */
+	public void createDeck() {
+		CreateNewDeckPanel deckPanel = new CreateNewDeckPanel();
+		main.addTab("New Deck", null, deckPanel, "New Deck");
+		main.repaint();
+		main.setSelectedComponent(deckPanel);
 	}
 	
 	
@@ -98,6 +108,17 @@ public class ViewEventManager {
 	public void removeTab(JComponent component) {
 		main.remove(component);
 		
+	}
+
+	/**
+	 * Creates the import requirements panel.
+	 */
+	public void createImportRequirementsPanel() {
+		ImportRequirementsPanel newPanel = new ImportRequirementsPanel();
+		main.addTab("Import Requirements", null, newPanel, "Import a new requirement.");
+		main.invalidate();
+		main.repaint();
+		main.setSelectedComponent(newPanel);
 	}
 	
 }

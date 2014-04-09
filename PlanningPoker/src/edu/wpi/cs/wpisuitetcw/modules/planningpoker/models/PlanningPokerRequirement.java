@@ -10,9 +10,11 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import com.google.gson.Gson;
 
+import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 
 /**
@@ -22,7 +24,10 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
  * particular planning poker session.
  * 
  */
-public class PlanningPokerRequirement extends Requirement {
+public class PlanningPokerRequirement extends AbstractModel {
+
+	private UUID id;
+	private Requirement innerRequirement;
 	private int sessionID;
 	public ArrayList<PlanningPokerVote> votes = new ArrayList<PlanningPokerVote>();
 
@@ -31,7 +36,7 @@ public class PlanningPokerRequirement extends Requirement {
 	 * -1 (meaning no session), and the name/description to blank.
 	 */
 	public PlanningPokerRequirement() {
-		this(-1);
+		this(new Requirement());
 	}
 
 	/**
@@ -42,7 +47,7 @@ public class PlanningPokerRequirement extends Requirement {
 	 *            The planning poker session ID
 	 */
 	public PlanningPokerRequirement(int sessionID) {
-		this(-1, "", "");
+		this(requirement, -1);
 	}
 
 	/**
@@ -55,10 +60,10 @@ public class PlanningPokerRequirement extends Requirement {
 	 * @param description
 	 *            A description of this requirement
 	 */
-	public PlanningPokerRequirement(int sessionID, String name,
-			String description) {
-		super(sessionID, name, description);
-		setSessionID(sessionID);
+	public PlanningPokerRequirement(Requirement requirement, int sessionID) {
+		id = UUID.randomUUID();
+		innerRequirement = requirement;
+		this.sessionID = sessionID;
 	}
 
 	
@@ -110,12 +115,101 @@ public class PlanningPokerRequirement extends Requirement {
 		return parser.fromJson(json, PlanningPokerRequirement[].class);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public String toJSON() {
 		return new Gson().toJson(this, PlanningPokerRequirement.class);
 	}
 
+	/**
+	 * Casts a requirement manager requirement into a Planning Poker
+	 * Requirement.
+	 * 
+	 * @param requirement
+	 *            The requirement to import
+	 * @return The converted planning poker requirement
+	 */
+	public static PlanningPokerRequirement importRequirement(
+			Requirement requirement) {
+		PlanningPokerRequirement ppReq = new PlanningPokerRequirement();
+		ppReq.innerRequirement = requirement;
+		return ppReq;
+	}
+
+	public String toString() {
+		return this.innerRequirement.getName();
+	}
+
+	/**
+	 * @return This requirement's planning poker session ID.
+	 */
+	public int getSessionID() {
+		return sessionID;
+	}
+
+	/**
+	 * @param sessionID
+	 *            The planning poker session ID for this requirement.
+	 */
+	public void setSessionID(int sessionID) {
+		this.sessionID = sessionID;
+	}
+
+	public Requirement getInnerRequirement() {
+		return innerRequirement;
+	}
+
+	public void setInnerRequirement(Requirement innerRequirement) {
+		this.innerRequirement = innerRequirement;
+	}
+
+	public UUID getId() {
+		return id;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return this.getInnerRequirement().getName();
+	}
+
+	public void setName(String name) {
+		this.getInnerRequirement().setName(name);
+	}
+
+	public String getDescription() {
+		return this.getInnerRequirement().getDescription();
+	}
+
+	public void setDescription(String description) {
+		this.getInnerRequirement().setDescription(description);
+	}
+
+	@Override
+	public String toJSON() {
+		return new Gson().toJson(this, PlanningPokerRequirement.class);
+	public void save() {
+
+	}
+
+	@Override
+	public void delete() {
+
+	}
+
+	@Override
+	public Boolean identify(Object o) {
+		return this.id.equals(((PlanningPokerRequirement) o).id);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		return this.id.equals(((PlanningPokerRequirement) o).id);
+	}
+
+	public void copyFrom(PlanningPokerRequirement updatedRequirement) {
+		this.innerRequirement = updatedRequirement.innerRequirement;
+		this.sessionID = updatedRequirement.sessionID;
+		this.votes = updatedRequirement.votes;
+	}
 }

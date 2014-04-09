@@ -7,12 +7,11 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
-/**
- * @author Nick Kalamvokis and Matt Suarez
- */
+
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -20,36 +19,46 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * An observer for a request to retrieve a vote with the provided id
+ * An observer for a request to retrieve planning poker sessions that have not
+ * been assigned to a planning poker session.
  */
-public class RetrievePlanningPokerVoteRequestObserver implements
+public class GetUnimportedRequirementsRequestObserver implements
 		RequestObserver {
 
-	/** The retrieve vote controller using this observer */
-	protected RetrievePlanningPokerVoteController controller;
+	/** The controller managing the request */
+	protected GetUnimportedRequirementsController controller;
 
 	/**
-	 * Construct a new observer
+	 * Constructs the observer
 	 * 
 	 * @param controller
-	 *            the controller managing the request
+	 *            The controller to update upon receiving the server response
 	 */
-	public RetrievePlanningPokerVoteRequestObserver(
-			RetrievePlanningPokerVoteController controller) {
+	public GetUnimportedRequirementsRequestObserver(
+			GetUnimportedRequirementsController controller) {
 		this.controller = controller;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		// cast observable to a Request
+		// cast observable to request
 		Request request = (Request) iReq;
 
 		// get the response from the request
 		ResponseModel response = request.getResponse();
 
-		// check the response code of the request
-		if (response.getStatusCode() != 200) {
-			controller.errorRetrievingPlanningPokerVote("Received "
+		if (response.getStatusCode() == 200) {
+			Requirement[] requirements = Requirement
+					.fromJsonArray(response.getBody());
+			if (requirements == null) {
+				requirements = new Requirement[0];
+			}
+			controller.receivedData(requirements);
+		} else {
+			controller.errorReceivingData("Received "
 					+ iReq.getResponse().getStatusCode()
 					+ " error from server: "
 					+ iReq.getResponse().getStatusMessage());
@@ -65,18 +74,24 @@ public class RetrievePlanningPokerVoteRequestObserver implements
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		controller.errorRetrievingPlanningPokerVote("Received "
+		// an error occurred
+		controller.errorReceivingData("Received "
 				+ iReq.getResponse().getStatusCode() + " error from server: "
 				+ iReq.getResponse().getStatusMessage());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		// TODO deal with exception
-		controller
-				.errorRetrievingPlanningPokerVote("Unable to complete request: "
-						+ exception.getMessage());
+		// an error occurred
+		controller.errorReceivingData("Unable to complete request: "
+				+ exception.getMessage());
 	}
 }

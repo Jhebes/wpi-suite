@@ -10,6 +10,8 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,6 +40,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateSessionPan
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.AddSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
 /**
@@ -189,6 +192,12 @@ public class CreateSessionPanel extends JSplitPane {
 		rightPanel.add(btnSaveSession, "width 150px, left, wrap");
 
 		btnSaveSession.addActionListener(new AddSessionController(this));
+		btnCreateNewDeck.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ViewEventManager.getInstance().createDeck();
+			}
+		});
 
 		// center the container
 		JPanel container = new JPanel();

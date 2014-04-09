@@ -1,19 +1,9 @@
-/*******************************************************************************
- * Copyright (c) 2014 WPI-Suite
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Team Combat Wombat
- ******************************************************************************/
-
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 
 import java.util.List;
-import java.util.UUID;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
@@ -23,13 +13,8 @@ import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 
-/**
- * This is the entity manager for the PlanningPokerRequirement in the
- * PlanningPoker module.
- * 
- */
-public class PlanningPokerRequirementEntityManager implements
-		EntityManager<PlanningPokerRequirement> {
+public class PlanningPokerDeckEntityManager implements
+EntityManager<PlanningPokerDeck>{
 
 	/** The database */
 	Data db;
@@ -43,35 +28,44 @@ public class PlanningPokerRequirementEntityManager implements
 	 * @param db
 	 *            a reference to the persistent database
 	 */
-	public PlanningPokerRequirementEntityManager(Data db) {
+	public PlanningPokerDeckEntityManager(Data db) {
 		this.db = db;
 	}
 
 	/**
-	 * Saves a PlanningPokerRequirement when it is received from a client
+	 * Saves a PlanningPokerDeck when it is received from a client
 	 * 
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.
 	 *      wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
-	public PlanningPokerRequirement makeEntity(Session s, String content)
+	public PlanningPokerDeck makeEntity(Session s, String content)
 			throws BadRequestException, ConflictException, WPISuiteException {
 
-		System.out.println("Making new requirement");
 		// Parse the message from JSON
-		final PlanningPokerRequirement newPlanningPokerRequirement = PlanningPokerRequirement
+		final PlanningPokerDeck newPlanningPokerDeck = PlanningPokerDeck
 				.fromJson(content);
-		
+
+		int newID;
+		PlanningPokerDeck[] allSessions = this.getAll(s);
+		if (allSessions.length == 0) {
+			newID = 1;
+		} else {
+			PlanningPokerDeck mostRecent = allSessions[allSessions.length - 1];
+			newID = mostRecent.getId() + 1;
+		}
+		newPlanningPokerDeck.setId(newID);
+
 		// Save the message in the database if possible, otherwise throw an
 		// exception. We want the message to be associated with the project the
 		// user logged in to
-		if (!db.save(newPlanningPokerRequirement, s.getProject())) {
+		if (!db.save(newPlanningPokerDeck, s.getProject())) {
 			throw new WPISuiteException();
 		}
 
 		// Return the newly created message (this gets passed back to the
 		// client)
-		return newPlanningPokerRequirement;
+		return newPlanningPokerDeck;
 	}
 
 	/**
@@ -79,12 +73,20 @@ public class PlanningPokerRequirementEntityManager implements
 	 *      .Session, java.lang.String)
 	 */
 	@Override
-	public PlanningPokerRequirement[] getEntity(Session s, String id)
+	public PlanningPokerDeck[] getEntity(Session s, String id)
 			throws NotFoundException, WPISuiteException {
 		List<Model> results = db.retrieve(
-				new PlanningPokerRequirement().getClass(), "Id",
-				UUID.fromString(id), s.getProject());
-		return results.toArray(new PlanningPokerRequirement[0]);
+				new PlanningPokerDeck().getClass(), "ID",
+				Integer.parseInt(id), s.getProject());
+		// If the default session does not exist, create it
+		if (id.equals("0") && results.size() == 0) {
+			PlanningPokerSession defaultSession = new PlanningPokerSession();
+			defaultSession.setName("No session");
+			if (makeEntity(s, defaultSession.toJSON()) != null) {
+				results.add(defaultSession);
+			}
+		} 
+		return results.toArray(new PlanningPokerDeck[0]);
 	}
 
 	/**
@@ -94,17 +96,17 @@ public class PlanningPokerRequirementEntityManager implements
 	 *      .Session)
 	 */
 	@Override
-	public PlanningPokerRequirement[] getAll(Session s)
+	public PlanningPokerDeck[] getAll(Session s)
 			throws WPISuiteException {
 		// Ask the database to retrieve all objects of the type
-		// PlanningPokerRequirement. Passing a dummy PlanningPokerRequirement
+		// PlanningPokerDeck. Passing a dummy PlanningPokerDeck
 		// lets the db know what type of object to retrieve. Passing the project
 		// makes it only get messages from that project.
-		List<Model> messages = db.retrieveAll(new PlanningPokerRequirement(),
+		List<Model> messages = db.retrieveAll(new PlanningPokerDeck(),
 				s.getProject());
 
 		// Return the list of messages as an array
-		return messages.toArray(new PlanningPokerRequirement[0]);
+		return messages.toArray(new PlanningPokerDeck[0]);
 	}
 
 	/**
@@ -114,7 +116,7 @@ public class PlanningPokerRequirementEntityManager implements
 	 *      .Session, java.lang.String)
 	 */
 	@Override
-	public PlanningPokerRequirement update(Session s, String content)
+	public PlanningPokerDeck update(Session s, String content)
 			throws WPISuiteException {
 		throw new WPISuiteException();
 	}
@@ -124,7 +126,7 @@ public class PlanningPokerRequirementEntityManager implements
 	 *      .Session, edu.wpi.cs.wpisuitetng.modules.Model)
 	 */
 	@Override
-	public void save(Session s, PlanningPokerRequirement model)
+	public void save(Session s, PlanningPokerDeck model)
 			throws WPISuiteException {
 		db.save(model);
 	}
@@ -156,7 +158,7 @@ public class PlanningPokerRequirementEntityManager implements
 	 */
 	@Override
 	public int Count() throws WPISuiteException {
-		return db.retrieveAll(new PlanningPokerRequirement()).size();
+		return db.retrieveAll(new PlanningPokerDeck()).size();
 	}
 
 	/**
