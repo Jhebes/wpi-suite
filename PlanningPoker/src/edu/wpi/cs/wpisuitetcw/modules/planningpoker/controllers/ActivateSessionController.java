@@ -38,10 +38,11 @@ public class ActivateSessionController implements ActionListener {
 		ViewEventManager.getInstance().viewSession(session);
 		GetAllSessionsController.getInstance().retrieveSessions();
 		
-//		for (User s : this.session.getUsers())
-//		{
-			SendEmailController.getInstance().sendEmail("start", "jake.bluefire66@gmail.com");
-//		}
+		for (User s : this.session.getUsers())
+			{
+				//String sendTo = s.getEmail();
+				SendEmailController.getInstance().sendEmail("start", "jake.bluefire66@gmail.com");
+			}
 		
 	}
 
