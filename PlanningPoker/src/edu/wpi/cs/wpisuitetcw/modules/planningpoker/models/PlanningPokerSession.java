@@ -14,7 +14,6 @@ import java.util.Date;
 
 import com.google.gson.Gson;
 
-import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
@@ -115,6 +114,18 @@ public class PlanningPokerSession extends AbstractModel {
 		requirements.add(req);
 	}
 
+	public void addVoteToRequirement(PlanningPokerRequirement req, PlanningPokerVote v){
+		requirements.get(requirements.indexOf(req)).addVote(v);
+	}
+	
+	public PlanningPokerRequirement getReqByName(String n){
+		for(PlanningPokerRequirement r : requirements){
+			if(r.getName().equals(n)){
+				return r;
+			}
+		}
+		throw new NullPointerException();
+	}
 	/**
 	 * Adds a single user to this session.
 	 * 
