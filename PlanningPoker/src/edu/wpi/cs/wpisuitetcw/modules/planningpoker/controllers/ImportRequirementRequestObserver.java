@@ -6,44 +6,59 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
+ * Contributors:
+ *    Chris Casola
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
-import java.awt.event.ActionListener;
-
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * Handles requests to server to store pieces of data in the database
+ * Handles requests to server to import a planning poker requirement
+ * 
  */
-public class GenericPUTRequestObserver implements RequestObserver {
-	//The controller this is tied to
-	private final ActionListener controller;
-	
+public class ImportRequirementRequestObserver implements RequestObserver {
+	private final ImportRequirementController controller;
+
 	/**
 	 * Creates a listener attached to the controller
-	 * @param a Tied controller
+	 * 
+	 * @param a
+	 *            Tied controller
 	 */
-	public GenericPUTRequestObserver(ActionListener a) {
+	public ImportRequirementRequestObserver(ImportRequirementController a) {
 		this.controller = a;
 	}
 
-	/*
+	/**
 	 * Parse the message that was received from the server then pass them to the
 	 * controller.
 	 * 
-	 * @see
-	 * edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi
-	 * .cs.wpisuitetng.network.models.IRequest)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi
+	 *      .cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		// Get the response to the given request
-		final ResponseModel response = iReq.getResponse();
+		// cast observable to request
+		Request request = (Request) iReq;
+
+		// get the response from the request
+		ResponseModel response = request.getResponse();
+
+		if (response.getStatusCode() == 200) {
+			PlanningPokerSession session[] = PlanningPokerSession
+					.fromJSONArray(response.getBody());
+
+			for (PlanningPokerSession s : session) {
+				controller.onSuccess(s);
+			}
+
+		}
 	}
 
 	/**
@@ -51,7 +66,7 @@ public class GenericPUTRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		System.err.println("The request to add a new entry failed. (ERR)");
+		System.err.println("The request to import a requirement failed.");
 	}
 
 	/**
@@ -59,7 +74,7 @@ public class GenericPUTRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		System.err.println("The request to add a session failed. (NETW)");
+		System.err.println("The request to import a requirement failed.");
 	}
 
 }

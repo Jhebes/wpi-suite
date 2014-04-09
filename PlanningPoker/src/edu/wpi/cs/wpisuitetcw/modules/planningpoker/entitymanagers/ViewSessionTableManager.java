@@ -8,10 +8,11 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.RetrievePlan
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionTableModel;
 
-public class ViewSessionTableManager{
+public class ViewSessionTableManager {
+	/** Hashmap of table models for each session ID */
 	private static HashMap<Integer, ViewSessionTableModel> t = new HashMap<Integer, ViewSessionTableModel>();
 
-	public ViewSessionTableModel get(int i){
+	public ViewSessionTableModel get(int i) {
 		System.out.println("Processing query for table for session " + i);
 		this.fetch(i);
 		return ViewSessionTableManager.t.get(i);
