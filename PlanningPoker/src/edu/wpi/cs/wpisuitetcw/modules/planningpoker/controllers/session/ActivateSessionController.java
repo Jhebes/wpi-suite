@@ -55,15 +55,19 @@ public class ActivateSessionController implements ActionListener {
 			for (User user : this.session.getUsers())
 			{
 				String sendTo = user.getEmail();
-				if (sendTo != "" || !sendTo.equals(""))
+				if (!sendTo.equals(""))
 				{
 					SendEmailController.getInstance().sendEmail("start", sendTo);
+				}
+				else
+				{
+					SendEmailController.getInstance().sendEmail("start", "teamcombatwombat@gmail.com");
 				}
 			}
 		}
 		else
 		{
-			SendEmailController.getInstance().sendEmail("start", "jake.bluefire66@gmail.com");
+			SendEmailController.getInstance().sendEmail("start", "teamcombatwombat@gmail.com");
 		}
 	}
 
