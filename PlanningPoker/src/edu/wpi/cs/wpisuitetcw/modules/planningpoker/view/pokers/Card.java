@@ -24,7 +24,7 @@ import net.miginfocom.swing.MigLayout;
  */
 public class Card extends JPanel {
 	// constants
-	private final String ERROR_MSG = "<html><font color='red'>Enter a number</font></html>";
+	private final String ERROR_MSG = "<html><font color='red'>Please enter a <br />positive integer</font></html>";
 	private final Dimension CARD_DIMENSION = new Dimension(146, 194);
 
 	private int value = 0;
@@ -83,24 +83,28 @@ public class Card extends JPanel {
 		if (inputValue.equals("")) {
 			return false;
 		} else {
-			return this.isInteger(inputValue);
+			return this.isPositiveInteger(inputValue);
 		}
 	}
 
 	/**
-	 * Determine if the String contains pure integer
+	 * Determine if the String contains positive integer
 	 * 
 	 * @param String
 	 *            input
 	 * @return true if so; false otherwise
 	 */
-	private boolean isInteger(String s) {
+	private boolean isPositiveInteger(String s) {
 		try {
-			Integer.parseInt(s);
+			int value = Integer.parseInt(s);
+			if (value > 0) {
+				return true;
+			} else {
+				return false;
+			}
 		} catch (NumberFormatException e) {
 			return false;
 		}
-		return true;
 	}
 
 	/**
