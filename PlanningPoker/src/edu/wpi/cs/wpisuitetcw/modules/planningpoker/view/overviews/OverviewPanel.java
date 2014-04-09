@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -68,8 +69,7 @@ public class OverviewPanel extends JSplitPane {
 
 		// Create Table using data above
 
-		final JTable table = new JTable(
-				OverviewTableSessionTableModel.getInstance()) {
+		final JTable table = new JTable(OverviewTableSessionTableModel.getInstance()) {
 			private static final long serialVersionUID = 1L;
 			private boolean initialized = false;
 
@@ -120,8 +120,21 @@ public class OverviewPanel extends JSplitPane {
 
 		// Sets table bg to white
 		table.setBackground(Color.WHITE);
-
-		// Set layout for right panel
+		
+		//allow sorting in table
+		table.setAutoCreateRowSorter(true);//update model
+		table.getTableHeader().addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				rightPanel.updateUI();
+				
+			}
+		});
+		table.getTableHeader().setReorderingAllowed(false);
+		
+		// disallow moving of columns
+		table.getTableHeader().setReorderingAllowed(false);
+		
+		// Set layout for right panel;
 		rightPanel.setLayout(new BorderLayout());
 
 		// Add table inside a JScrollPane to rightPanel
