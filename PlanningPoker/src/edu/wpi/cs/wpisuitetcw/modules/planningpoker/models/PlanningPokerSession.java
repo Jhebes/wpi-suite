@@ -278,6 +278,15 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 	
 	/**
+	 * Return the users in this session
+	 * 
+	 * @return users in this session
+	 */
+	public ArrayList<User> getUsers() {
+		return this.users;
+	}
+	
+/**
 	 * 
 	 * @param userName
 	 * 
@@ -285,9 +294,8 @@ public class PlanningPokerSession extends AbstractModel {
 	public void setOwnerUserName(String userName) {
 		this.ownerUserName = userName;
 	}
-	
+
 	/**
-	 * 
 	 * @return the user name of the Owner of this session
 	 */
 	

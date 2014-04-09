@@ -38,6 +38,9 @@ public class GetAllSessionsRequestObserver implements RequestObserver {
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		PlanningPokerSession[] sessions = PlanningPokerSession.fromJSONArray(iReq.getResponse().getBody());
+		if (sessions == null) {
+			sessions = new PlanningPokerSession[0];
+		}
 		controller.receivedSessions(sessions);
 	}
 
