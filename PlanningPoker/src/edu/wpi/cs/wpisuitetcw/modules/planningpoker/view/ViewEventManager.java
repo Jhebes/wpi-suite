@@ -11,9 +11,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import javax.swing.JComponent;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateNewDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
@@ -93,6 +91,13 @@ public class ViewEventManager {
 		main.addTab(displayMsg, null, panel, displayMsg);
 		main.repaint();
 		main.setSelectedComponent(panel);
+	}
+
+	/**
+	 * return the main view
+	 */
+	public MainView getMainview() {
+		return this.main;
 	}
 
 	/**

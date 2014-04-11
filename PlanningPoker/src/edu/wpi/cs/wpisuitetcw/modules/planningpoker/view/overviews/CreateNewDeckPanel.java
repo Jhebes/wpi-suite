@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddNewCardController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateNewDeckController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.InitNewDeckPanelController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
 
@@ -58,7 +59,7 @@ public class CreateNewDeckPanel extends JPanel {
 
 	public CreateNewDeckPanel(CreateSessionPanel invokingPanel) {
 		this.invokingPanel = invokingPanel;
-		
+
 		// sub panels
 		topPanel = new JPanel();
 		centerPanel = new JPanel();
@@ -144,6 +145,7 @@ public class CreateNewDeckPanel extends JPanel {
 
 	/**
 	 * return the invoking panel
+	 * 
 	 * @return the invoking panel
 	 */
 	public CreateSessionPanel getInvokingPanel() {
@@ -195,7 +197,7 @@ public class CreateNewDeckPanel extends JPanel {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ViewEventManager.getInstance().removeTab(panel);
+				InitNewDeckPanelController.getInstance(null).removeDeckPanel();
 			}
 		});
 	}

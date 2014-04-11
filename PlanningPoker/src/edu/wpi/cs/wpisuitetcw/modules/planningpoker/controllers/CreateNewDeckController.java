@@ -60,8 +60,7 @@ public class CreateNewDeckController implements ActionListener {
 	public void onSuccess(PlanningPokerDeck deck) {
 		// close the tab
 		this.view.getInvokingPanel().setupDeckDropdown();
-		ViewEventManager.getInstance().removeTab(this.view);
-
+		InitNewDeckPanelController.getInstance(null).removeDeckPanel();
 	}
 
 	/**

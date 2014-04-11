@@ -199,7 +199,7 @@ public class CreateSessionPanel extends JSplitPane {
 		rightPanel.add(btnSaveSession, "width 150px, left, wrap");
 
 		btnSaveSession.addActionListener(new AddSessionController(this));
-		btnCreateNewDeck.addActionListener(new InitNewDeckPanelController(this));
+		btnCreateNewDeck.addActionListener(InitNewDeckPanelController.getInstance(this));
 
 		// center the container
 		JPanel container = new JPanel();
