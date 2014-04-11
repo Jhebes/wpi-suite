@@ -39,20 +39,29 @@ public class Card extends JPanel {
 	private final JTextField txtboxValue;
 	private final JLabel labelError;
 	private final JButton closeButton;
+	private boolean isValueValid;
+	private boolean isMouseovered;
 
 	private Image cardPicture = null;
 
 	public Card() {
+		// textfield
 		txtboxValue = new JTextField(3);
 
+		// labels
 		labelError = new JLabel(ERROR_MSG);
 		labelError.setVisible(false);
 
+		// buttons
 		closeButton = new JButton(BUTTON_TEXT);
 		closeButton.setFont(closeButton.getFont().deriveFont((float) 8));
 		closeButton.setMargin(new Insets(0, 0, 0, 0));
 		closeButton.setVisible(false); // button is not visible until user
 										// mouseover it
+
+		// card initial status
+		isValueValid = true;
+		isMouseovered = false;
 
 		// add listener
 		this.addListenerToValueTextBox(txtboxValue, this);
@@ -109,9 +118,11 @@ public class Card extends JPanel {
 		String inputValue = this.txtboxValue.getText();
 
 		if (inputValue.equals("")) {
+			this.isValueValid = false;
 			return false;
 		} else {
-			return this.isPositiveInteger(inputValue);
+			this.isValueValid = this.isPositiveInteger(inputValue);
+			return this.isValueValid;
 		}
 	}
 
@@ -136,6 +147,13 @@ public class Card extends JPanel {
 	}
 
 	/**
+	 * highlights the card
+	 */
+	public void setCardHighlighted() {
+		this.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
+	}
+
+	/**
 	 * makes the card invalid by changing the color
 	 */
 	public void setCardInvalid() {
@@ -149,6 +167,29 @@ public class Card extends JPanel {
 	public void setCardValid() {
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 		this.labelError.setVisible(false);
+	}
+
+	/**
+	 * change the card's layout
+	 */
+	public void changeCardLayout() {
+		// toogle closebutton
+		closeButton.setVisible(this.isMouseovered);
+		
+		// change the border of the card
+		if(this.isMouseovered) {
+			if(this.isValueValid) {
+				this.setCardHighlighted();
+			} else {
+				this.setCardInvalid();
+			}
+		} else {
+			if(this.isValueValid) {
+				this.setCardValid();
+			} else {
+				this.setCardInvalid();
+			}
+		}
 	}
 
 	/**
@@ -214,19 +255,17 @@ public class Card extends JPanel {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// set the card back to normal
-				System.out.println("Mouse existed");
-				aCard.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-				closeButton.setVisible(false);
+				// card existed
+				aCard.isMouseovered = false;
+				changeCardLayout();
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// highlight the card
-				System.out.println("Mouse entered");
-				aCard.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
-				// show the close button
-				closeButton.setVisible(true);
+				aCard.isMouseovered = true;
+				changeCardLayout();
+				
 			}
 
 			@Override
