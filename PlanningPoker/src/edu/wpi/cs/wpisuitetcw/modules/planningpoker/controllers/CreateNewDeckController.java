@@ -50,7 +50,7 @@ public class CreateNewDeckController implements ActionListener {
 			// System.out.println("Card value: " + deckName.toString());
 
 		} else {
-			// some inputs are not integer
+			// inputs are not valid
 			this.view.repaint();
 		}
 
@@ -59,11 +59,14 @@ public class CreateNewDeckController implements ActionListener {
 	// removes the tab
 	public void onSuccess(PlanningPokerDeck deck) {
 		// close the tab
+		this.view.getInvokingPanel().setupDeckDropdown();
 		ViewEventManager.getInstance().removeTab(this.view);
+
 	}
 
 	/**
-	 * Validate all the inputs by avoiding java's short-circuit boolean evaluation
+	 * Validate all the inputs by avoiding java's short-circuit boolean
+	 * evaluation
 	 * 
 	 * @return true if valid; false otherwise
 	 */

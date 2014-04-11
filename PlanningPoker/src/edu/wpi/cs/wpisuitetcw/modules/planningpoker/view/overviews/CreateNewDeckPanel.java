@@ -25,12 +25,12 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
 
 public class CreateNewDeckPanel extends JPanel {
+	private static final long serialVersionUID = 1L;
 	// constants
 	private final String NAME_ERR_MSG = "<html><font color='red'>REQUIRES</font></html>";
 	private final int CARD_WIDTH = 146;
 	private final String CARD_COUNT_LABEL = "# of Cards: ";
 	private final String ADD_CARD_LABEL = "[+] New Card";
-	private final String REMOVE_CARD_LABEL = "[-] Remove Card";
 	private final String CREATE_LABEL_STRING = "Create";
 	private final String CANCEL_LABEL_STRING = "Cancel";
 	private final String DECK_NAME_LABEL = "Name *";
@@ -51,11 +51,14 @@ public class CreateNewDeckPanel extends JPanel {
 
 	private final JPanel cardPanel;
 	private final JScrollPane cardSP;
+	private final CreateSessionPanel invokingPanel;
 
 	// subject to change
 	// private final JTextField textboxVal;
 
-	public CreateNewDeckPanel() {
+	public CreateNewDeckPanel(CreateSessionPanel invokingPanel) {
+		this.invokingPanel = invokingPanel;
+		
 		// sub panels
 		topPanel = new JPanel();
 		centerPanel = new JPanel();
@@ -137,6 +140,14 @@ public class CreateNewDeckPanel extends JPanel {
 		this.add(topPanel, "dock north");
 		this.add(centerPanel, "dock center");
 		this.add(bottomPanel, "center, dock south");
+	}
+
+	/**
+	 * return the invoking panel
+	 * @return the invoking panel
+	 */
+	public CreateSessionPanel getInvokingPanel() {
+		return invokingPanel;
 	}
 
 	/**
@@ -239,7 +250,8 @@ public class CreateNewDeckPanel extends JPanel {
 	}
 
 	/**
-	 *  
+	 * notify createNewDeckPanel when a Card is discarded, so that it removes
+	 * the card from the cards HashMap
 	 */
 	public void addRemoveCardListener(Card aCard, final CreateNewDeckPanel panel) {
 		// remove a card
