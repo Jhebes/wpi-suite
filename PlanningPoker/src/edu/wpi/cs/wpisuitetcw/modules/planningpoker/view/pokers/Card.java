@@ -8,6 +8,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -36,6 +38,8 @@ public class Card extends JPanel {
 		txtboxValue = new JTextField(3);
 		labelError = new JLabel(ERROR_MSG);
 
+		// add listener
+		this.addListenerToValueTextBox(txtboxValue, this);
 		labelError.setVisible(false);
 
 		// load background image
@@ -120,6 +124,21 @@ public class Card extends JPanel {
 	public void setCardValid() {
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 		this.labelError.setVisible(false);
+	}
+
+	/**
+	 * listener for dynamically validate the textfield input
+	 */
+	private void addListenerToValueTextBox(JTextField textbox, final Card aCard) {
+		textbox.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				if (aCard.validateCardValue()) {
+					aCard.setCardValid();
+				} else {
+					aCard.setCardInvalid();
+				}
+			}
+		});
 	}
 
 	/**
