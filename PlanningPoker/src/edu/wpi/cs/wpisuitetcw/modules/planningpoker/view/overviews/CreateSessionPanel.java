@@ -41,6 +41,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.AddSessi
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
 /**
@@ -136,6 +137,11 @@ public class CreateSessionPanel extends JSplitPane {
 
 		// create textfield
 		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
+		//Sets the default text to the date of creation and the project name
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+		String defaultNameDate = sdf.format(new Date());
+		String projectName = ConfigManager.getConfig().getProjectName();
+		nameTextField.setText(projectName + " - " + defaultNameDate);
 
 		descriptionBox = new JTextArea(10, 200);
 		descriptionBox.setLineWrap(true);
