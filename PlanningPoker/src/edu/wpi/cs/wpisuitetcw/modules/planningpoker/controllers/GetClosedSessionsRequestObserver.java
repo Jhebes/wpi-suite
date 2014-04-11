@@ -20,8 +20,8 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
 /**
- * @author Hoang Ngo
- * 
+ * This observer handles responses to requests for all closed planning poker
+ * sessions 
  */
 public class GetClosedSessionsRequestObserver implements RequestObserver {
 	private final GetClosedSessionsController controller;

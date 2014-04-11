@@ -69,7 +69,7 @@ public class GetClosedSessionsController implements ActionListener {
 	public void receiveClosedSessions(PlanningPokerSession[] sessions) {
 		this.receivedSessions(sessions);
 	}
-	
+
 	public void receivedSessions(PlanningPokerSession[] sessions) {
 		OverviewTableSessionTableModel.getInstance().refreshSessions(sessions);
 	}
