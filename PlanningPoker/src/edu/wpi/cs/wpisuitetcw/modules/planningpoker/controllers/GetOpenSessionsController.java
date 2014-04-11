@@ -25,10 +25,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
  * This controller responds when the users click on "Open Sessions" by
- * exhibiting all the open planning poker sessions on the overview panel
- * 
- * @author Hoang Ngo
- * 
+ * exhibiting all the open planning poker sessions on the overview panel 
  */
 public class GetOpenSessionsController implements ActionListener {
 	private final OverviewPanel view;
@@ -74,7 +71,6 @@ public class GetOpenSessionsController implements ActionListener {
 	 * @param sessions A new list of sessions
 	 */
 	public void receivedSessions(PlanningPokerSession[] sessions) {
-		// TODO: make a superclass for this method
 		OverviewTableSessionTableModel.getInstance().refreshSessions(sessions);
 	}
 
