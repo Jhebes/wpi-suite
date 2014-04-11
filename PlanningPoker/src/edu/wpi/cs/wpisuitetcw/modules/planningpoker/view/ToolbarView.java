@@ -7,7 +7,6 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
-
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.buttons.ImportRequirementsButtonsPanel;

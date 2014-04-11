@@ -7,7 +7,6 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
-
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
 import com.google.gson.Gson;
@@ -19,6 +18,8 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * This class is used to map sessions and users together this alls all the
  * sessions a user is in to be known and allows all the users in a single
  * session to be known
+ * 
+ * @author Emanuel DeMaio, Louie Mistretta
  * 
  */
 public class UserSessionMap extends AbstractModel {

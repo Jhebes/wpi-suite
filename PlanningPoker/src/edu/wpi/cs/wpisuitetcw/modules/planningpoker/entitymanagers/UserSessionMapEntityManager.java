@@ -7,7 +7,6 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
-
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 
 import java.util.List;
@@ -27,6 +26,9 @@ import edu.wpi.cs.wpisuitetng.modules.Model;
 /**
  * This is the entity manager for the PlanningPokerSession in the PostBoard
  * module.
+ * 
+ * @author Emanuel DeMaio
+ * @author Louie Mistretta
  * 
  */
 public class UserSessionMapEntityManager implements

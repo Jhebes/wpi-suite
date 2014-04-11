@@ -7,7 +7,6 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
-
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp;
 
 import java.awt.BorderLayout;
@@ -24,7 +23,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -39,7 +37,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.RetrievePlan
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionTableModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
 public class ViewSessionReqPanel extends JPanel {
@@ -179,11 +176,12 @@ public class ViewSessionReqPanel extends JPanel {
 			public void valueChanged(ListSelectionEvent e) {
 
 			}
-			
+
 			@Override
 			public void repaint() {
 				// because janeway is terrible and instantiates this class
 				// before the network objects
+				
 				if (!initialized) {
 					try {
 						System.out.println("Trying to get free reqs...");
@@ -194,13 +192,13 @@ public class ViewSessionReqPanel extends JPanel {
 
 					}
 				}
-				
+
 				super.repaint();
 			}
 		};
-		
+
 		allReqTable.setBackground(Color.WHITE);
-		
+
 		// add table to rightPanel
 		JLabel leftLabel = new JLabel("All Requirements");
 		leftPanel.setLayout(new BorderLayout());
@@ -221,7 +219,7 @@ public class ViewSessionReqPanel extends JPanel {
 			public void valueChanged(ListSelectionEvent e) {
 
 			}
-			
+
 			@Override
 			public void repaint() {
 				// because janeway is terrible and instantiates this class
@@ -235,10 +233,11 @@ public class ViewSessionReqPanel extends JPanel {
 
 					}
 				}
-				
+
 				super.repaint();
 			}
 		};
+
 		
 		sessionReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		allReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);

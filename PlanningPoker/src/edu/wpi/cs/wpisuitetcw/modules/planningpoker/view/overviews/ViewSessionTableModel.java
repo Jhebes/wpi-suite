@@ -15,14 +15,15 @@ import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 
-
+/**
+ * @author troyling, Jenny
+ *
+ */
 public class ViewSessionTableModel extends DefaultTableModel{
-	private static ViewSessionTableModel instance;
-	private final String[] colNames = {"ID", "Name", "Priority"};
+	private final String[] colNames = {"Name", "Description"};
 	
-	private ViewSessionTableModel() {
+	public ViewSessionTableModel() {
 		setColumnIdentifiers(colNames);
-		this.setDataVector(null, colNames);
 	}
 	
 	/**
@@ -32,11 +33,13 @@ public class ViewSessionTableModel extends DefaultTableModel{
 	 *            The new list of requirements
 	 */
 	public void refreshRequirements(List<PlanningPokerRequirement> requirements) {
-		//Sets column of the table to null
+
 		this.setDataVector(null, colNames);
-		for (PlanningPokerRequirement requirement : requirements) {
-			Object[] row = { requirement.getId(), requirement.getName(),
-					requirement.getPriority() };
+		for (PlanningPokerRequirement requirement : requirements) {			
+			Object[] row = { 
+					requirement.getName(),
+					requirement.getDescription()
+			};
 			this.addRow(row);
 		}
 	}

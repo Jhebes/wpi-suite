@@ -7,7 +7,6 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
-
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp;
 
 import java.awt.event.ActionEvent;
@@ -19,6 +18,10 @@ import javax.swing.JPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.ActivateSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 
+/**
+ * @author troyling
+ *
+ */
 public class ViewSessionBtnPanel extends JPanel{
 	private final JButton activateBtn;
 	private final JButton addBtn;

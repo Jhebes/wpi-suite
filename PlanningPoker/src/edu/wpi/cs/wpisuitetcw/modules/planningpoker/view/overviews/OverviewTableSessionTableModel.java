@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 
 /**
- * JTableModel to list of all requirements in a session
+ * TODO: add description
  */
 public class OverviewTableSessionTableModel extends DefaultTableModel {
 
