@@ -13,6 +13,8 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.Properties;
 
@@ -28,12 +30,9 @@ import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
 import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
-import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
-import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * This is the entity manager for the PlanningPokerSession in the PlanningPoker
@@ -187,9 +186,9 @@ public class PlanningPokerSessionEntityManager implements
 			throw new BadRequestException(
 					"PlanningPokerSession with ID does not exist.");
 		}
-				
-		PlanningPokerSession existingSession = (PlanningPokerSession)oldPlanningPokerSessions.get(0);		
 
+		PlanningPokerSession existingSession = (PlanningPokerSession) oldPlanningPokerSessions
+				.get(0);
 
 		// copy values to old PlanningPokerSession and fill in our changeset
 		// appropriately
@@ -260,16 +259,25 @@ public class PlanningPokerSessionEntityManager implements
 		if (args.length == 0) {
 			throw new WPISuiteException("Not enough arguments.");
 		}
+		
+		System.out.println(args);
 
 		String command = args[2];
 		if (command.equals("sendEmail")) {
-			if (args.length < 5) {
+			if (args.length < 6) {
 				throw new WPISuiteException(
-						"Usage: /sendMail/(start|end)/<redesign>/");
+						"Usage: /sendMail/(start|end)/<redesign>/<deadline>");
 			}
-			String notificationType = args[3];
-			String email = args[4];
-			sendNotification(notificationType, email);
+			
+			try {
+				String notificationType = URLDecoder.decode(args[3], "UTF-8");
+				String email = URLDecoder.decode(args[4], "UTF-8");
+				String deadline = URLDecoder.decode(args[5], "UTF-8");
+				sendNotification(notificationType, email, deadline);
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		return null;
@@ -288,19 +296,21 @@ public class PlanningPokerSessionEntityManager implements
 		return null;
 	}
 
-	private void sendNotification(String notificationType, String toAddress) {
+	private void sendNotification(String notificationType, String toAddress,
+			String deadline) {
 		String subject, body;
 		if (notificationType.equals("start")) {
 			subject = "Planning Poker";
-			body = "A new planning poker session has begun!";
+			body = "A new planning poker session has begun! It ends at "
+					+ deadline + ".";
 		} else if (notificationType.equals("end")) {
 			subject = "Planning Poker";
-			body = "A planning poker session has ended!";
+			body = "A planning poker session has ended! Its deadline was "
+					+ deadline + ".";
 		} else {
 			return;
 		}
-		
-		
+
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.auth", "true");
@@ -310,7 +320,7 @@ public class PlanningPokerSessionEntityManager implements
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.transport.protocol", "smtp");
 		javax.mail.Session mailSession = null;
-		
+
 		mailSession = javax.mail.Session.getInstance(props,
 				new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
