@@ -9,6 +9,7 @@
  * Contributors:
  *    Team Combat Wombat
  ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.BorderLayout;
