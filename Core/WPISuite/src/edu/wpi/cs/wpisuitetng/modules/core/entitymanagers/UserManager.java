@@ -92,9 +92,24 @@ public class UserManager implements EntityManager<User> {
 			throw new BadRequestException("The entity creation string had invalid format. Entity String: " + content);
 		}
 		
-		if (!verifyUserEmail(p.getEmail())) {
-			logger.log(Level.WARNING, "Invalid email string.");
-			throw new BadRequestException("Email should be blank or form xxxx@xxxx.com");
+		// Check to see if AIM is greater than 3
+		if (p.getAIM() != null && !p.getAIM().isEmpty())
+		{
+			if (p.getAIM().length() < 3)
+			{
+				logger.log(Level.WARNING, "AIM screen name not valid");
+				throw new BadRequestException("The AIM screen name needs to be blank or at least 3 characters long.");
+			}
+		}
+		
+		// Check to see if email is valid
+		if (p.getEmail() != null && !p.getEmail().isEmpty())
+		{
+			if (!verifyUserEmail(p.getEmail()))
+			{
+				logger.log(Level.WARNING, "Invalid email string.");
+				throw new BadRequestException("Email should be blank or in the format x@y.zzz");
+			}
 		}
 
 		if(getEntity(s,p.getUsername())[0] == null)
