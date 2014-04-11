@@ -73,24 +73,6 @@ public class OverviewPanel extends JSplitPane {
 		leftPanel.add(closedSessionBtn);
 		leftPanel.add(allSessionsBtn);
 
-		// Add mouse listener to check for mouse clicks on the table
-		table.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				// Check to see if user double clicked
-				if (e.getClickCount() == 2) {
-					JTable resultsTable = (JTable) e.getSource();
-					int row = resultsTable.rowAtPoint(e.getPoint());
-
-					if (row > -1) {
-						// Gets the name, which is index 1
-						PlanningPokerSession session = OverviewTableSessionTableModel
-								.getInstance().getSessions()[row];
-						ViewEventManager.getInstance().viewSession(session);
-					}
-				}
-			}
-		});
-
 		// Sets table bg to white
 		table.setBackground(Color.WHITE);
 
