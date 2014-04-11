@@ -39,6 +39,8 @@ import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.core.models.UserDeserializer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The EntityManager implementation for the User class. Manages interaction with the 
@@ -88,6 +90,11 @@ public class UserManager implements EntityManager<User> {
 		} catch(JsonSyntaxException e){
 			logger.log(Level.WARNING, "Invalid User entity creation string.");
 			throw new BadRequestException("The entity creation string had invalid format. Entity String: " + content);
+		}
+		
+		if (!verifyUserEmail(p.getEmail())) {
+			logger.log(Level.WARNING, "Invalid email string.");
+			throw new BadRequestException("Email should be blank or form xxxx@xxxx.com");
 		}
 
 		if(getEntity(s,p.getUsername())[0] == null)
@@ -163,6 +170,28 @@ public class UserManager implements EntityManager<User> {
 		User[] ret = new User[1];
 		ret = data.retrieveAll(new User("","","",0)).toArray(ret);
 		return ret;
+	}
+	
+	/**
+	* Checks to make sure that the email entered is a valid address, using Regex
+	* 
+	* @param email
+	*            email to validate
+	* @return true if email is valid, else false
+	*/
+	public boolean verifyUserEmail(String email)
+	{
+			Pattern pattern;
+			Matcher matcher;
+		 
+			String EMAIL_PATTERN = 
+				"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+				+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+		
+			pattern = Pattern.compile(EMAIL_PATTERN);
+		 
+			matcher = pattern.matcher(email);
+			return matcher.matches();
 	}
 
 	@Override
