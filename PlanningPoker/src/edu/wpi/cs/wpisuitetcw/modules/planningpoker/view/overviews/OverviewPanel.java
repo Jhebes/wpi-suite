@@ -60,33 +60,8 @@ public class OverviewPanel extends JSplitPane {
 		allSessionsBtn
 				.addActionListener(GetAllSessionsController.getInstance());
 
-		// Create Table using data above
-
-		final JTable table = new JTable(
-				OverviewTableSessionTableModel.getInstance()) {
-			private static final long serialVersionUID = 1L;
-			private boolean initialized = false;
-
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			};
-
-			public void valueChanged(ListSelectionEvent e) {
-
-			}
-			
-			@Override
-			public void repaint() {
-				try {
-					if (!initialized) {
-						GetAllSessionsController.getInstance().retrieveSessions();
-						initialized = true;
-					}
-				} catch (Exception e) {
-					
-				}
-			}
-		};
+		// Construct a table to exhibit the list of existing sessions
+		final OverviewSessionTable table = new OverviewSessionTable(OverviewTableSessionTableModel.getInstance());
 
 		// Add the buttons to the leftPanel
 		leftPanel.add(openSessionBtn);
