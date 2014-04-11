@@ -37,7 +37,9 @@ import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.JXDatePicker;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateSessionPanelController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.AddSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
@@ -69,6 +71,7 @@ public class CreateSessionPanel extends JSplitPane {
 	// dropdown menu
 	private final JComboBox<SessionLiveType> dropdownType;
 	private final JComboBox<String> deckType;
+	private PlanningPokerDeck[] decks;
 	// deadline date and time picker
 	private final JXDatePicker deadlinePicker;
 	private final JSpinner pickerDeadlineTime;
@@ -148,8 +151,7 @@ public class CreateSessionPanel extends JSplitPane {
 		dropdownType.setBackground(Color.WHITE);
 
 		deckType = new JComboBox<String>();
-		deckType.addItem("Default");
-		deckType.addItem("Fibonacci");
+		this.setUpDeckDropdown();
 		deckType.setEditable(false);
 		deckType.setBackground(Color.WHITE);
 
@@ -214,6 +216,16 @@ public class CreateSessionPanel extends JSplitPane {
 		this.setRightComponent(container);
 		this.setDividerLocation(180);
 		this.setEnabled(false);
+	}
+
+	/**
+	 * setup the dropdown menu for available decks of cards
+	 */
+	private void setUpDeckDropdown() {
+		ArrayList<String> deckNames = GetAllDecksController.getInstance().getAllDeckNames();
+		for(String name: deckNames) {
+			deckType.addItem(name);
+		}
 	}
 
 	/**
