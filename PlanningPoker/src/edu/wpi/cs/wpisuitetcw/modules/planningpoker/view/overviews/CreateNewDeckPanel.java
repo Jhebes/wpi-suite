@@ -47,7 +47,7 @@ public class CreateNewDeckPanel extends JPanel {
 	private final JPanel topPanel;
 	private final JPanel centerPanel;
 	private final JPanel bottomPanel;
-	private final HashMap<Integer, Card> cardList;
+	private final HashMap<Integer, Card> cards;
 
 	private final JPanel cardPanel;
 	private final JScrollPane cardSP;
@@ -61,7 +61,7 @@ public class CreateNewDeckPanel extends JPanel {
 		centerPanel = new JPanel();
 		bottomPanel = new JPanel();
 
-		cardList = new HashMap<Integer, Card>();
+		cards = new HashMap<Integer, Card>();
 
 		// text labels
 		this.labelName = new JLabel(DECK_NAME_LABEL);
@@ -77,11 +77,8 @@ public class CreateNewDeckPanel extends JPanel {
 		// cards
 		Card starterCard = new Card();
 		int key = starterCard.hashCode();
-		cardList.put(key, starterCard);
+		cards.put(key, starterCard);
 		this.addRemoveCardListener(starterCard, this);
-
-		// textboxVal = new JTextField(3);
-		// cardList.add(textboxVal);
 
 		// buttons
 		this.btnAddCard = new JButton(ADD_CARD_LABEL);
@@ -148,7 +145,7 @@ public class CreateNewDeckPanel extends JPanel {
 	public void addNewCard() {
 		Card aCard = new Card();
 		int key = aCard.hashCode();
-		cardList.put(key, aCard);
+		cards.put(key, aCard);
 		this.addRemoveCardListener(aCard, this);
 
 		this.cardPanel.add(aCard);
@@ -165,7 +162,7 @@ public class CreateNewDeckPanel extends JPanel {
 	 */
 	public void removeCardWithKey(int key) {
 		System.out.println("Executed");
-		cardList.remove(key);
+		cards.remove(key);
 		// this.cardPanel.remove(aCard);
 		updateNumCard();
 	}
@@ -174,7 +171,7 @@ public class CreateNewDeckPanel extends JPanel {
 	 * update the total number of cards
 	 */
 	private void updateNumCard() {
-		this.labelNumCards.setText(Integer.toString(this.cardList.size()));
+		this.labelNumCards.setText(Integer.toString(this.cards.size()));
 	}
 
 	/**
@@ -199,7 +196,7 @@ public class CreateNewDeckPanel extends JPanel {
 	 */
 	public ArrayList<Integer> getNewDeckValues() {
 		ArrayList<Integer> cardValues = new ArrayList<Integer>();
-		Map<Integer, Card> map = this.cardList;
+		Map<Integer, Card> map = this.cards;
 		for (Card aCard : map.values()) {
 			cardValues.add(Integer.parseInt(aCard.getTxtboxValue().getText()));
 		}
@@ -290,7 +287,7 @@ public class CreateNewDeckPanel extends JPanel {
 	 */
 	public ArrayList<Integer> getAllCardsValue() {
 		ArrayList<Integer> deckValues = new ArrayList<Integer>();
-		Map<Integer, Card> map = this.cardList;
+		Map<Integer, Card> map = this.cards;
 		for (Card aCard : map.values()) {
 			deckValues.add(aCard.getValue());
 		}
@@ -306,9 +303,9 @@ public class CreateNewDeckPanel extends JPanel {
 	}
 
 	/**
-	 * @return a list of textboxes for entering new card value
+	 * @return a hashmap of cards
 	 */
-	public HashMap<Integer, Card> getCardList() {
-		return cardList;
+	public HashMap<Integer, Card> getCards() {
+		return cards;
 	}
 }
