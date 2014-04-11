@@ -67,6 +67,8 @@ public class OverviewSessionTable extends JTable {
 		// Modify the default single click listener
 		modifyOneClickResponse();
 		
+		// Open a chosen session's information when user double clicks on a session row
+		modifyDoubleClicksResponse();
 	}
 	
 	/**
@@ -132,4 +134,26 @@ public class OverviewSessionTable extends JTable {
 		});
 	}
 	
+	/*
+	 * Exhibit a double clicked session's information in a new tab
+	 */
+	public void modifyDoubleClicksResponse() {
+		addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					// Get the double clicked row
+					JTable resultsTable = (JTable) e.getSource();
+					int row = resultsTable.rowAtPoint(e.getPoint());
+
+					// Get the session of the clicked row and
+					// Exhibit it in a new tab
+					if (row > -1) {
+						PlanningPokerSession session = OverviewTableSessionTableModel
+														.getInstance().getSessions()[row];
+						ViewEventManager.getInstance().viewSession(session);
+					}
+				}
+			}
+		});		
+	}
 }
