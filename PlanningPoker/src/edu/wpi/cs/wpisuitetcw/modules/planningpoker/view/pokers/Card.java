@@ -167,6 +167,7 @@ public class Card extends JPanel {
 			public void mouseExited(MouseEvent e) {
 				System.out.println("Mouse existed");
 				aCard.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+				aCard.setVisible(false);
 			}
 			
 			@Override

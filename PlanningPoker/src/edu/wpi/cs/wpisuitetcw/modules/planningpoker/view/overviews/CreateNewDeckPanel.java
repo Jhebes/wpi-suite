@@ -6,6 +6,8 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -121,6 +123,8 @@ public class CreateNewDeckPanel extends JPanel {
 		centerTopPanel.add(labelCount);
 		centerTopPanel.add(labelNumCards);
 
+		// removes cards
+		this.addRemoveCardListener(starterCard, this);
 		cardPanel.add(starterCard);
 		container.add(cardPanel);
 
@@ -261,19 +265,55 @@ public class CreateNewDeckPanel extends JPanel {
 	}
 
 	/**
+	 *  
+	 */
+	public void addRemoveCardListener(Card aCard,
+			final CreateNewDeckPanel panel) {
+		// remove a card
+		aCard.addComponentListener(new ComponentListener() {
+
+			@Override
+			public void componentShown(ComponentEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void componentResized(ComponentEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void componentMoved(ComponentEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void componentHidden(ComponentEvent e) {
+				System.out.println("Card removed");
+				panel.removeLastCard();
+				panel.updateUI();
+			}
+		});
+	}
+
+	/**
 	 * @return the textbox field for name of the deck
 	 */
 	public JTextField getTextboxName() {
 		return textboxName;
 	}
-	
+
 	/**
 	 * get a deck of cards with values
+	 * 
 	 * @return an arraylist of card values
 	 */
 	public ArrayList<Integer> getAllCardsValue() {
 		ArrayList<Integer> deckValues = new ArrayList<Integer>();
-		for(Card aCard : this.cardList) {
+		for (Card aCard : this.cardList) {
 			deckValues.add(aCard.getValue());
 		}
 		return deckValues;
