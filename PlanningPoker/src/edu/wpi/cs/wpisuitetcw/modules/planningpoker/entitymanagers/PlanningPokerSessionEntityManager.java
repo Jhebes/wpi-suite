@@ -253,22 +253,40 @@ public class PlanningPokerSessionEntityManager implements
 		return db.retrieveAll(new PlanningPokerSession()).size();
 	}
 
+	/**
+	 * Parses a 'command' from the first argument of the advanced GET API.
+	 * Currently, the only command supported is 'sendEmail'. This method
+	 * receives the arguments as parsed from the URL. However, advanced API core
+	 * functionality does not URL-encode the data for you.
+	 * 
+	 * sendEmail: Sends an email to 'recipient' notifying of the start or end of
+	 * a session. The arguments are:
+	 * <ul>
+	 * <li>notificationType: start or end</li>
+	 * <li>recipient: email address at which to send</li>
+	 * <li>deadline: the deadline for the planning poker session</li>
+	 * </ul>
+	 * 
+	 * @param s
+	 *            The user session
+	 * @param args
+	 *            The arguments for this get operation
+	 * @return null
+	 */
 	@Override
 	public String advancedGet(Session s, String[] args)
 			throws WPISuiteException {
 		if (args.length == 0) {
 			throw new WPISuiteException("Not enough arguments.");
 		}
-		
-		System.out.println(args);
 
 		String command = args[2];
 		if (command.equals("sendEmail")) {
 			if (args.length < 6) {
 				throw new WPISuiteException(
-						"Usage: /sendMail/(start|end)/<redesign>/<deadline>");
+						"Usage: /sendMail/(start|end)/<recipient>/<deadline>");
 			}
-			
+
 			try {
 				String notificationType = URLDecoder.decode(args[3], "UTF-8");
 				String email = URLDecoder.decode(args[4], "UTF-8");
@@ -296,6 +314,17 @@ public class PlanningPokerSessionEntityManager implements
 		return null;
 	}
 
+	/**
+	 * Sends an email to a particular email address notifying upon start or end
+	 * of a planning poker session.
+	 * 
+	 * @param notificationType
+	 *            'start' or 'end'
+	 * @param toAddress
+	 *            The recipient address
+	 * @param deadline
+	 *            String containing the deadline.
+	 */
 	private void sendNotification(String notificationType, String toAddress,
 			String deadline) {
 		String subject, body;
