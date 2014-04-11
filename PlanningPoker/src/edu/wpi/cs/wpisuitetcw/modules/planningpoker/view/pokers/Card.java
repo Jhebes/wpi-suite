@@ -10,6 +10,8 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -65,6 +67,8 @@ public class Card extends JPanel {
 
 		// set border
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+		// add highlight feature to the card
+		this.addMouseoverHightlight(this);
 	}
 
 	@Override
@@ -137,6 +141,44 @@ public class Card extends JPanel {
 				} else {
 					aCard.setCardInvalid();
 				}
+			}
+		});
+	}
+	
+	/**
+	 * adds mouse over feature to the card
+	 */
+	private void addMouseoverHightlight(final Card aCard) {
+		aCard.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				System.out.println("Mouse existed");
+				aCard.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				System.out.println("Mouse entered");
+				aCard.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 	}
