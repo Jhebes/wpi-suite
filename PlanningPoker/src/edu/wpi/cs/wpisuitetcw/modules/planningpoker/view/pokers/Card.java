@@ -6,7 +6,6 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -21,6 +20,7 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -44,15 +44,15 @@ public class Card extends JPanel {
 
 	public Card() {
 		txtboxValue = new JTextField(3);
-		
+
 		labelError = new JLabel(ERROR_MSG);
 		labelError.setVisible(false);
-		
+
 		closeButton = new JButton(BUTTON_TEXT);
-		closeButton.setSize(5, 5);
-		closeButton.setBackground(Color.RED);
 		closeButton.setFont(closeButton.getFont().deriveFont((float) 8));
 		closeButton.setMargin(new Insets(0, 0, 0, 0));
+		closeButton.setVisible(false); // button is not visible until user
+										// mouseover it
 
 		// add listener
 		this.addListenerToValueTextBox(txtboxValue, this);
@@ -68,14 +68,14 @@ public class Card extends JPanel {
 
 		// setup the card panel
 		this.setLayout(new MigLayout());
-		
+
 		JPanel container = new JPanel();
 		container.setLayout(new MigLayout());
 		container.add(txtboxValue, "center, wrap");
 		container.add(labelError, "center");
 		container.setBackground(Color.WHITE);
 		container.setOpaque(false);
-		
+
 		this.add(closeButton, "right, wrap");
 		this.add(container, "center, wrap, span");
 		this.setPreferredSize(CARD_DIMENSION);
@@ -83,9 +83,15 @@ public class Card extends JPanel {
 		// set border
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 		// add highlight feature to the card
-		this.addMouseoverHightlight(this);
+		this.addMouseoverHightlight(closeButton, this);
+		this.addMouseoverHightlight(txtboxValue, this);
+		this.addMouseoverHightlight(labelError, this);
+		this.addMouseoverHightlight(this, this);
 	}
 
+	/**
+	 * set the image as the background of the panel
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -191,8 +197,8 @@ public class Card extends JPanel {
 	 * @param Card
 	 *            object
 	 */
-	private void addMouseoverHightlight(final Card aCard) {
-		aCard.addMouseListener(new MouseListener() {
+	private void addMouseoverHightlight(JComponent item, final Card aCard) {
+		item.addMouseListener(new MouseListener() {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -211,13 +217,16 @@ public class Card extends JPanel {
 				// set the card back to normal
 				System.out.println("Mouse existed");
 				aCard.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+				closeButton.setVisible(false);
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// highlight the card
 				System.out.println("Mouse entered");
-				aCard.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 4));
+				aCard.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
+				// show the close button
+				closeButton.setVisible(true);
 			}
 
 			@Override
