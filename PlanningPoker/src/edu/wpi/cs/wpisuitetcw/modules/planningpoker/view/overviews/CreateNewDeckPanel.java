@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -39,14 +41,13 @@ public class CreateNewDeckPanel extends JPanel {
 	private final JLabel labelNumCards;
 	private final JLabel labelNameErr;
 	private final JButton btnAddCard;
-	private final JButton btnRemoveCard;
 	private final JButton btnCreate;
 	private final JButton btnCancel;
 	private final JTextField textboxName;
 	private final JPanel topPanel;
 	private final JPanel centerPanel;
 	private final JPanel bottomPanel;
-	private final ArrayList<Card> cardList;
+	private final HashMap<Integer, Card> cardList;
 
 	private final JPanel cardPanel;
 	private final JScrollPane cardSP;
@@ -60,7 +61,7 @@ public class CreateNewDeckPanel extends JPanel {
 		centerPanel = new JPanel();
 		bottomPanel = new JPanel();
 
-		cardList = new ArrayList<Card>();
+		cardList = new HashMap<Integer, Card>();
 
 		// text labels
 		this.labelName = new JLabel(DECK_NAME_LABEL);
@@ -75,14 +76,15 @@ public class CreateNewDeckPanel extends JPanel {
 
 		// cards
 		Card starterCard = new Card();
-		cardList.add(starterCard);
+		int key = starterCard.hashCode();
+		cardList.put(key, starterCard);
+		this.addRemoveCardListener(starterCard, this);
 
 		// textboxVal = new JTextField(3);
 		// cardList.add(textboxVal);
 
 		// buttons
 		this.btnAddCard = new JButton(ADD_CARD_LABEL);
-		this.btnRemoveCard = new JButton(REMOVE_CARD_LABEL);
 		this.btnCreate = new JButton(CREATE_LABEL_STRING);
 		this.btnCancel = new JButton(CANCEL_LABEL_STRING);
 
@@ -90,7 +92,6 @@ public class CreateNewDeckPanel extends JPanel {
 		btnAddCard.addActionListener(new AddNewCardController(this));
 		btnCreate.addActionListener(new CreateNewDeckController(this));
 		this.addAction(btnCancel, this);
-		this.removeCardAction(btnRemoveCard, this);
 
 		// set up the top panel
 		JPanel topContainer = new JPanel();
@@ -119,12 +120,10 @@ public class CreateNewDeckPanel extends JPanel {
 		cardSP = new JScrollPane(container);
 
 		centerTopPanel.add(btnAddCard, "center, split3");
-		centerTopPanel.add(btnRemoveCard, "center, split 4");
 		centerTopPanel.add(labelCount);
 		centerTopPanel.add(labelNumCards);
 
 		// removes cards
-		this.addRemoveCardListener(starterCard, this);
 		cardPanel.add(starterCard);
 		container.add(cardPanel);
 
@@ -147,10 +146,10 @@ public class CreateNewDeckPanel extends JPanel {
 	 * Add a new card to both the storing array and the view
 	 */
 	public void addNewCard() {
-		ArrayList<Card> cardList = this.getCardList();
-
 		Card aCard = new Card();
-		cardList.add(aCard);
+		int key = aCard.hashCode();
+		cardList.put(key, aCard);
+		this.addRemoveCardListener(aCard, this);
 
 		this.cardPanel.add(aCard);
 		this.updateNumCard();
@@ -164,15 +163,11 @@ public class CreateNewDeckPanel extends JPanel {
 	/**
 	 * Remove a card from the view and the array
 	 */
-	public void removeLastCard() {
-		ArrayList<Card> cardList = this.getCardList();
-
-		Card aCard = cardList.get(cardList.size() - 1);
-		if (cardList.size() > 1) {
-			cardList.remove(cardList.size() - 1);
-			this.cardPanel.remove(aCard);
-			updateNumCard();
-		}
+	public void removeCardWithKey(int key) {
+		System.out.println("Executed");
+		cardList.remove(key);
+		// this.cardPanel.remove(aCard);
+		updateNumCard();
 	}
 
 	/**
@@ -198,32 +193,14 @@ public class CreateNewDeckPanel extends JPanel {
 	}
 
 	/**
-	 * Adds an action listener that provides functionality to remove playing
-	 * cards from the list and view.
-	 * 
-	 * @param button
-	 * @param panel
-	 */
-	public void removeCardAction(JButton button, final CreateNewDeckPanel panel) {
-		button.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				panel.removeLastCard();
-				panel.updateUI();
-
-			}
-		});
-	}
-
-	/**
 	 * This function extracts all values from textboxes
 	 * 
 	 * @return an array list with the card values user enters
 	 */
 	public ArrayList<Integer> getNewDeckValues() {
 		ArrayList<Integer> cardValues = new ArrayList<Integer>();
-		for (Card aCard : this.cardList) {
+		Map<Integer, Card> map = this.cardList;
+		for (Card aCard : map.values()) {
 			cardValues.add(Integer.parseInt(aCard.getTxtboxValue().getText()));
 		}
 		return cardValues;
@@ -291,8 +268,9 @@ public class CreateNewDeckPanel extends JPanel {
 
 			@Override
 			public void componentHidden(ComponentEvent e) {
+				Card aCard = (Card) e.getComponent();
 				System.out.println("Card removed");
-				panel.removeLastCard();
+				panel.removeCardWithKey(aCard.hashCode());
 				panel.updateUI();
 			}
 		});
@@ -312,7 +290,8 @@ public class CreateNewDeckPanel extends JPanel {
 	 */
 	public ArrayList<Integer> getAllCardsValue() {
 		ArrayList<Integer> deckValues = new ArrayList<Integer>();
-		for (Card aCard : this.cardList) {
+		Map<Integer, Card> map = this.cardList;
+		for (Card aCard : map.values()) {
 			deckValues.add(aCard.getValue());
 		}
 		return deckValues;
@@ -329,7 +308,7 @@ public class CreateNewDeckPanel extends JPanel {
 	/**
 	 * @return a list of textboxes for entering new card value
 	 */
-	public ArrayList<Card> getCardList() {
+	public HashMap<Integer, Card> getCardList() {
 		return cardList;
 	}
 }
