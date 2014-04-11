@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2013 WPI-Suite
+ * Copyright (c) 2014 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import java.awt.FlowLayout;
@@ -25,7 +26,6 @@ import javax.swing.JTabbedPane;
  * This provides a tab component with a close button to the left of the title.
  * This file is imported from RequirementManager module.
  * @version $Revision: 1.0 $
- * @author justinhess
  */
 @SuppressWarnings("serial")
 public class ClosableTabComponent extends JPanel implements ActionListener {
