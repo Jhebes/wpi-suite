@@ -13,6 +13,8 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTa
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
 public class SessionInProgressPanel extends JSplitPane {
 
@@ -48,6 +51,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	private JLabel deadline;
 	private PlanningPokerRequirement[] reqsList;
 	private JButton btnSubmit;
+	private JButton cancelSession;
 	private String selectedReqName;
 	private JTable reqsViewTable;
 	private ViewSessionTableManager reqsViewTableManager = new ViewSessionTableManager();
@@ -126,6 +130,14 @@ public class SessionInProgressPanel extends JSplitPane {
 		// Call setter for session deadline (TBR)
 		setSessionDeadline("12/13/14", "12:00 PM");
 		LeftPanel.add(deadline);
+		
+		//Padding
+		Component verticalStrut5 = Box.createVerticalStrut(200);
+		LeftPanel.add(verticalStrut5);
+		
+		JButton cancelBtn = new JButton("Cancel");
+		cancelSessionAction(cancelBtn, this);
+		LeftPanel.add(cancelBtn);
 
 		// Set up Reqs Panel
 		JPanel requirementsPanel = new JPanel();
@@ -385,5 +397,25 @@ public class SessionInProgressPanel extends JSplitPane {
 	public void setReqLabels() {
 		label_1.setText("<html>"+reqName+"</html>");
 		label_2.setText("<html>"+reqDescription+"</html>");
+	}
+	
+	/**
+	 * Set the action listener for canceling this session in progress
+	 * @param button
+	 * @param panel
+	 */
+	public void cancelSessionAction(JButton button, final SessionInProgressPanel panel) {
+		button.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				panel.session.cancel();
+				ViewEventManager.getInstance().removeTab(panel);
+				System.out.println("You are canceling this");
+			
+
+
+			}
+		});
 	}
 }
