@@ -8,6 +8,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -17,6 +20,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -28,21 +32,31 @@ import net.miginfocom.swing.MigLayout;
  */
 public class Card extends JPanel {
 	// constants
-	private final String ERROR_MSG = "<html><font color='red'>Please enter a <br />positive integer</font></html>";
+	private final String ERROR_MSG = "<html><font color='red'>Positive integer only</font></html>";
+	private final String BUTTON_TEXT = "\u2716";
 	private final Dimension CARD_DIMENSION = new Dimension(146, 194);
 
 	private final JTextField txtboxValue;
 	private final JLabel labelError;
+	private final JButton closeButton;
 
 	private Image cardPicture = null;
 
 	public Card() {
 		txtboxValue = new JTextField(3);
+		
 		labelError = new JLabel(ERROR_MSG);
+		labelError.setVisible(false);
+		
+		closeButton = new JButton(BUTTON_TEXT);
+		closeButton.setSize(5, 5);
+		closeButton.setBackground(Color.RED);
+		closeButton.setFont(closeButton.getFont().deriveFont((float) 8));
+		closeButton.setMargin(new Insets(0, 0, 0, 0));
 
 		// add listener
 		this.addListenerToValueTextBox(txtboxValue, this);
-		labelError.setVisible(false);
+		this.addListenerToCloseButton(closeButton, this);
 
 		// load background image
 		try {
@@ -53,16 +67,17 @@ public class Card extends JPanel {
 		}
 
 		// setup the card panel
-		this.setLayout(new GridBagLayout());
-
+		this.setLayout(new MigLayout());
+		
 		JPanel container = new JPanel();
-
 		container.setLayout(new MigLayout());
 		container.add(txtboxValue, "center, wrap");
-		container.add(labelError);
+		container.add(labelError, "center");
 		container.setBackground(Color.WHITE);
-
-		this.add(container);
+		container.setOpaque(false);
+		
+		this.add(closeButton, "right, wrap");
+		this.add(container, "center, wrap, span");
 		this.setPreferredSize(CARD_DIMENSION);
 
 		// set border
@@ -144,42 +159,71 @@ public class Card extends JPanel {
 			}
 		});
 	}
-	
+
+	/**
+	 * Allows a card to be closed
+	 * 
+	 * @param closeButton
+	 * @param card
+	 *            object
+	 */
+	private void addListenerToCloseButton(JButton closeButton, final Card aCard) {
+		closeButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				aCard.discardThisCard();
+			}
+		});
+
+	}
+
+	/**
+	 * Discard the card by hiding it from the view
+	 */
+	private void discardThisCard() {
+		this.setVisible(false);
+	}
+
 	/**
 	 * adds mouse over feature to the card
+	 * 
+	 * @param Card
+	 *            object
 	 */
 	private void addMouseoverHightlight(final Card aCard) {
 		aCard.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
+				// set the card back to normal
 				System.out.println("Mouse existed");
 				aCard.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-				aCard.setVisible(false);
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
+				// highlight the card
 				System.out.println("Mouse entered");
-				aCard.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
+				aCard.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 4));
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 	}

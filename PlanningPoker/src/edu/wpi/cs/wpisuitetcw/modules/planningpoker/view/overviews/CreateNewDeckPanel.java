@@ -267,8 +267,7 @@ public class CreateNewDeckPanel extends JPanel {
 	/**
 	 *  
 	 */
-	public void addRemoveCardListener(Card aCard,
-			final CreateNewDeckPanel panel) {
+	public void addRemoveCardListener(Card aCard, final CreateNewDeckPanel panel) {
 		// remove a card
 		aCard.addComponentListener(new ComponentListener() {
 
