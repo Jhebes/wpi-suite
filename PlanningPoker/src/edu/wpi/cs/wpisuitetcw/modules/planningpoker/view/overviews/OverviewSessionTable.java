@@ -64,6 +64,9 @@ public class OverviewSessionTable extends JTable {
 		// Set initialized to false since the model is not ready to load
 		initialized = false;
 
+		// Modify the default single click listener
+		modifyOneClickResponse();
+		
 	}
 	
 	/**
@@ -104,5 +107,29 @@ public class OverviewSessionTable extends JTable {
         
 		return tempComp;
     }
+	
+	/*
+	 * Re-implement mouseClick listener to avoid fragment highlight bug
+	 */
+	private void modifyOneClickResponse() {
+		addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				
+				if (getRowCount() > 0) {
+					int mouseY = e.getY();
+					Rectangle lastRow = getCellRect(getRowCount() - 1, 0, true);
+					int lastRowY = lastRow.y + lastRow.height;
+
+					// Cancel selection when user clicks below the last row
+					if (mouseY > lastRowY) {
+						getSelectionModel().clearSelection();
+					}
+					
+					// Repaint to avoid highlight bug
+					repaint(0, 0, getWidth(), getHeight());
+				}
+			}
+		});
+	}
 	
 }
