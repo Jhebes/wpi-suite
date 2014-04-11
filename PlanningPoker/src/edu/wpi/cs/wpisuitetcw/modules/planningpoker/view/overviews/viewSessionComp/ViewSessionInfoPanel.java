@@ -7,7 +7,6 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
-
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp;
 
 import javax.swing.JLabel;
@@ -16,6 +15,10 @@ import javax.swing.JPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 
+/**
+ * @author troyling
+ *
+ */
 public class ViewSessionInfoPanel extends JPanel {
 	private final PlanningPokerSession session;
 	private final ViewSessionPanel parentPanel;

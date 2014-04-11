@@ -7,7 +7,6 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
-
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.Color;
@@ -47,6 +46,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Scrol
 /**
  * Panel for New Session tab.
  * 
+ * @author Rob, Ben, Jenny
  */
 
 public class CreateSessionPanel extends JSplitPane {
