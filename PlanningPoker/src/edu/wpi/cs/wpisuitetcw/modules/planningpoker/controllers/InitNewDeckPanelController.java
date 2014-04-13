@@ -16,6 +16,12 @@ public class InitNewDeckPanelController implements ActionListener {
 		this.view = sessionPanel;
 	}
 
+	/**
+	 * Create a new deckPanel controller
+	 * 
+	 * @param sessionPanel
+	 * @return InitNewDeckPanelController instance
+	 */
 	public static InitNewDeckPanelController getInstance(
 			CreateSessionPanel sessionPanel) {
 		if (instance == null) {
@@ -26,18 +32,24 @@ public class InitNewDeckPanelController implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (this.deckPanel == null) {
+		try {
+			ViewEventManager.getInstance().getMainview()
+					.setSelectedComponent(this.deckPanel);
+		} catch (IllegalArgumentException error) {
 			this.deckPanel = new CreateNewDeckPanel(this.view);
-			ViewEventManager.getInstance()
-			.display(deckPanel, this.view.DISPLAY_MSG);
-		} else {
-			ViewEventManager.getInstance().getMainview().setSelectedComponent(this.deckPanel);
+			ViewEventManager.getInstance().display(deckPanel,
+					this.view.DISPLAY_MSG);
 		}
 	}
 
+	/**
+	 * removes a deckpanel from the mainview and go back to the create session
+	 * panel
+	 */
 	public void removeDeckPanel() {
 		ViewEventManager.getInstance().removeTab(this.deckPanel);
 		this.deckPanel = null;
+		System.out.println(this.view.toString());
 		ViewEventManager.getInstance().getMainview()
 				.setSelectedComponent(this.view);
 	}
