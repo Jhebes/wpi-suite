@@ -48,12 +48,12 @@ public class SessionInProgressPanel extends JSplitPane {
 	private JLabel deadline;
 	private PlanningPokerRequirement[] reqsList;
 	private JButton btnSubmit;
-	private String selectedReqName;
 	private JTable reqsViewTable;
 	private ViewSessionTableManager reqsViewTableManager = new ViewSessionTableManager();
 	private JList voteList;
 	private JLabel label_1 = new JLabel("");
 	private JLabel label_2 = new JLabel("");
+	private PlanningPokerRequirement selectedReq;
 	private String reqName;
 	private String reqDescription;
 
@@ -216,15 +216,15 @@ public class SessionInProgressPanel extends JSplitPane {
 				if (row != -1){
 					ViewSessionTableManager m = new ViewSessionTableManager();
 					Vector v = m.get(session.getID()).getDataVector();
-					String name = (String)((Vector) v.elementAt(row)).elementAt(1);
-					PlanningPokerRequirement r = session.getReqByName(name);
-					this.setSuperClassVariables(name, r.getDescription());
+					String name = (String)((Vector) v.elementAt(row)).elementAt(0);
+					selectedReq = session.getReqByName(name);
+					this.setSuperClassVariables(name, selectedReq.getDescription());
 				}
 
 			}
 			public void setSuperClassVariables(String name, String desc){
 				System.out.println(name);
-				System.out.println(desc);			
+				System.out.println(desc);		
 				reqName = name;
 				reqDescription = desc;
 				setReqLabels();
@@ -294,7 +294,6 @@ public class SessionInProgressPanel extends JSplitPane {
 	}
 
 	/**
-	 * /**
 	 * 
 	 * @param sessionName
 	 */
@@ -345,11 +344,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	 * @return Requirement Name selected in the list
 	 */
 	public String getSelectedRequirement() {
-		int c = reqsViewTable.getSelectedRow();
-		String name = (String) this.reqsViewTableManager.get(
-				this.session.getID()).getValueAt(c, 1);
-		System.out.println("Found " + name);
-		return name;
+		return reqName;
 	}
 
 	/**
@@ -374,7 +369,6 @@ public class SessionInProgressPanel extends JSplitPane {
 		this.voteList.setListData(array);
 	}
 	
-
 	/**
 	 * sets the reqsViewTable with the appropriate information
 	 */
