@@ -11,6 +11,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetAllSessionsController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetClosedSessionsController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetOpenSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.Session;
@@ -38,6 +41,17 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		DefaultMutableTreeNode closedSessionNode = new DefaultMutableTreeNode(
 				"Closed Sessions");
 
+		try {
+			GetAllSessionsController.getInstance().retrieveSessions();
+			
+		} catch (NullPointerException e) {
+			System.out.println("Network configuration error");
+		}
+
+		PlanningPokerSession[] allSessions = OverviewTableSessionTableModel
+				.getInstance().getSessions();
+		System.out.println("There are " + allSessions.length);
+
 		top.add(openSessionNode);
 		top.add(closedSessionNode);
 
@@ -48,9 +62,9 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		tree.setToggleClickCount(0);
 
 		tree.setCellRenderer(new CustomTreeCellRenderer());
-		tree.addMouseListener(this); //add a listener to check for clicking
-        tree.addTreeSelectionListener(this);
-        
+		tree.addMouseListener(this); // add a listener to check for clicking
+		tree.addTreeSelectionListener(this);
+
 		// tree.setDragEnabled(true);
 		// tree.setDropMode(DropMode.ON);
 
@@ -83,7 +97,19 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
 						.getLastSelectedPathComponent();
 				if (node != null) {
-					if (node.getUserObject() instanceof Session) {
+					if (node.toString().equals("All Sessions")) {
+						System.out.println("all sessions refreshing");
+						GetAllSessionsController.getInstance()
+								.retrieveSessions();
+					} else if (node.toString().equals("Open Sessions")) {
+						System.out.println("open sessions refreshing");
+						GetOpenSessionsController.getInstance()
+								.retrieveOpenSessions();
+					} else if (node.toString().equals("Closed Sessions")) {
+						System.out.println("closed sessions refreshing");
+						GetClosedSessionsController.getInstance()
+								.retrieveClosedSession();
+					} else if (node.getUserObject() instanceof PlanningPokerSession) {
 						ViewEventManager.getInstance().viewSession(
 								(PlanningPokerSession) node.getUserObject());
 					}

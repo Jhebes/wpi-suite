@@ -28,7 +28,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * 
  */
 public class GetClosedSessionsController implements ActionListener {
-	private final OverviewPanel view;
+	private static GetClosedSessionsController instance;
 	private final PlanningPokerSession[] data = null;
 
 	/**
@@ -37,8 +37,14 @@ public class GetClosedSessionsController implements ActionListener {
 	 * @param view
 	 *            the view where the closed session button lies on
 	 */
-	public GetClosedSessionsController(OverviewPanel view) {
-		this.view = view;
+	public GetClosedSessionsController() {
+	}
+	
+	public static GetClosedSessionsController getInstance() {
+		if(instance == null) {
+			instance = new GetClosedSessionsController();
+		}
+		return instance;
 	}
 
 	/*
@@ -69,6 +75,10 @@ public class GetClosedSessionsController implements ActionListener {
 	
 	public void receivedSessions(PlanningPokerSession[] sessions) {
 		OverviewTableSessionTableModel.getInstance().refreshSessions(sessions);
+	}
+	
+	public void retrieveClosedSession() {
+		actionPerformed(null);
 	}
 
 }
