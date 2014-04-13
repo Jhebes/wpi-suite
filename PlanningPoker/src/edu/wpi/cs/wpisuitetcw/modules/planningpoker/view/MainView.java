@@ -34,7 +34,7 @@ public class MainView extends JTabbedPane {
 
 	public MainView() {
 		overviewPanel = new OverviewPanel();
-		this.addTab("Overview", overviewPanel);
+		this.addTab("Session Overview", overviewPanel);
 	}
 	
 	/**

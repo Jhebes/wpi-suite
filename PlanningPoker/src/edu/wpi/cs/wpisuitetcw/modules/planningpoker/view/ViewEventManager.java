@@ -11,10 +11,10 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import javax.swing.JComponent;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateNewDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTreePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 
@@ -26,6 +26,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPa
 public class ViewEventManager {
 	private static ViewEventManager instance = null;
 	private MainView main;
+	private OverviewTreePanel overviewTree;
 	private ToolbarView toolbarView;
 
 	/**
@@ -46,7 +47,7 @@ public class ViewEventManager {
 		}
 		return instance;
 	}
-	
+
 	/**
 	 * Opens a new tab for the creation of a session
 	 */
@@ -57,7 +58,7 @@ public class ViewEventManager {
 		main.repaint();
 		main.setSelectedComponent(newSession);
 	}
-	
+
 	/**
 	 * Opens a new tab for viewing a session
 	 */
@@ -68,16 +69,16 @@ public class ViewEventManager {
 			main.repaint();
 			main.setSelectedComponent(panel);
 		} else {
-			
+
 			ViewSessionPanel viewSession = new ViewSessionPanel(session);
 			main.addTab(session.getName(), null, viewSession, "View Session.");
 			main.repaint();
 			main.setSelectedComponent(viewSession);
 		}
 	}
-	
+
 	/**
-	 *  Opens a new tab for creatign a new deck of cards
+	 * Opens a new tab for creatign a new deck of cards
 	 */
 	public void createDeck() {
 		CreateNewDeckPanel deckPanel = new CreateNewDeckPanel();
@@ -85,34 +86,48 @@ public class ViewEventManager {
 		main.repaint();
 		main.setSelectedComponent(deckPanel);
 	}
-	
-	
+
 	/**
 	 * Sets the toolbarview to the given toolbar
-	 * @param tb the toolbar to be set as active.
+	 * 
+	 * @param tb
+	 *            the toolbar to be set as active.
 	 */
 	public void setToolBar(ToolbarView toolbarView) {
 		this.toolbarView = toolbarView;
 		this.toolbarView.repaint();
 	}
-	
+
+	/**
+	 * sets overview tree in the overview panel
+	 * 
+	 * @param overviewTree
+	 *            overviewTreePanel
+	 */
+	public void setOverviewTree(OverviewTreePanel overviewTree) {
+		this.overviewTree = overviewTree;
+	}
+
 	/**
 	 * Sets the main view to the given view.
-	 * @param mainview MainView
+	 * 
+	 * @param mainview
+	 *            MainView
 	 */
 	public void setMainView(MainView mainview) {
 		main = mainview;
-		
+
 	}
-	
-	
+
 	/**
 	 * Removes the tab for the given JComponent
-	 * @param comp the component to remove
+	 * 
+	 * @param comp
+	 *            the component to remove
 	 */
 	public void removeTab(JComponent component) {
 		main.remove(component);
-		
+
 	}
 
 	/**
@@ -120,10 +135,11 @@ public class ViewEventManager {
 	 */
 	public void createImportRequirementsPanel() {
 		ImportRequirementsPanel newPanel = new ImportRequirementsPanel();
-		main.addTab("Import Requirements", null, newPanel, "Import a new requirement.");
+		main.addTab("Import Requirements", null, newPanel,
+				"Import a new requirement.");
 		main.invalidate();
 		main.repaint();
 		main.setSelectedComponent(newPanel);
 	}
-	
+
 }
