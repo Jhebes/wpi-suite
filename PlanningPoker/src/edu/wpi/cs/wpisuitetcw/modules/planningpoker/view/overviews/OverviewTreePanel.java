@@ -8,14 +8,21 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.CustomTreeCellRenderer;
 
 public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		TreeSelectionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTree tree;
 
 	public OverviewTreePanel() {
@@ -30,7 +37,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 				"Open Sessions");
 		DefaultMutableTreeNode closedSessionNode = new DefaultMutableTreeNode(
 				"Closed Sessions");
-		
+
 		top.add(openSessionNode);
 		top.add(closedSessionNode);
 
@@ -41,6 +48,9 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		tree.setToggleClickCount(0);
 
 		tree.setCellRenderer(new CustomTreeCellRenderer());
+		tree.addMouseListener(this); //add a listener to check for clicking
+        tree.addTreeSelectionListener(this);
+        
 		// tree.setDragEnabled(true);
 		// tree.setDropMode(DropMode.ON);
 
@@ -59,9 +69,27 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 
 	}
 
+	/**
+	 * This should perform some actions
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		int x = e.getX();
+		int y = e.getY();
+
+		if (e.getClickCount() == 2) {
+			TreePath path = tree.getPathForLocation(x, y);
+			if (path != null) {
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
+						.getLastSelectedPathComponent();
+				if (node != null) {
+					if (node.getUserObject() instanceof Session) {
+						ViewEventManager.getInstance().viewSession(
+								(PlanningPokerSession) node.getUserObject());
+					}
+				}
+			}
+		}
 
 	}
 
