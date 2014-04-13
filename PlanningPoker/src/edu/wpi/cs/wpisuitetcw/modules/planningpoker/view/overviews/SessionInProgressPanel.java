@@ -37,6 +37,8 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTa
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class SessionInProgressPanel extends JSplitPane {
 
@@ -282,6 +284,22 @@ public class SessionInProgressPanel extends JSplitPane {
 		splitTopBottom.setBottomComponent(tabbedPane);
 
 		setLeftComponent(LeftPanel);
+		
+		Component verticalStrut_2 = Box.createVerticalStrut(20);
+		LeftPanel.add(verticalStrut_2);
+		
+		JButton btnEditSession = new JButton("Edit Session");
+		btnEditSession.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//TODO: Implement this method
+				/*
+				 * Logic: Instantiate controller class
+				 * Save Session Vars and populate the proper fields
+				 * Logic: Call method to transfer to start screen to edit everything
+				 */
+			}
+		});
+		LeftPanel.add(btnEditSession);
 		setRightComponent(splitTopBottom);
 	}
 
