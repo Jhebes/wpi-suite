@@ -25,15 +25,12 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	}
 
 	public void refresh() {
-		DefaultMutableTreeNode top = new DefaultMutableTreeNode("Session Tree");
-		DefaultMutableTreeNode allSessioinNode = new DefaultMutableTreeNode(
-				"All Sessions");
+		DefaultMutableTreeNode top = new DefaultMutableTreeNode("All Sessions");
 		DefaultMutableTreeNode openSessionNode = new DefaultMutableTreeNode(
 				"Open Sessions");
 		DefaultMutableTreeNode closedSessionNode = new DefaultMutableTreeNode(
 				"Closed Sessions");
-
-		top.add(allSessioinNode);
+		
 		top.add(openSessionNode);
 		top.add(closedSessionNode);
 
