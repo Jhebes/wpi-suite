@@ -29,6 +29,7 @@ public class CreateNewDeckPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	// constants
 	private final String NAME_ERR_MSG = "<html><font color='red'>REQUIRES</font></html>";
+	private final String NO_CARD_ERR_MSG = "<html><font color='red'>A deck must contain </br >at least one card. </font></html>";
 	private final int CARD_WIDTH = 146;
 	private final String CARD_COUNT_LABEL = "# of Cards: ";
 	private final String ADD_CARD_LABEL = "[+] New Card";
@@ -53,6 +54,7 @@ public class CreateNewDeckPanel extends JPanel {
 	private final JPanel cardPanel;
 	private final JScrollPane cardSP;
 	private final CreateSessionPanel invokingPanel;
+	private final JPanel errorPanel;
 
 	// subject to change
 	// private final JTextField textboxVal;
@@ -64,7 +66,11 @@ public class CreateNewDeckPanel extends JPanel {
 		topPanel = new JPanel();
 		centerPanel = new JPanel();
 		bottomPanel = new JPanel();
-
+		errorPanel = new JPanel();
+		
+		errorPanel.add(new JLabel(NO_CARD_ERR_MSG));
+		errorPanel.setVisible(false);
+		
 		cards = new HashMap<Integer, Card>();
 
 		// text labels
@@ -125,6 +131,7 @@ public class CreateNewDeckPanel extends JPanel {
 		centerTopPanel.add(labelNumCards);
 
 		// removes cards
+		cardPanel.add(errorPanel);
 		cardPanel.add(starterCard);
 		container.add(cardPanel);
 
@@ -153,7 +160,7 @@ public class CreateNewDeckPanel extends JPanel {
 	}
 
 	/**
-	 * Add a new card to both the storing array and the view
+	 * Add a new card to both the storing hashmap and the view
 	 */
 	public void addNewCard() {
 		Card aCard = new Card();
@@ -161,7 +168,8 @@ public class CreateNewDeckPanel extends JPanel {
 		cards.put(key, aCard);
 		this.addRemoveCardListener(aCard, this);
 
-		this.cardPanel.add(aCard);
+		this.cardPanel.add(aCard);	
+		validateNumCards();
 		this.updateNumCard();
 
 		// TODO This yet moves to the rightmost position when a new card is
@@ -171,15 +179,31 @@ public class CreateNewDeckPanel extends JPanel {
 	}
 
 	/**
-	 * Remove a card from the view and the array
+	 * Remove a card from the view and the hashmap
 	 */
 	public void removeCardWithKey(int key) {
 		System.out.println("Executed");
 		cards.remove(key);
-		// this.cardPanel.remove(aCard);
+		
+		validateNumCards();
 		updateNumCard();
 	}
-
+	
+	/**
+	 * check the number of cards in the panel, render proper error message if necessary
+	 */
+	private void validateNumCards() {
+		if(this.cards.size() == 0) {
+			this.btnCreate.setEnabled(false);
+			// display error message
+			errorPanel.setVisible(true);
+			
+		} else {
+			this.btnCreate.setEnabled(true);
+			errorPanel.setVisible(false);
+		}
+	}
+	
 	/**
 	 * update the total number of cards
 	 */
