@@ -15,6 +15,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -124,7 +125,7 @@ public class SessionInProgressPanel extends JSplitPane {
 
 		// TODO: make it so this can take a real date.
 		// Call setter for session deadline (TBR)
-		setSessionDeadline("12/13/14", "12:00 PM");
+		setSessionDeadline(session.getDeadline());
 		LeftPanel.add(deadline);
 
 		// Set up Reqs Panel
@@ -317,10 +318,11 @@ public class SessionInProgressPanel extends JSplitPane {
 	 * @param sessionDeadlineTime
 	 *            Deadline Time (hh:mm AM) of Session as a String
 	 */
-	public void setSessionDeadline(String sessionDeadlineDate,
-			String sessionDeadlineTime) {
-		deadline = new JLabel("<html>" + sessionDeadlineDate + " at "
-				+ sessionDeadlineTime + "</html>", JLabel.LEFT);
+	public void setSessionDeadline(java.util.Date date) {
+		if (date != null)
+			deadline = new JLabel("<html>" + date + "</html>", JLabel.LEFT);
+		else
+			deadline = new JLabel("");
 	}
 
 	/**
