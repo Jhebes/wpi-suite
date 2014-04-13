@@ -8,7 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,12 +24,12 @@ import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddNewCardController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateNewDeckController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.InitNewDeckPanelController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
 
 public class CreateNewDeckPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	// constants
+	private final String TEXTBOX_PLACEHOLDER = "Deck " + new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 	private final String NAME_ERR_MSG = "<html><font color='red'>REQUIRES</font></html>";
 	private final String NO_CARD_ERR_MSG = "<html><font color='red'>A deck must contain </br >at least one card. </font></html>";
 	private final int CARD_WIDTH = 146;
@@ -82,7 +84,8 @@ public class CreateNewDeckPanel extends JPanel {
 		this.labelNameErr.setVisible(false);
 
 		// textfields
-		this.textboxName = new JTextField(21);
+		this.textboxName = new JTextField(18);
+		this.textboxName.setText(TEXTBOX_PLACEHOLDER);
 
 		// cards
 		Card starterCard = new Card();
