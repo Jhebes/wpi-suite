@@ -48,7 +48,7 @@ public class PlanningPokerRequirement extends AbstractModel {
 		votes.add(vote);
 	}
 	
-	public void delteeVote(PlanningPokerVote vote) {
+	public void deleteVote(PlanningPokerVote vote) {
 		votes.remove(vote);
 	}
 
