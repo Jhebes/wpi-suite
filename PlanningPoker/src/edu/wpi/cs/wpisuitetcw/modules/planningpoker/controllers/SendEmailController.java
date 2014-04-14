@@ -60,8 +60,19 @@ public class SendEmailController {
 			Date deadline) {
 
 		try {
-			String sDeadline = (new SimpleDateFormat("yyyy-MM-dd hh:mm"))
+			
+			String sDeadline;
+			
+			if (deadline !=null)
+			{
+			sDeadline = (new SimpleDateFormat("yyyy-MM-dd hh:mm"))
 					.format(deadline);
+			}
+			else
+			{
+				sDeadline = "NO DATETIME GIVEN!";
+			}
+			
 			StringBuilder sb = new StringBuilder();
 			sb.append("Advanced/planningpoker/session/sendEmail/");
 			sb.append(URLEncoder.encode(notificationType, "UTF-8"));

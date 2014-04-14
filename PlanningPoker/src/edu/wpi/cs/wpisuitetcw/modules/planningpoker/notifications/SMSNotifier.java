@@ -1,6 +1,6 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications;
 
-import com.wilko.jaim.JaimConnection;
+//import com.wilko.jaim.JaimConnection;
 
 public class SMSNotifier {
 	// Hostname and port number to connect to.
@@ -31,7 +31,7 @@ public class SMSNotifier {
 	}
 
 	public static void sendMessage(String message, String buddy) {
-		JaimConnection connection;
+		/*JaimConnection connection;
 		try {
 			connection = new JaimConnection(HOST, PORT);
 			connection.connect();
@@ -42,6 +42,6 @@ public class SMSNotifier {
 			connection.logOut();
 		} catch (Exception ex) {
 			ex.printStackTrace();
-		}
+		}*/
 	}
 }

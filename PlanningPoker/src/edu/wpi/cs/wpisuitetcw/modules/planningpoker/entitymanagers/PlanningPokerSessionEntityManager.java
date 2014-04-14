@@ -25,7 +25,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications.IMNotifier;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications.SMSNotifier;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
@@ -397,6 +397,6 @@ public class PlanningPokerSessionEntityManager implements
 	}
 
 	public void sendIMNotification(String notificationType, String screenname, String deadline) {
-		IMNotifier.sendMessage(notificationType, screenname, deadline);
+		SMSNotifier.sendMessage(notificationType, screenname, deadline);
 	}
 }
