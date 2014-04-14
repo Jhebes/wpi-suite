@@ -221,7 +221,6 @@ public class SessionInProgressPanel extends JSplitPane {
 					selectedReq = session.getReqByName(name);
 					this.setSuperClassVariables(name, selectedReq.getDescription());
 				}
-
 			}
 			public void setSuperClassVariables(String name, String desc){
 				System.out.println(name);
