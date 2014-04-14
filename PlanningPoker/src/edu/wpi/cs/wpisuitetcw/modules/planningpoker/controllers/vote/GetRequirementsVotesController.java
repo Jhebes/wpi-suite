@@ -48,7 +48,6 @@ public class GetRequirementsVotesController implements ActionListener{
 		this.session = session;
 		this.view = view;
 	}
-	
 
 	/**
 	 * This method is called by the
