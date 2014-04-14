@@ -52,15 +52,15 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 			PlanningPokerSession[] closedSessions = sortForClosedSessions(allSessions);
 			// PlanningPokerSession[] draftSessions =
 			// sortForDraftSessions(allSessions);
-			
+
 			// add open sessions to the node
-			for(PlanningPokerSession s : openSessions) {
+			for (PlanningPokerSession s : openSessions) {
 				DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(s);
 				openSessionNode.add(newNode);
 			}
-			
+
 			// add closed sessions to the node
-			for(PlanningPokerSession s : closedSessions) {
+			for (PlanningPokerSession s : closedSessions) {
 				DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(s);
 				closedSessionNode.add(newNode);
 			}
@@ -145,10 +145,10 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(ViewEventManager.getInstance().isWelcomePageOnDisplay()) {
+		if (ViewEventManager.getInstance().isWelcomePageOnDisplay()) {
 			ViewEventManager.getInstance().showSessionTable();
 		}
-		
+
 		int x = e.getX();
 		int y = e.getY();
 

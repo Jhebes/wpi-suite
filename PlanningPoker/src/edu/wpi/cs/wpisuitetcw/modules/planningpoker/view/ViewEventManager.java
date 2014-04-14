@@ -144,26 +144,33 @@ public class ViewEventManager {
 		main.repaint();
 		main.setSelectedComponent(newPanel);
 	}
-	
+
 	/**
 	 * return whether a welcome page is on display
 	 */
 	public boolean isWelcomePageOnDisplay() {
 		return this.isWelcomePageOnDisplay;
 	}
-	
+
 	/**
 	 * show table and remove the welcome page
 	 */
 	public void showSessionTable() {
 		this.overviewPanel.showSessionTable();
 	}
-	
+
 	/**
 	 * setter for overview panel
 	 */
 	public void setOverviewPanel(OverviewPanel overviewPanel) {
 		this.overviewPanel = overviewPanel;
+	}
+
+	/**
+	 * update the contents on overview panel
+	 */
+	public void refreshOverviewPanel() {
+		this.overviewPanel.updateUI();
 	}
 
 }
