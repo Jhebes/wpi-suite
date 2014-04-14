@@ -162,6 +162,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 						System.out.println("all sessions refreshing");
 						GetAllSessionsController.getInstance()
 								.retrieveSessions();
+						refresh();
 					} else if (node.toString().equals("Open Sessions")) {
 						System.out.println("open sessions refreshing");
 						GetOpenSessionsController.getInstance()
