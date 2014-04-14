@@ -31,7 +31,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
 /**
- * @author troyling, Jake, Zack
+ * @author troyling, Jake, Zach
  * 
  */
 public class OverviewPanel extends JSplitPane {

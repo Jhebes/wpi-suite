@@ -285,9 +285,6 @@ public class SessionInProgressPanel extends JSplitPane {
 
 		setLeftComponent(LeftPanel);
 		
-		Component verticalStrut_2 = Box.createVerticalStrut(20);
-		LeftPanel.add(verticalStrut_2);
-		
 		JButton btnEditSession = new JButton("Edit Session");
 		btnEditSession.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -299,6 +296,9 @@ public class SessionInProgressPanel extends JSplitPane {
 				 */
 			}
 		});
+		
+		Component verticalGlue = Box.createVerticalGlue();
+		LeftPanel.add(verticalGlue);
 		LeftPanel.add(btnEditSession);
 		setRightComponent(splitTopBottom);
 	}
