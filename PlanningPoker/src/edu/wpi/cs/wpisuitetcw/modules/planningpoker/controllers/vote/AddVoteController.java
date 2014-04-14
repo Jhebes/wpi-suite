@@ -74,6 +74,8 @@ public class AddVoteController implements ActionListener {
 		session.addVoteToRequirement(req, vote);
 	
 		System.out.println("Added vote to requirement " + req.getName());
+		session.setHasVoted(true);
+		view.disableEditSession();
 		
 		//Update the session remotely
 		final Request request = Network.getInstance().makeRequest(

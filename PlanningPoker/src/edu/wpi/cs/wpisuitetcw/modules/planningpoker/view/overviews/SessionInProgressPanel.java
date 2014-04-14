@@ -60,6 +60,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	private JLabel label_2 = new JLabel("");
 	private String reqName;
 	private String reqDescription;
+	private JButton btnEditSession;
 
 	/**
 	 * Create the panel.
@@ -287,7 +288,7 @@ public class SessionInProgressPanel extends JSplitPane {
 
 		setLeftComponent(LeftPanel);
 		
-		JButton btnEditSession = new JButton("Edit Session");
+		btnEditSession = new JButton("Edit Session");
 		btnEditSession.addActionListener(new EditActivatedSessionController(session,this));
 		
 		Component verticalGlue = Box.createVerticalGlue();
@@ -396,5 +397,11 @@ public class SessionInProgressPanel extends JSplitPane {
 	public void setReqLabels() {
 		label_1.setText("<html>"+reqName+"</html>");
 		label_2.setText("<html>"+reqDescription+"</html>");
+	}
+	
+	public void disableEditSession(){
+		if(session.isHasVoted() == true){
+		 btnEditSession.setEnabled(false);
+		}
 	}
 }
