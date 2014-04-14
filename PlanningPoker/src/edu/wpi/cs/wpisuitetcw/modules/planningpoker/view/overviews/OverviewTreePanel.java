@@ -145,6 +145,10 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if(ViewEventManager.getInstance().isWelcomePageOnDisplay()) {
+			ViewEventManager.getInstance().showSessionTable();
+		}
+		
 		int x = e.getX();
 		int y = e.getY();
 

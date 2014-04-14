@@ -11,22 +11,17 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
-import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetAllSessionsController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetClosedSessionsController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetOpenSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
@@ -35,6 +30,9 @@ public class OverviewPanel extends JSplitPane {
 	private static final long serialVersionUID = 1L;
 	private final JPanel rightPanel;
 	private final OverviewTreePanel treePanel;
+	// this will be the panel of a welcome page
+	private final JPanel welcomePanel;
+	private final JScrollPane sessionPanelJsp;
 
 	// private final JButton openSessionBtn;
 	// private final JButton closedSessionBtn;
@@ -46,29 +44,10 @@ public class OverviewPanel extends JSplitPane {
 
 		// Create the left side
 		treePanel = new OverviewTreePanel();
-		
-		// setup tree navigation for the left panel
-		
 
-		// adds some padding
-		// leftPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-
-		// Set leftPanel to GridLayout
-		// leftPanel.setLayout(new GridLayout(6, 1, 1, 20));
-
-		// Initialize the buttons
-		// openSessionBtn = new JButton("Open Sessions");
-		// closedSessionBtn = new JButton("Closed Sessions");
-		// allSessionsBtn = new JButton("All Sessions");
-		//
-		// openSessionBtn.addActionListener(new
-		// GetOpenSessionsController(this));
-		// closedSessionBtn
-		// .addActionListener(new GetClosedSessionsController(this));
-		// allSessionsBtn
-		// .addActionListener(GetAllSessionsController.getInstance());
-
-		// Create Table using data above
+		// TODO add the real welcome panel
+		welcomePanel = new JPanel();
+		welcomePanel.add(new JLabel("This is a Welcome Page."));
 
 		final JTable table = new JTable(
 				OverviewTableSessionTableModel.getInstance()) {
@@ -96,11 +75,6 @@ public class OverviewPanel extends JSplitPane {
 				}
 			}
 		};
-
-		// Add the buttons to the leftPanel
-		// leftPanel.add(openSessionBtn);
-		// leftPanel.add(closedSessionBtn);
-		// leftPanel.add(allSessionsBtn);
 
 		// Add mouse listener to check for mouse clicks on the table
 		table.addMouseListener(new MouseAdapter() {
@@ -140,10 +114,10 @@ public class OverviewPanel extends JSplitPane {
 		rightPanel.setLayout(new BorderLayout());
 
 		// Add table inside a JScrollPane to rightPanel
-		JScrollPane jsp = new JScrollPane(table);
+		sessionPanelJsp = new JScrollPane(table);
 
 		// Add the JSP to the rightPanel
-		rightPanel.add(jsp);
+		rightPanel.add(welcomePanel);
 
 		// Set panels background to white (matching table)
 		rightPanel.setBackground(Color.WHITE);
@@ -154,24 +128,16 @@ public class OverviewPanel extends JSplitPane {
 
 		// Set divider location between right and left panel
 		this.setDividerLocation(180);
-
+		ViewEventManager.getInstance().setOverviewPanel(this);
 	}
 
-	// Getters
-	// public JButton getOpenSessionBtn() {
-	// return openSessionBtn;
-	// }
-	//
-	// public JButton getClosedSessionBtn() {
-	// return closedSessionBtn;
-	// }
-	//
-	// public JButton getAllSessionsBtn() {
-	// return allSessionsBtn;
-	// }
-
-	public void recieveSessionList(PlanningPokerSession[] pps) {
-
+	/**
+	 * relaces the welcome page with the session table
+	 */
+	public void showSessionTable() {
+		this.rightPanel.remove(welcomePanel);
+		this.rightPanel.add(sessionPanelJsp);
+		updateUI();
 	}
 
 }

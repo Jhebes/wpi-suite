@@ -14,6 +14,7 @@ import javax.swing.JComponent;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateNewDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTreePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
@@ -27,7 +28,9 @@ public class ViewEventManager {
 	private static ViewEventManager instance = null;
 	private MainView main;
 	private OverviewTreePanel overviewTree;
+	private OverviewPanel overviewPanel;
 	private ToolbarView toolbarView;
+	private boolean isWelcomePageOnDisplay = true;
 
 	/**
 	 * Default constructor for ViewEventController. It is set to private to
@@ -140,6 +143,27 @@ public class ViewEventManager {
 		main.invalidate();
 		main.repaint();
 		main.setSelectedComponent(newPanel);
+	}
+	
+	/**
+	 * return whether a welcome page is on display
+	 */
+	public boolean isWelcomePageOnDisplay() {
+		return this.isWelcomePageOnDisplay;
+	}
+	
+	/**
+	 * show table and remove the welcome page
+	 */
+	public void showSessionTable() {
+		this.overviewPanel.showSessionTable();
+	}
+	
+	/**
+	 * setter for overview panel
+	 */
+	public void setOverviewPanel(OverviewPanel overviewPanel) {
+		this.overviewPanel = overviewPanel;
 	}
 
 }
