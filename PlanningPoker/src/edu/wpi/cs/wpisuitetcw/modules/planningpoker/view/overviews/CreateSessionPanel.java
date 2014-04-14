@@ -193,7 +193,7 @@ public class CreateSessionPanel extends JSplitPane {
 		// buttons
 		rightPanel.add(btnSaveSession, "width 150px, left, wrap");
 
-		btnSaveSession.addActionListener(new AddSessionController(this));
+		btnSaveSession.addActionListener(new AddSessionController(this, true, session));
 		btnCreateNewDeck.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -215,6 +215,11 @@ public class CreateSessionPanel extends JSplitPane {
 		this.setRightComponent(container);
 		this.setDividerLocation(180);
 		this.setEnabled(false);
+		this.nameTextField.setText(session.getName());
+		this.nameTextField.setEnabled(false);
+		this.descriptionBox.setText(session.getDescription());
+		this.descriptionBox.setEnabled(false);
+
 	}
 
 	// Constructor for our Create Session Panel
@@ -319,7 +324,7 @@ public class CreateSessionPanel extends JSplitPane {
 		// buttons
 		rightPanel.add(btnSaveSession, "width 150px, left, wrap");
 
-		btnSaveSession.addActionListener(new AddSessionController(this));
+		btnSaveSession.addActionListener(new AddSessionController(this, false));
 		btnCreateNewDeck.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

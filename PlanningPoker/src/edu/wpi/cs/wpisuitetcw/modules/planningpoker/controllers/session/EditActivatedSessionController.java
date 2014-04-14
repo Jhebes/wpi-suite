@@ -1,9 +1,13 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 
-public class EditActivatedSessionController {
+public class EditActivatedSessionController implements ActionListener{
 
 	private PlanningPokerSession session;
 	private SessionInProgressPanel panel;
@@ -23,12 +27,18 @@ public class EditActivatedSessionController {
 	 */
 	public void passBackToNewSession() {
 
-		this.
+		
 		this.session.deactivate();
+		ViewEventManager.getInstance().removeTab(this.panel);
+		ViewEventManager.getInstance().editSession(this.session);
 
-		// close me
-		// open new edit tab
 
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		this.passBackToNewSession();
+		
 	}
 
 }

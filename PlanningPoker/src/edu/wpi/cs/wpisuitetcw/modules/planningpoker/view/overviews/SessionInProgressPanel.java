@@ -31,12 +31,14 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.EditActivatedSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.GetRequirementsVotesController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -286,16 +288,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		setLeftComponent(LeftPanel);
 		
 		JButton btnEditSession = new JButton("Edit Session");
-		btnEditSession.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//TODO: Implement this method
-				/*
-				 * Logic: Instantiate controller class
-				 * Save Session Vars and populate the proper fields
-				 * Logic: Call method to transfer to start screen to edit everything
-				 */
-			}
-		});
+		btnEditSession.addActionListener(new EditActivatedSessionController(session,this));
 		
 		Component verticalGlue = Box.createVerticalGlue();
 		LeftPanel.add(verticalGlue);
