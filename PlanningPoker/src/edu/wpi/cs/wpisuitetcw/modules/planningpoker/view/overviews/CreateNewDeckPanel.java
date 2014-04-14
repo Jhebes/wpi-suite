@@ -1,6 +1,14 @@
-/**
- * 
- */
+/*******************************************************************************
+ * Copyright (c) 2013 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors: Team Combat Wombat
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.GridBagLayout;
@@ -20,6 +28,9 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateNewDeckCon
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
 
+/**
+ * A view to create a new deck
+ */
 public class CreateNewDeckPanel extends JPanel {
 	// constants
 	private final String NAME_ERR_MSG = "<html><font color='red'>REQUIRES</font></html>";
