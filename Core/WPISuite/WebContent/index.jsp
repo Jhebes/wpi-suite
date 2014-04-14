@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1"
+    %>
+    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -8,6 +10,7 @@
 <%!
 //the first index of the fields array must be the unique
 //identifier for this object
+
 String coreusertitle = "CoreUser";
 String coreuserpath = "core/user";
 String[] coreuser = {
@@ -28,6 +31,7 @@ String[] coreproject = {
 };
 int coreprojectlength = 2;
 
+
 public String createModelField(String title, String path, String[] args, int length)
 {
 	String text = "<h3>"+title+"</h3>";
@@ -42,9 +46,11 @@ public String createModelField(String title, String path, String[] args, int len
 	text += "<textarea id="+title+"textArea rows=\"5\" cols=\"40\"></textarea>\n";
 	return text + "<br />";
 }
+
 public String createModelScript(String title, String path, String[] args, int length)
 {
 	String scriptText = "<script type=\"text/javascript\" >\n";
+	
 	scriptText += "function "+title+"(action){\n";
 	scriptText += "send = new Object();\n";
 	for(int i = 0; i < length; i++)
@@ -58,19 +64,24 @@ public String createModelScript(String title, String path, String[] args, int le
 					"document.getElementById(\""+title+"textArea\").value = request.responseText;\n" +
 				"}\n" +
 			"};\n";
-	scriptText += "if(action == 'create'){ \n"+
-				"request.open('PUT', \"API/"+path+"/\", true)\n"+
-		    	"request.send(jsend);\n" +
-			"}else if(action == 'read'){ \n" +
-				"request.open('GET', \"API/"+path+"/\"+send."+args[0]+", true)\n"+
-		    	"request.send();\n" +
-			"}else if(action == 'update'){ \n" +
-				"request.open('POST', \"API/"+path+"/\"+send."+args[0]+", true)\n"+
-		    	"request.send(jsend);\n" +
-			"}else if(action == 'delete'){ \n" +
-				"request.open('DELETE', \"API/"+path+"/\"+send."+args[0]+", true)\n"+
-		    	"request.send();\n" +
-			"}}\n";
+			
+			scriptText += "if(action == 'create'){ \n"+
+					"request.open('PUT', \"API/"+path+"/\", true)\n"+
+			    	"request.send(jsend);\n" +
+					
+				"}else if(action == 'read'){ \n" +
+					"request.open('GET', \"API/"+path+"/\"+send."+args[0]+", true)\n"+
+			    	"request.send();\n" +
+	
+				"}else if(action == 'update'){ \n" +
+					"request.open('POST', \"API/"+path+"/\"+send."+args[0]+", true)\n"+
+			    	"request.send(jsend);\n" +
+					
+				"}else if(action == 'delete'){ \n" +
+					"request.open('DELETE', \"API/"+path+"/\"+send."+args[0]+", true)\n"+
+			    	"request.send();\n" +
+				"}}\n";
+	
 			
 	scriptText += "</script>";	
 	return scriptText;
