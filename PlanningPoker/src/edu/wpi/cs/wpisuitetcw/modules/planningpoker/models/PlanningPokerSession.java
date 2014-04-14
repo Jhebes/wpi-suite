@@ -14,6 +14,8 @@ import java.util.Date;
 
 import com.google.gson.Gson;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.janeway.config.Configuration;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -27,8 +29,8 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/** The id of the session */
 	private int id = -1;
-	
-	/** The user name of the creator of this session*/
+
+	/** The user name of the creator of this session */
 	private String ownerUserName = "";
 
 	/** The name of the session */
@@ -51,7 +53,7 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/** List of users in the session */
 	private ArrayList<User> users;
-	
+
 	/** The deck to be used for this session */
 	private PlanningPokerDeck deck;
 
@@ -117,18 +119,34 @@ public class PlanningPokerSession extends AbstractModel {
 		requirements.add(req);
 	}
 
-	public void addVoteToRequirement(PlanningPokerRequirement req, PlanningPokerVote v){
+	public void addVoteToRequirement(PlanningPokerRequirement req,
+			PlanningPokerVote v) {
 		requirements.get(requirements.indexOf(req)).addVote(v);
 	}
-	
-	public PlanningPokerRequirement getReqByName(String n){
-		for(PlanningPokerRequirement r : requirements){
-			if(r.getName().equals(n)){
+
+	public boolean hasVoted(PlanningPokerRequirement req) {
+		String username = "NAME?";
+		Configuration c = ConfigManager.getConfig();
+		username = c.getUserName();
+		boolean hasVoted = false;
+		for (PlanningPokerVote v : req.getVotes()) {
+			if (username.equals(v.getUser())) {
+				hasVoted = true;
+				break;
+			}
+		}
+		return hasVoted;
+	}
+
+	public PlanningPokerRequirement getReqByName(String n) {
+		for (PlanningPokerRequirement r : requirements) {
+			if (r.getName().equals(n)) {
 				return r;
 			}
 		}
 		throw new NullPointerException();
 	}
+
 	/**
 	 * Adds a single user to this session.
 	 * 
@@ -290,7 +308,7 @@ public class PlanningPokerSession extends AbstractModel {
 	public String getName() {
 		return this.name;
 	}
-	
+
 	/**
 	 * Return the users in this session
 	 * 
@@ -299,8 +317,8 @@ public class PlanningPokerSession extends AbstractModel {
 	public ArrayList<User> getUsers() {
 		return this.users;
 	}
-	
-/**
+
+	/**
 	 * 
 	 * @param userName
 	 * 
@@ -312,7 +330,7 @@ public class PlanningPokerSession extends AbstractModel {
 	/**
 	 * @return the user name of the Owner of this session
 	 */
-	
+
 	public String getOwnerUserName() {
 		return this.ownerUserName;
 	}
@@ -331,15 +349,15 @@ public class PlanningPokerSession extends AbstractModel {
 	public int getID() {
 		return this.id;
 	}
-	
+
 	public int getNumVotes(PlanningPokerRequirement req) {
 		return req.getVotes().size();
 	}
-	
+
 	/**
 	 * Returns the deck
-	 * @return deck
-	 * 			the deck for this session
+	 * 
+	 * @return deck the deck for this session
 	 */
 	public PlanningPokerDeck getDeck() {
 		return deck;
@@ -347,8 +365,9 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Sets the deck!
+	 * 
 	 * @param deck
-	 * 			the inputed deck
+	 *            the inputed deck
 	 */
 	public void setDeck(PlanningPokerDeck deck) {
 		this.deck = deck;
@@ -460,9 +479,10 @@ public class PlanningPokerSession extends AbstractModel {
 	public Boolean identify(Object o) {
 		return null;
 	}
-	
-	public void update(){
-		final Request request = Network.getInstance().makeRequest("planningpoker/session", HttpMethod.POST);
+
+	public void update() {
+		final Request request = Network.getInstance().makeRequest(
+				"planningpoker/session", HttpMethod.POST);
 		request.setBody(this.toJSON());
 		request.send();
 	}
