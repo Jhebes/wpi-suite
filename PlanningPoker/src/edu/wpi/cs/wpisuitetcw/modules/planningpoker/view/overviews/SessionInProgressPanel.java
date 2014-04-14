@@ -54,6 +54,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	private JList voteList;
 	private JLabel label_1 = new JLabel("");
 	private JLabel label_2 = new JLabel("");
+	private JLabel numVotes = new JLabel("0", JLabel.LEFT);
 	private PlanningPokerRequirement selectedReq;
 	private String reqName;
 	private String reqDescription;
@@ -153,6 +154,8 @@ public class SessionInProgressPanel extends JSplitPane {
 		// Holder label (TBM)
 		JLabel lblNumberOfVotes = new JLabel("Number of Votes:");
 		statsTab.add(lblNumberOfVotes);
+		
+		statsTab.add(numVotes);
 		
 		voteList = new JList();
 		statsTab.add(voteList);
@@ -285,6 +288,10 @@ public class SessionInProgressPanel extends JSplitPane {
 		setRightComponent(splitTopBottom);
 	}
 
+	public void setNumVotesLabel(int n) {
+		this.numVotes.setText(Integer.toString(n));
+	}
+	
 	/**
 	 * 
 	 * @return Session Model for this Panel

@@ -12,9 +12,6 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
-import javax.swing.JList;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GenericPUTRequestObserver;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
@@ -76,17 +73,17 @@ public class AddVoteController implements ActionListener {
 		}
 		
 		// checking list of votes to see if user has already voted
-		/*ArrayList<PlanningPokerVote> votes = view.getVoteList();
-
-		for (PlanningPokerVote v : votes) {
-			if (v.getID().equals(username)) {
-				req.deleteVote(vote);
-				break;
+		for (PlanningPokerVote v : req.getVotes()) {
+			System.out.println(v.getUser());
+			if (v.getUser().equals(username)) {
+				req.deleteVote(v);
 			}
-		}*/
+		}
 		
 		session.addVoteToRequirement(req, vote);
-		
+		view.setNumVotesLabel(session.getNumVotes(req));
+
+		System.out.println(session.getNumVotes(req));
 		System.out.println("Added vote to requirement " + req.getName());
 
 		// Update the session remotely

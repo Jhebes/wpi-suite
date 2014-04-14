@@ -121,8 +121,6 @@ public class PlanningPokerSession extends AbstractModel {
 		requirements.get(requirements.indexOf(req)).addVote(v);
 	}
 	
-	
-	
 	public PlanningPokerRequirement getReqByName(String n){
 		for(PlanningPokerRequirement r : requirements){
 			if(r.getName().equals(n)){
@@ -332,6 +330,10 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public int getID() {
 		return this.id;
+	}
+	
+	public int getNumVotes(PlanningPokerRequirement req) {
+		return req.getVotes().size();
 	}
 	
 	/**

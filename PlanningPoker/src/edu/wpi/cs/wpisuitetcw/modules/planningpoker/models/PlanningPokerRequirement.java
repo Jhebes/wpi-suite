@@ -48,10 +48,10 @@ public class PlanningPokerRequirement extends AbstractModel {
 		votes.add(vote);
 	}
 	
-	public void delteeVote(PlanningPokerVote vote) {
+	public void deleteVote(PlanningPokerVote vote) {
 		votes.remove(vote);
 	}
-
+	
 	/**
 	 * Returns an instance of PlanningPokerRequirement constructed using the
 	 * given Requirement encoded as a JSON string.
@@ -153,6 +153,7 @@ public class PlanningPokerRequirement extends AbstractModel {
 	public ArrayList<PlanningPokerVote> getVotes() {
 		return votes;
 	}
+	
 
 	@Override
 	public void save() {
