@@ -177,7 +177,7 @@ public class ViewSessionReqPanel extends JPanel {
 			public void valueChanged(ListSelectionEvent e) {
 
 			}
-
+			
 			@Override
 			public void repaint() {
 				// because janeway is terrible and instantiates this class
@@ -199,6 +199,7 @@ public class ViewSessionReqPanel extends JPanel {
 		};
 
 		allReqTable.setBackground(Color.WHITE);
+		allReqTable.getTableHeader().setReorderingAllowed(false);
 
 		// add table to rightPanel
 		JLabel leftLabel = new JLabel("All Requirements");
@@ -239,7 +240,8 @@ public class ViewSessionReqPanel extends JPanel {
 			}
 		};
 
-		
+
+		sessionReqTable.getTableHeader().setReorderingAllowed(false);
 		sessionReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		allReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		

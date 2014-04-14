@@ -19,7 +19,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import javax.swing.AbstractListModel;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -38,6 +37,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTa
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 public class SessionInProgressPanel extends JSplitPane {
 
@@ -57,6 +57,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	private JLabel label_2 = new JLabel("");
 	private String reqName;
 	private String reqDescription;
+	private JButton endSession;
 
 	/**
 	 * Create the panel.
@@ -128,6 +129,20 @@ public class SessionInProgressPanel extends JSplitPane {
 		setSessionDeadline("12/13/14", "12:00 PM");
 		LeftPanel.add(deadline);
 
+		// Padding
+		Component verticalStrut5 = Box.createVerticalStrut(20);
+		LeftPanel.add(verticalStrut5);
+				
+		// End session button
+		String currentUserName = ConfigManager.getConfig().getUserName();
+		endSession = new JButton("End Session");
+		endSession.addActionListener(new AddVoteController(this, this.session));
+		LeftPanel.add(endSession);
+		if(currentUserName.equals(session.getOwnerUserName()))
+			endSession.setVisible(true);
+		else
+			endSession.setVisible(false);
+		
 		// Set up Reqs Panel
 		JPanel requirementsPanel = new JPanel();
 		requirementsPanel.setLayout(new BoxLayout(requirementsPanel,
@@ -180,7 +195,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		btnRefresh.addActionListener(new GetRequirementsVotesController(this,
 				this.session));
 		voteTab.add(btnRefresh);
-
+		
 		// Split into Reqs list and Reqs info
 		JSplitPane splitLeftRight = new JSplitPane();
 		splitLeftRight.setResizeWeight(0.8);
@@ -202,7 +217,7 @@ public class SessionInProgressPanel extends JSplitPane {
 			reqArr[i] = testReqs.get(i);
 		}
 
-		reqsViewTable = new JTable() {
+		reqsViewTable = new JTable(sessionInProgressTableModel.getInstance()) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
@@ -233,7 +248,6 @@ public class SessionInProgressPanel extends JSplitPane {
 		});
 
 		reqsViewTable.setFillsViewportHeight(true);
-		// TODO: Make sure you add the table model here after construction!
 		// reqsViewTable.getColumnModel().getColumn(1).setResizable(false);
 		this.getReqsViewTable();
 		// this.reqsViewTable.
@@ -254,7 +268,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		splitLeftRight.setLeftComponent(reqsView);
 		splitLeftRight.setRightComponent(ReqsDetail);
 
-		JLabel lblNewLabel = new JLabel("Requirements (ID, Name, Priority)");
+		JLabel lblNewLabel = new JLabel("Requirements");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		reqsView.add(lblNewLabel, BorderLayout.NORTH);
 		splitLeftRight.setRightComponent(reqsDetail);
