@@ -371,6 +371,12 @@ public class SessionInProgressPanel extends JSplitPane {
 		this.voteList.setListData(array);
 	}
 	
+	public JList getVoteList(){
+		return this.voteList;
+	}
+	
+	
+	
 	/**
 	 * sets the reqsViewTable with the appropriate information
 	 */

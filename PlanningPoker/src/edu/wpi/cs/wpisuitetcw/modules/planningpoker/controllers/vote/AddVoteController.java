@@ -12,6 +12,9 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.JList;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GenericPUTRequestObserver;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
@@ -38,13 +41,12 @@ public class AddVoteController implements ActionListener {
 	private SessionInProgressPanel view;
 
 	private PlanningPokerRequirement req = null;
-	
-	public AddVoteController(SessionInProgressPanel view, PlanningPokerSession session) {
+
+	public AddVoteController(SessionInProgressPanel view,
+			PlanningPokerSession session) {
 		this.view = view;
 		this.session = session;
 	}
-	
-	
 
 	/*
 	 * This method is called when the user clicks the vote button
@@ -54,30 +56,44 @@ public class AddVoteController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		
+
 		System.out.print("Requesting user is: ");
 		String username = "NAME?";
 		Configuration c = ConfigManager.getConfig();
 		username = c.getUserName();
+
 		System.out.println(username);
-		
+
 		PlanningPokerVote vote = new PlanningPokerVote(username, view.getVote());
 		session = view.getSession();
 		String r = view.getSelectedRequirement();
 		System.out.println("Attempting to get Req: " + r);
-		try{
+		try {
 			this.req = session.getReqByName(r);
-		}catch(NullPointerException e){
+		} catch (NullPointerException e) {
 			System.out.println("No req found by that name!");
 			return;
 		}
-		session.addVoteToRequirement(req, vote);
-	
-		System.out.println("Added vote to requirement " + req.getName());
 		
-		//Update the session remotely
-		final Request request = Network.getInstance().makeRequest(
-				"planningpoker/session/".concat(String.valueOf(session.getID())), HttpMethod.POST);
+		// checking list of votes to see if user has already voted
+		/*ArrayList<PlanningPokerVote> votes = view.getVoteList();
+
+		for (PlanningPokerVote v : votes) {
+			if (v.getID().equals(username)) {
+				req.deleteVote(vote);
+				break;
+			}
+		}*/
+		
+		session.addVoteToRequirement(req, vote);
+		
+		System.out.println("Added vote to requirement " + req.getName());
+
+		// Update the session remotely
+		final Request request = Network.getInstance()
+				.makeRequest(
+						"planningpoker/session/".concat(String.valueOf(session
+								.getID())), HttpMethod.POST);
 		// Set the data to be the session to save (converted to JSON)
 		request.setBody(session.toJSON());
 		// Listen for the server's response
