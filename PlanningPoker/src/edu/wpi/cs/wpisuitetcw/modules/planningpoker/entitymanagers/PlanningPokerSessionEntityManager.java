@@ -25,6 +25,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications.IMNotifier;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
@@ -296,6 +297,21 @@ public class PlanningPokerSessionEntityManager implements
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		} else if (command.equals("sendIM")) {
+			if (args.length < 6) {
+				throw new WPISuiteException(
+						"Usage: /sendIM/(start|end)/<recipient>/<deadline>");
+			}
+
+			try {
+				String notificationType = URLDecoder.decode(args[3], "UTF-8");
+				String buddy = URLDecoder.decode(args[4], "UTF-8");
+				String deadline = URLDecoder.decode(args[5], "UTF-8");
+				sendIMNotification(notificationType, buddy, deadline);
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		return null;
@@ -378,5 +394,9 @@ public class PlanningPokerSessionEntityManager implements
 		} catch (Exception exception) {
 
 		}
+	}
+
+	public void sendIMNotification(String notificationType, String screenname, String deadline) {
+		IMNotifier.sendMessage(notificationType, screenname, deadline);
 	}
 }

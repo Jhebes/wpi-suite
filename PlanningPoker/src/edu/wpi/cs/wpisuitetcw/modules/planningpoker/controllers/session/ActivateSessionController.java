@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendEmailController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendIMController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
@@ -26,11 +27,12 @@ public class ActivateSessionController implements ActionListener {
 	private ViewSessionPanel panel;
 	private PlanningPokerSession session;
 
-	public ActivateSessionController(ViewSessionPanel panel, PlanningPokerSession session) {
+	public ActivateSessionController(ViewSessionPanel panel,
+			PlanningPokerSession session) {
 		this.panel = panel;
 		this.session = session;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		this.session.activate();
@@ -39,33 +41,48 @@ public class ActivateSessionController implements ActionListener {
 		request.setBody(session.toJSON());
 		request.addObserver(new ActivateSessionObserver(this));
 		request.send();
-		
+
 	}
-	
+
 	public void onSuccess() {
 		ViewEventManager.getInstance().removeTab(panel);
 		ViewEventManager.getInstance().viewSession(session);
 		GetAllSessionsController.getInstance().retrieveSessions();
-		
+
 		// Send email to everyone in a session
-		if (this.session.getUsers() != null)
-		{
-			for (User user : this.session.getUsers())
-			{
-				String sendTo = user.getEmail();
-				if (!sendTo.equals(""))
-				{
-					SendEmailController.getInstance().sendEmail("start", sendTo, session.getDeadline());
-				}
-				else
-				{
-					SendEmailController.getInstance().sendEmail("start", "teamcombatwombat@gmail.com", session.getDeadline());
+//		if (this.session.getUsers() != null) {
+//			for (User user : this.session.getUsers()) {
+//				String sendTo = user.getEmail();
+//				if (!sendTo.equals("")) {
+//					SendEmailController.getInstance().sendEmail("start",
+//							sendTo, session.getDeadline());
+//				} else {
+//					SendEmailController.getInstance()
+//							.sendEmail("start", "teamcombatwombat@gmail.com",
+//									session.getDeadline());
+//				}
+//			}
+//		} else {
+//			SendEmailController.getInstance().sendEmail("start",
+//					"teamcombatwombat@gmail.com", session.getDeadline());
+//		}
+
+		// Send email to everyone in a session
+		if (this.session.getUsers() != null) {
+			for (User user : this.session.getUsers()) {
+				String sendTo = user.getAIM();
+				if (!sendTo.equals("")) {
+					SendIMController.getInstance().sendIM("start", sendTo,
+							session.getDeadline());
+				} else {
+					SendIMController.getInstance()
+							.sendIM("start", "teamcombatwombat",
+									session.getDeadline());
 				}
 			}
-		}
-		else
-		{
-			SendEmailController.getInstance().sendEmail("start", "teamcombatwombat@gmail.com", session.getDeadline());
+		} else {
+			SendIMController.getInstance().sendIM("start",
+					"teamcombatwombat", session.getDeadline());
 		}
 	}
 
