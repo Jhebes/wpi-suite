@@ -12,13 +12,18 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 public class PlanningPokerDeck extends AbstractModel {
 	private ArrayList<Integer> deck;
-	public String deckName;
+	private String deckName;
+	public String getDeckName() {
+		return deckName;
+	}
+
 	private int id;
 
 	
 	
 	/**
 	 * This constructor creates the default deck with the fibonacci values
+	 * TODO the default deck should be a database entry
 	 */
 	public PlanningPokerDeck() {
 		int[] defaultDeck = {0,1,1,2,3,5,8,13};

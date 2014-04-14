@@ -6,6 +6,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Map;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
@@ -49,7 +50,7 @@ public class CreateNewDeckController implements ActionListener {
 			// System.out.println("Card value: " + deckName.toString());
 
 		} else {
-			// some inputs are not integer
+			// inputs are not valid
 			this.view.repaint();
 		}
 
@@ -58,11 +59,13 @@ public class CreateNewDeckController implements ActionListener {
 	// removes the tab
 	public void onSuccess(PlanningPokerDeck deck) {
 		// close the tab
-		ViewEventManager.getInstance().removeTab(this.view);
+		this.view.getInvokingPanel().setupDeckDropdown();
+		InitNewDeckPanelController.getInstance(null).removeDeckPanel();
 	}
 
 	/**
-	 * Validate all the inputs
+	 * Validate all the inputs by avoiding java's short-circuit boolean
+	 * evaluation
 	 * 
 	 * @return true if valid; false otherwise
 	 */
@@ -80,8 +83,8 @@ public class CreateNewDeckController implements ActionListener {
 	private boolean validateCardValues() {
 		boolean isAllInputValid = true;
 
-		ArrayList<Card> cardList = this.view.getCardList();
-		for (Card aCard : cardList) {
+		Map<Integer, Card> cards = this.view.getCards();
+		for (Card aCard : cards.values()) {
 			if (!aCard.validateCardValue()) {
 				aCard.setCardInvalid();
 				isAllInputValid = false;
