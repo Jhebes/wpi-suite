@@ -18,7 +18,6 @@
 	<classpathentry kind="lib" path="/Janeway/lib/jcommon-1.0.17.jar"/>
 	<classpathentry kind="lib" path="/Janeway/lib/jfreechart-1.0.14.jar"/>
 	<classpathentry kind="lib" path="/WPISuite/WebContent/WEB-INF/lib/mail.jar"/>
-	<classpathentry kind="lib" path="/WPISuite/WebContent/WEB-INF/lib/jaimlib.jar"/>
 	<classpathentry kind="lib" path="/WPISuite/WebContent/WEB-INF/lib/simpleaim.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -2,7 +2,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications;
 
 import com.wilko.jaim.JaimConnection;
 
-public class IMNotifier {
+public class SMSNotifier {
 	// Hostname and port number to connect to.
 	//
 	private static String HOST = "login.oscar.aol.com";
