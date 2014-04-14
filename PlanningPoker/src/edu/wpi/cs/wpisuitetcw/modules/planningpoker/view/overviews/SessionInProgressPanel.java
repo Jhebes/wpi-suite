@@ -176,13 +176,15 @@ public class SessionInProgressPanel extends JSplitPane {
 		btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new AddVoteController(this, this.session));
 		voteTab.add(btnSubmit);
-
+		
+		/*
 		// Refresh Button
 		JButton btnRefresh;
 		btnRefresh = new JButton("*DEV* Refresh");
 		btnRefresh.addActionListener(new GetRequirementsVotesController(this,
 				this.session));
 		voteTab.add(btnRefresh);
+		*/
 
 		// Split into Reqs list and Reqs info
 		JSplitPane splitLeftRight = new JSplitPane();

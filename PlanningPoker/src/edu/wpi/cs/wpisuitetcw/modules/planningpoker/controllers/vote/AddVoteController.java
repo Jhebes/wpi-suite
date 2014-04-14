@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GenericPUTRequestObserver;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
@@ -55,9 +56,8 @@ public class AddVoteController implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 
 		System.out.print("Requesting user is: ");
-		String username = "NAME?";
 		Configuration c = ConfigManager.getConfig();
-		username = c.getUserName();
+		String username = c.getUserName();
 
 		System.out.println(username);
 
@@ -72,12 +72,18 @@ public class AddVoteController implements ActionListener {
 			return;
 		}
 		
+		ArrayList<PlanningPokerVote> toRemove = new ArrayList<PlanningPokerVote>();
+		
 		// checking list of votes to see if user has already voted
-		for (PlanningPokerVote v : req.getVotes()) {
+		for (PlanningPokerVote v : this.req.getVotes()) {
 			System.out.println(v.getUser());
 			if (v.getUser().equals(username)) {
-				req.deleteVote(v);
+				toRemove.add(v);
 			}
+		}
+		
+		for (PlanningPokerVote v : toRemove) {
+			req.deleteVote(v);
 		}
 		
 		session.addVoteToRequirement(req, vote);
@@ -98,5 +104,7 @@ public class AddVoteController implements ActionListener {
 		// Send the request on its way
 		request.send();
 
+		GetRequirementsVotesController getVotes = new GetRequirementsVotesController(view, session);
+		getVotes.actionPerformed(new ActionEvent(getVotes, 0, r));
 	}
 }
