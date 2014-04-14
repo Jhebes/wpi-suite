@@ -61,17 +61,28 @@ public class SendEmailController {
 
 		try {
 			
-			String sDeadline;
+			String sDeadline = "";
 			
-			if (deadline !=null)
+			// Append date for start notifications if there was a date given
+			if (deadline != null && notificationType == "start")
 			{
-			sDeadline = (new SimpleDateFormat("yyyy-MM-dd hh:mm"))
+				sDeadline =  " It ends at ";
+				sDeadline += (new SimpleDateFormat("yyyy-MM-dd hh:mm"))
 					.format(deadline);
 			}
-			else
+			// Append date for end notifications if there was a date given
+			else if (deadline != null && notificationType == "end")
 			{
-				sDeadline = "NO DATETIME GIVEN!";
+				sDeadline =  " Its deadline was ";
+				sDeadline += (new SimpleDateFormat("yyyy-MM-dd hh:mm"))
+					.format(deadline);
 			}
+			else if (deadline == null)
+			{
+				sDeadline =  " There is no automatic deadline for this session.";
+			}
+			
+			
 			
 			StringBuilder sb = new StringBuilder();
 			sb.append("Advanced/planningpoker/session/sendEmail/");
@@ -79,7 +90,10 @@ public class SendEmailController {
 			sb.append("/");
 			sb.append(URLEncoder.encode(recipient, "UTF-8"));
 			sb.append("/");
+			
 			sb.append(URLEncoder.encode(sDeadline, "UTF-8"));
+
+			
 			return sb.toString();
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
