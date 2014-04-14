@@ -25,10 +25,10 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * @author Josh Hebert
  * 
  */
-public class AddRequirementRequestObserver implements RequestObserver {
+public class AddRequirementToSessionRequestObserver implements RequestObserver {
 
 	// The controller this is tied to
-	private final AddRequirementController controller;
+	private final AddRequirementToSessionController controller;
 
 	/**
 	 * Creates a listener attached to the controller
@@ -36,9 +36,9 @@ public class AddRequirementRequestObserver implements RequestObserver {
 	 * @param addVoteController
 	 *            Tied controller
 	 */
-	public AddRequirementRequestObserver(AddRequirementController c) {
+	public AddRequirementToSessionRequestObserver(AddRequirementToSessionController addRequirementToSessionController) {
 		
-		this.controller = c;
+		this.controller = addRequirementToSessionController;
 	}
 
 	/*

@@ -85,7 +85,5 @@ public class AddVoteController implements ActionListener {
 		// Send the request on its way
 		request.send();
 
-		//session.voteStatus();
-
 	}
 }
