@@ -1,11 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
- *
+ * Copyright (c) 2014 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
+ * Contributors: Team Combat Wombat
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
@@ -24,11 +24,9 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * This controller responds when the users click on "Closed Session" button by
  * displaying all the closed planning poker sessions on the overview panel
  * 
- * @author Hoang Ngo
- * 
  */
 public class GetClosedSessionsController implements ActionListener {
-	private final OverviewPanel view;
+	private static GetClosedSessionsController instance;
 	private final PlanningPokerSession[] data = null;
 
 	/**
@@ -37,8 +35,14 @@ public class GetClosedSessionsController implements ActionListener {
 	 * @param view
 	 *            the view where the closed session button lies on
 	 */
-	public GetClosedSessionsController(OverviewPanel view) {
-		this.view = view;
+	public GetClosedSessionsController() {
+	}
+	
+	public static GetClosedSessionsController getInstance() {
+		if(instance == null) {
+			instance = new GetClosedSessionsController();
+		}
+		return instance;
 	}
 
 	/*
@@ -69,6 +73,10 @@ public class GetClosedSessionsController implements ActionListener {
 	
 	public void receivedSessions(PlanningPokerSession[] sessions) {
 		OverviewTableSessionTableModel.getInstance().refreshSessions(sessions);
+	}
+	
+	public void retrieveClosedSession() {
+		actionPerformed(null);
 	}
 
 }
