@@ -50,7 +50,7 @@ public class SMSNotifier extends BaseNotifier {
 		} catch (ConfigLoaderError e) {
 			Logger.getLogger("PlanningPoker").log(
 					Level.SEVERE,
-					"Could not load Plivo auth from coniguration file.
+					"Could not load Plivo auth from coniguration file.");
 			return;
 		}
 
