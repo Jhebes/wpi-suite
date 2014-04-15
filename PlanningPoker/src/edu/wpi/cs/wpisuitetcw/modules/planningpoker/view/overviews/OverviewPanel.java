@@ -126,7 +126,6 @@ public class OverviewPanel extends JSplitPane {
 				
 			}
 		});
-		table.getTableHeader().setReorderingAllowed(false);
 		
 		// disallow moving of columns
 		table.getTableHeader().setReorderingAllowed(false);

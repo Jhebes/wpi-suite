@@ -11,12 +11,16 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -37,6 +41,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTa
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 public class SessionInProgressPanel extends JSplitPane {
@@ -58,6 +63,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	private String reqName;
 	private String reqDescription;
 	private JButton endSession;
+	private JSplitPane splitTopBottom;
 
 	/**
 	 * Create the panel.
@@ -67,7 +73,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		this.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 
 		// Set up Session Info Panel
-		JPanel LeftPanel = new JPanel();
+		final JPanel LeftPanel = new JPanel();
 		LeftPanel.setLayout(new BoxLayout(LeftPanel, BoxLayout.Y_AXIS));
 
 		// Padding
@@ -123,7 +129,6 @@ public class SessionInProgressPanel extends JSplitPane {
 		JLabel lblDate = new JLabel("Deadline:");
 		lblDate.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LeftPanel.add(lblDate);
-
 		// TODO: make it so this can take a real date.
 		// Call setter for session deadline (TBR)
 		setSessionDeadline("12/13/14", "12:00 PM");
@@ -136,8 +141,23 @@ public class SessionInProgressPanel extends JSplitPane {
 		// End session button
 		String currentUserName = ConfigManager.getConfig().getUserName();
 		endSession = new JButton("End Session");
-		endSession.addActionListener(new AddVoteController(this, this.session));
+		endSession.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//session.setEndTime(new Date());
+				cancelSession();
+			}
+
+			private void cancelSession() {
+				session.cancel();
+				session.update();
+				closeTab();
+			}
+
+		});
 		LeftPanel.add(endSession);
+		if(session.isCancelled())
+			endSession.setEnabled(false);
 		if(currentUserName.equals(session.getOwnerUserName()))
 			endSession.setVisible(true);
 		else
@@ -246,7 +266,7 @@ public class SessionInProgressPanel extends JSplitPane {
 				setReqLabels();
 			}
 		});
-
+		
 		reqsViewTable.setFillsViewportHeight(true);
 		// reqsViewTable.getColumnModel().getColumn(1).setResizable(false);
 		this.getReqsViewTable();
@@ -254,27 +274,26 @@ public class SessionInProgressPanel extends JSplitPane {
 		reqsView.setLayout(new BorderLayout(0, 0));
 		reqsView.add(reqsViewTable);
 
-		JPanel reqsDetail = new JPanel();
-		reqsDetail.setLayout(new BorderLayout(0, 0));
+		//JPanel reqsDetail = new JPanel();
+		//reqsDetail.setLayout(new BorderLayout(0, 0));
 
 		JPanel ReqsDetail = new JPanel();
 		ReqsDetail.setLayout(new BorderLayout(0, 0));
 
 		JLabel lblRequirementDetail = new JLabel("Requirement Detail:");
 		lblRequirementDetail.setHorizontalAlignment(SwingConstants.CENTER);
-		reqsDetail.add(lblRequirementDetail, BorderLayout.NORTH);
+		ReqsDetail.add(lblRequirementDetail, BorderLayout.NORTH);
 
 		// Set all components
 		splitLeftRight.setLeftComponent(reqsView);
-		splitLeftRight.setRightComponent(ReqsDetail);
 
 		JLabel lblNewLabel = new JLabel("Requirements");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		reqsView.add(lblNewLabel, BorderLayout.NORTH);
-		splitLeftRight.setRightComponent(reqsDetail);
+		splitLeftRight.setRightComponent(ReqsDetail);
 		
 		JPanel panel = new JPanel();
-		reqsDetail.add(panel, BorderLayout.CENTER);
+		ReqsDetail.add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
@@ -298,6 +317,10 @@ public class SessionInProgressPanel extends JSplitPane {
 
 		setLeftComponent(LeftPanel);
 		setRightComponent(splitTopBottom);
+	}
+	
+	private void closeTab(){
+		ViewEventManager.getInstance().removeTab(this);
 	}
 
 	/**
