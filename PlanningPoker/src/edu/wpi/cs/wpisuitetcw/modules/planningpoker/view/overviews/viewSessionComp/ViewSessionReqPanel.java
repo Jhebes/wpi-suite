@@ -96,8 +96,8 @@ public class ViewSessionReqPanel extends JPanel {
 	 */
 	public ArrayList<String> getAllLeftRequirements() {
 		ArrayList<String> selectedNames = new ArrayList<String>();
-		for (int i = 0; i < this.allReqTable.getRowCount(); ++i) {
-			selectedNames.add(this.allReqTable.getValueAt(i, 1).toString());
+		for(int i = 0; i < this.allReqTable.getRowCount(); ++i){
+			selectedNames.add(this.allReqTable.getValueAt(i,0).toString());
 		}
 		return selectedNames;
 	}
@@ -110,8 +110,8 @@ public class ViewSessionReqPanel extends JPanel {
 	 */
 	public ArrayList<String> getAllRightRequirements() {
 		ArrayList<String> selectedNames = new ArrayList<String>();
-		for (int i = 0; i < this.sessionReqTable.getRowCount(); ++i) {
-			selectedNames.add(this.sessionReqTable.getValueAt(i, 1).toString());
+		for(int i = 0; i < this.sessionReqTable.getRowCount(); ++i){
+			selectedNames.add(this.sessionReqTable.getValueAt(i,0).toString());
 		}
 		return selectedNames;
 	}
