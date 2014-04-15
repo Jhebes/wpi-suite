@@ -11,6 +11,7 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -47,7 +48,7 @@ public class ImportRequirementsTableModel extends DefaultTableModel {
 	public void updateTableModel() {
 
 		this.requirements = new ArrayList<PlanningPokerRequirement>();
-		PlanningPokerSession[] sessions = OverviewTableSessionTableModel
+		List<PlanningPokerSession> sessions = OverviewTableSessionTableModel
 				.getInstance().getSessions();
 		for (PlanningPokerSession session : sessions) {
 			this.requirements.addAll(session.getRequirements());

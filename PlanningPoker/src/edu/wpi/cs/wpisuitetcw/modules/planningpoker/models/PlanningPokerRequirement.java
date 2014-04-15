@@ -11,6 +11,7 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 
 import com.google.gson.Gson;
@@ -160,6 +161,12 @@ public class PlanningPokerRequirement extends AbstractModel {
 	@Override
 	public Boolean identify(Object o) {
 		return this.id.equals(((PlanningPokerRequirement) o).id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Arrays.hashCode(new Object[] { new String(id.toString()),
+				new Integer(sessionID) });
 	}
 
 	@Override

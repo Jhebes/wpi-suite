@@ -51,7 +51,7 @@ public class UserDeserializer implements JsonDeserializer<User> {
 		 String username = deflated.get("username").getAsString();
 		 String name = null;
 		 String password = null;
-		 String aim = null;
+		 String sms = null;
 		 String email = null;
 		 
 		 if(deflated.has("idNum") && !deflated.get("idNum").getAsString().equals(""))
@@ -74,9 +74,9 @@ public class UserDeserializer implements JsonDeserializer<User> {
 		 }
 		 
 		 // Check for new aim field
-		 if(deflated.has("aim")  && !deflated.get("aim").getAsString().equals(""))
+		 if(deflated.has("sms")  && !deflated.get("sms").getAsString().equals(""))
 		 {
-			 aim = deflated.get("aim").getAsString();
+			 sms = deflated.get("sms").getAsString();
 		 }
 		 
 		 // Check for new email field
@@ -85,7 +85,7 @@ public class UserDeserializer implements JsonDeserializer<User> {
 			 email = deflated.get("email").getAsString();
 		 }
 		 
-		 User inflated = new User(name, username, password, aim, email, idNum);
+		 User inflated = new User(name, username, password, sms, email, idNum);
 		 
 		 if(deflated.has("role")  && !deflated.get("role").getAsString().equals(""))
 		 {

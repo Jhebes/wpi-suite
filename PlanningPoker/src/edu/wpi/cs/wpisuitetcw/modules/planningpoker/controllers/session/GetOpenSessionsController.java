@@ -12,9 +12,9 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTableSessionTableModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -60,11 +60,11 @@ public class GetOpenSessionsController implements ActionListener {
 	 * @param sessions
 	 *            an array of open sessions received from the server
 	 */
-	public void receiveOpenSessions(PlanningPokerSession[] sessions) {
+	public void receiveOpenSessions(List<PlanningPokerSession> sessions) {
 		this.receivedSessions(sessions);
 	}
 
-	public void receivedSessions(PlanningPokerSession[] sessions) {
+	public void receivedSessions(List<PlanningPokerSession> sessions) {
 		// TODO: make a superclass for this method
 		OverviewTableSessionTableModel.getInstance().refreshSessions(sessions);
 	}
