@@ -3,6 +3,8 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JTable;
 
@@ -63,8 +65,8 @@ public class OverviewTable extends JTable {
 				initialized = true;
 			}
 		} catch (Exception e) {
-			System.out.println("Repaint failed.");
+			Logger.getLogger("PlanningPoker").log(Level.WARNING,
+					"Repaint failed for overview table.", e);
 		}
 	}
-
 }
