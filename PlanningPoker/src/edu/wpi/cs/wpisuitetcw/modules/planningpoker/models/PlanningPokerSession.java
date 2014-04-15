@@ -458,7 +458,7 @@ public class PlanningPokerSession extends AbstractModel {
 		return null;
 	}
 	
-	public void update(){
+	public void update() {
 		final Request request = Network.getInstance().makeRequest("planningpoker/session", HttpMethod.POST);
 		request.setBody(this.toJSON());
 		request.send();

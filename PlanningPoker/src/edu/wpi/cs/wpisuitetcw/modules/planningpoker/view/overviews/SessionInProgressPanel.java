@@ -19,7 +19,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import javax.swing.AbstractListModel;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -32,6 +31,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.SessionInProgressController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.GetRequirementsVotesController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
@@ -49,6 +49,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	private JLabel deadline;
 	private PlanningPokerRequirement[] reqsList;
 	private JButton btnSubmit;
+	private JButton cancelBtn;
 	private String selectedReqName;
 	private JTable reqsViewTable;
 	private ViewSessionTableManager reqsViewTableManager = new ViewSessionTableManager();
@@ -57,6 +58,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	private JLabel label_2 = new JLabel("");
 	private String reqName;
 	private String reqDescription;
+	
 
 	/**
 	 * Create the panel.
@@ -127,6 +129,15 @@ public class SessionInProgressPanel extends JSplitPane {
 		// Call setter for session deadline (TBR)
 		setSessionDeadline("12/13/14", "12:00 PM");
 		LeftPanel.add(deadline);
+		
+		//Padding
+		Component verticalStrut5 = Box.createVerticalStrut(200);
+		LeftPanel.add(verticalStrut5);
+		
+		JButton cancelBtn = new JButton("Cancel");
+		SessionInProgressController controller = new SessionInProgressController(this);
+		controller.cancelSessionAction(cancelBtn, this);
+		LeftPanel.add(cancelBtn);
 
 		// Set up Reqs Panel
 		JPanel requirementsPanel = new JPanel();
@@ -386,5 +397,9 @@ public class SessionInProgressPanel extends JSplitPane {
 	public void setReqLabels() {
 		label_1.setText("<html>"+reqName+"</html>");
 		label_2.setText("<html>"+reqDescription+"</html>");
+	}
+	
+	public JButton getCancelBtn() {
+		return this.cancelBtn;
 	}
 }
