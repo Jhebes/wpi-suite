@@ -96,6 +96,17 @@ public class SessionTableModel extends DefaultTableModel {
 				break;
 		}
 	}
+	
+	public void update(){
+		PlanningPokerSession[] arr = new PlanningPokerSession[SessionStash.getInstance().getSessions().size()];
+		for(int i = 0; i < SessionStash.getInstance().getSessions().size(); ++i){
+			arr[i] = SessionStash.getInstance().getSessions().get(i);
+		}
+		
+		this.refreshSessions(arr);
+		System.out.println("Success");
+	}
+	
 	/**
 	 * Refreshes the sessions.
 	 * 

@@ -151,7 +151,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		int y = e.getY();
 
 		if (e.getClickCount() == 1) {
-			//SessionStash.getInstance().synchronize();
+			SessionTableModel.getInstance().update();
 			TreePath path = tree.getPathForLocation(x, y);
 			if (path != null) {
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
