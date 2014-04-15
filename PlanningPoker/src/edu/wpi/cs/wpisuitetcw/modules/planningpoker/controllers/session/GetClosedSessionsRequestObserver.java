@@ -45,18 +45,13 @@ public class GetClosedSessionsRequestObserver implements RequestObserver {
 																.getBody());
 
 		// Filter the closed sessions using arrayList
-		ArrayList<PlanningPokerSession> tempClosedSessions = new ArrayList<PlanningPokerSession>();
+		ArrayList<PlanningPokerSession> closedSessions = new ArrayList<PlanningPokerSession>();
 		for (int i = 0; i < sessions.length; i++) {
 			if (sessions[i].isClosed()) {
-				tempClosedSessions.add(sessions[i]);
+				closedSessions.add(sessions[i]);
 			}
 		}
-
-		// Convert the arrayList to array
-		PlanningPokerSession[] closedSessions = 
-				new PlanningPokerSession[tempClosedSessions.size()];
-		closedSessions = tempClosedSessions.toArray(closedSessions);
-
+		
 		// Pass the session back to the controller
 		controller.receiveClosedSessions(closedSessions);
 	}

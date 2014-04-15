@@ -33,7 +33,7 @@ public class OverviewTable extends JTable {
 					if (row > -1) {
 						// Gets the name, which is index 1
 						PlanningPokerSession session = OverviewTableSessionTableModel
-								.getInstance().getSessions()[row];
+								.getInstance().getSessions().get(row);
 						ViewEventManager.getInstance().viewSession(session);
 					}
 				}

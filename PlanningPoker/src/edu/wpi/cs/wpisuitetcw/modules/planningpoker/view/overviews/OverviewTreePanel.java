@@ -3,6 +3,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -45,9 +46,9 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 
 		try {
 			GetAllSessionsController.getInstance().retrieveSessions();
-			PlanningPokerSession[] allSessions = OverviewTableSessionTableModel
+			List<PlanningPokerSession> allSessions = OverviewTableSessionTableModel
 					.getInstance().getSessions();
-			System.out.println("There are " + allSessions.length);
+			System.out.println("There are " + allSessions.size());
 			PlanningPokerSession[] openSessions = sortForOpenSessions(allSessions);
 			PlanningPokerSession[] closedSessions = sortForClosedSessions(allSessions);
 			// PlanningPokerSession[] draftSessions =
@@ -101,11 +102,11 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 * @return open sessions
 	 */
 	private PlanningPokerSession[] sortForOpenSessions(
-			PlanningPokerSession[] allSessions) {
+			List<PlanningPokerSession> allSessions) {
 		ArrayList<PlanningPokerSession> tempOpenSessions = new ArrayList<PlanningPokerSession>();
-		for (int i = 0; i < allSessions.length; i++) {
-			if (allSessions[i].isOpen()) {
-				tempOpenSessions.add(allSessions[i]);
+		for (int i = 0; i < allSessions.size(); i++) {
+			if (allSessions.get(i).isOpen()) {
+				tempOpenSessions.add(allSessions.get(i));
 			}
 		}
 		PlanningPokerSession[] openSessions = new PlanningPokerSession[tempOpenSessions
@@ -121,11 +122,11 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 * @return closed sessions
 	 */
 	private PlanningPokerSession[] sortForClosedSessions(
-			PlanningPokerSession[] allSessions) {
+			List<PlanningPokerSession> allSessions) {
 		ArrayList<PlanningPokerSession> tempOpenSessions = new ArrayList<PlanningPokerSession>();
-		for (int i = 0; i < allSessions.length; i++) {
-			if (allSessions[i].isClosed()) {
-				tempOpenSessions.add(allSessions[i]);
+		for (int i = 0; i < allSessions.size(); i++) {
+			if (allSessions.get(i).isClosed()) {
+				tempOpenSessions.add(allSessions.get(i));
 			}
 		}
 		PlanningPokerSession[] closedSessions = new PlanningPokerSession[tempOpenSessions
