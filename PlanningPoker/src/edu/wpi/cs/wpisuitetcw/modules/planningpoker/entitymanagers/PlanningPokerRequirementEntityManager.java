@@ -1,22 +1,19 @@
 /*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
- *
+ * Copyright (c) 2014 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    Chris Casola
- *    Andrew Hurle
+ * 
+ * Contributors: Team Combat Wombat
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 
 import java.util.List;
+import java.util.UUID;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
@@ -29,9 +26,6 @@ import edu.wpi.cs.wpisuitetng.modules.Model;
 /**
  * This is the entity manager for the PlanningPokerRequirement in the
  * PlanningPoker module.
- * 
- * @author Ian Naval
- * @author Penny Over
  * 
  */
 public class PlanningPokerRequirementEntityManager implements
@@ -63,20 +57,11 @@ public class PlanningPokerRequirementEntityManager implements
 	public PlanningPokerRequirement makeEntity(Session s, String content)
 			throws BadRequestException, ConflictException, WPISuiteException {
 
+		System.out.println("Making new requirement");
 		// Parse the message from JSON
 		final PlanningPokerRequirement newPlanningPokerRequirement = PlanningPokerRequirement
 				.fromJson(content);
-
-		int newID;
-		PlanningPokerRequirement[] allSessions = this.getAll(s);
-		if (allSessions.length == 0) {
-			newID = 1;
-		} else {
-			PlanningPokerRequirement mostRecent = allSessions[allSessions.length - 1];
-			newID = mostRecent.getId() + 1;
-		}
-		newPlanningPokerRequirement.setId(newID);
-
+		
 		// Save the message in the database if possible, otherwise throw an
 		// exception. We want the message to be associated with the project the
 		// user logged in to
@@ -97,16 +82,8 @@ public class PlanningPokerRequirementEntityManager implements
 	public PlanningPokerRequirement[] getEntity(Session s, String id)
 			throws NotFoundException, WPISuiteException {
 		List<Model> results = db.retrieve(
-				new PlanningPokerRequirement().getClass(), "ID",
-				Integer.parseInt(id), s.getProject());
-		// If the default session does not exist, create it
-		if (id.equals("0") && results.size() == 0) {
-			PlanningPokerSession defaultSession = new PlanningPokerSession();
-			defaultSession.setName("No session");
-			if (makeEntity(s, defaultSession.toJSON()) != null) {
-				results.add(defaultSession);
-			}
-		} 
+				new PlanningPokerRequirement().getClass(), "Id",
+				UUID.fromString(id), s.getProject());
 		return results.toArray(new PlanningPokerRequirement[0]);
 	}
 

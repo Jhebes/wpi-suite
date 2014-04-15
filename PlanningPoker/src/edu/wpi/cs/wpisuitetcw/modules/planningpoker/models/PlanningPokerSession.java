@@ -1,11 +1,10 @@
 /*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
- *
+ * Copyright (c) 2014 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
@@ -16,8 +15,12 @@ import java.util.Date;
 
 import com.google.gson.Gson;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.Request;
+import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
  * PlanningPokerSession class represents a planning poker session
@@ -26,6 +29,9 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/** The id of the session */
 	private int id = -1;
+
+	/** The user name of the creator of this session */
+	private String ownerUserName = "";
 
 	/** The name of the session */
 	private String name = "";
@@ -47,7 +53,7 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/** List of users in the session */
 	private ArrayList<User> users;
-	
+
 	/** The deck to be used for this session */
 	private PlanningPokerDeck deck;
 
@@ -111,6 +117,20 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public void addRequirement(PlanningPokerRequirement req) {
 		requirements.add(req);
+	}
+
+	public void addVoteToRequirement(PlanningPokerRequirement req,
+			PlanningPokerVote v) {
+		requirements.get(requirements.indexOf(req)).addVote(v);
+	}
+
+	public PlanningPokerRequirement getReqByName(String n) {
+		for (PlanningPokerRequirement r : requirements) {
+			if (r.getName().equals(n)) {
+				return r;
+			}
+		}
+		throw new NullPointerException();
 	}
 
 	/**
@@ -276,6 +296,32 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
+	 * Return the users in this session
+	 * 
+	 * @return users in this session
+	 */
+	public ArrayList<User> getUsers() {
+		return this.users;
+	}
+
+	/**
+	 * 
+	 * @param userName
+	 * 
+	 */
+	public void setOwnerUserName(String userName) {
+		this.ownerUserName = userName;
+	}
+
+	/**
+	 * @return the user name of the Owner of this session
+	 */
+
+	public String getOwnerUserName() {
+		return this.ownerUserName;
+	}
+
+	/**
 	 * @param The
 	 *            id to set
 	 */
@@ -289,11 +335,11 @@ public class PlanningPokerSession extends AbstractModel {
 	public int getID() {
 		return this.id;
 	}
-	
+
 	/**
 	 * Returns the deck
-	 * @return deck
-	 * 			the deck for this session
+	 * 
+	 * @return deck the deck for this session
 	 */
 	public PlanningPokerDeck getDeck() {
 		return deck;
@@ -301,8 +347,9 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Sets the deck!
+	 * 
 	 * @param deck
-	 * 			the inputed deck
+	 *            the inputed deck
 	 */
 	public void setDeck(PlanningPokerDeck deck) {
 		this.deck = deck;
@@ -368,8 +415,8 @@ public class PlanningPokerSession extends AbstractModel {
 	 *            If all the users in the session have voted
 	 */
 
-	public void setVotingComplete(boolean votingComplete_in) {
-		this.votingComplete = votingComplete_in;
+	public void setVotingComplete(boolean votingComplete) {
+		this.votingComplete = votingComplete;
 	}
 
 	/**
@@ -415,6 +462,13 @@ public class PlanningPokerSession extends AbstractModel {
 		return null;
 	}
 
+	public void update() {
+		final Request request = Network.getInstance().makeRequest(
+				"planningpoker/session", HttpMethod.POST);
+		request.setBody(this.toJSON());
+		request.send();
+	}
+
 	public void copyFrom(PlanningPokerSession updatedSession) {
 		this.isCancelled = updatedSession.isCancelled;
 		this.startTime = updatedSession.startTime;
@@ -424,7 +478,5 @@ public class PlanningPokerSession extends AbstractModel {
 		this.description = updatedSession.description;
 		this.requirements = updatedSession.requirements;
 	}
-
-
 
 }

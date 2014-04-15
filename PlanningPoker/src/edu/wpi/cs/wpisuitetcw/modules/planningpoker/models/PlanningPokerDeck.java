@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2014 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team Combat Wombat
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
 import java.util.ArrayList;
@@ -12,13 +22,18 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 public class PlanningPokerDeck extends AbstractModel {
 	private ArrayList<Integer> deck;
-	public String deckName;
+	private String deckName;
+	public String getDeckName() {
+		return deckName;
+	}
+
 	private int id;
 
 	
 	
 	/**
 	 * This constructor creates the default deck with the fibonacci values
+	 * TODO the default deck should be a database entry
 	 */
 	public PlanningPokerDeck() {
 		int[] defaultDeck = {0,1,1,2,3,5,8,13};

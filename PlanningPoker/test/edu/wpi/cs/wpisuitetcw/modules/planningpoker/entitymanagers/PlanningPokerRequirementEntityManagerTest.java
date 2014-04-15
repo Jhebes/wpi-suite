@@ -1,4 +1,5 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
+
 /*******************************************************************************
  * Copyright (c) 2013 -- WPI Suite
  *
@@ -12,74 +13,68 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
  *    Tyler Wack
  ******************************************************************************/
 
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
 import java.util.HashSet;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.MockData;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.UserSessionMap;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 
-public class PlanningPokerVoteEntityManagerTest {
+public class PlanningPokerRequirementEntityManagerTest {
 
 	User bob;
 	Project testProject;
-	PlanningPokerRequirement defaultRequirement;
 	Session defaultSession;
-	PlanningPokerSession defaultPlanningPokerSession;
-	int defaultCard;
-	
-	Data db;
-	PlanningPokerVoteEntityManager manager;
-	
-	PlanningPokerVote vote;
 
-	
+	Data db;
+	PlanningPokerRequirementEntityManager manager;
+
+	UUID uuid;
+	PlanningPokerRequirement req;
+
 	String mockSsid;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		mockSsid = "abc123";
 		bob = new User("bob", "bob", "1234", 1);
 		testProject = new Project("test", "1");
 		defaultSession = new Session(bob, testProject, mockSsid);
-		defaultPlanningPokerSession = new PlanningPokerSession();
-		defaultRequirement = new PlanningPokerRequirement();
-		
-		
-		vote = new PlanningPokerVote(defaultPlanningPokerSession, defaultRequirement, bob, defaultCard);
-		vote.setID(1);
-		
+
+		uuid = UUID.randomUUID();
+		req = new PlanningPokerRequirement();
+		req.setId(uuid);
+
 		db = new MockData(new HashSet<Object>());
-		db.save(defaultPlanningPokerSession, testProject);
-		db.save(bob);
-		manager = new PlanningPokerVoteEntityManager(db);
+		db.save(bob, testProject);
+		db.save(req, testProject);
+		manager = new PlanningPokerRequirementEntityManager(db);
 	}
 
 	@Test
 	public void testMakeEntity() throws WPISuiteException {
-		PlanningPokerVote created = manager.makeEntity(defaultSession, vote.toJSON());
-		assertEquals(1, created.getID());
-		assertSame(testProject, created.getProject());	
+		PlanningPokerRequirement created = manager.makeEntity(defaultSession,
+				req.toJSON());
+		assertEquals(uuid, created.getId());
+		assertSame(testProject, created.getProject());
 	}
-	
+
 	@Test
 	public void testGetEntity() throws WPISuiteException {
-		PlanningPokerVote created = manager.makeEntity(defaultSession, vote.toJSON());
-		PlanningPokerVote[] votes = manager.getEntity(defaultSession, "1");
-		assertEquals(1, votes[0].getID());
-		assertSame(testProject, votes[0].getProject());
+		PlanningPokerRequirement[] sessions = manager
+				.getEntity(defaultSession, uuid.toString());
+		assertEquals(uuid, sessions[0].getId());
+		assertSame(testProject, sessions[0].getProject());
 	}
 }

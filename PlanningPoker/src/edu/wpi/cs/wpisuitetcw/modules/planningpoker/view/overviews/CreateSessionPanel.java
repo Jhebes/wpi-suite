@@ -1,14 +1,26 @@
+/*******************************************************************************
+ * Copyright (c) 2014 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team Combat Wombat
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import javax.management.Notification;
+import javax.management.NotificationListener;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -27,8 +39,11 @@ import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.swingx.JXDatePicker;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateSessionPanelController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.InitNewDeckPanelController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.AddSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
@@ -36,8 +51,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Scrol
 
 /**
  * Panel for New Session tab.
- * 
- * @author Rob, Ben, Jenny
  */
 
 public class CreateSessionPanel extends JSplitPane {
@@ -47,6 +60,7 @@ public class CreateSessionPanel extends JSplitPane {
 			+ "select one or more requirements for estimation for "
 			+ "the team to estimate. A deadline for submission is optional. "
 			+ "This will let the team reach a consensus on the amount of effort it will take to realize the requirements.";
+	public final String DISPLAY_MSG = "New Deck";
 
 	// The right panel holds info about selected requirements
 	private final ScrollablePanel rightPanel;
@@ -60,6 +74,7 @@ public class CreateSessionPanel extends JSplitPane {
 	// dropdown menu
 	private final JComboBox<SessionLiveType> dropdownType;
 	private final JComboBox<String> deckType;
+	private PlanningPokerDeck[] decks;
 	// deadline date and time picker
 	private final JXDatePicker deadlinePicker;
 	private final JSpinner pickerDeadlineTime;
@@ -139,8 +154,7 @@ public class CreateSessionPanel extends JSplitPane {
 		dropdownType.setBackground(Color.WHITE);
 
 		deckType = new JComboBox<String>();
-		deckType.addItem("Default");
-		deckType.addItem("Fibonacci");
+		this.setupDeckDropdown();
 		deckType.setEditable(false);
 		deckType.setBackground(Color.WHITE);
 
@@ -184,12 +198,7 @@ public class CreateSessionPanel extends JSplitPane {
 		rightPanel.add(btnSaveSession, "width 150px, left, wrap");
 
 		btnSaveSession.addActionListener(new AddSessionController(this));
-		btnCreateNewDeck.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ViewEventManager.getInstance().createDeck();
-			}
-		});
+		btnCreateNewDeck.addActionListener(InitNewDeckPanelController.getInstance(this));
 
 		// center the container
 		JPanel container = new JPanel();
@@ -206,6 +215,43 @@ public class CreateSessionPanel extends JSplitPane {
 		this.setDividerLocation(180);
 		this.setEnabled(false);
 	}
+
+	/**
+	 * setup the dropdown menu for available decks of cards
+	 */
+	public void setupDeckDropdown() {
+		deckType.removeAllItems();
+		ArrayList<String> deckNames = GetAllDecksController.getInstance()
+				.getAllDeckNames();
+		for (String name : deckNames) {
+			deckType.addItem(name);
+		}
+	}
+
+	/**
+	 * notify createSessionPanel when a new deck is created, so that it updates
+	 * the dropdown list for names of decks
+	 */
+	// public void addCreateDeckListener(final CreateNewDeckPanel deckPanel,
+	// final CreateSessionPanel sessionPanel) {
+	// sessionPanel.addComponentListener(new ComponentListener() {
+	//
+	// @Override
+	// public void componentShown(ComponentEvent e) {}
+	//
+	// @Override
+	// public void componentResized(ComponentEvent e) {}
+	//
+	// @Override
+	// public void componentMoved(ComponentEvent e) {}
+	//
+	// @Override
+	// public void componentHidden(ComponentEvent e) {
+	// sessionPanel.setUpDeckDropdown();
+	// ViewEventManager.getInstance().removeTab(deckPanel);
+	// }
+	// });
+	// }
 
 	/**
 	 * This returns the description of what user enters

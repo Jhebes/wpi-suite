@@ -1,13 +1,14 @@
 /*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
- *
+ * Copyright (c) 2014 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,21 +23,20 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * An observer for a request to retrieve planning poker sessions that have
  * not been assigned to a planning poker session.
  */
-public class RetrieveFreePlanningPokerRequirementsRequestObserver implements
-		RequestObserver {
+public class MoveRequirementToCurrentRequestObserver implements RequestObserver {
 
 	/** The controller managing the request */
-	protected RetrieveFreePlanningPokerRequirementsController controller;
+	protected MoveRequirementToCurrentSessionController controller;
 
 	/**
 	 * Constructs the observer
 	 * 
-	 * @param controller
+	 * @param addRequirementController
 	 *            The controller to update upon receiving the server response
 	 */
-	public RetrieveFreePlanningPokerRequirementsRequestObserver(
-			RetrieveFreePlanningPokerRequirementsController controller) {
-		this.controller = controller;
+	public MoveRequirementToCurrentRequestObserver(
+		MoveRequirementToCurrentSessionController addRequirementController) {
+		this.controller = addRequirementController;
 	}
 
 	/**
@@ -46,19 +46,10 @@ public class RetrieveFreePlanningPokerRequirementsRequestObserver implements
 	public void responseSuccess(IRequest iReq) {
 		// cast observable to request
 		Request request = (Request) iReq;
-
 		// get the response from the request
 		ResponseModel response = request.getResponse();
-
-		if (response.getStatusCode() == 200) {
-			PlanningPokerSession session = PlanningPokerSession.fromJson(response.getBody());
-			controller.receivedData(session);
-		} else {
-			controller.errorReceivingData("Received "
-					+ iReq.getResponse().getStatusCode()
-					+ " error from server: "
-					+ iReq.getResponse().getStatusMessage());
-		}
+		PlanningPokerSession[] session = PlanningPokerSession.fromJSONArray(response.getBody());
+		controller.receivedData(session[0]);	
 	}
 
 	/**
@@ -66,10 +57,7 @@ public class RetrieveFreePlanningPokerRequirementsRequestObserver implements
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		// an error occurred
-		controller.errorReceivingData("Received "
-				+ iReq.getResponse().getStatusCode() + " error from server: "
-				+ iReq.getResponse().getStatusMessage());
+		
 	}
 
 	/**
@@ -77,8 +65,6 @@ public class RetrieveFreePlanningPokerRequirementsRequestObserver implements
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		// an error occurred
-		controller.errorReceivingData("Unable to complete request: "
-				+ exception.getMessage());
+		
 	}
 }

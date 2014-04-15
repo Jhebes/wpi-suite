@@ -1,6 +1,13 @@
-/**
+/*******************************************************************************
+ * Copyright (c) 2014 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
- */
+ * Contributors: Team Combat Wombat
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.BorderLayout;
@@ -8,6 +15,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -17,16 +25,12 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllSessionsController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetClosedSessionsController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetOpenSessionsController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetAllSessionsController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetClosedSessionsController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetOpenSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
-/**
- * @author troyling, Jake, Zack
- * 
- */
 public class OverviewPanel extends JSplitPane {
 
 	private static final long serialVersionUID = 1L;
@@ -62,8 +66,7 @@ public class OverviewPanel extends JSplitPane {
 
 		// Create Table using data above
 
-		final JTable table = new JTable(
-				OverviewTableSessionTableModel.getInstance()) {
+		final JTable table = new JTable(OverviewTableSessionTableModel.getInstance()) {
 			private static final long serialVersionUID = 1L;
 			private boolean initialized = false;
 
@@ -110,11 +113,24 @@ public class OverviewPanel extends JSplitPane {
 				}
 			}
 		});
+		
 
 		// Sets table bg to white
 		table.setBackground(Color.WHITE);
-
-		// Set layout for right panel
+		
+		//allow sorting in table
+		table.setAutoCreateRowSorter(true);//update model
+		table.getTableHeader().addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				rightPanel.updateUI();
+				
+			}
+		});
+		
+		// disallow moving of columns
+		table.getTableHeader().setReorderingAllowed(false);
+		
+		// Set layout for right panel;
 		rightPanel.setLayout(new BorderLayout());
 
 		// Add table inside a JScrollPane to rightPanel

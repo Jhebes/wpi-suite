@@ -6,12 +6,9 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors:
- *    Andrew Hurle
- *    Chris Casola
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
 
 import java.util.ArrayList;
 
@@ -20,19 +17,18 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
 /**
- * @author Hoang Ngo
+ * This observer handles responses to requests for all open planning poker
+ * sessions
  * 
  */
-public class GetClosedSessionsRequestObserver implements RequestObserver {
-	private final GetClosedSessionsController controller;
+public class GetOpenSessionsRequestObserver implements RequestObserver {
+	private final GetOpenSessionsController controller;
 
 	/**
-	 * Construct a GetClosedSessionsRequestObserver for a given controller
-	 * 
-	 * @param controller
+	 * Construct a GetOpenSessionsRequestObserver for the given controller
+	 * @param controller a GetOpenSessionsController
 	 */
-	public GetClosedSessionsRequestObserver(
-			GetClosedSessionsController controller) {
+	public GetOpenSessionsRequestObserver(GetOpenSessionsController controller) {
 		this.controller = controller;
 	}
 
@@ -45,27 +41,27 @@ public class GetClosedSessionsRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		// Parse the sessions out of the response body
+		// Parse all sessions out of the response body
 		PlanningPokerSession[] sessions = PlanningPokerSession
-												.fromJSONArray(iReq
-																.getResponse()
-																.getBody());
+											.fromJSONArray(iReq
+															.getResponse()
+															.getBody());
 
-		// Filter the closed sessions using arrayList
-		ArrayList<PlanningPokerSession> tempClosedSessions = new ArrayList<PlanningPokerSession>();
+		// Filter the open sessions
+		ArrayList<PlanningPokerSession> tempOpenSessions = new ArrayList<PlanningPokerSession>();
 		for (int i = 0; i < sessions.length; i++) {
-			if (sessions[i].isClosed()) {
-				tempClosedSessions.add(sessions[i]);
+			if (sessions[i].isOpen()) {
+				tempOpenSessions.add(sessions[i]);
 			}
 		}
 
-		// Convert the arrayList to array
-		PlanningPokerSession[] closedSessions = 
-				new PlanningPokerSession[tempClosedSessions.size()];
-		closedSessions = tempClosedSessions.toArray(closedSessions);
+		// Convert the open sessions arrayList to array
+		PlanningPokerSession[] openSessions = 
+				new PlanningPokerSession[tempOpenSessions.size()];
+		openSessions = tempOpenSessions.toArray(openSessions);
 
-		// Pass the session back to the controller
-		controller.receiveClosedSessions(closedSessions);
+		// Pass the sessions back to the controller
+		controller.receiveOpenSessions(openSessions);
 	}
 
 	/*
@@ -78,7 +74,7 @@ public class GetClosedSessionsRequestObserver implements RequestObserver {
 	@Override
 	public void responseError(IRequest iReq) {
 		// TODO print the error message to the overview panel
-		System.err.println("The request to get closed sessions failed.");
+		System.err.println("The request to get open sessions failed");
 	}
 
 	/*
@@ -91,7 +87,7 @@ public class GetClosedSessionsRequestObserver implements RequestObserver {
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		// TODO print the error message to the overview panel
-		System.err.println("The request to get closed sessions failed.");
+		System.err.println("The request to get open sessions failed");
 	}
 
 }
