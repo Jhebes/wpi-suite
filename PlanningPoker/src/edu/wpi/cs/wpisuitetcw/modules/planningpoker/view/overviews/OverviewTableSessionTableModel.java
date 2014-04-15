@@ -7,11 +7,13 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Vector;
+import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -29,7 +31,7 @@ public class OverviewTableSessionTableModel extends DefaultTableModel {
 
 	private static OverviewTableSessionTableModel instance;
 	private final String[] colNames = { "ID", "Name", "Deadline", "Status" };
-	private PlanningPokerSession[] sessions = {};
+	private List<PlanningPokerSession> sessions = new ArrayList<PlanningPokerSession>();
 
 	/**
 	 * Constructs a table session for the overview table.
@@ -51,7 +53,7 @@ public class OverviewTableSessionTableModel extends DefaultTableModel {
 	 * @param sessions
 	 *            The new list of sessions
 	 */
-	public void refreshSessions(PlanningPokerSession[] sessions) {
+	public void refreshSessions(List<PlanningPokerSession> sessions) {
 		this.setDataVector(null, colNames);
 		this.sessions = sessions;
 		if (sessions == null) {
@@ -74,11 +76,11 @@ public class OverviewTableSessionTableModel extends DefaultTableModel {
 		}
 	}
 
-	public PlanningPokerSession[] getSessions() {
+	public List<PlanningPokerSession> getSessions() {
 		return sessions;
 	}
 
-	public void setSessions(PlanningPokerSession[] sessions) {
+	public void setSessions(List<PlanningPokerSession> sessions) {
 		this.sessions = sessions;
 	}
 

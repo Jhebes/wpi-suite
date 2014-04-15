@@ -1,6 +1,17 @@
+/*******************************************************************************
+ * Copyright (c) 2014 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team Combat Wombat
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -37,7 +48,7 @@ public class ImportRequirementsTableModel extends DefaultTableModel {
 	public void updateTableModel() {
 
 		this.requirements = new ArrayList<PlanningPokerRequirement>();
-		PlanningPokerSession[] sessions = OverviewTableSessionTableModel
+		List<PlanningPokerSession> sessions = OverviewTableSessionTableModel
 				.getInstance().getSessions();
 		for (PlanningPokerSession session : sessions) {
 			this.requirements.addAll(session.getRequirements());

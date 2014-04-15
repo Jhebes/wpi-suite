@@ -1,20 +1,20 @@
 /*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
- *
+ * Copyright (c) 2014 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
+ * Contributors: Team Combat Wombat
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTableSessionTableModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -24,12 +24,10 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * This controller responds when the users click on "Closed Session" button by
  * displaying all the closed planning poker sessions on the overview panel
  * 
- * @author Hoang Ngo
- * 
  */
 public class GetClosedSessionsController implements ActionListener {
-	private final OverviewPanel view;
-	private final PlanningPokerSession[] data = null;
+	private static GetClosedSessionsController instance;
+	private final List<PlanningPokerSession> data = null;
 
 	/**
 	 * Construct a GetClosedSessionsController for the given view
@@ -37,8 +35,14 @@ public class GetClosedSessionsController implements ActionListener {
 	 * @param view
 	 *            the view where the closed session button lies on
 	 */
-	public GetClosedSessionsController(OverviewPanel view) {
-		this.view = view;
+	public GetClosedSessionsController() {
+	}
+	
+	public static GetClosedSessionsController getInstance() {
+		if(instance == null) {
+			instance = new GetClosedSessionsController();
+		}
+		return instance;
 	}
 
 	/*
@@ -63,12 +67,16 @@ public class GetClosedSessionsController implements ActionListener {
 	 * @param sessions
 	 *            an array of sessions received from the server
 	 */
-	public void receiveClosedSessions(PlanningPokerSession[] sessions) {
+	public void receiveClosedSessions(List<PlanningPokerSession> sessions) {
 		this.receivedSessions(sessions);
 	}
 	
-	public void receivedSessions(PlanningPokerSession[] sessions) {
+	public void receivedSessions(List<PlanningPokerSession> sessions) {
 		OverviewTableSessionTableModel.getInstance().refreshSessions(sessions);
+	}
+	
+	public void retrieveClosedSession() {
+		actionPerformed(null);
 	}
 
 }

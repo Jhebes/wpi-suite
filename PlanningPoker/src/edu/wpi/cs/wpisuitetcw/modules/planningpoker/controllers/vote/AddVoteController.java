@@ -1,18 +1,23 @@
 /*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
- *
+ * Copyright (c) 2014 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
+ * Contributors: Team Combat Wombat
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+<<<<<<< HEAD
 import java.util.ArrayList;
+=======
+import java.util.logging.Level;
+import java.util.logging.Logger;
+>>>>>>> b3d99867a8d87e7201843c87b89a21f05e5d7a37
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GenericPUTRequestObserver;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
@@ -29,8 +34,6 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * This controller responds when the user clicks the "Create" button by using
  * all entered information to construct a new session and storing in the
  * database
- * 
- * @author Josh Hebert
  * 
  */
 public class AddVoteController implements ActionListener {
@@ -68,7 +71,12 @@ public class AddVoteController implements ActionListener {
 		try {
 			this.req = session.getReqByName(r);
 		} catch (NullPointerException e) {
+<<<<<<< HEAD
 			System.out.println("No req found by that name!");
+=======
+			Logger.getLogger("PlanningPoker").log(Level.WARNING,
+					"Could not find requirement by name: " + r, e);
+>>>>>>> b3d99867a8d87e7201843c87b89a21f05e5d7a37
 			return;
 		}
 		
@@ -87,9 +95,13 @@ public class AddVoteController implements ActionListener {
 		}
 		
 		session.addVoteToRequirement(req, vote);
+<<<<<<< HEAD
 		view.setNumVotesLabel(session.getNumVotes(req));
 
 		System.out.println(session.getNumVotes(req));
+=======
+
+>>>>>>> b3d99867a8d87e7201843c87b89a21f05e5d7a37
 		System.out.println("Added vote to requirement " + req.getName());
 
 		// Update the session remotely
@@ -104,7 +116,12 @@ public class AddVoteController implements ActionListener {
 		// Send the request on its way
 		request.send();
 
+<<<<<<< HEAD
 		GetRequirementsVotesController getVotes = new GetRequirementsVotesController(view, session);
 		getVotes.actionPerformed(new ActionEvent(getVotes, 0, r));
+=======
+		// session.voteStatus();
+
+>>>>>>> b3d99867a8d87e7201843c87b89a21f05e5d7a37
 	}
 }

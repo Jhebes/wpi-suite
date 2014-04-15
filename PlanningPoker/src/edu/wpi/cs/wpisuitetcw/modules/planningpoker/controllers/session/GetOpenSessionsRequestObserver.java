@@ -20,8 +20,6 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  * This observer handles responses to requests for all open planning poker
  * sessions
  * 
- * @author Hoang Ngo
- * 
  */
 public class GetOpenSessionsRequestObserver implements RequestObserver {
 	private final GetOpenSessionsController controller;
@@ -50,18 +48,13 @@ public class GetOpenSessionsRequestObserver implements RequestObserver {
 															.getBody());
 
 		// Filter the open sessions
-		ArrayList<PlanningPokerSession> tempOpenSessions = new ArrayList<PlanningPokerSession>();
+		ArrayList<PlanningPokerSession> openSessions = new ArrayList<PlanningPokerSession>();
 		for (int i = 0; i < sessions.length; i++) {
 			if (sessions[i].isOpen()) {
-				tempOpenSessions.add(sessions[i]);
+				openSessions.add(sessions[i]);
 			}
 		}
-
-		// Convert the open sessions arrayList to array
-		PlanningPokerSession[] openSessions = 
-				new PlanningPokerSession[tempOpenSessions.size()];
-		openSessions = tempOpenSessions.toArray(openSessions);
-
+		
 		// Pass the sessions back to the controller
 		controller.receiveOpenSessions(openSessions);
 	}

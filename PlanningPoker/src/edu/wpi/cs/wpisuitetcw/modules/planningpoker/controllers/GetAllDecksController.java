@@ -1,16 +1,26 @@
+/*******************************************************************************
+ * Copyright (c) 2014 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team Combat Wombat
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
-public class GetAllDecksController implements ActionListener {
+public class GetAllDecksController {
 
 	private static GetAllDecksController instance;
+	private PlanningPokerDeck[] decks = null;
 
 	private GetAllDecksController() {
 	}
@@ -26,12 +36,42 @@ public class GetAllDecksController implements ActionListener {
 		return instance;
 	}
 
-	public PlanningPokerDeck[] receivedDecks(PlanningPokerDeck[] decks) {
-		return decks;
+	public void updateDecks(PlanningPokerDeck[] decks) {
+		this.decks = decks;
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
+	/**
+	 * returns all the names of available decks in our database
+	 * 
+	 * @return ArrayList of deck names
+	 * @throws InterruptedException 
+	 */
+	public ArrayList<String> getAllDeckNames() {
+		this.refreshDecks(); // set up the deck
+		ArrayList<String> deckNames = new ArrayList<String>();
+		
+		// delay the this process since the request fired in refreshDecks() might not be completed
+		try {
+			Thread.sleep(50); 
+		} catch (InterruptedException e) {
+		}
+		
+		deckNames.add("Default");
+		deckNames.add("No deck");
+		
+		// make sure the decks is not null
+		if(decks != null) {
+			for (PlanningPokerDeck deck : this.decks) {
+				deckNames.add(deck.getDeckName());
+			}
+		}
+		return deckNames;
+	}
+	
+	/**
+	 * retrieve decks from database
+	 */
+	public void refreshDecks() {
 		final Request request = Network.getInstance().makeRequest(
 				"planningpoker/deck", HttpMethod.GET);
 		request.addObserver(new GetAllDecksRequestObserver(this));

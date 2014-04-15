@@ -1,14 +1,17 @@
 /*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
- *
+ * Copyright (c) 2014 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
+ * Contributors: Team Combat Wombat
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -37,11 +40,13 @@ public class GetAllSessionsRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		PlanningPokerSession[] sessions = PlanningPokerSession.fromJSONArray(iReq.getResponse().getBody());
+		PlanningPokerSession[] sessions = PlanningPokerSession
+				.fromJSONArray(iReq.getResponse().getBody());
 		if (sessions == null) {
 			sessions = new PlanningPokerSession[0];
 		}
-		controller.receivedSessions(sessions);
+		controller.receivedSessions(new ArrayList<PlanningPokerSession>(Arrays
+				.asList(sessions)));
 	}
 
 	/*

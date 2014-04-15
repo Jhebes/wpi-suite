@@ -1,13 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
- *
+ * Copyright (c) 2014 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    Chris Casola
+ * 
+ * Contributors: Team Combat Wombat
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
@@ -31,8 +29,11 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * all entered information to construct a new session and storing in the
  * database
  * 
+<<<<<<< HEAD
  * @author Josh Hebert
  *  
+=======
+>>>>>>> b3d99867a8d87e7201843c87b89a21f05e5d7a37
  */
 public class AddRequirementController implements ActionListener {
 
