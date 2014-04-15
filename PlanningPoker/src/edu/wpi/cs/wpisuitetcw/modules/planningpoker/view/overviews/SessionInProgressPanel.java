@@ -33,6 +33,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SessionInProgressController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.GetRequirementsVotesController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
@@ -51,7 +52,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	private JLabel deadline;
 	private PlanningPokerRequirement[] reqsList;
 	private JButton btnSubmit;
-	private JButton cancelSession;
+	private JButton cancelBtn;
 	private String selectedReqName;
 	private JTable reqsViewTable;
 	private ViewSessionTableManager reqsViewTableManager = new ViewSessionTableManager();
@@ -60,6 +61,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	private JLabel label_2 = new JLabel("");
 	private String reqName;
 	private String reqDescription;
+	
 
 	/**
 	 * Create the panel.
@@ -136,7 +138,9 @@ public class SessionInProgressPanel extends JSplitPane {
 		LeftPanel.add(verticalStrut5);
 		
 		JButton cancelBtn = new JButton("Cancel");
-		cancelSessionAction(cancelBtn, this);
+//		SessionInProgressController controller = new SessionInProgressController(this);
+	//	controller.cancelSessionAction(cancelBtn, this);
+		this.cancelSessionAction(cancelBtn, this);
 		LeftPanel.add(cancelBtn);
 
 		// Set up Reqs Panel
@@ -412,10 +416,14 @@ public class SessionInProgressPanel extends JSplitPane {
 				panel.session.cancel();
 				ViewEventManager.getInstance().removeTab(panel);
 				System.out.println("You are canceling this");
-			
-
+				panel.session.update();
+				
 
 			}
 		});
+	}
+	
+	public JButton getCancelBtn() {
+		return this.cancelBtn;
 	}
 }
