@@ -7,6 +7,7 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.util.List;
@@ -15,10 +16,6 @@ import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 
-/**
- * @author troyling, Jenny
- *
- */
 public class ViewSessionTableModel extends DefaultTableModel{
 	private final String[] colNames = {"Name", "Description"};
 	

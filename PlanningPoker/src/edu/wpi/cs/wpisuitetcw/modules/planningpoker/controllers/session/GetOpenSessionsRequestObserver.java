@@ -20,8 +20,6 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  * This observer handles responses to requests for all open planning poker
  * sessions
  * 
- * @author Hoang Ngo
- * 
  */
 public class GetOpenSessionsRequestObserver implements RequestObserver {
 	private final GetOpenSessionsController controller;
