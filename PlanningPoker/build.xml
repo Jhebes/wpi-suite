@@ -14,7 +14,7 @@
 		<fileset dir="${core-lib}">
 			<include name="gson-*.jar" />
 			<include name="mail.jar" />
-			<include name="jaimlib.jar" />
+			<include name="plivo-java-3.0.2-jar-with-dependencies.jar" />
 		</fileset>
 		<fileset dir="${janeway-lib}">
 			<include name="jfreechart-1.0.14.jar" />

@@ -50,24 +50,24 @@ public class ActivateSessionController implements ActionListener {
 		GetAllSessionsController.getInstance().retrieveSessions();
 
 		// Send email to everyone in a session
-//		if (this.session.getUsers() != null) {
-//			for (User user : this.session.getUsers()) {
-//				String sendTo = user.getEmail();
-//				if (!sendTo.equals("")) {
-//					SendEmailController.getInstance().sendEmail("start",
-//							sendTo, session.getDeadline());
-//				} else {
-//					SendEmailController.getInstance()
-//							.sendEmail("start", "teamcombatwombat@gmail.com",
-//									session.getDeadline());
-//				}
-//			}
-//		} else {
-//			SendEmailController.getInstance().sendEmail("start",
-//					"teamcombatwombat@gmail.com", session.getDeadline());
-//		}
+		if (this.session.getUsers() != null) {
+			for (User user : this.session.getUsers()) {
+				String sendTo = user.getEmail();
+				if (!sendTo.equals("")) {
+					SendEmailController.getInstance().sendEmail("start",
+							sendTo, session.getDeadline());
+				} else {
+					SendEmailController.getInstance()
+							.sendEmail("start", "teamcombatwombat@gmail.com",
+									session.getDeadline());
+				}
+			}
+		} else {
+			SendEmailController.getInstance().sendEmail("start",
+					"teamcombatwombat@gmail.com", session.getDeadline());
+		}
 
-		// Send email to everyone in a session
+		// Send SMS to everyone in a session
 		if (this.session.getUsers() != null) {
 			for (User user : this.session.getUsers()) {
 				String sendTo = user.getAIM();
@@ -76,13 +76,13 @@ public class ActivateSessionController implements ActionListener {
 							session.getDeadline());
 				} else {
 					SendIMController.getInstance()
-							.sendIM("start", "teamcombatwombat",
+							.sendIM("start", "15189662284",
 									session.getDeadline());
 				}
 			}
 		} else {
 			SendIMController.getInstance().sendIM("start",
-					"teamcombatwombat", session.getDeadline());
+					"15189662284", session.getDeadline());
 		}
 	}
 

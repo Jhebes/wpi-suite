@@ -1,14 +1,16 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications;
 
-import com.wilko.jaim.JaimConnection;
+import java.util.LinkedHashMap;
+
+import com.plivo.helper.api.client.RestAPI;
+import com.plivo.helper.api.response.message.MessageResponse;
+import com.plivo.helper.exception.PlivoException;
+
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.ConfigLoader;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.exceptions.ConfigLoaderError;
+
 
 public class IMNotifier {
-	// Hostname and port number to connect to.
-	//
-	private static String HOST = "login.oscar.aol.com";
-	private static int PORT = 5190;
-	private static String name = "teamcombatwombat";
-	private static String pass = "80% done";
 
 	// text for message
 	private static String START_MESSAGE = "A new planning poker session has begun! It ends at ";
@@ -23,25 +25,42 @@ public class IMNotifier {
 		return "";
 	}
 
-	public static void sendMessage(String notificationType, String buddy,
+	public static void sendMessage(String notificationType, String phoneNumber,
 			String deadline) {
 		String message = createMessage(notificationType, deadline);
-		sendMessage(message, buddy);
-
+		sendMessage(message, phoneNumber);
 	}
 
-	public static void sendMessage(String message, String buddy) {
-		JaimConnection connection;
+	public static void sendMessage(String message, String phoneNumber) {
+		String authId, authToken, src;
 		try {
-			connection = new JaimConnection(HOST, PORT);
-			connection.connect();
-			connection.watchBuddy(name);
-			connection.logIn(name, pass, 15000);
-			connection.sendIM(buddy, message);
-			System.out.println("Message successfully sent.");
-			connection.logOut();
-		} catch (Exception ex) {
-			ex.printStackTrace();
+			authId = ConfigLoader.getPlivoAuthId();
+			authToken = ConfigLoader.getPlivoAuthToken();
+			src = ConfigLoader.getPlivoPhoneNumber();
+		} catch (ConfigLoaderError e) {
+			e.printStackTrace();
+			return;
+		}
+		
+		
+		RestAPI api = new RestAPI(authId, authToken, "v1");
+
+		LinkedHashMap<String, String> parameters = new LinkedHashMap<String, String>();
+		parameters.put("src", src);
+		parameters.put("dst", phoneNumber);
+		parameters.put("text", message);
+		parameters.put("url", "http://server/message/notification/");
+
+		try {
+			MessageResponse msgResponse = api.sendMessage(parameters);
+			System.out.println(msgResponse.apiId);
+			if (msgResponse.serverCode == 202) {
+				System.out.println(msgResponse.messageUuids.get(0).toString());
+			} else {
+				System.out.println(msgResponse.error);
+			}
+		} catch (PlivoException e) {
+			System.out.println(e.getLocalizedMessage());
 		}
 	}
 }
