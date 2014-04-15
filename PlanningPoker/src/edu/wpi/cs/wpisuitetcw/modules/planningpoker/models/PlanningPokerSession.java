@@ -435,6 +435,13 @@ public class PlanningPokerSession extends AbstractModel {
 			return "New";
 		}
 	}
+	
+	/**
+	 * @return The end time
+	 */
+	public Date getEndTime() {
+		return this.endTime;
+	}
 
 	/*
 	 * @see java.lang.Object#toString()
@@ -478,5 +485,4 @@ public class PlanningPokerSession extends AbstractModel {
 		this.description = updatedSession.description;
 		this.requirements = updatedSession.requirements;
 	}
-
 }
