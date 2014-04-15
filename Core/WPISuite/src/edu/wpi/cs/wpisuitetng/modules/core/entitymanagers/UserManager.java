@@ -93,9 +93,9 @@ public class UserManager implements EntityManager<User> {
 		}
 		
 		// Check to see if AIM is greater than 3
-		if (p.getAIM() != null && !p.getAIM().isEmpty())
+		if (p.getSMS() != null && !p.getSMS().isEmpty())
 		{
-			if (p.getAIM().length() < 3)
+			if (p.getSMS().length() < 3)
 			{
 				logger.log(Level.WARNING, "AIM screen name not valid");
 				throw new BadRequestException("The AIM screen name needs to be blank or at least 3 characters long.");

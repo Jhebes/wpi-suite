@@ -29,7 +29,7 @@ public class User extends AbstractModel
 	private String username;
 	private int idNum;
 	private Role role;
-	private String aim;
+	private String sms;
 	private String email;
 	
 	transient private String password; // excluded from serialization, still stored.
@@ -42,12 +42,12 @@ public class User extends AbstractModel
 	 * @param aim User's AIM screen name
 	 * @param email User's Email address
 	 */
-	public User(String name, String username, String password, String aim, String email, int idNum)
+	public User(String name, String username, String password, String sms, String email, int idNum)
 	{
 		this.name = name;
 		this.username = username;
 		this.password = password;
-		this.aim = aim;
+		this.sms = sms;
 		this.email = email;
 		this.idNum = idNum;
 		this.role = Role.USER;
@@ -88,7 +88,7 @@ public class User extends AbstractModel
 				}
 				
 				// Check new aim field
-				if(this.aim != null && !this.aim.equals(((User)other).aim))
+				if(this.sms != null && !this.sms.equals(((User)other).sms))
 				{
 					return false;
 				}
@@ -138,9 +138,9 @@ public class User extends AbstractModel
 	/**
 	 *  Gets the users AIM
 	 */
-	public String getAIM()
+	public String getSMS()
 	{
-		return this.aim;
+		return this.sms;
 	}
 	
 	/**
