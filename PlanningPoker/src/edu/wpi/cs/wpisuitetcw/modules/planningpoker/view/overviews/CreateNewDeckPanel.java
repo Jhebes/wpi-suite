@@ -33,6 +33,9 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateNewDeckCon
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.InitNewDeckPanelController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
 
+/**
+ * A view to create a new deck
+ */
 public class CreateNewDeckPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	// constants
