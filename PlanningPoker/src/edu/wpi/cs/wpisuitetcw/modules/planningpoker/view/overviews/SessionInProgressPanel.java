@@ -35,6 +35,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.GetRequirementsVotesController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
@@ -151,6 +152,7 @@ public class SessionInProgressPanel extends JSplitPane {
 			private void cancelSession() {
 				session.cancel();
 				session.update();
+				//TODO: final estimation
 				closeTab();
 			}
 
@@ -321,6 +323,8 @@ public class SessionInProgressPanel extends JSplitPane {
 	
 	private void closeTab(){
 		ViewEventManager.getInstance().removeTab(this);
+		ViewEventManager.getInstance().viewSession(session);
+		GetAllSessionsController.getInstance().retrieveSessions();
 	}
 
 	/**
