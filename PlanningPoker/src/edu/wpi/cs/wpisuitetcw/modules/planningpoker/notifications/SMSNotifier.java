@@ -10,7 +10,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.ConfigLoader;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.exceptions.ConfigLoaderError;
 
 
-public class IMNotifier {
+public class SMSNotifier {
 
 	// text for message
 	private static String START_MESSAGE = "A new planning poker session has begun! It ends at ";

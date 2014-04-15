@@ -24,7 +24,7 @@ import javax.mail.internet.MimeMessage;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.ConfigLoader;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.exceptions.ConfigLoaderError;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications.IMNotifier;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications.SMSNotifier;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
@@ -320,11 +320,11 @@ public class PlanningPokerSessionEntityManager implements
 		String subject, body;
 		if (notificationType.equals("start")) {
 			subject = "Planning Poker";
-			body = "A new planning poker session has begun! It ends at "
+			body = "A new planning poker session has begun!"
 					+ deadline + ".";
 		} else if (notificationType.equals("end")) {
 			subject = "Planning Poker";
-			body = "A planning poker session has ended! Its deadline was "
+			body = "A planning poker session has ended!"
 					+ deadline + ".";
 		} else {
 			return;
@@ -377,6 +377,6 @@ public class PlanningPokerSessionEntityManager implements
 	}
 
 	public void sendIMNotification(String notificationType, String screenname, String deadline) {
-		IMNotifier.sendMessage(notificationType, screenname, deadline);
+		SMSNotifier.sendMessage(notificationType, screenname, deadline);
 	}
 }

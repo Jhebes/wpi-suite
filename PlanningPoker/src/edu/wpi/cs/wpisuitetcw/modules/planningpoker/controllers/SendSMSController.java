@@ -25,20 +25,20 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * This retrieves all sessions from the core and publishes them to the view
  * 
  */
-public class SendIMController {
+public class SendSMSController {
 
-	private static SendIMController instance;
+	private static SendSMSController instance;
 
 	/**
 	 * Instantiates a new controller tied to the specified view. Private because
 	 * this is a singleton.
 	 */
-	private SendIMController() {
+	private SendSMSController() {
 	}
 
-	public static SendIMController getInstance() {
+	public static SendSMSController getInstance() {
 		if (instance == null) {
-			instance = new SendIMController();
+			instance = new SendSMSController();
 		}
 		return instance;
 	}
@@ -86,7 +86,7 @@ public class SendIMController {
 	 * @param deadline
 	 *            the deadline for this planning poker session
 	 */
-	public void sendIM(String notificationType, String recipient,
+	public void sendSMS(String notificationType, String recipient,
 			Date deadline) {
 		// Send a request to the core to retrieve the sessions
 		final Request request = Network.getInstance().makeRequest(
