@@ -11,12 +11,12 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
 /**
- * Controller for sending email.
+ * Controller for sending SMS notifications.
  */
-public class SendEmailController extends SendNotificationController {
+public class SendSMSController extends SendNotificationController {
 
 	/**
 	 * {@inheritdoc}
 	 */
-	private static String command = "sendEmail";
+	private static String command = "sendSMS";
 }
