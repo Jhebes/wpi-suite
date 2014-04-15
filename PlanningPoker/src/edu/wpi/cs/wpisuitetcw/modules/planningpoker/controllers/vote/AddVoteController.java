@@ -66,6 +66,7 @@ public class AddVoteController implements ActionListener {
 		try{
 			this.req = session.getReqByName(r);
 		}catch(NullPointerException e){
+			e.printStackTrace();
 			System.out.println("No req found by that name!");
 			return;
 		}
