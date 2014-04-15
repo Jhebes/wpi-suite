@@ -26,16 +26,16 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * 
  */
 public class GetOpenSessionsController implements ActionListener {
-	private final OverviewPanel view;
+	private static GetOpenSessionsController instance;
 
-	/**
-	 * Construct a GetOpenSessionsController for the given view
-	 * 
-	 * @param view
-	 *            the view where the Open Sessions button lies on
-	 */
-	public GetOpenSessionsController(OverviewPanel view) {
-		this.view = view;
+	private GetOpenSessionsController() {
+	}
+
+	public static GetOpenSessionsController getInstance() {
+		if (instance == null) {
+			instance = new GetOpenSessionsController();
+		}
+		return instance;
 	}
 
 	/*
@@ -61,12 +61,16 @@ public class GetOpenSessionsController implements ActionListener {
 	 *            an array of open sessions received from the server
 	 */
 	public void receiveOpenSessions(PlanningPokerSession[] sessions) {
-		this.receivedSessions(sessions);	
+		this.receivedSessions(sessions);
 	}
-	
+
 	public void receivedSessions(PlanningPokerSession[] sessions) {
 		// TODO: make a superclass for this method
 		OverviewTableSessionTableModel.getInstance().refreshSessions(sessions);
+	}
+	
+	public void retrieveOpenSessions() {
+		actionPerformed(null);
 	}
 
 }

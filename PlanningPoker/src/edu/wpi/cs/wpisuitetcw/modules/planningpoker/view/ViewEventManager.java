@@ -7,7 +7,6 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
-
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import java.util.ArrayList;
@@ -16,13 +15,18 @@ import javax.swing.JComponent;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTreePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 
 public class ViewEventManager {
 	private static ViewEventManager instance = null;
 	private MainView main;
+	private OverviewTreePanel overviewTree;
+	private OverviewPanel overviewPanel;
 	private ToolbarView toolbarView;
+	private boolean isWelcomePageOnDisplay = true;
 	private ArrayList<ViewSessionPanel> viewSessionPanels = new ArrayList<ViewSessionPanel>();
 	private ArrayList<SessionInProgressPanel> inProgressSessionPanels = new ArrayList<SessionInProgressPanel>();
 
@@ -110,16 +114,6 @@ public class ViewEventManager {
 	}
 
 	/**
-	 * Opens a new tab for creatign a new deck of cards
-	 */
-	// public void createDeck() {
-	// CreateNewDeckPanel deckPanel = new CreateNewDeckPanel();
-	// main.addTab("New Deck", null, deckPanel, "New Deck");
-	// main.repaint();
-	// main.setSelectedComponent(deckPanel);
-	// }
-
-	/**
 	 * displays a given panel with given msg
 	 */
 	public void display(JComponent panel, String displayMsg) {
@@ -133,6 +127,16 @@ public class ViewEventManager {
 	 */
 	public MainView getMainview() {
 		return this.main;
+	}
+
+	/**
+	 * sets overview tree in the overview panel
+	 * 
+	 * @param overviewTree
+	 *            overviewTreePanel
+	 */
+	public void setOverviewTree(OverviewTreePanel overviewTree) {
+		this.overviewTree = overviewTree;
 	}
 
 	/**
@@ -185,4 +189,33 @@ public class ViewEventManager {
 		main.repaint();
 		main.setSelectedComponent(newPanel);
 	}
+
+	/**
+	 * return whether a welcome page is on display
+	 */
+	public boolean isWelcomePageOnDisplay() {
+		return this.isWelcomePageOnDisplay;
+	}
+
+	/**
+	 * show table and remove the welcome page
+	 */
+	public void showSessionTable() {
+		this.overviewPanel.showSessionTable();
+	}
+
+	/**
+	 * setter for overview panel
+	 */
+	public void setOverviewPanel(OverviewPanel overviewPanel) {
+		this.overviewPanel = overviewPanel;
+	}
+
+	/**
+	 * update the contents on overview panel
+	 */
+	public void refreshOverviewPanel() {
+		this.overviewPanel.updateUI();
+	}
+
 }

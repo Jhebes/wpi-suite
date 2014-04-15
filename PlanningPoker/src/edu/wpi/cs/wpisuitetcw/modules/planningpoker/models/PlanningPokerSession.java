@@ -441,7 +441,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	@Override
 	public String toString() {
-		return "Session";
+		return this.name;
 	}
 
 	/*

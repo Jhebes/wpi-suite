@@ -37,7 +37,7 @@ public class MainView extends JTabbedPane {
 		setTabLayoutPolicy(SCROLL_TAB_LAYOUT);
 		
 		overviewPanel = new OverviewPanel();
-		this.addTab("Overview", overviewPanel);
+		this.addTab("Session Overview", overviewPanel);
 	}
 	
 	/**
