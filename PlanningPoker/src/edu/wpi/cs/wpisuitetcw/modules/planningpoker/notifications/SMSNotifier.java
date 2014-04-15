@@ -11,6 +11,8 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications;
 
 import java.util.LinkedHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.plivo.helper.api.client.RestAPI;
 import com.plivo.helper.api.response.message.MessageResponse;
@@ -46,7 +48,9 @@ public class SMSNotifier extends BaseNotifier {
 			authToken = ConfigLoader.getPlivoAuthToken();
 			src = ConfigLoader.getPlivoPhoneNumber();
 		} catch (ConfigLoaderError e) {
-			e.printStackTrace();
+			Logger.getLogger("PlanningPoker").log(
+					Level.SEVERE,
+					"Could not load Plivo auth from coniguration file.
 			return;
 		}
 

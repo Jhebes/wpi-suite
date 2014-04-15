@@ -11,6 +11,8 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications;
 
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
@@ -62,7 +64,10 @@ public class EmailNotifier extends BaseNotifier {
 									.getEmailUsername(), ConfigLoader
 									.getEmailPassword());
 						} catch (ConfigLoaderError e) {
-							e.printStackTrace();
+							Logger.getLogger("PlanningPoker").log(
+									Level.SEVERE,
+									"Could not load email address or " + 
+									"password from coniguration file.");
 							return null;
 						}
 					}

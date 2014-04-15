@@ -16,6 +16,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -69,7 +71,10 @@ public class SendNotificationController {
 
 			return sb.toString();
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			Logger.getLogger("PlanningPoker").log(
+					Level.SEVERE,
+					"Unsupported encoding when creating URL for "
+							+ "sending notifications.");
 			return "";
 		}
 	}
