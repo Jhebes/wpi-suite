@@ -29,10 +29,6 @@ public class OverviewPanel extends JSplitPane {
 	private final JPanel welcomePanel;
 	private final JScrollPane sessionPanelJsp;
 
-	// private final JButton openSessionBtn;
-	// private final JButton closedSessionBtn;
-	// private final JButton allSessionsBtn;
-
 	public OverviewPanel() {
 		// Create the right side of the panel
 		rightPanel = new JPanel();

@@ -9,21 +9,17 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
+import java.util.ArrayList;
+
 import javax.swing.JComponent;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateNewDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTreePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 
-/**
- * 
- * @author troyling
- * 
- */
 public class ViewEventManager {
 	private static ViewEventManager instance = null;
 	private MainView main;
@@ -31,6 +27,8 @@ public class ViewEventManager {
 	private OverviewPanel overviewPanel;
 	private ToolbarView toolbarView;
 	private boolean isWelcomePageOnDisplay = true;
+	private ArrayList<ViewSessionPanel> viewSessionPanels = new ArrayList<ViewSessionPanel>();
+	private ArrayList<SessionInProgressPanel> inProgressSessionPanels = new ArrayList<SessionInProgressPanel>();
 
 	/**
 	 * Default constructor for ViewEventController. It is set to private to
@@ -67,27 +65,78 @@ public class ViewEventManager {
 	 */
 	public void viewSession(PlanningPokerSession session) {
 		if (session.isActive()) {
-			SessionInProgressPanel panel = new SessionInProgressPanel(session);
-			main.addTab(session.getName(), null, panel, "Session in progress.");
-			main.repaint();
-			main.setSelectedComponent(panel);
-		} else {
+			// check if the panel of the session is opened
+			SessionInProgressPanel exist = null;
 
-			ViewSessionPanel viewSession = new ViewSessionPanel(session);
-			main.addTab(session.getName(), null, viewSession, "View Session.");
-			main.repaint();
-			main.setSelectedComponent(viewSession);
+			for (SessionInProgressPanel panel : inProgressSessionPanels) {
+				if (panel.getSession() == session) {
+					exist = panel;
+					break;
+				}
+			}
+
+			if (exist == null) {
+				SessionInProgressPanel newPanel = new SessionInProgressPanel(
+						session);
+				inProgressSessionPanels.add(newPanel);
+				main.addTab(session.getName(), null, newPanel,
+						"Session in progress.");
+				main.repaint();
+				main.setSelectedComponent(newPanel);
+			} else {
+				// open the existed panel
+				main.setSelectedComponent(exist);
+			}
+
+		} else {
+			ViewSessionPanel exist = null;
+
+			for (ViewSessionPanel panel : viewSessionPanels) {
+				if (panel.getPPSession() == session) {
+					exist = panel;
+					break;
+				}
+			}
+
+			if (exist == null) {
+				// check if the panel of the session is opened
+				ViewSessionPanel viewSession = new ViewSessionPanel(session);
+				viewSessionPanels.add(viewSession);
+				main.addTab(session.getName(), null, viewSession,
+						"View Session.");
+				main.repaint();
+				main.setSelectedComponent(viewSession);
+			} else {
+				main.setSelectedComponent(exist);
+			}
+
 		}
 	}
 
 	/**
-	 * Opens a new tab for creatign a new deck of cards
+	 * displays a given panel with given msg
 	 */
-	public void createDeck() {
-		CreateNewDeckPanel deckPanel = new CreateNewDeckPanel();
-		main.addTab("New Deck", null, deckPanel, "New Deck");
+	public void display(JComponent panel, String displayMsg) {
+		main.addTab(displayMsg, null, panel, displayMsg);
 		main.repaint();
-		main.setSelectedComponent(deckPanel);
+		main.setSelectedComponent(panel);
+	}
+
+	/**
+	 * return the main view
+	 */
+	public MainView getMainview() {
+		return this.main;
+	}
+
+	/**
+	 * sets overview tree in the overview panel
+	 * 
+	 * @param overviewTree
+	 *            overviewTreePanel
+	 */
+	public void setOverviewTree(OverviewTreePanel overviewTree) {
+		this.overviewTree = overviewTree;
 	}
 
 	/**
@@ -99,16 +148,6 @@ public class ViewEventManager {
 	public void setToolBar(ToolbarView toolbarView) {
 		this.toolbarView = toolbarView;
 		this.toolbarView.repaint();
-	}
-
-	/**
-	 * sets overview tree in the overview panel
-	 * 
-	 * @param overviewTree
-	 *            overviewTreePanel
-	 */
-	public void setOverviewTree(OverviewTreePanel overviewTree) {
-		this.overviewTree = overviewTree;
 	}
 
 	/**
@@ -129,6 +168,12 @@ public class ViewEventManager {
 	 *            the component to remove
 	 */
 	public void removeTab(JComponent component) {
+		if(component instanceof ViewSessionPanel) {
+			this.viewSessionPanels.remove(component);
+		}
+		if(component instanceof SessionInProgressPanel) {
+			this.inProgressSessionPanels.remove(component);
+		}
 		main.remove(component);
 
 	}
