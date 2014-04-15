@@ -10,9 +10,6 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
@@ -24,6 +21,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.ConfigLoader;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.exceptions.ConfigLoaderError;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications.IMNotifier;
 import edu.wpi.cs.wpisuitetng.Session;
@@ -45,8 +44,6 @@ public class PlanningPokerSessionEntityManager implements
 
 	/** The database */
 	Data db;
-	String emailUsername;
-	String emailPassword;
 
 	/**
 	 * Constructs the entity manager. This constructor is called by
@@ -58,29 +55,7 @@ public class PlanningPokerSessionEntityManager implements
 	 *            a reference to the persistent database
 	 */
 	public PlanningPokerSessionEntityManager(Data db) {
-		this.db = db;
-
-		Properties props = new Properties();
-		InputStream input = null;
-
-		try {
-			input = new FileInputStream(".planningpoker.properties");
-			props.load(input);
-
-			// set the properties value
-			emailUsername = props.getProperty("email.username", "");
-			emailPassword = props.getProperty("email.password", "");
-		} catch (IOException io) {
-			io.printStackTrace();
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+		this.db = db;		
 	}
 
 	/*
@@ -326,7 +301,6 @@ public class PlanningPokerSessionEntityManager implements
 	@Override
 	public String advancedPost(Session s, String string, String content)
 			throws WPISuiteException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -369,8 +343,14 @@ public class PlanningPokerSessionEntityManager implements
 		mailSession = javax.mail.Session.getInstance(props,
 				new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(emailUsername,
-								emailPassword);
+						try {
+							return new PasswordAuthentication(
+									ConfigLoader.getEmailUsername(),
+									ConfigLoader.getEmailPassword());
+						} catch (ConfigLoaderError e) {
+							e.printStackTrace();
+							return null;
+						}
 					}
 				});
 
@@ -381,7 +361,7 @@ public class PlanningPokerSessionEntityManager implements
 			MimeMessage message = new MimeMessage(mailSession);
 
 			message.setSubject(subject);
-			message.setFrom(new InternetAddress(emailUsername));
+			message.setFrom(new InternetAddress(ConfigLoader.getEmailUsername()));
 			String[] to = new String[] { toAddress };
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
 					to[0]));
