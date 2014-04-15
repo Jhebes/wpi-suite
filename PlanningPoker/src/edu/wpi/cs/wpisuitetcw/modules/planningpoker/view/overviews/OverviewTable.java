@@ -3,11 +3,12 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.JTable;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
 public class OverviewTable extends JTable {
@@ -18,7 +19,7 @@ public class OverviewTable extends JTable {
 	private static final long serialVersionUID = 1L;
 	private boolean initialized = false;
 
-	public OverviewTable(OverviewTableSessionTableModel sessionModel) {
+	public OverviewTable(SessionTableModel sessionModel) {
 		// set up tables
 		super(sessionModel);
 		this.addMouseListener(new MouseAdapter() {
@@ -30,7 +31,7 @@ public class OverviewTable extends JTable {
 
 					if (row > -1) {
 						// Gets the name, which is index 1
-						PlanningPokerSession session = OverviewTableSessionTableModel
+						PlanningPokerSession session = SessionTableModel
 								.getInstance().getSessions()[row];
 						ViewEventManager.getInstance().viewSession(session);
 					}
@@ -59,7 +60,16 @@ public class OverviewTable extends JTable {
 	public void repaint() {
 		try {
 			if (!initialized) {
-				GetAllSessionsController.getInstance().retrieveSessions();
+
+				SessionStash.getInstance().synchronize();
+				ArrayList<PlanningPokerSession> a = SessionStash.getInstance().getSessions();
+				PlanningPokerSession[] b = new PlanningPokerSession[a.size()];
+				for(int i = 0; i < a.size(); ++i){
+					b[i] = a.get(i);
+				}
+				SessionTableModel.getInstance().refreshSessions(b);
+				System.out.println("Session Table updated");
+				//GetAllSessionsController.getInstance().retrieveSessions();
 				initialized = true;
 			}
 		} catch (Exception e) {

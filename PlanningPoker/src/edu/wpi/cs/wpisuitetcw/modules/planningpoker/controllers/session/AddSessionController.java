@@ -19,12 +19,12 @@ import java.util.Date;
 
 import javax.swing.JLabel;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTableSessionTableModel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionTableModel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -116,13 +116,13 @@ public class AddSessionController implements ActionListener {
 
 	// removes a tab and opens another
 	public void onSuccess(PlanningPokerSession session) {
-		ViewSessionTableManager a1 = new ViewSessionTableManager();
+		RequirementTableManager a1 = new RequirementTableManager();
 		a1.init(session.getID());
 		
 		
 		ViewEventManager.getInstance().removeTab(this.view);
 
 		ViewEventManager.getInstance().viewSession(session);
-		GetAllSessionsController.getInstance().retrieveSessions();
+//		GetAllSessionsController.getInstance().retrieveSessions();
 	}
 }

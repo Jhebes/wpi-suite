@@ -8,7 +8,7 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager;
 
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -21,35 +21,35 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionTableModel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.VoteSessionTableModel;
 
-public class VoteSessionTableManager{
+public class VoteTableManager{
 	private static HashMap<UUID, VoteSessionTableModel> t = new HashMap<UUID, VoteSessionTableModel>();
 
 	public VoteSessionTableModel get(UUID i){
 		System.out.println("Processing query for table for requirement " + i);
 		//this.fetch(i);
-		return VoteSessionTableManager.t.get(i);
+		return VoteTableManager.t.get(i);
 	}
 	
 	public void init(UUID i){
 		System.out.println("Initializing session " + i.toString());
-		VoteSessionTableModel a = VoteSessionTableManager.t.get(i);
+		VoteSessionTableModel a = VoteTableManager.t.get(i);
 		if(a == null){
 			a = new VoteSessionTableModel();
 			
 		}
-		VoteSessionTableManager.t.put(i, a);
+		VoteTableManager.t.put(i, a);
 	}
 	
 	public void refreshRequirements(UUID i, List<PlanningPokerVote> votes) {
 		
-		VoteSessionTableModel a = VoteSessionTableManager.t.get(i);
+		VoteSessionTableModel a = VoteTableManager.t.get(i);
 		if(a == null){
 			System.out.println("Not present, building");
 			a = new VoteSessionTableModel();
 			
 		}
 		a.refreshVotes(votes);
-		VoteSessionTableManager.t.put(i, a);
+		VoteTableManager.t.put(i, a);
 		System.out.println("Done");
 	}
 	public void fetch(UUID i){

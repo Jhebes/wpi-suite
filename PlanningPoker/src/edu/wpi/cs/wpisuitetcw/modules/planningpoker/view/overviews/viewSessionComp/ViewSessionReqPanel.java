@@ -35,9 +35,9 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveAllRequi
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveRequirementToAllController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveRequirementToCurrentSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.RetrievePlanningPokerRequirementsForSessionController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
 public class ViewSessionReqPanel extends JPanel {
@@ -166,7 +166,7 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// setup tables
 		// Left Table
-		allReqTable = new JTable(new ViewSessionTableManager().get(1)) {
+		allReqTable = new JTable(new RequirementTableManager().get(1)) {
 			private static final long serialVersionUID = 1L;
 			private boolean initialized = false;
 
@@ -210,7 +210,7 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// table for left pain
 		//Right table
-		sessionReqTable = new JTable(new ViewSessionTableManager().get(this.session.getID())) {
+		sessionReqTable = new JTable(new RequirementTableManager().get(this.session.getID())) {
 			private static final long serialVersionUID = 2L;
 			private boolean initialized = false;
 

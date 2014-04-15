@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTableSessionTableModel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionTableModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 
 public class ImportRequirementsTableModel extends DefaultTableModel {
@@ -47,7 +47,7 @@ public class ImportRequirementsTableModel extends DefaultTableModel {
 	public void updateTableModel() {
 
 		this.requirements = new ArrayList<PlanningPokerRequirement>();
-		PlanningPokerSession[] sessions = OverviewTableSessionTableModel
+		PlanningPokerSession[] sessions = SessionTableModel
 				.getInstance().getSessions();
 		for (PlanningPokerSession session : sessions) {
 			this.requirements.addAll(session.getRequirements());

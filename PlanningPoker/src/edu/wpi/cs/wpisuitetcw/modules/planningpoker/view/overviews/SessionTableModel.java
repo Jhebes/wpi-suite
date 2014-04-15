@@ -11,41 +11,85 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 
 /**
  * TODO: add description
  */
-public class OverviewTableSessionTableModel extends DefaultTableModel {
+public class SessionTableModel extends DefaultTableModel {
 
 	/**
 	 * random number for serializing
 	 */
 	private static final long serialVersionUID = -7397557876939565129L;
 
-	private static OverviewTableSessionTableModel instance;
+	private static SessionTableModel instance;
 	private final String[] colNames = { "ID", "Name", "Deadline", "Status" };
 	private PlanningPokerSession[] sessions = {};
 
 	/**
 	 * Constructs a table session for the overview table.
 	 */
-	private OverviewTableSessionTableModel() {
+	private SessionTableModel() {
 		setColumnIdentifiers(colNames);
 	}
 
-	public static OverviewTableSessionTableModel getInstance() {
+	public static SessionTableModel getInstance() {
 		if (instance == null) {
-			instance = new OverviewTableSessionTableModel();
+			instance = new SessionTableModel();
 		}
 		return instance;
 	}
 
+	public static enum Mode {OPEN, CLOSED, ALL};
+	
+	public void setMode(Mode m){
+		
+		ArrayList<PlanningPokerSession> a = SessionStash.getInstance().getSessions();
+		switch(m){
+			case ALL:	
+				PlanningPokerSession[] array3 = new PlanningPokerSession[a.size()];
+				for(int i = 0; i < a.size(); ++i){
+					array3[i] = a.get(i);
+				}
+				this.refreshSessions(array3);
+				break;
+			case CLOSED:	
+				for(PlanningPokerSession s : a){
+					if(s.getStatus() != "Closed"){
+						a.remove(s);
+					}
+				}
+				PlanningPokerSession[] array = new PlanningPokerSession[a.size()];
+				for(int i = 0; i < a.size(); ++i){
+					array[i] = a.get(i);
+				}
+				this.refreshSessions(array);
+				break;
+			case OPEN:
+				for(PlanningPokerSession s : a){
+					if(s.getStatus() != "Open"){
+						a.remove(s);
+					}
+				}
+				PlanningPokerSession[] array2 = new PlanningPokerSession[a.size()];
+				for(int i = 0; i < a.size(); ++i){
+					array2[i] = a.get(i);
+				}
+				this.refreshSessions(array2);
+				break;
+			default:
+				this.refreshSessions((PlanningPokerSession[]) a.toArray());
+				break;
+		}
+	}
 	/**
 	 * Refreshes the sessions.
 	 * 

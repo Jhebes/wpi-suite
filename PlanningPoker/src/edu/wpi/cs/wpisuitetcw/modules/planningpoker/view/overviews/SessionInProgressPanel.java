@@ -37,11 +37,11 @@ import javax.swing.SwingConstants;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.GetRequirementsVotesController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 public class SessionInProgressPanel extends JSplitPane {
@@ -56,7 +56,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	private JButton btnSubmit;
 	private String selectedReqName;
 	private JTable reqsViewTable;
-	private ViewSessionTableManager reqsViewTableManager = new ViewSessionTableManager();
+	private RequirementTableManager reqsViewTableManager = new RequirementTableManager();
 	private JList voteList;
 	private JLabel label_1 = new JLabel("");
 	private JLabel label_2 = new JLabel("");
@@ -226,7 +226,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		// Extract the requirements from the table provided by
 		// ViewSessionTableManager and converts them to list
 		ArrayList<String> testReqs = new ArrayList<String>();
-		ViewSessionTableManager a = new ViewSessionTableManager();
+		RequirementTableManager a = new RequirementTableManager();
 		ViewSessionTableModel v = a.get(this.session.getID());
 		Vector vector = v.getDataVector();
 		for (int i = 0; i < vector.size(); ++i) {
@@ -250,7 +250,7 @@ public class SessionInProgressPanel extends JSplitPane {
 				int row = table.getSelectedRow();
 
 				if (row != -1){
-					ViewSessionTableManager m = new ViewSessionTableManager();
+					RequirementTableManager m = new RequirementTableManager();
 					Vector v = m.get(session.getID()).getDataVector();
 					String name = (String)((Vector) v.elementAt(row)).elementAt(1);
 					PlanningPokerRequirement r = session.getReqByName(name);
@@ -385,7 +385,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	public String getSelectedRequirement() {
 		int c = reqsViewTable.getSelectedRow();
 		String name = (String) this.reqsViewTableManager.get(
-				this.session.getID()).getValueAt(c, 1);
+				this.session.getID()).getValueAt(c, 0);
 		System.out.println("Found " + name);
 		return name;
 	}

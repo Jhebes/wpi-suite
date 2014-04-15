@@ -15,6 +15,9 @@ import java.util.Date;
 
 import com.google.gson.Gson;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendEmailController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put.PutSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -98,6 +101,30 @@ public class PlanningPokerSession extends AbstractModel {
 		if (!this.isCancelled && !this.isActive()) {
 			this.startTime = new Date();
 		}
+		
+	
+		//GetAllSessionsController.getInstance().retrieveSessions();
+		
+		// Send email to everyone in a session
+		if (this.getUsers() != null)
+		{
+			for (User user : this.getUsers())
+			{
+				String sendTo = user.getEmail();
+				if (!sendTo.equals(""))
+				{
+					SendEmailController.getInstance().sendEmail("start", sendTo);
+				}
+				else
+				{
+					SendEmailController.getInstance().sendEmail("start", "teamcombatwombat@gmail.com");
+				}
+			}
+		}
+		else
+		{
+			SendEmailController.getInstance().sendEmail("start", "teamcombatwombat@gmail.com");
+		}
 	}
 
 	/**
@@ -120,12 +147,28 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	public void addVoteToRequirement(PlanningPokerRequirement req,
-			PlanningPokerVote v) {
-		requirements.get(requirements.indexOf(req)).addVote(v);
+			PlanningPokerVote v, String requestingUser) {
+		PlanningPokerRequirement r = requirements.get(requirements.indexOf(req));
+		requirements.remove(r);
+		for(PlanningPokerVote vote : r.votes){
+			if(vote.getOwner().equals(v.getOwner())){
+				vote.setCardValue(v.getCardValue());
+				requirements.add(r);
+				this.update();
+				return;
+			}
+			
+		}
+		
+		r.addVote(v);
+		requirements.add(r);
+		this.update();
 	}
 
 	public PlanningPokerRequirement getReqByName(String n) {
+		
 		for (PlanningPokerRequirement r : requirements) {
+			System.out.printf("%s = %s?\n", n, r.getName());
 			if (r.getName().equals(n)) {
 				return r;
 			}
@@ -469,6 +512,10 @@ public class PlanningPokerSession extends AbstractModel {
 		request.send();
 	}
 
+	public void write() {
+		new PutSessionController(this);
+	}
+	
 	public void copyFrom(PlanningPokerSession updatedSession) {
 		this.isCancelled = updatedSession.isCancelled;
 		this.startTime = updatedSession.startTime;

@@ -12,10 +12,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetAllSessionsController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetClosedSessionsController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetOpenSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.CustomTreeCellRenderer;
 
@@ -44,8 +42,8 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 				"Closed Sessions");
 
 		try {
-			GetAllSessionsController.getInstance().retrieveSessions();
-			PlanningPokerSession[] allSessions = OverviewTableSessionTableModel
+//			SessionStash.getInstance().synchronize();
+			PlanningPokerSession[] allSessions = SessionTableModel
 					.getInstance().getSessions();
 			System.out.println("There are " + allSessions.length);
 			PlanningPokerSession[] openSessions = sortForOpenSessions(allSessions);
@@ -160,18 +158,15 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 				if (node != null) {
 					if (node.toString().equals("All Sessions")) {
 						System.out.println("all sessions refreshing");
-						GetAllSessionsController.getInstance()
-								.retrieveSessions();
+						SessionTableModel.getInstance().setMode(SessionTableModel.Mode.ALL);
 						refresh();
 					} else if (node.toString().equals("Open Sessions")) {
 						System.out.println("open sessions refreshing");
-						GetOpenSessionsController.getInstance()
-								.retrieveOpenSessions();
+						SessionTableModel.getInstance().setMode(SessionTableModel.Mode.OPEN);
 						refresh();
 					} else if (node.toString().equals("Closed Sessions")) {
 						System.out.println("closed sessions refreshing");
-						GetClosedSessionsController.getInstance()
-								.retrieveClosedSession();
+						SessionTableModel.getInstance().setMode(SessionTableModel.Mode.CLOSED);
 						refresh();
 					} else if (node.getUserObject() instanceof PlanningPokerSession) {
 						ViewEventManager.getInstance().viewSession(

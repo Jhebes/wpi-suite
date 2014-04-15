@@ -13,13 +13,13 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GenericPUTRequestObserver;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put.GenericPUTRequestObserver;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionReqPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -55,23 +55,14 @@ public class AddRequirementController implements ActionListener {
 		System.out.println("Sending update");
 		//Get Session 1
 		//Update the session remotely
-		final Request request = Network.getInstance().makeRequest(
-				"planningpoker/session", HttpMethod.POST);
-		request.setBody(s.toJSON());
-		// Listen for the server's response
-		request.addObserver(new GenericPUTRequestObserver(this));
-		// Send the request on its way
-		request.send();
+		s.update();
 		System.out.println("Update Sent");
 		
 		
 		
-		final Request request2 = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.POST);
-		request2.setBody(s.toJSON());
-		request2.addObserver(new GenericPUTRequestObserver(this));
-		request2.send();
 		
-		new ViewSessionTableManager().fetch(s.getID());
+		
+		new RequirementTableManager().fetch(s.getID());
 		
 		this.view.allReqTable.repaint();
 		
@@ -92,13 +83,8 @@ public class AddRequirementController implements ActionListener {
 		System.out.println("Sending new session 0");
 		//Get Session 1
 		//Update the session remotely
-		final Request request = Network.getInstance().makeRequest(
-				"planningpoker/session", HttpMethod.PUT);
-		request.setBody(s.toJSON());
-		// Listen for the server's response
-		request.addObserver(new GenericPUTRequestObserver(this));
-		// Send the request on its way
-		request.send();
+		s.write();
+		
 		System.out.println("Update Sent");
 	}
 	

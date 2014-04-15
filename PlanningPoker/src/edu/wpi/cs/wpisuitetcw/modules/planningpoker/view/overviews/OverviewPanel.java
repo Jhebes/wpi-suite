@@ -41,7 +41,7 @@ public class OverviewPanel extends JSplitPane {
 		welcomePanel.add(new JLabel("This is a Welcome Page."));
 
 		JTable table = new OverviewTable(
-				OverviewTableSessionTableModel.getInstance());
+				SessionTableModel.getInstance());
 
 		// Set layout for right panel;
 		rightPanel.setLayout(new BorderLayout());

@@ -8,7 +8,7 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put;
 
 import java.awt.event.ActionListener;
 
@@ -31,7 +31,10 @@ public class GenericPUTRequestObserver implements RequestObserver {
 	public GenericPUTRequestObserver(ActionListener a) {
 		this.controller = a;
 	}
-
+	
+	public GenericPUTRequestObserver(){
+		this.controller = null;
+	}
 	/*
 	 * Parse the message that was received from the server then pass them to the
 	 * controller.

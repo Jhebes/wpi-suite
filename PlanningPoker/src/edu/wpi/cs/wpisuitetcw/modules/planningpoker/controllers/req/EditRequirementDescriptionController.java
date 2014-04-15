@@ -14,13 +14,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GenericPUTRequestObserver;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put.GenericPUTRequestObserver;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionReqPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -52,25 +52,11 @@ public class EditRequirementDescriptionController implements ActionListener {
 		r.setDescription(this.view.getNewReqDesc());
 		a.add(r);
 		s.addRequirements(a);
-		ViewSessionTableManager a1 = new ViewSessionTableManager();
+		RequirementTableManager a1 = new RequirementTableManager();
 		a1.refreshRequirements(1, s.getRequirements());
-		/*
-		 * ViewSessionTableManager a2 = new ViewSessionTableManager();
-		 * a2.refreshRequirements(session.getID(), session.getRequirements());
-		 
-
-		final Request request = Network.getInstance().makeRequest(
-				"planningpoker/session/".concat(String.valueOf(s.getID())),
-				HttpMethod.POST);
-		request.setBody(session.toJSON());
-		request.addObserver(new GenericPUTRequestObserver(this));
-		request.send();
-*/
-		final Request request2 = Network.getInstance().makeRequest(
-				"planningpoker/session/1", HttpMethod.POST);
-		request2.setBody(s.toJSON());
-		request2.addObserver(new GenericPUTRequestObserver(this));
-		request2.send();
+		
+		
+		s.update();
 
 		this.view.allReqTable.repaint();
 		this.view.sessionReqTable.repaint();

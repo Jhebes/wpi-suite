@@ -16,11 +16,11 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionTableModel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -75,7 +75,7 @@ public class RetrievePlanningPokerRequirementsForSessionController{
 //		for(PlanningPokerRequirement r: session.getRequirements()){
 //			System.out.println(r.getName());
 //		}
-		ViewSessionTableManager a = new ViewSessionTableManager();
+		RequirementTableManager a = new RequirementTableManager();
 		a.refreshRequirements(this.target, session.getRequirements());
 	}
 

@@ -20,14 +20,14 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public class PlanningPokerVote extends AbstractModel {
 
 	private UUID id;
-	private String user;
+	private String owner;
 	private int cardValue;
 
 	public PlanningPokerVote() {
 	}
 	
 	public PlanningPokerVote(String u, int val) {
-		this.user = u;
+		this.owner = u;
 		this.cardValue = val;
 		this.id = UUID.randomUUID();
 	}
@@ -64,7 +64,7 @@ public class PlanningPokerVote extends AbstractModel {
 	 */
 	@Override
 	public String toString() {
-		return "ID: " + this.user + ", Value: " + this.cardValue;
+		return "ID: " + this.owner + ", Value: " + this.cardValue;
 	}
 
 	
@@ -103,7 +103,10 @@ public class PlanningPokerVote extends AbstractModel {
 		return ((Integer) o).equals(this.id);
 	}
 
-
+	public String getOwner(){
+		return this.owner;
+	}
+	
 	public UUID getID() {
 		return id;
 	}
