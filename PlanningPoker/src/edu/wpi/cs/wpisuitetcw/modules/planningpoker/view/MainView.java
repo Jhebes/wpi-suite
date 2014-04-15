@@ -19,6 +19,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ClosableTabComponent;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.DefaultHomePanel;
 
 public class MainView extends JTabbedPane {
 
@@ -26,15 +27,15 @@ public class MainView extends JTabbedPane {
 	 * Serializable ID
 	 */
 	private static final long serialVersionUID = 4184001083813964646L;
-	private OverviewPanel overviewPanel;
+	private DefaultHomePanel homePanel;
 
 	/**
 	 * Create the panel.
 	 */
 
 	public MainView() {
-		overviewPanel = new OverviewPanel();
-		this.addTab("Overview", overviewPanel);
+		homePanel = new DefaultHomePanel();
+		this.addTab("Home", homePanel);
 	}
 	
 	/**
@@ -50,7 +51,7 @@ public class MainView extends JTabbedPane {
 	public void insertTab(String title, Icon icon, Component component,
 			String tip, int index) {
 		super.insertTab(title, icon, component, tip, index);
-		if (!(component instanceof OverviewPanel)) {
+		if (!(component instanceof DefaultHomePanel)) {
 			setTabComponentAt(index, new ClosableTabComponent(this));
 		}
 	}

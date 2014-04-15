@@ -102,6 +102,7 @@ public class CreateSessionPanel extends JSplitPane {
 		JLabel labelDropdownType = new JLabel("Type *");
 		labelDescriptionBox = new JLabel("Description *");
 		labeDeck = new JLabel("Deck *");
+		
 
 		// JLabel labelExplanation = new JLabel(EXPLANATIONSTRING);
 
