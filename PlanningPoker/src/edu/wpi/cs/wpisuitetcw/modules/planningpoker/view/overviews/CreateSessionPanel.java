@@ -10,8 +10,6 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,7 +42,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
 /**
@@ -54,6 +51,10 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Scrol
  */
 
 public class CreateSessionPanel extends JSplitPane {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8733539608651885877L;
 	final int DEFAULT_DATA_SIZE = 30; // default data size for database entry
 	// final int LARGE_DATA_SIZE = 100;
 	private final String EXPLANATIONSTRING = "A planning poker session (game) allows user to "
@@ -74,7 +75,9 @@ public class CreateSessionPanel extends JSplitPane {
 	// dropdown menu
 	private final JComboBox<SessionLiveType> dropdownType;
 	private final JComboBox<String> deckType;
+
 	private PlanningPokerDeck[] decks;
+
 	// deadline date and time picker
 	private final JXDatePicker deadlinePicker;
 	private final JSpinner pickerDeadlineTime;
@@ -512,6 +515,15 @@ public class CreateSessionPanel extends JSplitPane {
 	 */
 	public JComboBox<SessionLiveType> getDropdownType() {
 		return dropdownType;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * 		deck Type pull down menu
+	 */
+	public JComboBox<String> getDeckType() {
+		return deckType;
 	}
 
 	/**

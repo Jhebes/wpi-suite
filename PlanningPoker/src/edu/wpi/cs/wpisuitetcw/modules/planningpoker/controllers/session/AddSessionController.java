@@ -19,6 +19,7 @@ import java.util.Date;
 
 import javax.swing.JLabel;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
@@ -26,6 +27,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTableSessionTableModel;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
+import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -104,14 +106,20 @@ public class AddSessionController implements ActionListener {
 			// TODO Session type should be stored
 			Date d = this.view.getDeadline();
 			String des = this.view.getDescriptionBox().getText();
-
+			String deckName = (String) this.view.getDeckType().getSelectedItem();
+			
 			// Create a new session and populate its data
 			PlanningPokerSession session = new PlanningPokerSession();
 			session.setOwnerUserName(ConfigManager.getConfig().getUserName());
 			session.setName(name);
 			session.setDeadline(d);
 			session.setDescription(des);
-			
+			try {
+				session.setDeck(GetAllDecksController.getInstance().setDeckByName(deckName));
+			} catch (WPISuiteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			// Add all checked requirements
 			// ArrayList<PlanningPokerRequirement> reqs =
 			// view.getRequirements();
