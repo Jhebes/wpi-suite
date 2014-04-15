@@ -24,37 +24,37 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  */
 public class PlanningPokerSession extends AbstractModel {
 
-	/* The id of the session */
+	/** The id of the session */
 	private int id = -1;
 
-	/* The name of the session */
+	/** The name of the session */
 	private String name = "";
 
-	/* The description for this session */
+	/** The description for this session */
 	private String description = "";
 
-	/* The deadline for this session (optional) */
+	/** The deadline for this session (optional) */
 	private Date deadline = null;
 
-	/* When the session was created */
+	/** When the session was created */
 	private Date startTime = null;
 
-	/* When the session should end (has ended, depending on time perspective) */
+	/** When the session should end (has ended, depending on time perspective) */
 	private Date endTime = null;
 
-	/* List of requirements associated this session */
+	/** List of requirements associated this session */
 	private ArrayList<PlanningPokerRequirement> requirements;
 
-	/* List of users in the session */
+	/** List of users in the session */
 	private ArrayList<User> users;
 	
-	/* The deck to be used for this session */
+	/** The deck to be used for this session */
 	private PlanningPokerDeck deck;
 
-	/* Whether or not the session has been canceled prematurely */
+	/** Whether or not the session has been canceled prematurely */
 	private boolean isCancelled = false;
 
-	/* Whether or not the voting on the requirements is complete */
+	/** Whether or not the voting on the requirements is complete */
 	private boolean votingComplete = false;
 
 	/**
