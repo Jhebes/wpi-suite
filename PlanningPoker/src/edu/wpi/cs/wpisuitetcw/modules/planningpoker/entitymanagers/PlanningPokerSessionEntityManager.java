@@ -13,23 +13,16 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
-import java.util.Properties;
 
-import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.ConfigLoader;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.exceptions.ConfigLoaderError;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications.EmailNotifier;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications.SMSNotifier;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
 import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
+import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
@@ -55,7 +48,7 @@ public class PlanningPokerSessionEntityManager implements
 	 *            a reference to the persistent database
 	 */
 	public PlanningPokerSessionEntityManager(Data db) {
-		this.db = db;		
+		this.db = db;
 	}
 
 	/*
@@ -266,23 +259,33 @@ public class PlanningPokerSessionEntityManager implements
 			try {
 				String notificationType = URLDecoder.decode(args[3], "UTF-8");
 				String email = URLDecoder.decode(args[4], "UTF-8");
-				String deadline = URLDecoder.decode(args[5], "UTF-8");
-				sendNotification(notificationType, email, deadline);
+				String deadline;
+				if (args[5] == null) {
+					deadline = "";
+				} else {
+					deadline = URLDecoder.decode(args[5], "UTF-8");
+				}
+				sendEmailNotification(notificationType, email, deadline);
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else if (command.equals("sendIM")) {
+		} else if (command.equals("sendSMS")) {
 			if (args.length < 6) {
 				throw new WPISuiteException(
-						"Usage: /sendIM/(start|end)/<recipient>/<deadline>");
+						"Usage: /sendSMS/(start|end)/<recipient>/<deadline>");
 			}
 
 			try {
 				String notificationType = URLDecoder.decode(args[3], "UTF-8");
 				String buddy = URLDecoder.decode(args[4], "UTF-8");
-				String deadline = URLDecoder.decode(args[5], "UTF-8");
-				sendIMNotification(notificationType, buddy, deadline);
+				String deadline;
+				if (args[5] == null) {
+					deadline = "";
+				} else {
+					deadline = URLDecoder.decode(args[5], "UTF-8");
+				}
+				sendSMSNotification(notificationType, buddy, deadline);
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -315,68 +318,24 @@ public class PlanningPokerSessionEntityManager implements
 	 * @param deadline
 	 *            String containing the deadline.
 	 */
-	private void sendNotification(String notificationType, String toAddress,
+	private void sendEmailNotification(String notificationType, String toAddress,
 			String deadline) {
-		String subject, body;
-		if (notificationType.equals("start")) {
-			subject = "Planning Poker";
-			body = "A new planning poker session has begun!"
-					+ deadline + ".";
-		} else if (notificationType.equals("end")) {
-			subject = "Planning Poker";
-			body = "A planning poker session has ended!"
-					+ deadline + ".";
-		} else {
-			return;
-		}
-
-		Properties props = new Properties();
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.debug", "true");
-		props.put("mail.smtp.port", 587);
-		props.put("mail.smtp.socketFactory.port", 587);
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.transport.protocol", "smtp");
-		javax.mail.Session mailSession = null;
-
-		mailSession = javax.mail.Session.getInstance(props,
-				new javax.mail.Authenticator() {
-					protected PasswordAuthentication getPasswordAuthentication() {
-						try {
-							return new PasswordAuthentication(
-									ConfigLoader.getEmailUsername(),
-									ConfigLoader.getEmailPassword());
-						} catch (ConfigLoaderError e) {
-							e.printStackTrace();
-							return null;
-						}
-					}
-				});
-
-		try {
-
-			Transport transport = mailSession.getTransport();
-
-			MimeMessage message = new MimeMessage(mailSession);
-
-			message.setSubject(subject);
-			message.setFrom(new InternetAddress(ConfigLoader.getEmailUsername()));
-			String[] to = new String[] { toAddress };
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-					to[0]));
-			message.setContent(body, "text/html");
-			transport.connect();
-
-			transport.sendMessage(message,
-					message.getRecipients(Message.RecipientType.TO));
-			transport.close();
-		} catch (Exception exception) {
-
-		}
+		EmailNotifier.sendMessage(notificationType, toAddress, deadline);
 	}
 
-	public void sendIMNotification(String notificationType, String screenname, String deadline) {
-		SMSNotifier.sendMessage(notificationType, screenname, deadline);
+	/**
+	 * Sends an SMS to a particular phone number notifying upon start or end
+	 * of a planning poker session.
+	 * 
+	 * @param notificationType
+	 *            'start' or 'end'
+	 * @param toAddress
+	 *            The recipient phone number
+	 * @param deadline
+	 *            String containing the deadline.
+	 */
+	public void sendSMSNotification(String notificationType, String phoneNumber,
+			String deadline) {
+		SMSNotifier.sendMessage(notificationType, phoneNumber, deadline);
 	}
 }

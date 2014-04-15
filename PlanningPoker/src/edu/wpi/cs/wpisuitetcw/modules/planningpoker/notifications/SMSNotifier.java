@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2014 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team Combat Wombat
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications;
 
 import java.util.LinkedHashMap;
@@ -8,30 +18,28 @@ import com.plivo.helper.exception.PlivoException;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.ConfigLoader;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.exceptions.ConfigLoaderError;
+import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 
+/**
+ * Class for sending notifications to users via SMS.
+ */
+public class SMSNotifier extends BaseNotifier {
 
-public class SMSNotifier {
-
-	// text for message
-	private static String START_MESSAGE = "A new planning poker session has begun! It ends at ";
-	private static String END_MESSAGE = "A planning poker session has ended! Its deadline was ";
-
-	public static String createMessage(String notificationType, String deadline) {
-		if (notificationType.equals("start")) {
-			return START_MESSAGE + deadline + ".";
-		} else if (notificationType.equals("end")) {
-			return END_MESSAGE + deadline + ".";
-		}
-		return "";
-	}
-
-	public static void sendMessage(String notificationType, String phoneNumber,
+	/**
+	 * Generates and sends a message to the user indicating that the planning
+	 * poker session started or ended.
+	 * 
+	 * @param notificationType
+	 *            'start' or 'end'
+	 * @param recipient
+	 *            The recipient phone number
+	 * @param deadline
+	 *            The deadline for this planning poker session
+	 */
+	public static void sendMessage(String notificationType, String recipient,
 			String deadline) {
-		String message = createMessage(notificationType, deadline);
-		sendMessage(message, phoneNumber);
-	}
+		String message = BaseNotifier.createMessage(notificationType, deadline);
 
-	public static void sendMessage(String message, String phoneNumber) {
 		String authId, authToken, src;
 		try {
 			authId = ConfigLoader.getPlivoAuthId();
@@ -41,13 +49,12 @@ public class SMSNotifier {
 			e.printStackTrace();
 			return;
 		}
-		
-		
+
 		RestAPI api = new RestAPI(authId, authToken, "v1");
 
 		LinkedHashMap<String, String> parameters = new LinkedHashMap<String, String>();
 		parameters.put("src", src);
-		parameters.put("dst", phoneNumber);
+		parameters.put("dst", recipient);
 		parameters.put("text", message);
 		parameters.put("url", "http://server/message/notification/");
 

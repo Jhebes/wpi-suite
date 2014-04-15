@@ -12,8 +12,8 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendEmailController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendSMSController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendNotificationController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendNotificationController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
@@ -49,40 +49,42 @@ public class ActivateSessionController implements ActionListener {
 		ViewEventManager.getInstance().viewSession(session);
 		GetAllSessionsController.getInstance().retrieveSessions();
 
+		String command = "sendEmail";
 		// Send email to everyone in a session
 		if (this.session.getUsers() != null) {
 			for (User user : this.session.getUsers()) {
 				String sendTo = user.getEmail();
 				if (!sendTo.equals("")) {
-					SendEmailController.getInstance().sendEmail("start",
-							sendTo, session.getDeadline());
+					SendNotificationController.sendNotification("start",
+							sendTo, session.getDeadline(), command);
 				} else {
-					SendEmailController.getInstance()
-							.sendEmail("start", "teamcombatwombat@gmail.com",
-									session.getDeadline());
+					SendNotificationController.sendNotification("start",
+							"teamcombatwombat@gmail.com",
+							session.getDeadline(), command);
 				}
 			}
 		} else {
-			SendEmailController.getInstance().sendEmail("start",
-					"teamcombatwombat@gmail.com", session.getDeadline());
+			SendNotificationController.sendNotification("start",
+					"teamcombatwombat@gmail.com", session.getDeadline(),
+					command);
 		}
 
 		// Send SMS to everyone in a session
+		command = "sendSMS";
 		if (this.session.getUsers() != null) {
 			for (User user : this.session.getUsers()) {
 				String sendTo = user.getSMS();
 				if (!sendTo.equals("")) {
-					SendSMSController.getInstance().sendSMS("start", sendTo,
-							session.getDeadline());
+					SendNotificationController.sendNotification("start",
+							sendTo, session.getDeadline(), command);
 				} else {
-					SendSMSController.getInstance()
-							.sendSMS("start", "15189662284",
-									session.getDeadline());
+					SendNotificationController.sendNotification("start",
+							"15189662284", session.getDeadline(), command);
 				}
 			}
 		} else {
-			SendSMSController.getInstance().sendSMS("start",
-					"15189662284", session.getDeadline());
+			SendNotificationController.sendNotification("start", "15189662284",
+					session.getDeadline(), command);
 		}
 	}
 

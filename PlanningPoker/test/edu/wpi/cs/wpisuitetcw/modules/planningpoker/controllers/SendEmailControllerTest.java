@@ -15,7 +15,6 @@ import static org.junit.Assert.fail;
 
 import java.util.Date;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.MockNetwork;
@@ -30,24 +29,19 @@ public class SendEmailControllerTest extends PlanningPokerMockTest {
 	@SuppressWarnings("deprecation")
 	final Date testDeadline = new Date(2014, 04, 01, 12, 34);
 	final String testExpectedURL = "Advanced/planningpoker/session/sendEmail/start/test%40test.com/3914-05-01+12%3A34";
-	SendEmailController controller;
-
-	@Before
-	public void setUp() throws Exception {
-		controller = SendEmailController.getInstance();
-	}
 
 	@Test
 	public void testMakeURL() {
 		String url = SendEmailController.makeURL("start", "test@test.com",
-				testDeadline);
+				testDeadline, "sendEmail");
 		assertEquals(testExpectedURL, url);
 	}
-	
+
 	@Test
 	public void testSendEmail() {
-		controller.sendEmail("start", testRecipient, testDeadline);
-		
+		SendEmailController.sendNotification("start", testRecipient,
+				testDeadline, "sendEmail");
+
 		// See whether the request was sent
 		MockRequest request = ((MockNetwork) Network.getInstance())
 				.getLastRequestMade();
