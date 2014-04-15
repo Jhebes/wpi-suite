@@ -138,9 +138,8 @@ public class SessionInProgressPanel extends JSplitPane {
 		LeftPanel.add(verticalStrut5);
 		
 		JButton cancelBtn = new JButton("Cancel");
-//		SessionInProgressController controller = new SessionInProgressController(this);
-	//	controller.cancelSessionAction(cancelBtn, this);
-		this.cancelSessionAction(cancelBtn, this);
+		SessionInProgressController controller = new SessionInProgressController(this);
+		controller.cancelSessionAction(cancelBtn, this);
 		LeftPanel.add(cancelBtn);
 
 		// Set up Reqs Panel
@@ -401,26 +400,6 @@ public class SessionInProgressPanel extends JSplitPane {
 	public void setReqLabels() {
 		label_1.setText("<html>"+reqName+"</html>");
 		label_2.setText("<html>"+reqDescription+"</html>");
-	}
-	
-	/**
-	 * Set the action listener for canceling this session in progress
-	 * @param button
-	 * @param panel
-	 */
-	public void cancelSessionAction(JButton button, final SessionInProgressPanel panel) {
-		button.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				panel.session.cancel();
-				ViewEventManager.getInstance().removeTab(panel);
-				System.out.println("You are canceling this");
-				panel.session.update();
-				
-
-			}
-		});
 	}
 	
 	public JButton getCancelBtn() {
