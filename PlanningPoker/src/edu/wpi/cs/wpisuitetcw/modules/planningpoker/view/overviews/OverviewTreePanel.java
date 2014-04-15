@@ -4,6 +4,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -67,7 +69,8 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 			}
 
 		} catch (NullPointerException e) {
-			System.out.println("Network configuration error");
+			Logger.getLogger("PlanningPoker").log(Level.FINE,
+					"Network configuration error", e);
 		}
 
 		top.add(openSessionNode);

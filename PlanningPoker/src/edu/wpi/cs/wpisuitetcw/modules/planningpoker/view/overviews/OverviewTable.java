@@ -65,7 +65,7 @@ public class OverviewTable extends JTable {
 				initialized = true;
 			}
 		} catch (Exception e) {
-			Logger.getLogger("PlanningPoker").log(Level.WARNING,
+			Logger.getLogger("PlanningPoker").log(Level.FINE,
 					"Repaint failed for overview table.", e);
 		}
 	}
