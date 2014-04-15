@@ -21,7 +21,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -220,12 +219,8 @@ public class SessionInProgressPanel extends JSplitPane {
 		btnRefresh.addActionListener(new GetRequirementsVotesController(this,
 				this.session));
 		voteTab.add(btnRefresh);
-<<<<<<< HEAD
 		*/
 
-=======
-		
->>>>>>> b3d99867a8d87e7201843c87b89a21f05e5d7a37
 		// Split into Reqs list and Reqs info
 		JSplitPane splitLeftRight = new JSplitPane();
 		splitLeftRight.setResizeWeight(0.8);

@@ -16,10 +16,7 @@ import java.util.Date;
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-<<<<<<< HEAD
 import edu.wpi.cs.wpisuitetng.janeway.config.Configuration;
-=======
->>>>>>> b3d99867a8d87e7201843c87b89a21f05e5d7a37
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -128,7 +125,6 @@ public class PlanningPokerSession extends AbstractModel {
 		requirements.get(requirements.indexOf(req)).addVote(v);
 	}
 
-<<<<<<< HEAD
 	public boolean hasVoted(PlanningPokerRequirement req) {
 		String username = "NAME?";
 		Configuration c = ConfigManager.getConfig();
@@ -143,8 +139,6 @@ public class PlanningPokerSession extends AbstractModel {
 		return hasVoted;
 	}
 
-=======
->>>>>>> b3d99867a8d87e7201843c87b89a21f05e5d7a37
 	public PlanningPokerRequirement getReqByName(String n) {
 		for (PlanningPokerRequirement r : requirements) {
 			if (r.getName().equals(n)) {
@@ -357,13 +351,10 @@ public class PlanningPokerSession extends AbstractModel {
 		return this.id;
 	}
 
-<<<<<<< HEAD
 	public int getNumVotes(PlanningPokerRequirement req) {
 		return req.getVotes().size();
 	}
 
-=======
->>>>>>> b3d99867a8d87e7201843c87b89a21f05e5d7a37
 	/**
 	 * Returns the deck
 	 * 

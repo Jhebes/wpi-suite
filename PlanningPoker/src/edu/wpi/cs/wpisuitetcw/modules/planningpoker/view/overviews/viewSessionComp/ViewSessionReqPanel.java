@@ -58,13 +58,8 @@ public class ViewSessionReqPanel extends JPanel {
 	private final JButton addRequirementToSession;
 	public final JTable allReqTable;
 	public final JTable sessionReqTable;
-<<<<<<< HEAD
 	public final PlanningPokerSession session;
-	
-=======
-	private final PlanningPokerSession session;
 
->>>>>>> b3d99867a8d87e7201843c87b89a21f05e5d7a37
 	/**
 	 * @return this.name.getText() This requirement's name
 	 */
@@ -281,7 +276,6 @@ public class ViewSessionReqPanel extends JPanel {
 		moveRequirementToAll.setPreferredSize(new Dimension(70, 50));
 		moveAllRequirementsToAll.setPreferredSize(new Dimension(70, 50));
 
-<<<<<<< HEAD
 		//Action Handlers 
 		this.addRequirementToAll.addActionListener(new AddRequirementController(this));
 		this.addRequirementToSession.addActionListener(new AddRequirementToSessionController(this)); // need to change so it adds to the right side
@@ -289,25 +283,7 @@ public class ViewSessionReqPanel extends JPanel {
 		this.moveRequirementToAll.addActionListener(new MoveRequirementToAllController(this.session, this));
 		this.moveAllRequirementsToSession.addActionListener(new MoveAllRequirementsToCurrentSessionController(this.session, this));
 		this.moveAllRequirementsToAll.addActionListener(new MoveAllRequirementsToAllController(this.session, this));
-		
-=======
-		// Action Handlers
-		this.addRequirementToAll
-				.addActionListener(new AddRequirementController(this));
-		this.moveRequirementToSession
-				.addActionListener(new MoveRequirementToCurrentSessionController(
-						this.session, this));
-		this.moveRequirementToAll
-				.addActionListener(new MoveRequirementToAllController(
-						this.session, this));
-		this.moveAllRequirementsToSession
-				.addActionListener(new MoveAllRequirementsToCurrentSessionController(
-						this.session, this));
-		this.moveAllRequirementsToAll
-				.addActionListener(new MoveAllRequirementsToAllController(
-						this.session, this));
 
->>>>>>> b3d99867a8d87e7201843c87b89a21f05e5d7a37
 		// setup buttons panel
 		buttonsPanel.setLayout(new GridLayout(0, 1, 0, 20));
 		buttonsPanel.add(moveAllRequirementsToSession);
