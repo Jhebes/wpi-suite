@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.exceptions.ConfigLoaderError;
 
@@ -52,14 +54,18 @@ public class ConfigLoader {
 			plivoPhoneNumber = props.getProperty("plivo.phoneNumber", "");
 
 			initialized = true;
-		} catch (IOException io) {
-			io.printStackTrace();
+		} catch (IOException e) {
+			Logger.getLogger("PlanningPoker").log(Level.SEVERE,
+					"Could not load configuration file " + filename, e);
 		} finally {
 			if (input != null) {
 				try {
 					input.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					Logger.getLogger("PlanningPoker")
+							.log(Level.SEVERE,
+									"Could not close configuration file "
+											+ filename, e);
 				}
 			}
 		}
@@ -135,7 +141,7 @@ public class ConfigLoader {
 		ensureInitialized();
 		return plivoPhoneNumber;
 	}
-	
+
 	/**
 	 * @return The filename for this configuration file.
 	 */

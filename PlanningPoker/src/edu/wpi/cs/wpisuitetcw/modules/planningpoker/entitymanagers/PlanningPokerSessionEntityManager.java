@@ -13,6 +13,8 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications.EmailNotifier;
@@ -267,8 +269,10 @@ public class PlanningPokerSessionEntityManager implements
 				}
 				sendEmailNotification(notificationType, email, deadline);
 			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Logger.getLogger("PlanningPoker").log(
+						Level.SEVERE,
+						"Unsupported encoding when parsing deadline for "
+								+ "sending notifications.");
 			}
 		} else if (command.equals("sendSMS")) {
 			if (args.length < 6) {
@@ -287,8 +291,10 @@ public class PlanningPokerSessionEntityManager implements
 				}
 				sendSMSNotification(notificationType, buddy, deadline);
 			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Logger.getLogger("PlanningPoker").log(
+						Level.SEVERE,
+						"Unsupported encoding when parsing deadline for "
+								+ "sending notifications.");
 			}
 		}
 

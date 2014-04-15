@@ -11,6 +11,8 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetng.Session; //Not sure
@@ -46,15 +48,14 @@ public class PlanningPokerVoteEntityManager implements
 	public PlanningPokerVote makeEntity(Session s, String content)
 			throws BadRequestException, ConflictException, WPISuiteException {
 
-
 		final PlanningPokerVote newVote = PlanningPokerVote.fromJson(content);
-		
+
 		// try to save the vote to the database throw WPISuiteException if this
 		// doesn't work
 		if (!db.save(newVote, s.getProject())) {
 			throw new WPISuiteException();
 		}
-		
+
 		// return the new vote
 		return newVote;
 	}
@@ -72,18 +73,19 @@ public class PlanningPokerVoteEntityManager implements
 	@Override
 	public PlanningPokerVote[] getEntity(Session s, String id)
 			throws NotFoundException {
-		
+
 		final int intID = Integer.parseInt(id);
 		if (intID < 1) {
 			throw new NotFoundException();
 		}
-		
+
 		PlanningPokerVote[] votes = null;
 		try {
 			votes = db.retrieve(PlanningPokerVote.class, "id", intID,
 					s.getProject()).toArray(new PlanningPokerVote[0]);
 		} catch (WPISuiteException e) {
-			e.printStackTrace();
+			Logger.getLogger("PlanningPoker").log(Level.SEVERE,
+					"Could not get vote by ID " + id, e);
 		}
 		if (votes.length < 1 || votes[0] == null) {
 			throw new NotFoundException();

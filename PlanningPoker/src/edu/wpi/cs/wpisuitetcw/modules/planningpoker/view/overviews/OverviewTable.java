@@ -3,6 +3,8 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JTable;
 
@@ -31,7 +33,7 @@ public class OverviewTable extends JTable {
 					if (row > -1) {
 						// Gets the name, which is index 1
 						PlanningPokerSession session = OverviewTableSessionTableModel
-								.getInstance().getSessions()[row];
+								.getInstance().getSessions().get(row);
 						ViewEventManager.getInstance().viewSession(session);
 					}
 				}
@@ -63,8 +65,8 @@ public class OverviewTable extends JTable {
 				initialized = true;
 			}
 		} catch (Exception e) {
-			System.out.println("Repaint failed.");
+			Logger.getLogger("PlanningPoker").log(Level.FINE,
+					"Repaint failed for overview table.", e);
 		}
 	}
-
 }
