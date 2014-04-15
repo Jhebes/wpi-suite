@@ -10,6 +10,8 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
+import java.util.ArrayList;
+
 import javax.swing.JComponent;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
@@ -21,6 +23,8 @@ public class ViewEventManager {
 	private static ViewEventManager instance = null;
 	private MainView main;
 	private ToolbarView toolbarView;
+	private ArrayList<ViewSessionPanel> viewSessionPanels = new ArrayList<ViewSessionPanel>();
+	private ArrayList<SessionInProgressPanel> inProgressSessionPanels = new ArrayList<SessionInProgressPanel>();
 
 	/**
 	 * Default constructor for ViewEventController. It is set to private to
@@ -57,16 +61,51 @@ public class ViewEventManager {
 	 */
 	public void viewSession(PlanningPokerSession session) {
 		if (session.isActive()) {
-			SessionInProgressPanel panel = new SessionInProgressPanel(session);
-			main.addTab(session.getName(), null, panel, "Session in progress.");
-			main.repaint();
-			main.setSelectedComponent(panel);
-		} else {
+			// check if the panel of the session is opened
+			SessionInProgressPanel exist = null;
 
-			ViewSessionPanel viewSession = new ViewSessionPanel(session);
-			main.addTab(session.getName(), null, viewSession, "View Session.");
-			main.repaint();
-			main.setSelectedComponent(viewSession);
+			for (SessionInProgressPanel panel : inProgressSessionPanels) {
+				if (panel.getSession() == session) {
+					exist = panel;
+					break;
+				}
+			}
+
+			if (exist == null) {
+				SessionInProgressPanel newPanel = new SessionInProgressPanel(
+						session);
+				inProgressSessionPanels.add(newPanel);
+				main.addTab(session.getName(), null, newPanel,
+						"Session in progress.");
+				main.repaint();
+				main.setSelectedComponent(newPanel);
+			} else {
+				// open the existed panel
+				main.setSelectedComponent(exist);
+			}
+
+		} else {
+			ViewSessionPanel exist = null;
+
+			for (ViewSessionPanel panel : viewSessionPanels) {
+				if (panel.getPPSession() == session) {
+					exist = panel;
+					break;
+				}
+			}
+
+			if (exist == null) {
+				// check if the panel of the session is opened
+				ViewSessionPanel viewSession = new ViewSessionPanel(session);
+				viewSessionPanels.add(viewSession);
+				main.addTab(session.getName(), null, viewSession,
+						"View Session.");
+				main.repaint();
+				main.setSelectedComponent(viewSession);
+			} else {
+				main.setSelectedComponent(exist);
+			}
+
 		}
 	}
 
@@ -125,6 +164,12 @@ public class ViewEventManager {
 	 *            the component to remove
 	 */
 	public void removeTab(JComponent component) {
+		if(component instanceof ViewSessionPanel) {
+			this.viewSessionPanels.remove(component);
+		}
+		if(component instanceof SessionInProgressPanel) {
+			this.inProgressSessionPanels.remove(component);
+		}
 		main.remove(component);
 
 	}
