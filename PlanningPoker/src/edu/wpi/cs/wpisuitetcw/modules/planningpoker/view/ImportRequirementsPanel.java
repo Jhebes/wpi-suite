@@ -97,56 +97,57 @@ public class ImportRequirementsPanel extends JSplitPane {
 			 * 
 			 */
 			private static final long serialVersionUID = 5011870013482891222L;
-			
+
 			public boolean isCellEditable(int row, int column) {
 				return column == 0;
 			}
-			
+
 			@Override
-            public Class getColumnClass(int column) {
-                switch (column) {
-                    case 0:
-                        return Boolean.class;
-                    case 1:
-                        return String.class;
-                    case 2:
-                        return String.class;
-                    default:
-                        return String.class;
-                }
-            }
+			public Class getColumnClass(int column) {
+				switch (column) {
+				case 0:
+					return Boolean.class;
+				case 1:
+					return String.class;
+				case 2:
+					return String.class;
+				default:
+					return String.class;
+				}
+			}
 		};
-		
+
 		requirementsTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JTable table = (JTable) e.getSource();
 				int row = table.getSelectedRow();
 
-				if (row != -1){
-					String name = ((PlanningPokerRequirement) table.getValueAt(row, 1)).getName();
+				if (row != -1) {
+					String name = ((PlanningPokerRequirement) table.getValueAt(
+							row, 1)).getName();
 					String desc = (String) table.getValueAt(row, 2);
 					this.setSuperClassVariables(name, desc);
 				}
 			}
-			
+
 			public void setSuperClassVariables(String name, String desc) {
 				strName = name;
 				strDesc = desc;
 				setReqLabels();
 			}
 		});
-		
+
 		requirementsTable.getTableHeader().setReorderingAllowed(false);
 		requirementsTable.setBackground(Color.WHITE);
 		// Hide the requirement column, but keep the data
-//		requirementsTable.removeColumn(requirementsTable.getColumn(3));
-		
+		// requirementsTable.removeColumn(requirementsTable.getColumn(3));
+
 		JScrollPane jsp = new JScrollPane(requirementsTable);
-		
+
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new MigLayout());
-		
+
 		JButton importButton = new JButton("Import Checked");
 		importButton.addActionListener(new ImportRequirementController());
 
