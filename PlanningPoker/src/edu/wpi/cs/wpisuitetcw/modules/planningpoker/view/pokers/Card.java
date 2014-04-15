@@ -7,13 +7,11 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
-
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -36,7 +34,7 @@ import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 
 /**
- * A view for a single card
+ * 
  */
 public class Card extends JPanel {
 	// constants
@@ -58,7 +56,6 @@ public class Card extends JPanel {
 
 		// labels
 		labelError = new JLabel(ERROR_MSG);
-
 		labelError.setVisible(false);
 
 		// buttons
@@ -88,7 +85,6 @@ public class Card extends JPanel {
 		this.setLayout(new MigLayout());
 
 		JPanel container = new JPanel();
-
 		container.setLayout(new MigLayout());
 		container.add(txtboxValue, "center, wrap");
 		container.add(labelError, "center");
@@ -128,9 +124,11 @@ public class Card extends JPanel {
 		String inputValue = this.txtboxValue.getText();
 
 		if (inputValue.equals("")) {
+			this.isValueValid = false;
 			return false;
 		} else {
-			return this.isPositiveInteger(inputValue);
+			this.isValueValid = this.isPositiveInteger(inputValue);
+			return this.isValueValid;
 		}
 	}
 
@@ -183,16 +181,16 @@ public class Card extends JPanel {
 	public void changeCardLayout() {
 		// toogle closebutton
 		closeButton.setVisible(this.isMouseovered);
-		
+
 		// change the border of the card
-		if(this.isMouseovered) {
-			if(this.isValueValid) {
+		if (this.isMouseovered) {
+			if (this.isValueValid) {
 				this.setCardHighlighted();
 			} else {
 				this.setCardInvalid();
 			}
 		} else {
-			if(this.isValueValid) {
+			if (this.isValueValid) {
 				this.setCardValid();
 			} else {
 				this.setCardInvalid();
@@ -273,7 +271,7 @@ public class Card extends JPanel {
 				// highlight the card
 				aCard.isMouseovered = true;
 				changeCardLayout();
-				
+
 			}
 
 			@Override
