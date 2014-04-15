@@ -7,6 +7,7 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 
 import java.util.List;
@@ -21,11 +22,6 @@ import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
-
-/**
- * @author Nick Kalamvokis and Matt Suarez
- * 
- */
 
 public class PlanningPokerVoteEntityManager implements
 		EntityManager<PlanningPokerVote> {
