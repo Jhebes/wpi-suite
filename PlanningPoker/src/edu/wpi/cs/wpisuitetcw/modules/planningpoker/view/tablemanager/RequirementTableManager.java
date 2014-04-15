@@ -17,13 +17,13 @@ import java.util.List;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.RetrievePlanningPokerRequirementsForSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionTableModel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.RequirementTableModel;
 
 public class RequirementTableManager {
 	/** Hashmap of table models for each session ID */
-	private static HashMap<Integer, ViewSessionTableModel> t = new HashMap<Integer, ViewSessionTableModel>();
+	private static HashMap<Integer, RequirementTableModel> t = new HashMap<Integer, RequirementTableModel>();
 
-	public ViewSessionTableModel get(int i) {
+	public RequirementTableModel get(int i) {
 		System.out.println("Processing query for table for session " + i);
 		this.fetch(i);
 		return RequirementTableManager.t.get(i);
@@ -31,9 +31,9 @@ public class RequirementTableManager {
 	
 	public void init(int i){
 		System.out.println("Initializing session " + String.valueOf(i));
-		ViewSessionTableModel a = RequirementTableManager.t.get(i);
+		RequirementTableModel a = RequirementTableManager.t.get(i);
 		if(a == null){
-			a = new ViewSessionTableModel();
+			a = new RequirementTableModel();
 			
 		}
 		RequirementTableManager.t.put(i, a);
@@ -41,10 +41,10 @@ public class RequirementTableManager {
 	
 	public void refreshRequirements(int i, ArrayList<PlanningPokerRequirement> requirements) {
 		
-		ViewSessionTableModel a = RequirementTableManager.t.get(i);
+		RequirementTableModel a = RequirementTableManager.t.get(i);
 		if(a == null){
 			System.out.println("Not present, building");
-			a = new ViewSessionTableModel();
+			a = new RequirementTableModel();
 			
 		}
 		a.refreshRequirements(requirements);

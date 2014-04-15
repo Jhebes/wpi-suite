@@ -61,32 +61,38 @@ public class SessionTableModel extends DefaultTableModel {
 				}
 				this.refreshSessions(array3);
 				break;
-			case CLOSED:	
-				for(PlanningPokerSession s : a){
-					if(s.getStatus() != "Closed"){
-						a.remove(s);
+			case CLOSED:
+				ArrayList<PlanningPokerSession> b = new ArrayList<PlanningPokerSession>();
+				for(int i = 0; i < a.size(); ++i){
+					if(a.get(i).getStatus().equals("Closed")){
+						b.add(a.get(i));
 					}
 				}
-				PlanningPokerSession[] array = new PlanningPokerSession[a.size()];
-				for(int i = 0; i < a.size(); ++i){
-					array[i] = a.get(i);
+				System.out.println("Found:");
+				PlanningPokerSession[] array = new PlanningPokerSession[b.size()];
+				for(int i = 0; i < b.size(); ++i){
+					System.out.println(b.get(i).getName());
+					array[i] = b.get(i);
 				}
 				this.refreshSessions(array);
 				break;
 			case OPEN:
-				for(PlanningPokerSession s : a){
-					if(s.getStatus() != "Open"){
-						a.remove(s);
+				ArrayList<PlanningPokerSession> b2 = new ArrayList<PlanningPokerSession>();
+				for(int i = 0; i < a.size(); ++i){
+					if(a.get(i).getStatus().equals("Open")){
+						b2.add(a.get(i));
 					}
 				}
-				PlanningPokerSession[] array2 = new PlanningPokerSession[a.size()];
-				for(int i = 0; i < a.size(); ++i){
-					array2[i] = a.get(i);
+				System.out.println("Found:");
+				PlanningPokerSession[] array2 = new PlanningPokerSession[b2.size()];
+				for(int i = 0; i < b2.size(); ++i){
+					System.out.println(b2.get(i).getName());
+					array2[i] = b2.get(i);
 				}
 				this.refreshSessions(array2);
 				break;
 			default:
-				this.refreshSessions((PlanningPokerSession[]) a.toArray());
+				//this.refreshSessions((PlanningPokerSession[]) a.toArray());
 				break;
 		}
 	}

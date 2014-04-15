@@ -58,7 +58,12 @@ public class SessionStash {
 		for(PlanningPokerSession s : this.sessions){
 			s.update();
 		}
-		SessionTableModel.getInstance().refreshSessions((PlanningPokerSession[])this.sessions.toArray());
+		PlanningPokerSession[] arr = new PlanningPokerSession[this.sessions.size()];
+		for(int i = 0; i < this.sessions.size(); ++i){
+			arr[i] = this.sessions.get(i);
+		}
+		
+		SessionTableModel.getInstance().refreshSessions(arr);
 		System.out.println("Success");
 	}
 	

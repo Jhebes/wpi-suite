@@ -227,7 +227,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		// ViewSessionTableManager and converts them to list
 		ArrayList<String> testReqs = new ArrayList<String>();
 		RequirementTableManager a = new RequirementTableManager();
-		ViewSessionTableModel v = a.get(this.session.getID());
+		RequirementTableModel v = a.get(this.session.getID());
 		Vector vector = v.getDataVector();
 		for (int i = 0; i < vector.size(); ++i) {
 			testReqs.add((String) (((Vector) vector.elementAt(i)).elementAt(1)));

@@ -59,22 +59,12 @@ public class OverviewTable extends JTable {
 	@Override
 	public void repaint() {
 		try {
-			if (!initialized) {
-
-				SessionStash.getInstance().synchronize();
-				ArrayList<PlanningPokerSession> a = SessionStash.getInstance().getSessions();
-				PlanningPokerSession[] b = new PlanningPokerSession[a.size()];
-				for(int i = 0; i < a.size(); ++i){
-					b[i] = a.get(i);
-				}
-				SessionTableModel.getInstance().refreshSessions(b);
-				System.out.println("Session Table updated");
-				//GetAllSessionsController.getInstance().retrieveSessions();
-				initialized = true;
-			}
+			
+			
 		} catch (Exception e) {
 			System.out.println("Repaint failed.");
 		}
+		
 	}
 
 }

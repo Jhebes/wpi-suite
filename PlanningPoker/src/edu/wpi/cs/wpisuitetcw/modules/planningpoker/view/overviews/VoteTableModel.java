@@ -15,27 +15,28 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 
-public class ViewSessionTableModel extends DefaultTableModel{
-	private final String[] colNames = {"Name", "Description"};
+public class VoteTableModel extends DefaultTableModel{
+	private final String[] colNames = {"ID", "Vote"};
 	
-	public ViewSessionTableModel() {
+	public VoteTableModel() {
 		setColumnIdentifiers(colNames);
 	}
 	
 	/**
-	 * Refreshes the requirements.
+	 * Refreshes the votes.
 	 * 
-	 * @param sessions
-	 *            The new list of requirements
+	 * @param votes
+	 *            The new list of votes.
 	 */
-	public void refreshRequirements(List<PlanningPokerRequirement> requirements) {
+	public void refreshVotes(List<PlanningPokerVote> votes) {
 
 		this.setDataVector(null, colNames);
-		for (PlanningPokerRequirement requirement : requirements) {			
+		for (PlanningPokerVote vote : votes) {			
 			Object[] row = { 
-					requirement.getName(),
-					requirement.getDescription()
+					vote.getID(),
+					vote.getCardValue()
 			};
 			this.addRow(row);
 		}

@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
 public class OverviewPanel extends JSplitPane {
@@ -68,6 +69,7 @@ public class OverviewPanel extends JSplitPane {
 	 * relaces the welcome page with the session table
 	 */
 	public void showSessionTable() {
+		SessionStash.getInstance().synchronize();
 		this.rightPanel.remove(welcomePanel);
 		this.rightPanel.add(sessionPanelJsp);
 		updateUI();

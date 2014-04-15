@@ -18,13 +18,13 @@ import java.util.UUID;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.RetrievePlanningPokerRequirementsForSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionTableModel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.VoteSessionTableModel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.RequirementTableModel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.VoteTableModel;
 
 public class VoteTableManager{
-	private static HashMap<UUID, VoteSessionTableModel> t = new HashMap<UUID, VoteSessionTableModel>();
+	private static HashMap<UUID, VoteTableModel> t = new HashMap<UUID, VoteTableModel>();
 
-	public VoteSessionTableModel get(UUID i){
+	public VoteTableModel get(UUID i){
 		System.out.println("Processing query for table for requirement " + i);
 		//this.fetch(i);
 		return VoteTableManager.t.get(i);
@@ -32,9 +32,9 @@ public class VoteTableManager{
 	
 	public void init(UUID i){
 		System.out.println("Initializing session " + i.toString());
-		VoteSessionTableModel a = VoteTableManager.t.get(i);
+		VoteTableModel a = VoteTableManager.t.get(i);
 		if(a == null){
-			a = new VoteSessionTableModel();
+			a = new VoteTableModel();
 			
 		}
 		VoteTableManager.t.put(i, a);
@@ -42,10 +42,10 @@ public class VoteTableManager{
 	
 	public void refreshRequirements(UUID i, List<PlanningPokerVote> votes) {
 		
-		VoteSessionTableModel a = VoteTableManager.t.get(i);
+		VoteTableModel a = VoteTableManager.t.get(i);
 		if(a == null){
 			System.out.println("Not present, building");
-			a = new VoteSessionTableModel();
+			a = new VoteTableModel();
 			
 		}
 		a.refreshVotes(votes);
