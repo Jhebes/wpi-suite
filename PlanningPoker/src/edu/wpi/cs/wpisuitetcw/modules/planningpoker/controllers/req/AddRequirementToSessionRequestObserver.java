@@ -12,7 +12,6 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -21,9 +20,6 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
  * Handles requests to server to store sessions of Planning Poker
- * 
- * @author Josh Hebert
- * 
  */
 public class AddRequirementToSessionRequestObserver implements RequestObserver {
 

@@ -17,8 +17,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GenericPUTReques
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionReqPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -28,12 +26,6 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * This controller responds when the user clicks the "Create" button by using
  * all entered information to construct a new session and storing in the
  * database
- * 
-<<<<<<< HEAD
- * @author Josh Hebert
- *  
-=======
->>>>>>> b3d99867a8d87e7201843c87b89a21f05e5d7a37
  */
 public class AddRequirementController implements ActionListener {
 
