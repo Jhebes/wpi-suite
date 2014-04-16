@@ -55,10 +55,10 @@ public class AddVoteController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		session = view.getSession();
-		
+
 		if (!session.isActive())
 			return;
-		
+
 		System.out.print("Requesting user is: ");
 		Configuration c = ConfigManager.getConfig();
 		String username = c.getUserName();
@@ -71,14 +71,13 @@ public class AddVoteController implements ActionListener {
 		try {
 			this.req = session.getReqByName(r);
 		} catch (NullPointerException e) {
-			System.out.println("No req found by that name!");
 			Logger.getLogger("PlanningPoker").log(Level.WARNING,
 					"Could not find requirement by name: " + r, e);
 			return;
 		}
-		
+
 		ArrayList<PlanningPokerVote> toRemove = new ArrayList<PlanningPokerVote>();
-		
+
 		// checking list of votes to see if user has already voted
 		for (PlanningPokerVote v : this.req.getVotes()) {
 			System.out.println(v.getUser());
@@ -86,11 +85,11 @@ public class AddVoteController implements ActionListener {
 				toRemove.add(v);
 			}
 		}
-		
+
 		for (PlanningPokerVote v : toRemove) {
 			req.deleteVote(v);
 		}
-		
+
 		session.addVoteToRequirement(req, vote);
 		view.setNumVotesLabel(session.getNumVotes(req));
 
@@ -114,10 +113,12 @@ public class AddVoteController implements ActionListener {
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Logger.getLogger("PlanningPoker").log(Level.SEVERE,
+					"Sleeping was interrupted.", e);
 		}
-		
-		GetRequirementsVotesController getVotes = new GetRequirementsVotesController(view, session);
+
+		GetRequirementsVotesController getVotes = new GetRequirementsVotesController(
+				view, session);
 		getVotes.actionPerformed(new ActionEvent(getVotes, 0, r));
 	}
 }
