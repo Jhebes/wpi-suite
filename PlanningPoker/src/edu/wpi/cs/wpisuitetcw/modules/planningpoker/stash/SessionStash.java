@@ -8,51 +8,52 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
 public class SessionStash {
-	
+
 	private boolean initialized = false;
 	private static SessionStash self = null;
 	private ArrayList<PlanningPokerSession> sessions = new ArrayList<PlanningPokerSession>();
-	public SessionStash(){
-		
+
+	public SessionStash() {
+
 	}
-	
-	public static SessionStash getInstance(){
-		if(self == null){
+
+	public static SessionStash getInstance() {
+		if (self == null) {
 			self = new SessionStash();
 		}
 		return self;
 	}
-	
-	public ArrayList<PlanningPokerSession> getSessions(){
+
+	public ArrayList<PlanningPokerSession> getSessions() {
 		return this.sessions;
 	}
-	
-	public void addSession(PlanningPokerSession p){
+
+	public void addSession(PlanningPokerSession p) {
 		this.sessions.add(p);
 	}
-	public void addSession(Iterable<PlanningPokerSession> p){
-		for(PlanningPokerSession s : p){
+
+	public void addSession(Iterable<PlanningPokerSession> p) {
+		for (PlanningPokerSession s : p) {
 			this.addSession(s);
 		}
 	}
-	
-	public void clear(){
+
+	public void clear() {
 		this.sessions.clear();
 	}
-	
-	public PlanningPokerSession getSessionByID(int id){
-		for(PlanningPokerSession p : this.sessions){
-			if(p.getID() == id){
+
+	public PlanningPokerSession getSessionByID(int id) {
+		for (PlanningPokerSession p : this.sessions) {
+			if (p.getID() == id) {
 				return p;
 			}
 		}
 		return null;
 	}
-	
-	
-	public void mergeFromServer(List<PlanningPokerSession> incomingSessions){
-		for(PlanningPokerSession s : incomingSessions){
-			if(this.getSessionByID(s.getID()) == null){
+
+	public void mergeFromServer(List<PlanningPokerSession> incomingSessions) {
+		for (PlanningPokerSession s : incomingSessions) {
+			if (this.getSessionByID(s.getID()) == null) {
 				this.sessions.add(s);
 				// Don't attempt to open tabs on first merge
 				if (initialized) {
@@ -60,18 +61,16 @@ public class SessionStash {
 				}
 			}
 		}
-		
-		for(PlanningPokerSession s : this.sessions){
-			s.update();
+
+		for (PlanningPokerSession s : this.sessions) {
+			s.save();
 		}
 		initialized = true;
 	}
-	
-	
-	
-	public void synchronize(){
+
+	public void synchronize() {
 		System.out.println("Synchronizing SessionStash");
 		GetAllSessionsController.getInstance().retrieveSessions();
 	}
-	
+
 }

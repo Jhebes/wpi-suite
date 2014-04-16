@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2014 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team Combat Wombat
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import javax.swing.table.DefaultTableModel;
@@ -11,7 +21,7 @@ public class sessionInProgressTableModel extends  DefaultTableModel {
 	private static final long serialVersionUID = -7397557876939565129L;
 
 	private static sessionInProgressTableModel instance;
-	private final String[] colNames = { "Name", "Description" };
+	private final String[] colNames = { "Name", "Description", "Voted" };
 
 	/**
 	 * Constructs a table session for the overview table.

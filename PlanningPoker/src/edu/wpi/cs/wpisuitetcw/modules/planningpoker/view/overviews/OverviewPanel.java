@@ -27,7 +27,7 @@ public class OverviewPanel extends JSplitPane {
 	private final JPanel rightPanel;
 	private final OverviewTreePanel treePanel;
 	// this will be the panel of a welcome page
-	private final JPanel welcomePanel;
+	private final DefaultHomePanel welcomePanel;
 	private final JScrollPane sessionPanelJsp;
 
 	public OverviewPanel() {
@@ -38,8 +38,7 @@ public class OverviewPanel extends JSplitPane {
 		treePanel = new OverviewTreePanel();
 
 		// TODO add the real welcome panel
-		welcomePanel = new JPanel();
-		welcomePanel.add(new JLabel("This is a Welcome Page."));
+		welcomePanel = new DefaultHomePanel();
 
 		JTable table = new OverviewTable(
 				SessionTableModel.getInstance());

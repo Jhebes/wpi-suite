@@ -32,6 +32,9 @@ public class ImportRequirementController implements ActionListener {
 
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		ImportRequirementsTableModel dtm = ImportRequirementsTableModel
@@ -57,6 +60,6 @@ public class ImportRequirementController implements ActionListener {
 	
 	public void onSuccess(PlanningPokerSession freeReqsSession) {
 		freeReqsSession.addRequirement(requirement);
-		freeReqsSession.update();
+		freeReqsSession.save();
 	}
 }

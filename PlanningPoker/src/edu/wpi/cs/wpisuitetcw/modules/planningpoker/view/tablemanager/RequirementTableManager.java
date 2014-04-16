@@ -12,9 +12,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.RetrievePlanningPokerRequirementsForSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.RequirementTableModel;
@@ -24,38 +22,38 @@ public class RequirementTableManager {
 	private static HashMap<Integer, RequirementTableModel> t = new HashMap<Integer, RequirementTableModel>();
 
 	public RequirementTableModel get(int i) {
-		System.out.println("Processing query for table for session " + i);
+		System.out.println("sProcessing query for table for session " + i);
 		this.fetch(i);
 		return RequirementTableManager.t.get(i);
 	}
-	
-	public void init(int i){
+
+	public void init(int i) {
 		System.out.println("Initializing session " + String.valueOf(i));
 		RequirementTableModel a = RequirementTableManager.t.get(i);
-		if(a == null){
+		if (a == null) {
 			a = new RequirementTableModel();
-			
+
 		}
 		RequirementTableManager.t.put(i, a);
 	}
-	
-	public void refreshRequirements(int i, ArrayList<PlanningPokerRequirement> requirements) {
+
+	public void refreshRequirements(int i,
+			ArrayList<PlanningPokerRequirement> requirements) {
 		RequirementTableModel a = RequirementTableManager.t.get(i);
-		if(a == null){
+		if (a == null) {
 			System.out.println("Not present, building");
 			a = new RequirementTableModel();
-			
+
 		}
 		a.refreshRequirements(requirements);
 		RequirementTableManager.t.put(i, a);
 		System.out.println("Done");
 	}
-	public void fetch(int i){
+
+	public void fetch(int i) {
 		System.out.println("Fetching session details for session " + i);
-		ArrayList<PlanningPokerRequirement> reqs = SessionStash.getInstance().getSessionByID(i).getRequirements();
+		ArrayList<PlanningPokerRequirement> reqs = SessionStash.getInstance()
+				.getSessionByID(i).getRequirements();
 		this.refreshRequirements(i, reqs);
-	
 	}
-	
-	
 }

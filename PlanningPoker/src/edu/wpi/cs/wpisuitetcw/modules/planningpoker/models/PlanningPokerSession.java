@@ -17,7 +17,8 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendNotificationController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put.PutSessionController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.janeway.config.Configuration;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -139,6 +140,17 @@ public class PlanningPokerSession extends AbstractModel {
 					this.getDeadline(), command);
 		}
 	}
+	
+	/**
+	 * Deactivates a session by basically undoing what activate would. If it is
+	 * already active, and not cancelled, then it would set the start time to
+	 * null
+	 */
+	public void deactivate() {
+		if (!this.isCancelled && this.isActive()) {
+			this.startTime = null;
+		}
+	}
 
 	/**
 	 * Cancels a session by setting isCancelled to true and its finish time to
@@ -164,22 +176,20 @@ public class PlanningPokerSession extends AbstractModel {
 		PlanningPokerRequirement r = requirements.get(requirements.indexOf(req));
 		requirements.remove(r);
 		for(PlanningPokerVote vote : r.votes){
-			if(vote.getOwner().equals(v.getOwner())){
+			if(vote.getUser().equals(v.getUser())){
 				vote.setCardValue(v.getCardValue());
 				requirements.add(r);
-				this.update();
+				this.save();
 				return;
 			}
-			
 		}
 		
 		r.addVote(v);
 		requirements.add(r);
-		this.update();
+		this.save();
 	}
 
 	public PlanningPokerRequirement getReqByName(String n) {
-		
 		for (PlanningPokerRequirement r : requirements) {
 			System.out.printf("%s = %s?\n", n, r.getName());
 			if (r.getName().equals(n)) {
@@ -392,6 +402,10 @@ public class PlanningPokerSession extends AbstractModel {
 		return this.id;
 	}
 
+	public int getNumVotes(PlanningPokerRequirement req) {
+		return req.getVotes().size();
+	}
+
 	/**
 	 * Returns the deck
 	 * 
@@ -507,15 +521,6 @@ public class PlanningPokerSession extends AbstractModel {
 		return this.name;
 	}
 
-	/*
-	 * The methods below are required by the model interface, however they do
-	 * not need to be implemented for a basic model like PlanningPokerSession.
-	 */
-
-	@Override
-	public void save() {
-	}
-
 	@Override
 	public void delete() {
 	}
@@ -525,14 +530,15 @@ public class PlanningPokerSession extends AbstractModel {
 		return null;
 	}
 
-	public void update() {
+	@Override
+	public void save() {
 		final Request request = Network.getInstance().makeRequest(
 				"planningpoker/session", HttpMethod.POST);
 		request.setBody(this.toJSON());
 		request.send();
 	}
 
-	public void write() {
+	public void create() {
 		new PutSessionController(this);
 	}
 	
@@ -545,4 +551,9 @@ public class PlanningPokerSession extends AbstractModel {
 		this.description = updatedSession.description;
 		this.requirements = updatedSession.requirements;
 	}
+
+	public Object getStartTime() {
+		return startTime;
+	}
+
 }

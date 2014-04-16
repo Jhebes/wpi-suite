@@ -23,7 +23,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPa
 public class ViewEventManager {
 	private static ViewEventManager instance = null;
 	private MainView main;
-	private OverviewTreePanel overviewTree;
 	private ImportRequirementsPanel requirementPanel;
 	private OverviewPanel overviewPanel;
 	private ToolbarView toolbarView;
@@ -62,10 +61,21 @@ public class ViewEventManager {
 	}
 
 	/**
+	 * Opens a new tab for the editing of a session
+	 */
+	public void editSession(PlanningPokerSession session) {
+		CreateSessionPanel newSession = new CreateSessionPanel(session);
+		main.addTab("Edit: "+ session.getName(), null, newSession, "Edit session.");
+		main.invalidate(); // force the tabbedpane to redraw
+		main.repaint();
+		main.setSelectedComponent(newSession);
+	}
+	
+	/**
 	 * Opens a new tab for viewing a session
 	 */
 	public void viewSession(PlanningPokerSession session) {
-		if (session.isActive()) {
+		if (session.getStartTime() != null) {
 			// check if the panel of the session is opened
 			SessionInProgressPanel exist = null;
 
@@ -137,7 +147,6 @@ public class ViewEventManager {
 	 *            overviewTreePanel
 	 */
 	public void setOverviewTree(OverviewTreePanel overviewTree) {
-		this.overviewTree = overviewTree;
 	}
 
 	/**

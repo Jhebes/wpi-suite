@@ -20,10 +20,7 @@ import java.util.logging.Logger;
 import javax.servlet.http.Cookie;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.PlanningPokerDeckEntityManager;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.PlanningPokerRequirementEntityManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.PlanningPokerSessionEntityManager;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.PlanningPokerVoteEntityManager;
-
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.database.DataStore;
 import edu.wpi.cs.wpisuitetng.exceptions.AuthenticationException;

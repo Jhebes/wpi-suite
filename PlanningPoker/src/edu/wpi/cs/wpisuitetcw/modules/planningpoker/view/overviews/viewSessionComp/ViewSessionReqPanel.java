@@ -32,6 +32,8 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.AddRequirementController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.AddRequirementToSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.EditRequirementDescriptionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveAllRequirementsToAllController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveAllRequirementsToCurrentSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveRequirementToAllController;
@@ -55,9 +57,10 @@ public class ViewSessionReqPanel extends JPanel {
 	private final JButton moveAllRequirementsToSession;
 	private final JButton addRequirementToAll;
 	private final JButton addRequirementToSession;
+	public final JButton updateDescription;
 	public final JTable allReqTable;
 	public final JTable sessionReqTable;
-	private final PlanningPokerSession session;
+	public final PlanningPokerSession session;
 
 	/**
 	 * @return this.name.getText() This requirement's name
@@ -168,6 +171,7 @@ public class ViewSessionReqPanel extends JPanel {
 		this.moveAllRequirementsToSession = new JButton(" >> ");
 		this.addRequirementToAll = new JButton("Add Requirement to All");
 		this.addRequirementToSession = new JButton("Add Requirement to Session");
+		this.updateDescription = new JButton("Update Description");
 
 		// setup panels
 		Panel namePanel = new Panel();
@@ -180,7 +184,6 @@ public class ViewSessionReqPanel extends JPanel {
 		// Left Table
 		allReqTable = new JTable(new RequirementTableManager().get(1)) {
 			private static final long serialVersionUID = 1L;
-			private boolean initialized = false;
 
 			public boolean isCellEditable(int row, int colunm) {
 				return false;
@@ -192,23 +195,6 @@ public class ViewSessionReqPanel extends JPanel {
 
 			@Override
 			public void repaint() {
-				// because janeway is terrible and instantiates this class
-				// before the network objects
-
-				if (!initialized) {
-					try {
-						System.out.println("Trying to get free reqs...");
-						RetrievePlanningPokerRequirementsForSessionController
-								.getInstance().refreshData(1);
-						initialized = true;
-					} catch (Exception e) {
-						Logger.getLogger("PlanningPoker").log(
-								Level.FINE,
-								"Attempted to load requirements, "
-										+ "but network not initialized.", e);
-					}
-				}
-
 				super.repaint();
 			}
 		};
@@ -228,7 +214,6 @@ public class ViewSessionReqPanel extends JPanel {
 		sessionReqTable = new JTable(
 				new RequirementTableManager().get(this.session.getID())) {
 			private static final long serialVersionUID = 2L;
-			private boolean initialized = false;
 
 			public boolean isCellEditable(int row, int colunm) {
 				return false;
@@ -238,23 +223,11 @@ public class ViewSessionReqPanel extends JPanel {
 
 			}
 
+			/**
+			 * {@inheritDoc}
+			 */
 			@Override
 			public void repaint() {
-				// because janeway is terrible and instantiates this class
-				// before the network objects
-				if (!initialized) {
-					try {
-						RetrievePlanningPokerRequirementsForSessionController
-								.getInstance().refreshData(session.getID());
-						initialized = true;
-					} catch (Exception e) {
-						Logger.getLogger("PlanningPoker").log(
-								Level.FINE,
-								"Attempted to load requirements, "
-										+ "but network not initialized.", e);
-					}
-				}
-
 				super.repaint();
 			}
 		};
@@ -274,22 +247,16 @@ public class ViewSessionReqPanel extends JPanel {
 		moveRequirementToSession.setPreferredSize(new Dimension(70, 50));
 		moveRequirementToAll.setPreferredSize(new Dimension(70, 50));
 		moveAllRequirementsToAll.setPreferredSize(new Dimension(70, 50));
+		updateDescription.setPreferredSize(new Dimension(70, 50));
 
-		// Action Handlers
-		this.addRequirementToAll
-				.addActionListener(new AddRequirementController(this));
-		this.moveRequirementToSession
-				.addActionListener(new MoveRequirementToCurrentSessionController(
-						this.session, this));
-		this.moveRequirementToAll
-				.addActionListener(new MoveRequirementToAllController(
-						this.session, this));
-		this.moveAllRequirementsToSession
-				.addActionListener(new MoveAllRequirementsToCurrentSessionController(
-						this.session, this));
-		this.moveAllRequirementsToAll
-				.addActionListener(new MoveAllRequirementsToAllController(
-						this.session, this));
+		//Action Handlers 
+		this.addRequirementToAll.addActionListener(new AddRequirementController(this));
+		this.addRequirementToSession.addActionListener(new AddRequirementToSessionController(this)); // need to change so it adds to the right side
+		this.moveRequirementToSession.addActionListener(new MoveRequirementToCurrentSessionController(this.session, this));
+		this.moveRequirementToAll.addActionListener(new MoveRequirementToAllController(this.session, this));
+		this.moveAllRequirementsToSession.addActionListener(new MoveAllRequirementsToCurrentSessionController(this.session, this));
+		this.moveAllRequirementsToAll.addActionListener(new MoveAllRequirementsToAllController(this.session, this));
+		this.updateDescription.addActionListener(new EditRequirementDescriptionController(this.session, this));
 
 		// setup buttons panel
 		buttonsPanel.setLayout(new GridLayout(0, 1, 0, 20));
@@ -297,6 +264,7 @@ public class ViewSessionReqPanel extends JPanel {
 		buttonsPanel.add(moveRequirementToSession);
 		buttonsPanel.add(moveRequirementToAll);
 		buttonsPanel.add(moveAllRequirementsToAll);
+		buttonsPanel.add(updateDescription);
 
 		// buttons panel goes in the center
 		centerPanel.setLayout(new BorderLayout());

@@ -20,7 +20,6 @@ import com.plivo.helper.exception.PlivoException;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.ConfigLoader;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.exceptions.ConfigLoaderError;
-import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 
 /**
  * Class for sending notifications to users via SMS.
@@ -50,7 +49,7 @@ public class SMSNotifier extends BaseNotifier {
 		} catch (ConfigLoaderError e) {
 			Logger.getLogger("PlanningPoker").log(
 					Level.SEVERE,
-					"Could not load Plivo auth from coniguration file.");
+					"Could not load Plivo auth from coniguration file.", e);
 			return;
 		}
 

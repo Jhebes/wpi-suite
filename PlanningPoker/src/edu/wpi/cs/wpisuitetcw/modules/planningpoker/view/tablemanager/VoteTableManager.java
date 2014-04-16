@@ -10,15 +10,12 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager;
 
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.RetrievePlanningPokerRequirementsForSessionController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.RequirementTableModel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.VoteTableModel;
 
 public class VoteTableManager{
@@ -40,6 +37,11 @@ public class VoteTableManager{
 		VoteTableManager.t.put(i, a);
 	}
 	
+	/**
+	 * Refreshed votes in the view
+	 * @param i
+	 * @param votes
+	 */
 	public void refreshRequirements(UUID i, List<PlanningPokerVote> votes) {
 		
 		VoteTableModel a = VoteTableManager.t.get(i);
@@ -54,7 +56,7 @@ public class VoteTableManager{
 	}
 	public void fetch(UUID i){
 		System.out.println("Fetching session details for requirements " + i.toString());
-		RetrievePlanningPokerRequirementsForSessionController a = new RetrievePlanningPokerRequirementsForSessionController();
+		new RetrievePlanningPokerRequirementsForSessionController();
 		//a.refreshData(i);
 	}
 	

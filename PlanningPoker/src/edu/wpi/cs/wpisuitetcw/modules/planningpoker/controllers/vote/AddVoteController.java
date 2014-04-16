@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,9 +50,15 @@ public class AddVoteController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		String username = "NAME?";
+		session = view.getSession();
+
+		if (!session.isActive())
+			return;
+
+		System.out.print("Requesting user is: ");
 		Configuration c = ConfigManager.getConfig();
-		username = c.getUserName();
+		String username = c.getUserName();
+
 		System.out.println(username);
 
 		PlanningPokerVote vote = new PlanningPokerVote(username, view.getVote());
@@ -64,9 +71,25 @@ public class AddVoteController implements ActionListener {
 					"Could not find requirement by name: " + r, e);
 			return;
 		}
+
+		ArrayList<PlanningPokerVote> toRemove = new ArrayList<PlanningPokerVote>();
+
+		// checking list of votes to see if user has already voted
+		for (PlanningPokerVote v : this.req.getVotes()) {
+			System.out.println(v.getUser());
+			if (v.getUser().equals(username)) {
+				toRemove.add(v);
+			}
+		}
+
+		for (PlanningPokerVote v : toRemove) {
+			req.deleteVote(v);
+		}
+
 		session.addVoteToRequirement(req, vote, username);
+		view.setNumVotesLabel(session.getNumVotes(req));
 
 		//Update the session remotely
-		session.update();
+		session.save();
 	}
 }

@@ -10,9 +10,6 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -20,6 +17,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.Activate
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 
 public class ViewSessionBtnPanel extends JPanel{
+	private static final long serialVersionUID = -5483659811074321821L;
 	private final JButton activateBtn;
 	private final JButton addBtn;
 	private final ViewSessionPanel parentPanel;
@@ -38,6 +36,9 @@ public class ViewSessionBtnPanel extends JPanel{
 		this.add(this.addBtn);
 		this.add(this.activateBtn);
 	}
-	
+
+	public ViewSessionPanel getParentPanel() {
+		return parentPanel;
+	}	
 
 }

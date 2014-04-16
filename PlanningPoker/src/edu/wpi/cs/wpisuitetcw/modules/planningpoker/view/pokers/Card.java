@@ -37,6 +37,7 @@ import net.miginfocom.swing.MigLayout;
  * 
  */
 public class Card extends JPanel {
+	private static final long serialVersionUID = 8830282477028926730L;
 	// constants
 	private final String ERROR_MSG = "<html><font color='red'>Positive integer only</font></html>";
 	private final String BUTTON_TEXT = "\u2716";
@@ -247,18 +248,27 @@ public class Card extends JPanel {
 	private void addMouseoverHightlight(JComponent item, final Card aCard) {
 		item.addMouseListener(new MouseListener() {
 
+			/**
+			 * {@inheritDoc}
+			 */
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
 
 			}
 
+			/**
+			 * {@inheritDoc}
+			 */
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
 
 			}
 
+			/**
+			 * {@inheritDoc}
+			 */
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// card existed
@@ -266,6 +276,9 @@ public class Card extends JPanel {
 				changeCardLayout();
 			}
 
+			/**
+			 * {@inheritDoc}
+			 */
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// highlight the card
@@ -274,6 +287,9 @@ public class Card extends JPanel {
 
 			}
 
+			/**
+			 * {@inheritDoc}
+			 */
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub

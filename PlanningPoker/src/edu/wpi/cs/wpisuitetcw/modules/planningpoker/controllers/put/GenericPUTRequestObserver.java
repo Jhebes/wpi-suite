@@ -10,31 +10,21 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put;
 
-import java.awt.event.ActionListener;
-
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
-import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
  * Handles requests to server to store pieces of data in the database
  */
 public class GenericPUTRequestObserver implements RequestObserver {
-	//The controller this is tied to
-	private final ActionListener controller;
 	
 	/**
 	 * Creates a listener attached to the controller
 	 * @param a Tied controller
 	 */
-	public GenericPUTRequestObserver(ActionListener a) {
-		this.controller = a;
+	public GenericPUTRequestObserver() {
 	}
 	
-	public GenericPUTRequestObserver(){
-		this.controller = null;
-	}
 	/*
 	 * Parse the message that was received from the server then pass them to the
 	 * controller.
@@ -45,8 +35,7 @@ public class GenericPUTRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		// Get the response to the given request
-		final ResponseModel response = iReq.getResponse();
+		
 	}
 
 	/**

@@ -18,12 +18,11 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
  * Handles requests to server to store sessions of Planning Poker
- * 
  */
-public class AddRequirementRequestObserver implements RequestObserver {
+public class AddRequirementToSessionRequestObserver implements RequestObserver {
 
 	// The controller this is tied to
-	private final AddRequirementController controller;
+	private final AddRequirementToSessionController controller;
 
 	/**
 	 * Creates a listener attached to the controller
@@ -31,8 +30,9 @@ public class AddRequirementRequestObserver implements RequestObserver {
 	 * @param addVoteController
 	 *            Tied controller
 	 */
-	public AddRequirementRequestObserver(AddRequirementController c) {
-		this.controller = c;
+	public AddRequirementToSessionRequestObserver(AddRequirementToSessionController addRequirementToSessionController) {
+		
+		this.controller = addRequirementToSessionController;
 	}
 
 	/*
@@ -56,9 +56,9 @@ public class AddRequirementRequestObserver implements RequestObserver {
 			System.out.println("Decoding response");
 			PlanningPokerSession session[] = PlanningPokerSession.fromJSONArray(response.getBody());
 			System.out.println("Success!");
-			if (session.length == 0){
+			if(session.length == 0){
 				controller.buildNewSession1();
-			} else {
+			}else{
 				
 				controller.addReq(session[0]);
 			}

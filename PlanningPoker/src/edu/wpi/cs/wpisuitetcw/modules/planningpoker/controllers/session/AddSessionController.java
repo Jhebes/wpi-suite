@@ -13,10 +13,14 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 /**
@@ -28,13 +32,20 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 public class AddSessionController implements ActionListener {
 	private final CreateSessionPanel view;
 
+	private boolean isEditMode;
+	private PlanningPokerSession session;
+
 	/**
 	 * Construct an AddSessionController for the given view
 	 * 
 	 * @param view
 	 *            the view where the user enters data for the new session
+	 *   
+	 * @param isEditMode
+	 *			  the value representing if the panel contains an already
+	 *			  created session or not
 	 */
-	public AddSessionController(CreateSessionPanel view) {
+	public AddSessionController(CreateSessionPanel view, boolean isEditMode) {
 		/*
 		 * TODO: This should also have a manager for the CreateSessionPanel, so
 		 * that errors can be fed back to the panel rather than thrown as
@@ -42,6 +53,26 @@ public class AddSessionController implements ActionListener {
 		 */
 
 		this.view = view;
+		this.isEditMode = isEditMode;
+	}
+	
+	/**
+	 * Construct an AddSessionController for the given view
+	 * 
+	 * @param view
+	 *            the view where the user enters data for the new session
+	 *
+	 * @param isEditMode
+	 *			  the value representing if the panel contains an already
+	 *			  created session or not
+	 * @param session
+	 *			  the planning poker session being edited
+	 */
+	public AddSessionController(CreateSessionPanel view, boolean isEditMode, PlanningPokerSession session) {
+
+		this.view = view;
+		this.isEditMode = isEditMode;
+		this.session = session;
 	}
 
 	/*
@@ -54,28 +85,28 @@ public class AddSessionController implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		// if a name was entered create the session
 		// otherwise the button will do nothing
-		if (this.view.requiredFieldEntered() == true) {
+		if ((this.view.requiredFieldEntered() == true) && (this.isEditMode == false)) {
 			// Get the name of the session
 			String name = this.view.getNameTextField().getText();
-
-			// Dummy Data
-			// Date fields with some dummy data
-			// String year = "1";
-			// String month = "1";
-			// String day = "1";
 
 			// TODO Session type should be stored
 			Date d = this.view.getDeadline();
 			String des = this.view.getDescriptionBox().getText();
-
+			String deckName = (String) this.view.getDeckType().getSelectedItem();
+			
 			// Create a new session and populate its data
 			PlanningPokerSession session = new PlanningPokerSession();
 			session.setOwnerUserName(ConfigManager.getConfig().getUserName());
 			session.setName(name);
 			session.setDeadline(d);
 			session.setDescription(des);
+			try {
+				session.setDeck(GetAllDecksController.getInstance().setDeckByName(deckName));
+			} catch (WPISuiteException e) {
+				Logger.getLogger("PlanningPoker").log(Level.SEVERE, "Error getting all decks", e);
+			}
 			
-			session.write();
+			session.create();
 			ViewEventManager.getInstance().removeTab(this.view);
 		} else {
 			// user has yet entered all required data
