@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendNotificationController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put.PutSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.Configuration;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
@@ -73,14 +74,16 @@ public class PlanningPokerSession extends AbstractModel {
 		requirements = new ArrayList<PlanningPokerRequirement>();
 	}
 
+
+
 	/**
-	 * Return true if the session is closed TODO: make isClosed the
-	 * authoritative command and deprecate isDone.
+	 * Return true if this session has been assigned a completed time,
+	 * indicating that the session has been terminated in some way
 	 * 
-	 * @return Return true if the session if closed
+	 * @return Return true if this session has been assigned a completed time
 	 */
 	public boolean isClosed() {
-		return isDone();
+		return endTime != null;
 	}
 
 	/**
@@ -151,6 +154,13 @@ public class PlanningPokerSession extends AbstractModel {
 			this.startTime = null;
 		}
 	}
+	
+	/**
+	 * Closes a session without canceling it.
+	 */
+	public void close() {
+		this.endTime = new Date();
+	}
 
 	/**
 	 * Cancels a session by setting isCancelled to true and its finish time to
@@ -158,7 +168,6 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public void cancel() {
 		this.isCancelled = true;
-		this.endTime = new Date();
 	}
 
 	/**
@@ -335,16 +344,6 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * Return true if this session has been assigned a completed time,
-	 * indicating that the session has been terminated in some way
-	 * 
-	 * @return Return true if this session has been assigned a completed time
-	 */
-	public boolean isDone() {
-		return endTime != null;
-	}
-
-	/**
 	 * @param name
 	 *            The new session name
 	 */
@@ -497,10 +496,10 @@ public class PlanningPokerSession extends AbstractModel {
 		// i.e., add isActivated, etc.
 		if (isCancelled) {
 			return "Cancelled";
-		} else if (isOpen()) {
-			return "Open";
 		} else if (isClosed()) {
 			return "Closed";
+		} else if (isOpen()) {
+			return "Open";
 		} else {
 			return "New";
 		}
@@ -532,6 +531,7 @@ public class PlanningPokerSession extends AbstractModel {
 
 	@Override
 	public void save() {
+		SessionStash.getInstance().update(this);
 		final Request request = Network.getInstance().makeRequest(
 				"planningpoker/session", HttpMethod.POST);
 		request.setBody(this.toJSON());

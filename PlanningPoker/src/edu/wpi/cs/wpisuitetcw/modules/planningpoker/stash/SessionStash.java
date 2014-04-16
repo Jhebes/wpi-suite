@@ -75,6 +75,7 @@ public class SessionStash {
 
 	/**
 	 * Creates the default planning poker session for unadded requirements.
+	 * 
 	 * @return The default planning poker session with special ID 1.
 	 */
 	public PlanningPokerSession createDefaultSession() {
@@ -83,9 +84,10 @@ public class SessionStash {
 		defaultSession.create();
 		return defaultSession;
 	}
-	
+
 	/**
 	 * Gets or creates the default session with special ID 1.
+	 * 
 	 * @return The default session
 	 */
 	public PlanningPokerSession getDefaultSession() {
@@ -95,5 +97,20 @@ public class SessionStash {
 			SessionStash.getInstance().addSession(defaultSession);
 		}
 		return defaultSession;
+	}
+
+	/**
+	 * Updates the master list of sessions with an edited (but already existing)
+	 * session.
+	 * 
+	 * @param editedSession
+	 *            The editted session
+	 */
+	public void update(PlanningPokerSession editedSession) {
+		for (int i = 0; i < sessions.size(); ++i) {
+			if (sessions.get(i).getID() == editedSession.getID()) {
+				sessions.set(i, editedSession);
+			}
+		}
 	}
 }

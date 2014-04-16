@@ -39,6 +39,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteCont
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
@@ -148,11 +149,11 @@ public class SessionInProgressPanel extends JSplitPane {
 		endSession.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cancelSession();
+				endSession();
 			}
 
-			private void cancelSession() {
-				session.cancel();
+			private void endSession() {
+				session.close();
 				session.save();
 				ArrayList<PlanningPokerRequirement> reqList = session.getRequirements();
 				for (PlanningPokerRequirement ppr : reqList){
@@ -165,13 +166,14 @@ public class SessionInProgressPanel extends JSplitPane {
 					ppr.setFinalEstimate(total/count);
 					ppr.setTotalVotes(count);
 				}
+				SessionTableModel.getInstance().update();
 				closeTab();
 			}
 
 		});
 		LeftPanel.add(endSession);
 
-		if (session.isCancelled())
+		if (session.isClosed())
 			endSession.setEnabled(false);
 		if (currentUserName.equals(session.getOwnerUserName()))
 			endSession.setVisible(true);
@@ -345,8 +347,6 @@ public class SessionInProgressPanel extends JSplitPane {
 
 	private void closeTab() {
 		ViewEventManager.getInstance().removeTab(this);
-		ViewEventManager.getInstance().viewSession(session);
-		GetAllSessionsController.getInstance().retrieveSessions();
 	}
 
 	/**
