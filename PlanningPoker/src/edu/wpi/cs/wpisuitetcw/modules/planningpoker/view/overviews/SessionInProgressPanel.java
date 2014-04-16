@@ -215,8 +215,8 @@ public class SessionInProgressPanel extends JSplitPane {
 		JPanel voteTab = new JPanel();
 		tabbedPane.addTab("Voting", null, voteTab, null);
 
-		// "Estimate" label
-		JLabel lblEstimate = new JLabel("Estimate:");
+		// "Vote" label
+		JLabel lblEstimate = new JLabel("Vote:");
 		voteTab.add(lblEstimate);
 
 		// Text box for vote
