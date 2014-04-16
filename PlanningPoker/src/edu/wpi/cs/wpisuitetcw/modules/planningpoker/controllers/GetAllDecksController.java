@@ -52,7 +52,7 @@ public class GetAllDecksController {
 		
 		// delay the this process since the request fired in refreshDecks() might not be completed
 		try {
-			Thread.sleep(50); 
+			Thread.sleep(250); 
 		} catch (InterruptedException e) {
 		}
 		
