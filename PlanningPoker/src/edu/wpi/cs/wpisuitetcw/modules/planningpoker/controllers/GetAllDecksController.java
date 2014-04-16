@@ -14,9 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
+import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
+import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
+
 
 public class GetAllDecksController {
 
@@ -77,6 +80,17 @@ public class GetAllDecksController {
 				"planningpoker/deck", HttpMethod.GET);
 		request.addObserver(new GetAllDecksRequestObserver(this));
 		request.send();
+	}
+	
+	public PlanningPokerDeck setDeckByName(String deckName) throws WPISuiteException{
+		for(PlanningPokerDeck d : decks){
+			if(d.getDeckName() == deckName){
+				return d;
+			}
+		}
+		throw new WPISuiteException();
+
+		
 	}
 
 }
