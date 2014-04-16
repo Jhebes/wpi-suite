@@ -22,6 +22,9 @@ public class AddDeckRequestObserver implements RequestObserver {
 		this.controller = controller;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		// TODO Auto-generated method stub
@@ -31,12 +34,18 @@ public class AddDeckRequestObserver implements RequestObserver {
 		controller.onSuccess(deck);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		System.err.println("The request to add a deck failed.");
 
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		System.err.println("The request to add a deck failed.");

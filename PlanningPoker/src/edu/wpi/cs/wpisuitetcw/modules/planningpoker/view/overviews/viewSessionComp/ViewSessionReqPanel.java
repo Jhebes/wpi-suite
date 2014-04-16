@@ -239,6 +239,9 @@ public class ViewSessionReqPanel extends JPanel {
 
 			}
 
+			/**
+			 * {@inheritDoc}
+			 */
 			@Override
 			public void repaint() {
 				// because janeway is terrible and instantiates this class

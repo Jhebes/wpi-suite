@@ -30,6 +30,9 @@ public class InitNewDeckPanelController implements ActionListener {
 		return instance;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
