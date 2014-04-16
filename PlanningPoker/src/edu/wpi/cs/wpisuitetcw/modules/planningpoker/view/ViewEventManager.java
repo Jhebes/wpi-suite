@@ -58,7 +58,7 @@ public class ViewEventManager {
 	 * Opens a new tab for viewing a session
 	 */
 	public void viewSession(PlanningPokerSession session) {
-		if (session.isActive()) {
+		if (session.getStartTime() != null) {
 			SessionInProgressPanel panel = new SessionInProgressPanel(session);
 			main.addTab(session.getName(), null, panel, "Session in progress.");
 			main.repaint();

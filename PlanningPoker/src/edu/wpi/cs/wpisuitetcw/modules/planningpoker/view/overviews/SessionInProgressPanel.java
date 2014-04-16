@@ -14,12 +14,10 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -49,10 +47,10 @@ public class SessionInProgressPanel extends JSplitPane {
 
 	private final PlanningPokerSession session;
 	private JTextField vote;
-	private JLabel ownerName;
-	private JLabel name;
-	private JLabel description;
-	private JLabel deadline;
+	private JTextField ownerName;
+	private JTextField name;
+	private JTextField description;
+	private JTextField deadline;
 	private PlanningPokerRequirement[] reqsList;
 	private JButton btnSubmit;
 	private String selectedReqName;
@@ -76,6 +74,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		// Set up Session Info Panel
 		final JPanel LeftPanel = new JPanel();
 		LeftPanel.setLayout(new BoxLayout(LeftPanel, BoxLayout.Y_AXIS));
+		LeftPanel.setAlignmentX(TOP_ALIGNMENT);
 
 		// Padding
 		Component verticalStrut = Box.createVerticalStrut(10);
@@ -83,7 +82,7 @@ public class SessionInProgressPanel extends JSplitPane {
 
 		// "Session Info" label
 		JLabel lblSessionInfo = new JLabel("Session Info:");
-		lblSessionInfo.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblSessionInfo.setFont(new Font("Sans-Serif", Font.BOLD, 15));
 		LeftPanel.add(lblSessionInfo);
 
 		// Padding
@@ -91,7 +90,6 @@ public class SessionInProgressPanel extends JSplitPane {
 		LeftPanel.add(verticalStrut2);
 
 		JLabel lblOwnerName = new JLabel("Owner Name:");
-		lblOwnerName.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LeftPanel.add(lblOwnerName);
 
 		setOwnerUsername(session.getOwnerUserName());
@@ -102,7 +100,6 @@ public class SessionInProgressPanel extends JSplitPane {
 
 		// "Name" label
 		JLabel lblName = new JLabel("Name:");
-		lblName.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LeftPanel.add(lblName);
 
 		// Call setter for session name
@@ -115,7 +112,6 @@ public class SessionInProgressPanel extends JSplitPane {
 
 		// "Description" label
 		JLabel lblDescription = new JLabel("Description:");
-		lblDescription.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LeftPanel.add(lblDescription);
 
 		// Call setter for session description
@@ -128,7 +124,6 @@ public class SessionInProgressPanel extends JSplitPane {
 
 		// "Deadline" label
 		JLabel lblDate = new JLabel("Deadline:");
-		lblDate.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LeftPanel.add(lblDate);
 		// TODO: make it so this can take a real date.
 		// Call setter for session deadline (TBR)
@@ -223,7 +218,7 @@ public class SessionInProgressPanel extends JSplitPane {
 
 		// Refresh Button
 		JButton btnRefresh;
-		btnRefresh = new JButton("*DEV* Refresh");
+		btnRefresh = new JButton("Refresh");
 		btnRefresh.addActionListener(new GetRequirementsVotesController(this,
 				this.session));
 		voteTab.add(btnRefresh);
@@ -351,16 +346,19 @@ public class SessionInProgressPanel extends JSplitPane {
 	 * @param sessionName
 	 */
 	public void setSessionName(String sessionName) {
-		name = new JLabel(sessionName, JLabel.LEFT);
+		name = new JTextField(sessionName);
+		name.setEditable(false);
 	}
 
 	public void setSessionDescription(String sessionDescription) {
-		description = new JLabel("<html>" + sessionDescription + "</html>",
-				JLabel.LEFT);
+		description = new JTextField(sessionDescription);
+		description.setEditable(false);
 	}
 
 	void setOwnerUsername(String userName) {
-		ownerName = new JLabel(userName, JLabel.CENTER);
+		ownerName = new JTextField(userName);
+		ownerName.setEditable(false);
+		ownerName.setSize(1, 20);
 	}
 
 	/**
@@ -372,8 +370,10 @@ public class SessionInProgressPanel extends JSplitPane {
 	 */
 	public void setSessionDeadline(String sessionDeadlineDate,
 			String sessionDeadlineTime) {
-		deadline = new JLabel("<html>" + sessionDeadlineDate + " at "
-				+ sessionDeadlineTime + "</html>", JLabel.LEFT);
+		deadline = new JTextField(sessionDeadlineDate + " at "
+				+ sessionDeadlineTime);
+		deadline.setEditable(false);
+		deadline.setSize(1, 20);
 	}
 
 	/**
