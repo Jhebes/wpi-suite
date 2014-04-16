@@ -17,8 +17,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GenericPUTReques
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionReqPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -28,7 +26,6 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * This controller responds when the user clicks the "Create" button by using
  * all entered information to construct a new session and storing in the
  * database
- * 
  */
 public class AddRequirementController implements ActionListener {
 
@@ -62,14 +59,16 @@ public class AddRequirementController implements ActionListener {
 				"planningpoker/session", HttpMethod.POST);
 		request.setBody(s.toJSON());
 		// Listen for the server's response
-		request.addObserver(new GenericPUTRequestObserver(this));
+		request.addObserver(new GenericPUTRequestObserver());
 		// Send the request on its way
 		request.send();
 		System.out.println("Update Sent");
 		
+		
+		
 		final Request request2 = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.POST);
 		request2.setBody(s.toJSON());
-		request2.addObserver(new GenericPUTRequestObserver(this));
+		request2.addObserver(new GenericPUTRequestObserver());
 		request2.send();
 		
 		new ViewSessionTableManager().fetch(s.getID());
@@ -84,7 +83,7 @@ public class AddRequirementController implements ActionListener {
 		pp1.setID(1);
 		final Request request2 = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.PUT);
 		request2.setBody(pp1.toJSON());
-		request2.addObserver(new GenericPUTRequestObserver(this));
+		request2.addObserver(new GenericPUTRequestObserver());
 		request2.send();
 	}
 	

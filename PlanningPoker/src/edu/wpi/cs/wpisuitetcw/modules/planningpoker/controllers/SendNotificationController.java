@@ -74,7 +74,7 @@ public class SendNotificationController {
 			Logger.getLogger("PlanningPoker").log(
 					Level.SEVERE,
 					"Unsupported encoding when creating URL for "
-							+ "sending notifications.");
+							+ "sending notifications.", e);
 			return "";
 		}
 	}

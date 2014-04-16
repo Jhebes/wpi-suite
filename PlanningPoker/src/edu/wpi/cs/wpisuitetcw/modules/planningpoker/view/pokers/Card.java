@@ -37,6 +37,7 @@ import net.miginfocom.swing.MigLayout;
  * 
  */
 public class Card extends JPanel {
+	private static final long serialVersionUID = 8830282477028926730L;
 	// constants
 	private final String ERROR_MSG = "<html><font color='red'>Positive integer only</font></html>";
 	private final String BUTTON_TEXT = "\u2716";

@@ -11,6 +11,7 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
@@ -23,7 +24,7 @@ import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 public class GetAllDecksController {
 
 	private static GetAllDecksController instance;
-	private PlanningPokerDeck[] decks = null;
+	private List<PlanningPokerDeck> decks = null;
 
 	private GetAllDecksController() {
 	}
@@ -39,7 +40,7 @@ public class GetAllDecksController {
 		return instance;
 	}
 
-	public void updateDecks(PlanningPokerDeck[] decks) {
+	public void updateDecks(List<PlanningPokerDeck> decks) {
 		this.decks = decks;
 	}
 

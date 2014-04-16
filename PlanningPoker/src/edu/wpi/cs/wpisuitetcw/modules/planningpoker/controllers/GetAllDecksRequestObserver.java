@@ -10,6 +10,9 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -34,7 +37,8 @@ public class GetAllDecksRequestObserver implements RequestObserver {
 	public void responseSuccess(IRequest iReq) {
 		PlanningPokerDeck[] decks = PlanningPokerDeck.fromJSONArray(iReq
 				.getResponse().getBody());
-		controller.updateDecks(decks);
+		controller.updateDecks(new ArrayList<PlanningPokerDeck>(Arrays
+				.asList(decks)));
 	}
 
 	/*

@@ -24,7 +24,6 @@ import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
 import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
-import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
@@ -272,7 +271,7 @@ public class PlanningPokerSessionEntityManager implements
 				Logger.getLogger("PlanningPoker").log(
 						Level.SEVERE,
 						"Unsupported encoding when parsing deadline for "
-								+ "sending notifications.");
+								+ "sending notifications.", e);
 			}
 		} else if (command.equals("sendSMS")) {
 			if (args.length < 6) {
@@ -294,7 +293,7 @@ public class PlanningPokerSessionEntityManager implements
 				Logger.getLogger("PlanningPoker").log(
 						Level.SEVERE,
 						"Unsupported encoding when parsing deadline for "
-								+ "sending notifications.");
+								+ "sending notifications.", e);
 			}
 		}
 
