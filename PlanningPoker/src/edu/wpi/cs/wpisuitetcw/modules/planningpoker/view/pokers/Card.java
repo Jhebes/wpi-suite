@@ -247,18 +247,27 @@ public class Card extends JPanel {
 	private void addMouseoverHightlight(JComponent item, final Card aCard) {
 		item.addMouseListener(new MouseListener() {
 
+			/**
+			 * {@inheritDoc}
+			 */
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
 
 			}
 
+			/**
+			 * {@inheritDoc}
+			 */
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
 
 			}
 
+			/**
+			 * {@inheritDoc}
+			 */
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// card existed
@@ -266,6 +275,9 @@ public class Card extends JPanel {
 				changeCardLayout();
 			}
 
+			/**
+			 * {@inheritDoc}
+			 */
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// highlight the card
@@ -274,6 +286,9 @@ public class Card extends JPanel {
 
 			}
 
+			/**
+			 * {@inheritDoc}
+			 */
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub

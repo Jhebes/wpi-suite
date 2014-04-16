@@ -40,6 +40,11 @@ public class VoteSessionTableManager{
 		VoteSessionTableManager.t.put(i, a);
 	}
 	
+	/**
+	 * Refreshed votes in the view
+	 * @param i
+	 * @param votes
+	 */
 	public void refreshRequirements(UUID i, List<PlanningPokerVote> votes) {
 		
 		VoteSessionTableModel a = VoteSessionTableManager.t.get(i);

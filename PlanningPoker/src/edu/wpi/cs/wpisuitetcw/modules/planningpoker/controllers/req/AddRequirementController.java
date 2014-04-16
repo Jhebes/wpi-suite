@@ -29,11 +29,6 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * all entered information to construct a new session and storing in the
  * database
  * 
-<<<<<<< HEAD
- * @author Josh Hebert
- *  
-=======
->>>>>>> b3d99867a8d87e7201843c87b89a21f05e5d7a37
  */
 public class AddRequirementController implements ActionListener {
 
@@ -46,7 +41,10 @@ public class AddRequirementController implements ActionListener {
 		System.out.println("Constructed the action listener");
 	}
 
-	
+	/**
+	 * Adds a requirement to the allReqTable (left table) of the view
+	 * @param s Session to have a requirement added to
+	 */
 	public void addReq(PlanningPokerSession s){
 		
 		System.out.println("Constructing update");
@@ -69,8 +67,6 @@ public class AddRequirementController implements ActionListener {
 		request.send();
 		System.out.println("Update Sent");
 		
-		
-		
 		final Request request2 = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.POST);
 		request2.setBody(s.toJSON());
 		request2.addObserver(new GenericPUTRequestObserver(this));
@@ -79,13 +75,9 @@ public class AddRequirementController implements ActionListener {
 		new ViewSessionTableManager().fetch(s.getID());
 		
 		this.view.allReqTable.repaint();
-		
-		
-		
 	}
 	
 	/** builds a new default session 
-	 * 
 	 */
 	public void buildNewSession1(){
 		PlanningPokerSession pp1 = new PlanningPokerSession();
@@ -99,20 +91,17 @@ public class AddRequirementController implements ActionListener {
 	
 	/*
 	 * This method is called when the user clicks the vote button
-	 * 
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		
 		System.out.println("Requesting null session");
 		
 		final Request request = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.GET);
 		request.addObserver(new AddRequirementRequestObserver(this));
 		request.send();
 		
-	
 		System.out.println("Request Sent");
 	
 	}
