@@ -20,7 +20,8 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionCo
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 
 /**
- * Adds a requirement directly to the planning poker session.
+ * Adds a requirement to the default planning poker session, making it 
+ * available to be added by all New Planning Poker sessions.
  */
 public class AddRequirementToAllController implements ActionListener {
 
