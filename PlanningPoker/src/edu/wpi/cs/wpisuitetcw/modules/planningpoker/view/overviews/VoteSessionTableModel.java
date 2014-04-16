@@ -14,10 +14,10 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 
 public class VoteSessionTableModel extends DefaultTableModel{
+	private static final long serialVersionUID = 211621657544637746L;
 	private final String[] colNames = {"ID", "Vote"};
 	
 	public VoteSessionTableModel() {

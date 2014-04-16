@@ -12,16 +12,13 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionTableModel;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -49,7 +46,6 @@ public class GetRequirementsVotesController implements ActionListener{
 		this.session = session;
 		this.view = view;
 	}
-	
 
 	/**
 	 * This method is called by the
@@ -63,7 +59,6 @@ public class GetRequirementsVotesController implements ActionListener{
 	public void receivedData(PlanningPokerSession session){
 		this.req = this.session.getReqByName(this.view.getSelectedRequirement());
 		PlanningPokerRequirement r = session.getReqByName(this.req.getName());
-		//ArrayList<PlanningPokerVote> votes = new ArrayList<PlanningPokerVote>();
 
 		System.out.println("Votes for selected requirement:");
 		for(PlanningPokerVote v : r.votes){

@@ -15,10 +15,7 @@ import java.awt.Component;
 import javax.swing.Icon;
 import javax.swing.JTabbedPane;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ClosableTabComponent;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 
 public class MainView extends JTabbedPane {
 
@@ -32,9 +29,12 @@ public class MainView extends JTabbedPane {
 	 * Create the panel.
 	 */
 
-	public MainView() {
+	public MainView() {		
+		// Put all tabs in a scroll layout
+		setTabLayoutPolicy(SCROLL_TAB_LAYOUT);
+		
 		overviewPanel = new OverviewPanel();
-		this.addTab("Overview", overviewPanel);
+		this.addTab("Session Overview", overviewPanel);
 	}
 	
 	/**

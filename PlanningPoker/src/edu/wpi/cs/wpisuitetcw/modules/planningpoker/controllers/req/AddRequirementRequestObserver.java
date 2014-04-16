@@ -10,7 +10,6 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -59,7 +58,7 @@ public class AddRequirementRequestObserver implements RequestObserver {
 			PlanningPokerSession session[] = PlanningPokerSession.fromJSONArray(response.getBody());
 			System.out.println("Success!");
 			if(session.length == 0){
-				controller.buildNewSession0();
+				controller.buildNewSession1();
 			}else{
 				
 				controller.addReq(session[0]);

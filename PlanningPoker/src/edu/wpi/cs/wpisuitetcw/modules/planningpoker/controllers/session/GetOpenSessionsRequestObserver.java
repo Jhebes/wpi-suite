@@ -1,11 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
- *
+ * Copyright (c) 2014 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
+ * Contributors: Team Combat Wombat
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
@@ -48,18 +48,13 @@ public class GetOpenSessionsRequestObserver implements RequestObserver {
 															.getBody());
 
 		// Filter the open sessions
-		ArrayList<PlanningPokerSession> tempOpenSessions = new ArrayList<PlanningPokerSession>();
+		ArrayList<PlanningPokerSession> openSessions = new ArrayList<PlanningPokerSession>();
 		for (int i = 0; i < sessions.length; i++) {
 			if (sessions[i].isOpen()) {
-				tempOpenSessions.add(sessions[i]);
+				openSessions.add(sessions[i]);
 			}
 		}
-
-		// Convert the open sessions arrayList to array
-		PlanningPokerSession[] openSessions = 
-				new PlanningPokerSession[tempOpenSessions.size()];
-		openSessions = tempOpenSessions.toArray(openSessions);
-
+		
 		// Pass the sessions back to the controller
 		controller.receiveOpenSessions(openSessions);
 	}

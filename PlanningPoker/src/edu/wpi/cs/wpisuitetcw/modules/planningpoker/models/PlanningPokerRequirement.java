@@ -11,6 +11,7 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 
 import com.google.gson.Gson;
@@ -62,7 +63,11 @@ public class PlanningPokerRequirement extends AbstractModel {
 	public void addVote(PlanningPokerVote vote) {
 		votes.add(vote);
 	}
-
+	
+	public void deleteVote(PlanningPokerVote vote) {
+		votes.remove(vote);
+	}
+	
 	/**
 	 * Returns an instance of PlanningPokerRequirement constructed using the
 	 * given Requirement encoded as a JSON string.
@@ -160,6 +165,11 @@ public class PlanningPokerRequirement extends AbstractModel {
 	public void setDescription(String description) {
 		this.getInnerRequirement().setDescription(description);
 	}
+	
+	public ArrayList<PlanningPokerVote> getVotes() {
+		return votes;
+	}
+	
 
 	@Override
 	public void save() {
@@ -174,6 +184,12 @@ public class PlanningPokerRequirement extends AbstractModel {
 	@Override
 	public Boolean identify(Object o) {
 		return this.id.equals(((PlanningPokerRequirement) o).id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Arrays.hashCode(new Object[] { new String(id.toString()),
+				new Integer(sessionID) });
 	}
 
 	@Override

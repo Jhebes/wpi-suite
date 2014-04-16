@@ -31,7 +31,7 @@ public class UserSerializer implements JsonSerializer<User> {
 		deflated.addProperty("name", u.getName());
 		
 		// Add new aim field
-		deflated.addProperty("aim", u.getAIM());
+		deflated.addProperty("sms", u.getSMS());
 		
 		// Add new email field
 		deflated.addProperty("email", u.getEmail());

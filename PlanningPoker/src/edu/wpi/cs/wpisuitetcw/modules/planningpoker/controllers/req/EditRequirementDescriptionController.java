@@ -18,8 +18,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GenericPUTReques
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionReqPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -31,12 +29,10 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class EditRequirementDescriptionController implements ActionListener {
 
-	private PlanningPokerSession session = null;
 	private ViewSessionReqPanel view;
 
 	public EditRequirementDescriptionController(PlanningPokerSession s,
 			ViewSessionReqPanel v) {
-		this.session = s;
 		this.view = v;
 	}
 
@@ -69,7 +65,7 @@ public class EditRequirementDescriptionController implements ActionListener {
 		final Request request2 = Network.getInstance().makeRequest(
 				"planningpoker/session/1", HttpMethod.POST);
 		request2.setBody(s.toJSON());
-		request2.addObserver(new GenericPUTRequestObserver(this));
+		request2.addObserver(new GenericPUTRequestObserver());
 		request2.send();
 
 		this.view.allReqTable.repaint();

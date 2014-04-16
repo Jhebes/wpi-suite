@@ -12,6 +12,9 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GenericPUTRequestObserver;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
@@ -32,17 +35,16 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class AddVoteController implements ActionListener {
 
-	private PlanningPokerSession session = null;
+	private PlanningPokerSession session;
 	private SessionInProgressPanel view;
 
 	private PlanningPokerRequirement req = null;
-	
-	public AddVoteController(SessionInProgressPanel view, PlanningPokerSession session) {
+
+	public AddVoteController(SessionInProgressPanel view,
+			PlanningPokerSession session) {
 		this.view = view;
 		this.session = session;
 	}
-	
-	
 
 	/*
 	 * This method is called when the user clicks the vote button
@@ -52,38 +54,73 @@ public class AddVoteController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		
-		System.out.print("Requesting user is: ");
-		String username = "NAME?";
-		Configuration c = ConfigManager.getConfig();
-		username = c.getUserName();
-		System.out.println(username);
-		
-		PlanningPokerVote vote = new PlanningPokerVote(username, view.getVote());
 		session = view.getSession();
+
+		if (!session.isActive())
+			return;
+
+		System.out.print("Requesting user is: ");
+		Configuration c = ConfigManager.getConfig();
+		String username = c.getUserName();
+
+		System.out.println(username);
+
+		PlanningPokerVote vote = new PlanningPokerVote(username, view.getVote());
 		String r = view.getSelectedRequirement();
 		System.out.println("Attempting to get Req: " + r);
-		try{
+		try {
 			this.req = session.getReqByName(r);
-		}catch(NullPointerException e){
-			System.out.println("No req found by that name!");
+		} catch (NullPointerException e) {
+			Logger.getLogger("PlanningPoker").log(Level.WARNING,
+					"Could not find requirement by name: " + r, e);
 			return;
 		}
+
+		ArrayList<PlanningPokerVote> toRemove = new ArrayList<PlanningPokerVote>();
+
+		// checking list of votes to see if user has already voted
+		for (PlanningPokerVote v : this.req.getVotes()) {
+			System.out.println(v.getUser());
+			if (v.getUser().equals(username)) {
+				toRemove.add(v);
+			}
+		}
+
+		for (PlanningPokerVote v : toRemove) {
+			req.deleteVote(v);
+		}
+
 		session.addVoteToRequirement(req, vote);
-	
+		view.setNumVotesLabel(session.getNumVotes(req));
+
+		System.out.println(session.getNumVotes(req));
 		System.out.println("Added vote to requirement " + req.getName());
-		
-		//Update the session remotely
-		final Request request = Network.getInstance().makeRequest(
-				"planningpoker/session/".concat(String.valueOf(session.getID())), HttpMethod.POST);
+		session.setHasVoted(true);
+		view.disableEditSession();
+
+		// Update the session remotely
+		final Request request = Network.getInstance()
+				.makeRequest(
+						"planningpoker/session/".concat(String.valueOf(session
+								.getID())), HttpMethod.POST);
 		// Set the data to be the session to save (converted to JSON)
 		request.setBody(session.toJSON());
 		// Listen for the server's response
-		request.addObserver(new GenericPUTRequestObserver(this));
+		request.addObserver(new GenericPUTRequestObserver());
 		// Send the request on its way
 		request.send();
 
-		//session.voteStatus();
+		// Much hack! Very broke!
+		// TODO: FIX PLZZZZZZ!
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			Logger.getLogger("PlanningPoker").log(Level.SEVERE,
+					"Sleeping was interrupted.", e);
+		}
 
+		GetRequirementsVotesController getVotes = new GetRequirementsVotesController(
+				view, session);
+		getVotes.actionPerformed(new ActionEvent(getVotes, 0, r));
 	}
 }

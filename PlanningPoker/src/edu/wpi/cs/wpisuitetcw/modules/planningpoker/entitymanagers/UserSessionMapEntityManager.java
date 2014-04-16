@@ -12,8 +12,6 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 
 import java.util.List;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.UserSessionMap;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
@@ -48,6 +46,9 @@ public class UserSessionMapEntityManager implements
 		this.db = db;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public UserSessionMap makeEntity(Session s, String content)
 			throws BadRequestException, ConflictException, WPISuiteException {
@@ -66,7 +67,10 @@ public class UserSessionMapEntityManager implements
 		// client)
 		return newUserSessionMap;
 	}
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public UserSessionMap[] getEntity(Session s, String id)
 			throws NotFoundException, WPISuiteException {
@@ -75,6 +79,9 @@ public class UserSessionMapEntityManager implements
 		return results.toArray(new UserSessionMap[0]);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public UserSessionMap[] getAll(Session s) throws WPISuiteException {
 
@@ -85,6 +92,9 @@ public class UserSessionMapEntityManager implements
 		return messages.toArray(new UserSessionMap[0]);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public UserSessionMap update(Session s, String content)
 			throws WPISuiteException {
@@ -92,18 +102,27 @@ public class UserSessionMapEntityManager implements
 		throw new WPISuiteException();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void save(Session s, UserSessionMap model) throws WPISuiteException {
 		db.save(model);
 
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
 
 		throw new WPISuiteException();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String advancedGet(Session s, String[] args)
 			throws WPISuiteException {
@@ -111,18 +130,27 @@ public class UserSessionMapEntityManager implements
 		throw new WPISuiteException();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void deleteAll(Session s) throws WPISuiteException {
 		throw new WPISuiteException();
 
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int Count() throws WPISuiteException {
 
 		return db.retrieveAll(new UserSessionMap()).size();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String advancedPut(Session s, String[] args, String content)
 			throws WPISuiteException {
@@ -130,6 +158,9 @@ public class UserSessionMapEntityManager implements
 		throw new WPISuiteException();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String advancedPost(Session s, String string, String content)
 			throws WPISuiteException {
