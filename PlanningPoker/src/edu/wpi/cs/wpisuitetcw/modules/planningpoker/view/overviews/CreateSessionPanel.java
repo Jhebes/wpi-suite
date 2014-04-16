@@ -274,7 +274,7 @@ public class CreateSessionPanel extends JSplitPane {
 		// create textfield
 		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
 		//Sets the default text to the date of creation and the project name
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 		String defaultNameDate = sdf.format(new Date());
 		String projectName = ConfigManager.getConfig().getProjectName();
 		nameTextField.setText(projectName + " - " + defaultNameDate);
