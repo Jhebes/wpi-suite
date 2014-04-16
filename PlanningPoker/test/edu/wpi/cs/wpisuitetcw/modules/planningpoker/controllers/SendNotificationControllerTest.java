@@ -23,7 +23,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.PlanningPokerMockTest;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
-public class SendEmailControllerTest extends PlanningPokerMockTest {
+public class SendNotificationControllerTest extends PlanningPokerMockTest {
 
 	final String testRecipient = "test@test.com";
 	@SuppressWarnings("deprecation")
@@ -32,14 +32,14 @@ public class SendEmailControllerTest extends PlanningPokerMockTest {
 
 	@Test
 	public void testMakeURL() {
-		String url = SendEmailController.makeURL("start", "test@test.com",
+		String url = SendNotificationController.makeURL("start", "test@test.com",
 				testDeadline, "sendEmail");
 		assertEquals(testExpectedURL, url);
 	}
 
 	@Test
 	public void testSendEmail() {
-		SendEmailController.sendNotification("start", testRecipient,
+		SendNotificationController.sendNotification("start", testRecipient,
 				testDeadline, "sendEmail");
 
 		// See whether the request was sent

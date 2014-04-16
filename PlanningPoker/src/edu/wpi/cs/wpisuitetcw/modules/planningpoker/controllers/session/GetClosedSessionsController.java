@@ -27,8 +27,6 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class GetClosedSessionsController implements ActionListener {
 	private static GetClosedSessionsController instance;
-	private final List<PlanningPokerSession> data = null;
-
 	/**
 	 * Construct a GetClosedSessionsController for the given view
 	 * 

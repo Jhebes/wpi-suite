@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 
 public class ViewSessionTableModel extends DefaultTableModel{
+	private static final long serialVersionUID = -2776175314270450120L;
 	private final String[] colNames = {"Name", "Description"};
 	
 	public ViewSessionTableModel() {

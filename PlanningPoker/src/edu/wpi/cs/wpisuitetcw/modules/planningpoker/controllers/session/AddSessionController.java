@@ -32,9 +32,6 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class AddSessionController implements ActionListener {
 	private final CreateSessionPanel view;
 
-	// TODO this should be deleted in the future
-	private String sessionName;
-
 	/**
 	 * Construct an AddSessionController for the given view
 	 * 

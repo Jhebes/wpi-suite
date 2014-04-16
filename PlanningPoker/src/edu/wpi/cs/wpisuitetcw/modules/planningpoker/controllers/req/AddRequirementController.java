@@ -56,7 +56,7 @@ public class AddRequirementController implements ActionListener {
 				"planningpoker/session", HttpMethod.POST);
 		request.setBody(s.toJSON());
 		// Listen for the server's response
-		request.addObserver(new GenericPUTRequestObserver(this));
+		request.addObserver(new GenericPUTRequestObserver());
 		// Send the request on its way
 		request.send();
 		System.out.println("Update Sent");
@@ -65,7 +65,7 @@ public class AddRequirementController implements ActionListener {
 		
 		final Request request2 = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.POST);
 		request2.setBody(s.toJSON());
-		request2.addObserver(new GenericPUTRequestObserver(this));
+		request2.addObserver(new GenericPUTRequestObserver());
 		request2.send();
 		
 		new ViewSessionTableManager().fetch(s.getID());
@@ -84,7 +84,7 @@ public class AddRequirementController implements ActionListener {
 		pp1.setID(1);
 		final Request request2 = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.PUT);
 		request2.setBody(pp1.toJSON());
-		request2.addObserver(new GenericPUTRequestObserver(this));
+		request2.addObserver(new GenericPUTRequestObserver());
 		request2.send();
 	}
 	

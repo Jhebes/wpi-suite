@@ -24,7 +24,6 @@ import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.MockData;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.UserSessionMap;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;

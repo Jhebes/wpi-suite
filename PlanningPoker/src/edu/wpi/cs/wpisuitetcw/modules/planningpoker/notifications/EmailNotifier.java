@@ -22,7 +22,6 @@ import javax.mail.internet.MimeMessage;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.ConfigLoader;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.exceptions.ConfigLoaderError;
-import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 
 /**
  * Class for sending notifications to users via email.

@@ -104,7 +104,7 @@ public class AddVoteController implements ActionListener {
 		// Set the data to be the session to save (converted to JSON)
 		request.setBody(session.toJSON());
 		// Listen for the server's response
-		request.addObserver(new GenericPUTRequestObserver(this));
+		request.addObserver(new GenericPUTRequestObserver());
 		// Send the request on its way
 		request.send();
 

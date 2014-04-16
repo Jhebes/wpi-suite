@@ -23,7 +23,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPa
 public class ViewEventManager {
 	private static ViewEventManager instance = null;
 	private MainView main;
-	private OverviewTreePanel overviewTree;
 	private ImportRequirementsPanel requirementPanel;
 	private OverviewPanel overviewPanel;
 	private ToolbarView toolbarView;
@@ -137,7 +136,6 @@ public class ViewEventManager {
 	 *            overviewTreePanel
 	 */
 	public void setOverviewTree(OverviewTreePanel overviewTree) {
-		this.overviewTree = overviewTree;
 	}
 
 	/**

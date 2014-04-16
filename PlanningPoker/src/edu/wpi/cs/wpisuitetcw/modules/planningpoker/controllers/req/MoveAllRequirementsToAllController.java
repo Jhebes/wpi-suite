@@ -63,12 +63,12 @@ public class MoveAllRequirementsToAllController implements ActionListener {
 		//Updates both
 		final Request request = Network.getInstance().makeRequest("planningpoker/session/".concat(String.valueOf(s.getID())), HttpMethod.POST);
 		request.setBody(session.toJSON());
-		request.addObserver(new GenericPUTRequestObserver(this));
+		request.addObserver(new GenericPUTRequestObserver());
 		request.send();
 		
 		final Request request2 = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.POST);
 		request2.setBody(s.toJSON());
-		request2.addObserver(new GenericPUTRequestObserver(this));
+		request2.addObserver(new GenericPUTRequestObserver());
 		request2.send();
 		
 		//Updates the view

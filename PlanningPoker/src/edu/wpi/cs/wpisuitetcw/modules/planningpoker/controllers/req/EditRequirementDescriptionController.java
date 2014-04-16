@@ -29,12 +29,10 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class EditRequirementDescriptionController implements ActionListener {
 
-	private PlanningPokerSession session = null;
 	private ViewSessionReqPanel view;
 
 	public EditRequirementDescriptionController(PlanningPokerSession s,
 			ViewSessionReqPanel v) {
-		this.session = s;
 		this.view = v;
 	}
 
@@ -67,7 +65,7 @@ public class EditRequirementDescriptionController implements ActionListener {
 		final Request request2 = Network.getInstance().makeRequest(
 				"planningpoker/session/1", HttpMethod.POST);
 		request2.setBody(s.toJSON());
-		request2.addObserver(new GenericPUTRequestObserver(this));
+		request2.addObserver(new GenericPUTRequestObserver());
 		request2.send();
 
 		this.view.allReqTable.repaint();
