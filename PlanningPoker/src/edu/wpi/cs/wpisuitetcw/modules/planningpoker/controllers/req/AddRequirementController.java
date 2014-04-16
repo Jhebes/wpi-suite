@@ -1,13 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
- *
+ * Copyright (c) 2014 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    Chris Casola
+ * 
+ * Contributors: Team Combat Wombat
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
@@ -31,8 +29,11 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * all entered information to construct a new session and storing in the
  * database
  * 
+<<<<<<< HEAD
  * @author Josh Hebert
- * 
+ *  
+=======
+>>>>>>> b3d99867a8d87e7201843c87b89a21f05e5d7a37
  */
 public class AddRequirementController implements ActionListener {
 
@@ -83,28 +84,18 @@ public class AddRequirementController implements ActionListener {
 		
 	}
 	
-	public void buildNewSession0(){
-		System.out.println("Constructing new session");
-		PlanningPokerRequirement r = new PlanningPokerRequirement();
-
-		r.setName("TEST");
-		r.setDescription("TEST");
-		PlanningPokerSession s = new PlanningPokerSession();
-		s.setID(0);
-		s.addRequirement(r);
-		
-		System.out.println("Sending new session 0");
-		//Get Session 1
-		//Update the session remotely
-		final Request request = Network.getInstance().makeRequest(
-				"planningpoker/session", HttpMethod.PUT);
-		request.setBody(s.toJSON());
-		// Listen for the server's response
-		request.addObserver(new GenericPUTRequestObserver(this));
-		// Send the request on its way
-		request.send();
-		System.out.println("Update Sent");
+	/** builds a new default session 
+	 * 
+	 */
+	public void buildNewSession1(){
+		PlanningPokerSession pp1 = new PlanningPokerSession();
+		pp1.setID(1);
+		final Request request2 = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.PUT);
+		request2.setBody(pp1.toJSON());
+		request2.addObserver(new GenericPUTRequestObserver(this));
+		request2.send();
 	}
+	
 	
 	/*
 	 * This method is called when the user clicks the vote button

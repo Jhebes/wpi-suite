@@ -1,20 +1,20 @@
 /*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
- *
+ * Copyright (c) 2014 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
+ * Contributors: Team Combat Wombat
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTableSessionTableModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -24,20 +24,18 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * This controller responds when the users click on "Open Sessions" by
  * exhibiting all the open planning poker sessions on the overview panel
  * 
- * @author Hoang Ngo
- * 
  */
 public class GetOpenSessionsController implements ActionListener {
-	private final OverviewPanel view;
+	private static GetOpenSessionsController instance;
 
-	/**
-	 * Construct a GetOpenSessionsController for the given view
-	 * 
-	 * @param view
-	 *            the view where the Open Sessions button lies on
-	 */
-	public GetOpenSessionsController(OverviewPanel view) {
-		this.view = view;
+	private GetOpenSessionsController() {
+	}
+
+	public static GetOpenSessionsController getInstance() {
+		if (instance == null) {
+			instance = new GetOpenSessionsController();
+		}
+		return instance;
 	}
 
 	/*
@@ -62,13 +60,17 @@ public class GetOpenSessionsController implements ActionListener {
 	 * @param sessions
 	 *            an array of open sessions received from the server
 	 */
-	public void receiveOpenSessions(PlanningPokerSession[] sessions) {
-		this.receivedSessions(sessions);	
+	public void receiveOpenSessions(List<PlanningPokerSession> sessions) {
+		this.receivedSessions(sessions);
 	}
-	
-	public void receivedSessions(PlanningPokerSession[] sessions) {
+
+	public void receivedSessions(List<PlanningPokerSession> sessions) {
 		// TODO: make a superclass for this method
 		OverviewTableSessionTableModel.getInstance().refreshSessions(sessions);
+	}
+	
+	public void retrieveOpenSessions() {
+		actionPerformed(null);
 	}
 
 }

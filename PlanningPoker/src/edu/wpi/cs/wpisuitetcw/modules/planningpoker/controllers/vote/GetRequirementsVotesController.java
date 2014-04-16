@@ -1,10 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
- *
+ * Copyright (c) 2014 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team Combat Wombat
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote;
@@ -48,7 +49,6 @@ public class GetRequirementsVotesController implements ActionListener{
 		this.session = session;
 		this.view = view;
 	}
-	
 
 	/**
 	 * This method is called by the
@@ -62,7 +62,6 @@ public class GetRequirementsVotesController implements ActionListener{
 	public void receivedData(PlanningPokerSession session){
 		this.req = this.session.getReqByName(this.view.getSelectedRequirement());
 		PlanningPokerRequirement r = session.getReqByName(this.req.getName());
-		//ArrayList<PlanningPokerVote> votes = new ArrayList<PlanningPokerVote>();
 
 		System.out.println("Votes for selected requirement:");
 		for(PlanningPokerVote v : r.votes){

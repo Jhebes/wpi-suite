@@ -7,6 +7,7 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
 import java.util.UUID;
@@ -16,10 +17,6 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
-/**
- * @author Nick Kalamvokis and Matt Suarez
- * 
- */
 public class PlanningPokerVote extends AbstractModel {
 
 	private UUID id;
@@ -34,8 +31,6 @@ public class PlanningPokerVote extends AbstractModel {
 		this.cardValue = val;
 		this.id = UUID.randomUUID();
 	}
-
-	
 
 	/* database interaction */
 	@Override
@@ -70,7 +65,6 @@ public class PlanningPokerVote extends AbstractModel {
 		return "ID: " + this.user + ", Value: " + this.cardValue;
 	}
 
-	
 	/**
 	 * Convert from JSON back to a Planning Poker Session
 	 * 
@@ -106,7 +100,7 @@ public class PlanningPokerVote extends AbstractModel {
 		return ((Integer) o).equals(this.id);
 	}
 
-
+	
 	public UUID getID() {
 		return id;
 	}
@@ -121,6 +115,20 @@ public class PlanningPokerVote extends AbstractModel {
 
 	public void setCardValue(int cardValue) {
 		this.cardValue = cardValue;
+	}
+	
+	/**
+	 * @return the user
+	 */
+	public String getUser() {
+		return user;
+	}
+
+	/**
+	 * @param user the user to set
+	 */
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 }

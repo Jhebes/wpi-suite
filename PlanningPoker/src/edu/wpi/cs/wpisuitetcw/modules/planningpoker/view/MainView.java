@@ -32,9 +32,12 @@ public class MainView extends JTabbedPane {
 	 * Create the panel.
 	 */
 
-	public MainView() {
+	public MainView() {		
+		// Put all tabs in a scroll layout
+		setTabLayoutPolicy(SCROLL_TAB_LAYOUT);
+		
 		overviewPanel = new OverviewPanel();
-		this.addTab("Overview", overviewPanel);
+		this.addTab("Session Overview", overviewPanel);
 	}
 	
 	/**

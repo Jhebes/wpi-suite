@@ -7,6 +7,7 @@
  * 
  * Contributors: Team Combat Wombat
  ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.Color;
@@ -42,12 +43,11 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
 /**
  * Panel for New Session tab.
- * 
- * @author Rob, Ben, Jenny
  */
 
 public class CreateSessionPanel extends JSplitPane {
@@ -238,6 +238,7 @@ public class CreateSessionPanel extends JSplitPane {
 		JLabel labelDropdownType = new JLabel("Type *");
 		labelDescriptionBox = new JLabel("Description *");
 		labeDeck = new JLabel("Deck *");
+		
 
 		// JLabel labelExplanation = new JLabel(EXPLANATIONSTRING);
 
@@ -272,6 +273,11 @@ public class CreateSessionPanel extends JSplitPane {
 
 		// create textfield
 		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
+		//Sets the default text to the date of creation and the project name
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+		String defaultNameDate = sdf.format(new Date());
+		String projectName = ConfigManager.getConfig().getProjectName();
+		nameTextField.setText(projectName + " - " + defaultNameDate);
 
 		descriptionBox = new JTextArea(10, 200);
 		descriptionBox.setLineWrap(true);

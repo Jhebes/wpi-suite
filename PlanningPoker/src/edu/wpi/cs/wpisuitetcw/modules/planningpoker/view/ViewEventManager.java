@@ -9,22 +9,27 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
+import java.util.ArrayList;
+
 import javax.swing.JComponent;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTreePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 
-/**
- * 
- * @author troyling
- * 
- */
 public class ViewEventManager {
 	private static ViewEventManager instance = null;
 	private MainView main;
+	private OverviewTreePanel overviewTree;
+	private ImportRequirementsPanel requirementPanel;
+	private OverviewPanel overviewPanel;
 	private ToolbarView toolbarView;
+	private boolean isWelcomePageOnDisplay = true;
+	private ArrayList<ViewSessionPanel> viewSessionPanels = new ArrayList<ViewSessionPanel>();
+	private ArrayList<SessionInProgressPanel> inProgressSessionPanels = new ArrayList<SessionInProgressPanel>();
 
 	/**
 	 * Default constructor for ViewEventController. It is set to private to
@@ -72,28 +77,53 @@ public class ViewEventManager {
 	 */
 	public void viewSession(PlanningPokerSession session) {
 		if (session.isActive()) {
-			SessionInProgressPanel panel = new SessionInProgressPanel(session);
-			main.addTab(session.getName(), null, panel, "Session in progress.");
-			main.repaint();
-			main.setSelectedComponent(panel);
-		} else {
+			// check if the panel of the session is opened
+			SessionInProgressPanel exist = null;
 
-			ViewSessionPanel viewSession = new ViewSessionPanel(session);
-			main.addTab(session.getName(), null, viewSession, "View Session.");
-			main.repaint();
-			main.setSelectedComponent(viewSession);
+			for (SessionInProgressPanel panel : inProgressSessionPanels) {
+				if (panel.getSession() == session) {
+					exist = panel;
+					break;
+				}
+			}
+
+			if (exist == null) {
+				SessionInProgressPanel newPanel = new SessionInProgressPanel(
+						session);
+				inProgressSessionPanels.add(newPanel);
+				main.addTab(session.getName(), null, newPanel,
+						"Session in progress.");
+				main.repaint();
+				main.setSelectedComponent(newPanel);
+			} else {
+				// open the existed panel
+				main.setSelectedComponent(exist);
+			}
+
+		} else {
+			ViewSessionPanel exist = null;
+
+			for (ViewSessionPanel panel : viewSessionPanels) {
+				if (panel.getPPSession() == session) {
+					exist = panel;
+					break;
+				}
+			}
+
+			if (exist == null) {
+				// check if the panel of the session is opened
+				ViewSessionPanel viewSession = new ViewSessionPanel(session);
+				viewSessionPanels.add(viewSession);
+				main.addTab(session.getName(), null, viewSession,
+						"View Session.");
+				main.repaint();
+				main.setSelectedComponent(viewSession);
+			} else {
+				main.setSelectedComponent(exist);
+			}
+
 		}
 	}
-
-	/**
-	 * Opens a new tab for creatign a new deck of cards
-	 */
-	// public void createDeck() {
-	// CreateNewDeckPanel deckPanel = new CreateNewDeckPanel();
-	// main.addTab("New Deck", null, deckPanel, "New Deck");
-	// main.repaint();
-	// main.setSelectedComponent(deckPanel);
-	// }
 
 	/**
 	 * displays a given panel with given msg
@@ -109,6 +139,16 @@ public class ViewEventManager {
 	 */
 	public MainView getMainview() {
 		return this.main;
+	}
+
+	/**
+	 * sets overview tree in the overview panel
+	 * 
+	 * @param overviewTree
+	 *            overviewTreePanel
+	 */
+	public void setOverviewTree(OverviewTreePanel overviewTree) {
+		this.overviewTree = overviewTree;
 	}
 
 	/**
@@ -140,6 +180,15 @@ public class ViewEventManager {
 	 *            the component to remove
 	 */
 	public void removeTab(JComponent component) {
+		if(component instanceof ViewSessionPanel) {
+			this.viewSessionPanels.remove(component);
+		}
+		if(component instanceof SessionInProgressPanel) {
+			this.inProgressSessionPanels.remove(component);
+		}
+		if(component instanceof ImportRequirementsPanel) {
+			this.requirementPanel = null;
+		}
 		main.remove(component);
 
 	}
@@ -148,11 +197,45 @@ public class ViewEventManager {
 	 * Creates the import requirements panel.
 	 */
 	public void createImportRequirementsPanel() {
-		ImportRequirementsPanel newPanel = new ImportRequirementsPanel();
-		main.addTab("Import Requirements", null, newPanel,
-				"Import a new requirement.");
-		main.invalidate();
-		main.repaint();
-		main.setSelectedComponent(newPanel);
+		if(requirementPanel == null) {
+			ImportRequirementsPanel newPanel = new ImportRequirementsPanel();
+			this.requirementPanel = newPanel;
+			main.addTab("Import Requirements", null, newPanel,
+					"Import a new requirement.");
+			main.invalidate();
+			main.repaint();
+			main.setSelectedComponent(newPanel);
+		} else {
+			main.setSelectedComponent(requirementPanel);
+		}
 	}
+
+	/**
+	 * return whether a welcome page is on display
+	 */
+	public boolean isWelcomePageOnDisplay() {
+		return this.isWelcomePageOnDisplay;
+	}
+
+	/**
+	 * show table and remove the welcome page
+	 */
+	public void showSessionTable() {
+		this.overviewPanel.showSessionTable();
+	}
+
+	/**
+	 * setter for overview panel
+	 */
+	public void setOverviewPanel(OverviewPanel overviewPanel) {
+		this.overviewPanel = overviewPanel;
+	}
+
+	/**
+	 * update the contents on overview panel
+	 */
+	public void refreshOverviewPanel() {
+		this.overviewPanel.updateUI();
+	}
+
 }
