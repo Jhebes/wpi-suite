@@ -294,7 +294,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @return Returns true it is open to voting in the meantime
 	 */
 	public boolean isActive() {
-		return this.startTime != null;
+		return this.startTime != null && this.endTime == null;
 	}
 
 	/**
@@ -537,4 +537,9 @@ public class PlanningPokerSession extends AbstractModel {
 		this.description = updatedSession.description;
 		this.requirements = updatedSession.requirements;
 	}
+
+	public Object getStartTime() {
+		return startTime;
+	}
+
 }

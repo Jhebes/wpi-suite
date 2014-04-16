@@ -31,6 +31,20 @@ public class PlanningPokerRequirement extends AbstractModel {
 	private Requirement innerRequirement;
 	private int sessionID;
 	public ArrayList<PlanningPokerVote> votes = new ArrayList<PlanningPokerVote>();
+	private int finalEstimate;
+	private int totalVotes;
+
+	public int getTotalVotes() {
+		return totalVotes;
+	}
+
+	public void setTotalVotes(int totalVotes) {
+		this.totalVotes = totalVotes;
+	}
+
+	public int getFinalEstimate() {
+		return finalEstimate;
+	}
 
 	public PlanningPokerRequirement() {
 		this(new Requirement());
@@ -187,5 +201,10 @@ public class PlanningPokerRequirement extends AbstractModel {
 		this.innerRequirement = updatedRequirement.innerRequirement;
 		this.sessionID = updatedRequirement.sessionID;
 		this.votes = updatedRequirement.votes;
+	}
+
+	public void setFinalEstimate(int estimate) {
+		this.finalEstimate = estimate;
+		
 	}
 }

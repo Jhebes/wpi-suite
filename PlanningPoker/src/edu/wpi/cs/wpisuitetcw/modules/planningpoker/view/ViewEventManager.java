@@ -75,7 +75,7 @@ public class ViewEventManager {
 	 * Opens a new tab for viewing a session
 	 */
 	public void viewSession(PlanningPokerSession session) {
-		if (session.isActive()) {
+		if (session.getStartTime() != null) {
 			// check if the panel of the session is opened
 			SessionInProgressPanel exist = null;
 

@@ -31,10 +31,12 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.EditActivatedSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
@@ -47,12 +49,13 @@ public class SessionInProgressPanel extends JSplitPane {
 
 	private final PlanningPokerSession session;
 	private JTextField vote;
-	private JLabel ownerName;
-	private JLabel name;
-	private JLabel description;
-	private JLabel deadline;
+	private JTextField ownerName;
+	private JTextField name;
+	private JTextField description;
+	private JTextField deadline;
 	private PlanningPokerRequirement[] reqsList;
 	private JButton btnSubmit;
+	private String selectedReqName;
 	private JTable reqsViewTable;
 	private ViewSessionTableManager reqsViewTableManager = new ViewSessionTableManager();
 	private JList voteList;
@@ -76,6 +79,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		// Set up Session Info Panel
 		final JPanel LeftPanel = new JPanel();
 		LeftPanel.setLayout(new BoxLayout(LeftPanel, BoxLayout.Y_AXIS));
+		LeftPanel.setAlignmentX(TOP_ALIGNMENT);
 
 		// Padding
 		Component verticalStrut = Box.createVerticalStrut(10);
@@ -83,7 +87,7 @@ public class SessionInProgressPanel extends JSplitPane {
 
 		// "Session Info" label
 		JLabel lblSessionInfo = new JLabel("Session Info:");
-		lblSessionInfo.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblSessionInfo.setFont(new Font("Sans-Serif", Font.BOLD, 15));
 		LeftPanel.add(lblSessionInfo);
 
 		// Padding
@@ -91,7 +95,6 @@ public class SessionInProgressPanel extends JSplitPane {
 		LeftPanel.add(verticalStrut2);
 
 		JLabel lblOwnerName = new JLabel("Owner Name:");
-		lblOwnerName.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LeftPanel.add(lblOwnerName);
 
 		setOwnerUsername(session.getOwnerUserName());
@@ -102,7 +105,6 @@ public class SessionInProgressPanel extends JSplitPane {
 
 		// "Name" label
 		JLabel lblName = new JLabel("Name:");
-		lblName.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LeftPanel.add(lblName);
 
 		// Call setter for session name
@@ -115,7 +117,6 @@ public class SessionInProgressPanel extends JSplitPane {
 
 		// "Description" label
 		JLabel lblDescription = new JLabel("Description:");
-		lblDescription.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LeftPanel.add(lblDescription);
 
 		// Call setter for session description
@@ -128,7 +129,6 @@ public class SessionInProgressPanel extends JSplitPane {
 
 		// "Deadline" label
 		JLabel lblDate = new JLabel("Deadline:");
-		lblDate.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LeftPanel.add(lblDate);
 		// TODO: make it so this can take a real date.
 		// Call setter for session deadline (TBR)
@@ -150,13 +150,23 @@ public class SessionInProgressPanel extends JSplitPane {
 		endSession.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// session.setEndTime(new Date());
 				cancelSession();
 			}
 
 			private void cancelSession() {
 				session.cancel();
 				session.update();
+				ArrayList<PlanningPokerRequirement> reqList = session.getRequirements();
+				for (PlanningPokerRequirement ppr : reqList){
+					int count = 0;
+					int total = 0;
+					for(PlanningPokerVote vote : ppr.votes){
+						total += vote.getCardValue();
+						count++;
+					}
+					ppr.setFinalEstimate(total/count);
+					ppr.setTotalVotes(count);
+				}
 				closeTab();
 			}
 
@@ -217,13 +227,6 @@ public class SessionInProgressPanel extends JSplitPane {
 		btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new AddVoteController(this, this.session));
 		voteTab.add(btnSubmit);
-
-		/*
-		 * // Refresh Button JButton btnRefresh; btnRefresh = new
-		 * JButton("*DEV* Refresh"); btnRefresh.addActionListener(new
-		 * GetRequirementsVotesController(this, this.session));
-		 * voteTab.add(btnRefresh);
-		 */
 
 		// Split into Reqs list and Reqs info
 		JSplitPane splitLeftRight = new JSplitPane();
@@ -302,25 +305,25 @@ public class SessionInProgressPanel extends JSplitPane {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		reqsView.add(lblNewLabel, BorderLayout.NORTH);
 		splitLeftRight.setRightComponent(ReqsDetail);
-
+		
 		JPanel panel = new JPanel();
 		ReqsDetail.add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
+		
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		panel.add(verticalStrut_1);
-
+		
 		JLabel lblName_1 = new JLabel("Name:");
 		panel.add(lblName_1);
-
+		
 		panel.add(label_1);
-
+		
 		Component verticalStrut_3 = Box.createVerticalStrut(20);
 		panel.add(verticalStrut_3);
-
+		
 		JLabel lblDescription_1 = new JLabel("Description:");
 		panel.add(lblDescription_1);
-
+		
 		panel.add(label_2);
 
 		splitTopBottom.setTopComponent(splitLeftRight);
@@ -337,13 +340,15 @@ public class SessionInProgressPanel extends JSplitPane {
 		LeftPanel.add(btnEditSession);
 		setRightComponent(splitTopBottom);
 	}
+	
+	public void setNumVotesLabel(int n) {
+		this.numVotes.setText(Integer.toString(n));
+	}
 
 	private void closeTab() {
 		ViewEventManager.getInstance().removeTab(this);
-	}
-
-	public void setNumVotesLabel(int n) {
-		this.numVotes.setText(Integer.toString(n));
+		ViewEventManager.getInstance().viewSession(session);
+		GetAllSessionsController.getInstance().retrieveSessions();
 	}
 
 	/**
@@ -359,16 +364,19 @@ public class SessionInProgressPanel extends JSplitPane {
 	 * @param sessionName
 	 */
 	public void setSessionName(String sessionName) {
-		name = new JLabel(sessionName, JLabel.LEFT);
+		name = new JTextField(sessionName);
+		name.setEditable(false);
 	}
 
 	public void setSessionDescription(String sessionDescription) {
-		description = new JLabel("<html>" + sessionDescription + "</html>",
-				JLabel.LEFT);
+		description = new JTextField(sessionDescription);
+		description.setEditable(false);
 	}
 
 	void setOwnerUsername(String userName) {
-		ownerName = new JLabel(userName, JLabel.CENTER);
+		ownerName = new JTextField(userName);
+		ownerName.setEditable(false);
+		ownerName.setSize(1, 20);
 	}
 
 	/**
@@ -378,12 +386,15 @@ public class SessionInProgressPanel extends JSplitPane {
 	 * @param sessionDeadlineTime
 	 *            Deadline Time (hh:mm AM) of Session as a String
 	 */
-	public void setSessionDeadline(java.util.Date date) {
-		if (date != null)
-			deadline = new JLabel("<html>" + date + "</html>", JLabel.LEFT);
-		else
-			deadline = new JLabel("");
-	}
+    public void setSessionDeadline(java.util.Date date) {
+    	if (date != null)
+            deadline = new JTextField(date.toString());
+        else
+            deadline = new JTextField("");
+
+		deadline.setEditable(false);
+		deadline.setSize(1, 20);
+    }
 
 	/**
 	 * 

@@ -21,7 +21,7 @@ public class sessionInProgressTableModel extends  DefaultTableModel {
 	private static final long serialVersionUID = -7397557876939565129L;
 
 	private static sessionInProgressTableModel instance;
-	private final String[] colNames = { "Name", "Description" };
+	private final String[] colNames = { "Name", "Description", "Voted" };
 
 	/**
 	 * Constructs a table session for the overview table.

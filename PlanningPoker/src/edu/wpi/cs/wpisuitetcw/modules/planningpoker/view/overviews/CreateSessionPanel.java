@@ -56,8 +56,7 @@ public class CreateSessionPanel extends JSplitPane {
 	 */
 	private static final long serialVersionUID = 8733539608651885877L;
 	final int DEFAULT_DATA_SIZE = 30; // default data size for database entry
-	// final int LARGE_DATA_SIZE = 100;
-	private final String EXPLANATIONSTRING = "A planning poker session (game) allows user to "
+	private final String EXPLANATIONSTRING = "A planning poker session (game) allows a user to "
 			+ "select one or more requirements for estimation for "
 			+ "the team to estimate. A deadline for submission is optional. "
 			+ "This will let the team reach a consensus on the amount of effort it will take to realize the requirements.";
