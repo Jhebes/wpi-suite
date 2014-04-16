@@ -33,6 +33,7 @@ import javax.swing.event.ListSelectionEvent;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.AddRequirementController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.AddRequirementToSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.EditRequirementDescriptionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveAllRequirementsToAllController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveAllRequirementsToCurrentSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveRequirementToAllController;
@@ -170,6 +171,7 @@ public class ViewSessionReqPanel extends JPanel {
 		this.moveAllRequirementsToSession = new JButton(" >> ");
 		this.addRequirementToAll = new JButton("Add Requirement to All");
 		this.addRequirementToSession = new JButton("Add Requirement to Session");
+		this.updateDescription = new JButton("Update Description");
 
 		// setup panels
 		Panel namePanel = new Panel();

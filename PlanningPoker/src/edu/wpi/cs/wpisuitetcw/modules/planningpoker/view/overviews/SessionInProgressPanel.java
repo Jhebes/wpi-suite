@@ -69,6 +69,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	private String reqDescription;
 	private JButton endSession;
 	private JSplitPane splitTopBottom;
+	private JButton btnEditSession = new JButton("Edit Session");
 
 	/**
 	 * Create the panel.
@@ -145,22 +146,6 @@ public class SessionInProgressPanel extends JSplitPane {
 				
 		// End session button
 		String currentUserName = ConfigManager.getConfig().getUserName();
-		endSession = new JButton("End Session");
-		endSession.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//session.setEndTime(new Date());
-				cancelSession();
-			}
-
-			private void cancelSession() {
-				session.cancel();
-				session.update();
-				closeTab();
-			}
-
-		});
-		LeftPanel.add(endSession);
 		if(session.isCancelled())
 			endSession.setEnabled(false);
 		if(currentUserName.equals(session.getOwnerUserName()))
@@ -330,6 +315,30 @@ public class SessionInProgressPanel extends JSplitPane {
 		
 		Component verticalGlue = Box.createVerticalGlue();
 		LeftPanel.add(verticalGlue);
+		endSession = new JButton("End Session");
+		endSession.setBackground(new Color(255, 0, 0));
+		endSession.setForeground(new Color(255,255,255));
+		endSession.setContentAreaFilled(false);
+        endSession.setOpaque(true);
+		endSession.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//session.setEndTime(new Date());
+				cancelSession();
+			}
+
+			private void cancelSession() {
+				session.cancel();
+				session.update();
+				closeTab();
+			}
+
+		});
+		LeftPanel.add(endSession);
+		LeftPanel.add(btnEditSession);
+		
+		
+		
 		LeftPanel.add(btnEditSession);
 		setRightComponent(splitTopBottom);
 	}
@@ -446,8 +455,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	}
 	
 	public void disableEditSession(){
-		if(session.isHasVoted() == true){
+		
 		 btnEditSession.setEnabled(false);
-		}
 	}
 }

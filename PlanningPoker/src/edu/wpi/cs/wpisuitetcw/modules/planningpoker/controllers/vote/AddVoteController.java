@@ -35,7 +35,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class AddVoteController implements ActionListener {
 
-	private PlanningPokerSession session = null;
+	private PlanningPokerSession session;
 	private SessionInProgressPanel view;
 
 	private PlanningPokerRequirement req = null;
