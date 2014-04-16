@@ -62,6 +62,17 @@ public class ViewEventManager {
 	}
 
 	/**
+	 * Opens a new tab for the editing of a session
+	 */
+	public void editSession(PlanningPokerSession session) {
+		CreateSessionPanel newSession = new CreateSessionPanel(session);
+		main.addTab("Edit: "+ session.getName(), null, newSession, "Edit session.");
+		main.invalidate(); // force the tabbedpane to redraw
+		main.repaint();
+		main.setSelectedComponent(newSession);
+	}
+	
+	/**
 	 * Opens a new tab for viewing a session
 	 */
 	public void viewSession(PlanningPokerSession session) {

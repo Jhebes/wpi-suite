@@ -35,7 +35,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class AddVoteController implements ActionListener {
 
-	private PlanningPokerSession session = null;
+	private PlanningPokerSession session;
 	private SessionInProgressPanel view;
 
 	private PlanningPokerRequirement req = null;
@@ -96,6 +96,8 @@ public class AddVoteController implements ActionListener {
 
 		System.out.println(session.getNumVotes(req));
 		System.out.println("Added vote to requirement " + req.getName());
+		session.setHasVoted(true);
+		view.disableEditSession();
 
 		// Update the session remotely
 		final Request request = Network.getInstance()

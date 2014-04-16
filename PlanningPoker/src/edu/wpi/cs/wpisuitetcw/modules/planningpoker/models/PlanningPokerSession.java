@@ -64,6 +64,9 @@ public class PlanningPokerSession extends AbstractModel {
 	/** Whether or not the voting on the requirements is complete */
 	private boolean votingComplete = false;
 
+	/** Whether or not the voting on the requirements is complete */
+	private boolean hasVoted = false;
+
 	/**
 	 * Constructs a PlanningPokerSession.
 	 */
@@ -98,6 +101,17 @@ public class PlanningPokerSession extends AbstractModel {
 	public void activate() {
 		if (!this.isCancelled && !this.isActive()) {
 			this.startTime = new Date();
+		}
+	}
+
+	/**
+	 * Deactivates a session by basically undoing what activate would. If it is
+	 * already active, and not cancelled, then it would set the start time to
+	 * null
+	 */
+	public void deactivate() {
+		if (!this.isCancelled && this.isActive()) {
+			this.startTime = null;
 		}
 	}
 
@@ -436,6 +450,25 @@ public class PlanningPokerSession extends AbstractModel {
 
 	public void setVotingComplete(boolean votingComplete) {
 		this.votingComplete = votingComplete;
+	}
+
+	/**
+	 * 
+	 * @return has voted boolean it is true if one user has voted
+	 */
+
+	public boolean isHasVoted() {
+		return hasVoted;
+	}
+
+	/**
+	 * 
+	 * @param hasVoted
+	 *            sets the has Voted boolean
+	 */
+
+	public void setHasVoted(boolean hasVoted) {
+		this.hasVoted = hasVoted;
 	}
 
 	/**
