@@ -24,6 +24,7 @@ public class ViewEventManager {
 	private static ViewEventManager instance = null;
 	private MainView main;
 	private OverviewTreePanel overviewTree;
+	private ImportRequirementsPanel requirementPanel;
 	private OverviewPanel overviewPanel;
 	private ToolbarView toolbarView;
 	private boolean isWelcomePageOnDisplay = true;
@@ -174,6 +175,9 @@ public class ViewEventManager {
 		if(component instanceof SessionInProgressPanel) {
 			this.inProgressSessionPanels.remove(component);
 		}
+		if(component instanceof ImportRequirementsPanel) {
+			this.requirementPanel = null;
+		}
 		main.remove(component);
 
 	}
@@ -182,12 +186,17 @@ public class ViewEventManager {
 	 * Creates the import requirements panel.
 	 */
 	public void createImportRequirementsPanel() {
-		ImportRequirementsPanel newPanel = new ImportRequirementsPanel();
-		main.addTab("Import Requirements", null, newPanel,
-				"Import a new requirement.");
-		main.invalidate();
-		main.repaint();
-		main.setSelectedComponent(newPanel);
+		if(requirementPanel == null) {
+			ImportRequirementsPanel newPanel = new ImportRequirementsPanel();
+			this.requirementPanel = newPanel;
+			main.addTab("Import Requirements", null, newPanel,
+					"Import a new requirement.");
+			main.invalidate();
+			main.repaint();
+			main.setSelectedComponent(newPanel);
+		} else {
+			main.setSelectedComponent(requirementPanel);
+		}
 	}
 
 	/**

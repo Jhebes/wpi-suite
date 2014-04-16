@@ -15,10 +15,9 @@ import java.util.Date;
 
 import com.google.gson.Gson;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendEmailController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendNotificationController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put.PutSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
-import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -102,28 +101,42 @@ public class PlanningPokerSession extends AbstractModel {
 			this.startTime = new Date();
 		}
 		
-	
-		//GetAllSessionsController.getInstance().retrieveSessions();
-		
+		String command = "sendEmail";
 		// Send email to everyone in a session
-		if (this.getUsers() != null)
-		{
-			for (User user : this.getUsers())
-			{
+		if (this.getUsers() != null) {
+			for (User user : this.getUsers()) {
 				String sendTo = user.getEmail();
-				if (!sendTo.equals(""))
-				{
-					SendEmailController.getInstance().sendEmail("start", sendTo);
-				}
-				else
-				{
-					SendEmailController.getInstance().sendEmail("start", "teamcombatwombat@gmail.com");
+				if (!sendTo.equals("")) {
+					SendNotificationController.sendNotification("start",
+							sendTo, this.getDeadline(), command);
+				} else {
+					SendNotificationController.sendNotification("start",
+							"teamcombatwombat@gmail.com",
+							this.getDeadline(), command);
 				}
 			}
+		} else {
+			SendNotificationController.sendNotification("start",
+					"teamcombatwombat@gmail.com", this.getDeadline(),
+					command);
 		}
-		else
-		{
-			SendEmailController.getInstance().sendEmail("start", "teamcombatwombat@gmail.com");
+
+		// Send SMS to everyone in a session
+		command = "sendSMS";
+		if (this.getUsers() != null) {
+			for (User user : this.getUsers()) {
+				String sendTo = user.getSMS();
+				if (!sendTo.equals("")) {
+					SendNotificationController.sendNotification("start",
+							sendTo, this.getDeadline(), command);
+				} else {
+					SendNotificationController.sendNotification("start",
+							"15189662284", this.getDeadline(), command);
+				}
+			}
+		} else {
+			SendNotificationController.sendNotification("start", "15189662284",
+					this.getDeadline(), command);
 		}
 	}
 
@@ -478,6 +491,13 @@ public class PlanningPokerSession extends AbstractModel {
 			return "New";
 		}
 	}
+	
+	/**
+	 * @return The end time
+	 */
+	public Date getEndTime() {
+		return this.endTime;
+	}
 
 	/*
 	 * @see java.lang.Object#toString()
@@ -525,5 +545,4 @@ public class PlanningPokerSession extends AbstractModel {
 		this.description = updatedSession.description;
 		this.requirements = updatedSession.requirements;
 	}
-
 }

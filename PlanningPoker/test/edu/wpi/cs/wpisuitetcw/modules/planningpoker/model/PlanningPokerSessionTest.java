@@ -24,41 +24,52 @@ public class PlanningPokerSessionTest {
 	@Before
 	public void setUp() {
 		planningPokerSession = new PlanningPokerSession();
-		
 	}
 	
 	@Test
-	public void testActivate() {		
-		// Activate a session that is not cancelled and not active. [Default case] Expected true
+	public void testActivateNotCancelledSession() {
+		assertFalse(planningPokerSession.isActive());
 		planningPokerSession.activate();
-		// Activate a session that is cancelled and not active. Expected false
-		// Activate a session that is not cancelled and active. Expected false
-		// Activate a session that is cancelled and active. Expected false
+
+		assertTrue(planningPokerSession.isActive());
 	}
-	
+
+	@Test
+	public void testActivateCancelledSession() {
+		planningPokerSession.cancel();
+		assertFalse(planningPokerSession.isActive());
+		planningPokerSession.activate();
+		assertFalse(planningPokerSession.isActive());
+	}
+
 	@Test
 	public void testCancel() {
-		planningPokerSession = new PlanningPokerSession();
 		planningPokerSession.cancel();
 		assertTrue(planningPokerSession.isCancelled());
+		assertNotNull(planningPokerSession.getEndTime());
 		// End time is not null anymore. Cannot test this
+	}
+
+	@Test
+	public void testGetStatusNew() {
+		assertEquals("New", planningPokerSession.getStatus());
+	}
+		
+	@Test
+	public void testGetStatusCancelled() {
+		planningPokerSession.cancel();
+		assertEquals("Cancelled", planningPokerSession.getStatus());
 	}
 	
 	@Test
-	public void testGetStatus() {
-		planningPokerSession = new PlanningPokerSession();
-		// Test new case. [Default case] Expected "New"
-		assertEquals("New", planningPokerSession.getStatus());
-		
-		// Test cancel case. Expected "Cancelled"
-		planningPokerSession.cancel();
-		assertEquals("Cancelled", planningPokerSession.getStatus());
-		
-		// Test open case. Expected "Open"
+	public void testGetStatusOpen() {
 		planningPokerSession.activate();
 		assertEquals("Open", planningPokerSession.getStatus());
-		
-		// Test closed case. Expected "Closed"
-		assertEquals("Closed", planningPokerSession.getStatus());
 	}
+	
+//	@Test
+//	public void testGetStatusClose() {
+//		planningPokerSession.close();
+//		assertEquals("Closed", planningPokerSession.getStatus());
+//	}
 }

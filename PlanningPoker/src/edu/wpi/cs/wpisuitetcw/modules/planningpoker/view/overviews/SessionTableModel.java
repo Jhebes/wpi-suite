@@ -13,7 +13,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Vector;
+import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -32,7 +32,7 @@ public class SessionTableModel extends DefaultTableModel {
 
 	private static SessionTableModel instance;
 	private final String[] colNames = { "ID", "Name", "Deadline", "Status" };
-	private PlanningPokerSession[] sessions = {};
+	private List<PlanningPokerSession> sessions = new ArrayList<PlanningPokerSession>();
 
 	/**
 	 * Constructs a table session for the overview table.
@@ -54,12 +54,8 @@ public class SessionTableModel extends DefaultTableModel {
 		
 		ArrayList<PlanningPokerSession> a = SessionStash.getInstance().getSessions();
 		switch(m){
-			case ALL:	
-				PlanningPokerSession[] array3 = new PlanningPokerSession[a.size()];
-				for(int i = 0; i < a.size(); ++i){
-					array3[i] = a.get(i);
-				}
-				this.refreshSessions(array3);
+			case ALL:
+				this.refreshSessions(a);
 				break;
 			case CLOSED:
 				ArrayList<PlanningPokerSession> b = new ArrayList<PlanningPokerSession>();
@@ -69,12 +65,7 @@ public class SessionTableModel extends DefaultTableModel {
 					}
 				}
 				System.out.println("Found:");
-				PlanningPokerSession[] array = new PlanningPokerSession[b.size()];
-				for(int i = 0; i < b.size(); ++i){
-					System.out.println(b.get(i).getName());
-					array[i] = b.get(i);
-				}
-				this.refreshSessions(array);
+				this.refreshSessions(b);
 				break;
 			case OPEN:
 				ArrayList<PlanningPokerSession> b2 = new ArrayList<PlanningPokerSession>();
@@ -84,12 +75,7 @@ public class SessionTableModel extends DefaultTableModel {
 					}
 				}
 				System.out.println("Found:");
-				PlanningPokerSession[] array2 = new PlanningPokerSession[b2.size()];
-				for(int i = 0; i < b2.size(); ++i){
-					System.out.println(b2.get(i).getName());
-					array2[i] = b2.get(i);
-				}
-				this.refreshSessions(array2);
+				this.refreshSessions(b2);
 				break;
 			default:
 				//this.refreshSessions((PlanningPokerSession[]) a.toArray());
@@ -97,13 +83,8 @@ public class SessionTableModel extends DefaultTableModel {
 		}
 	}
 	
-	public void update(){
-		PlanningPokerSession[] arr = new PlanningPokerSession[SessionStash.getInstance().getSessions().size()];
-		for(int i = 0; i < SessionStash.getInstance().getSessions().size(); ++i){
-			arr[i] = SessionStash.getInstance().getSessions().get(i);
-		}
-		
-		this.refreshSessions(arr);
+	public void update(){		
+		this.refreshSessions(SessionStash.getInstance().getSessions());
 		System.out.println("Success");
 	}
 	
@@ -113,7 +94,7 @@ public class SessionTableModel extends DefaultTableModel {
 	 * @param sessions
 	 *            The new list of sessions
 	 */
-	public void refreshSessions(PlanningPokerSession[] sessions) {
+	public void refreshSessions(List<PlanningPokerSession> sessions) {
 		this.setDataVector(null, colNames);
 		this.sessions = sessions;
 		if (sessions == null) {
@@ -136,11 +117,11 @@ public class SessionTableModel extends DefaultTableModel {
 		}
 	}
 
-	public PlanningPokerSession[] getSessions() {
+	public List<PlanningPokerSession> getSessions() {
 		return sessions;
 	}
 
-	public void setSessions(PlanningPokerSession[] sessions) {
+	public void setSessions(List<PlanningPokerSession> sessions) {
 		this.sessions = sessions;
 	}
 

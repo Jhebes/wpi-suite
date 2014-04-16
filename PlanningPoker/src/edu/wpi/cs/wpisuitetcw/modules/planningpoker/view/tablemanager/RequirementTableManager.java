@@ -40,7 +40,6 @@ public class RequirementTableManager {
 	}
 	
 	public void refreshRequirements(int i, ArrayList<PlanningPokerRequirement> requirements) {
-		
 		RequirementTableModel a = RequirementTableManager.t.get(i);
 		if(a == null){
 			System.out.println("Not present, building");

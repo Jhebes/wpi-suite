@@ -12,24 +12,12 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
-import javax.swing.JLabel;
-
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionTableModel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
-import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-import edu.wpi.cs.wpisuitetng.network.Network;
-import edu.wpi.cs.wpisuitetng.network.Request;
-import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
  * This controller responds when the user clicks the "Create" button by using
@@ -39,9 +27,6 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class AddSessionController implements ActionListener {
 	private final CreateSessionPanel view;
-
-	// TODO this should be deleted in the future
-	private String sessionName;
 
 	/**
 	 * Construct an AddSessionController for the given view
@@ -90,39 +75,13 @@ public class AddSessionController implements ActionListener {
 			session.setDeadline(d);
 			session.setDescription(des);
 			
-			// Add all checked requirements
-			// ArrayList<PlanningPokerRequirement> reqs =
-			// view.getRequirements();
-			// session.addRequirements(reqs);
-
-			// Send a request to the core to save this message
-			// Create the request
-			final Request request = Network.getInstance().makeRequest(
-					"planningpoker/session", HttpMethod.PUT);
-			// Set the data to be the session to save (converted to JSON)
-			request.setBody(session.toJSON());
-			// Listen for the server's response
-			request.addObserver(new AddSessionRequestObserver(this));
-			// Send the request on its way
-			request.send();
-		} 
-		else {
+			session.write();
+			ViewEventManager.getInstance().removeTab(this.view);
+		} else {
 			// user has yet entered all required data
 			//TODO: maybe make the warning a pop-up
 			this.view.repaint();
 		}
 
-	}
-
-	// removes a tab and opens another
-	public void onSuccess(PlanningPokerSession session) {
-		RequirementTableManager a1 = new RequirementTableManager();
-		a1.init(session.getID());
-		
-		
-		ViewEventManager.getInstance().removeTab(this.view);
-
-		ViewEventManager.getInstance().viewSession(session);
-//		GetAllSessionsController.getInstance().retrieveSessions();
 	}
 }

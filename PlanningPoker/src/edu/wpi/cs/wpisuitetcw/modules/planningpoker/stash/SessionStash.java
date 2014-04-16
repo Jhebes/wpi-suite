@@ -1,13 +1,15 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionTableModel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
 public class SessionStash {
 	
+	private boolean initialized = false;
 	private static SessionStash self = null;
 	private ArrayList<PlanningPokerSession> sessions = new ArrayList<PlanningPokerSession>();
 	public SessionStash(){
@@ -48,16 +50,21 @@ public class SessionStash {
 	}
 	
 	
-	public void mergeFromServer(PlanningPokerSession[] incomingSessions){
+	public void mergeFromServer(List<PlanningPokerSession> incomingSessions){
 		for(PlanningPokerSession s : incomingSessions){
 			if(this.getSessionByID(s.getID()) == null){
 				this.sessions.add(s);
+				// Don't attempt to open tabs on first merge
+				if (initialized) {
+					ViewEventManager.getInstance().viewSession(s);
+				}
 			}
 		}
 		
 		for(PlanningPokerSession s : this.sessions){
 			s.update();
 		}
+		initialized = true;
 	}
 	
 	
