@@ -255,7 +255,7 @@ public class SessionInProgressPanel extends JSplitPane {
 			}
 		};
 
-		reqsViewTable.addMouseListener(new MouseAdapter() {
+		reqsViewTable.addMouseListener(new MouseAdapter() {			
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JTable table = (JTable) e.getSource();
@@ -269,6 +269,8 @@ public class SessionInProgressPanel extends JSplitPane {
 					selectedReq = session.getReqByName(name);
 					this.setSuperClassVariables(name,
 							selectedReq.getDescription());
+
+					setVoteList(selectedReq.getVotes());
 				}
 			}
 
@@ -334,6 +336,9 @@ public class SessionInProgressPanel extends JSplitPane {
 		btnEditSession = new JButton("Edit Session");
 		btnEditSession.addActionListener(new EditActivatedSessionController(
 				session, this));
+		if (session.isHasVoted()) {
+			disableEditSession();
+		}
 
 		Component verticalGlue = Box.createVerticalGlue();
 		LeftPanel.add(verticalGlue);

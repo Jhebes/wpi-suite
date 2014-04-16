@@ -24,10 +24,7 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.Configuration;
 
 /**
- * This controller responds when the user clicks the "Create" button by using
- * all entered information to construct a new session and storing in the
- * database
- * 
+ * Adds a new vote to a particular requirement.
  */
 public class AddVoteController implements ActionListener {
 
@@ -50,6 +47,7 @@ public class AddVoteController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		// FIXME: most of this could be moved into the model.
 		session = view.getSession();
 
 		if (!session.isActive())
@@ -62,8 +60,8 @@ public class AddVoteController implements ActionListener {
 		System.out.println(username);
 
 		PlanningPokerVote vote = new PlanningPokerVote(username, view.getVote());
-		session = view.getSession();
 		String r = view.getSelectedRequirement();
+		System.out.println("Attempting to get Req: " + r);
 		try {
 			this.req = session.getReqByName(r);
 		} catch (NullPointerException e) {
@@ -89,7 +87,25 @@ public class AddVoteController implements ActionListener {
 		session.addVoteToRequirement(req, vote, username);
 		view.setNumVotesLabel(session.getNumVotes(req));
 
-		//Update the session remotely
+		System.out.println(session.getNumVotes(req));
+		System.out.println("Added vote to requirement " + req.getName());
+		session.setHasVoted(true);
+		view.disableEditSession();
+
+		// Update the session remotely
 		session.save();
+
+		// Much hack! Very broke!
+		// TODO: FIX PLZZZZZZ!
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			Logger.getLogger("PlanningPoker").log(Level.SEVERE,
+					"Sleeping was interrupted.", e);
+		}
+
+		GetRequirementsVotesController getVotes = new GetRequirementsVotesController(
+				view, session);
+		getVotes.actionPerformed(new ActionEvent(getVotes, 0, r));
 	}
 }
