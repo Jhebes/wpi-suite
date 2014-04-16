@@ -37,6 +37,11 @@ public class ViewSessionTableManager {
 		ViewSessionTableManager.t.put(i, a);
 	}
 	
+	/**
+	 * Refreshed the requirements in the view
+	 * @param i
+	 * @param requirements
+	 */
 	public void refreshRequirements(int i, List<PlanningPokerRequirement> requirements) {
 		
 		ViewSessionTableModel a = ViewSessionTableManager.t.get(i);
@@ -49,6 +54,11 @@ public class ViewSessionTableManager {
 		ViewSessionTableManager.t.put(i, a);
 		System.out.println("Done");
 	}
+	
+	/**
+	 * Gets requirements for a session
+	 * @param i Session ID
+	 */
 	public void fetch(int i){
 		System.out.println("Fetching session details for session " + i);
 		RetrievePlanningPokerRequirementsForSessionController a = new RetrievePlanningPokerRequirementsForSessionController();

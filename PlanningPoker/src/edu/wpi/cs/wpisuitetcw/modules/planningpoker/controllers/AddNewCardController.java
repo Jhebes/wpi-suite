@@ -17,21 +17,22 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateNewDeck
 
 public class AddNewCardController implements ActionListener {
 	private CreateNewDeckPanel view;
-	
-	public AddNewCardController(CreateNewDeckPanel deckPanel){
+
+	public AddNewCardController(CreateNewDeckPanel deckPanel) {
 		this.view = deckPanel;
-		
-		
+
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		this.view.addNewCard();
-		//JPanel centerPanel = this.view.getCenterPanel();
-		//centerPanel.paintImmediately(centerPanel.getX(), centerPanel.getY(), centerPanel.getWidth(), centerPanel.getHeight());
+		// JPanel centerPanel = this.view.getCenterPanel();
+		// centerPanel.paintImmediately(centerPanel.getX(), centerPanel.getY(),
+		// centerPanel.getWidth(), centerPanel.getHeight());
 		this.view.updateUI();
 	}
 
 }
-
-
