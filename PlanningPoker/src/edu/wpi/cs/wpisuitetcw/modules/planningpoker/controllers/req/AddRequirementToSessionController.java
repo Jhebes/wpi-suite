@@ -64,14 +64,14 @@ public class AddRequirementToSessionController implements ActionListener {
 		
 		
 		
-		final Request request2 = Network.getInstance().makeRequest("planningpoker/session/".concat(String.valueOf(this.view.session.getID())), HttpMethod.POST);
+		final Request request2 = Network.getInstance().makeRequest("planningpoker/session/".concat(String.valueOf(this.view.getSession().getID())), HttpMethod.POST);
 		request2.setBody(s.toJSON());
 		request2.addObserver(new GenericPUTRequestObserver());
 		request2.send();
 		
 		new RequirementTableManager().fetch(s.getID());
 		
-		this.view.sessionReqTable.repaint();
+		this.view.getSessionReqTable().repaint();
 		
 		
 		
@@ -102,7 +102,7 @@ public class AddRequirementToSessionController implements ActionListener {
 		
 		System.out.println("Requesting null session");
 		
-		final Request request = Network.getInstance().makeRequest("planningpoker/session/".concat(String.valueOf(this.view.session.getID())), HttpMethod.GET);
+		final Request request = Network.getInstance().makeRequest("planningpoker/session/".concat(String.valueOf(this.view.getSession().getID())), HttpMethod.GET);
 		request.addObserver(new AddRequirementToSessionRequestObserver(this));
 		request.send();
 		

@@ -64,8 +64,8 @@ public class MoveAllRequirementsToAllController implements ActionListener {
 		session.save();
 		
 		//Updates the view
-		this.view.allReqTable.repaint();
-		this.view.sessionReqTable.repaint();
+		this.view.getAllReqTable().repaint();
+		this.view.getSessionReqTable().repaint();
 	}
 	
 	/*

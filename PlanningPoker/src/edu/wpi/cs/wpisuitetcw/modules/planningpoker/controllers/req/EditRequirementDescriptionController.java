@@ -55,8 +55,8 @@ public class EditRequirementDescriptionController implements ActionListener {
 		
 		s.save();
 
-		this.view.allReqTable.repaint();
-		this.view.sessionReqTable.repaint();
+		this.view.getAllReqTable().repaint();
+		this.view.getSessionReqTable().repaint();
 	}
 
 	/*

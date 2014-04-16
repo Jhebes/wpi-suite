@@ -56,8 +56,8 @@ public class MoveAllRequirementsToCurrentSessionController implements ActionList
 		a1.refreshRequirements(1, s.getRequirements());
 		RequirementTableManager a2 = new RequirementTableManager();
 		a2.refreshRequirements(session.getID(), session.getRequirements());
-		this.view.allReqTable.repaint();
-		this.view.sessionReqTable.repaint();
+		this.view.getAllReqTable().repaint();
+		this.view.getSessionReqTable().repaint();
 	}
 	
 	/*

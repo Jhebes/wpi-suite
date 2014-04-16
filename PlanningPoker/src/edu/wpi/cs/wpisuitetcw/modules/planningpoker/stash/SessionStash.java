@@ -73,4 +73,27 @@ public class SessionStash {
 		GetAllSessionsController.getInstance().retrieveSessions();
 	}
 
+	/**
+	 * Creates the default planning poker session for unadded requirements.
+	 * @return The default planning poker session with special ID 1.
+	 */
+	public PlanningPokerSession createDefaultSession() {
+		PlanningPokerSession defaultSession = new PlanningPokerSession();
+		defaultSession.setID(1);
+		defaultSession.create();
+		return defaultSession;
+	}
+	
+	/**
+	 * Gets or creates the default session with special ID 1.
+	 * @return The default session
+	 */
+	public PlanningPokerSession getDefaultSession() {
+		PlanningPokerSession defaultSession = getSessionByID(1);
+		if (defaultSession == null) {
+			defaultSession = createDefaultSession();
+			SessionStash.getInstance().addSession(defaultSession);
+		}
+		return defaultSession;
+	}
 }

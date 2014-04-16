@@ -31,7 +31,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.AddRequirementController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.AddRequirementToAllController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.AddRequirementToSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.EditRequirementDescriptionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveAllRequirementsToAllController;
@@ -57,10 +57,10 @@ public class ViewSessionReqPanel extends JPanel {
 	private final JButton moveAllRequirementsToSession;
 	private final JButton addRequirementToAll;
 	private final JButton addRequirementToSession;
-	public final JButton updateDescription;
-	public final JTable allReqTable;
-	public final JTable sessionReqTable;
-	public final PlanningPokerSession session;
+	private final JButton updateDescription;
+	private final JTable allReqTable;
+	private final JTable sessionReqTable;
+	private final PlanningPokerSession session;
 
 	/**
 	 * @return this.name.getText() This requirement's name
@@ -250,7 +250,7 @@ public class ViewSessionReqPanel extends JPanel {
 		updateDescription.setPreferredSize(new Dimension(70, 50));
 
 		//Action Handlers 
-		this.addRequirementToAll.addActionListener(new AddRequirementController(this));
+		this.addRequirementToAll.addActionListener(new AddRequirementToAllController(this));
 		this.addRequirementToSession.addActionListener(new AddRequirementToSessionController(this)); // need to change so it adds to the right side
 		this.moveRequirementToSession.addActionListener(new MoveRequirementToCurrentSessionController(this.session, this));
 		this.moveRequirementToAll.addActionListener(new MoveRequirementToAllController(this.session, this));
@@ -342,5 +342,21 @@ public class ViewSessionReqPanel extends JPanel {
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		this.add(bottomPanel, c);
+	}
+
+	public JButton getUpdateDescription() {
+		return updateDescription;
+	}
+
+	public JTable getAllReqTable() {
+		return allReqTable;
+	}
+
+	public JTable getSessionReqTable() {
+		return sessionReqTable;
+	}
+
+	public PlanningPokerSession getSession() {
+		return session;
 	}
 }
