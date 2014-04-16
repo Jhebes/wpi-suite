@@ -67,7 +67,7 @@ public class EmailNotifier extends BaseNotifier {
 							Logger.getLogger("PlanningPoker").log(
 									Level.SEVERE,
 									"Could not load email address or " + 
-									"password from coniguration file.");
+									"password from coniguration file.", e);
 							return null;
 						}
 					}

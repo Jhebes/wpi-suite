@@ -272,7 +272,7 @@ public class PlanningPokerSessionEntityManager implements
 				Logger.getLogger("PlanningPoker").log(
 						Level.SEVERE,
 						"Unsupported encoding when parsing deadline for "
-								+ "sending notifications.");
+								+ "sending notifications.", e);
 			}
 		} else if (command.equals("sendSMS")) {
 			if (args.length < 6) {
@@ -294,7 +294,7 @@ public class PlanningPokerSessionEntityManager implements
 				Logger.getLogger("PlanningPoker").log(
 						Level.SEVERE,
 						"Unsupported encoding when parsing deadline for "
-								+ "sending notifications.");
+								+ "sending notifications.", e);
 			}
 		}
 
