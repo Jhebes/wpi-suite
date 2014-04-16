@@ -16,6 +16,7 @@ import java.util.Date;
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.janeway.config.Configuration;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -122,6 +123,20 @@ public class PlanningPokerSession extends AbstractModel {
 	public void addVoteToRequirement(PlanningPokerRequirement req,
 			PlanningPokerVote v) {
 		requirements.get(requirements.indexOf(req)).addVote(v);
+	}
+
+	public boolean hasVoted(PlanningPokerRequirement req) {
+		String username = "NAME?";
+		Configuration c = ConfigManager.getConfig();
+		username = c.getUserName();
+		boolean hasVoted = false;
+		for (PlanningPokerVote v : req.getVotes()) {
+			if (username.equals(v.getUser())) {
+				hasVoted = true;
+				break;
+			}
+		}
+		return hasVoted;
 	}
 
 	public PlanningPokerRequirement getReqByName(String n) {
@@ -334,6 +349,10 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public int getID() {
 		return this.id;
+	}
+
+	public int getNumVotes(PlanningPokerRequirement req) {
+		return req.getVotes().size();
 	}
 
 	/**

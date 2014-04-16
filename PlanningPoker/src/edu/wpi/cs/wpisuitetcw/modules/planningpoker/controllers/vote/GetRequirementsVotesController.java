@@ -49,7 +49,6 @@ public class GetRequirementsVotesController implements ActionListener{
 		this.session = session;
 		this.view = view;
 	}
-	
 
 	/**
 	 * This method is called by the
@@ -63,7 +62,6 @@ public class GetRequirementsVotesController implements ActionListener{
 	public void receivedData(PlanningPokerSession session){
 		this.req = this.session.getReqByName(this.view.getSelectedRequirement());
 		PlanningPokerRequirement r = session.getReqByName(this.req.getName());
-		//ArrayList<PlanningPokerVote> votes = new ArrayList<PlanningPokerVote>();
 
 		System.out.println("Votes for selected requirement:");
 		for(PlanningPokerVote v : r.votes){

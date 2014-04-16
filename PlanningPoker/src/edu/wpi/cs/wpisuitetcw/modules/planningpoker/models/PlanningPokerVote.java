@@ -32,8 +32,6 @@ public class PlanningPokerVote extends AbstractModel {
 		this.id = UUID.randomUUID();
 	}
 
-	
-
 	/* database interaction */
 	@Override
 	public void save() {
@@ -67,7 +65,6 @@ public class PlanningPokerVote extends AbstractModel {
 		return "ID: " + this.user + ", Value: " + this.cardValue;
 	}
 
-	
 	/**
 	 * Convert from JSON back to a Planning Poker Session
 	 * 
@@ -103,7 +100,7 @@ public class PlanningPokerVote extends AbstractModel {
 		return ((Integer) o).equals(this.id);
 	}
 
-
+	
 	public UUID getID() {
 		return id;
 	}
@@ -118,6 +115,20 @@ public class PlanningPokerVote extends AbstractModel {
 
 	public void setCardValue(int cardValue) {
 		this.cardValue = cardValue;
+	}
+	
+	/**
+	 * @return the user
+	 */
+	public String getUser() {
+		return user;
+	}
+
+	/**
+	 * @param user the user to set
+	 */
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 }

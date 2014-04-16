@@ -1,11 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2014 WPI-Suite
+ * Copyright (c) 2013 -- WPI Suite
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Team Combat Wombat
+ *
+ * Contributors:
+ *    Chris Casola
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
@@ -29,19 +31,16 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * all entered information to construct a new session and storing in the
  * database
  * 
-<<<<<<< HEAD
- * @author Josh Hebert
+ * @author Nick Kalamvokis
  *  
-=======
->>>>>>> b3d99867a8d87e7201843c87b89a21f05e5d7a37
  */
-public class AddRequirementController implements ActionListener {
+public class AddRequirementToSessionController implements ActionListener {
 
 
 	private ViewSessionReqPanel view;
 
 	
-	public AddRequirementController(ViewSessionReqPanel view) {
+	public AddRequirementToSessionController(ViewSessionReqPanel view) {
 		this.view = view;
 		System.out.println("Constructed the action listener");
 	}
@@ -71,14 +70,14 @@ public class AddRequirementController implements ActionListener {
 		
 		
 		
-		final Request request2 = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.POST);
+		final Request request2 = Network.getInstance().makeRequest("planningpoker/session/".concat(String.valueOf(this.view.session.getID())), HttpMethod.POST);
 		request2.setBody(s.toJSON());
 		request2.addObserver(new GenericPUTRequestObserver(this));
 		request2.send();
 		
 		new ViewSessionTableManager().fetch(s.getID());
 		
-		this.view.allReqTable.repaint();
+		this.view.sessionReqTable.repaint();
 		
 		
 		
@@ -97,6 +96,7 @@ public class AddRequirementController implements ActionListener {
 	}
 	
 	
+	
 	/*
 	 * This method is called when the user clicks the vote button
 	 * 
@@ -108,8 +108,8 @@ public class AddRequirementController implements ActionListener {
 		
 		System.out.println("Requesting null session");
 		
-		final Request request = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.GET);
-		request.addObserver(new AddRequirementRequestObserver(this));
+		final Request request = Network.getInstance().makeRequest("planningpoker/session/".concat(String.valueOf(this.view.session.getID())), HttpMethod.GET);
+		request.addObserver(new AddRequirementToSessionRequestObserver(this));
 		request.send();
 		
 	

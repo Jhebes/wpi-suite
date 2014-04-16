@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -55,9 +56,9 @@ public class AddVoteController implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 
 		System.out.print("Requesting user is: ");
-		String username = "NAME?";
 		Configuration c = ConfigManager.getConfig();
-		username = c.getUserName();
+		String username = c.getUserName();
+
 		System.out.println(username);
 
 		PlanningPokerVote vote = new PlanningPokerVote(username, view.getVote());
@@ -67,12 +68,30 @@ public class AddVoteController implements ActionListener {
 		try {
 			this.req = session.getReqByName(r);
 		} catch (NullPointerException e) {
+			System.out.println("No req found by that name!");
 			Logger.getLogger("PlanningPoker").log(Level.WARNING,
 					"Could not find requirement by name: " + r, e);
 			return;
 		}
+		
+		ArrayList<PlanningPokerVote> toRemove = new ArrayList<PlanningPokerVote>();
+		
+		// checking list of votes to see if user has already voted
+		for (PlanningPokerVote v : this.req.getVotes()) {
+			System.out.println(v.getUser());
+			if (v.getUser().equals(username)) {
+				toRemove.add(v);
+			}
+		}
+		
+		for (PlanningPokerVote v : toRemove) {
+			req.deleteVote(v);
+		}
+		
 		session.addVoteToRequirement(req, vote);
+		view.setNumVotesLabel(session.getNumVotes(req));
 
+		System.out.println(session.getNumVotes(req));
 		System.out.println("Added vote to requirement " + req.getName());
 
 		// Update the session remotely
@@ -87,7 +106,15 @@ public class AddVoteController implements ActionListener {
 		// Send the request on its way
 		request.send();
 
-		// session.voteStatus();
-
+		// Much hack! Very broke!
+		// TODO: FIX PLZZZZZZ!
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		GetRequirementsVotesController getVotes = new GetRequirementsVotesController(view, session);
+		getVotes.actionPerformed(new ActionEvent(getVotes, 0, r));
 	}
 }
