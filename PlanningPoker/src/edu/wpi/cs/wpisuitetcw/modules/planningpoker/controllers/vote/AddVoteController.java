@@ -54,7 +54,11 @@ public class AddVoteController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-
+		session = view.getSession();
+		
+		if (!session.isActive())
+			return;
+		
 		System.out.print("Requesting user is: ");
 		Configuration c = ConfigManager.getConfig();
 		String username = c.getUserName();
@@ -62,7 +66,6 @@ public class AddVoteController implements ActionListener {
 		System.out.println(username);
 
 		PlanningPokerVote vote = new PlanningPokerVote(username, view.getVote());
-		session = view.getSession();
 		String r = view.getSelectedRequirement();
 		System.out.println("Attempting to get Req: " + r);
 		try {
