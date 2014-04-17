@@ -543,29 +543,38 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 	
 	/**
-	 * @return The end time
+	 * Return the end time of the session
+	 * @return Return the end time of the session
 	 */
 	public Date getEndTime() {
 		return this.endTime;
 	}
 
-	/*
-	 * @see java.lang.Object#toString()
+	/**
+	 * {@inheritDoc}}
 	 */
 	@Override
 	public String toString() {
 		return this.name;
 	}
 
+	/**
+	 * This class does not provide implementation for this method
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void delete() {
-	}
+	public void delete() {}
 
+	/**
+	 * This class does not provide implementation for this method
+	 * {@inheritDoc}
+	 */
 	@Override
-	public Boolean identify(Object o) {
-		return null;
-	}
+	public Boolean identify(Object o) {return null;}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void save() {
 		SessionStash.getInstance().update(this);
