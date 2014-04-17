@@ -102,7 +102,7 @@ public class CreateSessionPanel extends JSplitPane {
 
 	/**
 	 * Constructor to create a Create Session Panel
-	 * This constructor is used to edit an existing session
+	 * This constructor is used to edit an existing session.
 	 * @param session A Planning poker session
 	 */
 	public CreateSessionPanel(PlanningPokerSession session) {
@@ -118,9 +118,9 @@ public class CreateSessionPanel extends JSplitPane {
 	}
 
 	/**
-	 *  Constructor to create a Create Session Panel
-	 *  without a session
-	 *  This constructor is used to create a session
+	 * Constructor to create a Create Session Panel without a session.
+	 * This constructor is used to create a session
+	 * This constructor sets up all graphical components
 	 */
 	public CreateSessionPanel() {
 		// Initialize left and right panel
@@ -184,7 +184,7 @@ public class CreateSessionPanel extends JSplitPane {
 		btnCreateNewDeck = new JButton("Create New Deck");
 		btnCreateNewDeck.addActionListener(InitNewDeckPanelController.getInstance(this));
 		
-		// Setup the right panel
+		// Put all UI components creating a session to the left panel
 		// MigLayout is a convenient way of creating responsive layout with Swing
 		rightPanel.setLayout(new MigLayout("", "[]10[]", "[]5[]"));
 		rightPanel.setAlignmentX(LEFT_ALIGNMENT);
