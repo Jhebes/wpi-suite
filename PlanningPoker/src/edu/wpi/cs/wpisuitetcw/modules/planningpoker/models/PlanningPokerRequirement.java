@@ -74,56 +74,6 @@ public class PlanningPokerRequirement extends AbstractModel {
 	}
 	
 	/**
-	 * Return the total votes
-	 * @return Return the total votes
-	 */
-	public int getTotalVotes() {
-		return totalVotes;
-	}
-
-	/**
-	 * Assign the given integer to the total votes
-	 * @param totalVotes An integer that would be assigned to the total votes
-	 */
-	public void setTotalVotes(int totalVotes) {
-		this.totalVotes = totalVotes;
-	}
-
-	/**
-	 * Return this requirement's final estimation
-	 * @return Return this requirement's final estimation
-	 */
-	public int getFinalEstimate() {
-		return finalEstimate;
-	}
-
-	/**
-	 * Assign the given integer to the final estimate
-	 * @param estimate An integer that would be assigned to
-	 * the PlanningPokerRequirement's final estimate
-	 */
-	public void setFinalEstimate(int estimate) {
-		this.finalEstimate = estimate;
-		
-	}
-
-	/**
-	 * Add a vote to the list of votes
-	 * @param vote A PlanningPokerVote that would be added to the list of votes
-	 */
-	public void addVote(PlanningPokerVote vote) {
-		votes.add(vote);
-	}
-	
-	/**
-	 * Remove the given PlanningPokerVote from the list of votes
-	 * @param vote The PlanningPokerVote that would be removed from the list of votes
-	 */
-	public void deleteVote(PlanningPokerVote vote) {
-		votes.remove(vote);
-	}
-	
-	/**
 	 * Returns an instance of PlanningPokerRequirement constructed using the
 	 * given Requirement encoded as a JSON string.
 	 * 
@@ -293,6 +243,57 @@ public class PlanningPokerRequirement extends AbstractModel {
 		this.votes = updatedRequirement.votes;
 	}
 	
+
+	/**
+	 * Return the total votes
+	 * @return Return the total votes
+	 */
+	public int getTotalVotes() {
+		return totalVotes;
+	}
+
+	/**
+	 * Assign the given integer to the total votes
+	 * @param totalVotes An integer that would be assigned to the total votes
+	 */
+	public void setTotalVotes(int totalVotes) {
+		this.totalVotes = totalVotes;
+	}
+
+	/**
+	 * Return this requirement's final estimation
+	 * @return Return this requirement's final estimation
+	 */
+	public int getFinalEstimate() {
+		return finalEstimate;
+	}
+
+	/**
+	 * Assign the given integer to the final estimate
+	 * @param estimate An integer that would be assigned to
+	 * the PlanningPokerRequirement's final estimate
+	 */
+	public void setFinalEstimate(int estimate) {
+		this.finalEstimate = estimate;
+		
+	}
+
+	/**
+	 * Add a vote to the list of votes
+	 * @param vote A PlanningPokerVote that would be added to the list of votes
+	 */
+	public void addVote(PlanningPokerVote vote) {
+		votes.add(vote);
+	}
+	
+	/**
+	 * Remove the given PlanningPokerVote from the list of votes
+	 * @param vote The PlanningPokerVote that would be removed from the list of votes
+	 */
+	public void deleteVote(PlanningPokerVote vote) {
+		votes.remove(vote);
+	}
+	
 	@Override
 	public void save() {}
 
@@ -314,6 +315,5 @@ public class PlanningPokerRequirement extends AbstractModel {
 	public boolean equals(Object o) {
 		return this.id.equals(((PlanningPokerRequirement) o).id);
 	}
-
 
 }
