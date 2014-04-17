@@ -39,7 +39,9 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
 public class CreateNewDeckPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	// constants
-	private final String TEXTBOX_PLACEHOLDER = "Deck " + new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+	private final String TEXTBOX_PLACEHOLDER = "Deck "
+			+ new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar
+					.getInstance().getTime());
 	private final String NAME_ERR_MSG = "<html><font color='red'>REQUIRES</font></html>";
 	private final String NO_CARD_ERR_MSG = "<html><font color='red'>A deck must contain </br >at least one card. </font></html>";
 	private final int CARD_WIDTH = 146;
@@ -79,10 +81,10 @@ public class CreateNewDeckPanel extends JPanel {
 		centerPanel = new JPanel();
 		bottomPanel = new JPanel();
 		errorPanel = new JPanel();
-		
+
 		errorPanel.add(new JLabel(NO_CARD_ERR_MSG));
 		errorPanel.setVisible(false);
-		
+
 		cards = new HashMap<Integer, Card>();
 
 		// text labels
@@ -181,7 +183,7 @@ public class CreateNewDeckPanel extends JPanel {
 		cards.put(key, aCard);
 		this.addRemoveCardListener(aCard, this);
 
-		this.cardPanel.add(aCard);	
+		this.cardPanel.add(aCard);
 		validateNumCards();
 		this.updateNumCard();
 
@@ -197,26 +199,27 @@ public class CreateNewDeckPanel extends JPanel {
 	public void removeCardWithKey(int key) {
 		System.out.println("Executed");
 		cards.remove(key);
-		
+
 		validateNumCards();
 		updateNumCard();
 	}
-	
+
 	/**
-	 * check the number of cards in the panel, render proper error message if necessary
+	 * check the number of cards in the panel, render proper error message if
+	 * necessary
 	 */
 	private void validateNumCards() {
-		if(this.cards.size() == 0) {
+		if (this.cards.size() == 0) {
 			this.btnCreate.setEnabled(false);
 			// display error message
 			errorPanel.setVisible(true);
-			
+
 		} else {
 			this.btnCreate.setEnabled(true);
 			errorPanel.setVisible(false);
 		}
 	}
-	
+
 	/**
 	 * update the total number of cards
 	 */

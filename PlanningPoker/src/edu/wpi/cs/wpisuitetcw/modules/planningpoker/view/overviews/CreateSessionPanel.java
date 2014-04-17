@@ -45,22 +45,21 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.Sessi
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 /**
- * A Panel that display a session's basic information: 
- * name, type, description, deck. 
- * This panel is used to create or edit a session's basic information
+ * A Panel that display a session's basic information: name, type, description,
+ * deck. This panel is used to create or edit a session's basic information
  */
 public class CreateSessionPanel extends JSplitPane {
 	private static final long serialVersionUID = 8733539608651885877L;
-	
-	private static final int SESSION_NAME_BOX_WIDTH 	   = 400;
-	private static final int TYPE_DROPDOWN_WIDTH 		   = 150;
-	private static final int DESCRIPTION_BOX_WIDTH 		   = 400;
-	private static final int DESCRIPTION_BOX_HEIGHT 	   = 110;
+
+	private static final int SESSION_NAME_BOX_WIDTH = 400;
+	private static final int TYPE_DROPDOWN_WIDTH = 150;
+	private static final int DESCRIPTION_BOX_WIDTH = 400;
+	private static final int DESCRIPTION_BOX_HEIGHT = 110;
 	private static final int GAP_LENGTH_DEADLINE_TO_BOTTOM = 220;
-	
+
 	// default data size for database entry
-	private final int DEFAULT_DATA_SIZE = 30; 
-												
+	private final int DEFAULT_DATA_SIZE = 30;
+
 	public final String DISPLAY_MSG = "New Deck";
 
 	// ################ UI Left Component #################
@@ -87,9 +86,8 @@ public class CreateSessionPanel extends JSplitPane {
 
 	/** Button to save the session */
 	private final JButton btnSaveSession;
-	
-	
-	/** Button to cancel making a session*/
+
+	/** Button to cancel making a session */
 	private final JButton btnCancel;
 
 	/** Deadline date and time picker */
@@ -195,7 +193,7 @@ public class CreateSessionPanel extends JSplitPane {
 		// Create Save session and Create new Deck button
 		btnSaveSession = new JButton("Save");
 		btnSaveSession.addActionListener(new AddSessionController(this, false));
-		
+
 		// Create Cancel create session button
 		btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new CancelCreateSessionController(this));
@@ -220,8 +218,8 @@ public class CreateSessionPanel extends JSplitPane {
 
 		// textarea
 		leftPanel.add(labelDescriptionBox, "wrap");
-		leftPanel.add(descriptionBox, "width " + DESCRIPTION_BOX_WIDTH + "px, height " 
-											   + DESCRIPTION_BOX_HEIGHT + "px!, span");
+		leftPanel.add(descriptionBox, "width " + DESCRIPTION_BOX_WIDTH
+				+ "px, height " + DESCRIPTION_BOX_HEIGHT + "px!, span");
 
 		// optional deadline
 		leftPanel.add(labelDeadline, "split2");
@@ -230,14 +228,16 @@ public class CreateSessionPanel extends JSplitPane {
 		leftPanel.add(deadlinePicker, "split2, gapbottom 40px");
 		leftPanel.add(pickerDeadlineTime, "gapbottom 40px, growx, wrap");
 
-		leftPanel.add(deadlinePicker, "split2, gapbottom " 
-						+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px");
-		leftPanel.add(pickerDeadlineTime, "gapbottom " 
-						+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, growx, wrap");
+		leftPanel.add(deadlinePicker, "split2, gapbottom "
+				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px");
+		leftPanel.add(pickerDeadlineTime, "gapbottom "
+				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, growx, wrap");
 
 		// buttons
-		leftPanel.add(btnSaveSession, "width 150px, height 40px, gapbottom 20px, gapleft 20px, wrap");
-		leftPanel.add(btnCancel, "width 150px, height 40px, gapleft 20px, wrap");
+		leftPanel.add(btnSaveSession,
+				"width 150px, height 40px, gapbottom 20px, gapleft 20px, wrap");
+		leftPanel
+				.add(btnCancel, "width 150px, height 40px, gapleft 20px, wrap");
 
 		// setup the layout
 		this.setLeftComponent(leftPanel);

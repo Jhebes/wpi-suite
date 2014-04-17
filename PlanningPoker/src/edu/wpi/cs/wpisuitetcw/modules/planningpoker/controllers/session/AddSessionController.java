@@ -44,10 +44,10 @@ public class AddSessionController implements ActionListener {
 	 * 
 	 * @param view
 	 *            the view where the user enters data for the new session
-	 *   
+	 * 
 	 * @param isEditMode
-	 *			  the value representing if the panel contains an already
-	 *			  created session or not
+	 *            the value representing if the panel contains an already
+	 *            created session or not
 	 */
 	public AddSessionController(CreateSessionPanel view, boolean isEditMode) {
 		/*
@@ -59,20 +59,21 @@ public class AddSessionController implements ActionListener {
 		this.view = view;
 		this.isEditMode = isEditMode;
 	}
-	
+
 	/**
 	 * Construct an AddSessionController for the given view
 	 * 
 	 * @param view
 	 *            the view where the user enters data for the new session
-	 *
+	 * 
 	 * @param isEditMode
-	 *			  the value representing if the panel contains an already
-	 *			  created session or not
+	 *            the value representing if the panel contains an already
+	 *            created session or not
 	 * @param session
-	 *			  the planning poker session being edited
+	 *            the planning poker session being edited
 	 */
-	public AddSessionController(CreateSessionPanel view, boolean isEditMode, PlanningPokerSession session) {
+	public AddSessionController(CreateSessionPanel view, boolean isEditMode,
+			PlanningPokerSession session) {
 
 		this.view = view;
 		this.isEditMode = isEditMode;
@@ -89,15 +90,17 @@ public class AddSessionController implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		// if a name was entered create the session
 		// otherwise the button will do nothing
-		if ((this.view.requiredFieldEntered() == true) && (this.isEditMode == false)) {
+		if ((this.view.requiredFieldEntered() == true)
+				&& (this.isEditMode == false)) {
 			// Get the name of the session
 			String name = this.view.getNameTextField().getText();
 
 			// TODO Session type should be stored
 			Date d = this.view.getDeadline();
 			String des = this.view.getDescriptionBox().getText();
-			String deckName = (String) this.view.getDeckType().getSelectedItem();
-			
+			String deckName = (String) this.view.getDeckType()
+					.getSelectedItem();
+
 			// Create a new session and populate its data
 			PlanningPokerSession session = new PlanningPokerSession();
 			session.setOwnerUserName(ConfigManager.getConfig().getUserName());
@@ -105,9 +108,11 @@ public class AddSessionController implements ActionListener {
 			session.setDeadline(d);
 			session.setDescription(des);
 			try {
-				session.setDeck(GetAllDecksController.getInstance().setDeckByName(deckName));
+				session.setDeck(GetAllDecksController.getInstance()
+						.setDeckByName(deckName));
 			} catch (WPISuiteException e) {
-				Logger.getLogger("PlanningPoker").log(Level.SEVERE, "Error getting all decks", e);
+				Logger.getLogger("PlanningPoker").log(Level.SEVERE,
+						"Error getting all decks", e);
 			}
 			// Add all checked requirements
 			// ArrayList<PlanningPokerRequirement> reqs =
@@ -124,13 +129,12 @@ public class AddSessionController implements ActionListener {
 			request.addObserver(new AddSessionRequestObserver(this));
 			// Send the request on its way
 			request.send();
-		} 
-		else if ((this.view.requiredFieldEntered() == true) && (this.isEditMode == true)){
+		} else if ((this.view.requiredFieldEntered() == true)
+				&& (this.isEditMode == true)) {
 			this.onSuccess(this.session);
-		}
-		else {
+		} else {
 			// user has yet entered all required data
-			//TODO: maybe make the warning a pop-up
+			// TODO: maybe make the warning a pop-up
 			this.view.repaint();
 		}
 
@@ -140,8 +144,7 @@ public class AddSessionController implements ActionListener {
 	public void onSuccess(PlanningPokerSession session) {
 		ViewSessionTableManager a1 = new ViewSessionTableManager();
 		a1.init(session.getID());
-		
-		
+
 		ViewEventManager.getInstance().removeTab(this.view);
 
 		ViewEventManager.getInstance().viewSession(session);
