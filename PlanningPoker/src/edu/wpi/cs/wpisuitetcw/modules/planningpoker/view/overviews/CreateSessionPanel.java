@@ -56,11 +56,13 @@ public class CreateSessionPanel extends JSplitPane {
 	private static final int DESCRIPTION_BOX_WIDTH = 400;
 	private static final int DESCRIPTION_BOX_HEIGHT = 110;
 	private static final int GAP_LENGTH_DEADLINE_TO_BOTTOM = 220;
-	
+
 	// default data size for database entry
-	private final int DEFAULT_DATA_SIZE = 30; 
-												
+	private final int DEFAULT_DATA_SIZE = 30;
+
 	public final String DISPLAY_MSG = "New Deck";
+	// ################ UI Right Component #################
+	private final CreateNewDeckPanel deckPanel;
 
 	// ################ UI Left Component #################
 	/** The left panel holds components to see the deck */
@@ -190,7 +192,7 @@ public class CreateSessionPanel extends JSplitPane {
 		// Create Save session and Create new Deck button
 		btnSaveSession = new JButton("Save");
 		btnSaveSession.addActionListener(new AddSessionController(this, false));
-		
+
 		// Create Cancel create session button
 		btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new CancelCreateSessionController(this));
