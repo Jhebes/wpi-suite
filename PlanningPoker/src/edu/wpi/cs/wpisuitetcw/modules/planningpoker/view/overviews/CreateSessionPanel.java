@@ -93,8 +93,6 @@ public class CreateSessionPanel extends JSplitPane {
 	private final JPanel rightPanel;
 	
 	// ################################# Data #######################################
-	private PlanningPokerDeck[] decks;
-
 	/** Model used for requirements JList */
 	DefaultListModel<String> existingRequirementsNames;
 
@@ -104,115 +102,15 @@ public class CreateSessionPanel extends JSplitPane {
 	/** List of requirements available to this create session tab. */
 	private ArrayList<PlanningPokerRequirement> requirements = null;
 
-	// Constructor for our Create Session Panel
+	/**
+	 * Constructor to create a Create Session Panel
+	 * @param session A Planning poker session
+	 */
 	public CreateSessionPanel(PlanningPokerSession session) {
-		// initialize left and right panel
-		rightPanel = new ScrollablePanel();
-		leftPanel = new ScrollablePanel();
-
-		// create labels for each data field
-		labelName = new JLabel("Name *");
-		JLabel labelDeadline = new JLabel("Deadline");
-		JLabel labelDropdownType = new JLabel("Type *");
-		labelDescriptionBox = new JLabel("Description *");
-		labeDeck = new JLabel("Deck *");
-
-		// JLabel labelExplanation = new JLabel(EXPLANATIONSTRING);
-
-		// checkbox for deadline
-		cbDeadline = new JCheckBox();
-		cbDeadline.addItemListener(new CreateSessionPanelController(this));
-
-		// create date picker
-		deadlinePicker = new JXDatePicker();
-		deadlinePicker.setDate(Calendar.getInstance().getTime());
-		deadlinePicker.setFormats(new SimpleDateFormat("MM/dd/yyyy"));
-		deadlinePicker.setEnabled(false);
-
-		// create time selector
-		pickerDeadlineTime = new JSpinner(new SpinnerDateModel());
-		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(
-				pickerDeadlineTime, "HH:mm:ss");
-		pickerDeadlineTime.setEditor(timeEditor);
-		pickerDeadlineTime.setValue(new Date());// will only show the current
-		// time
-		pickerDeadlineTime.setEnabled(false);
-
-		// create textfield
-		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
-
-		descriptionBox = new JTextArea(10, 200);
-		descriptionBox.setLineWrap(true);
-		descriptionBox.setWrapStyleWord(true);
-		descriptionBox.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-
-		// create dropdown menu
-		dropdownType = new JComboBox<SessionLiveType>(SessionLiveType.values());
-		dropdownType.setEditable(false);
-		dropdownType.setBackground(Color.WHITE);
-
-		deckType = new JComboBox<String>();
-		this.setupDeckDropdown();
-		deckType.setEditable(false);
-		deckType.setBackground(Color.WHITE);
-
-		// labelDropdownType.setAlignmentX(dropdownType.getAlignmentX());
-
-		// create buttons and listeners
-		btnSaveSession = new JButton("Save");
-		btnCreateNewDeck = new JButton("Create New Deck");
-
-		// setup right panel
-		// MigLayout is a convenient way of creating responsive layout with
-		// Swing
-		rightPanel.setLayout(new MigLayout("", "[]10[]", "[]5[]"));
-		rightPanel.setAlignmentX(LEFT_ALIGNMENT);
-
-		// labels and textfields
-		rightPanel.add(labelName, "width 240px, left");
-		rightPanel.add(labelDropdownType, "left, wrap");
-
-		rightPanel.add(nameTextField, "width 150px, left");
-		rightPanel.add(dropdownType, "width 150px, right, wrap");
-
-		rightPanel.add(labeDeck, "width 150px, left, wrap");
-		rightPanel.add(deckType, "width 150px, left, split2");
-		rightPanel.add(new JLabel("<html> &nbsp&nbsp&nbsp&nbsp Or</html>"),
-				"center, split2"); // Text
-		rightPanel.add(btnCreateNewDeck, "width 150px, right, wrap");
-
-		// textarea
-		rightPanel.add(labelDescriptionBox, "wrap");
-		rightPanel.add(descriptionBox, "width 400px, span, wrap");
-
-		// optional deadline
-		rightPanel.add(labelDeadline, "split2");
-		rightPanel.add(cbDeadline, "wrap");
-
-		rightPanel.add(deadlinePicker, "width 100px, split2");
-		rightPanel.add(pickerDeadlineTime, "width 100px, wrap");
-
-		// buttons
-		rightPanel.add(btnSaveSession, "width 150px, left, wrap");
-
-		btnSaveSession.addActionListener(new AddSessionController(this, true,
-				session));
-		btnCreateNewDeck.addActionListener(InitNewDeckPanelController
-				.getInstance(this));
-
-		// center the container
-		JPanel container = new JPanel();
-		// container.setLayout(new GridBagLayout());
-		// container.add(rightPanel, new GridBagConstraints());
-		container.add(rightPanel);
-
-		// Delete the left panel
-
-		// setup the layout
-		this.setLeftComponent(leftPanel);
-		this.setRightComponent(container);
-		this.setDividerLocation(180);
-		this.setEnabled(false);
+		// Construct a Session Panel without a planning poker session
+		this();
+		
+		// Display the name and description of a created session
 		this.nameTextField.setText(session.getName());
 		this.nameTextField.setEnabled(false);
 		this.descriptionBox.setText(session.getDescription());
@@ -220,73 +118,74 @@ public class CreateSessionPanel extends JSplitPane {
 
 	}
 
-	// Constructor for our Create Session Panel
+	/**
+	 *  Constructor to create a Create Session Panel
+	 *  without a session
+	 */
 	public CreateSessionPanel() {
-		// initialize left and right panel
-		rightPanel = new ScrollablePanel();
-		leftPanel = new ScrollablePanel();
+		// Initialize left and right panel
+		rightPanel = new JPanel();
+		leftPanel  = new JPanel();
 
-		// create labels for each data field
-		labelName = new JLabel("Name *");
-		JLabel labelDeadline = new JLabel("Deadline");
-		JLabel labelDropdownType = new JLabel("Type *");
-		labelDescriptionBox = new JLabel("Description *");
-		labeDeck = new JLabel("Deck *");
-		
-
-		// JLabel labelExplanation = new JLabel(EXPLANATIONSTRING);
-
-		// checkbox for deadline
-		cbDeadline = new JCheckBox();
-		cbDeadline.addItemListener(new CreateSessionPanelController(this));
-
-		// create date picker
-		deadlinePicker = new JXDatePicker();
-		deadlinePicker.setDate(Calendar.getInstance().getTime());
-		deadlinePicker.setFormats(new SimpleDateFormat("MM/dd/yyyy"));
-		deadlinePicker.setEnabled(false);
-
-		// create time selector
-		pickerDeadlineTime = new JSpinner(new SpinnerDateModel());
-		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(
-				pickerDeadlineTime, "HH:mm:ss");
-		pickerDeadlineTime.setEditor(timeEditor);
-		pickerDeadlineTime.setValue(new Date());// will only show the current
-		// time
-		pickerDeadlineTime.setEnabled(false);
-
-		// create textfield
+		// Initialize a text box to fill a new session's name in
+		labelName	  = new JLabel("Name *");
 		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
-		//Sets the default text to the date of creation and the project name
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-		String defaultNameDate = sdf.format(new Date());
-		String projectName = ConfigManager.getConfig().getProjectName();
-		nameTextField.setText(projectName + " - " + defaultNameDate);
+		
+		// Create dropdown menu to select type of session
+		JLabel labelDropdownType = new JLabel("Type *");
+		dropdownType = new JComboBox<SessionLiveType>(SessionLiveType.values());
+		dropdownType.setEditable(false);
+		dropdownType.setBackground(Color.WHITE);
 
+		// Create dropdown to select an existed deck
+		labeDeck = new JLabel("Deck *");
+		deckType = new JComboBox<String>();
+		this.setupDeckDropdown();
+		deckType.setEditable(false);
+		deckType.setBackground(Color.WHITE);
+		
+		// Create description box
+		labelDescriptionBox = new JLabel("Description *");
 		descriptionBox = new JTextArea(10, 200);
 		descriptionBox.setLineWrap(true);
 		descriptionBox.setWrapStyleWord(true);
 		descriptionBox.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-		// create dropdown menu
-		dropdownType = new JComboBox<SessionLiveType>(SessionLiveType.values());
-		dropdownType.setEditable(false);
-		dropdownType.setBackground(Color.WHITE);
+		// Create checkbox for deadline
+		JLabel labelDeadline = new JLabel("Deadline");
+		cbDeadline = new JCheckBox();
+		cbDeadline.addItemListener(new CreateSessionPanelController(this));
 
-		deckType = new JComboBox<String>();
-		this.setupDeckDropdown();
-		deckType.setEditable(false);
-		deckType.setBackground(Color.WHITE);
+		// Create date picker
+		deadlinePicker = new JXDatePicker();
+		deadlinePicker.setDate(Calendar.getInstance().getTime());
+		deadlinePicker.setFormats(new SimpleDateFormat("MM/dd/yyyy"));
+		deadlinePicker.setEnabled(false);
+
+		// Create time selector
+		pickerDeadlineTime = new JSpinner(new SpinnerDateModel());
+		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(
+				pickerDeadlineTime, "HH:mm:ss");
+		pickerDeadlineTime.setEditor(timeEditor);
+		pickerDeadlineTime.setValue(new Date()); // will only show the current time
+		pickerDeadlineTime.setEnabled(false);
+
+		// Set the default text to the date of creation and the project name
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		String defaultNameDate = sdf.format(new Date());
+		String projectName = ConfigManager.getConfig().getProjectName();
+		nameTextField.setText(projectName + " - " + defaultNameDate);
 
 		// labelDropdownType.setAlignmentX(dropdownType.getAlignmentX());
 
-		// create buttons and listeners
+		// Create Save session and Create new Deck button
 		btnSaveSession = new JButton("Save");
+		btnSaveSession.addActionListener(new AddSessionController(this, false));
 		btnCreateNewDeck = new JButton("Create New Deck");
-
-		// setup right panel
-		// MigLayout is a convenient way of creating responsive layout with
-		// Swing
+		btnCreateNewDeck.addActionListener(InitNewDeckPanelController.getInstance(this));
+		
+		// Setup the right panel
+		// MigLayout is a convenient way of creating responsive layout with Swing
 		rightPanel.setLayout(new MigLayout("", "[]10[]", "[]5[]"));
 		rightPanel.setAlignmentX(LEFT_ALIGNMENT);
 
@@ -316,10 +215,6 @@ public class CreateSessionPanel extends JSplitPane {
 
 		// buttons
 		rightPanel.add(btnSaveSession, "width 150px, left, wrap");
-
-		btnSaveSession.addActionListener(new AddSessionController(this, false));
-		btnCreateNewDeck.addActionListener(InitNewDeckPanelController
-				.getInstance(this));
 
 		// center the container
 		JPanel container = new JPanel();
