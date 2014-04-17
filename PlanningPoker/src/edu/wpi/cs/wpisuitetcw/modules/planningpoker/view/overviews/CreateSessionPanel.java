@@ -25,6 +25,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
@@ -186,34 +187,34 @@ public class CreateSessionPanel extends JSplitPane {
 		
 		// Put all UI components creating a session to the left panel
 		// MigLayout is a convenient way of creating responsive layout with Swing
-		rightPanel.setLayout(new MigLayout("", "[]10[]", "[]5[]"));
-		rightPanel.setAlignmentX(LEFT_ALIGNMENT);
+		leftPanel.setLayout(new MigLayout("", "[]1[]", "[]12[]"));
+		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
 
 		// labels and textfields
-		rightPanel.add(labelName, "width 240px, left");
-		rightPanel.add(labelDropdownType, "left, wrap");
+		leftPanel.add(labelName, "width 240px, wrap");
+		leftPanel.add(nameTextField, "width 150px, wrap");
+		
+		leftPanel.add(labelDropdownType, "left, wrap");
+		leftPanel.add(dropdownType, "width 150px, wrap");
 
-		rightPanel.add(nameTextField, "width 150px, left");
-		rightPanel.add(dropdownType, "width 150px, right, wrap");
-
-		rightPanel.add(labeDeck, "width 150px, left, wrap");
-		rightPanel.add(deckType, "width 150px, left, split2");
-		rightPanel.add(new JLabel("<html> &nbsp&nbsp&nbsp&nbsp Or</html>"),
-				"center, split2"); // Text
-		rightPanel.add(btnCreateNewDeck, "width 150px, right, wrap");
+		leftPanel.add(labeDeck, "width 150px, left, wrap");
+		leftPanel.add(deckType, "width 150px, left, wrap");
+//		rightPanel.add(new JLabel("<html> &nbsp&nbsp&nbsp&nbsp Or</html>"),
+//				"center, split2"); // Text
+		leftPanel.add(btnCreateNewDeck, "width 150px, wrap");
 
 		// textarea
-		rightPanel.add(labelDescriptionBox, "wrap");
-		rightPanel.add(descriptionBox, "width 400px, span, wrap");
+		leftPanel.add(labelDescriptionBox, "wrap");
+		leftPanel.add(descriptionBox, "width 400px, span, wrap");
 
 		// optional deadline
-		rightPanel.add(labelDeadline, "split2");
-		rightPanel.add(cbDeadline, "wrap");
-		rightPanel.add(deadlinePicker, "width 100px, split2");
-		rightPanel.add(pickerDeadlineTime, "width 100px, wrap");
+		leftPanel.add(labelDeadline, "split2");
+		leftPanel.add(cbDeadline, "wrap");
+		leftPanel.add(deadlinePicker, "width 100px, split2");
+		leftPanel.add(pickerDeadlineTime, "width 100px, wrap");
 
 		// buttons
-		rightPanel.add(btnSaveSession, "width 150px, left, wrap");
+		leftPanel.add(btnSaveSession, "width 150px, left, wrap");
 
 		// center the container
 		JPanel container = new JPanel();
@@ -226,7 +227,7 @@ public class CreateSessionPanel extends JSplitPane {
 		// setup the layout
 		this.setLeftComponent(leftPanel);
 		this.setRightComponent(container);
-		this.setDividerLocation(180);
+		this.setDividerLocation(0.25);
 		this.setEnabled(false);
 	}
 
