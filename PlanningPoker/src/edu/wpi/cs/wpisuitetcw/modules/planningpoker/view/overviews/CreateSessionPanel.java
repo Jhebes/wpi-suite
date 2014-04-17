@@ -38,6 +38,7 @@ import org.jdesktop.swingx.JXDatePicker;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateSessionPanelController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.AddSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.CancelCreateSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
@@ -81,6 +82,10 @@ public class CreateSessionPanel extends JSplitPane {
 
 	/** Button to save the session */
 	private final JButton btnSaveSession;
+	
+	
+	/** Button to cancel making a session*/
+	private final JButton btnCancel;
 
 	/** Deadline date and time picker */
 	private final JXDatePicker deadlinePicker;
@@ -187,6 +192,10 @@ public class CreateSessionPanel extends JSplitPane {
 		// Create Save session and Create new Deck button
 		btnSaveSession = new JButton("Save");
 		btnSaveSession.addActionListener(new AddSessionController(this, false));
+		
+		// Create Cancel create session button
+		btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new CancelCreateSessionController(this));
 
 		// Put all UI components creating a session to the left panel
 		// MigLayout is a convenient way of creating responsive layout with
@@ -213,11 +222,12 @@ public class CreateSessionPanel extends JSplitPane {
 		// optional deadline
 		leftPanel.add(labelDeadline, "split2");
 		leftPanel.add(cbDeadline, "wrap");
-		leftPanel.add(deadlinePicker, "split2, gapbottom 220px");
-		leftPanel.add(pickerDeadlineTime, "gapbottom 220px, growx");
+		leftPanel.add(deadlinePicker, "split2, gapbottom 40px");
+		leftPanel.add(pickerDeadlineTime, "gapbottom 40px, growx, wrap");
 
 		// buttons
-		leftPanel.add(btnSaveSession, "growx");
+		leftPanel.add(btnSaveSession, "width 150px, height 40px, gapbottom 20px, gapleft 20px, wrap");
+		leftPanel.add(btnCancel, "width 150px, height 40px, gapleft 20px, wrap");
 
 		// setup the layout
 		this.setLeftComponent(leftPanel);
