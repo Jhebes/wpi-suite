@@ -21,10 +21,11 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 
 /**
- * This model encapsulates a requirement in the context of planning poker. A
- * requirement in planning poker is identical to a requirement in the canonical
- * RequirementsManager module, but has the additional trait of belonging to a
- * particular planning poker session.
+ * PlanningPokerRequirement model has identical data to a Requirement's
+ * in the canonical Requirements Manager module with additional traits
+ * of belonging to a particular PlanningPokerSession.
+ * 
+ * This model encapsulates a requirement in the context of planning poker. 
  */
 public class PlanningPokerRequirement extends AbstractModel {
 
