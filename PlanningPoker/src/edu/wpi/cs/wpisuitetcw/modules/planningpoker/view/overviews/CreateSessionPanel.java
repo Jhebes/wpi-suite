@@ -56,32 +56,44 @@ public class CreateSessionPanel extends JSplitPane {
 	final int DEFAULT_DATA_SIZE = 30; // default data size for database entry
 	public final String DISPLAY_MSG = "New Deck";
 
-	// The right panel holds info about selected requirements
-	private final ScrollablePanel rightPanel;
-	// The left leftPanel contains reqList, name, and Deadline.
-	private final ScrollablePanel leftPanel;
-	// name of the session
+	// ################################ UI Left Component ####################################	
+	/** The left panel holds components to see the deck */
+	private final JPanel leftPanel;
+	
+	/** Text box to fill session's name in */
+	private JLabel labelName;
 	private final JTextField nameTextField;
-	// save button for the panel
-	private final JButton btnSaveSession;
-	private final JButton btnCreateNewDeck;
-	// dropdown menu
+	
+	/** Dropdown menu to choose type of session */
 	private final JComboBox<SessionLiveType> dropdownType;
+	
+	/** Text box to fill a session's description in */
+	private JLabel labelDescriptionBox;
+	private final JTextArea descriptionBox;
+	
+	/** Dropdown menu to choose deck */
+	private JLabel labeDeck;
 	private final JComboBox<String> deckType;
+	
+	/** Button to create a deck */
+	private final JButton btnCreateNewDeck;
+	
+	/** Check box for enabling date and time deadline. */
+	private JCheckBox cbDeadline;
 
-	private PlanningPokerDeck[] decks;
+	/** Button to save the session */
+	private final JButton btnSaveSession;
 
-	// deadline date and time picker
+	/** Deadline date and time picker */
 	private final JXDatePicker deadlinePicker;
 	private final JSpinner pickerDeadlineTime;
-
-	private JLabel labelName;
-	private JLabel labelDescriptionBox;
-	private JLabel labeDeck;
-
-	private final JTextArea descriptionBox;
-	// check box for enabling date and time deadline.
-	private JCheckBox cbDeadline;
+	
+	// ############################ UI Right component ##############################
+	/** The right panel holds components to create a session */
+	private final JPanel rightPanel;
+	
+	// ################################# Data #######################################
+	private PlanningPokerDeck[] decks;
 
 	/** Model used for requirements JList */
 	DefaultListModel<String> existingRequirementsNames;
