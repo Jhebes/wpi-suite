@@ -80,7 +80,7 @@ public class AddSessionController implements ActionListener {
 	}
 
 	/*
-	 * This method is called when the user clicks the "Create" button
+	 * This method is called when the user clicks the "Save" button
 	 * 
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
