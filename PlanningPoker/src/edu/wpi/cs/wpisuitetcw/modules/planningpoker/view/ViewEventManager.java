@@ -61,16 +61,24 @@ public class ViewEventManager {
 	}
 
 	/**
+	 * Display the tutorial panel
+	 */
+	public void showTutorial() {
+		main.setSelectedComponent(overviewPanel);
+	}
+
+	/**
 	 * Opens a new tab for the editing of a session
 	 */
 	public void editSession(PlanningPokerSession session) {
 		CreateSessionPanel newSession = new CreateSessionPanel(session);
-		main.addTab("Edit: "+ session.getName(), null, newSession, "Edit session.");
+		main.addTab("Edit: " + session.getName(), null, newSession,
+				"Edit session.");
 		main.invalidate(); // force the tabbedpane to redraw
 		main.repaint();
 		main.setSelectedComponent(newSession);
 	}
-	
+
 	/**
 	 * Opens a new tab for viewing a session
 	 */
@@ -178,13 +186,13 @@ public class ViewEventManager {
 	 *            the component to remove
 	 */
 	public void removeTab(JComponent component) {
-		if(component instanceof ViewSessionPanel) {
+		if (component instanceof ViewSessionPanel) {
 			this.viewSessionPanels.remove(component);
 		}
-		if(component instanceof SessionInProgressPanel) {
+		if (component instanceof SessionInProgressPanel) {
 			this.inProgressSessionPanels.remove(component);
 		}
-		if(component instanceof ImportRequirementsPanel) {
+		if (component instanceof ImportRequirementsPanel) {
 			this.requirementPanel = null;
 		}
 		main.remove(component);
@@ -195,7 +203,7 @@ public class ViewEventManager {
 	 * Creates the import requirements panel.
 	 */
 	public void createImportRequirementsPanel() {
-		if(requirementPanel == null) {
+		if (requirementPanel == null) {
 			ImportRequirementsPanel newPanel = new ImportRequirementsPanel();
 			this.requirementPanel = newPanel;
 			main.addTab("Import Requirements", null, newPanel,
