@@ -28,20 +28,19 @@ public class PlanningPokerVote extends AbstractModel {
 	/** Vote value */
 	private int cardValue;	
 	
-	public PlanningPokerVote(String u, int val) {
-		this.user = u;
-		this.cardValue = val;
+	/**
+	 * Construct a Planning Poker Vote from the given user name
+	 * and vote value
+	 * @param user A user who made this PlanningPokerVote 
+	 * @param cardValue Vote value 
+	 */
+	public PlanningPokerVote(String user, int cardValue) {
+		this.user = user;
+		this.cardValue = cardValue;
 		this.id = UUID.randomUUID();
 	}
 
 	/* database interaction */
-	@Override
-	public void save() {
-	}
-
-	@Override
-	public void delete() {
-	}
 
 	/* serializing */// NEED HELP
 
@@ -55,7 +54,20 @@ public class PlanningPokerVote extends AbstractModel {
 	public String toJSON() {
 		return new Gson().toJson(this, PlanningPokerVote.class);
 	}
+	
+	/**
+	 * This class does not provide implementation for this method
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void save() {}
 
+	/**
+	 * This class does not provide implementation for this method
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void delete() {}
 
 	/**
 	 * toString : enforce an override. May simply call serializeToJSON.
@@ -102,6 +114,10 @@ public class PlanningPokerVote extends AbstractModel {
 		return ((Integer) o).equals(this.id);
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public UUID getID() {
 		return id;
 	}
