@@ -147,6 +147,7 @@ public class CreateSessionPanel extends JSplitPane {
 		this.setupDeckDropdown();
 		deckType.setEditable(false);
 		deckType.setBackground(Color.WHITE);
+		deckType.setSelectedIndex(0);
 
 		// Create description box
 		labelDescriptionBox = new JLabel("Description *");
