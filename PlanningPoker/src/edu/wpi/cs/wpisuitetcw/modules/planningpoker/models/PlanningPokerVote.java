@@ -56,6 +56,24 @@ public class PlanningPokerVote extends AbstractModel {
 	}
 	
 	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Boolean identify(Object o) {
+		return ((Integer) o).equals(this.id);
+	}
+	
+	/**
+	 * toString : enforce an override. May simply call serializeToJSON.
+	 * 
+	 * @return The string representation of this Model
+	 */
+	@Override
+	public String toString() {
+		return "ID: " + this.user + ", Value: " + this.cardValue;
+	}
+	
+	/**
 	 * This class does not provide implementation for this method
 	 * {@inheritDoc}
 	 */
@@ -68,16 +86,6 @@ public class PlanningPokerVote extends AbstractModel {
 	 */
 	@Override
 	public void delete() {}
-
-	/**
-	 * toString : enforce an override. May simply call serializeToJSON.
-	 * 
-	 * @return The string representation of this Model
-	 */
-	@Override
-	public String toString() {
-		return "ID: " + this.user + ", Value: " + this.cardValue;
-	}
 
 	/**
 	 * Convert from JSON back to a Planning Poker Session
@@ -104,14 +112,6 @@ public class PlanningPokerVote extends AbstractModel {
 	public static PlanningPokerVote[] fromJSONArray(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, PlanningPokerVote[].class);
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Boolean identify(Object o) {
-		return ((Integer) o).equals(this.id);
 	}
 
 	/**
