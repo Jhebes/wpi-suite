@@ -37,7 +37,6 @@ import org.jdesktop.swingx.JXDatePicker;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateSessionPanelController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.InitNewDeckPanelController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.AddSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
@@ -45,45 +44,41 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.Sessi
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 /**
- * A Panel that display a session's basic information: name, type, description, deck
- * This panel is used to create or edit a session's basic information
+ * A Panel that display a session's basic information: name, type, description,
+ * deck This panel is used to create or edit a session's basic information
  */
 public class CreateSessionPanel extends JSplitPane {
-	private static final int COLUMN_GAP_WIDTH = 15;
-	private static final int ROW_GAP_WIDTH = 8;
 	private static final int SESSION_NAME_BOX_WIDTH = 400;
 	private static final int TYPE_DROPDOWN_WIDTH = 150;
 	private static final int DESCRIPTION_BOX_WIDTH = 400;
 	private static final int DESCRIPTION_BOX_HEIGHT = 110;
 	private static final int GAP_LENGTH_DEADLINE_TO_BOTTOM = 220;
-	
-	
+
 	private static final long serialVersionUID = 8733539608651885877L;
-	final int DEFAULT_DATA_SIZE = 30; // default data size for database entry
+	private final int DEFAULT_DATA_SIZE = 30; // default data size for database
+												// entry
 	public final String DISPLAY_MSG = "New Deck";
 
-	// ############################## UI Left Component ##############################
+	// ############################## UI Left Component
+	// ##############################
 	/** The left panel holds components to see the deck */
 	private final JPanel leftPanel;
-	
+
 	/** Text box to fill session's name in */
 	private JLabel labelName;
 	private final JTextField nameTextField;
-	
+
 	/** Dropdown menu to choose type of session */
 	private final JComboBox<SessionLiveType> dropdownType;
-	
+
 	/** Text box to fill a session's description in */
 	private JLabel labelDescriptionBox;
 	private final JTextArea descriptionBox;
-	
+
 	/** Dropdown menu to choose deck */
 	private JLabel labeDeck;
 	private final JComboBox<String> deckType;
-	
-	/** Button to create a deck */
-	private final JButton btnCreateNewDeck;
-	
+
 	/** Check box for enabling date and time deadline. */
 	private JCheckBox cbDeadline;
 
@@ -93,12 +88,14 @@ public class CreateSessionPanel extends JSplitPane {
 	/** Deadline date and time picker */
 	private final JXDatePicker deadlinePicker;
 	private final JSpinner pickerDeadlineTime;
-	
-	// ############################## UI Right component ##############################
+
+	// ############################## UI Right component
+	// ##############################
 	/** The right panel holds components to create a session */
 	private final JPanel rightPanel;
-	
-	// ##################################### DATA #####################################
+
+	// ##################################### DATA
+	// #####################################
 	/** Model used for requirements JList */
 	DefaultListModel<String> existingRequirementsNames;
 
@@ -109,14 +106,16 @@ public class CreateSessionPanel extends JSplitPane {
 	private ArrayList<PlanningPokerRequirement> requirements = null;
 
 	/**
-	 * Constructor to create a Create Session Panel
-	 * This constructor is used to edit an existing session.
-	 * @param session A Planning poker session
+	 * Constructor to create a Create Session Panel This constructor is used to
+	 * edit an existing session.
+	 * 
+	 * @param session
+	 *            A Planning poker session
 	 */
 	public CreateSessionPanel(PlanningPokerSession session) {
 		// Construct a Session Panel without a planning poker session
 		this();
-		
+
 		// Display the name and description of a created session
 		this.nameTextField.setText(session.getName());
 		this.nameTextField.setEnabled(false);
@@ -126,19 +125,19 @@ public class CreateSessionPanel extends JSplitPane {
 	}
 
 	/**
-	 * Constructor to create a Create Session Panel without a session.
-	 * This constructor is used to create a session
-	 * This constructor sets up all graphical components
+	 * Constructor to create a Create Session Panel without a session. This
+	 * constructor is used to create a session This constructor sets up all
+	 * graphical components
 	 */
 	public CreateSessionPanel() {
 		// Initialize left and right panel
 		rightPanel = new JPanel();
-		leftPanel  = new JPanel();
+		leftPanel = new JPanel();
 
 		// Initialize a text box to fill a new session's name in
-		labelName	  = new JLabel("Name *");
+		labelName = new JLabel("Name *");
 		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
-		
+
 		// Create dropdown menu to select type of session
 		JLabel labelDropdownType = new JLabel("Type *");
 		dropdownType = new JComboBox<SessionLiveType>(SessionLiveType.values());
@@ -151,7 +150,8 @@ public class CreateSessionPanel extends JSplitPane {
 		this.setupDeckDropdown();
 		deckType.setEditable(false);
 		deckType.setBackground(Color.WHITE);
-		
+		deckType.setSelectedIndex(0);
+
 		// Create description box
 		labelDescriptionBox = new JLabel("Description *");
 		descriptionBox = new JTextArea(10, 200);
@@ -175,7 +175,8 @@ public class CreateSessionPanel extends JSplitPane {
 		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(
 				pickerDeadlineTime, "HH:mm:ss");
 		pickerDeadlineTime.setEditor(timeEditor);
-		pickerDeadlineTime.setValue(new Date()); // will only show the current time
+		pickerDeadlineTime.setValue(new Date()); // will only show the current
+													// time
 		pickerDeadlineTime.setEnabled(false);
 
 		// Set the default text to the date of creation and the project name
@@ -187,29 +188,26 @@ public class CreateSessionPanel extends JSplitPane {
 		// labelDropdownType.setAlignmentX(dropdownType.getAlignmentX());
 
 		// Create Save session and Create new Deck button
-		btnSaveSession   = new JButton("Save");
+		btnSaveSession = new JButton("Save");
 		btnSaveSession.addActionListener(new AddSessionController(this, false));
-		btnCreateNewDeck = new JButton("Create New Deck");
-		btnCreateNewDeck.addActionListener(InitNewDeckPanelController.getInstance(this));
-		
+
 		// Put all UI components creating a session to the left panel
-		// MigLayout is a convenient way of creating responsive layout with Swing
-		leftPanel.setLayout(new MigLayout("", "[]COLUMN_GAP_WIDTH[]", "[]ROW_GAP_WIDTH[]"));
+		// MigLayout is a convenient way of creating responsive layout with
+		// Swing
+		leftPanel.setLayout(new MigLayout("", "[]10[]", "[]5[]"));
 		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
 
 		// labels and textfields
 		leftPanel.add(labelName, "span");
-		leftPanel.add(nameTextField, "width " + SESSION_NAME_BOX_WIDTH + "px, span");
-		
-		leftPanel.add(labelDropdownType, "width " + TYPE_DROPDOWN_WIDTH + "px, left");
+		leftPanel.add(nameTextField, "width " + SESSION_NAME_BOX_WIDTH
+				+ "px, span");
+
+		leftPanel.add(labelDropdownType, "width " + TYPE_DROPDOWN_WIDTH
+				+ "px, left");
 		leftPanel.add(labeDeck, "left, wrap");
-		
+
 		leftPanel.add(dropdownType, "width " + TYPE_DROPDOWN_WIDTH + "px");
 		leftPanel.add(deckType, "growx, left, wrap");
-		
-//		rightPanel.add(new JLabel("<html> &nbsp&nbsp&nbsp&nbsp Or</html>"),
-//				"center, split2"); // Text
-//		leftPanel.add(btnCreateNewDeck, "width 150px, wrap");
 
 		// textarea
 		leftPanel.add(labelDescriptionBox, "wrap");
@@ -227,18 +225,9 @@ public class CreateSessionPanel extends JSplitPane {
 		// buttons
 		leftPanel.add(btnSaveSession, "growx");
 
-		// center the container
-		JPanel container = new JPanel();
-		// container.setLayout(new GridBagLayout());
-		// container.add(rightPanel, new GridBagConstraints());
-		container.add(rightPanel);
-
-		// Delete the left panel
-		// TODO Create the right panel
-		
 		// setup the layout
 		this.setLeftComponent(leftPanel);
-		this.setRightComponent(container);
+		this.setRightComponent(rightPanel);
 		this.setDividerLocation(0.25);
 		this.setEnabled(false);
 	}
@@ -412,11 +401,10 @@ public class CreateSessionPanel extends JSplitPane {
 	public JComboBox<SessionLiveType> getDropdownType() {
 		return dropdownType;
 	}
-	
+
 	/**
 	 * 
-	 * @return
-	 * 		deck Type pull down menu
+	 * @return deck Type pull down menu
 	 */
 	public JComboBox<String> getDeckType() {
 		return deckType;
