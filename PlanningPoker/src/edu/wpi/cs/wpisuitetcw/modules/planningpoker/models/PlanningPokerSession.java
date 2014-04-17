@@ -165,8 +165,8 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * Cancels a session by setting isCancelled to true and its finish time to
-	 * the current time
+	 * Cancels a session by setting isCancelled to true and 
+	 * its finish time to the current time
 	 */
 	public void cancel() {
 		this.isCancelled = true;
@@ -362,8 +362,8 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * @param name
-	 *            The new session name
+	 * Assign a String to the session's name
+	 * @param name The new session name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -371,8 +371,7 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Return the name of this session
-	 * 
-	 * @return Name of this session
+	 * @return Return the name of this session
 	 */
 	public String getName() {
 		return this.name;
@@ -380,52 +379,56 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Return the users in this session
-	 * 
-	 * @return users in this session
+	 * @return Return the users in this session
 	 */
 	public ArrayList<User> getUsers() {
 		return this.users;
 	}
 
 	/**
-	 * 
-	 * @param userName
-	 * 
+	 * Assign an user name to the name of the session's owner
+	 * @param userName A string that would be assigned to
+	 * the session's username
 	 */
 	public void setOwnerUserName(String userName) {
 		this.ownerUserName = userName;
 	}
 
 	/**
+	 * Return the user name of this session's owner
 	 * @return the user name of the Owner of this session
 	 */
-
 	public String getOwnerUserName() {
 		return this.ownerUserName;
 	}
 
 	/**
-	 * @param The
-	 *            id to set
+	 * Assign the given ID to the session's
+	 * @param The id to set
 	 */
 	public void setID(int id) {
 		this.id = id;
 	}
 
 	/**
-	 * @return The Session ID
+	 * Return the Session ID
+	 * @return Return the Session ID
 	 */
 	public int getID() {
 		return this.id;
 	}
 
+	/**
+	 * Return the number of vote of the given PlanningPokerRequirement
+	 * @param req A PlanningPokerRequirement whose votes would be returned
+	 * @return Return the number of vote of the given PlanningPokerRequirement
+	 */
 	public int getNumVotes(PlanningPokerRequirement req) {
 		return req.getVotes().size();
 	}
 
 	/**
 	 * Returns the deck
-	 * 
 	 * @return deck the deck for this session
 	 */
 	public PlanningPokerDeck getDeck() {
@@ -434,7 +437,6 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Sets the deck!
-	 * 
 	 * @param deck
 	 *            the inputed deck
 	 */
