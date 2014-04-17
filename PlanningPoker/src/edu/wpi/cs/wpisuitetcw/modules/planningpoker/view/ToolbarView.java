@@ -28,7 +28,6 @@ public class ToolbarView extends DefaultToolbarView {
 	public ToolbarView() {
 		this.addGroup(sessionPanel);
 		this.addGroup(importPanel);
-		//this.setAlignmentX(alignmentX);
 	}
 
 	/**
