@@ -39,24 +39,22 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateSessionPan
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.InitNewDeckPanelController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.AddSessionController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
 /**
- * Panel for New Session tab.
+ * A Panel that display a session's basic information: name, type, description, deck
+ * This panel is used to create or edit a session's basic information
  */
-
 public class CreateSessionPanel extends JSplitPane {
 
 	private static final long serialVersionUID = 8733539608651885877L;
 	final int DEFAULT_DATA_SIZE = 30; // default data size for database entry
 	public final String DISPLAY_MSG = "New Deck";
 
-	// ################################ UI Left Component ####################################	
+	// ############################## UI Left Component ##############################
 	/** The left panel holds components to see the deck */
 	private final JPanel leftPanel;
 	
@@ -88,11 +86,11 @@ public class CreateSessionPanel extends JSplitPane {
 	private final JXDatePicker deadlinePicker;
 	private final JSpinner pickerDeadlineTime;
 	
-	// ############################ UI Right component ##############################
+	// ############################## UI Right component ##############################
 	/** The right panel holds components to create a session */
 	private final JPanel rightPanel;
 	
-	// ################################# Data #######################################
+	// ##################################### DATA #####################################
 	/** Model used for requirements JList */
 	DefaultListModel<String> existingRequirementsNames;
 
@@ -104,6 +102,7 @@ public class CreateSessionPanel extends JSplitPane {
 
 	/**
 	 * Constructor to create a Create Session Panel
+	 * This constructor is used to edit an existing session
 	 * @param session A Planning poker session
 	 */
 	public CreateSessionPanel(PlanningPokerSession session) {
@@ -121,6 +120,7 @@ public class CreateSessionPanel extends JSplitPane {
 	/**
 	 *  Constructor to create a Create Session Panel
 	 *  without a session
+	 *  This constructor is used to create a session
 	 */
 	public CreateSessionPanel() {
 		// Initialize left and right panel
@@ -209,7 +209,6 @@ public class CreateSessionPanel extends JSplitPane {
 		// optional deadline
 		rightPanel.add(labelDeadline, "split2");
 		rightPanel.add(cbDeadline, "wrap");
-
 		rightPanel.add(deadlinePicker, "width 100px, split2");
 		rightPanel.add(pickerDeadlineTime, "width 100px, wrap");
 
@@ -232,7 +231,7 @@ public class CreateSessionPanel extends JSplitPane {
 	}
 
 	/**
-	 * setup the dropdown menu for available decks of cards
+	 * Setup the dropdown menu that contains the available decks of cards
 	 */
 	public void setupDeckDropdown() {
 		deckType.removeAllItems();
@@ -269,7 +268,7 @@ public class CreateSessionPanel extends JSplitPane {
 	// }
 
 	/**
-	 * This returns the description of what user enters
+	 * Returns the description of what user enters
 	 * 
 	 * @return description for session
 	 */
@@ -278,7 +277,7 @@ public class CreateSessionPanel extends JSplitPane {
 	}
 
 	/**
-	 * return the label for the description textarea
+	 * Return the label of the description textarea
 	 * 
 	 * @return description label
 	 */
