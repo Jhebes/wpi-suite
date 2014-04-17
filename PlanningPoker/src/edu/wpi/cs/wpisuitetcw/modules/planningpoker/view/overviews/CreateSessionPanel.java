@@ -53,8 +53,10 @@ public class CreateSessionPanel extends JSplitPane {
 	private static final int ROW_GAP_WIDTH = 8;
 	private static final int SESSION_NAME_BOX_WIDTH = 400;
 	private static final int TYPE_DROPDOWN_WIDTH = 150;
-	private static final int 
-	private static final int 
+	private static final int DESCRIPTION_BOX_WIDTH = 400;
+	private static final int DESCRIPTION_BOX_HEIGHT = 110;
+	private static final int GAP_LENGTH_DEADLINE_TO_BOTTOM = 220;
+	
 	
 	private static final long serialVersionUID = 8733539608651885877L;
 	final int DEFAULT_DATA_SIZE = 30; // default data size for database entry
@@ -211,13 +213,16 @@ public class CreateSessionPanel extends JSplitPane {
 
 		// textarea
 		leftPanel.add(labelDescriptionBox, "wrap");
-		leftPanel.add(descriptionBox, "width 400px, height 110px!, span");
+		leftPanel.add(descriptionBox, "width " + DESCRIPTION_BOX_WIDTH + "px, height " 
+											   + DESCRIPTION_BOX_HEIGHT + "px!, span");
 
 		// optional deadline
 		leftPanel.add(labelDeadline, "split2");
 		leftPanel.add(cbDeadline, "wrap");
-		leftPanel.add(deadlinePicker, "split2, gapbottom 220px");
-		leftPanel.add(pickerDeadlineTime, "gapbottom 220px, growx");
+		leftPanel.add(deadlinePicker, "split2, gapbottom " 
+						+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px");
+		leftPanel.add(pickerDeadlineTime, "gapbottom " 
+						+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, growx");
 
 		// buttons
 		leftPanel.add(btnSaveSession, "growx");
