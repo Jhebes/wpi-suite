@@ -83,17 +83,32 @@ public class PlanningPokerDeck extends AbstractModel {
 		return parser.fromJson(json, PlanningPokerDeck.class);
 	}
 	
+	/**
+	 * {@inheritDoc}}
+	 */
 	@Override
 	public String toJSON() {
 		return new Gson().toJson(this, PlanningPokerDeck.class);
 	}
 	
+	/**
+	 * This class does not provide implementation for this method
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void save() {}
 
+	/**
+	 * This class does not provide implementation for this method
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void delete() {}
 	
+	/**
+	 * This class does not provide implementation for this method
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Boolean identify(Object o) {return null;}
 
