@@ -15,6 +15,7 @@ import java.util.UUID;
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 public class PlanningPokerVote extends AbstractModel {
 
@@ -99,7 +100,6 @@ public class PlanningPokerVote extends AbstractModel {
 		return ((Integer) o).equals(this.id);
 	}
 
-	
 	public UUID getID() {
 		return id;
 	}

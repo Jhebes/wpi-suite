@@ -8,7 +8,7 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,25 +16,25 @@ import java.util.UUID;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.RetrievePlanningPokerRequirementsForSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.VoteSessionTableModel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.VoteTableModel;
 
-public class VoteSessionTableManager{
-	private static HashMap<UUID, VoteSessionTableModel> t = new HashMap<UUID, VoteSessionTableModel>();
+public class VoteTableManager{
+	private static HashMap<UUID, VoteTableModel> t = new HashMap<UUID, VoteTableModel>();
 
-	public VoteSessionTableModel get(UUID i){
+	public VoteTableModel get(UUID i){
 		System.out.println("Processing query for table for requirement " + i);
 		//this.fetch(i);
-		return VoteSessionTableManager.t.get(i);
+		return VoteTableManager.t.get(i);
 	}
 	
 	public void init(UUID i){
 		System.out.println("Initializing session " + i.toString());
-		VoteSessionTableModel a = VoteSessionTableManager.t.get(i);
+		VoteTableModel a = VoteTableManager.t.get(i);
 		if(a == null){
-			a = new VoteSessionTableModel();
+			a = new VoteTableModel();
 			
 		}
-		VoteSessionTableManager.t.put(i, a);
+		VoteTableManager.t.put(i, a);
 	}
 	
 	/**
@@ -44,14 +44,14 @@ public class VoteSessionTableManager{
 	 */
 	public void refreshRequirements(UUID i, List<PlanningPokerVote> votes) {
 		
-		VoteSessionTableModel a = VoteSessionTableManager.t.get(i);
+		VoteTableModel a = VoteTableManager.t.get(i);
 		if(a == null){
 			System.out.println("Not present, building");
-			a = new VoteSessionTableModel();
+			a = new VoteTableModel();
 			
 		}
 		a.refreshVotes(votes);
-		VoteSessionTableManager.t.put(i, a);
+		VoteTableManager.t.put(i, a);
 		System.out.println("Done");
 	}
 	public void fetch(UUID i){

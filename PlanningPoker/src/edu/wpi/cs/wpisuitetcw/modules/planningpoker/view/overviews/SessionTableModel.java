@@ -18,35 +18,76 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 
 /**
  * TODO: add description
  */
-public class OverviewTableSessionTableModel extends DefaultTableModel {
+public class SessionTableModel extends DefaultTableModel {
 
 	/**
 	 * random number for serializing
 	 */
 	private static final long serialVersionUID = -7397557876939565129L;
 
-	private static OverviewTableSessionTableModel instance;
+	private static SessionTableModel instance;
 	private final String[] colNames = { "ID", "Name", "Deadline", "Status" };
 	private List<PlanningPokerSession> sessions = new ArrayList<PlanningPokerSession>();
 
 	/**
 	 * Constructs a table session for the overview table.
 	 */
-	private OverviewTableSessionTableModel() {
+	private SessionTableModel() {
 		setColumnIdentifiers(colNames);
 	}
 
-	public static OverviewTableSessionTableModel getInstance() {
+	public static SessionTableModel getInstance() {
 		if (instance == null) {
-			instance = new OverviewTableSessionTableModel();
+			instance = new SessionTableModel();
 		}
 		return instance;
 	}
 
+	public static enum Mode {OPEN, CLOSED, ALL};
+	
+	public void setMode(Mode m){
+		
+		ArrayList<PlanningPokerSession> a = SessionStash.getInstance().getSessions();
+		switch(m){
+			case ALL:
+				this.refreshSessions(a);
+				break;
+			case CLOSED:
+				ArrayList<PlanningPokerSession> b = new ArrayList<PlanningPokerSession>();
+				for(int i = 0; i < a.size(); ++i){
+					if(a.get(i).getStatus().equals("Closed")){
+						b.add(a.get(i));
+					}
+				}
+				System.out.println("Found:");
+				this.refreshSessions(b);
+				break;
+			case OPEN:
+				ArrayList<PlanningPokerSession> b2 = new ArrayList<PlanningPokerSession>();
+				for(int i = 0; i < a.size(); ++i){
+					if(a.get(i).getStatus().equals("Open")){
+						b2.add(a.get(i));
+					}
+				}
+				System.out.println("Found:");
+				this.refreshSessions(b2);
+				break;
+			default:
+				//this.refreshSessions((PlanningPokerSession[]) a.toArray());
+				break;
+		}
+	}
+	
+	public void update(){		
+		this.refreshSessions(SessionStash.getInstance().getSessions());
+		System.out.println("Success");
+	}
+	
 	/**
 	 * Refreshes the sessions.
 	 * 

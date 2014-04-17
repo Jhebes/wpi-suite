@@ -8,7 +8,7 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session;
 
 import java.util.ArrayList;
 import java.util.Arrays;

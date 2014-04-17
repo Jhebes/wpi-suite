@@ -13,7 +13,6 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.buttons;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -31,9 +30,13 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
  * 
  */
 public class SessionButtonsPanel extends ToolbarGroupView {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel sessionPanel = new JPanel();
 	private final JButton createSession;
-	private final JButton joinSession;
+	private final JButton tutorialPanel;
 
 	public SessionButtonsPanel() {
 		super("");
@@ -44,15 +47,16 @@ public class SessionButtonsPanel extends ToolbarGroupView {
 
 		// create the buttons
 		this.createSession = new JButton("<html>Create<br />Session</html>");
-		// TODO add button listeners to the createSession button
+		this.tutorialPanel = new JButton("<html>Help<br /></html>");
 
-		this.joinSession = new JButton("<html>Join<br />Session</html>");
-		// TODO add button listeners to the joinSession button
-		// TODO add the image later
+		// add image to buttons
 		try {
 			Image img = ImageIO.read(getClass().getResource("new_session.png"));
 			System.out.println("ICON IMAGE: " + img.toString());
 			createSession.setIcon(new ImageIcon(img));
+
+			img = ImageIO.read(getClass().getResource("help.png"));
+			tutorialPanel.setIcon(new ImageIcon(img));
 		} catch (IOException ex) {
 		}
 
@@ -65,21 +69,19 @@ public class SessionButtonsPanel extends ToolbarGroupView {
 			}
 		});
 
-		// Hide joinSessions button for now...
-		joinSession.setVisible(false);
-		// createSession.setPreferredSize(new
-		// Dimension(createSession.getHeight(), 50));
+		tutorialPanel.addActionListener(new ActionListener() {
 
-		createSession.setAlignmentX(CENTER_ALIGNMENT);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ViewEventManager.getInstance().showTutorial();
+			}
+		});
 
-		sessionPanel.add(Box.createHorizontalStrut(75));
-
+		// setup the toolbar
 		sessionPanel.add(this.createSession);
-		// sessionPanel.add(Box.createHorizontalStrut(125));
-		// sessionPanel.add(this.joinSession);
+		sessionPanel.add(Box.createHorizontalStrut(10));
+		sessionPanel.add(this.tutorialPanel);
 		sessionPanel.setOpaque(false);
-
-		sessionPanel.add(Box.createHorizontalStrut(75));
 
 		this.add(sessionPanel);
 	}
@@ -98,7 +100,7 @@ public class SessionButtonsPanel extends ToolbarGroupView {
 	 * 
 	 * @return JButton
 	 */
-	public JButton getJoinSessionButton() {
-		return this.joinSession;
+	public JButton getTutorialPanelButton() {
+		return this.tutorialPanel;
 	}
 }

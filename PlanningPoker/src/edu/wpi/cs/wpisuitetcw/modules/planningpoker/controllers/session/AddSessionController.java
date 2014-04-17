@@ -17,15 +17,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-import edu.wpi.cs.wpisuitetng.network.Network;
-import edu.wpi.cs.wpisuitetng.network.Request;
-import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
  * This controller responds when the user clicks the "Create" button by using
@@ -81,7 +78,7 @@ public class AddSessionController implements ActionListener {
 	}
 
 	/*
-	 * This method is called when the user clicks the "Save" button
+	 * This method is called when the user clicks the "Create" button
 	 * 
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
@@ -114,24 +111,9 @@ public class AddSessionController implements ActionListener {
 				Logger.getLogger("PlanningPoker").log(Level.SEVERE,
 						"Error getting all decks", e);
 			}
-			// Add all checked requirements
-			// ArrayList<PlanningPokerRequirement> reqs =
-			// view.getRequirements();
-			// session.addRequirements(reqs);
 
-			// Send a request to the core to save this message
-			// Create the request
-			final Request request = Network.getInstance().makeRequest(
-					"planningpoker/session", HttpMethod.PUT);
-			// Set the data to be the session to save (converted to JSON)
-			request.setBody(session.toJSON());
-			// Listen for the server's response
-			request.addObserver(new AddSessionRequestObserver(this));
-			// Send the request on its way
-			request.send();
-		} else if ((this.view.requiredFieldEntered() == true)
-				&& (this.isEditMode == true)) {
-			this.onSuccess(this.session);
+			session.create();
+			ViewEventManager.getInstance().removeTab(this.view);
 		} else {
 			// user has yet entered all required data
 			// TODO: maybe make the warning a pop-up
@@ -142,8 +124,7 @@ public class AddSessionController implements ActionListener {
 
 	// removes a tab and opens another
 	public void onSuccess(PlanningPokerSession session) {
-		ViewSessionTableManager a1 = new ViewSessionTableManager();
-		a1.init(session.getID());
+		// TODO open a session after creating it
 
 		ViewEventManager.getInstance().removeTab(this.view);
 

@@ -20,10 +20,7 @@ import java.util.logging.Logger;
 import javax.servlet.http.Cookie;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.PlanningPokerDeckEntityManager;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.PlanningPokerRequirementEntityManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.PlanningPokerSessionEntityManager;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.PlanningPokerVoteEntityManager;
-
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.database.DataStore;
 import edu.wpi.cs.wpisuitetng.exceptions.AuthenticationException;
@@ -81,8 +78,6 @@ public class ManagerLayer {
 		map.put("requirementmanager" + "requirement", new RequirementEntityManager(data));
 		map.put("requirementmanager" + "iteration", new IterationEntityManager(data));
 		map.put("planningpoker" + "session", new PlanningPokerSessionEntityManager(data));	
-		map.put("planningpoker" + "requirement", new PlanningPokerRequirementEntityManager(data));
-		map.put("planningpoker" + "vote", new PlanningPokerVoteEntityManager(data));
 		map.put("planningpoker" + "deck", new PlanningPokerDeckEntityManager(data));
 		
 		//add just your module to this list
