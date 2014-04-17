@@ -187,12 +187,12 @@ public class CreateSessionPanel extends JSplitPane {
 		
 		// Put all UI components creating a session to the left panel
 		// MigLayout is a convenient way of creating responsive layout with Swing
-		leftPanel.setLayout(new MigLayout("", "[]1[]", "[]12[]"));
+		leftPanel.setLayout(new MigLayout("", "[]2[]", "[]12[]"));
 		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
 
 		// labels and textfields
 		leftPanel.add(labelName, "width 240px, wrap");
-		leftPanel.add(nameTextField, "width 150px, wrap");
+		leftPanel.add(nameTextField, "span, wrap");
 		
 		leftPanel.add(labelDropdownType, "left, wrap");
 		leftPanel.add(dropdownType, "width 150px, wrap");
