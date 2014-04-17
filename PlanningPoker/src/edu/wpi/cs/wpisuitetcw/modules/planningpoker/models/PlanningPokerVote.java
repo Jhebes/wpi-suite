@@ -115,34 +115,51 @@ public class PlanningPokerVote extends AbstractModel {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Return the UUID of the vote
+	 * @return Return the UUID of the vote
 	 */
 	public UUID getID() {
 		return id;
 	}
 
+	/**
+	 * Assign given UUID to this vote's 
+	 * @param id Assign given UUID to this vote's 
+	 */
 	public void setID(UUID id) {
 		this.id = id;
 	}
 
+	/**
+	 * Return the card value
+	 * @return Return the card value
+	 */
 	public int getCardValue() {
 		return cardValue;
 	}
 
+	/**
+	 * Assign the given integer to the card value 
+	 * of the PlanningPokerVote
+	 * @param cardValue An integer that would be assigned 
+	 * to the card value of the PlanningPokerVote
+	 */
 	public void setCardValue(int cardValue) {
 		this.cardValue = cardValue;
 	}
 	
 	/**
-	 * @return the user
+	 * Return the name of the user who voted
+	 * @return Return the name of the user who voted
 	 */
 	public String getUser() {
 		return user;
 	}
 
 	/**
-	 * @param user the user to set
+	 * Assign the user name to this PlanningPokerVote's
+	 * @param user A user who would be assigned to
+	 * this PlanningPokerVote's
 	 */
 	public void setUser(String user) {
 		this.user = user;
