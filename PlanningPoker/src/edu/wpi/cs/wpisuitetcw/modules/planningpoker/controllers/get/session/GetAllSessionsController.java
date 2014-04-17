@@ -8,15 +8,12 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTableSessionTableModel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -25,7 +22,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * This retrieves all sessions from the core and publishes them to the view
  * 
  */
-public class GetAllSessionsController implements ActionListener {
+public class GetAllSessionsController {
 
 	private static GetAllSessionsController instance;
 	
@@ -45,12 +42,7 @@ public class GetAllSessionsController implements ActionListener {
 	
 
 	public void receivedSessions(List<PlanningPokerSession> sessions) {
-		for(PlanningPokerSession s : sessions){
-			
-			ViewSessionTableManager a = new ViewSessionTableManager();
-			a.fetch(s.getID());
-		}
-		OverviewTableSessionTableModel.getInstance().refreshSessions(sessions);
+		SessionStash.getInstance().mergeFromServer(sessions);
 	}
 
 	/**
@@ -59,22 +51,16 @@ public class GetAllSessionsController implements ActionListener {
 	 * @param e
 	 *            The triggering event
 	 */
-	@Override
-	public void actionPerformed(ActionEvent e) {		
-		// Send a request to the core to retrieve the sessions
-		final Request request = Network.getInstance().makeRequest(
-				"planningpoker/session", HttpMethod.GET);
-		request.addObserver(new GetAllSessionsRequestObserver(this));
-		request.send(); // send the request
-		
-	
-	}
 
 	/**
 	 * Retrieves the sessions from the database.
 	 */
 	public void retrieveSessions() {
-		actionPerformed(null);
+		// Send a request to the core to retrieve the sessions
+		final Request request = Network.getInstance().makeRequest(
+				"planningpoker/session", HttpMethod.GET);
+		request.addObserver(new GetAllSessionsRequestObserver(this));
+		request.send(); // send the request
 	}
 	
 	

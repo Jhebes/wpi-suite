@@ -14,11 +14,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GenericPUTRequestObserver;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionReqPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -49,22 +48,15 @@ public class MoveRequirementToCurrentSessionController implements ActionListener
 				
 		}
 		
-		final Request request = Network.getInstance().makeRequest("planningpoker/session/".concat(String.valueOf(s.getID())), HttpMethod.POST);
-		request.setBody(session.toJSON());
-		request.addObserver(new GenericPUTRequestObserver());
-		request.send();
+		s.save();
+		session.save();
 		
-		final Request request2 = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.POST);
-		request2.setBody(s.toJSON());
-		request2.addObserver(new GenericPUTRequestObserver());
-		request2.send();
-		
-		ViewSessionTableManager a1 = new ViewSessionTableManager();
+		RequirementTableManager a1 = new RequirementTableManager();
 		a1.refreshRequirements(1, s.getRequirements());
-		ViewSessionTableManager a2 = new ViewSessionTableManager();
+		RequirementTableManager a2 = new RequirementTableManager();
 		a2.refreshRequirements(session.getID(), session.getRequirements());
-		this.view.allReqTable.repaint();
-		this.view.sessionReqTable.repaint();
+		this.view.getAllReqTable().repaint();
+		this.view.getSessionReqTable().repaint();
 	}
 	
 	/*
@@ -76,7 +68,7 @@ public class MoveRequirementToCurrentSessionController implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		final Request request = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.GET);
-		request.addObserver(new MoveRequirementToCurrentRequestObserver(this));
+		request.addObserver(new MoveRequirementToCurrentSessionRequestObserver(this));
 		request.send();
 		
 		

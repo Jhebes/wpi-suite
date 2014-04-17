@@ -11,7 +11,6 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -31,18 +30,18 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.EditActivatedSessionController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 public class SessionInProgressPanel extends JSplitPane {
@@ -57,7 +56,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	private JButton btnSubmit;
 	private String selectedReqName;
 	private JTable reqsViewTable;
-	private ViewSessionTableManager reqsViewTableManager = new ViewSessionTableManager();
+	private RequirementTableManager reqsViewTableManager = new RequirementTableManager();
 	private JList voteList;
 	private JLabel label_1 = new JLabel("");
 	private JLabel label_2 = new JLabel("");
@@ -150,12 +149,12 @@ public class SessionInProgressPanel extends JSplitPane {
 		endSession.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cancelSession();
+				endSession();
 			}
 
-			private void cancelSession() {
-				session.cancel();
-				session.update();
+			private void endSession() {
+				session.close();
+				session.save();
 				ArrayList<PlanningPokerRequirement> reqList = session.getRequirements();
 				for (PlanningPokerRequirement ppr : reqList){
 					int count = 0;
@@ -167,13 +166,14 @@ public class SessionInProgressPanel extends JSplitPane {
 					ppr.setFinalEstimate(total/count);
 					ppr.setTotalVotes(count);
 				}
+				SessionTableModel.getInstance().update();
 				closeTab();
 			}
 
 		});
 		LeftPanel.add(endSession);
 
-		if (session.isCancelled())
+		if (session.isClosed())
 			endSession.setEnabled(false);
 		if (currentUserName.equals(session.getOwnerUserName()))
 			endSession.setVisible(true);
@@ -238,8 +238,8 @@ public class SessionInProgressPanel extends JSplitPane {
 		// Extract the requirements from the table provided by
 		// ViewSessionTableManager and converts them to list
 		ArrayList<String> testReqs = new ArrayList<String>();
-		ViewSessionTableManager a = new ViewSessionTableManager();
-		ViewSessionTableModel v = a.get(this.session.getID());
+		RequirementTableManager a = new RequirementTableManager();
+		RequirementTableModel v = a.get(this.session.getID());
 		Vector vector = v.getDataVector();
 		for (int i = 0; i < vector.size(); ++i) {
 			testReqs.add((String) (((Vector) vector.elementAt(i)).elementAt(1)));
@@ -255,20 +255,22 @@ public class SessionInProgressPanel extends JSplitPane {
 			}
 		};
 
-		reqsViewTable.addMouseListener(new MouseAdapter() {
+		reqsViewTable.addMouseListener(new MouseAdapter() {			
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JTable table = (JTable) e.getSource();
 				int row = table.getSelectedRow();
 
 				if (row != -1) {
-					ViewSessionTableManager m = new ViewSessionTableManager();
+					RequirementTableManager m = new RequirementTableManager();
 					Vector v = m.get(session.getID()).getDataVector();
 					String name = (String) ((Vector) v.elementAt(row))
 							.elementAt(0);
 					selectedReq = session.getReqByName(name);
 					this.setSuperClassVariables(name,
 							selectedReq.getDescription());
+
+					setVoteList(selectedReq.getVotes());
 				}
 			}
 
@@ -334,6 +336,9 @@ public class SessionInProgressPanel extends JSplitPane {
 		btnEditSession = new JButton("Edit Session");
 		btnEditSession.addActionListener(new EditActivatedSessionController(
 				session, this));
+		if (session.isHasVoted()) {
+			disableEditSession();
+		}
 
 		Component verticalGlue = Box.createVerticalGlue();
 		LeftPanel.add(verticalGlue);
@@ -347,8 +352,6 @@ public class SessionInProgressPanel extends JSplitPane {
 
 	private void closeTab() {
 		ViewEventManager.getInstance().removeTab(this);
-		ViewEventManager.getInstance().viewSession(session);
-		GetAllSessionsController.getInstance().retrieveSessions();
 	}
 
 	/**

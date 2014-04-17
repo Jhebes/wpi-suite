@@ -16,26 +16,19 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GenericPUTRequestObserver;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.Configuration;
-import edu.wpi.cs.wpisuitetng.network.Network;
-import edu.wpi.cs.wpisuitetng.network.Request;
-import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * This controller responds when the user clicks the "Create" button by using
- * all entered information to construct a new session and storing in the
- * database
- * 
+ * Adds a new vote to a particular requirement.
  */
 public class AddVoteController implements ActionListener {
 
-	private PlanningPokerSession session;
+	private PlanningPokerSession session = null;
 	private SessionInProgressPanel view;
 
 	private PlanningPokerRequirement req = null;
@@ -54,6 +47,7 @@ public class AddVoteController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		// FIXME: most of this could be moved into the model.
 		session = view.getSession();
 
 		if (!session.isActive())
@@ -90,7 +84,7 @@ public class AddVoteController implements ActionListener {
 			req.deleteVote(v);
 		}
 
-		session.addVoteToRequirement(req, vote);
+		session.addVoteToRequirement(req, vote, username);
 		view.setNumVotesLabel(session.getNumVotes(req));
 
 		System.out.println(session.getNumVotes(req));
@@ -99,16 +93,7 @@ public class AddVoteController implements ActionListener {
 		view.disableEditSession();
 
 		// Update the session remotely
-		final Request request = Network.getInstance()
-				.makeRequest(
-						"planningpoker/session/".concat(String.valueOf(session
-								.getID())), HttpMethod.POST);
-		// Set the data to be the session to save (converted to JSON)
-		request.setBody(session.toJSON());
-		// Listen for the server's response
-		request.addObserver(new GenericPUTRequestObserver());
-		// Send the request on its way
-		request.send();
+		session.save();
 
 		// Much hack! Very broke!
 		// TODO: FIX PLZZZZZZ!

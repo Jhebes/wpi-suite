@@ -20,7 +20,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * An observer for a request to retrieve planning poker sessions that have
  * not been assigned to a planning poker session.
  */
-public class MoveRequirementToCurrentRequestObserver implements RequestObserver {
+public class MoveRequirementToCurrentSessionRequestObserver implements RequestObserver {
 
 	/** The controller managing the request */
 	protected MoveRequirementToCurrentSessionController controller;
@@ -31,7 +31,7 @@ public class MoveRequirementToCurrentRequestObserver implements RequestObserver 
 	 * @param addRequirementController
 	 *            The controller to update upon receiving the server response
 	 */
-	public MoveRequirementToCurrentRequestObserver(
+	public MoveRequirementToCurrentSessionRequestObserver(
 		MoveRequirementToCurrentSessionController addRequirementController) {
 		this.controller = addRequirementController;
 	}

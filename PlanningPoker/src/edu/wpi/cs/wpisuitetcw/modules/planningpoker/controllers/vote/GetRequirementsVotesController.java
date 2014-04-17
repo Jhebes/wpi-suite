@@ -46,6 +46,7 @@ public class GetRequirementsVotesController implements ActionListener{
 		this.session = session;
 		this.view = view;
 	}
+	
 
 	/**
 	 * This method is called by the
@@ -65,7 +66,7 @@ public class GetRequirementsVotesController implements ActionListener{
 			System.out.print(v.getCardValue()+ " ");
 		}
 		System.out.println();
-		view.setVoteList(r.votes);
+		//view.setVoteList(r.votes);
 	}
 
 	/**

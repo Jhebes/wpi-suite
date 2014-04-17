@@ -36,18 +36,14 @@ public class ActivateSessionController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		this.session.activate();
-		final Request request = Network.getInstance().makeRequest(
-				"planningpoker/session", HttpMethod.POST);
-		request.setBody(session.toJSON());
-		request.addObserver(new ActivateSessionObserver(this));
-		request.send();
-
+		session.save();
+		ViewEventManager.getInstance().removeTab(panel);
+		ViewEventManager.getInstance().viewSession(session);
 	}
 
 	public void onSuccess() {
 		ViewEventManager.getInstance().removeTab(panel);
 		ViewEventManager.getInstance().viewSession(session);
-		GetAllSessionsController.getInstance().retrieveSessions();
 
 		String command = "sendEmail";
 		// Send email to everyone in a session

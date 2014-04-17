@@ -8,7 +8,7 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put;
 
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -24,7 +24,7 @@ public class GenericPUTRequestObserver implements RequestObserver {
 	 */
 	public GenericPUTRequestObserver() {
 	}
-
+	
 	/*
 	 * Parse the message that was received from the server then pass them to the
 	 * controller.

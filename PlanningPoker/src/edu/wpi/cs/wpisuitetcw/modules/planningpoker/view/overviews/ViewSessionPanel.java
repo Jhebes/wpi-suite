@@ -14,11 +14,11 @@ import java.awt.BorderLayout;
 
 import javax.swing.JSplitPane;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.ViewSessionTableManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionBtnPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionInfoPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionReqPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 
 public class ViewSessionPanel extends JSplitPane {
 	final private ViewSessionBtnPanel buttonPanel;
@@ -30,7 +30,7 @@ public class ViewSessionPanel extends JSplitPane {
 	 * Create a view session panel
 	 */
 	public ViewSessionPanel(PlanningPokerSession session) {
-		ViewSessionTableManager manager = new ViewSessionTableManager();
+		RequirementTableManager manager = new RequirementTableManager();
 		manager.fetch(session.getID());
 		this.session = session;
 		this.infoPanel = new ViewSessionInfoPanel(this, session);
