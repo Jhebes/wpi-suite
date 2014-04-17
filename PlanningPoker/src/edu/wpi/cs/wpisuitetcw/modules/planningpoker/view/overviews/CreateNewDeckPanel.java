@@ -39,7 +39,9 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
 public class CreateNewDeckPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	// constants
-	private final String TEXTBOX_PLACEHOLDER = "Deck " + new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+	private final String TEXTBOX_PLACEHOLDER = "Deck "
+			+ new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar
+					.getInstance().getTime());
 	private final String NAME_ERR_MSG = "<html><font color='red'>REQUIRES</font></html>";
 	private final String NO_CARD_ERR_MSG = "<html><font color='red'>A deck must contain </br >at least one card. </font></html>";
 	private final int CARD_WIDTH = 146;
@@ -58,31 +60,29 @@ public class CreateNewDeckPanel extends JPanel {
 	private final JButton btnCreate;
 	private final JButton btnCancel;
 	private final JTextField textboxName;
-	private final JPanel topPanel;
+	// private final JPanel topPanel;
 	private final JPanel centerPanel;
 	private final JPanel bottomPanel;
 	private final HashMap<Integer, Card> cards;
 
 	private final JPanel cardPanel;
 	private final JScrollPane cardSP;
-	private final CreateSessionPanel invokingPanel;
 	private final JPanel errorPanel;
 
 	// subject to change
 	// private final JTextField textboxVal;
 
-	public CreateNewDeckPanel(CreateSessionPanel invokingPanel) {
-		this.invokingPanel = invokingPanel;
+	public CreateNewDeckPanel() {
 
 		// sub panels
-		topPanel = new JPanel();
+		// topPanel = new JPanel();
 		centerPanel = new JPanel();
 		bottomPanel = new JPanel();
 		errorPanel = new JPanel();
-		
+
 		errorPanel.add(new JLabel(NO_CARD_ERR_MSG));
 		errorPanel.setVisible(false);
-		
+
 		cards = new HashMap<Integer, Card>();
 
 		// text labels
@@ -119,7 +119,7 @@ public class CreateNewDeckPanel extends JPanel {
 		topContainer.add(labelNameErr, "center, span, split3");
 		topContainer.add(labelName);
 		topContainer.add(textboxName);
-		topPanel.add(topContainer);
+		// topPanel.add(topContainer);
 
 		// setup centerPanel
 		// centerPanel includes the add button and additional cards
@@ -158,19 +158,19 @@ public class CreateNewDeckPanel extends JPanel {
 
 		// setup the entire layout
 		this.setLayout(new MigLayout("", "", ""));
-		this.add(topPanel, "dock north");
+		// this.add(topPanel, "dock north");
 		this.add(centerPanel, "dock center");
 		this.add(bottomPanel, "center, dock south");
 	}
 
-	/**
-	 * return the invoking panel
-	 * 
-	 * @return the invoking panel
-	 */
-	public CreateSessionPanel getInvokingPanel() {
-		return invokingPanel;
-	}
+	// /**
+	// * return the invoking panel
+	// *
+	// * @return the invoking panel
+	// */
+	// public CreateSessionPanel getInvokingPanel() {
+	// return invokingPanel;
+	// }
 
 	/**
 	 * Add a new card to both the storing hashmap and the view
@@ -181,7 +181,7 @@ public class CreateNewDeckPanel extends JPanel {
 		cards.put(key, aCard);
 		this.addRemoveCardListener(aCard, this);
 
-		this.cardPanel.add(aCard);	
+		this.cardPanel.add(aCard);
 		validateNumCards();
 		this.updateNumCard();
 
@@ -197,26 +197,27 @@ public class CreateNewDeckPanel extends JPanel {
 	public void removeCardWithKey(int key) {
 		System.out.println("Executed");
 		cards.remove(key);
-		
+
 		validateNumCards();
 		updateNumCard();
 	}
-	
+
 	/**
-	 * check the number of cards in the panel, render proper error message if necessary
+	 * check the number of cards in the panel, render proper error message if
+	 * necessary
 	 */
 	private void validateNumCards() {
-		if(this.cards.size() == 0) {
+		if (this.cards.size() == 0) {
 			this.btnCreate.setEnabled(false);
 			// display error message
 			errorPanel.setVisible(true);
-			
+
 		} else {
 			this.btnCreate.setEnabled(true);
 			errorPanel.setVisible(false);
 		}
 	}
-	
+
 	/**
 	 * update the total number of cards
 	 */

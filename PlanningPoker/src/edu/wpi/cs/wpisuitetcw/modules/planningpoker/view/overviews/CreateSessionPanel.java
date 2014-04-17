@@ -56,6 +56,11 @@ public class CreateSessionPanel extends JSplitPane {
 												// entry
 	public final String DISPLAY_MSG = "New Deck";
 
+	// ############################## UI Right Component
+	// ##############################
+	/** The deck panel for viewing and creating a new deck */
+	private CreateNewDeckPanel deckPanel;
+
 	// ############################## UI Left Component
 	// ##############################
 	/** The left panel holds components to see the deck */
@@ -85,11 +90,6 @@ public class CreateSessionPanel extends JSplitPane {
 	/** Deadline date and time picker */
 	private final JXDatePicker deadlinePicker;
 	private final JSpinner pickerDeadlineTime;
-
-	// ############################## UI Right component
-	// ##############################
-	/** The right panel holds components to create a session */
-	private final JPanel rightPanel;
 
 	// ##################################### DATA
 	// #####################################
@@ -127,9 +127,9 @@ public class CreateSessionPanel extends JSplitPane {
 	 * graphical components
 	 */
 	public CreateSessionPanel() {
-		// Initialize left and right panel
-		rightPanel = new JPanel();
+		// Initialize left and deck panel
 		leftPanel = new JPanel();
+		deckPanel = new CreateNewDeckPanel();
 
 		// Initialize a text box to fill a new session's name in
 		labelName = new JLabel("Name *");
@@ -221,7 +221,7 @@ public class CreateSessionPanel extends JSplitPane {
 
 		// setup the layout
 		this.setLeftComponent(leftPanel);
-		this.setRightComponent(rightPanel);
+		this.setRightComponent(deckPanel);
 		this.setDividerLocation(0.25);
 		this.setEnabled(false);
 	}
