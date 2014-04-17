@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -29,7 +30,6 @@ import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddNewCardController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateNewDeckController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.InitNewDeckPanelController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
 
@@ -47,8 +47,9 @@ public class CreateNewDeckPanel extends JPanel {
 	private final int CARD_WIDTH = 146;
 	private final String CARD_COUNT_LABEL = "# of Cards: ";
 	private final String ADD_CARD_LABEL = "[+] New Card";
-	private final String CREATE_LABEL_STRING = "Create";
-	private final String CANCEL_LABEL_STRING = "Cancel";
+	private final String CARD_SELECTION_LABEL = "Selection type *";
+	// private final String CREATE_LABEL_STRING = "Create";
+	// private final String CANCEL_LABEL_STRING = "Cancel";
 	private final String DECK_NAME_LABEL = "Name *";
 
 	// instance fields
@@ -56,14 +57,16 @@ public class CreateNewDeckPanel extends JPanel {
 	private final JLabel labelCount;
 	private final JLabel labelNumCards;
 	private final JLabel labelNameErr;
+	private final JLabel labelCardSelection;
 	private final JButton btnAddCard;
-	private final JButton btnCreate;
-	private final JButton btnCancel;
+	// private final JButton btnCreate;
+	// private final JButton btnCancel;
 	private final JTextField textboxName;
-	// private final JPanel topPanel;
+	private final JPanel topPanel;
 	private final JPanel centerPanel;
 	private final JPanel bottomPanel;
 	private final HashMap<Integer, Card> cards;
+	private final JComboBox<String> deckOption;
 
 	private final JPanel cardPanel;
 	private final JScrollPane cardSP;
@@ -75,7 +78,7 @@ public class CreateNewDeckPanel extends JPanel {
 	public CreateNewDeckPanel() {
 
 		// sub panels
-		// topPanel = new JPanel();
+		topPanel = new JPanel();
 		centerPanel = new JPanel();
 		bottomPanel = new JPanel();
 		errorPanel = new JPanel();
@@ -86,12 +89,18 @@ public class CreateNewDeckPanel extends JPanel {
 		cards = new HashMap<Integer, Card>();
 
 		// text labels
+		this.labelCardSelection = new JLabel(CARD_SELECTION_LABEL);
 		this.labelName = new JLabel(DECK_NAME_LABEL);
 		this.labelCount = new JLabel(CARD_COUNT_LABEL);
 		this.labelNumCards = new JLabel("1");
 		this.labelNameErr = new JLabel(NAME_ERR_MSG);
 
 		this.labelNameErr.setVisible(false);
+
+		// dropdown
+		this.deckOption = new JComboBox<String>();
+		deckOption.addItem("Single select");
+		deckOption.addItem("Multiple select");
 
 		// textfields
 		this.textboxName = new JTextField(18);
@@ -105,30 +114,40 @@ public class CreateNewDeckPanel extends JPanel {
 
 		// buttons
 		this.btnAddCard = new JButton(ADD_CARD_LABEL);
-		this.btnCreate = new JButton(CREATE_LABEL_STRING);
-		this.btnCancel = new JButton(CANCEL_LABEL_STRING);
+		// this.btnCreate = new JButton(CREATE_LABEL_STRING);
+		// this.btnCancel = new JButton(CANCEL_LABEL_STRING);
 
 		// action listeners
 		btnAddCard.addActionListener(new AddNewCardController(this));
-		btnCreate.addActionListener(new CreateNewDeckController(this));
-		this.addAction(btnCancel, this);
+		// btnCreate.addActionListener(new CreateNewDeckController(this));
+		// this.addAction(btnCancel, this);
 
 		// set up the top panel
-		JPanel topContainer = new JPanel();
-		topContainer.setLayout(new MigLayout());
-		topContainer.add(labelNameErr, "center, span, split3");
-		topContainer.add(labelName);
-		topContainer.add(textboxName);
+		// JPanel topContainer = new JPanel();
+		// topContainer.setLayout(new MigLayout());
+		// topContainer.add(labelNameErr, "center, span, split3");
+		// topContainer.add(labelName);
+		// topContainer.add(textboxName);
 		// topPanel.add(topContainer);
 
 		// setup centerPanel
 		// centerPanel includes the add button and additional cards
-		// centerPanel.setLayout(new MigLayout("center, wrap 5", "[] 5 []",
-		// "[] 5 []"));
 		centerPanel.setLayout(new MigLayout());
 
 		// sub panels
 		JPanel centerTopPanel = new JPanel();
+		centerTopPanel.setLayout(new MigLayout());
+
+		// setup top panel for input
+		centerTopPanel.add(labelNameErr, "center, span, split3");
+		centerTopPanel.add(labelName);
+		centerTopPanel.add(textboxName, "wrap");
+
+		centerTopPanel.add(labelCardSelection, "center");
+		centerTopPanel.add(deckOption, "wrap");
+		centerTopPanel.add(btnAddCard, "center, split3");
+		centerTopPanel.add(labelCount);
+		centerTopPanel.add(labelNumCards);
 
 		// add a new panel to the scrollpane, since cards are panels which
 		// cannot be drawn on scrollpane directly
@@ -138,10 +157,6 @@ public class CreateNewDeckPanel extends JPanel {
 		container.setLayout(new GridBagLayout());
 
 		cardSP = new JScrollPane(container);
-
-		centerTopPanel.add(btnAddCard, "center, split3");
-		centerTopPanel.add(labelCount);
-		centerTopPanel.add(labelNumCards);
 
 		// removes cards
 		cardPanel.add(errorPanel);
@@ -153,12 +168,12 @@ public class CreateNewDeckPanel extends JPanel {
 		centerPanel.add(cardSP, "dock center");
 
 		// setup bottomPanel
-		bottomPanel.add(btnCreate);
-		bottomPanel.add(btnCancel);
+		// bottomPanel.add(btnCreate);
+		// bottomPanel.add(btnCancel);
 
 		// setup the entire layout
 		this.setLayout(new MigLayout("", "", ""));
-		// this.add(topPanel, "dock north");
+		this.add(topPanel, "dock north");
 		this.add(centerPanel, "dock center");
 		this.add(bottomPanel, "center, dock south");
 	}
@@ -185,8 +200,7 @@ public class CreateNewDeckPanel extends JPanel {
 		validateNumCards();
 		this.updateNumCard();
 
-		// TODO This yet moves to the rightmost position when a new card is
-		// added.
+		// This yet moves to the rightmost position when a new card is added.
 		this.cardSP.getHorizontalScrollBar().setValue(
 				(int) (this.cardPanel.getBounds().getWidth() + CARD_WIDTH));
 	}
@@ -208,12 +222,12 @@ public class CreateNewDeckPanel extends JPanel {
 	 */
 	private void validateNumCards() {
 		if (this.cards.size() == 0) {
-			this.btnCreate.setEnabled(false);
+			// this.btnCreate.setEnabled(false);
 			// display error message
 			errorPanel.setVisible(true);
 
 		} else {
-			this.btnCreate.setEnabled(true);
+			// this.btnCreate.setEnabled(true);
 			errorPanel.setVisible(false);
 		}
 	}
@@ -281,13 +295,13 @@ public class CreateNewDeckPanel extends JPanel {
 		System.out.println("It's working!");
 	}
 
-	/**
-	 * Confirm that all values entered in textboxes are integers
-	 */
-	public boolean validateCardValues() {
-		// TODO implement this or equivalent validater
-		return false;
-	}
+	// /**
+	// * Confirm that all values entered in textboxes are integers
+	// */
+	// public boolean validateCardValues() {
+	// // TODO implement this or equivalent validater
+	// return false;
+	// }
 
 	/**
 	 * notify createNewDeckPanel when a Card is discarded, so that it removes
@@ -299,20 +313,14 @@ public class CreateNewDeckPanel extends JPanel {
 
 			@Override
 			public void componentShown(ComponentEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void componentResized(ComponentEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void componentMoved(ComponentEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
