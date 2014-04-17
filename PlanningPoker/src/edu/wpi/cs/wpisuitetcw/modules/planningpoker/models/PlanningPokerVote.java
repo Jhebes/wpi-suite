@@ -19,12 +19,20 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 public class PlanningPokerVote extends AbstractModel {
 
+	/** ID of the Vote */
 	private UUID id;
+	
+	/** Name of user who voted */
 	private String user;
+	
+	/** Vote value */
 	private int cardValue;
 
-	public PlanningPokerVote() {
-	}
+	/**
+	 * 
+	 */
+	public PlanningPokerVote() {}
+	
 	
 	public PlanningPokerVote(String u, int val) {
 		this.user = u;
