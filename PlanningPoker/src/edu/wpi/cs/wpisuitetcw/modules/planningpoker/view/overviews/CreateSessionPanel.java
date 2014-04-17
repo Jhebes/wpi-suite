@@ -49,7 +49,13 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
  * This panel is used to create or edit a session's basic information
  */
 public class CreateSessionPanel extends JSplitPane {
-
+	private static final int COLUMN_GAP_WIDTH = 15;
+	private static final int ROW_GAP_WIDTH = 8;
+	private static final int SESSION_NAME_BOX_WIDTH = 400;
+	private static final int TYPE_DROPDOWN_WIDTH = 150;
+	private static final int 
+	private static final int 
+	
 	private static final long serialVersionUID = 8733539608651885877L;
 	final int DEFAULT_DATA_SIZE = 30; // default data size for database entry
 	public final String DISPLAY_MSG = "New Deck";
@@ -186,17 +192,17 @@ public class CreateSessionPanel extends JSplitPane {
 		
 		// Put all UI components creating a session to the left panel
 		// MigLayout is a convenient way of creating responsive layout with Swing
-		leftPanel.setLayout(new MigLayout("", "[]15[]", "[]8[]"));
+		leftPanel.setLayout(new MigLayout("", "[]COLUMN_GAP_WIDTH[]", "[]ROW_GAP_WIDTH[]"));
 		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
 
 		// labels and textfields
 		leftPanel.add(labelName, "span");
-		leftPanel.add(nameTextField, "width 400px, span");
+		leftPanel.add(nameTextField, "width " + SESSION_NAME_BOX_WIDTH + "px, span");
 		
-		leftPanel.add(labelDropdownType, "width 150px, left");
+		leftPanel.add(labelDropdownType, "width " + TYPE_DROPDOWN_WIDTH + "px, left");
 		leftPanel.add(labeDeck, "left, wrap");
 		
-		leftPanel.add(dropdownType, "width 150px");
+		leftPanel.add(dropdownType, "width " + TYPE_DROPDOWN_WIDTH + "px");
 		leftPanel.add(deckType, "growx, left, wrap");
 		
 //		rightPanel.add(new JLabel("<html> &nbsp&nbsp&nbsp&nbsp Or</html>"),
@@ -223,7 +229,8 @@ public class CreateSessionPanel extends JSplitPane {
 		container.add(rightPanel);
 
 		// Delete the left panel
-
+		// TODO Create the right panel
+		
 		// setup the layout
 		this.setLeftComponent(leftPanel);
 		this.setRightComponent(container);
