@@ -25,7 +25,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
@@ -180,24 +179,24 @@ public class CreateSessionPanel extends JSplitPane {
 		// labelDropdownType.setAlignmentX(dropdownType.getAlignmentX());
 
 		// Create Save session and Create new Deck button
-		btnSaveSession = new JButton("Save");
+		btnSaveSession   = new JButton("Save");
 		btnSaveSession.addActionListener(new AddSessionController(this, false));
 		btnCreateNewDeck = new JButton("Create New Deck");
 		btnCreateNewDeck.addActionListener(InitNewDeckPanelController.getInstance(this));
 		
 		// Put all UI components creating a session to the left panel
 		// MigLayout is a convenient way of creating responsive layout with Swing
-		leftPanel.setLayout(new MigLayout("", "[]5[]", "[]5[]"));
+		leftPanel.setLayout(new MigLayout("", "[]15[]", "[]8[]"));
 		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
 
 		// labels and textfields
-		leftPanel.add(labelName, "width 240px, span");
+		leftPanel.add(labelName, "span");
 		leftPanel.add(nameTextField, "width 400px, span");
 		
-		leftPanel.add(labelDropdownType, "left");
-		leftPanel.add(labeDeck, "width 150px, left, wrap");
+		leftPanel.add(labelDropdownType, "width 150px, left");
+		leftPanel.add(labeDeck, "left, wrap");
 		
-		leftPanel.add(dropdownType, "growx");
+		leftPanel.add(dropdownType, "width 150px");
 		leftPanel.add(deckType, "growx, left, wrap");
 		
 //		rightPanel.add(new JLabel("<html> &nbsp&nbsp&nbsp&nbsp Or</html>"),
@@ -206,16 +205,16 @@ public class CreateSessionPanel extends JSplitPane {
 
 		// textarea
 		leftPanel.add(labelDescriptionBox, "wrap");
-		leftPanel.add(descriptionBox, "width 400px, span, wrap");
+		leftPanel.add(descriptionBox, "width 400px, height 110px!, span");
 
 		// optional deadline
 		leftPanel.add(labelDeadline, "split2");
 		leftPanel.add(cbDeadline, "wrap");
-		leftPanel.add(deadlinePicker, "width 100px, split2");
-		leftPanel.add(pickerDeadlineTime, "width 100px, wrap");
+		leftPanel.add(deadlinePicker, "split2, gapbottom 220px");
+		leftPanel.add(pickerDeadlineTime, "gapbottom 220px, growx");
 
 		// buttons
-		leftPanel.add(btnSaveSession, "width 150px, left, wrap");
+		leftPanel.add(btnSaveSession, "growx");
 
 		// center the container
 		JPanel container = new JPanel();
