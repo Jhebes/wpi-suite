@@ -45,9 +45,10 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.Sessi
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 /**
- * A Panel that display a session's basic information: 
+ * A Panel that displays a session's basic information: 
  * name, type, description, and deck.
- *  This panel is used to create or edit a session's basic information
+ * 
+ * This panel is used to create or edit a session's basic information
  */
 public class CreateSessionPanel extends JSplitPane {
 	private static final long serialVersionUID = 8733539608651885877L;
@@ -98,7 +99,7 @@ public class CreateSessionPanel extends JSplitPane {
 	private final JXDatePicker deadlinePicker;
 	private final JSpinner pickerDeadlineTime;
 
-	// ################ DATA ##################
+	// ###################### DATA ########################
 	/** Model used for requirements JList */
 	DefaultListModel<String> existingRequirementsNames;
 
@@ -128,9 +129,9 @@ public class CreateSessionPanel extends JSplitPane {
 	}
 
 	/**
-	 * Constructor to create a Create Session Panel without a session. This
-	 * constructor is used to create a session This constructor sets up all
-	 * graphical components
+	 * Constructor to create a Create Session Panel without a session. 
+	 * This constructor is used to create a session.
+	 * It sets up all graphical components
 	 */
 	public CreateSessionPanel() {
 		// Initialize left and deck panel
