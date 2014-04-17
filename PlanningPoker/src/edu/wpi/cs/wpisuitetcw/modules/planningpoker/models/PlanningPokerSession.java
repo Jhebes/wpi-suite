@@ -584,10 +584,20 @@ public class PlanningPokerSession extends AbstractModel {
 		request.send();
 	}
 
+	/**
+	 * // TODO: A person who implemented this method must write
+	 * comments for this method 
+	 */
 	public void create() {
 		new PutSessionController(this);
 	}
-	
+		
+	/**
+	 * Copy the data from the given PlanningPokerSession to
+	 * the calling PlanningPokerSession object
+	 * @param updatedRequirement A PlanningPokerSession whose
+	 * data would be copied to the calling PlanningPokerSession object
+	 */
 	public void copyFrom(PlanningPokerSession updatedSession) {
 		this.isCancelled = updatedSession.isCancelled;
 		this.startTime = updatedSession.startTime;
@@ -598,6 +608,10 @@ public class PlanningPokerSession extends AbstractModel {
 		this.requirements = updatedSession.requirements;
 	}
 
+	/**
+	 * Return the start time of the session
+	 * @return Return the start time of the session
+	 */
 	public Object getStartTime() {
 		return startTime;
 	}
