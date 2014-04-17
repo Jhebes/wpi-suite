@@ -19,20 +19,18 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 /**
  * This class represents the deck for voting 
  */
-
 public class PlanningPokerDeck extends AbstractModel {
+	/** List of card values */
 	private ArrayList<Integer> deck;
-	private String deckName;
-	public String getDeckName() {
-		return deckName;
-	}
-
-	private int id;
-
 	
+	/** Name of the deck */
+	private String deckName;
+
+	/** ID of the deck */
+	private int id;
 	
 	/**
-	 * This constructor creates the default deck with the fibonacci values
+	 * Construct the default deck in which the cards have Fibonacci values
 	 * TODO the default deck should be a database entry
 	 */
 	public PlanningPokerDeck() {
@@ -43,6 +41,12 @@ public class PlanningPokerDeck extends AbstractModel {
 			this.deck.add(i);
 		}
 	}
+	
+	public String getDeckName() {
+		return deckName;
+	}
+
+
 	
 	/**
 	 * This constructor creates the deck from the imported arrayList of values
