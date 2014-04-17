@@ -51,9 +51,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Scrol
  */
 
 public class CreateSessionPanel extends JSplitPane {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 8733539608651885877L;
 	final int DEFAULT_DATA_SIZE = 30; // default data size for database entry
 	private final String EXPLANATIONSTRING = "A planning poker session (game) allows a user to "
