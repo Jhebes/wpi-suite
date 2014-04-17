@@ -77,8 +77,6 @@ public class PlanningPokerSession extends AbstractModel {
 		requirements = new ArrayList<PlanningPokerRequirement>();
 	}
 
-
-
 	/**
 	 * Return true if this session has been assigned a completed time,
 	 * indicating that the session has been terminated in some way
@@ -99,9 +97,10 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * Activate the session if it meets the following conditions: - It isn't
-	 * active currently - It isn't canceled - It must have at least one
-	 * requirement (Temporarily not included)
+	 * Activate the session if it meets the following conditions: 
+	 * - It isn't active currently 
+	 * - It isn't canceled 
+	 * - It must have at least one requirement (Temporarily not included)
 	 */
 	public void activate() {
 		if (!this.isCancelled && !this.isActive()) {
@@ -148,9 +147,9 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 	
 	/**
-	 * Deactivates a session by basically undoing what activate would. If it is
-	 * already active, and not cancelled, then it would set the start time to
-	 * null
+	 * Deactivates a session by basically undoing what activate would. 
+	 * If the session is already active, and not cancelled, 
+	 * then it would set the start time to null
 	 */
 	public void deactivate() {
 		if (!this.isCancelled && this.isActive()) {
@@ -183,14 +182,25 @@ public class PlanningPokerSession extends AbstractModel {
 		requirements.add(req);
 	}
 
+	/**
+	 * Add a PlanningPokerVote for a PlanningPokerRequirement from an user
+	 * to the PlanningPokerSession
+	 * @param req A PlanningPokerRequirement that is voted
+	 * @param v A PlanningPokerVote of the PlanningPokerRequirement
+	 * @param requestingUser A String represents the user
+	 */
 	public void addVoteToRequirement(PlanningPokerRequirement req,
-			PlanningPokerVote v, String requestingUser) {
+									 PlanningPokerVote v, 
+									 String requestingUser) {
+		// Remove the corresponding requirement from this session
 		PlanningPokerRequirement r = requirements.get(requirements.indexOf(req));
 		requirements.remove(r);
-		for(PlanningPokerVote vote : r.votes){
-			if(vote.getUser().equals(v.getUser())){
+		
+		// Add the vote of the user to the requirement
+		for(PlanningPokerVote vote : r.votes) {
+			if(vote.getUser().equals(v.getUser())) {
 				vote.setCardValue(v.getCardValue());
-				requirements.add(r);
+				requirements.add(r);		// Add the requirement back
 				this.save();
 				return;
 			}
@@ -201,11 +211,16 @@ public class PlanningPokerSession extends AbstractModel {
 		this.save();
 	}
 
-	public PlanningPokerRequirement getReqByName(String n) {
-		for (PlanningPokerRequirement r : requirements) {
-			System.out.printf("%s = %s?\n", n, r.getName());
-			if (r.getName().equals(n)) {
-				return r;
+	/**
+	 * Return the PlanningPokerRequirement that has the given name
+	 * @param A String of the requirement that would be returned
+	 * @return Return the PlanningPokerRequirement that has the given name
+	 */
+	public PlanningPokerRequirement getReqByName(String reqName) {
+		for (PlanningPokerRequirement requirement : requirements) {
+			System.out.printf("%s = %s?\n", reqName, requirement.getName());
+			if (requirement.getName().equals(reqName)) {
+				return requirement;
 			}
 		}
 		throw new NullPointerException();
