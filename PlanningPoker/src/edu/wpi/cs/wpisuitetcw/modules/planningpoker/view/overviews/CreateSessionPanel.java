@@ -54,10 +54,6 @@ public class CreateSessionPanel extends JSplitPane {
 
 	private static final long serialVersionUID = 8733539608651885877L;
 	final int DEFAULT_DATA_SIZE = 30; // default data size for database entry
-	private final String EXPLANATIONSTRING = "A planning poker session (game) allows a user to "
-			+ "select one or more requirements for estimation for "
-			+ "the team to estimate. A deadline for submission is optional. "
-			+ "This will let the team reach a consensus on the amount of effort it will take to realize the requirements.";
 	public final String DISPLAY_MSG = "New Deck";
 
 	// The right panel holds info about selected requirements
@@ -114,16 +110,6 @@ public class CreateSessionPanel extends JSplitPane {
 		// checkbox for deadline
 		cbDeadline = new JCheckBox();
 		cbDeadline.addItemListener(new CreateSessionPanelController(this));
-
-		// text area
-		JTextArea textAreaExp = new JTextArea(5, 15);
-		textAreaExp.setText(EXPLANATIONSTRING);
-		textAreaExp.setWrapStyleWord(true);
-		textAreaExp.setLineWrap(true);
-		textAreaExp.setBorder(BorderFactory.createEmptyBorder());
-		textAreaExp.setOpaque(false);
-		textAreaExp.setFocusable(false);
-		textAreaExp.setEditable(false);
 
 		// create date picker
 		deadlinePicker = new JXDatePicker();
@@ -208,8 +194,7 @@ public class CreateSessionPanel extends JSplitPane {
 		// container.add(rightPanel, new GridBagConstraints());
 		container.add(rightPanel);
 
-		// add the label to the left panel
-		leftPanel.add(textAreaExp);
+		// Delete the left panel
 
 		// setup the layout
 		this.setLeftComponent(leftPanel);
@@ -242,16 +227,6 @@ public class CreateSessionPanel extends JSplitPane {
 		// checkbox for deadline
 		cbDeadline = new JCheckBox();
 		cbDeadline.addItemListener(new CreateSessionPanelController(this));
-
-		// text area
-		JTextArea textAreaExp = new JTextArea(5, 15);
-		textAreaExp.setText(EXPLANATIONSTRING);
-		textAreaExp.setWrapStyleWord(true);
-		textAreaExp.setLineWrap(true);
-		textAreaExp.setBorder(BorderFactory.createEmptyBorder());
-		textAreaExp.setOpaque(false);
-		textAreaExp.setFocusable(false);
-		textAreaExp.setEditable(false);
 
 		// create date picker
 		deadlinePicker = new JXDatePicker();
@@ -340,8 +315,7 @@ public class CreateSessionPanel extends JSplitPane {
 		// container.add(rightPanel, new GridBagConstraints());
 		container.add(rightPanel);
 
-		// add the label to the left panel
-		leftPanel.add(textAreaExp);
+		// Delete the left panel
 
 		// setup the layout
 		this.setLeftComponent(leftPanel);
