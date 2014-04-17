@@ -294,23 +294,40 @@ public class PlanningPokerRequirement extends AbstractModel {
 		votes.remove(vote);
 	}
 	
+	/**
+	 * This class does not provide implementation for this method
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void save() {}
 
+	/**
+	 * This class does not provide implementation for this method
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void delete() {}
 
+	/**
+	 * {@inheritDoc}}
+	 */
 	@Override
 	public Boolean identify(Object o) {
 		return this.id.equals(((PlanningPokerRequirement) o).id);
 	}
 
+	/**
+	 * {@inheritDoc}}
+	 */
 	@Override
 	public int hashCode() {
 		return Arrays.hashCode(new Object[] { new String(id.toString()),
 				new Integer(sessionID) });
 	}
 
+	/**
+	 * {@inheritDoc}}
+	 */
 	@Override
 	public boolean equals(Object o) {
 		return this.id.equals(((PlanningPokerRequirement) o).id);
