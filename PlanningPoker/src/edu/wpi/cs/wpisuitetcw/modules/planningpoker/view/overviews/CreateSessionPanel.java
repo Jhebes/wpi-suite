@@ -233,8 +233,7 @@ public class CreateSessionPanel extends JSplitPane {
 		leftPanel.add(deadlinePicker, "split2, gapbottom " 
 						+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px");
 		leftPanel.add(pickerDeadlineTime, "gapbottom " 
-						+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, growx");
-
+						+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, growx, wrap");
 
 		// buttons
 		leftPanel.add(btnSaveSession, "width 150px, height 40px, gapbottom 20px, gapleft 20px, wrap");
