@@ -21,6 +21,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -79,7 +81,9 @@ public class Card extends JPanel {
 			Image img = ImageIO.read(getClass().getResource("new_card.png"));
 			ImageIcon icon = new ImageIcon(img);
 			this.cardPicture = icon.getImage();
-		} catch (IOException ex) {
+		} catch (IOException e) {
+			Logger.getLogger("PlanningPoker").log(Level.INFO,
+					"Could not load the image for planning poker cards", e);
 		}
 
 		// setup the card panel
@@ -248,27 +252,14 @@ public class Card extends JPanel {
 	private void addMouseoverHightlight(JComponent item, final Card aCard) {
 		item.addMouseListener(new MouseListener() {
 
-			/**
-			 * {@inheritDoc}
-			 */
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 
-			/**
-			 * {@inheritDoc}
-			 */
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 
-			/**
-			 * {@inheritDoc}
-			 */
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// card existed
@@ -276,9 +267,6 @@ public class Card extends JPanel {
 				changeCardLayout();
 			}
 
-			/**
-			 * {@inheritDoc}
-			 */
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// highlight the card
@@ -287,13 +275,8 @@ public class Card extends JPanel {
 
 			}
 
-			/**
-			 * {@inheritDoc}
-			 */
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 		});
 	}

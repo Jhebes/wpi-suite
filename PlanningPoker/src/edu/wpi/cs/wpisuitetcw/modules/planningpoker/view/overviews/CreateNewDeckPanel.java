@@ -37,6 +37,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
  * A view to create a new deck
  */
 public class CreateNewDeckPanel extends JPanel {
+
 	private static final long serialVersionUID = 1L;
 	// constants
 	private final String TEXTBOX_PLACEHOLDER = "Deck "
@@ -47,7 +48,9 @@ public class CreateNewDeckPanel extends JPanel {
 	private final int CARD_WIDTH = 146;
 	private final String CARD_COUNT_LABEL = "# of Cards: ";
 	private final String ADD_CARD_LABEL = "[+] New Card";
-	private final String CARD_SELECTION_LABEL = "Selection type *";
+	private final String CARD_SELECTION_LABEL = "Card selection *";
+	private static final String MULTIPLE_SELECT = "Multiple selection";
+	private static final String SINGLE_SELECT = "Single selection";
 	// private final String CREATE_LABEL_STRING = "Create";
 	// private final String CANCEL_LABEL_STRING = "Cancel";
 	private final String DECK_NAME_LABEL = "Name *";
@@ -99,8 +102,8 @@ public class CreateNewDeckPanel extends JPanel {
 
 		// dropdown
 		this.deckOption = new JComboBox<String>();
-		deckOption.addItem("Single select");
-		deckOption.addItem("Multiple select");
+		deckOption.addItem(SINGLE_SELECT);
+		deckOption.addItem(MULTIPLE_SELECT);
 
 		// textfields
 		this.textboxName = new JTextField(18);
@@ -121,14 +124,6 @@ public class CreateNewDeckPanel extends JPanel {
 		btnAddCard.addActionListener(new AddNewCardController(this));
 		// btnCreate.addActionListener(new CreateNewDeckController(this));
 		// this.addAction(btnCancel, this);
-
-		// set up the top panel
-		// JPanel topContainer = new JPanel();
-		// topContainer.setLayout(new MigLayout());
-		// topContainer.add(labelNameErr, "center, span, split3");
-		// topContainer.add(labelName);
-		// topContainer.add(textboxName);
-		// topPanel.add(topContainer);
 
 		// setup centerPanel
 		// centerPanel includes the add button and additional cards
@@ -178,15 +173,6 @@ public class CreateNewDeckPanel extends JPanel {
 		this.add(bottomPanel, "center, dock south");
 	}
 
-	// /**
-	// * return the invoking panel
-	// *
-	// * @return the invoking panel
-	// */
-	// public CreateSessionPanel getInvokingPanel() {
-	// return invokingPanel;
-	// }
-
 	/**
 	 * Add a new card to both the storing hashmap and the view
 	 */
@@ -209,11 +195,20 @@ public class CreateNewDeckPanel extends JPanel {
 	 * Remove a card from the view and the hashmap
 	 */
 	public void removeCardWithKey(int key) {
-		System.out.println("Executed");
 		cards.remove(key);
-
 		validateNumCards();
 		updateNumCard();
+	}
+
+	/**
+	 * Removes all card from the panel
+	 */
+	public void removeAllCard() {
+		Map<Integer, Card> map = this.cards;
+		for (Card aCard : map.values()) {
+			removeCardWithKey(aCard.hashCode());
+		}
+		this.updateUI();
 	}
 
 	/**
@@ -222,7 +217,6 @@ public class CreateNewDeckPanel extends JPanel {
 	 */
 	private void validateNumCards() {
 		if (this.cards.size() == 0) {
-			// this.btnCreate.setEnabled(false);
 			// display error message
 			errorPanel.setVisible(true);
 
@@ -274,7 +268,6 @@ public class CreateNewDeckPanel extends JPanel {
 	 * @return true if so; false otherwise
 	 */
 	public boolean isDeckNameEntered() {
-		System.out.println("Hi here.");
 		if (this.textboxName.getText().equals("")) {
 			// nothing is entered
 			System.out.println("Name not entered");
@@ -287,21 +280,25 @@ public class CreateNewDeckPanel extends JPanel {
 		}
 	}
 
-	// to be deleted
 	/**
-	 * puts indicators for users to identify non-integer card values
+	 * TODO display the default fibonacci deck
 	 */
-	public void informInvalidCardValue() {
-		System.out.println("It's working!");
+	public void displayDefaultDeck() {
+		// clear the panel
+		removeAllCard();
+		// display default deck
+		int[] defaultDeck = { 0, 1, 1, 2, 3, 5, 8, 13 };
+		for (int i = 0; i < defaultDeck.length; i++) {
+			Card aCard = new Card();
+			int key = aCard.hashCode();
+			cards.put(key, aCard);
+			this.addRemoveCardListener(aCard, this);
+			this.cardPanel.add(aCard);
+			validateNumCards();
+			this.updateNumCard();
+		}
+		this.updateUI();
 	}
-
-	// /**
-	// * Confirm that all values entered in textboxes are integers
-	// */
-	// public boolean validateCardValues() {
-	// // TODO implement this or equivalent validater
-	// return false;
-	// }
 
 	/**
 	 * notify createNewDeckPanel when a Card is discarded, so that it removes

@@ -58,6 +58,7 @@ public class CreateSessionPanel extends JPanel {
 	private static final int DESCRIPTION_BOX_WIDTH = 400;
 	private static final int DESCRIPTION_BOX_HEIGHT = 110;
 	private static final int GAP_LENGTH_DEADLINE_TO_BOTTOM = 220;
+	private static final String REQUIRED_LABEL = "<html><font color='red'>Required field *</font></html>";
 
 	// default data size for database entry
 	private final int DEFAULT_DATA_SIZE = 30;
@@ -75,6 +76,9 @@ public class CreateSessionPanel extends JPanel {
 
 	/** Button to cancel making a session */
 	private final JButton btnCancel;
+	
+	/** Require field label */
+	private final JLabel labelRequireField;
 
 	// ################ UI Right Component #################
 	private final CreateNewDeckPanel deckPanel;
@@ -148,6 +152,7 @@ public class CreateSessionPanel extends JPanel {
 
 		// Initialize a text box to fill a new session's name in
 		labelName = new JLabel("Name *");
+		labelRequireField = new JLabel(REQUIRED_LABEL);
 		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
 
 		// Create dropdown menu to select type of session
@@ -242,6 +247,9 @@ public class CreateSessionPanel extends JPanel {
 		leftPanel.add(pickerDeadlineTime, "gapbottom "
 				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, growx, wrap");
 
+		// setup deckpanl
+		deckPanel.displayDefaultDeck();
+		
 		// setup the layout
 		mainPanel.setLeftComponent(leftPanel);
 		mainPanel.setRightComponent(deckPanel);
@@ -253,6 +261,7 @@ public class CreateSessionPanel extends JPanel {
 		
 		bottomPanel.add(btnSaveSession, "left, width 120px, height 30px");
 		bottomPanel.add(btnCancel, "width 120px, height 30px");
+		bottomPanel.add(labelRequireField, "gapleft 10px");
 
 		// setup the panel
 		this.setLayout(new MigLayout());
