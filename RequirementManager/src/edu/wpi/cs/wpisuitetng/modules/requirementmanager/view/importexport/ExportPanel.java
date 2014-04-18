@@ -109,7 +109,8 @@ public class ExportPanel extends JPanel {
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					final File file = fc.getSelectedFile();
 					// This is where a real application would open the file.
-					System.out.println("Exporting to: " + file.getName() + ".");
+					Logger.getLogger("RequirementManger").log(
+							Level.INFO, "Exporting to: " + file.getName() + ".");
 
 					try {
 						final Writer writer = new FileWriter(file);
@@ -134,7 +135,8 @@ public class ExportPanel extends JPanel {
 								Level.WARNING, "Could not write to file.", ex);
 					}
 				} else {
-					System.out.println("Export command cancelled by user.");
+					Logger.getLogger("RequirementManger").log(
+							Level.INFO, "Export command cancelled by user.");
 				}
 			}
 
