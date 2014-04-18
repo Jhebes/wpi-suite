@@ -39,7 +39,7 @@ public class InitNewDeckPanelController implements ActionListener {
 			ViewEventManager.getInstance().getMainview()
 					.setSelectedComponent(this.deckPanel);
 		} catch (IllegalArgumentException error) {
-			this.deckPanel = new CreateNewDeckPanel();
+			// this.deckPanel = new CreateNewDeckPanel();
 			ViewEventManager.getInstance().display(deckPanel,
 					this.view.DISPLAY_MSG);
 		}
