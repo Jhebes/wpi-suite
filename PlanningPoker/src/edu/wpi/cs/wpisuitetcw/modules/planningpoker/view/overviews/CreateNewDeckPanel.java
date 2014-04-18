@@ -195,11 +195,20 @@ public class CreateNewDeckPanel extends JPanel {
 	 * Remove a card from the view and the hashmap
 	 */
 	public void removeCardWithKey(int key) {
-		System.out.println("Executed");
 		cards.remove(key);
-
 		validateNumCards();
 		updateNumCard();
+	}
+
+	/**
+	 * Removes all card from the panel
+	 */
+	public void removeAllCard() {
+		Map<Integer, Card> map = this.cards;
+		for (Card aCard : map.values()) {
+			removeCardWithKey(aCard.hashCode());
+		}
+		this.updateUI();
 	}
 
 	/**
@@ -208,7 +217,6 @@ public class CreateNewDeckPanel extends JPanel {
 	 */
 	private void validateNumCards() {
 		if (this.cards.size() == 0) {
-			// this.btnCreate.setEnabled(false);
 			// display error message
 			errorPanel.setVisible(true);
 
