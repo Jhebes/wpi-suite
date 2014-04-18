@@ -10,6 +10,7 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -143,6 +144,7 @@ public class CreateNewDeckPanel extends JPanel {
 		container.setLayout(new GridBagLayout());
 
 		cardSP = new JScrollPane(container);
+		cardSP.setMinimumSize(new Dimension(500, 250));
 
 		// removes cards
 		cardPanel.add(errorPanel);
@@ -151,8 +153,8 @@ public class CreateNewDeckPanel extends JPanel {
 
 		// add sub panels to center panels
 		centerPanel.add(centerTopPanel, "dock north, center");
-		centerPanel.add(cardSP, "dock center");
-		centerPanel.setBorder(null);
+		centerPanel.add(cardSP, "gapleft 5px, gapright 5px, growx, dock center");
+		//centerPanel.setBorder(null);
 
 		// setup bottomPanel
 		// bottomPanel.add(btnCreate);
@@ -160,9 +162,9 @@ public class CreateNewDeckPanel extends JPanel {
 
 		// setup the entire layout
 		this.setLayout(new MigLayout("", "", ""));
-		//this.add(topPanel, "dock north");
+		this.add(topPanel, "dock north");
 		this.add(centerPanel, "dock north");
-		//this.add(bottomPanel, "center, dock south");
+		this.add(bottomPanel, "center, dock south");
 	}
 
 	/**
