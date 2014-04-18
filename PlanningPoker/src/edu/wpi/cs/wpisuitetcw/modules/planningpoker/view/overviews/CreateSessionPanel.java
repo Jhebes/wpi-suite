@@ -245,6 +245,9 @@ public class CreateSessionPanel extends JPanel {
 		leftPanel.add(pickerDeadlineTime, "gapbottom "
 				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, growx, wrap");
 
+		// setup deckpanl
+		deckPanel.displayDefaultDeck();
+		
 		// setup the layout
 		mainPanel.setLeftComponent(leftPanel);
 		mainPanel.setRightComponent(deckPanel);

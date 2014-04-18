@@ -125,14 +125,6 @@ public class CreateNewDeckPanel extends JPanel {
 		// btnCreate.addActionListener(new CreateNewDeckController(this));
 		// this.addAction(btnCancel, this);
 
-		// set up the top panel
-		// JPanel topContainer = new JPanel();
-		// topContainer.setLayout(new MigLayout());
-		// topContainer.add(labelNameErr, "center, span, split3");
-		// topContainer.add(labelName);
-		// topContainer.add(textboxName);
-		// topPanel.add(topContainer);
-
 		// setup centerPanel
 		// centerPanel includes the add button and additional cards
 		centerPanel.setLayout(new MigLayout());
@@ -180,15 +172,6 @@ public class CreateNewDeckPanel extends JPanel {
 		this.add(centerPanel, "dock center");
 		this.add(bottomPanel, "center, dock south");
 	}
-
-	// /**
-	// * return the invoking panel
-	// *
-	// * @return the invoking panel
-	// */
-	// public CreateSessionPanel getInvokingPanel() {
-	// return invokingPanel;
-	// }
 
 	/**
 	 * Add a new card to both the storing hashmap and the view
@@ -277,7 +260,6 @@ public class CreateNewDeckPanel extends JPanel {
 	 * @return true if so; false otherwise
 	 */
 	public boolean isDeckNameEntered() {
-		System.out.println("Hi here.");
 		if (this.textboxName.getText().equals("")) {
 			// nothing is entered
 			System.out.println("Name not entered");
@@ -290,21 +272,23 @@ public class CreateNewDeckPanel extends JPanel {
 		}
 	}
 
-	// to be deleted
 	/**
-	 * puts indicators for users to identify non-integer card values
+	 * TODO
+	 * display the default fibonacci deck
 	 */
-	public void informInvalidCardValue() {
-		System.out.println("It's working!");
+	public void displayDefaultDeck() {
+		int[] defaultDeck = { 0, 1, 1, 2, 3, 5, 8, 13 };
+		for (int i = 0; i < defaultDeck.length; i++) {
+			Card aCard = new Card();
+			int key = aCard.hashCode();
+			cards.put(key, aCard);
+			this.addRemoveCardListener(aCard, this);
+			this.cardPanel.add(aCard);
+			validateNumCards();
+			this.updateNumCard();
+		}
+		this.updateUI();
 	}
-
-	// /**
-	// * Confirm that all values entered in textboxes are integers
-	// */
-	// public boolean validateCardValues() {
-	// // TODO implement this or equivalent validater
-	// return false;
-	// }
 
 	/**
 	 * notify createNewDeckPanel when a Card is discarded, so that it removes
