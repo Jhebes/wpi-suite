@@ -37,6 +37,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
  * A view to create a new deck
  */
 public class CreateNewDeckPanel extends JPanel {
+
 	private static final long serialVersionUID = 1L;
 	// constants
 	private final String TEXTBOX_PLACEHOLDER = "Deck "
@@ -47,7 +48,9 @@ public class CreateNewDeckPanel extends JPanel {
 	private final int CARD_WIDTH = 146;
 	private final String CARD_COUNT_LABEL = "# of Cards: ";
 	private final String ADD_CARD_LABEL = "[+] New Card";
-	private final String CARD_SELECTION_LABEL = "Selection type *";
+	private final String CARD_SELECTION_LABEL = "Card selection *";
+	private static final String MULTIPLE_SELECT = "Multiple selection";
+	private static final String SINGLE_SELECT = "Single selection";
 	// private final String CREATE_LABEL_STRING = "Create";
 	// private final String CANCEL_LABEL_STRING = "Cancel";
 	private final String DECK_NAME_LABEL = "Name *";
@@ -99,8 +102,8 @@ public class CreateNewDeckPanel extends JPanel {
 
 		// dropdown
 		this.deckOption = new JComboBox<String>();
-		deckOption.addItem("Single select");
-		deckOption.addItem("Multiple select");
+		deckOption.addItem(SINGLE_SELECT);
+		deckOption.addItem(MULTIPLE_SELECT);
 
 		// textfields
 		this.textboxName = new JTextField(18);
