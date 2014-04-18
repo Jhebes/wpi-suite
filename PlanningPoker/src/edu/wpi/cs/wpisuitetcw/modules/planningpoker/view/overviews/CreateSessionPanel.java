@@ -50,7 +50,7 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
  * 
  * This panel is used to create or edit a session's basic information
  */
-public class CreateSessionPanel extends JSplitPane {
+public class CreateSessionPanel extends JPanel {
 	private static final long serialVersionUID = 8733539608651885877L;
 
 	private static final int SESSION_NAME_BOX_WIDTH = 400;
@@ -64,6 +64,18 @@ public class CreateSessionPanel extends JSplitPane {
 
 	public final String DISPLAY_MSG = "New Deck";
 	
+	private JSplitPane mainPanel;
+
+	// ################ UI Bottom Component #################
+	/** The bottom panel contains buttons */
+	private final JPanel bottomPanel;
+
+	/** Button to save the session */
+	private final JButton btnSaveSession;
+
+	/** Button to cancel making a session */
+	private final JButton btnCancel;
+
 	// ################ UI Right Component #################
 	private final CreateNewDeckPanel deckPanel;
 
@@ -88,12 +100,6 @@ public class CreateSessionPanel extends JSplitPane {
 
 	/** Check box for enabling date and time deadline. */
 	private JCheckBox cbDeadline;
-
-	/** Button to save the session */
-	private final JButton btnSaveSession;
-
-	/** Button to cancel making a session */
-	private final JButton btnCancel;
 
 	/** Deadline date and time picker */
 	private final JXDatePicker deadlinePicker;
@@ -137,6 +143,8 @@ public class CreateSessionPanel extends JSplitPane {
 		// Initialize left and deck panel
 		leftPanel = new JPanel();
 		deckPanel = new CreateNewDeckPanel();
+		bottomPanel = new JPanel();
+		mainPanel = new JSplitPane();
 
 		// Initialize a text box to fill a new session's name in
 		labelName = new JLabel("Name *");
@@ -234,17 +242,23 @@ public class CreateSessionPanel extends JSplitPane {
 		leftPanel.add(pickerDeadlineTime, "gapbottom "
 				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, growx, wrap");
 
-		// buttons
-		leftPanel.add(btnSaveSession,
-				"width 150px, height 40px, gapbottom 20px, gapleft 20px, wrap");
-		leftPanel
-				.add(btnCancel, "width 150px, height 40px, gapleft 20px, wrap");
-
 		// setup the layout
-		this.setLeftComponent(leftPanel);
-		this.setRightComponent(deckPanel);
-		this.setDividerLocation(0.25);
-		this.setEnabled(false);
+		mainPanel.setLeftComponent(leftPanel);
+		mainPanel.setRightComponent(deckPanel);
+		mainPanel.setDividerLocation(0.25);
+		mainPanel.setEnabled(false);
+
+		// setup bottom panel
+		bottomPanel.setLayout(new MigLayout());
+		
+		bottomPanel.add(btnSaveSession, "left, width 120px, height 30px");
+		bottomPanel.add(btnCancel, "width 120px, height 30px");
+
+		// setup the panel
+		this.setLayout(new MigLayout());
+
+		this.add(mainPanel, "dock center");
+		this.add(bottomPanel, "dock south");
 	}
 
 	/**
