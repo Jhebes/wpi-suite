@@ -10,8 +10,6 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
-import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -25,7 +23,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -91,6 +88,7 @@ public class CreateNewDeckPanel extends JPanel {
 		bottomPanel = new JPanel();
 		errorPanel = new JPanel();
 
+		// Create Error Message for invalid name
 		errorPanel.add(new JLabel(NO_CARD_ERR_MSG));
 		errorPanel.setVisible(false);
 
@@ -102,19 +100,18 @@ public class CreateNewDeckPanel extends JPanel {
 		this.labelCount = new JLabel(CARD_COUNT_LABEL);
 		this.labelNumCards = new JLabel("1");
 		this.labelNameErr = new JLabel(NAME_ERR_MSG);
-
 		this.labelNameErr.setVisible(false);
 
-		// dropdown
+		// Create card selection dropdown
 		this.deckOption = new JComboBox<String>();
 		deckOption.addItem(SINGLE_SELECT);
 		deckOption.addItem(MULTIPLE_SELECT);
 
-		// textfields
+		// Create text field for deck's name
 		this.textboxName = new JTextField(18);
 		this.textboxName.setText(TEXTBOX_PLACEHOLDER);
 
-		// cards
+		// Create a card
 		Card starterCard = new Card();
 		int key = starterCard.hashCode();
 		cards.put(key, starterCard);
@@ -134,7 +131,7 @@ public class CreateNewDeckPanel extends JPanel {
 		// centerPanel includes the add button and additional cards
 		centerPanel.setLayout(new MigLayout());
 
-		// sub panels
+		// Create sets of buttons that modify the deck
 		JPanel centerTopPanel = new JPanel();
 		addModifyDeckButtons(centerTopPanel);	
 		
