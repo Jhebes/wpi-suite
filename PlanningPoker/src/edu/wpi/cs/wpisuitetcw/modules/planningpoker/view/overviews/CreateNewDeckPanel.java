@@ -10,7 +10,11 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -21,6 +25,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -131,19 +136,8 @@ public class CreateNewDeckPanel extends JPanel {
 
 		// sub panels
 		JPanel centerTopPanel = new JPanel();
-		centerTopPanel.setLayout(new MigLayout());
-
-		// setup top panel for input
-		centerTopPanel.add(labelNameErr, "center, span, split3");
-		centerTopPanel.add(labelName);
-		centerTopPanel.add(textboxName, "wrap");
-
-		centerTopPanel.add(labelCardSelection, "center");
-		centerTopPanel.add(deckOption, "wrap");
-		centerTopPanel.add(btnAddCard, "center, split3");
-		centerTopPanel.add(labelCount);
-		centerTopPanel.add(labelNumCards);
-
+		addModifyDeckButtons(centerTopPanel);	
+		
 		// add a new panel to the scrollpane, since cards are panels which
 		// cannot be drawn on scrollpane directly
 		cardPanel = new JPanel();
@@ -161,6 +155,7 @@ public class CreateNewDeckPanel extends JPanel {
 		// add sub panels to center panels
 		centerPanel.add(centerTopPanel, "dock north, center");
 		centerPanel.add(cardSP, "dock center");
+		centerPanel.setBorder(null);
 
 		// setup bottomPanel
 		// bottomPanel.add(btnCreate);
@@ -168,9 +163,9 @@ public class CreateNewDeckPanel extends JPanel {
 
 		// setup the entire layout
 		this.setLayout(new MigLayout("", "", ""));
-		this.add(topPanel, "dock north");
-		this.add(centerPanel, "dock center");
-		this.add(bottomPanel, "center, dock south");
+		//this.add(topPanel, "dock north");
+		this.add(centerPanel, "dock north");
+		//this.add(bottomPanel, "center, dock south");
 	}
 
 	/**
@@ -364,5 +359,62 @@ public class CreateNewDeckPanel extends JPanel {
 	 */
 	public HashMap<Integer, Card> getCards() {
 		return cards;
+	}
+	
+	/*
+	 * Add text field, dropdown card selection,
+	 * create new card button, number of card label,
+	 * and their corresponding labels to the given panel
+	 */
+	private void addModifyDeckButtons(JPanel centerTopPanel) {
+		// Set the layout for given panel
+		centerTopPanel.setLayout(new GridBagLayout());
+		
+		GridBagConstraints gbc =  new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		
+		// Create label for name's text field
+		gbc.gridx = 1;
+		gbc.gridy = 1;
+		gbc.insets = new Insets(12, 0, 3, 0);
+		centerTopPanel.add(labelName, gbc);
+		
+		// Create label for error message
+		gbc.gridx++;
+		centerTopPanel.add(labelNameErr, gbc);
+		
+		// Create label for card selection dropdown
+		gbc.gridx++;
+		centerTopPanel.add(labelCardSelection, gbc);
+		
+		// Create text field for deck's name
+		gbc.gridx = 1;
+		gbc.gridy = 2;
+		gbc.gridwidth = 2;
+		gbc.insets = new Insets(0, 0, 15, 30);
+		centerTopPanel.add(textboxName, gbc);
+		
+		// Create dropdown for card selection
+		gbc.gridx += 2;
+		centerTopPanel.add(deckOption, gbc);
+		
+		// Create "New Card" button
+		Insets createCardButtonsInset = new Insets(0, 0, 0, 5);
+		gbc.gridx = 1;
+		gbc.gridy++;
+		gbc.insets = createCardButtonsInset;
+		centerTopPanel.add(btnAddCard, gbc);
+		
+		// Create label for number of card
+		gbc.gridx++;
+		gbc.insets = new Insets(0, 80, 0, 0);
+		centerTopPanel.add(labelCount, gbc);
+		
+		// Create label holding the number of card
+		gbc.gridx++;
+		gbc.ipadx = 0;
+		gbc.insets = createCardButtonsInset;
+		centerTopPanel.add(labelNumCards, gbc);
 	}
 }
