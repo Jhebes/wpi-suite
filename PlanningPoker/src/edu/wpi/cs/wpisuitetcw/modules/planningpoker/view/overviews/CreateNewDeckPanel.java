@@ -80,59 +80,56 @@ public class CreateNewDeckPanel extends JPanel {
 
 	// subject to change
 	// private final JTextField textboxVal;
-
 	public CreateNewDeckPanel() {
-
+		
 		// sub panels
 		topPanel = new JPanel();
 		centerPanel = new JPanel();
 		bottomPanel = new JPanel();
 		errorPanel = new JPanel();
 
-		// Create Error Message for invalid name
+		// Create Error Panel
 		errorPanel.add(new JLabel(NO_CARD_ERR_MSG));
 		errorPanel.setVisible(false);
 
 		cards = new HashMap<Integer, Card>();
 
-		// text labels
-		this.labelCardSelection = new JLabel(CARD_SELECTION_LABEL);
-		this.labelName = new JLabel(DECK_NAME_LABEL);
-		this.labelCount = new JLabel(CARD_COUNT_LABEL);
-		this.labelNumCards = new JLabel("1");
-		this.labelNameErr = new JLabel(NAME_ERR_MSG);
-		this.labelNameErr.setVisible(false);
-
 		// Create card selection dropdown
+		this.labelCardSelection = new JLabel(CARD_SELECTION_LABEL);
 		this.deckOption = new JComboBox<String>();
 		deckOption.addItem(SINGLE_SELECT);
 		deckOption.addItem(MULTIPLE_SELECT);
-
+		
 		// Create text field for deck's name
+		this.labelName = new JLabel(DECK_NAME_LABEL);
 		this.textboxName = new JTextField(18);
 		this.textboxName.setText(TEXTBOX_PLACEHOLDER);
 
+		// Create a label to keep track number of card
+		this.labelCount = new JLabel(CARD_COUNT_LABEL);
+		this.labelNumCards = new JLabel("1");
+		
+		// Create a label to inform invalid deck name
+		this.labelNameErr = new JLabel(NAME_ERR_MSG);
+		this.labelNameErr.setVisible(false);
+	
 		// Create a card
 		Card starterCard = new Card();
 		int key = starterCard.hashCode();
 		cards.put(key, starterCard);
 		this.addRemoveCardListener(starterCard, this);
 
-		// buttons
+		// Create add card button
 		this.btnAddCard = new JButton(ADD_CARD_LABEL);
 		// this.btnCreate = new JButton(CREATE_LABEL_STRING);
 		// this.btnCancel = new JButton(CANCEL_LABEL_STRING);
 
-		// action listeners
+		// Construct action listeners
 		btnAddCard.addActionListener(new AddNewCardController(this));
 		// btnCreate.addActionListener(new CreateNewDeckController(this));
 		// this.addAction(btnCancel, this);
 
-		// setup centerPanel
-		// centerPanel includes the add button and additional cards
-		centerPanel.setLayout(new MigLayout());
-
-		// Create sets of buttons that modify the deck
+		// Add sets of buttons that modify the deck to a panel
 		JPanel centerTopPanel = new JPanel();
 		addModifyDeckButtons(centerTopPanel);	
 		
@@ -146,6 +143,10 @@ public class CreateNewDeckPanel extends JPanel {
 		cardSP = new JScrollPane(container);
 		cardSP.setMinimumSize(new Dimension(500, 250));
 
+		
+		// centerPanel includes the add button and additional cards
+		centerPanel.setLayout(new MigLayout());
+		
 		// removes cards
 		cardPanel.add(errorPanel);
 		cardPanel.add(starterCard);
