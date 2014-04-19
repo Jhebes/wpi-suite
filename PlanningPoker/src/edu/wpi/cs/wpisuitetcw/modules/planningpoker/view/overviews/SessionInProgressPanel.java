@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -33,13 +34,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.EditActivatedSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
@@ -80,69 +79,62 @@ public class SessionInProgressPanel extends JSplitPane {
 		LeftPanel.setLayout(new BoxLayout(LeftPanel, BoxLayout.Y_AXIS));
 		LeftPanel.setAlignmentX(TOP_ALIGNMENT);
 
-		// Padding
-		Component verticalStrut = Box.createVerticalStrut(10);
-		LeftPanel.add(verticalStrut);
-
 		// "Session Info" label
 		JLabel lblSessionInfo = new JLabel("Session Info:");
 		lblSessionInfo.setFont(new Font("Sans-Serif", Font.BOLD, 15));
 		LeftPanel.add(lblSessionInfo);
 
 		// Padding
-		Component verticalStrut2 = Box.createVerticalStrut(20);
-		LeftPanel.add(verticalStrut2);
+		LeftPanel.add(Box.createVerticalStrut(10));
 
 		JLabel lblOwnerName = new JLabel("Owner Name:");
 		LeftPanel.add(lblOwnerName);
 
-		setOwnerUsername(session.getOwnerUserName());
+		setOwnerUsername(session.getOwnerUserName());//why are you using a setter in the same class
+		ownerName.setMaximumSize(new Dimension(500, 10));
 		LeftPanel.add(ownerName);
 
-		Component verticalStrut21 = Box.createVerticalStrut(20);
-		LeftPanel.add(verticalStrut21);
-
+		// Padding
+		LeftPanel.add(Box.createVerticalStrut(10));
+		
 		// "Name" label
 		JLabel lblName = new JLabel("Name:");
 		LeftPanel.add(lblName);
 
 		// Call setter for session name
 		setSessionName(session.getName());
+		name.setMaximumSize(new Dimension(500, 10));//TODO: figure out what to do with runover
 		LeftPanel.add(name);
 
 		// Padding
-		Component verticalStrut3 = Box.createVerticalStrut(20);
-		LeftPanel.add(verticalStrut3);
-
+		LeftPanel.add(Box.createVerticalStrut(10));
+				
 		// "Description" label
 		JLabel lblDescription = new JLabel("Description:");
 		LeftPanel.add(lblDescription);
 
 		// Call setter for session description
 		setSessionDescription(session.getDescription());
+		description.setMaximumSize(new Dimension(500, 10));
 		LeftPanel.add(description);
 
 		// Padding
-		Component verticalStrut4 = Box.createVerticalStrut(20);
-		LeftPanel.add(verticalStrut4);
-
+		LeftPanel.add(Box.createVerticalStrut(10));
+				
 		// "Deadline" label
 		JLabel lblDate = new JLabel("Deadline:");
 		LeftPanel.add(lblDate);
 		// TODO: make it so this can take a real date.
 		// Call setter for session deadline (TBR)
 		setSessionDeadline(session.getDeadline());
+		deadline.setMaximumSize(new Dimension(500, 10));
 		LeftPanel.add(deadline);
-
-		// Padding
-		Component verticalStrut5 = Box.createVerticalStrut(20);
-		LeftPanel.add(verticalStrut5);
 
 		// End session button
 		String currentUserName = ConfigManager.getConfig().getUserName();
 
 		endSession = new JButton("End Session");
-		//endSession.setBackground(new Color(255, 0, 0));
+		//endSession.setBackground(new Color(255, 255, 255));
 		//endSession.setForeground(new Color(255, 255, 255));
 		//endSession.setContentAreaFilled(false);
 		//endSession.setOpaque(true);
@@ -169,7 +161,6 @@ public class SessionInProgressPanel extends JSplitPane {
 				SessionTableModel.getInstance().update();
 				closeTab();
 			}
-
 		});
 		LeftPanel.add(endSession);
 
