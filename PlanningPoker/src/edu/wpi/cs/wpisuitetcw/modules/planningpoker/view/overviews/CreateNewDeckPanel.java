@@ -111,7 +111,6 @@ public class CreateNewDeckPanel extends JPanel {
 		this.textboxName = new JTextField(18);
 		this.textboxName.setText(TEXTBOX_PLACEHOLDER);
 
-<<<<<<< HEAD
 		// Create a label to keep track number of card
 		this.labelCount = new JLabel(CARD_COUNT_LABEL);
 		this.labelNumCards = new JLabel("1");
@@ -127,9 +126,6 @@ public class CreateNewDeckPanel extends JPanel {
 		this.addRemoveCardListener(starterCard, this);
 
 		// Create add card button
-=======
-		// buttons
->>>>>>> 2eda8c3a31a8e3e27efaae95022a973ff28c1106
 		this.btnAddCard = new JButton(ADD_CARD_LABEL);
 		// this.btnCreate = new JButton(CREATE_LABEL_STRING);
 		// this.btnCancel = new JButton(CANCEL_LABEL_STRING);
