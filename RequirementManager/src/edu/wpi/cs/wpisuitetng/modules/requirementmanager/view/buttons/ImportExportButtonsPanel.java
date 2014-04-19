@@ -58,10 +58,10 @@ public class ImportExportButtonsPanel extends ToolbarGroupView {
 		this.setPreferredWidth(390);
 
 		try {
-			final Image importImage = ImageIO.read(getClass().getResource("cancel.png"));
+			final Image importImage = ImageIO.read(getClass().getResource("import.png"));
 			importButton.setIcon(new ImageIcon(importImage));
 
-			final Image exportImage = ImageIO.read(getClass().getResource("edit.png"));
+			final Image exportImage = ImageIO.read(getClass().getResource("export.png"));
 			exportButton.setIcon(new ImageIcon(exportImage));
 
 		} catch (IOException e) {
