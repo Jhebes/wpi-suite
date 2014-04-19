@@ -73,12 +73,10 @@ public class ImportExportButtonsPanel extends ToolbarGroupView {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// In response to a button click:
 				final int returnVal = fc.showOpenDialog(null);
 
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					final File file = fc.getSelectedFile();
-					// This is where a real application would open the file.
 					Logger.getLogger("RequirementManger").log(Level.INFO, "Exporting to: " + file.getName() + ".");
 
 					try {
