@@ -34,6 +34,7 @@ import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddNewCardController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.InitNewDeckPanelController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardMode;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
 
 /**
@@ -78,10 +79,15 @@ public class CreateNewDeckPanel extends JPanel {
 	private final JScrollPane cardSP;
 	private final JPanel errorPanel;
 
+	/** Mode for the panel */
+	private final CardMode mode;
+
 	// subject to change
 	// private final JTextField textboxVal;
-	public CreateNewDeckPanel() {
-		
+	public CreateNewDeckPanel(CardMode mode) {
+		// mode for the panel
+		this.mode = mode;
+
 		// sub panels
 		topPanel = new JPanel();
 		centerPanel = new JPanel();
@@ -105,6 +111,7 @@ public class CreateNewDeckPanel extends JPanel {
 		this.textboxName = new JTextField(18);
 		this.textboxName.setText(TEXTBOX_PLACEHOLDER);
 
+<<<<<<< HEAD
 		// Create a label to keep track number of card
 		this.labelCount = new JLabel(CARD_COUNT_LABEL);
 		this.labelNumCards = new JLabel("1");
@@ -120,6 +127,9 @@ public class CreateNewDeckPanel extends JPanel {
 		this.addRemoveCardListener(starterCard, this);
 
 		// Create add card button
+=======
+		// buttons
+>>>>>>> 2eda8c3a31a8e3e27efaae95022a973ff28c1106
 		this.btnAddCard = new JButton(ADD_CARD_LABEL);
 		// this.btnCreate = new JButton(CREATE_LABEL_STRING);
 		// this.btnCancel = new JButton(CANCEL_LABEL_STRING);
@@ -149,7 +159,7 @@ public class CreateNewDeckPanel extends JPanel {
 		
 		// removes cards
 		cardPanel.add(errorPanel);
-		cardPanel.add(starterCard);
+		//
 		container.add(cardPanel);
 
 		// add sub panels to center panels
@@ -166,6 +176,28 @@ public class CreateNewDeckPanel extends JPanel {
 		this.add(topPanel, "dock north");
 		this.add(centerPanel, "dock north");
 		this.add(bottomPanel, "center, dock south");
+
+		// determine what type of mode the panel is
+		if (mode.equals(CardMode.CREATE)) {
+			// create mode allows users to enter values
+			setInitialCard();
+		} else {
+			// display mode should display the cards in a deck and disallow any
+			// modification
+			disableAllInputFields();
+		}
+	}
+
+	/**
+	 * Add a initial card to the panel
+	 */
+	private void setInitialCard() {
+		// cards
+		Card starterCard = new Card();
+		int key = starterCard.hashCode();
+		cards.put(key, starterCard);
+		this.addRemoveCardListener(starterCard, this);
+		this.cardPanel.add(starterCard);
 	}
 
 	/**
@@ -184,6 +216,15 @@ public class CreateNewDeckPanel extends JPanel {
 		// This yet moves to the rightmost position when a new card is added.
 		this.cardSP.getHorizontalScrollBar().setValue(
 				(int) (this.cardPanel.getBounds().getWidth() + CARD_WIDTH));
+	}
+
+	/**
+	 * Disables all input fields in the panel
+	 */
+	public void disableAllInputFields() {
+		this.textboxName.setEnabled(false);
+		this.deckOption.setEnabled(false);
+		this.btnAddCard.setEnabled(false);
 	}
 
 	/**

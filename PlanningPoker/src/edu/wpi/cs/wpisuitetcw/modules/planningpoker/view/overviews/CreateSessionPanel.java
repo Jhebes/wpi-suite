@@ -41,6 +41,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.AddSessi
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.CancelCreateSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardMode;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
@@ -76,7 +77,7 @@ public class CreateSessionPanel extends JPanel {
 
 	/** Button to cancel making a session */
 	private final JButton btnCancel;
-	
+
 	/** Require field label */
 	private final JLabel labelRequireField;
 
@@ -146,7 +147,8 @@ public class CreateSessionPanel extends JPanel {
 	public CreateSessionPanel() {
 		// Initialize left and deck panel
 		leftPanel = new JPanel();
-		deckPanel = new CreateNewDeckPanel();
+		// Use display mode since the default deck is displayed by default
+		deckPanel = new CreateNewDeckPanel(CardMode.DISPLAY);
 		bottomPanel = new JPanel();
 		mainPanel = new JSplitPane();
 
@@ -249,7 +251,7 @@ public class CreateSessionPanel extends JPanel {
 
 		// setup deckpanl
 		deckPanel.displayDefaultDeck();
-		
+
 		// setup the layout
 		mainPanel.setLeftComponent(leftPanel);
 		mainPanel.setRightComponent(deckPanel);
@@ -258,7 +260,7 @@ public class CreateSessionPanel extends JPanel {
 
 		// setup bottom panel
 		bottomPanel.setLayout(new MigLayout());
-		
+
 		bottomPanel.add(btnSaveSession, "left, width 120px, height 30px");
 		bottomPanel.add(btnCancel, "width 120px, height 30px");
 		bottomPanel.add(labelRequireField, "gapleft 10px");
