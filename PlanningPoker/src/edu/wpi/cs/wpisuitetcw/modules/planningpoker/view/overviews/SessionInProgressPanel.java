@@ -13,13 +13,13 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -79,10 +79,25 @@ public class SessionInProgressPanel extends JSplitPane {
 		LeftPanel.setLayout(new BoxLayout(LeftPanel, BoxLayout.Y_AXIS));
 		LeftPanel.setAlignmentX(TOP_ALIGNMENT);
 
-		// "Session Info" label
+		/*// "Session Info" label
 		JLabel lblSessionInfo = new JLabel("Session Info:");
 		lblSessionInfo.setFont(new Font("Sans-Serif", Font.BOLD, 15));
 		LeftPanel.add(lblSessionInfo);
+
+		// Padding
+		LeftPanel.add(Box.createVerticalStrut(10));*/
+		
+		// "Name" label
+		JLabel lblName = new JLabel("Session Name:");
+		LeftPanel.add(lblName);
+						
+		// session name adding it to left panel
+		name = new JTextField(session.getName());
+		name.setEditable(false);
+		name.setMaximumSize(new Dimension(500, 10));
+		name.setHorizontalAlignment(JLabel.CENTER);
+		//TODO: figure out what to do with runover
+		LeftPanel.add(name);
 
 		// Padding
 		LeftPanel.add(Box.createVerticalStrut(10));
@@ -90,44 +105,38 @@ public class SessionInProgressPanel extends JSplitPane {
 		JLabel lblOwnerName = new JLabel("Owner Name:");
 		LeftPanel.add(lblOwnerName);
 
-		setOwnerUsername(session.getOwnerUserName());//why are you using a setter in the same class
+		// session owner name adding it to left panel
+		ownerName = new JTextField(session.getOwnerUserName());
+		ownerName.setEditable(false);
 		ownerName.setMaximumSize(new Dimension(500, 10));
+		ownerName.setHorizontalAlignment(JLabel.CENTER);
 		LeftPanel.add(ownerName);
 
 		// Padding
 		LeftPanel.add(Box.createVerticalStrut(10));
 		
-		// "Name" label
-		JLabel lblName = new JLabel("Name:");
-		LeftPanel.add(lblName);
-
-		// Call setter for session name
-		setSessionName(session.getName());
-		name.setMaximumSize(new Dimension(500, 10));//TODO: figure out what to do with runover
-		LeftPanel.add(name);
-
-		// Padding
-		LeftPanel.add(Box.createVerticalStrut(10));
-				
 		// "Description" label
-		JLabel lblDescription = new JLabel("Description:");
+		JLabel lblDescription = new JLabel("Session Description:");
 		LeftPanel.add(lblDescription);
 
-		// Call setter for session description
-		setSessionDescription(session.getDescription());
+		// session description adding it to left panel
+		description = new JTextField(session.getDescription());
+		description.setEditable(false);
 		description.setMaximumSize(new Dimension(500, 10));
+		description.setHorizontalAlignment(JLabel.CENTER);
 		LeftPanel.add(description);
 
 		// Padding
 		LeftPanel.add(Box.createVerticalStrut(10));
 				
 		// "Deadline" label
-		JLabel lblDate = new JLabel("Deadline:");
+		JLabel lblDate = new JLabel("Session Deadline:");
 		LeftPanel.add(lblDate);
-		// TODO: make it so this can take a real date.
-		// Call setter for session deadline (TBR)
+		
+		// session deadline adding it to left panel
 		setSessionDeadline(session.getDeadline());
 		deadline.setMaximumSize(new Dimension(500, 10));
+		deadline.setHorizontalAlignment(JLabel.CENTER);
 		LeftPanel.add(deadline);
 
 		// End session button
@@ -355,39 +364,18 @@ public class SessionInProgressPanel extends JSplitPane {
 
 	/**
 	 * 
-	 * @param sessionName
-	 */
-	public void setSessionName(String sessionName) {
-		name = new JTextField(sessionName);
-		name.setEditable(false);
-	}
-
-	public void setSessionDescription(String sessionDescription) {
-		description = new JTextField(sessionDescription);
-		description.setEditable(false);
-	}
-
-	void setOwnerUsername(String userName) {
-		ownerName = new JTextField(userName);
-		ownerName.setEditable(false);
-		ownerName.setSize(1, 20);
-	}
-
-	/**
-	 * 
 	 * @param sessionDeadlineDate
 	 *            Deadline Date (mm/dd/yyyy) of Session as a String
 	 * @param sessionDeadlineTime
 	 *            Deadline Time (hh:mm AM) of Session as a String
 	 */
-    public void setSessionDeadline(java.util.Date date) {
+    public void setSessionDeadline(Date date) {
     	if (date != null)
             deadline = new JTextField(date.toString());
         else
             deadline = new JTextField("");
 
 		deadline.setEditable(false);
-		deadline.setSize(1, 20);
     }
 
 	/**
