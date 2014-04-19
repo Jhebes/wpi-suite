@@ -20,7 +20,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.importexport.ExportPanel;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.importexport.ImportPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationOverviewPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
@@ -520,29 +519,7 @@ public class ViewEventController {
 	public ArrayList<RequirementPanel> getListOfRequirementPanels() {
 		return listOfEditingPanels;
 	}
-	
-	/**
-	 * Opens the tab for importing a requirement.
-	 */
-	public void openImportTab() {
-		for(int i = 0; i < main.getTabCount(); i++){
-			if(main.getTitleAt(i).equals("Import")){ 
-					if(main.getTabComponentAt(i) instanceof ImportPanel){
-						main.setSelectedIndex(i);
-						return;
-					}
-					else{
-						main.remove(i);
-					}
-			}
-		}
-		ImportPanel newReq = new ImportPanel();
-		main.addTab("Import", null, newReq, "Import some requirements from a JSON file.");
-		main.invalidate(); //force the tabbedpane to redraw.
-		main.repaint();
-		main.setSelectedComponent(newReq);
-	}
-	
+
 	/**
 	 * Opens the tab for exporting a requirement.
 	 */

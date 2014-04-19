@@ -13,7 +13,9 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,10 +23,15 @@ import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.AddRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.importexport.JsonFileChooser;
 
 /**
  * Group of buttons related to importing and exporting requirements.
@@ -32,13 +39,14 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 public class ImportExportButtonsPanel extends ToolbarGroupView {
 
 	/**
-	 * Random number for seriailzation reasons.
+	 * Random number for serialization reasons.
 	 */
 	private static final long serialVersionUID = -8151853089564675130L;
 
 	private final JPanel contentPanel = new JPanel();
-	final JButton importButton = new JButton("<html>Import<br />Requirements</html>");
-	final JButton exportButton = new JButton("<html>Export<br />Requirements</html>");
+	private final JButton importButton = new JButton("<html>Import<br />Requirements</html>");
+	private final JButton exportButton = new JButton("<html>Export<br />Requirements</html>");
+	private static final JFileChooser fc = new JsonFileChooser(); 
 
 	/**
 	 * Constructs the import requirements button panel.
@@ -61,13 +69,39 @@ public class ImportExportButtonsPanel extends ToolbarGroupView {
 					"Error loading icons for import/export button panel.", e);
 		}
 
-		// the action listener for the Edit Estimates button
 		importButton.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ViewEventController.getInstance().openImportTab();
+				// In response to a button click:
+				final int returnVal = fc.showOpenDialog(null);
+
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					final File file = fc.getSelectedFile();
+					// This is where a real application would open the file.
+					Logger.getLogger("RequirementManger").log(Level.INFO, "Exporting to: " + file.getName() + ".");
+
+					try {
+						final String data = new String(Files.readAllBytes(file.toPath()));
+						final Requirement[] newRequirements = Requirement.fromJsonArray(data);
+
+						for (Requirement neqRequirement : newRequirements) {
+							AddRequirementController.getInstance().addRequirement(neqRequirement);
+							
+						}
+						RequirementModel.getInstance().addRequirements(newRequirements);
+
+						ViewEventController.getInstance().refreshTable();
+						ViewEventController.getInstance().refreshTree();
+
+					} catch (IOException ex) {
+						Logger.getLogger("RequirementManager").log(Level.WARNING, "Could not write to file.", ex);
+					}
+				} else {
+					Logger.getLogger("RequirementManger").log(Level.INFO, "Export command cancelled by user.");
+				}
 			}
-			// }
+
 		});
 
 		exportButton.addActionListener(new ActionListener() {
