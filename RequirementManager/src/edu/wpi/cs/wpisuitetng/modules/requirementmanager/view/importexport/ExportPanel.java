@@ -1,12 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2013 WPI-Suite
+ * Copyright (c) 2014 WPI-Suite
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors: Team Rolling Thunder
+ * Contributors: Team Combat Wombat
  ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.importexport;
 
 import java.awt.event.ActionEvent;
@@ -43,7 +44,7 @@ public class ExportPanel extends JPanel {
 	private final JButton exportButton = new JButton("Export");
 	private OverviewTable overviewTable;
 
-	final JFileChooser fc = new JFileChooser();
+	final JFileChooser fc = new JsonFileChooser();
 
 	/**
 	 * UID for serialization.
@@ -54,16 +55,7 @@ public class ExportPanel extends JPanel {
 	 * Constructor for the export requirements panel.
 	 */
 	public ExportPanel() {
-		this.configureFileChooser();
 		this.buildLayout();
-	}
-
-	/**
-	 * Configures the file chooser to only accept JSON files.
-	 */
-	private void configureFileChooser() {
-		fc.addChoosableFileFilter(new JsonFilter());
-		fc.setAcceptAllFileFilterUsed(false);
 	}
 
 	/**
