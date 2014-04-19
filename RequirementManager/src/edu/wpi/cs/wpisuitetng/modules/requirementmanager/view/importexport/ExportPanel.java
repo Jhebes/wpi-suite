@@ -34,6 +34,7 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTable;
 
 /**
@@ -119,6 +120,8 @@ public class ExportPanel extends JPanel {
 						
 						writer.write(gson.toJson(requirements));
 						writer.close();
+
+						ViewEventController.getInstance().removeTab(ExportPanel.this);
 					} catch (IOException ex) {
 						Logger.getLogger("RequirementManager").log(
 								Level.WARNING, "Could not write to file.", ex);
