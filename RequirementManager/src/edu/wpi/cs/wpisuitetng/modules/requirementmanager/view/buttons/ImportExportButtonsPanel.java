@@ -16,6 +16,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,6 +30,7 @@ import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.AddRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
@@ -84,12 +87,22 @@ public class ImportExportButtonsPanel extends ToolbarGroupView {
 						final Requirement[] newRequirements = Requirement.fromJsonArray(data);
 						
 						final List<Requirement> requirements = RequirementModel.getInstance().getRequirements();
+						final List<Integer> requirementIDs = new ArrayList<Integer>();
+						for (Requirement requirement : requirements) {
+							requirementIDs.add(requirement.getId());
+						}
 
-						for (Requirement neqRequirement : newRequirements) {
-							AddRequirementController.getInstance().addRequirement(neqRequirement);
+						for (Requirement newRequirement : newRequirements) {
+							if (requirementIDs.contains(newRequirement.getId())) {
+								UpdateRequirementController.getInstance().updateRequirement(newRequirement);
+								RequirementModel.getInstance().getRequirement(
+										newRequirement.getId()).copyFrom(newRequirement);
+							} else {
+								AddRequirementController.getInstance().addRequirement(newRequirement);
+								RequirementModel.getInstance().addRequirement(newRequirement);
+							}
 							
 						}
-						RequirementModel.getInstance().addRequirements(newRequirements);
 
 						ViewEventController.getInstance().refreshTable();
 						ViewEventController.getInstance().refreshTree();
