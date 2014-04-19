@@ -82,6 +82,8 @@ public class ImportExportButtonsPanel extends ToolbarGroupView {
 					try {
 						final String data = new String(Files.readAllBytes(file.toPath()));
 						final Requirement[] newRequirements = Requirement.fromJsonArray(data);
+						
+						final List<Requirement> requirements = RequirementModel.getInstance().getRequirements();
 
 						for (Requirement neqRequirement : newRequirements) {
 							AddRequirementController.getInstance().addRequirement(neqRequirement);
