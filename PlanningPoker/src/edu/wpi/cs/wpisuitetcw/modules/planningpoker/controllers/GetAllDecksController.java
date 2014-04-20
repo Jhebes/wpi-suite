@@ -62,6 +62,7 @@ public class GetAllDecksController {
 		
 		deckNames.add("Default");
 		deckNames.add("No deck");
+		deckNames.add("Create new deck");
 		
 		// make sure the decks is not null
 		if(decks != null) {
