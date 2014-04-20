@@ -19,6 +19,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Panel;
 import java.util.ArrayList;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,6 +32,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.AddRequirementToAllController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.AddRequirementToSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.EditRequirementDescriptionController;
@@ -39,6 +43,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveAllRequi
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveRequirementToAllController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveRequirementToCurrentSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.RetrievePlanningPokerRequirementsForSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
@@ -49,8 +54,8 @@ public class ViewSessionReqPanel extends JPanel {
 	private final ScrollablePanel sessionReqPanel;
 	private final ScrollablePanel allReqPanel;
 	private final JPanel buttonsPanel;
-	private final JTextArea description;
-	private final JTextField name;
+	private JTextArea description;
+	private JTextField name;
 	private final JButton moveRequirementToAll;
 	private final JButton moveAllRequirementsToAll;
 	private final JButton moveRequirementToSession;
@@ -249,14 +254,62 @@ public class ViewSessionReqPanel extends JPanel {
 		moveAllRequirementsToAll.setPreferredSize(new Dimension(70, 50));
 		updateDescription.setPreferredSize(new Dimension(70, 50));
 
-		//Action Handlers 
-		this.addRequirementToAll.addActionListener(new AddRequirementToAllController(this));
-		this.addRequirementToSession.addActionListener(new AddRequirementToSessionController(this)); // need to change so it adds to the right side
-		this.moveRequirementToSession.addActionListener(new MoveRequirementToCurrentSessionController(this.session, this));
-		this.moveRequirementToAll.addActionListener(new MoveRequirementToAllController(this.session, this));
-		this.moveAllRequirementsToSession.addActionListener(new MoveAllRequirementsToCurrentSessionController(this.session, this));
-		this.moveAllRequirementsToAll.addActionListener(new MoveAllRequirementsToAllController(this.session, this));
-		this.updateDescription.addActionListener(new EditRequirementDescriptionController(this.session, this));
+		// Action Handlers
+		this.addRequirementToAll
+				.addActionListener(new AddRequirementToAllController(this));
+		// need to change so it adds to the right side
+		this.addRequirementToSession
+				.addActionListener(new AddRequirementToSessionController(this));
+		this.moveRequirementToSession
+				.addActionListener(new MoveRequirementToCurrentSessionController(
+						this.session, this));
+		this.moveRequirementToAll
+				.addActionListener(new MoveRequirementToAllController(
+						this.session, this));
+		this.moveAllRequirementsToSession
+				.addActionListener(new MoveAllRequirementsToCurrentSessionController(
+						this.session, this));
+		this.moveAllRequirementsToAll
+				.addActionListener(new MoveAllRequirementsToAllController(
+						this.session, this));
+		this.updateDescription
+				.addActionListener(new EditRequirementDescriptionController(
+						this.session, this));
+
+		// this will populate the name and description field when clicking on a
+		// requirement in the all session table
+		allReqTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JTable table = (JTable) e.getSource();
+				int row = table.getSelectedRow();
+
+				if (row != -1) {
+					RequirementTableManager m = new RequirementTableManager();
+					Vector v = m.get(1).getDataVector();
+					String name = (String) ((Vector) v.elementAt(row))
+							.elementAt(0);
+					String desc = (String) ((Vector) v.elementAt(row))
+							.elementAt(1);
+
+					setReqInfo(name, desc);
+
+				}
+			}
+		});
+
+		// this will populate the name and description field when clicking on a
+		// requirement in the current session table
+		sessionReqTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				PlanningPokerRequirement selectedReq;
+				ArrayList<String> requirementNames = getRightSelectedRequirements();
+				selectedReq = session.getReqByName(requirementNames.get(0));
+
+				setReqInfo(selectedReq.getName(), selectedReq.getDescription());
+			}
+		});
 
 		// setup buttons panel
 		buttonsPanel.setLayout(new GridLayout(0, 1, 0, 20));
@@ -344,6 +397,19 @@ public class ViewSessionReqPanel extends JPanel {
 		this.add(bottomPanel, c);
 	}
 
+	/**
+	 * This functions sets the texts of the name and description field after
+	 * clicking on the requirement
+	 * 
+	 * @param reqName
+	 * @param reqDescription
+	 */
+	public void setReqInfo(String reqName, String reqDescription) {
+		name.setText(reqName);
+		description.setText(reqDescription);
+
+	}
+
 	public JButton getUpdateDescription() {
 		return updateDescription;
 	}
@@ -359,4 +425,5 @@ public class ViewSessionReqPanel extends JPanel {
 	public PlanningPokerSession getSession() {
 		return session;
 	}
+
 }
