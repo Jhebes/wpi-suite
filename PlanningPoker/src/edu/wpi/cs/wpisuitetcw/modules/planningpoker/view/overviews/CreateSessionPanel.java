@@ -70,45 +70,45 @@ public class CreateSessionPanel extends JPanel {
 
 	// ################ UI Bottom Component #################
 	/** The bottom panel contains buttons */
-	private final JPanel bottomPanel;
+	private JPanel bottomPanel;
 
 	/** Button to save the session */
-	private final JButton btnSaveSession;
+	private JButton btnSaveSession;
 
 	/** Button to cancel making a session */
-	private final JButton btnCancel;
+	private JButton btnCancel;
 
 	/** Require field label */
-	private final JLabel labelRequireField;
+	private JLabel labelRequireField;
 
 	// ################ UI Right Component #################
-	private final CreateNewDeckPanel deckPanel;
+	private CreateNewDeckPanel deckPanel;
 
 	// ################ UI Left Component #################
 	/** The left panel holds components to see the deck */
-	private final JPanel leftPanel;
+	private JPanel leftPanel;
 
 	/** Text box to fill session's name in */
 	private JLabel labelName;
-	private final JTextField nameTextField;
+	private JTextField nameTextField;
 
 	/** Dropdown menu to choose type of session */
-	private final JComboBox<SessionLiveType> dropdownType;
+	private JComboBox<SessionLiveType> dropdownType;
 
 	/** Text box to fill a session's description in */
 	private JLabel labelDescriptionBox;
-	private final JTextArea descriptionBox;
+	private JTextArea descriptionBox;
 
 	/** Dropdown menu to choose deck */
 	private JLabel labeDeck;
-	private final JComboBox<String> deckType;
+	private JComboBox<String> deckType;
 
 	/** Check box for enabling date and time deadline. */
 	private JCheckBox cbDeadline;
 
 	/** Deadline date and time picker */
-	private final JXDatePicker deadlinePicker;
-	private final JSpinner pickerDeadlineTime;
+	private JXDatePicker deadlinePicker;
+	private JSpinner pickerDeadlineTime;
 
 	// ###################### DATA ########################
 	/** Model used for requirements JList */
@@ -145,75 +145,8 @@ public class CreateSessionPanel extends JPanel {
 	 * It sets up all graphical components
 	 */
 	public CreateSessionPanel() {
-		// Initialize left and deck panel
-		leftPanel = new JPanel();
-		// Use display mode since the default deck is displayed by default
-		deckPanel = new CreateNewDeckPanel(CardMode.DISPLAY);
-		bottomPanel = new JPanel();
-		mainPanel = new JSplitPane();
-
-		// Initialize a text box to fill a new session's name in
-		labelName = new JLabel("Name *");
-		labelRequireField = new JLabel(REQUIRED_LABEL);
-		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
-
-		// Create dropdown menu to select type of session
-		JLabel labelDropdownType = new JLabel("Type *");
-		dropdownType = new JComboBox<SessionLiveType>(SessionLiveType.values());
-		dropdownType.setEditable(false);
-		dropdownType.setBackground(Color.WHITE);
-
-		// Create dropdown to select an existed deck
-		labeDeck = new JLabel("Deck *");
-		deckType = new JComboBox<String>();
-		this.setupDeckDropdown();
-		deckType.setEditable(false);
-		deckType.setBackground(Color.WHITE);
-		deckType.setSelectedIndex(0);
-
-		// Create description box
-		labelDescriptionBox = new JLabel("Description *");
-		descriptionBox = new JTextArea(10, 200);
-		descriptionBox.setLineWrap(true);
-		descriptionBox.setWrapStyleWord(true);
-		descriptionBox.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-
-		// Create checkbox for deadline
-		JLabel labelDeadline = new JLabel("Deadline");
-		cbDeadline = new JCheckBox();
-		cbDeadline.addItemListener(new CreateSessionPanelController(this));
-
-		// Create date picker
-		deadlinePicker = new JXDatePicker();
-		deadlinePicker.setDate(Calendar.getInstance().getTime());
-		deadlinePicker.setFormats(new SimpleDateFormat("MM/dd/yyyy"));
-		deadlinePicker.setEnabled(false);
-
-		// Create time selector
-		pickerDeadlineTime = new JSpinner(new SpinnerDateModel());
-		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(
-				pickerDeadlineTime, "HH:mm:ss");
-		pickerDeadlineTime.setEditor(timeEditor);
-		pickerDeadlineTime.setValue(new Date()); // will only show the current
-													// time
-		pickerDeadlineTime.setEnabled(false);
-
-		// Set the default text to the date of creation and the project name
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-		String defaultNameDate = sdf.format(new Date());
-		String projectName = ConfigManager.getConfig().getProjectName();
-		nameTextField.setText(projectName + " - " + defaultNameDate);
-
-		// labelDropdownType.setAlignmentX(dropdownType.getAlignmentX());
-
-		// Create Save session and Create new Deck button
-		btnSaveSession = new JButton("Save");
-		btnSaveSession.addActionListener(new AddSessionController(this, false));
-
-		// Create Cancel create session button
-		btnCancel = new JButton("Cancel");
-		btnCancel.addActionListener(new CancelCreateSessionController(this));
-
+		setupLeftPanel();
+		
 		// Put all UI components creating a session to the left panel
 		// MigLayout is a convenient way of creating responsive layout with
 		// Swing
@@ -249,6 +182,12 @@ public class CreateSessionPanel extends JPanel {
 		leftPanel.add(pickerDeadlineTime, "gapbottom "
 				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, growx, wrap");
 
+
+		// Use display mode since the default deck is displayed by default
+		deckPanel = new CreateNewDeckPanel(CardMode.DISPLAY);
+		bottomPanel = new JPanel();
+		mainPanel = new JSplitPane();
+		
 		// setup deckpanl
 		deckPanel.displayDefaultDeck();
 
@@ -512,4 +451,75 @@ public class CreateSessionPanel extends JPanel {
 		this.pickerDeadlineTime.setEnabled(false);
 	}
 
+	/*
+	 * Construct the left panel. Add buttons, text field, dropdown
+	 * to it
+	 */
+	private void setupLeftPanel() {
+		// Initialize left and deck panel
+		leftPanel = new JPanel();
+
+		// Initialize a text box to fill a new session's name in
+		labelName = new JLabel("Name *");
+		labelRequireField = new JLabel(REQUIRED_LABEL);
+		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
+
+		// Create dropdown menu to select type of session
+		JLabel labelDropdownType = new JLabel("Type *");
+		dropdownType = new JComboBox<SessionLiveType>(SessionLiveType.values());
+		dropdownType.setEditable(false);
+		dropdownType.setBackground(Color.WHITE);
+
+		// Create dropdown to select an existed deck
+		labeDeck = new JLabel("Deck *");
+		deckType = new JComboBox<String>();
+		this.setupDeckDropdown();
+		deckType.setEditable(false);
+		deckType.setBackground(Color.WHITE);
+		deckType.setSelectedIndex(0);
+
+		// Create description box
+		labelDescriptionBox = new JLabel("Description *");
+		descriptionBox = new JTextArea(10, 200);
+		descriptionBox.setLineWrap(true);
+		descriptionBox.setWrapStyleWord(true);
+		descriptionBox.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+
+		// Create checkbox for deadline
+		JLabel labelDeadline = new JLabel("Deadline");
+		cbDeadline = new JCheckBox();
+		cbDeadline.addItemListener(new CreateSessionPanelController(this));
+
+		// Create date picker
+		deadlinePicker = new JXDatePicker();
+		deadlinePicker.setDate(Calendar.getInstance().getTime());
+		deadlinePicker.setFormats(new SimpleDateFormat("MM/dd/yyyy"));
+		deadlinePicker.setEnabled(false);
+
+		// Create time selector
+		pickerDeadlineTime = new JSpinner(new SpinnerDateModel());
+		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(
+				pickerDeadlineTime, "HH:mm:ss");
+		pickerDeadlineTime.setEditor(timeEditor);
+		pickerDeadlineTime.setValue(new Date()); // will only show the current
+													// time
+		pickerDeadlineTime.setEnabled(false);
+
+		// Set the default text to the date of creation and the project name
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		String defaultNameDate = sdf.format(new Date());
+		String projectName = ConfigManager.getConfig().getProjectName();
+		nameTextField.setText(projectName + " - " + defaultNameDate);
+
+		// labelDropdownType.setAlignmentX(dropdownType.getAlignmentX());
+
+		// Create Save session and Create new Deck button
+		btnSaveSession = new JButton("Save");
+		btnSaveSession.addActionListener(new AddSessionController(this, false));
+
+		// Create Cancel create session button
+		btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new CancelCreateSessionController(this));
+
+	}
 }
