@@ -61,8 +61,6 @@ public class CreateSessionPanel extends JPanel {
 	private static final int DESCRIPTION_BOX_WIDTH 		   = 300;
 	private static final int DESCRIPTION_BOX_HEIGHT 	   = 110;
 	private static final int GAP_LENGTH_DEADLINE_TO_BOTTOM = 220;
-	private static final int LEFT_PANEL_BORDER_WIDTH	   = 3;
-	private static final Color LEFT_PANEL_BORDER_COLOR	   = Color.BLACK;
 	private static final String REQUIRED_LABEL = "<html><font color='red'>Required field *</font></html>";
 
 	// default data size for database entry
