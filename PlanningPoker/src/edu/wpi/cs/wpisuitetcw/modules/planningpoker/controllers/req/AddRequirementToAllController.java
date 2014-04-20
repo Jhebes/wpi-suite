@@ -18,6 +18,9 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionReqPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.AddRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 
 /**
  * Adds a requirement to the default planning poker session, making it 
@@ -46,6 +49,9 @@ public class AddRequirementToAllController implements ActionListener {
 	public void addRequirement() {
 		PlanningPokerSession defaultSession = SessionStash.getInstance()
 				.getDefaultSession();
+		// Adds the model of requirements from the req manager, add a requirement to this model, will add and update 
+		// the req manager
+		RequirementModel addReqModel = RequirementModel.getInstance();
 
 		PlanningPokerRequirement requirement = new PlanningPokerRequirement();
 		requirement.setName(this.panel.getNewReqName());
@@ -54,8 +60,14 @@ public class AddRequirementToAllController implements ActionListener {
 		defaultSession.save();
 		this.panel.clearNewReqName();
 		this.panel.clearNewReqDesc();
+		
+		// This adds a new requirement to the req manager, the ID is defaulting to 0 which will need to be changed.
+		// TODO: change ID from 0 to something more useful
+		addReqModel.addRequirement(new Requirement(0, requirement.getName(), requirement.getDescription()));
 
 		(new RequirementTableManager()).fetch(1);
+		
+		
 	}
 
 	/*
