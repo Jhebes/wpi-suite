@@ -55,6 +55,7 @@ public class AddRequirementToSessionController implements ActionListener {
 		// Adds the model of requirements from the req manager, add a requirement to this model, will add and update 
 		// the req manager
 		RequirementModel addReqModel = RequirementModel.getInstance();
+		Requirement reqManagerRequirement = new Requirement();
 
 		PlanningPokerRequirement requirement = new PlanningPokerRequirement();
 		requirement.setName(this.panel.getNewReqName());
@@ -64,9 +65,13 @@ public class AddRequirementToSessionController implements ActionListener {
 		this.panel.clearNewReqName();
 		this.panel.clearNewReqDesc();
 		
-		// This adds a new requirement to the req manager, the ID is defaulting to 0 which will need to be changed.
-		// TODO: change ID from 0 to something more useful
-		addReqModel.addRequirement(new Requirement(0, requirement.getName(), requirement.getDescription()));
+		// Fill in the information for the requirement being created
+		reqManagerRequirement.setId(addReqModel.getNextID());
+		reqManagerRequirement.setName(requirement.getName());
+		reqManagerRequirement.setDescription(requirement.getDescription());
+		
+		// Add the requirement to the Requirement Manager
+		addReqModel.addRequirement(reqManagerRequirement);
 
 		(new RequirementTableManager()).fetch(id);
 	}

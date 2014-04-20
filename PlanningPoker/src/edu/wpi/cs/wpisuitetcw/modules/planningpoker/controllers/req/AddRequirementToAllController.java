@@ -23,8 +23,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 
 /**
- * Adds a requirement to the default planning poker session, making it 
- * available to be added by all New Planning Poker sessions.
+ * Adds a requirement to the default planning poker session, making it available
+ * to be added by all New Planning Poker sessions.
  */
 public class AddRequirementToAllController implements ActionListener {
 
@@ -49,9 +49,11 @@ public class AddRequirementToAllController implements ActionListener {
 	public void addRequirement() {
 		PlanningPokerSession defaultSession = SessionStash.getInstance()
 				.getDefaultSession();
-		// Adds the model of requirements from the req manager, add a requirement to this model, will add and update 
+		// Adds the model of requirements from the req manager, add a
+		// requirement to this model, will add to and update
 		// the req manager
 		RequirementModel addReqModel = RequirementModel.getInstance();
+		Requirement reqManagerRequirement = new Requirement();
 
 		PlanningPokerRequirement requirement = new PlanningPokerRequirement();
 		requirement.setName(this.panel.getNewReqName());
@@ -60,14 +62,16 @@ public class AddRequirementToAllController implements ActionListener {
 		defaultSession.save();
 		this.panel.clearNewReqName();
 		this.panel.clearNewReqDesc();
-		
-		// This adds a new requirement to the req manager, the ID is defaulting to 0 which will need to be changed.
-		// TODO: change ID from 0 to something more useful
-		addReqModel.addRequirement(new Requirement(0, requirement.getName(), requirement.getDescription()));
+
+		// Fill in the information for the requirement being created
+		reqManagerRequirement.setId(addReqModel.getNextID());
+		reqManagerRequirement.setName(requirement.getName());
+		reqManagerRequirement.setDescription(requirement.getDescription());
+		// Add the new Requirement to the requirement manager
+		addReqModel.addRequirement(reqManagerRequirement);
 
 		(new RequirementTableManager()).fetch(1);
-		
-		
+
 	}
 
 	/*
@@ -75,6 +79,6 @@ public class AddRequirementToAllController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		addRequirement();  // So we don't need to mock an action event to test
+		addRequirement(); // So we don't need to mock an action event to test
 	}
 }
