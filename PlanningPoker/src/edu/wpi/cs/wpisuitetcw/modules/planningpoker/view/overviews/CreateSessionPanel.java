@@ -93,6 +93,7 @@ public class CreateSessionPanel extends JPanel {
 	private JTextField nameTextField;
 
 	/** Dropdown menu to choose type of session */
+	private JLabel labelDropdownType;
 	private JComboBox<SessionLiveType> dropdownType;
 
 	/** Text box to fill a session's description in */
@@ -104,6 +105,7 @@ public class CreateSessionPanel extends JPanel {
 	private JComboBox<String> deckType;
 
 	/** Check box for enabling date and time deadline. */
+	private JLabel labelDeadline;
 	private JCheckBox cbDeadline;
 
 	/** Deadline date and time picker */
@@ -147,42 +149,6 @@ public class CreateSessionPanel extends JPanel {
 	public CreateSessionPanel() {
 		setupLeftPanel();
 		
-		// Put all UI components creating a session to the left panel
-		// MigLayout is a convenient way of creating responsive layout with
-		// Swing
-		leftPanel.setLayout(new MigLayout("", "[]10[]", "[]5[]"));
-		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
-
-		// labels and textfields
-		leftPanel.add(labelName, "span");
-		leftPanel.add(nameTextField, "width " + SESSION_NAME_BOX_WIDTH
-				+ "px, span");
-
-		leftPanel.add(labelDropdownType, "width " + TYPE_DROPDOWN_WIDTH
-				+ "px, left");
-		leftPanel.add(labeDeck, "left, wrap");
-
-		leftPanel.add(dropdownType, "width " + TYPE_DROPDOWN_WIDTH + "px");
-		leftPanel.add(deckType, "growx, left, wrap");
-
-		// textarea
-		leftPanel.add(labelDescriptionBox, "wrap");
-		leftPanel.add(descriptionBox, "width " + DESCRIPTION_BOX_WIDTH
-				+ "px, height " + DESCRIPTION_BOX_HEIGHT + "px!, span");
-
-		// optional deadline
-		leftPanel.add(labelDeadline, "split2");
-		leftPanel.add(cbDeadline, "wrap");
-
-		leftPanel.add(deadlinePicker, "split2, gapbottom 40px");
-		leftPanel.add(pickerDeadlineTime, "gapbottom 40px, growx, wrap");
-
-		leftPanel.add(deadlinePicker, "split2, gapbottom "
-				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px");
-		leftPanel.add(pickerDeadlineTime, "gapbottom "
-				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, growx, wrap");
-
-
 		// Use display mode since the default deck is displayed by default
 		deckPanel = new CreateNewDeckPanel(CardMode.DISPLAY);
 		bottomPanel = new JPanel();
@@ -475,7 +441,48 @@ public class CreateSessionPanel extends JPanel {
 		// Create Cancel create session button
 		btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new CancelCreateSessionController(this));
+		
+		arrangeLeftPanelComponentsPositions();
 
+	}
+
+	/*
+	 * Put all UI components creating a session to the left panel
+	 * MigLayout is a convenient way of creating responsive layout with Swing 
+	 */
+	private void arrangeLeftPanelComponentsPositions() {
+		leftPanel.setLayout(new MigLayout("", "[]10[]", "[]5[]"));
+		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
+
+		// labels and textfields
+		leftPanel.add(labelName, "span");
+		leftPanel.add(nameTextField, "width " + SESSION_NAME_BOX_WIDTH
+				+ "px, span");
+
+		leftPanel.add(labelDropdownType, "width " + TYPE_DROPDOWN_WIDTH
+				+ "px, left");
+		leftPanel.add(labeDeck, "left, wrap");
+
+		leftPanel.add(dropdownType, "width " + TYPE_DROPDOWN_WIDTH + "px");
+		leftPanel.add(deckType, "growx, left, wrap");
+
+		// textarea
+		leftPanel.add(labelDescriptionBox, "wrap");
+		leftPanel.add(descriptionBox, "width " + DESCRIPTION_BOX_WIDTH
+				+ "px, height " + DESCRIPTION_BOX_HEIGHT + "px!, span");
+
+		// optional deadline
+		leftPanel.add(labelDeadline, "split2");
+		leftPanel.add(cbDeadline, "wrap");
+
+		leftPanel.add(deadlinePicker, "split2, gapbottom 40px");
+		leftPanel.add(pickerDeadlineTime, "gapbottom 40px, growx, wrap");
+
+		leftPanel.add(deadlinePicker, "split2, gapbottom "
+				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px");
+		leftPanel.add(pickerDeadlineTime, "gapbottom "
+				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, growx, wrap");
+		
 	}
 
 	/*
@@ -524,7 +531,7 @@ public class CreateSessionPanel extends JPanel {
 	 * Create checkbox for deadline
 	 */
 	private void createDeadlineCheckbox() {
-		JLabel labelDeadline = new JLabel("Deadline");
+		labelDeadline = new JLabel("Deadline");
 		cbDeadline = new JCheckBox();
 		cbDeadline.addItemListener(new CreateSessionPanelController(this));		
 	}
@@ -556,7 +563,7 @@ public class CreateSessionPanel extends JPanel {
 	 * Create dropdown menu to select type of session
 	 */
 	private void createSessionTypeDropdown() {
-		JLabel labelDropdownType = new JLabel("Type *");
+		labelDropdownType = new JLabel("Type *");
 		dropdownType = new JComboBox<SessionLiveType>(SessionLiveType.values());
 		dropdownType.setEditable(false);
 		dropdownType.setBackground(Color.WHITE);
