@@ -164,6 +164,8 @@ public class CreateSessionPanel extends JPanel {
 		// Put the left and card panel into a JSplitpane
 		JSplitPane mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
 											  leftPanel, deckPanel);
+		// Prevent users resize left panel
+		mainPanel.setEnabled(false);
 
 		// Add the mainPanel and bottom panel to the canvas
 		this.setLayout(new MigLayout());
