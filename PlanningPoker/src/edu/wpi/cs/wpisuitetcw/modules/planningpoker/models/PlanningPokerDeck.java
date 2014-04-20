@@ -24,6 +24,9 @@ public class PlanningPokerDeck extends AbstractModel {
 	private ArrayList<Integer> deck;
 	private String deckName;
 	private int id;
+	
+	/** Allow single selection or multiple selection */
+	private boolean isSingleSelection;
 
 	/**
 	 * This constructor creates the default deck with the fibonacci values TODO
