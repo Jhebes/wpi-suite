@@ -441,25 +441,25 @@ public class CreateSessionPanel extends JPanel {
 		btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new CancelCreateSessionController(this));
 		
-		addUIComponentToLeftPanel();
+		addUIComponentsToLeftPanel();
 	}
 
 	/*
 	 * Put all UI components creating a session to the left panel
 	 * MigLayout is a convenient way of creating responsive layout with Swing 
 	 */
-	private void addUIComponentToLeftPanel() {
+	private void addUIComponentsToLeftPanel() {
 		leftPanel.setLayout(new MigLayout("", "[]10[]", "[]5[]"));
 		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
 
 		// Add session name text field and its label
 		leftPanel.add(labelName, "span");
 		leftPanel.add(nameTextField, "width " + SESSION_NAME_BOX_WIDTH
-				+ "px, span");
+					  						  + "px, span");
 
 		// Add labels for the dropdowns of session type and deck to 1 row
 		leftPanel.add(labelDropdownType, "width " + TYPE_DROPDOWN_WIDTH
-				+ "px, left");
+					  							  + "px, left");
 		leftPanel.add(labeDeck, "left, wrap");
 
 		// Add the dropdowns of session type and deck to 1 row
@@ -469,7 +469,7 @@ public class CreateSessionPanel extends JPanel {
 		// Add the description text field and its label to 2 separate rows
 		leftPanel.add(labelDescriptionBox, "wrap");
 		leftPanel.add(descriptionBox, "width " + DESCRIPTION_BOX_WIDTH
-				+ "px, height " + DESCRIPTION_BOX_HEIGHT + "px!, span");
+					  + "px, height " + DESCRIPTION_BOX_HEIGHT + "px!, span");
 
 		// Add the label for deadline and a check box next to it
 		leftPanel.add(labelDeadline, "split2");
@@ -477,9 +477,9 @@ public class CreateSessionPanel extends JPanel {
 
 		// Add deadline date picker and time picker
 		leftPanel.add(deadlinePicker, "split2, gapbottom "
-				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px");
+					  + GAP_LENGTH_DEADLINE_TO_BOTTOM + "px");
 		leftPanel.add(pickerDeadlineTime, "gapbottom "
-				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, growx, wrap");
+					  + GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, growx, wrap");
 		
 	}
 
