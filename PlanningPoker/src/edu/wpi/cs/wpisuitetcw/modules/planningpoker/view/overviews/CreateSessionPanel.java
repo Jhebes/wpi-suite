@@ -25,10 +25,12 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerDateModel;
 
 import net.miginfocom.swing.MigLayout;
@@ -100,6 +102,7 @@ public class CreateSessionPanel extends JPanel {
 	private JComboBox<SessionLiveType> dropdownType;
 
 	/** Text box to fill a session's description in */
+	private JScrollPane descriptionFrame;
 	private JLabel labelDescriptionBox;
 	private JTextArea descriptionBox;
 
@@ -460,7 +463,7 @@ public class CreateSessionPanel extends JPanel {
 
 		// Add the description text field and its label to 2 separate rows
 		leftPanel.add(labelDescriptionBox, "wrap");
-		leftPanel.add(descriptionBox, "width " + DESCRIPTION_BOX_WIDTH + "px!, "
+		leftPanel.add(descriptionFrame, "width " + DESCRIPTION_BOX_WIDTH + "px, "
 					  + "height " + DESCRIPTION_BOX_HEIGHT + "px!, span");
 
 		// Add the label for deadline and a check box next to it
@@ -533,10 +536,14 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private void createDescriptionTextbox() {
 		labelDescriptionBox = new JLabel("Description *");
-		descriptionBox = new JTextArea(10, 200);
+		descriptionBox = new JTextArea();
 		descriptionBox.setLineWrap(true);
 		descriptionBox.setWrapStyleWord(true);
-		descriptionBox.setBorder(BorderFactory.createLineBorder(Color.GRAY));		
+		descriptionBox.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		
+		// Add scroll bar to the text area. It only appears when needed
+		descriptionFrame = new JScrollPane();
+		descriptionFrame.setViewportView(descriptionBox);
 	}
 
 	/*
