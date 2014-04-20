@@ -423,6 +423,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private void setupLeftPanel() {
 		leftPanel = new JPanel();
+		
 		createSessionNameTextbox();
 		createSessionTypeDropdown();
 		createDeckSelectionDropdown();
@@ -432,9 +433,7 @@ public class CreateSessionPanel extends JPanel {
 		// Set the default text to the date of creation and the project name
 		setupDefaultInitialData();
 
-		// labelDropdownType.setAlignmentX(dropdownType.getAlignmentX());
-
-		// Create Save session and Create new Deck button
+		// Create Save session button
 		btnSaveSession = new JButton("Save");
 		btnSaveSession.addActionListener(new AddSessionController(this, false));
 
@@ -442,15 +441,14 @@ public class CreateSessionPanel extends JPanel {
 		btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new CancelCreateSessionController(this));
 		
-		arrangeLeftPanelComponentsPositions();
-
+		addUIComponentToLeftPanel();
 	}
 
 	/*
 	 * Put all UI components creating a session to the left panel
 	 * MigLayout is a convenient way of creating responsive layout with Swing 
 	 */
-	private void arrangeLeftPanelComponentsPositions() {
+	private void addUIComponentToLeftPanel() {
 		leftPanel.setLayout(new MigLayout("", "[]10[]", "[]5[]"));
 		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
 
