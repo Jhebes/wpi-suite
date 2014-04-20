@@ -10,19 +10,15 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.ActivateSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.actionlisteners.ViewSessionBtnPanelListeners;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 
 public class ViewSessionBtnPanel extends JPanel{
 	private final JButton activateBtn;
 	private final JButton addBtn;
-	private final ViewSessionPanel parentPanel;
+	public final ViewSessionPanel parentPanel;
 	
 	
 	public ViewSessionBtnPanel(ViewSessionPanel parentPanel) {
@@ -32,7 +28,7 @@ public class ViewSessionBtnPanel extends JPanel{
 		this.addBtn = new JButton("Add Requirements");
 		this.activateBtn = new JButton("Activate Session");
 		
-		activateBtn.addActionListener(new ActivateSessionController(parentPanel, parentPanel.getPPSession()));
+		activateBtn.addActionListener(new ViewSessionBtnPanelListeners.ActivateSession(this));
 		
 		// add buttons
 		this.add(this.addBtn);

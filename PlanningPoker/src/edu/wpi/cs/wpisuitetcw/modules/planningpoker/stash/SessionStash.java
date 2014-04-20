@@ -25,6 +25,15 @@ public class SessionStash {
 		return this.sessions;
 	}
 	
+	public void updateSession(int id, PlanningPokerSession s){
+		for(int i = 0; i < this.sessions.size(); ++i){
+			if(this.sessions.get(i).getID() == id){
+				this.sessions.set(i, s);
+				return;
+			}
+		}
+	}
+	
 	public void addSession(PlanningPokerSession p){
 		this.sessions.add(p);
 	}

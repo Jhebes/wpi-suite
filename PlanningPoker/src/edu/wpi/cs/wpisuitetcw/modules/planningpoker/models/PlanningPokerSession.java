@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendEmailController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put.PutSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
@@ -125,6 +126,8 @@ public class PlanningPokerSession extends AbstractModel {
 		{
 			SendEmailController.getInstance().sendEmail("start", "teamcombatwombat@gmail.com");
 		}
+		
+		
 	}
 
 	/**
@@ -146,6 +149,20 @@ public class PlanningPokerSession extends AbstractModel {
 		requirements.add(req);
 	}
 
+	public void passRequirementTo(String reqName, PlanningPokerSession target){
+		
+		
+		System.out.printf("Trying to locate requirement of name: %s\n", reqName);
+		PlanningPokerRequirement r = this.getReqByName(reqName);
+		this.deleteRequirement(r);
+		target.addRequirement(r);
+		SessionStash.getInstance().updateSession(this.getID(), this);
+		SessionStash.getInstance().updateSession(target.getID(), target);
+		SessionStash.getInstance().synchronize();
+		
+	}
+	
+	
 	public void addVoteToRequirement(PlanningPokerRequirement req,
 			PlanningPokerVote v, String requestingUser) {
 		PlanningPokerRequirement r = requirements.get(requirements.indexOf(req));
@@ -168,7 +185,7 @@ public class PlanningPokerSession extends AbstractModel {
 	public PlanningPokerRequirement getReqByName(String n) {
 		
 		for (PlanningPokerRequirement r : requirements) {
-			System.out.printf("%s = %s?\n", n, r.getName());
+			//System.out.printf("%s = %s?\n", n, r.getName());
 			if (r.getName().equals(n)) {
 				return r;
 			}
@@ -216,6 +233,16 @@ public class PlanningPokerSession extends AbstractModel {
 		requirements.removeAll(reqs);
 	}
 
+	/**
+	 * Delete a requirement from this session.
+	 * 
+	 * @param req
+	 *            The requirement to delete
+	 */
+	public void deleteRequirement(PlanningPokerRequirement r){
+		this.requirements.remove(r);
+	}
+	
 	/**
 	 * Deletes a set of users from this session.
 	 * 

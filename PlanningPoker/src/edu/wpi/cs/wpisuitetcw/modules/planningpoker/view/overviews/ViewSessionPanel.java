@@ -23,7 +23,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.Requiremen
 public class ViewSessionPanel extends JSplitPane {
 	final private ViewSessionBtnPanel buttonPanel;
 	final private ViewSessionInfoPanel infoPanel;
-	final private ViewSessionReqPanel pkgPanel;
+	final public ViewSessionReqPanel pkgPanel;
 	final private PlanningPokerSession session;
 
 	/**
