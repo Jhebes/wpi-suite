@@ -554,7 +554,7 @@ public class CreateSessionPanel extends JPanel {
 		this.setupDeckDropdown();
 		deckType.setEditable(false);
 		deckType.setBackground(Color.WHITE);
-		deckType.setSelectedIndex(0);		
+		deckType.setSelectedIndex(0);
 	}
 
 	/*

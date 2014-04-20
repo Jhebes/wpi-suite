@@ -114,6 +114,7 @@ public class AddSessionController implements ActionListener {
 
 			session.create();
 			ViewEventManager.getInstance().removeTab(this.view);
+			ViewEventManager.getInstance().viewSession(session);
 		} else {
 			// user has yet entered all required data
 			// TODO: maybe make the warning a pop-up
