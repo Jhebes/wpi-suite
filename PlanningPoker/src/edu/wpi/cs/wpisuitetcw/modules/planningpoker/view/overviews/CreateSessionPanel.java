@@ -154,15 +154,15 @@ public class CreateSessionPanel extends JPanel {
 		
 		// Use display mode since the default deck is displayed by default
 		deckPanel = new CreateNewDeckPanel(CardMode.DISPLAY);
-		
-		// setup deck panel
 		deckPanel.displayDefaultDeck();
 	
 		setupBottomPanel();
 
-		JSplitPane mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, deckPanel);
+		// Put the left and card panel into a JSplitpane
+		JSplitPane mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
+											  leftPanel, deckPanel);
 
-		// setup the panel
+		// Add the mainPanel and bottom panel to the canvas
 		this.setLayout(new MigLayout());
 		this.add(mainPanel, "grow, wrap");
 		this.add(bottomPanel, "dock south");
@@ -433,9 +433,6 @@ public class CreateSessionPanel extends JPanel {
 		btnCancel.addActionListener(new CancelCreateSessionController(this));
 		
 		addUIComponentsToLeftPanel();
-		
-		// Create right border to separate left panel from right panel
-		leftPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, LEFT_PANEL_BORDER_WIDTH, LEFT_PANEL_BORDER_COLOR));
 	}
 
 	/*
