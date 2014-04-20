@@ -66,6 +66,8 @@ public class ViewSessionReqPanel extends JPanel {
 	private final JTable allReqTable;
 	private final JTable sessionReqTable;
 	private final PlanningPokerSession session;
+	private String reqName;
+	private String reqDescription;
 
 	/**
 	 * @return this.name.getText() This requirement's name
@@ -292,7 +294,10 @@ public class ViewSessionReqPanel extends JPanel {
 					String desc = (String) ((Vector) v.elementAt(row))
 							.elementAt(1);
 
-					setReqInfo(name, desc);
+					reqName = name;
+					reqDescription = desc;
+
+					setReqInfo(reqName, reqDescription);
 
 				}
 			}
@@ -307,7 +312,11 @@ public class ViewSessionReqPanel extends JPanel {
 				ArrayList<String> requirementNames = getRightSelectedRequirements();
 				selectedReq = session.getReqByName(requirementNames.get(0));
 
-				setReqInfo(selectedReq.getName(), selectedReq.getDescription());
+				reqName = selectedReq.getName();
+				reqDescription = selectedReq.getDescription();
+
+				setReqInfo(reqName, reqDescription);
+
 			}
 		});
 
@@ -424,6 +433,22 @@ public class ViewSessionReqPanel extends JPanel {
 
 	public PlanningPokerSession getSession() {
 		return session;
+	}
+
+	public String getReqName() {
+		return reqName;
+	}
+
+	public void setReqName(String reqName) {
+		this.reqName = reqName;
+	}
+
+	public String getReqDescription() {
+		return reqDescription;
+	}
+
+	public void setReqDescription(String reqDescription) {
+		this.reqDescription = reqDescription;
 	}
 
 }

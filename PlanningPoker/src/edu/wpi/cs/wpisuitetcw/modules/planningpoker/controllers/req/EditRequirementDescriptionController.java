@@ -40,9 +40,8 @@ public class EditRequirementDescriptionController implements ActionListener {
 	public void receivedData(PlanningPokerSession s) {
 		PlanningPokerRequirement r;
 		ArrayList<PlanningPokerRequirement> a = new ArrayList<PlanningPokerRequirement>();
-		ArrayList<String> requirementNames = this.view
-				.getLeftSelectedRequirements();
-		r = s.getReqByName(requirementNames.get(0));
+		String requirementNames = this.view.getReqName();
+		r = s.getReqByName(requirementNames);
 		a.add(r);
 		s.deleteRequirements(a);
 		a.remove(r);
@@ -53,6 +52,7 @@ public class EditRequirementDescriptionController implements ActionListener {
 		a1.refreshRequirements(1, s.getRequirements());
 		
 		
+
 		s.save();
 
 		this.view.getAllReqTable().repaint();
