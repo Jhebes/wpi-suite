@@ -155,15 +155,10 @@ public class CreateSessionPanel extends JPanel {
 		// Use display mode since the default deck is displayed by default
 		deckPanel = new CreateNewDeckPanel(CardMode.DISPLAY);
 		
-		// setup deckpanl
+		// setup deck panel
 		deckPanel.displayDefaultDeck();
 	
-		// setup bottom panel
-		bottomPanel = new JPanel();
-		bottomPanel.setLayout(new MigLayout());
-		bottomPanel.add(btnSaveSession, "left, width 120px, height 30px");
-		bottomPanel.add(btnCancel, "width 120px, height 30px");
-		bottomPanel.add(labelRequireField, "gapleft 10px");
+		setupBottomPanel();
 
 		JSplitPane mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, deckPanel);
 
@@ -576,5 +571,18 @@ public class CreateSessionPanel extends JPanel {
 		labelName = new JLabel("Name *");
 		labelRequireField = new JLabel(REQUIRED_LABEL);
 		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
+	}
+	
+	/*
+	 * Add "Save" button, "Cancel" button, and 
+	 * a label informing the required fields are not filled
+	 * to the bottom panel
+	 */
+	private void setupBottomPanel() {
+		bottomPanel = new JPanel();
+		bottomPanel.setLayout(new MigLayout());
+		bottomPanel.add(btnSaveSession, "left, width 120px, height 30px");
+		bottomPanel.add(btnCancel, "width 120px, height 30px");
+		bottomPanel.add(labelRequireField, "gapleft 10px");		
 	}
 }
