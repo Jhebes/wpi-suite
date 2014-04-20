@@ -25,7 +25,7 @@ public class PlanningPokerDeck extends AbstractModel {
 	private String deckName;
 	private int id;
 	
-	/** Allow single selection or multiple selection */
+	/** Allow single card selection or multiple card selection */
 	private boolean isSingleSelection;
 
 	/**
