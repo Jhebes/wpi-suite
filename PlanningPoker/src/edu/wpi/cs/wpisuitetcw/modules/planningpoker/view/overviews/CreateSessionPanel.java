@@ -11,16 +11,12 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.Color;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import javax.management.Notification;
-import javax.management.NotificationListener;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -42,11 +38,10 @@ import org.jdesktop.swingx.JXDatePicker;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateSessionPanelController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.InitNewDeckPanelController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.AddSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.actionlisteners.CreateSessionPanelListeners;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
@@ -203,7 +198,8 @@ public class CreateSessionPanel extends JSplitPane {
 		// buttons
 		rightPanel.add(btnSaveSession, "width 150px, left, wrap");
 
-		btnSaveSession.addActionListener(new AddSessionController(this));
+		CreateSessionPanelListeners.CreateSession l = new CreateSessionPanelListeners.CreateSession(this, false);
+		btnSaveSession.addActionListener(l);
 		btnCreateNewDeck.addActionListener(InitNewDeckPanelController.getInstance(this));
 
 		// center the container
@@ -392,6 +388,14 @@ public class CreateSessionPanel extends JSplitPane {
 		return dropdownType;
 	}
 
+	
+	/**
+	 * @return Deck Type selected
+	 */
+	public JComboBox<String> getDeckType(){
+		return deckType;
+	}
+	
 	/**
 	 * Updates the requirement list model with a new list of names.
 	 * 
