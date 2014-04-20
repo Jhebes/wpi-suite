@@ -452,30 +452,34 @@ public class CreateSessionPanel extends JPanel {
 		leftPanel.setLayout(new MigLayout("", "[]10[]", "[]5[]"));
 		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
 
-		// labels and textfields
+		// Add session name text field and its label
 		leftPanel.add(labelName, "span");
 		leftPanel.add(nameTextField, "width " + SESSION_NAME_BOX_WIDTH
 				+ "px, span");
 
+		// Add labels for the dropdowns of session type and deck to 1 row
 		leftPanel.add(labelDropdownType, "width " + TYPE_DROPDOWN_WIDTH
 				+ "px, left");
 		leftPanel.add(labeDeck, "left, wrap");
 
+		// Add the dropdowns of session type and deck to 1 row
 		leftPanel.add(dropdownType, "width " + TYPE_DROPDOWN_WIDTH + "px");
 		leftPanel.add(deckType, "growx, left, wrap");
 
-		// textarea
+		// Add the description text field and its label to 2 separate rows
 		leftPanel.add(labelDescriptionBox, "wrap");
 		leftPanel.add(descriptionBox, "width " + DESCRIPTION_BOX_WIDTH
 				+ "px, height " + DESCRIPTION_BOX_HEIGHT + "px!, span");
 
-		// optional deadline
+		// Add the label for deadline and a check box next to it
 		leftPanel.add(labelDeadline, "split2");
 		leftPanel.add(cbDeadline, "wrap");
 
+//		// Add deadline date picker
 		leftPanel.add(deadlinePicker, "split2, gapbottom 40px");
 		leftPanel.add(pickerDeadlineTime, "gapbottom 40px, growx, wrap");
 
+		// Add deadline date picker and time picker
 		leftPanel.add(deadlinePicker, "split2, gapbottom "
 				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px");
 		leftPanel.add(pickerDeadlineTime, "gapbottom "
