@@ -17,7 +17,7 @@ String[] coreuser = {
 		"username",
 		"name",
 		"password",
-		"aim",
+		"sms",
 		"email",
 		"idNum"
 };

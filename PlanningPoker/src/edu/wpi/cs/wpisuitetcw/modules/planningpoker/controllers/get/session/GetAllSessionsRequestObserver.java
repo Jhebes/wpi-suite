@@ -10,6 +10,9 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -37,11 +40,13 @@ public class GetAllSessionsRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		PlanningPokerSession[] sessions = PlanningPokerSession.fromJSONArray(iReq.getResponse().getBody());
+		PlanningPokerSession[] sessions = PlanningPokerSession
+				.fromJSONArray(iReq.getResponse().getBody());
 		if (sessions == null) {
 			sessions = new PlanningPokerSession[0];
 		}
-		controller.receivedSessions(sessions);
+		controller.receivedSessions(new ArrayList<PlanningPokerSession>(Arrays
+				.asList(sessions)));
 	}
 
 	/*

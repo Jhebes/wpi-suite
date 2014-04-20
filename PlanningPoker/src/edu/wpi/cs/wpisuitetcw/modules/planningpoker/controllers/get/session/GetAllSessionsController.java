@@ -10,14 +10,10 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.List;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionTableModel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -45,7 +41,7 @@ public class GetAllSessionsController {
 	}
 	
 
-	public void receivedSessions(PlanningPokerSession[] sessions) {
+	public void receivedSessions(List<PlanningPokerSession> sessions) {
 		SessionStash.getInstance().mergeFromServer(sessions);
 	}
 
@@ -55,7 +51,6 @@ public class GetAllSessionsController {
 	 * @param e
 	 *            The triggering event
 	 */
-
 
 	/**
 	 * Retrieves the sessions from the database.

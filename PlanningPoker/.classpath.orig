@@ -1,5 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+<<<<<<< HEAD
+	<classpathentry kind="src" path="src" />
+	<classpathentry kind="src" path="test" />
+	<classpathentry kind="con"
+		path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7" />
+	<classpathentry kind="src" path="/Janeway" />
+	<classpathentry combineaccessrules="false" kind="src"
+		path="/Network" />
+	<classpathentry combineaccessrules="false" kind="src"
+		path="/WPISuite-Interfaces" />
+	<classpathentry combineaccessrules="false" kind="src"
+		path="/RequirementManager" />
+	<classpathentry combineaccessrules="false" kind="src"
+		path="/DefectTracker" />
+	<classpathentry combineaccessrules="false" kind="src"
+		path="/PostBoard" />
+	<classpathentry kind="con"
+		path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4" />
+	<classpathentry kind="lib" path="lib/jgoodies-forms-1.8.0.jar" />
+	<classpathentry kind="lib"
+		path="/Janeway/lib/miglayout-4.0-swing.jar" />
+	<classpathentry kind="lib" path="/Janeway/lib/swingx-all-1.6.4.jar" />
+	<classpathentry kind="lib" path="/Janeway/lib/gnujaxp.jar" />
+	<classpathentry kind="lib" path="/Janeway/lib/iText-2.1.5.jar" />
+	<classpathentry kind="lib" path="/Janeway/lib/jcommon-1.0.17.jar" />
+	<classpathentry kind="lib"
+		path="/Janeway/lib/jfreechart-1.0.14.jar" />
+	<classpathentry kind="lib"
+		path="/WPISuite/WebContent/WEB-INF/lib/mail.jar" />
+	<classpathentry kind="output" path="bin" />
+=======
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
@@ -20,4 +51,5 @@
 	<classpathentry kind="lib" path="/WPISuite/WebContent/WEB-INF/lib/mail.jar"/>
 	<classpathentry kind="lib" path="/WPISuite/WebContent/WEB-INF/lib/plivo-java-3.0.2-jar-with-dependencies.jar"/>
 	<classpathentry kind="output" path="bin"/>
+>>>>>>> b918d9e88bdeaa9e983b9c55f81f6885fd126cbc
 </classpath>
