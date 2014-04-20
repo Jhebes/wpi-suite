@@ -151,21 +151,13 @@ public class CreateSessionPanel extends JPanel {
 		
 		// Use display mode since the default deck is displayed by default
 		deckPanel = new CreateNewDeckPanel(CardMode.DISPLAY);
-		bottomPanel = new JPanel();
-		mainPanel = new JSplitPane();
 		
 		// setup deckpanl
 		deckPanel.displayDefaultDeck();
-
-		// setup the layout
-		mainPanel.setLeftComponent(leftPanel);
-		mainPanel.setRightComponent(deckPanel);
-		mainPanel.setDividerLocation(0.25);
-		mainPanel.setEnabled(false);
-
+	
 		// setup bottom panel
+		bottomPanel = new JPanel();
 		bottomPanel.setLayout(new MigLayout());
-
 		bottomPanel.add(btnSaveSession, "left, width 120px, height 30px");
 		bottomPanel.add(btnCancel, "width 120px, height 30px");
 		bottomPanel.add(labelRequireField, "gapleft 10px");
@@ -173,7 +165,13 @@ public class CreateSessionPanel extends JPanel {
 		// setup the panel
 		this.setLayout(new MigLayout());
 
-		this.add(mainPanel, "dock center");
+		// ADD color to test
+		leftPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
+		deckPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+		bottomPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+		
+		add(leftPanel);
+		add(deckPanel, "grow, wrap");
 		this.add(bottomPanel, "dock south");
 	}
 
