@@ -54,10 +54,11 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 public class CreateSessionPanel extends JPanel {
 	private static final long serialVersionUID = 8733539608651885877L;
 
-	private static final int SESSION_NAME_BOX_WIDTH = 400;
-	private static final int TYPE_DROPDOWN_WIDTH = 150;
-	private static final int DESCRIPTION_BOX_WIDTH = 400;
-	private static final int DESCRIPTION_BOX_HEIGHT = 110;
+	private static final int SESSION_NAME_BOX_WIDTH		   = 300;
+	private static final int DEADLINE_DATEPICKER_WIDTH	   = 170;
+	private static final int DROPDOWN_WIDTH 		   	   = 150;
+	private static final int DESCRIPTION_BOX_WIDTH 		   = 300;
+	private static final int DESCRIPTION_BOX_HEIGHT 	   = 110;
 	private static final int GAP_LENGTH_DEADLINE_TO_BOTTOM = 220;
 	private static final String REQUIRED_LABEL = "<html><font color='red'>Required field *</font></html>";
 
@@ -443,41 +444,44 @@ public class CreateSessionPanel extends JPanel {
 	}
 
 	/*
-	 * Put all UI components creating a session to the left panel
+	 * Put all UI components creating a session to some particular positions
+	 * on the left panel
 	 * MigLayout is a convenient way of creating responsive layout with Swing 
 	 */
 	private void addUIComponentsToLeftPanel() {
-		leftPanel.setLayout(new MigLayout("", "[]10[]", "[]5[]"));
+		leftPanel.setLayout(new MigLayout("", "", "[]5[]"));
 		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
 
 		// Add session name text field and its label
-		leftPanel.add(labelName, "span");
+		leftPanel.add(labelName, 	 "span");
 		leftPanel.add(nameTextField, "width " + SESSION_NAME_BOX_WIDTH
 					  						  + "px, span");
 
 		// Add labels for the dropdowns of session type and deck to 1 row
-		leftPanel.add(labelDropdownType, "width " + TYPE_DROPDOWN_WIDTH
-					  							  + "px, left");
+		leftPanel.add(labelDropdownType, "width " + DROPDOWN_WIDTH
+					  							  + "px, left, split2");
 		leftPanel.add(labeDeck, "left, wrap");
 
 		// Add the dropdowns of session type and deck to 1 row
-		leftPanel.add(dropdownType, "width " + TYPE_DROPDOWN_WIDTH + "px");
-		leftPanel.add(deckType, "growx, left, wrap");
+		leftPanel.add(dropdownType, "width " + DROPDOWN_WIDTH + "px, left, split2");
+		leftPanel.add(deckType, 	"width " + DROPDOWN_WIDTH + "px, left, wrap");
 
 		// Add the description text field and its label to 2 separate rows
 		leftPanel.add(labelDescriptionBox, "wrap");
-		leftPanel.add(descriptionBox, "width " + DESCRIPTION_BOX_WIDTH
-					  + "px, height " + DESCRIPTION_BOX_HEIGHT + "px!, span");
+		leftPanel.add(descriptionBox, "width " + DESCRIPTION_BOX_WIDTH + "px, "
+					  + "height " + DESCRIPTION_BOX_HEIGHT + "px!, span");
 
 		// Add the label for deadline and a check box next to it
 		leftPanel.add(labelDeadline, "split2");
 		leftPanel.add(cbDeadline, "wrap");
 
 		// Add deadline date picker and time picker
-		leftPanel.add(deadlinePicker, "split2, gapbottom "
-					  + GAP_LENGTH_DEADLINE_TO_BOTTOM + "px");
-		leftPanel.add(pickerDeadlineTime, "gapbottom "
-					  + GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, growx, wrap");
+		leftPanel.add(deadlinePicker, "split2, "
+					  + "width " + DEADLINE_DATEPICKER_WIDTH + "px, "
+					  + "gapbottom " + GAP_LENGTH_DEADLINE_TO_BOTTOM + "px");
+		leftPanel.add(pickerDeadlineTime, 
+						"width " + DEADLINE_DATEPICKER_WIDTH + "px, "
+					  + "gapbottom " + GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, wrap");
 		
 	}
 
