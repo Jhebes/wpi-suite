@@ -126,8 +126,8 @@ public class CreateSessionPanel extends JPanel {
 	private ArrayList<PlanningPokerRequirement> requirements = null;
 
 	/**
-	 * Constructor to create a Create Session Panel This constructor is used to
-	 * edit an existing session.
+	 * Constructor to create a Create Session Panel 
+	 * This constructor is used to edit an existing session.
 	 * 
 	 * @param session
 	 *            A Planning poker session
