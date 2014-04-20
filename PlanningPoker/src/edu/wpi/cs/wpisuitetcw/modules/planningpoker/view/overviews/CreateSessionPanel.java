@@ -475,10 +475,6 @@ public class CreateSessionPanel extends JPanel {
 		leftPanel.add(labelDeadline, "split2");
 		leftPanel.add(cbDeadline, "wrap");
 
-//		// Add deadline date picker
-		leftPanel.add(deadlinePicker, "split2, gapbottom 40px");
-		leftPanel.add(pickerDeadlineTime, "gapbottom 40px, growx, wrap");
-
 		// Add deadline date picker and time picker
 		leftPanel.add(deadlinePicker, "split2, gapbottom "
 				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px");
