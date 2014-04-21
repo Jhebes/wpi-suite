@@ -128,6 +128,9 @@ public class CreateSessionPanel extends JPanel {
 	/** List of requirements available to this create session tab. */
 	private ArrayList<PlanningPokerRequirement> requirements = null;
 
+	/** mode for the create new deck panel */
+	private CardDisplayMode mode = CardDisplayMode.DISPLAY;
+
 	/**
 	 * Constructor to create a Create Session Panel This constructor is used to
 	 * edit an existing session.
@@ -558,9 +561,13 @@ public class CreateSessionPanel extends JPanel {
 				String deckName = String.valueOf(deckType.getSelectedItem());
 				System.out.println("This is executed. With " + deckName);
 				if (deckName.equals(CREATE_DECK)) {
+					// create mode
+					mode = CardDisplayMode.CREATE;
 					// create a new deck of cards
 					createNewDeck();
 				} else {
+					// display mode
+					mode = CardDisplayMode.DISPLAY;
 					// display a selected deck of cards
 					displayDeck(deckName);
 				}
@@ -611,6 +618,7 @@ public class CreateSessionPanel extends JPanel {
 	 * invoke a right panel for creating a new deck of cards
 	 */
 	private void createNewDeck() {
+		System.out.println(mode);
 		// new deck panel for creating a deck of cards
 		this.deckPanel = new CreateNewDeckPanel(CardDisplayMode.CREATE);
 
@@ -629,9 +637,10 @@ public class CreateSessionPanel extends JPanel {
 	}
 
 	/**
-	 * display a deck of cards with a given name TODO implement this method
+	 * display a deck of cards with a given name TODO implement this method TODO
+	 * this will be implemented later
 	 */
 	private void displayDeck(String deckName) {
-
+		System.out.println(mode);
 	}
 }
