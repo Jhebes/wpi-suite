@@ -17,10 +17,9 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 
 /**
- * This controller responds when the user clicks the "Create" button by using
+ * This controller responds when the user clicks the "Cancel" button by using
  * all entered information to construct a new session and storing in the
  * database
- * 
  */
 public class CancelCreateSessionController implements ActionListener {
 	private final CreateSessionPanel view;
