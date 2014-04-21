@@ -166,8 +166,8 @@ public class CreateNewDeckPanel extends JPanel {
 		// setup the entire layout
 		this.setLayout(new MigLayout("", "", ""));
 		this.add(topPanel, "dock north");
-		this.add(centerPanel, "dock north");
-		this.add(bottomPanel, "center, dock south");
+		this.add(centerPanel, "dock center");
+		//this.add(bottomPanel, "center, dock south");
 
 		// determine what type of mode the panel is
 		if (mode.equals(CardDisplayMode.CREATE)) {
