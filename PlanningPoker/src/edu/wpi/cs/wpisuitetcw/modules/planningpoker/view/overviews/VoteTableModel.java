@@ -17,9 +17,18 @@ import javax.swing.table.DefaultTableModel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 
-public class VoteTableModel extends DefaultTableModel{
+/**
+ * VoteTableModel is a model that stores the ID and Vote
+ * of a list of PlanningPokerVotes. 
+ */
+public class VoteTableModel extends DefaultTableModel {
+	/** First row */
 	private final String[] colNames = {"ID", "Vote"};
 	
+	/**
+	 * Construct a VoteTableModel by assigning
+	 * column names to its first row, column identifier
+	 */
 	public VoteTableModel() {
 		setColumnIdentifiers(colNames);
 	}
@@ -31,13 +40,12 @@ public class VoteTableModel extends DefaultTableModel{
 	 *            The new list of votes.
 	 */
 	public void refreshVotes(List<PlanningPokerVote> votes) {
-
+		// Remove all the existing data
 		this.setDataVector(null, colNames);
+		
 		for (PlanningPokerVote vote : votes) {			
-			Object[] row = { 
-					vote.getID(),
-					vote.getCardValue()
-			};
+			Object[] row = {vote.getID(),
+							vote.getCardValue()};
 			this.addRow(row);
 		}
 	}
