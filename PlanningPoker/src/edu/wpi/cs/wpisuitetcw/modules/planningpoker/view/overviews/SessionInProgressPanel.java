@@ -11,6 +11,7 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -78,7 +79,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		// Set up Session Info Panel
 		final JPanel LeftPanel = new JPanel();
 		LeftPanel.setLayout(new BoxLayout(LeftPanel, BoxLayout.Y_AXIS));
-		LeftPanel.setAlignmentX(TOP_ALIGNMENT);
+		// LeftPanel.setAlignmentX(TOP_ALIGNMENT);
 
 		/*
 		 * // "Session Info" label JLabel lblSessionInfo = new
@@ -144,9 +145,28 @@ public class SessionInProgressPanel extends JSplitPane {
 		deadline.setBorder(BorderFactory.createEmptyBorder());
 		LeftPanel.add(deadline);
 
+		JLabel reqHeader = new JLabel("Session Requirements:");
+		LeftPanel.add(reqHeader);
+
+		// TODO: sleep
+		ArrayList<PlanningPokerRequirement> reqs = session.getRequirements();
+		String[] reqNames = new String[reqs.size()];
+		int j = 0;
+		for (PlanningPokerRequirement ppr : reqs) {
+			reqNames[j] = ppr.getName();
+			j++;
+		}
+		JList<String> reqList = new JList<String>();
+		reqList.setListData(reqNames);
+		reqList.setBackground(Color.WHITE);
+		reqList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		reqList.setDragEnabled(false);
+		reqList.setAlignmentX(CENTER_ALIGNMENT);
+		reqList.setPreferredSize(new Dimension(1000, 500));
+		LeftPanel.add(reqList);
+
 		// End session button
 		String currentUserName = ConfigManager.getConfig().getUserName();
-
 		endSession = new JButton("End Session");
 		// endSession.setBackground(new Color(255, 255, 255));
 		// endSession.setForeground(new Color(255, 255, 255));
@@ -262,6 +282,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		};
 
 		reqsViewTable.addMouseListener(new MouseAdapter() {
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JTable table = (JTable) e.getSource();
@@ -280,14 +301,14 @@ public class SessionInProgressPanel extends JSplitPane {
 			}
 
 			public void setSuperClassVariables(String name) {
-				// System.out.println(name);
+				System.out.println(name);
 				reqName = name;
 				setReqLabels();
 			}
 		});
 
 		reqsViewTable.setFillsViewportHeight(true);
-		// reqsViewTable.getColumnModel().getColumn(1).setResizable(false);
+		reqsViewTable.getColumnModel().getColumn(1).setResizable(false);
 		this.getReqsViewTable();
 		reqsView.setLayout(new BorderLayout(0, 0));
 		reqsView.add(reqsViewTable);
@@ -430,6 +451,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	/**
 	 * sets the reqsViewTable with the appropriate information
 	 */
+
 	public void getReqsViewTable() {
 		reqsViewTable.setModel(reqsViewTableManager.get(session.getID()));
 	}
@@ -438,4 +460,9 @@ public class SessionInProgressPanel extends JSplitPane {
 		label_1.setText("<html>" + reqName + "</html>");
 		label_2.setText("<html>" + reqDescription + "</html>");
 	}
+
+	public void disableEditSession() {
+		btnEditSession.setEnabled(false);
+	}
+
 }
