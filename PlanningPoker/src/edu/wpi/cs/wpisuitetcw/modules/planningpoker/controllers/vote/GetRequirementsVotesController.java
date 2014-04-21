@@ -34,11 +34,12 @@ public class GetRequirementsVotesController implements ActionListener{
 	/** The requirements retrieved from the server */
 	protected PlanningPokerRequirement[] data = null;
 
-	
-	//The id of the session to retrieve
+	/** The id of the session to retrieve */
 	private PlanningPokerSession session;
-	//The requirement to get votes for
+	
+	/** The requirement to get votes for */
 	private PlanningPokerRequirement req;
+	
 	/**
 	 * Constructs a new RetrieveFreePlanningPokerRequirementsController
 	 */
@@ -46,7 +47,6 @@ public class GetRequirementsVotesController implements ActionListener{
 		this.session = session;
 		this.view = view;
 	}
-	
 
 	/**
 	 * This method is called by the
@@ -81,6 +81,9 @@ public class GetRequirementsVotesController implements ActionListener{
 				JOptionPane.ERROR_MESSAGE);
 	}
 
+	/**
+	 * Send a request to get the session with the same ID as this session's from the database
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		final Request request = Network.getInstance().makeRequest("planningpoker/session/".concat(String.valueOf(this.session.getID())), HttpMethod.GET);
