@@ -17,39 +17,34 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 /**
- * This class represents the deck for voting 
+ * This class represents the deck for voting
  */
 
 public class PlanningPokerDeck extends AbstractModel {
 	private ArrayList<Integer> deck;
 	private String deckName;
-	public String getDeckName() {
-		return deckName;
-	}
-
 	private int id;
 
-	
-	
 	/**
-	 * This constructor creates the default deck with the fibonacci values
-	 * TODO the default deck should be a database entry
+	 * This constructor creates the default deck with the fibonacci values TODO
+	 * the default deck should be a database entry
 	 */
 	public PlanningPokerDeck() {
-		int[] defaultDeck = {0,1,1,2,3,5,8,13};
+		int[] defaultDeck = { 0, 1, 1, 2, 3, 5, 8, 13 };
 		this.deckName = "Default Deck";
 		deck = new ArrayList<Integer>();
-		for(int i : defaultDeck) {
+		for (int i : defaultDeck) {
 			this.deck.add(i);
 		}
 	}
-	
+
 	/**
 	 * This constructor creates the deck from the imported arrayList of values
+	 * 
 	 * @param deck_in
-	 * 			the inputed deck
+	 *            the inputed deck
 	 */
-	public PlanningPokerDeck(String name_in, ArrayList<Integer> deck_in){
+	public PlanningPokerDeck(String name_in, ArrayList<Integer> deck_in) {
 		this.deckName = name_in;
 		this.deck = deck_in;
 	}
@@ -68,17 +63,14 @@ public class PlanningPokerDeck extends AbstractModel {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, PlanningPokerDeck[].class);
 	}
-	
-	
+
 	@Override
 	public void save() {
-		
 
 	}
 
 	@Override
 	public void delete() {
-		
 
 	}
 
@@ -87,7 +79,6 @@ public class PlanningPokerDeck extends AbstractModel {
 		return new Gson().toJson(this, PlanningPokerDeck.class);
 	}
 
-	
 	/**
 	 * Returns an instance of PlanningPokerRequirement constructed using the
 	 * given Requirement encoded as a JSON string.
@@ -101,10 +92,9 @@ public class PlanningPokerDeck extends AbstractModel {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, PlanningPokerDeck.class);
 	}
-	
+
 	@Override
 	public Boolean identify(Object o) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -114,6 +104,15 @@ public class PlanningPokerDeck extends AbstractModel {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	/**
+	 * Return the name of the deck
+	 * 
+	 * @return name of the deck
+	 */
+	public String getDeckName() {
+		return deckName;
 	}
 
 }
