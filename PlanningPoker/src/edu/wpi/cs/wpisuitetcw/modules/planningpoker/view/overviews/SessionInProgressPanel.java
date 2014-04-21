@@ -273,7 +273,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	}
 
 	public void setNumVotesLabel(int n) {
-		//this.VoteList.setText(Integer.toString(n));
+		this.txtVoteField.setText(Integer.toString(n));
 	}
 
 	private void closeTab() {
@@ -333,8 +333,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	 * @return vote parsed as an integer
 	 */
 	public int getVote() {
-		//return Integer.parseInt(vote.getText());
-		return 0;
+		return Integer.parseInt(this.txtVoteField.getText());
 	}
 
 	/**
