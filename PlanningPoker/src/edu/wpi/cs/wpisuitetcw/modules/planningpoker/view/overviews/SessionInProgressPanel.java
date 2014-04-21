@@ -11,6 +11,7 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -141,9 +142,30 @@ public class SessionInProgressPanel extends JSplitPane {
 		deadline.setBorder(BorderFactory.createEmptyBorder());
 		LeftPanel.add(deadline);
 
+		LeftPanel.add(Box.createVerticalStrut(10));
+
+		JLabel reqHeader = new JLabel("Session Requirements:");
+		reqHeader.setHorizontalAlignment(JLabel.CENTER);
+		LeftPanel.add(reqHeader);
+
+		// TODO: sleep
+		ArrayList<PlanningPokerRequirement> reqs = session.getRequirements();
+		String[] reqNames = new String[reqs.size()];
+		int j = 0;
+		for (PlanningPokerRequirement ppr : reqs) {
+			reqNames[j] = ppr.getName();
+			j++;
+		}
+		JList<String> reqList = new JList<String>();
+		reqList.setListData(reqNames);
+		reqList.setBackground(Color.WHITE);
+		reqList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		reqList.setAlignmentX(CENTER_ALIGNMENT);
+		reqList.setPreferredSize(new Dimension(100, 500));
+		LeftPanel.add(reqList);
+
 		// End session button
 		String currentUserName = ConfigManager.getConfig().getUserName();
-
 		endSession = new JButton("End Session");
 		// endSession.setBackground(new Color(255, 255, 255));
 		// endSession.setForeground(new Color(255, 255, 255));
@@ -357,6 +379,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	/**
 	 * sets the reqsViewTable with the appropriate information
 	 */
+
 	public void getReqsViewTable() {
 	}
 
@@ -366,7 +389,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	}
 
 	public void disableEditSession() {
-		this.btnEditSession.setEnabled(false);
-		
+		btnEditSession.setEnabled(false);
 	}
+
 }
