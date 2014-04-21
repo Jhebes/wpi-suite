@@ -104,24 +104,9 @@ public class CreateNewDeckPanel extends JPanel {
 		
 		cards = new HashMap<Integer, Card>();
 
-		setupTopPanel();
-
-		// add a new panel to the scrollpane, since cards are panels which
-		// cannot be drawn on scrollpane directly
-		cardPanel = new JPanel();
-		cardPanel.add(errorPanel);
-
-		JPanel container = new JPanel();
-		container.setLayout(new GridBagLayout());
-		container.add(cardPanel);
-
-		centerPanel = new JScrollPane(container);
-		centerPanel.setMinimumSize(new Dimension(CENTER_PANEL_WIDTH, CENTER_PANEL_HEIGHT));
-
-		// setup the entire layout
-		this.setLayout(new MigLayout("insets 0", "", ""));
-		this.add(topPanel, "dock north");
-		this.add(centerPanel, "dock center");
+		setupTopPanel(topPanel);
+		setupCenterPanel(centerPanel);
+		setupEntirePanel();
 
 		// determine what type of mode the panel is
 		if (mode.equals(CardDisplayMode.CREATE)) {
@@ -136,7 +121,46 @@ public class CreateNewDeckPanel extends JPanel {
 		}
 	}
 
-	private void setupTopPanel() {
+	/*
+	 * Add all panel to the CreateNewDeckPanel
+	 */
+	private void setupEntirePanel() {
+		removeAll();
+		
+		// setup the entire layout
+		this.setLayout(new MigLayout("insets 0", "", ""));
+		this.add(topPanel, "dock north");
+		this.add(centerPanel, "dock center");		
+	}
+
+	/*
+	 * Construct UI components of the center panel:
+	 * scroll bar for cards and error panel
+	 */
+	private void setupCenterPanel(JScrollPane centerPanel) {
+		// add a new panel to the scrollpane, since cards are panels which
+		// cannot be drawn on scrollpane directly
+		cardPanel = new JPanel();
+		cardPanel.add(errorPanel);
+
+		JPanel container = new JPanel();
+		container.setLayout(new GridBagLayout());
+		container.add(cardPanel);
+		
+		centerPanel = new JScrollPane(container);
+		centerPanel.setMinimumSize(new Dimension(CENTER_PANEL_WIDTH, CENTER_PANEL_HEIGHT));		
+
+	}
+
+	/*
+	 * Construct the UI components of the top panel:
+	 * text field of deck name, dropdown for card selection mode,
+	 * button to add new card, number of card labels, and JLabels
+	 * associated with each component above
+	 */
+	private void setupTopPanel(JPanel topPanel) {
+		topPanel = new JPanel();
+
 		// Create text field for deck's name
 		this.labelName = new JLabel(DECK_NAME_LABEL);
 		this.textboxName = new JTextField(18);
@@ -166,7 +190,6 @@ public class CreateNewDeckPanel extends JPanel {
 		errorPanel.setVisible(false);
 
 		// Add sets of buttons that modify the deck to a panel
-		topPanel = new JPanel();
 		addModifyDeckButtons(topPanel);		
 	}
 
