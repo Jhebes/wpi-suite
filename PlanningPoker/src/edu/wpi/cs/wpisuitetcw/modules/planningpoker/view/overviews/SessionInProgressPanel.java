@@ -26,6 +26,7 @@ import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -79,7 +80,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		// Set up Session Info Panel
 		final JPanel LeftPanel = new JPanel();
 		LeftPanel.setLayout(new BoxLayout(LeftPanel, BoxLayout.Y_AXIS));
-		// LeftPanel.setAlignmentX(TOP_ALIGNMENT);
+		LeftPanel.setAlignmentX(TOP_ALIGNMENT);
 
 		/*
 		 * // "Session Info" label JLabel lblSessionInfo = new
@@ -145,7 +146,10 @@ public class SessionInProgressPanel extends JSplitPane {
 		deadline.setBorder(BorderFactory.createEmptyBorder());
 		LeftPanel.add(deadline);
 
+		LeftPanel.add(Box.createVerticalStrut(10));
+
 		JLabel reqHeader = new JLabel("Session Requirements:");
+		reqHeader.setHorizontalAlignment(JLabel.CENTER);
 		LeftPanel.add(reqHeader);
 
 		// TODO: sleep
@@ -160,9 +164,8 @@ public class SessionInProgressPanel extends JSplitPane {
 		reqList.setListData(reqNames);
 		reqList.setBackground(Color.WHITE);
 		reqList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		reqList.setDragEnabled(false);
 		reqList.setAlignmentX(CENTER_ALIGNMENT);
-		reqList.setPreferredSize(new Dimension(1000, 500));
+		reqList.setPreferredSize(new Dimension(100, 500));
 		LeftPanel.add(reqList);
 
 		// End session button
