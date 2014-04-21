@@ -207,7 +207,6 @@ public class ViewSessionReqPanel extends JPanel {
 		allReqTable.setBackground(Color.WHITE);
 		allReqTable.getTableHeader().setReorderingAllowed(false);
 
-		updateDescription.setPreferredSize(new Dimension(70, 50));
 		// add table to rightPanel
 		JLabel leftLabel = new JLabel("All Requirements");
 		leftPanel.setLayout(new BorderLayout());
@@ -278,24 +277,7 @@ public class ViewSessionReqPanel extends JPanel {
 		// requirement in the all session table
 		allReqTable.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				/*JTable table = (JTable) e.getSource();
-				int row = table.getSelectedRow();
-
-				if (row != -1) {
-					RequirementTableManager m = new RequirementTableManager();
-					Vector v = m.get(1).getDataVector();
-					String name = (String) ((Vector) v.elementAt(row))
-							.elementAt(0);
-					String desc = (String) ((Vector) v.elementAt(row))
-							.elementAt(1);
-
-					reqName = name;
-					reqDescription = desc;
-
-					setReqInfo(reqName, reqDescription);
-				}*/
-				
+			public void mouseClicked(MouseEvent e) {				
 				PlanningPokerRequirement selectedReq;
 				ArrayList<String> requirementNames = getLeftSelectedRequirements();
 				selectedReq = session.getReqByName(requirementNames.get(0));
