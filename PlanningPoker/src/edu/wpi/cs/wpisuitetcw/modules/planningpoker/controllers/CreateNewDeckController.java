@@ -22,16 +22,24 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
+/**
+ * Controller that creates a new deck when users click 
+ * a button that sets this controller as action listener
+ */
 public class CreateNewDeckController implements ActionListener {
-
+	/** A view that exhibits the deck */
 	private CreateNewDeckPanel view;
-
+	
+	/**
+	 * Construct the controller by storing the given CreateNewDeckPanel
+	 * @param deckPanel A CreateNewDeckPanel that has the deck to be created
+	 */
 	public CreateNewDeckController(CreateNewDeckPanel deckPanel) {
 		this.view = deckPanel;
-
 	}
 
 	/**
+	 * Stored the deck in the database
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -65,7 +73,11 @@ public class CreateNewDeckController implements ActionListener {
 
 	}
 
-	// removes the tab
+	/**
+	 * TODO WHAT DOES THIS FUNCTION SAY?
+	 * Removes the tab
+	 * @param deck
+	 */
 	public void onSuccess(PlanningPokerDeck deck) {
 		// close the tab
 		this.view.getInvokingPanel().setupDeckDropdown();

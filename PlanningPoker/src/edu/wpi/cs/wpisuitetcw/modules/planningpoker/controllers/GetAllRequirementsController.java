@@ -19,20 +19,19 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * This retrieves all sessions from the core and publishes them to the view
- * 
+ * A singleton controller that retrieves all sessions from the core and 
+ * publishes them to the view
  */
 public class GetAllRequirementsController {
 
+	/** An instance of this controller */
 	private static GetAllRequirementsController instance;
 
-	/**
-	 * Instantiates a new controller tied to the specified view. Private because
-	 * this is a singleton.
-	 */
-	private GetAllRequirementsController() {
-	}
+	private GetAllRequirementsController() {}
 
+	/**
+	 * Instantiates a new controller tied to the specified view. 
+	 */
 	public static GetAllRequirementsController getInstance() {
 		if (instance == null) {
 			instance = new GetAllRequirementsController();
@@ -40,6 +39,12 @@ public class GetAllRequirementsController {
 		return instance;
 	}
 
+	/**
+	 * Add the given array of PlanningPokerRequirements to the 
+	 * ImportRequirementsTableModel
+	 * @param requirements An array of PlanningPokerRequirements 
+	 * that would be added to the ImportRequirementsTableModel
+	 */
 	public void receivedData(PlanningPokerRequirement[] requirements) {
 		ArrayList<PlanningPokerRequirement> requirementsList = new ArrayList<PlanningPokerRequirement>();
 		for (PlanningPokerRequirement requirement : requirementsList) {
@@ -51,7 +56,7 @@ public class GetAllRequirementsController {
 	}
 
 	/**
-	 * Initiate the request to the server on click
+	 * Send a request to the server to get all the PlanningPokerRequirements
 	 */
 	public void refreshData() {
 		// Send a request to the core to retrieve the sessions

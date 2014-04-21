@@ -17,23 +17,35 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateNewDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 
+/**
+ * A singleton controller that sets the main view to CreateNewDeckPanel
+ *
+ */
 public class InitNewDeckPanelController implements ActionListener {
-	private static InitNewDeckPanelController instance;
+	/** A CreateSessionPanel */
 	private CreateSessionPanel view;
+	
+	/** A CreateNewDeckPanel */
 	private CreateNewDeckPanel deckPanel = null;
+	
+	/** An instance of this controller */
+	private static InitNewDeckPanelController instance;
 
+	/*
+	 * Store the given CreateSessionPanel 
+	 */
 	private InitNewDeckPanelController(CreateSessionPanel sessionPanel) {
 		this.view = sessionPanel;
 	}
 
 	/**
-	 * Create a new deckPanel controller
+	 * Return an InitNewDeckPanelController instance
 	 * 
-	 * @param sessionPanel
-	 * @return InitNewDeckPanelController instance
+	 * @param sessionPanel A CreateSessionPanel
+	 * @return Return an InitNewDeckPanelController instance
 	 */
 	public static InitNewDeckPanelController getInstance(
-			CreateSessionPanel sessionPanel) {
+											CreateSessionPanel sessionPanel) {
 		if (instance == null) {
 			instance = new InitNewDeckPanelController(sessionPanel);
 		}
@@ -41,6 +53,7 @@ public class InitNewDeckPanelController implements ActionListener {
 	}
 
 	/**
+	 * Switch the view to the CreateNewDeckPanel
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -56,8 +69,8 @@ public class InitNewDeckPanelController implements ActionListener {
 	}
 
 	/**
-	 * removes a deckpanel from the mainview and go back to the create session
-	 * panel
+	 * Removes a deckpanel from the mainview and 
+	 * go back to the create session panel
 	 */
 	public void removeDeckPanel() {
 		ViewEventManager.getInstance().removeTab(this.deckPanel);

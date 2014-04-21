@@ -17,38 +17,42 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 
+/**
+ * A controller that allows users editing an activated session
+ */
 public class EditActivatedSessionController implements ActionListener{
 
 	private PlanningPokerSession session;
 	private SessionInProgressPanel panel;
 
-	// the constructor for this session
+	/**
+	 * Construct the controller by storing the given PlanningPokerSession
+	 * and SessionInProgressPanel
+	 * @param session A PlanningPokerSession that would be stored
+	 * @param panel A SessionInProgressPanel that would be stored
+	 */
 	public EditActivatedSessionController(PlanningPokerSession session,
-			SessionInProgressPanel panel) {
-
+										  SessionInProgressPanel panel) {
 		this.panel = panel;
 		this.session = session;
 	}
 
 	/**
-	 * passes back the session to the edit menu, by simply de-activating it,
-	 * closing the tab that's open, and then opening the session in the edit
-	 * view.
+	 * Deactivate the session, close its current tab, and
+	 * show the panel to edit the recently deactivated session
 	 */
 	public void passBackToNewSession() {
-
-		
 		this.session.deactivate();
 		ViewEventManager.getInstance().removeTab(this.panel);
 		ViewEventManager.getInstance().editSession(this.session);
-
-
 	}
 
+	/**
+	 * Call passBackToNewSession method
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.passBackToNewSession();
-		
+		this.passBackToNewSession();	
 	}
 
 }

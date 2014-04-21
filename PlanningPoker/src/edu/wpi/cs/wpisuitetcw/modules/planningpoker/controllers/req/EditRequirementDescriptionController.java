@@ -31,12 +31,22 @@ public class EditRequirementDescriptionController implements ActionListener {
 	private PlanningPokerSession session = null;
 	private ViewSessionReqPanel view;
 
+	/**
+	 * Construct the controller by storing the given PlanningPokerSession
+	 * and ViewSessionReqPanel
+	 * @param s A PlanningPokerSession that would be stored
+	 * @param v A ViewSessionReqPanel that would be stored
+	 */
 	public EditRequirementDescriptionController(PlanningPokerSession s,
 			ViewSessionReqPanel v) {
 		this.session = s;
 		this.view = v;
 	}
 
+	/**
+	 * TODO What?
+	 * @param s
+	 */
 	public void receivedData(PlanningPokerSession s) {
 		PlanningPokerRequirement r;
 		ArrayList<PlanningPokerRequirement> a = new ArrayList<PlanningPokerRequirement>();
@@ -51,7 +61,6 @@ public class EditRequirementDescriptionController implements ActionListener {
 		s.addRequirements(a);
 		RequirementTableManager a1 = new RequirementTableManager();
 		a1.refreshRequirements(1, s.getRequirements());
-		
 		
 		s.save();
 

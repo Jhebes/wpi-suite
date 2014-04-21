@@ -22,18 +22,25 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Controller to handle retrieving free requirements from the server.
+ * A singleton controller that retrieves free requirements from the server.
  */
-public class RetrievePlanningPokerRequirementsForSessionController{
-	private static RetrievePlanningPokerRequirementsForSessionController instance;
+public class RetrievePlanningPokerRequirementsForSessionController {
+	
 	/** The create session panel */
 	protected CreateSessionPanel panel;
 
 	/** The requirements retrieved from the server */
 	protected PlanningPokerRequirement[] data = null;
+	
 	public int target;
 	
+	/** An instance of this controller */
+	private static RetrievePlanningPokerRequirementsForSessionController instance;
 	
+	/**
+	 * Return an instance of RetrievePlanningPokerRequirementsForSessionController
+	 * @return Return an instance of RetrievePlanningPokerRequirementsForSessionController
+	 */
 	public static RetrievePlanningPokerRequirementsForSessionController getInstance() {
 		if (instance == null) {
 			instance = new RetrievePlanningPokerRequirementsForSessionController();
@@ -42,7 +49,7 @@ public class RetrievePlanningPokerRequirementsForSessionController{
 	}
 
 	/**
-	 * Sends a request for all of the requirements
+	 * Sends a request to get all of the requirements of a session
 	 */
 	public void refreshData(int t){
 		this.target = t;
@@ -81,6 +88,5 @@ public class RetrievePlanningPokerRequirementsForSessionController{
 						+ error, "Error Communicating with Server",
 				JOptionPane.ERROR_MESSAGE);
 	}
-
 
 }
