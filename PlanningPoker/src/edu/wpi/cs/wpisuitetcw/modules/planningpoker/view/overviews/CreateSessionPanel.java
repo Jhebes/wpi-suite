@@ -176,8 +176,8 @@ public class CreateSessionPanel extends JPanel {
 
 		// Add the mainPanel and bottom panel to the canvas
 		this.setLayout(new MigLayout("insets 0"));
-		this.add(mainPanel, "wrap push");
-		this.add(bottomPanel, "growx, height 45px!, wrap");
+		this.add(mainPanel, "dock center");
+		this.add(bottomPanel, "dock south, height 45px!");
 	}
 
 	/**
