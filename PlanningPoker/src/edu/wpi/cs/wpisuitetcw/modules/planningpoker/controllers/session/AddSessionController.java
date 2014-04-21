@@ -105,11 +105,7 @@ public class AddSessionController implements ActionListener {
 				ArrayList<Integer> cardValues = this.view.getDeckPanel()
 						.getAllCardsValue();
 				// TODO the creating deck should be stored
-				System.out.println(name);
-				System.out.println(cardValues);
-
 			}
-			System.out.println(this.view.isInCreateMode());
 
 			// Create a new session and populate its data
 			PlanningPokerSession session = new PlanningPokerSession();
