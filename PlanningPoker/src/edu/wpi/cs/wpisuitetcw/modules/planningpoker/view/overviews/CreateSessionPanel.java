@@ -425,14 +425,6 @@ public class CreateSessionPanel extends JPanel {
 
 		// Set the default text to the date of creation and the project name
 		setupDefaultInitialData();
-
-		// Create Save session button
-		btnSaveSession = new JButton("Save");
-		btnSaveSession.addActionListener(new AddSessionController(this, false));
-
-		// Create Cancel create session button
-		btnCancel = new JButton("Cancel");
-		btnCancel.addActionListener(new CancelCreateSessionController(this));
 		
 		addUIComponentsToLeftPanel();
 	}
@@ -582,6 +574,14 @@ public class CreateSessionPanel extends JPanel {
 	 * to the bottom panel
 	 */
 	private void setupBottomPanel() {
+		// Create Save session button
+		btnSaveSession = new JButton("Save");
+		btnSaveSession.addActionListener(new AddSessionController(this, false));
+
+		// Create Cancel create session button
+		btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new CancelCreateSessionController(this));
+		
 		bottomPanel = new JPanel();
 		bottomPanel.setLayout(new MigLayout());
 		bottomPanel.add(btnSaveSession, "left, width 120px, height 30px");
