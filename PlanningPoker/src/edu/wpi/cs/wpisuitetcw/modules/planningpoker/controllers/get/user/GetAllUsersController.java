@@ -8,54 +8,61 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.user;
 
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.UserStash;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * A singleton controller that retrieves all sessions from the core
- * and publishes them to the view
+ * This retrieves all sessions from the core and publishes them to the view
+ * 
  */
-public class GetAllSessionsController {
+public class GetAllUsersController {
 
-	/** An instance of this controller */
-	private static GetAllSessionsController instance;
-	
-	private GetAllSessionsController() {}
+	private static GetAllUsersController instance;
 	
 	/**
-	 * Instantiates a new controller.
+	 * Instantiates a new controller tied to the specified view.
+	 * Private because this is a singleton.
 	 */
-	public static GetAllSessionsController getInstance() {
+	private GetAllUsersController() {
+	}
+	
+	public static GetAllUsersController getInstance() {
 		if (instance == null) {
-			instance = new GetAllSessionsController();
+			instance = new GetAllUsersController();
 		}
 		return instance;
 	}
 	
-	/**
-	 * Add the given list of PlanningPokerSessions to the SessionStash
-	 * @param sessions A list of PlanningPokerSessions that would be
-	 * added to SessionStash
-	 */
-	public void receivedSessions(List<PlanningPokerSession> sessions) {
-		SessionStash.getInstance().mergeFromServer(sessions);
+
+	public void receivedUsers(List<User> users) {
+		UserStash.getInstance().clear();
+		UserStash.getInstance().addUser(users);
 	}
 
 	/**
-	 * Send a request to retrieve the sessions from the database.
+	 * Initiate the request to the server on click
+	 * 
+	 * @param e
+	 *            The triggering event
 	 */
-	public void retrieveSessions() {
+
+	/**
+	 * Retrieves the sessions from the database.
+	 */
+	public void retrieveUsers() {
 		// Send a request to the core to retrieve the sessions
 		final Request request = Network.getInstance().makeRequest(
-				"planningpoker/session", HttpMethod.GET);
-		request.addObserver(new GetAllSessionsRequestObserver(this));
+				"core/user", HttpMethod.GET);
+		request.addObserver(new GetAllUsersRequestObserver(this));
 		request.send(); // send the request
 	}
 	

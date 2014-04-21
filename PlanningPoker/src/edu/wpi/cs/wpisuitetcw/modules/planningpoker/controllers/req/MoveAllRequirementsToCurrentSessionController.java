@@ -31,12 +31,22 @@ public class MoveAllRequirementsToCurrentSessionController implements ActionList
 
 	private PlanningPokerSession session = null;
 	private ViewSessionReqPanel view;
-
+	
+	/**
+	 * Construct the MoveAllRequirementsToAllController by storing the given
+	 * PlanningPokerSession and ViewSessionReqPanel
+	 * @param s A PlanningPokerSession that would be stored
+	 * @param v A ViewSessionReqPanel that would be stored
+	 */
 	public MoveAllRequirementsToCurrentSessionController(PlanningPokerSession s, ViewSessionReqPanel v) {
 		this.session = s;
 		this.view = v;
 	}
 
+	/**
+	 * TODO WHat?
+	 * @param s
+	 */
 	public void receivedData(PlanningPokerSession s){
 		PlanningPokerRequirement r;
 		
@@ -46,7 +56,6 @@ public class MoveAllRequirementsToCurrentSessionController implements ActionList
 				d.add(r);
 				s.deleteRequirements(d);
 				session.addRequirement(r);
-				
 		}
 
 		s.save();
@@ -71,8 +80,5 @@ public class MoveAllRequirementsToCurrentSessionController implements ActionList
 		final Request request = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.GET);
 		request.addObserver(new MoveAllRequirementsToCurrentRequestObserver(this));
 		request.send();
-		
-		
-
 	}
 }

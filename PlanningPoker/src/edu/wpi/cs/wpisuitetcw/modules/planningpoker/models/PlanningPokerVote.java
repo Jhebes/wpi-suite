@@ -19,27 +19,28 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 public class PlanningPokerVote extends AbstractModel {
 
+	/** ID of the Vote */
 	private UUID id;
-	private String user;
-	private int cardValue;
-
-	public PlanningPokerVote() {
-	}
 	
-	public PlanningPokerVote(String u, int val) {
-		this.user = u;
-		this.cardValue = val;
+	/** Name of user who voted */
+	private String user;
+	
+	/** Vote value */
+	private int cardValue;	
+	
+	/**
+	 * Construct a Planning Poker Vote from the given user name
+	 * and vote value
+	 * @param user A user who made this PlanningPokerVote 
+	 * @param cardValue Vote value 
+	 */
+	public PlanningPokerVote(String user, int cardValue) {
+		this.user = user;
+		this.cardValue = cardValue;
 		this.id = UUID.randomUUID();
 	}
 
 	/* database interaction */
-	@Override
-	public void save() {
-	}
-
-	@Override
-	public void delete() {
-	}
 
 	/* serializing */// NEED HELP
 
@@ -53,8 +54,15 @@ public class PlanningPokerVote extends AbstractModel {
 	public String toJSON() {
 		return new Gson().toJson(this, PlanningPokerVote.class);
 	}
-
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Boolean identify(Object o) {
+		return ((Integer) o).equals(this.id);
+	}
+	
 	/**
 	 * toString : enforce an override. May simply call serializeToJSON.
 	 * 
@@ -64,6 +72,20 @@ public class PlanningPokerVote extends AbstractModel {
 	public String toString() {
 		return "ID: " + this.user + ", Value: " + this.cardValue;
 	}
+	
+	/**
+	 * This class does not provide implementation for this method
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void save() {}
+
+	/**
+	 * This class does not provide implementation for this method
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void delete() {}
 
 	/**
 	 * Convert from JSON back to a Planning Poker Session
@@ -91,40 +113,53 @@ public class PlanningPokerVote extends AbstractModel {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, PlanningPokerVote[].class);
 	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Boolean identify(Object o) {
-		return ((Integer) o).equals(this.id);
-	}
 
+	/**
+	 * Return the UUID of the vote
+	 * @return Return the UUID of the vote
+	 */
 	public UUID getID() {
 		return id;
 	}
 
+	/**
+	 * Assign given UUID to this vote's 
+	 * @param id Assign given UUID to this vote's 
+	 */
 	public void setID(UUID id) {
 		this.id = id;
 	}
 
+	/**
+	 * Return the card value
+	 * @return Return the card value
+	 */
 	public int getCardValue() {
 		return cardValue;
 	}
 
+	/**
+	 * Assign the given integer to the card value 
+	 * of the PlanningPokerVote
+	 * @param cardValue An integer that would be assigned 
+	 * to the card value of the PlanningPokerVote
+	 */
 	public void setCardValue(int cardValue) {
 		this.cardValue = cardValue;
 	}
 	
 	/**
-	 * @return the user
+	 * Return the name of the user who voted
+	 * @return Return the name of the user who voted
 	 */
 	public String getUser() {
 		return user;
 	}
 
 	/**
-	 * @param user the user to set
+	 * Assign the user name to this PlanningPokerVote's
+	 * @param user A user who would be assigned to
+	 * this PlanningPokerVote's
 	 */
 	public void setUser(String user) {
 		this.user = user;

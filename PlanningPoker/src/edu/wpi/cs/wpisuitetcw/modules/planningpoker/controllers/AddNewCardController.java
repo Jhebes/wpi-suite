@@ -15,15 +15,24 @@ import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateNewDeckPanel;
 
+/**
+ * Controller that adds images of cards to the CreateNewDeckPanel
+ */
 public class AddNewCardController implements ActionListener {
+	/** A View that exhibits the images of cards */
 	private CreateNewDeckPanel view;
 
+	/**
+	 * Construct an AddNewCardController controller by
+	 * storing the given CreateNewDeckPanel
+	 * @param deckPanel A CreateNewDeckPanel that would be stored
+	 */
 	public AddNewCardController(CreateNewDeckPanel deckPanel) {
 		this.view = deckPanel;
-
 	}
 
 	/**
+	 * Add a new image of card to the view
 	 * {@inheritDoc}
 	 */
 	@Override

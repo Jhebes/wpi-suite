@@ -22,18 +22,22 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
+/**
+ * A singleton controller that retrieves all requirements that
+ * are not imported from the database
+ */
 public class GetUnimportedRequirementsController {
+	/** An instance of this controller */
 	private static GetUnimportedRequirementsController instance;
+	
 	/** The create session panel */
 	protected CreateSessionPanel panel;
 
+	private GetUnimportedRequirementsController() {}
+
 	/**
-	 * Constructs a new GetUnimportedRequirementsController
+	 * Instantiates a new controller
 	 */
-	private GetUnimportedRequirementsController() {
-
-	}
-
 	public static GetUnimportedRequirementsController getInstance() {
 		if (instance == null) {
 			instance = new GetUnimportedRequirementsController();
@@ -42,7 +46,7 @@ public class GetUnimportedRequirementsController {
 	}
 
 	/**
-	 * Sends a request for all of the requirements
+	 * Sends a request to get all the requirements that are not imported
 	 */
 	public void refreshData() {
 		final Request request = Network.getInstance().makeRequest(
@@ -52,9 +56,9 @@ public class GetUnimportedRequirementsController {
 	}
 
 	/**
-	 * This method is called by the
-	 * {@link RetrieveFreeRequirementsRequestObserver} when the response is
-	 * received
+	 * This method is called by the {@link RetrieveFreeRequirementsRequestObserver}
+	 * when the response is received. It then calls refreshUnimportedRequirements() of 
+	 * ImportRequirementsTableModel
 	 * 
 	 * @param requirements
 	 *            an array list of requirements returned by the server

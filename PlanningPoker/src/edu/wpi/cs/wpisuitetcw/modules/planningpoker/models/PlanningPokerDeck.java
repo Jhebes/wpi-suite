@@ -17,22 +17,22 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 /**
- * This class represents the deck for voting 
+ * This class represents the deck, a list of cards with values
+ * PlanningPokerDeck provides cards with specified values so that
+ * the users can vote on the requirements
  */
-
 public class PlanningPokerDeck extends AbstractModel {
+	/** List of card values */
 	private ArrayList<Integer> deck;
-	private String deckName;
-	public String getDeckName() {
-		return deckName;
-	}
-
-	private int id;
-
 	
+	/** Name of the deck */
+	private String deckName;
+
+	/** ID of the deck */
+	private int id;
 	
 	/**
-	 * This constructor creates the default deck with the fibonacci values
+	 * Construct the default deck in which the cards have Fibonacci values
 	 * TODO the default deck should be a database entry
 	 */
 	public PlanningPokerDeck() {
@@ -45,15 +45,15 @@ public class PlanningPokerDeck extends AbstractModel {
 	}
 	
 	/**
-	 * This constructor creates the deck from the imported arrayList of values
-	 * @param deck_in
-	 * 			the inputed deck
+	 * Construct a deck from the given name and arrayList of values
+	 * @param deckName The name of the deck
+	 * @param deck An array of integer representing the cards' values
 	 */
-	public PlanningPokerDeck(String name_in, ArrayList<Integer> deck_in){
-		this.deckName = name_in;
-		this.deck = deck_in;
+	public PlanningPokerDeck(String deckName, ArrayList<Integer> deck){
+		this.deckName = deckName;
+		this.deck = deck;
 	}
-
+	
 	/**
 	 * Returns an array of PlanningPokerSession parsed from the given
 	 * JSON-encoded string.
@@ -69,25 +69,6 @@ public class PlanningPokerDeck extends AbstractModel {
 		return parser.fromJson(json, PlanningPokerDeck[].class);
 	}
 	
-	
-	@Override
-	public void save() {
-		
-
-	}
-
-	@Override
-	public void delete() {
-		
-
-	}
-
-	@Override
-	public String toJSON() {
-		return new Gson().toJson(this, PlanningPokerDeck.class);
-	}
-
-	
 	/**
 	 * Returns an instance of PlanningPokerRequirement constructed using the
 	 * given Requirement encoded as a JSON string.
@@ -102,16 +83,55 @@ public class PlanningPokerDeck extends AbstractModel {
 		return parser.fromJson(json, PlanningPokerDeck.class);
 	}
 	
+	/**
+	 * {@inheritDoc}}
+	 */
 	@Override
-	public Boolean identify(Object o) {
-		// TODO Auto-generated method stub
-		return null;
+	public String toJSON() {
+		return new Gson().toJson(this, PlanningPokerDeck.class);
 	}
+	
+	/**
+	 * This class does not provide implementation for this method
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void save() {}
 
+	/**
+	 * This class does not provide implementation for this method
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void delete() {}
+	
+	/**
+	 * This class does not provide implementation for this method
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Boolean identify(Object o) {return null;}
+
+	/**
+	 * Return the name of the deck
+	 * @return Return the name of the deck
+	 */
+	public String getDeckName() {
+		return deckName;
+	}
+	
+	/**
+	 * Return the ID of the deck
+	 * @return Return the ID of the deck
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * Assign an integer to the ID of the deck
+	 * @param id An integer that would be assigned to the deck's ID
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}

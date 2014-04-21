@@ -283,6 +283,11 @@ public class User extends AbstractModel
 	}
 
 	
+	public static User[] fromJSONArray(String body) {
+		final Gson parser = new Gson();
+		return parser.fromJson(body, User[].class);
+	}
+	
 	public static User fromJSON(String json) {
 		// build the custom serializer/deserializer
 		Gson gson;
@@ -303,4 +308,8 @@ public class User extends AbstractModel
 	public void setProject(Project aProject){
 		//Users are not currently Associated with projects directly 
 	}
+
+
+
+	
 }

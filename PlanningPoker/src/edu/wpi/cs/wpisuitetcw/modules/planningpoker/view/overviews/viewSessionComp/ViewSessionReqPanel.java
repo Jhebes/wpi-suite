@@ -193,10 +193,6 @@ public class ViewSessionReqPanel extends JPanel {
 
 			}
 
-			@Override
-			public void repaint() {
-				super.repaint();
-			}
 		};
 
 		allReqTable.setBackground(Color.WHITE);
@@ -223,13 +219,6 @@ public class ViewSessionReqPanel extends JPanel {
 
 			}
 
-			/**
-			 * {@inheritDoc}
-			 */
-			@Override
-			public void repaint() {
-				super.repaint();
-			}
 		};
 
 		sessionReqTable.getTableHeader().setReorderingAllowed(false);
