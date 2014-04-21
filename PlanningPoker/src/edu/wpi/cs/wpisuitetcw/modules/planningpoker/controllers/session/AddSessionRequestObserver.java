@@ -16,13 +16,12 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * Handles requests to server to store sessions of Planning Poker
- * 
+ * A controller that sends requests to server to store Planning Poker Session
  */
 public class AddSessionRequestObserver implements RequestObserver {
-	//The controller this is tied to
+	
+	/** The controller this is tied to */
 	private final AddSessionController controller;
-
 	
 	/**
 	 * Creates a listener attached to the controller
@@ -50,7 +49,7 @@ public class AddSessionRequestObserver implements RequestObserver {
 	}
 
 	/**
-	 * What do we do if there's an error?
+	 * Print an message on the console when it gets a error response
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
@@ -58,7 +57,8 @@ public class AddSessionRequestObserver implements RequestObserver {
 	}
 
 	/**
-	 * What do we do when there's a general network failure?
+	 * Print an message on the console when a general network failure
+	 * happens
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
