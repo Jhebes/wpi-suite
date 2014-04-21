@@ -106,7 +106,7 @@ public class AddSessionController implements ActionListener {
 			session.setDescription(des);
 			try {
 				session.setDeck(GetAllDecksController.getInstance()
-						.setDeckByName(deckName));
+						.getDeckByName(deckName));
 			} catch (WPISuiteException e) {
 				Logger.getLogger("PlanningPoker").log(Level.SEVERE,
 						"Error getting all decks", e);
