@@ -271,6 +271,13 @@ public class CreateSessionPanel extends JPanel {
 	}
 
 	/**
+	 * determine what mode the deck panel is in
+	 */
+	public boolean isInCreateMode() {
+		return this.mode.equals(CardDisplayMode.CREATE);
+	}
+
+	/**
 	 * determine if users has entered all required values
 	 * 
 	 * @return true if all values are valid
@@ -295,7 +302,7 @@ public class CreateSessionPanel extends JPanel {
 	 * 
 	 * @return true if anything is entered; false otherwise
 	 */
-	public boolean validateAllSessionInputs() {
+	private boolean validateAllSessionInputs() {
 		// this is to avoid short circuit evaluation
 		boolean nameEntered = sessionNameEntered();
 		boolean desEntered = sessionDescriptionEntered();
@@ -754,5 +761,13 @@ public class CreateSessionPanel extends JPanel {
 		// Add the mainPanel and bottom panel to the canvas
 		this.add(mainPanel, "center, span");
 		updateUI();
+	}
+	
+	/**
+	 * getter for the deck panel
+	 * @return deck panel
+	 */
+	public CreateNewDeckPanel getDeckPanel() {
+		return this.deckPanel;
 	}
 }

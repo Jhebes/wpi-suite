@@ -121,12 +121,6 @@ public class CreateNewDeckPanel extends JPanel {
 		this.labelNameErr = new JLabel(NAME_ERR_MSG);
 		this.labelNameErr.setVisible(false);
 
-		// Create a card
-		Card starterCard = new Card(this.mode);
-		int key = starterCard.hashCode();
-		cards.put(key, starterCard);
-		this.addRemoveCardListener(starterCard, this);
-
 		// Create add card button
 		this.btnAddCard = new JButton(ADD_CARD_LABEL);
 		// this.btnCreate = new JButton(CREATE_LABEL_STRING);

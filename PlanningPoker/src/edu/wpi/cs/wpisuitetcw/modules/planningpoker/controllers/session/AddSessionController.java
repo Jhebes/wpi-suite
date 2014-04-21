@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -92,11 +93,23 @@ public class AddSessionController implements ActionListener {
 			// Get the name of the session
 			String name = this.view.getNameTextField().getText();
 
-			// TODO the creating deck should be stored
 			Date d = this.view.getDeadline();
 			String des = this.view.getDescriptionBox().getText();
 			String deckName = (String) this.view.getDeckType()
 					.getSelectedItem();
+
+			// collect inputs for the deck, if necessary
+			if (this.view.isInCreateMode()) {
+				String deck = this.view.getDeckPanel().getTextboxName()
+						.getText();
+				ArrayList<Integer> cardValues = this.view.getDeckPanel()
+						.getAllCardsValue();
+				// TODO the creating deck should be stored
+				System.out.println(name);
+				System.out.println(cardValues);
+
+			}
+			System.out.println(this.view.isInCreateMode());
 
 			// Create a new session and populate its data
 			PlanningPokerSession session = new PlanningPokerSession();
