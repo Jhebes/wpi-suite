@@ -24,7 +24,7 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Base class for sending notifications on start or end of a planning poker
+ * A controller that sends notifications on start or end of a planning poker
  * session. Defaults to sending an email.
  */
 public class SendNotificationController {
