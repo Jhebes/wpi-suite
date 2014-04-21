@@ -321,7 +321,7 @@ public class CreateNewDeckPanel extends JPanel {
 		// display default deck
 		int[] defaultDeck = { 0, 1, 1, 2, 3, 5, 8, 13 };
 		for (int i = 0; i < defaultDeck.length; i++) {
-			Card aCard = new Card(this.mode);
+			Card aCard = new Card(this.mode, defaultDeck[i]);
 			int key = aCard.hashCode();
 			cards.put(key, aCard);
 			this.addRemoveCardListener(aCard, this);

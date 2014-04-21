@@ -11,6 +11,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Insets;
@@ -59,6 +60,12 @@ public class Card extends JPanel {
 	/** Display mode for the card */
 	private CardDisplayMode mode;
 
+	/** for displaying a card */
+	public Card(CardDisplayMode mode, int value) {
+		this(mode);
+		this.displayCardValue(value);
+	}
+
 	public Card(CardDisplayMode mode) {
 		// display mode for the card
 		this.mode = mode;
@@ -91,8 +98,6 @@ public class Card extends JPanel {
 		isValueValid = true;
 		isMouseovered = false;
 
-		
-
 		// setup the card panel
 		this.setLayout(new MigLayout());
 
@@ -109,17 +114,15 @@ public class Card extends JPanel {
 
 		// set border
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-		
-		
 
 		// display selective elements based on the mode it's in
 		if (mode.equals(CardDisplayMode.DISPLAY)) {
 			disableEditableFields();
-		} else if(mode.equals(CardDisplayMode.CREATE)) {
+		} else if (mode.equals(CardDisplayMode.CREATE)) {
 			// add listener
 			this.addListenerToValueTextBox(txtboxValue, this);
 			this.addListenerToCloseButton(closeButton, this);
-			
+
 			// add highlight feature to the card
 			this.addMouseoverHightlight(closeButton, this);
 			this.addMouseoverHightlight(txtboxValue, this);
@@ -129,12 +132,33 @@ public class Card extends JPanel {
 	}
 
 	/**
-	 * Only in DISPLAY mode. Disable all editable fields
-	 * 
+	 * Display the card with the given value
 	 */
-	public void disableEditableFields() {
-		this.closeButton.setVisible(false);
-		this.container.setVisible(false);
+	private void displayCardValue(int value) {
+		// containing panel
+		JPanel valuePanel = new JPanel();
+		valuePanel.setLayout(new MigLayout());
+		valuePanel.setBackground(Color.WHITE);
+		valuePanel.setOpaque(false);
+		
+		// label for displaying value
+		JLabel valueLabel = new JLabel(Integer.toString(value), JLabel.CENTER);
+		valueLabel.setFont(new Font("Serif", Font.BOLD, 48));
+		
+		// set up the main panel
+		valuePanel.add(valueLabel, "dock center");
+		this.add(valuePanel, "dock center");
+	}
+
+	/**
+	 * Only in DISPLAY mode. Disable all editable fields
+	 */
+	private void disableEditableFields() {
+		this.remove(closeButton);
+		this.remove(container);
+
+		// this.closeButton.setVisible(false);
+		// this.container.setVisible(false);
 	}
 
 	/**
