@@ -148,7 +148,7 @@ public class CreateNewDeckPanel extends JPanel {
 		container.setLayout(new GridBagLayout());
 
 		cardSP = new JScrollPane(container);
-		cardSP.setMinimumSize(new Dimension(700, 250));
+		cardSP.setMinimumSize(new Dimension(350, 250));
 
 		// centerPanel includes the add button and additional cards
 		centerPanel.setLayout(new MigLayout());
