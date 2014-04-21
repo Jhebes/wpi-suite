@@ -63,13 +63,6 @@ public class CreateNewDeckController {
 
 	}
 
-	// removes the tab
-	public void onSuccess(PlanningPokerDeck deck) {
-		// close the tab
-		// this.view.getInvokingPanel().setupDeckDropdown();
-		// InitNewDeckPanelController.getInstance(null).removeDeckPanel();
-	}
-
 	/**
 	 * Validate all the inputs by avoiding java's short-circuit boolean
 	 * evaluation
