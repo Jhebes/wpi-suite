@@ -42,6 +42,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
  */
 public class CreateNewDeckPanel extends JPanel {
 
+	private static final String NO_DECK_MSG = "<html><font color='red'>You will be entering a value when voting on a requirement.</font></html>";
 	private static final long serialVersionUID = 1L;
 	// constants
 	private final String TEXTBOX_PLACEHOLDER = "Deck "
@@ -105,7 +106,7 @@ public class CreateNewDeckPanel extends JPanel {
 		this.deckOption = new JComboBox<String>();
 		deckOption.addItem(SINGLE_SELECT);
 		deckOption.addItem(MULTIPLE_SELECT);
-		
+
 		// Create text field for deck's name
 		this.labelName = new JLabel(DECK_NAME_LABEL);
 		this.textboxName = new JTextField(18);
@@ -114,11 +115,11 @@ public class CreateNewDeckPanel extends JPanel {
 		// Create a label to keep track number of card
 		this.labelCount = new JLabel(CARD_COUNT_LABEL);
 		this.labelNumCards = new JLabel("1");
-		
+
 		// Create a label to inform invalid deck name
 		this.labelNameErr = new JLabel(NAME_ERR_MSG);
 		this.labelNameErr.setVisible(false);
-	
+
 		// Create a card
 		Card starterCard = new Card(this.mode);
 		int key = starterCard.hashCode();
@@ -137,8 +138,8 @@ public class CreateNewDeckPanel extends JPanel {
 
 		// Add sets of buttons that modify the deck to a panel
 		JPanel centerTopPanel = new JPanel();
-		addModifyDeckButtons(centerTopPanel);	
-		
+		addModifyDeckButtons(centerTopPanel);
+
 		// add a new panel to the scrollpane, since cards are panels which
 		// cannot be drawn on scrollpane directly
 		cardPanel = new JPanel();
@@ -149,10 +150,9 @@ public class CreateNewDeckPanel extends JPanel {
 		cardSP = new JScrollPane(container);
 		cardSP.setMinimumSize(new Dimension(700, 250));
 
-		
 		// centerPanel includes the add button and additional cards
 		centerPanel.setLayout(new MigLayout());
-		
+
 		// removes cards
 		cardPanel.add(errorPanel);
 		//
@@ -160,8 +160,9 @@ public class CreateNewDeckPanel extends JPanel {
 
 		// add sub panels to center panels
 		centerPanel.add(centerTopPanel, "dock north, center");
-		centerPanel.add(cardSP, "gapleft 5px, gapright 5px, growx, dock center");
-		//centerPanel.setBorder(null);
+		centerPanel
+				.add(cardSP, "gapleft 5px, gapright 5px, growx, dock center");
+		// centerPanel.setBorder(null);
 
 		// setup bottomPanel
 		// bottomPanel.add(btnCreate);
@@ -177,11 +178,32 @@ public class CreateNewDeckPanel extends JPanel {
 		if (mode.equals(CardDisplayMode.CREATE)) {
 			// create mode allows users to enter values
 			setInitialCard();
-		} else {
+		} else if (mode.equals(CardDisplayMode.DISPLAY)) {
 			// display mode should display the cards in a deck and disallow any
 			// modification
 			disableAllInputFields();
+		} else if (mode.equals(CardDisplayMode.NO_DECK)) {
+			displayNoDeckPanel();
 		}
+	}
+
+	/**
+	 * Display a panel with message when no deck of deck is selected to display
+	 */
+	private void displayNoDeckPanel() {
+		// clear the screen
+		this.removeAll();
+
+		// panel for display a message
+		JPanel msgPanel = new JPanel();
+		msgPanel.setLayout(new MigLayout());
+
+		// No deck message
+		JLabel msgLabel = new JLabel(NO_DECK_MSG, JLabel.CENTER);
+
+		msgPanel.add(msgLabel, "center");
+		this.add(msgLabel, "dock center");
+
 	}
 
 	/**
@@ -321,7 +343,7 @@ public class CreateNewDeckPanel extends JPanel {
 		// display default deck
 		int[] defaultDeck = { 0, 1, 1, 2, 3, 5, 8, 13 };
 		for (int i = 0; i < defaultDeck.length; i++) {
-			Card aCard = new Card(this.mode);
+			Card aCard = new Card(this.mode, defaultDeck[i]);
 			int key = aCard.hashCode();
 			cards.put(key, aCard);
 			this.addRemoveCardListener(aCard, this);
@@ -397,57 +419,56 @@ public class CreateNewDeckPanel extends JPanel {
 	public HashMap<Integer, Card> getCards() {
 		return cards;
 	}
-	
+
 	/*
-	 * Add text field, dropdown card selection,
-	 * create new card button, number of card label,
-	 * and their corresponding labels to the given panel
+	 * Add text field, dropdown card selection, create new card button, number
+	 * of card label, and their corresponding labels to the given panel
 	 */
 	private void addModifyDeckButtons(JPanel centerTopPanel) {
 		// Set the layout for given panel
 		centerTopPanel.setLayout(new GridBagLayout());
-		
-		GridBagConstraints gbc =  new GridBagConstraints();
+
+		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		
+
 		// Create label for name's text field
 		gbc.gridx = 1;
 		gbc.gridy = 1;
 		gbc.insets = new Insets(12, 0, 3, 0);
 		centerTopPanel.add(labelName, gbc);
-		
+
 		// Create label for error message
 		gbc.gridx++;
 		centerTopPanel.add(labelNameErr, gbc);
-		
+
 		// Create label for card selection dropdown
 		gbc.gridx++;
 		centerTopPanel.add(labelCardSelection, gbc);
-		
+
 		// Create text field for deck's name
 		gbc.gridx = 1;
 		gbc.gridy = 2;
 		gbc.gridwidth = 2;
 		gbc.insets = new Insets(0, 0, 15, 30);
 		centerTopPanel.add(textboxName, gbc);
-		
+
 		// Create dropdown for card selection
 		gbc.gridx += 2;
 		centerTopPanel.add(deckOption, gbc);
-		
+
 		// Create "New Card" button
 		Insets createCardButtonsInset = new Insets(0, 0, 0, 5);
 		gbc.gridx = 1;
 		gbc.gridy++;
 		gbc.insets = createCardButtonsInset;
 		centerTopPanel.add(btnAddCard, gbc);
-		
+
 		// Create label for number of card
 		gbc.gridx++;
 		gbc.insets = new Insets(0, 80, 0, 0);
 		centerTopPanel.add(labelCount, gbc);
-		
+
 		// Create label holding the number of card
 		gbc.gridx++;
 		gbc.ipadx = 0;

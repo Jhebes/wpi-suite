@@ -11,6 +11,8 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,27 +49,32 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.Sessi
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 /**
- * A Panel that displays a session's basic information: 
- * name, type, description, and deck.
+ * A Panel that displays a session's basic information: name, type, description,
+ * and deck.
  * 
  * This panel is used to create or edit a session's basic information
  */
 public class CreateSessionPanel extends JPanel {
+	private static final String NO_DECK = "No deck";
+
+	private static final String DEFAULT_DECK = "Default";
+
 	private static final long serialVersionUID = 8733539608651885877L;
 
-	private static final int SESSION_NAME_BOX_WIDTH		   = 300;
-	private static final int DEADLINE_DATEPICKER_WIDTH	   = 170;
-	private static final int DROPDOWN_WIDTH 		   	   = 150;
-	private static final int DESCRIPTION_BOX_WIDTH 		   = 300;
-	private static final int DESCRIPTION_BOX_HEIGHT 	   = 110;
+	private static final int SESSION_NAME_BOX_WIDTH = 300;
+	private static final int DEADLINE_DATEPICKER_WIDTH = 170;
+	private static final int DROPDOWN_WIDTH = 150;
+	private static final int DESCRIPTION_BOX_WIDTH = 300;
+	private static final int DESCRIPTION_BOX_HEIGHT = 110;
 	private static final int GAP_LENGTH_DEADLINE_TO_BOTTOM = 220;
 	private static final String REQUIRED_LABEL = "<html><font color='red'>Required field *</font></html>";
+	private static final String CREATE_DECK = "Create new deck";
 
 	// default data size for database entry
 	private final int DEFAULT_DATA_SIZE = 30;
 
 	public final String DISPLAY_MSG = "New Deck";
-	
+
 	private JSplitPane mainPanel;
 
 	// ################ UI Bottom Component #################
@@ -125,9 +132,12 @@ public class CreateSessionPanel extends JPanel {
 	/** List of requirements available to this create session tab. */
 	private ArrayList<PlanningPokerRequirement> requirements = null;
 
+	/** mode for the create new deck panel */
+	private CardDisplayMode mode = CardDisplayMode.DISPLAY;
+
 	/**
-	 * Constructor to create a Create Session Panel 
-	 * This constructor is used to edit an existing session.
+	 * Constructor to create a Create Session Panel This constructor is used to
+	 * edit an existing session.
 	 * 
 	 * @param session
 	 *            A Planning poker session
@@ -145,22 +155,22 @@ public class CreateSessionPanel extends JPanel {
 	}
 
 	/**
-	 * Constructor to create a Create Session Panel without a session. 
-	 * This constructor is used to create a session.
-	 * It sets up all graphical components
+	 * Constructor to create a Create Session Panel without a session. This
+	 * constructor is used to create a session. It sets up all graphical
+	 * components
 	 */
 	public CreateSessionPanel() {
 		setupLeftPanel();
-		
+
 		// Use display mode since the default deck is displayed by default
 		deckPanel = new CreateNewDeckPanel(CardDisplayMode.DISPLAY);
 		deckPanel.displayDefaultDeck();
-	
+
 		setupBottomPanel();
 
 		// Put the left and card panel into a JSplitpane
-		mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
-											  leftPanel, deckPanel);
+		mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel,
+				deckPanel);
 		// Prevent users resize left panel
 		mainPanel.setEnabled(false);
 
@@ -411,12 +421,11 @@ public class CreateSessionPanel extends JPanel {
 	}
 
 	/*
-	 * Construct the left panel. Add buttons, text field, dropdown
-	 * to it
+	 * Construct the left panel. Add buttons, text field, dropdown to it
 	 */
 	private void setupLeftPanel() {
 		leftPanel = new JPanel();
-		
+
 		createSessionNameTextbox();
 		createSessionTypeDropdown();
 		createDeckSelectionDropdown();
@@ -425,50 +434,50 @@ public class CreateSessionPanel extends JPanel {
 
 		// Set the default text to the date of creation and the project name
 		setupDefaultInitialData();
-		
+
 		addUIComponentsToLeftPanel();
 	}
 
 	/*
-	 * Put all UI components creating a session to some particular positions
-	 * on the left panel
-	 * MigLayout is a convenient way of creating responsive layout with Swing 
+	 * Put all UI components creating a session to some particular positions on
+	 * the left panel MigLayout is a convenient way of creating responsive
+	 * layout with Swing
 	 */
 	private void addUIComponentsToLeftPanel() {
 		leftPanel.setLayout(new MigLayout("", "", "[]5[]"));
 		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
 
 		// Add session name text field and its label
-		leftPanel.add(labelName, 	 "span");
+		leftPanel.add(labelName, "span");
 		leftPanel.add(nameTextField, "width " + SESSION_NAME_BOX_WIDTH
-					  						  + "px!, span");
+				+ "px!, span");
 
 		// Add labels for the dropdowns of session type and deck to 1 row
 		leftPanel.add(labelDropdownType, "width " + DROPDOWN_WIDTH
-					  							  + "px, left, split2");
+				+ "px, left, split2");
 		leftPanel.add(labeDeck, "left, wrap");
 
 		// Add the dropdowns of session type and deck to 1 row
-		leftPanel.add(dropdownType, "width " + DROPDOWN_WIDTH + "px!, left, split2");
-		leftPanel.add(deckType, 	"growx, left, wrap");
+		leftPanel.add(dropdownType, "width " + DROPDOWN_WIDTH
+				+ "px!, left, split2");
+		leftPanel.add(deckType, "growx, left, wrap");
 
 		// Add the description text field and its label to 2 separate rows
 		leftPanel.add(labelDescriptionBox, "wrap");
-		leftPanel.add(descriptionFrame, "width " + DESCRIPTION_BOX_WIDTH + "px, "
-					  + "height " + DESCRIPTION_BOX_HEIGHT + "px!, span");
+		leftPanel.add(descriptionFrame, "width " + DESCRIPTION_BOX_WIDTH
+				+ "px, " + "height " + DESCRIPTION_BOX_HEIGHT + "px!, span");
 
 		// Add the label for deadline and a check box next to it
 		leftPanel.add(labelDeadline, "split2");
 		leftPanel.add(cbDeadline, "wrap");
 
 		// Add deadline date picker and time picker
-		leftPanel.add(deadlinePicker, "split2, "
-					  + "width " + DEADLINE_DATEPICKER_WIDTH + "px, "
-					  + "gapbottom " + GAP_LENGTH_DEADLINE_TO_BOTTOM + "px");
-		leftPanel.add(pickerDeadlineTime, 
-						"growx, "
-					  + "gapbottom " + GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, wrap");
-		
+		leftPanel.add(deadlinePicker, "split2, " + "width "
+				+ DEADLINE_DATEPICKER_WIDTH + "px, " + "gapbottom "
+				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px");
+		leftPanel.add(pickerDeadlineTime, "growx, " + "gapbottom "
+				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, wrap");
+
 	}
 
 	/*
@@ -478,19 +487,18 @@ public class CreateSessionPanel extends JPanel {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 		String defaultNameDate = sdf.format(new Date());
 		String projectName = ConfigManager.getConfig().getProjectName();
-		nameTextField.setText(projectName + " - " + defaultNameDate);		
+		nameTextField.setText(projectName + " - " + defaultNameDate);
 	}
 
 	/*
-	 * Create a checkbox, date picker, and time selector
-	 * for deadline
+	 * Create a checkbox, date picker, and time selector for deadline
 	 */
 	private void createDeadlineButtonGroup() {
 		createDeadlineCheckbox();
 		createDatePicker();
-		createTimeSelector();	
+		createTimeSelector();
 	}
-	
+
 	/*
 	 * Create time selector
 	 */
@@ -499,8 +507,9 @@ public class CreateSessionPanel extends JPanel {
 		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(
 				pickerDeadlineTime, "HH:mm:ss");
 		pickerDeadlineTime.setEditor(timeEditor);
-		pickerDeadlineTime.setValue(new Date()); // will only show the current time
-		pickerDeadlineTime.setEnabled(false);		
+		pickerDeadlineTime.setValue(new Date()); // will only show the current
+													// time
+		pickerDeadlineTime.setEnabled(false);
 	}
 
 	/*
@@ -510,7 +519,7 @@ public class CreateSessionPanel extends JPanel {
 		deadlinePicker = new JXDatePicker();
 		deadlinePicker.setDate(Calendar.getInstance().getTime());
 		deadlinePicker.setFormats(new SimpleDateFormat("MM/dd/yyyy"));
-		deadlinePicker.setEnabled(false);		
+		deadlinePicker.setEnabled(false);
 	}
 
 	/*
@@ -519,7 +528,7 @@ public class CreateSessionPanel extends JPanel {
 	private void createDeadlineCheckbox() {
 		labelDeadline = new JLabel("Deadline");
 		cbDeadline = new JCheckBox();
-		cbDeadline.addItemListener(new CreateSessionPanelController(this));		
+		cbDeadline.addItemListener(new CreateSessionPanelController(this));
 	}
 
 	/*
@@ -531,7 +540,7 @@ public class CreateSessionPanel extends JPanel {
 		descriptionBox.setLineWrap(true);
 		descriptionBox.setWrapStyleWord(true);
 		descriptionBox.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-		
+
 		// Add scroll bar to the text area. It only appears when needed
 		descriptionFrame = new JScrollPane();
 		descriptionFrame.setViewportView(descriptionBox);
@@ -547,6 +556,37 @@ public class CreateSessionPanel extends JPanel {
 		deckType.setEditable(false);
 		deckType.setBackground(Color.WHITE);
 		deckType.setSelectedIndex(0);
+
+		// set up listen for creating/displaying a deck of cards
+		deckType.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String deckName = String.valueOf(deckType.getSelectedItem());
+				System.out.println("This is executed. With " + deckName);
+				if (deckName.equals(CREATE_DECK)) {
+					// create mode
+					mode = CardDisplayMode.CREATE;
+					// create a new deck of cards
+					createNewDeck();
+				} else if (deckName.equals(DEFAULT_DECK)) {
+					// display mode
+					mode = CardDisplayMode.DISPLAY;
+					// display default deck
+					displayDefaultDeck();
+				} else if (deckName.equals(NO_DECK)) {
+					// no deck mode
+					mode = CardDisplayMode.NO_DECK;
+					// nothing should be displayed
+					displayNoDeck();
+				} else {
+					// display mode
+					mode = CardDisplayMode.DISPLAY;
+					// display a selected deck of cards
+					displayDeck(deckName);
+				}
+			}
+		});
 	}
 
 	/*
@@ -560,18 +600,17 @@ public class CreateSessionPanel extends JPanel {
 	}
 
 	/*
-	 *  Create a text box to fill a new session's name in
+	 * Create a text box to fill a new session's name in
 	 */
 	private void createSessionNameTextbox() {
 		labelName = new JLabel("Name *");
 		labelRequireField = new JLabel(REQUIRED_LABEL);
 		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
 	}
-	
+
 	/*
-	 * Add "Save" button, "Cancel" button, and 
-	 * a label informing the required fields are not filled
-	 * to the bottom panel
+	 * Add "Save" button, "Cancel" button, and a label informing the required
+	 * fields are not filled to the bottom panel
 	 */
 	private void setupBottomPanel() {
 		// Create Save session button
@@ -581,11 +620,84 @@ public class CreateSessionPanel extends JPanel {
 		// Create Cancel create session button
 		btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new CancelCreateSessionController(this));
-		
+
 		bottomPanel = new JPanel();
 		bottomPanel.setLayout(new MigLayout());
 		bottomPanel.add(btnSaveSession, "left, width 120px, height 30px");
 		bottomPanel.add(btnCancel, "width 120px, height 30px");
-		bottomPanel.add(labelRequireField, "gapleft 10px");		
+		bottomPanel.add(labelRequireField, "gapleft 10px");
+	}
+
+	/**
+	 * invoke a right panel for creating a new deck of cards
+	 */
+	private void createNewDeck() {
+		System.out.println(mode);
+		// new deck panel for creating a deck of cards
+		this.deckPanel = new CreateNewDeckPanel(CardDisplayMode.CREATE);
+
+		// update the current panel view
+		this.remove(mainPanel);
+
+		// Put the left and card panel into a JSplitpane
+		mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.leftPanel,
+				this.deckPanel);
+		// Prevent users resize left panel
+		mainPanel.setEnabled(false);
+
+		// Add the mainPanel and bottom panel to the canvas
+		this.add(mainPanel, "center, span");
+		updateUI();
+	}
+
+	/**
+	 * display a deck of cards with a given name TODO implement this method this
+	 * will be implemented later
+	 */
+	private void displayDeck(String deckName) {
+		System.out.println(mode);
+	}
+
+	/**
+	 * display the default Fibonacci deck
+	 */
+	private void displayDefaultDeck() {
+		// Use display mode since the default deck is displayed by default
+		this.deckPanel = new CreateNewDeckPanel(CardDisplayMode.DISPLAY);
+		this.deckPanel.displayDefaultDeck();
+
+		// update the current panel view
+		this.remove(mainPanel);
+
+		// Put the left and card panel into a JSplitpane
+		mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.leftPanel,
+				this.deckPanel);
+		// Prevent users resize left panel
+		mainPanel.setEnabled(false);
+
+		// Add the mainPanel and bottom panel to the canvas
+		this.add(mainPanel, "center, span");
+		updateUI();
+	}
+
+	/**
+	 * display no card on the deck panel
+	 */
+	public void displayNoDeck() {
+		System.out.println(this.mode);
+		this.deckPanel = new CreateNewDeckPanel(CardDisplayMode.NO_DECK);
+
+		// update the current panel view
+		this.remove(mainPanel);
+
+		// Put the left and card panel into a JSplitpane
+		mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.leftPanel,
+				this.deckPanel);
+		// Prevent users resize left panel
+		mainPanel.setEnabled(false);
+
+		// Add the mainPanel and bottom panel to the canvas
+		this.add(mainPanel, "center, span");
+		updateUI();
 	}
 }
