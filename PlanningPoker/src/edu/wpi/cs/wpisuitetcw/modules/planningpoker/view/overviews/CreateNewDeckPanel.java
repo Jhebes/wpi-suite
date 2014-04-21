@@ -43,44 +43,55 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
  */
 public class CreateNewDeckPanel extends JPanel {
 
-	private static final String NO_DECK_MSG = "<html><font color='red'>You will be entering a value when voting on a requirement.</font></html>";
 	private static final long serialVersionUID = 1L;
-	// constants
-	private final String TEXTBOX_PLACEHOLDER = "Deck "
-			+ new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar
-					.getInstance().getTime());
-	private final String NAME_ERR_MSG = "<html><font color='red'>REQUIRES</font></html>";
-	private final String NO_CARD_ERR_MSG = "<html><font color='red'>A deck must contain </br >at least one card. </font></html>";
-	private final int CARD_WIDTH = 146;
-	private final String CARD_COUNT_LABEL = "# of Cards: ";
-	private final String ADD_CARD_LABEL = "[+] New Card";
-	private final String CARD_SELECTION_LABEL = "Card selection *";
-	private static final String MULTIPLE_SELECT = "Multiple selection";
-	private static final String SINGLE_SELECT = "Single selection";
-	// private final String CREATE_LABEL_STRING = "Create";
-	// private final String CANCEL_LABEL_STRING = "Cancel";
-	private final String DECK_NAME_LABEL = "Name *";
 
-	// instance fields
+	// ########################### CONSTANTS ##############################
+	private static final String NO_DECK_MSG = 
+			"<html><font color='red'>You will be entering a value when voting on a requirement.</font></html>";
+	private final String TEXTBOX_PLACEHOLDER = "Deck "
+			+ new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+	private final String NAME_ERR_MSG = 
+			"<html><font color='red'>REQUIRES</font></html>";
+	private final String NO_CARD_ERR_MSG = 
+			"<html><font color='red'>A deck must contain </br >at least one card. </font></html>";
+	private final String DECK_NAME_LABEL 		= "Name *";
+	private final String CARD_COUNT_LABEL 		= "# of Cards: ";
+	private final String ADD_CARD_LABEL 		= "[+] New Card";
+	private final String CARD_SELECTION_LABEL	= "Card selection *";
+	private static final String MULTIPLE_SELECT = "Multiple selection";
+	private static final String SINGLE_SELECT 	= "Single selection";
+	private final int CARD_WIDTH = 146;
+
+	// ########################### Top UI Components ######################
+	/** A container holding all the top UI components */ 
+	private final JPanel topPanel;
+	
+	/** Text field to type deck's name in */
 	private final JLabel labelName;
+	private final JTextField textboxName;
+
+	/** Dropdown to choose single OR multiple card selection */
+	private final JLabel labelCardSelection;
+	private final JComboBox<String> deckOption;
+
+	/** Group of button and labels to add new card */
+	private final JButton btnAddCard;
 	private final JLabel labelCount;
 	private final JLabel labelNumCards;
 	private final JLabel labelNameErr;
-	private final JLabel labelCardSelection;
-	private final JButton btnAddCard;
-	// private final JButton btnCreate;
-	// private final JButton btnCancel;
-	private final JTextField textboxName;
-	private final JPanel topPanel;
+	
+	// ######################### Center UI Components #####################
+	/** A container holding all the center UI component */
 	private final JPanel centerPanel;
-	private final JPanel bottomPanel;
-	private final HashMap<Integer, Card> cards;
-	private final JComboBox<String> deckOption;
 
-	private final JPanel cardPanel;
+	/** A scroll panel having all the cards */
 	private final JScrollPane cardSP;
+	private final JPanel cardPanel;
 	private final JPanel errorPanel;
-
+	
+	// ############################### DATA ###############################
+	private final HashMap<Integer, Card> cards;
+	
 	/** Mode for the panel */
 	private final CardDisplayMode mode;
 
@@ -93,7 +104,6 @@ public class CreateNewDeckPanel extends JPanel {
 		// sub panels
 		topPanel = new JPanel();
 		centerPanel = new JPanel();
-		bottomPanel = new JPanel();
 		errorPanel = new JPanel();
 
 		// Create Error Panel
@@ -431,7 +441,7 @@ public class CreateNewDeckPanel extends JPanel {
 		// Create label for name's text field
 		gbc.gridx = 1;
 		gbc.gridy = 1;
-		gbc.insets = new Insets(12, 0, 3, 0);
+		gbc.insets = new Insets(12, 5, 3, 0);
 		centerTopPanel.add(labelName, gbc);
 
 		// Create label for error message
@@ -446,7 +456,7 @@ public class CreateNewDeckPanel extends JPanel {
 		gbc.gridx = 1;
 		gbc.gridy = 2;
 		gbc.gridwidth = 2;
-		gbc.insets = new Insets(0, 0, 15, 30);
+		gbc.insets = new Insets(0, 5, 15, 30);
 		centerTopPanel.add(textboxName, gbc);
 
 		// Create dropdown for card selection
