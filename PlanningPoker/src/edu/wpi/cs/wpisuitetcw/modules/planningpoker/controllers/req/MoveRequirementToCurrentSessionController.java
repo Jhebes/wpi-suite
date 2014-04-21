@@ -31,11 +31,21 @@ public class MoveRequirementToCurrentSessionController implements ActionListener
 	private PlanningPokerSession session = null;
 	private ViewSessionReqPanel view;
 
+	/**
+	 * Construct the MoveAllRequirementsToAllController by storing the given
+	 * PlanningPokerSession and ViewSessionReqPanel
+	 * @param s A PlanningPokerSession that would be stored
+	 * @param v A ViewSessionReqPanel that would be stored
+	 */
 	public MoveRequirementToCurrentSessionController(PlanningPokerSession s, ViewSessionReqPanel v) {
 		this.session = s;
 		this.view = v;
 	}
 
+	/**
+	 * TODO WHAT
+	 * @param s
+	 */
 	public void receivedData(PlanningPokerSession s){
 		PlanningPokerRequirement r;
 		
@@ -70,8 +80,5 @@ public class MoveRequirementToCurrentSessionController implements ActionListener
 		final Request request = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.GET);
 		request.addObserver(new MoveRequirementToCurrentSessionRequestObserver(this));
 		request.send();
-		
-		
-
 	}
 }

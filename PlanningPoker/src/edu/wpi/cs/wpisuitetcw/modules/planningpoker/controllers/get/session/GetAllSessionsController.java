@@ -19,20 +19,19 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * This retrieves all sessions from the core and publishes them to the view
- * 
+ * A singleton controller that retrieves all sessions from the core
+ * and publishes them to the view
  */
 public class GetAllSessionsController {
 
+	/** An instance of this controller */
 	private static GetAllSessionsController instance;
 	
-	/**
-	 * Instantiates a new controller tied to the specified view.
-	 * Private because this is a singleton.
-	 */
-	private GetAllSessionsController() {
-	}
+	private GetAllSessionsController() {}
 	
+	/**
+	 * Instantiates a new controller.
+	 */
 	public static GetAllSessionsController getInstance() {
 		if (instance == null) {
 			instance = new GetAllSessionsController();
@@ -40,20 +39,17 @@ public class GetAllSessionsController {
 		return instance;
 	}
 	
-
+	/**
+	 * Add the given list of PlanningPokerSessions to the SessionStash
+	 * @param sessions A list of PlanningPokerSessions that would be
+	 * added to SessionStash
+	 */
 	public void receivedSessions(List<PlanningPokerSession> sessions) {
 		SessionStash.getInstance().mergeFromServer(sessions);
 	}
 
 	/**
-	 * Initiate the request to the server on click
-	 * 
-	 * @param e
-	 *            The triggering event
-	 */
-
-	/**
-	 * Retrieves the sessions from the database.
+	 * Send a request to retrieve the sessions from the database.
 	 */
 	public void retrieveSessions() {
 		// Send a request to the core to retrieve the sessions
