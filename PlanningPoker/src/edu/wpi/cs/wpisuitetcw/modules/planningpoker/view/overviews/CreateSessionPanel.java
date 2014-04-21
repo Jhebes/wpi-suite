@@ -502,31 +502,29 @@ public class CreateSessionPanel extends JPanel {
 
 		// Add session name text field and its label
 		leftPanel.add(labelName, "span");
-		leftPanel.add(nameTextField, "wmin " + SESSION_NAME_BOX_WIDTH
-				+ "px, span");
+		leftPanel.add(nameTextField, "span");
 
 		// Add labels for the dropdowns of session type and deck to 1 row
-		leftPanel.add(labelDropdownType, "wmin " + DROPDOWN_WIDTH
-				+ "px, left, split2");
+		leftPanel.add(labelDropdownType, "width " + DROPDOWN_WIDTH
+				+ "px!, left, split2");
 		leftPanel.add(labeDeck, "left, wrap");
 
 		// Add the dropdowns of session type and deck to 1 row
-		leftPanel.add(dropdownType, "wmin " + DROPDOWN_WIDTH
-				+ "px, left, split2");
+		leftPanel.add(dropdownType, "width " + DROPDOWN_WIDTH
+				+ "px!, left, split2");
 		leftPanel.add(deckType, "growx, left, wrap");
 
 		// Add the description text field and its label to 2 separate rows
 		leftPanel.add(labelDescriptionBox, "wrap");
-		leftPanel.add(descriptionFrame, "wmin " + DESCRIPTION_BOX_WIDTH
-				+ "px, " + "hmin " + DESCRIPTION_BOX_HEIGHT + "px, span");
+		leftPanel.add(descriptionFrame, "growx, hmin " + DESCRIPTION_BOX_HEIGHT + "px, span");
 
 		// Add the label for deadline and a check box next to it
 		leftPanel.add(labelDeadline, "split2");
 		leftPanel.add(cbDeadline, "wrap");
 
 		// Add deadline date picker and time picker
-		leftPanel.add(deadlinePicker, "split2, " + "wmin "
-				+ DEADLINE_DATEPICKER_WIDTH + "px, " + "gapbottom "
+		leftPanel.add(deadlinePicker, "split2, " + "width "
+				+ DEADLINE_DATEPICKER_WIDTH + "px!, " + "gapbottom "
 				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px");
 		leftPanel.add(pickerDeadlineTime, "growx, " + "gapbottom "
 				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, wrap");
