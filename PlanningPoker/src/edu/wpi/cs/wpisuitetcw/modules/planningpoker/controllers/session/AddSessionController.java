@@ -130,7 +130,7 @@ public class AddSessionController implements ActionListener {
 			ViewEventManager.getInstance().removeTab(this.view);
 			
 			// TODO This causes Null pointer error
-			ViewEventManager.getInstance().viewSession(session);
+			//ViewEventManager.getInstance().viewSession(session);
 		} else {
 			// user has yet entered all required data
 			// TODO: maybe make the warning a pop-up
