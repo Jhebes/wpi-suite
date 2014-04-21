@@ -55,6 +55,8 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
  * This panel is used to create or edit a session's basic information
  */
 public class CreateSessionPanel extends JPanel {
+	private static final String DEFAULT_DECK = "Default";
+
 	private static final long serialVersionUID = 8733539608651885877L;
 
 	private static final int SESSION_NAME_BOX_WIDTH = 300;
@@ -565,6 +567,11 @@ public class CreateSessionPanel extends JPanel {
 					mode = CardDisplayMode.CREATE;
 					// create a new deck of cards
 					createNewDeck();
+				} else if (deckName.equals(DEFAULT_DECK)) {
+					// display mode
+					mode = CardDisplayMode.DISPLAY;
+					// display default deck
+					displayDefaultDeck();
 				} else {
 					// display mode
 					mode = CardDisplayMode.DISPLAY;
@@ -642,5 +649,27 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private void displayDeck(String deckName) {
 		System.out.println(mode);
+	}
+
+	/**
+	 * display the default Fibonacci deck
+	 */
+	private void displayDefaultDeck() {
+		// Use display mode since the default deck is displayed by default
+		this.deckPanel = new CreateNewDeckPanel(CardDisplayMode.DISPLAY);
+		this.deckPanel.displayDefaultDeck();
+
+		// update the current panel view
+		this.remove(mainPanel);
+
+		// Put the left and card panel into a JSplitpane
+		mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.leftPanel,
+				this.deckPanel);
+		// Prevent users resize left panel
+		mainPanel.setEnabled(false);
+
+		// Add the mainPanel and bottom panel to the canvas
+		this.add(mainPanel, "center, span");
+		updateUI();
 	}
 }
