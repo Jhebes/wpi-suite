@@ -28,7 +28,7 @@ public class ImportRequirementController implements ActionListener {
 	/** A PlanningPokerRequirement that would be created */
 	private PlanningPokerRequirement requirement;
 	
-	public ImportRequirementController() {}
+	
 
 	/**
 	 * Convert all Requirements to PlanningPokerRequirements and
