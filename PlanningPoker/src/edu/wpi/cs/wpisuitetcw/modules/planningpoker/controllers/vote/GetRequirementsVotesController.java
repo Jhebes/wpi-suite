@@ -86,7 +86,10 @@ public class GetRequirementsVotesController implements ActionListener{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		final Request request = Network.getInstance().makeRequest("planningpoker/session/".concat(String.valueOf(this.session.getID())), HttpMethod.GET);
+		final Request request = Network
+								.getInstance()
+								.makeRequest("planningpoker/session/" + this.session.getID(), 
+											 HttpMethod.GET);
 		request.addObserver(new GetRequirementsVotesRequestObserver(this));
 		request.send();
 	}
