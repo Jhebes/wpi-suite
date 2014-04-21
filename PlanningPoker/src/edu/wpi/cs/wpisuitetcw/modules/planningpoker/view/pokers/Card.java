@@ -57,8 +57,11 @@ public class Card extends JPanel {
 	private Image cardPicture = null;
 
 	/** Display mode for the card */
+	private CardDisplayMode mode;
 
-	public Card() {
+	public Card(CardDisplayMode mode) {
+		// display mode for the card
+		this.mode = mode;
 
 		// load background image
 		try {
@@ -88,9 +91,7 @@ public class Card extends JPanel {
 		isValueValid = true;
 		isMouseovered = false;
 
-		// add listener
-		this.addListenerToValueTextBox(txtboxValue, this);
-		this.addListenerToCloseButton(closeButton, this);
+		
 
 		// setup the card panel
 		this.setLayout(new MigLayout());
@@ -108,12 +109,32 @@ public class Card extends JPanel {
 
 		// set border
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-		// add highlight feature to the card
-		this.addMouseoverHightlight(closeButton, this);
-		this.addMouseoverHightlight(txtboxValue, this);
-		this.addMouseoverHightlight(labelError, this);
-		this.addMouseoverHightlight(this, this);
+		
+		
 
+		// display selective elements based on the mode it's in
+		if (mode.equals(CardDisplayMode.DISPLAY)) {
+			disableEditableFields();
+		} else if(mode.equals(CardDisplayMode.CREATE)) {
+			// add listener
+			this.addListenerToValueTextBox(txtboxValue, this);
+			this.addListenerToCloseButton(closeButton, this);
+			
+			// add highlight feature to the card
+			this.addMouseoverHightlight(closeButton, this);
+			this.addMouseoverHightlight(txtboxValue, this);
+			this.addMouseoverHightlight(labelError, this);
+			this.addMouseoverHightlight(this, this);
+		}
+	}
+
+	/**
+	 * Only in DISPLAY mode. Disable all editable fields
+	 * 
+	 */
+	public void disableEditableFields() {
+		this.closeButton.setVisible(false);
+		this.container.setVisible(false);
 	}
 
 	/**

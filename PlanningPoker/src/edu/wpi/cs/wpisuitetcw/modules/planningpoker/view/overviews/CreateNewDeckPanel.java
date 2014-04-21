@@ -120,7 +120,7 @@ public class CreateNewDeckPanel extends JPanel {
 		this.labelNameErr.setVisible(false);
 	
 		// Create a card
-		Card starterCard = new Card();
+		Card starterCard = new Card(this.mode);
 		int key = starterCard.hashCode();
 		cards.put(key, starterCard);
 		this.addRemoveCardListener(starterCard, this);
@@ -189,7 +189,7 @@ public class CreateNewDeckPanel extends JPanel {
 	 */
 	private void setInitialCard() {
 		// cards
-		Card starterCard = new Card();
+		Card starterCard = new Card(this.mode);
 		int key = starterCard.hashCode();
 		cards.put(key, starterCard);
 		this.addRemoveCardListener(starterCard, this);
@@ -200,7 +200,7 @@ public class CreateNewDeckPanel extends JPanel {
 	 * Add a new card to both the storing hashmap and the view
 	 */
 	public void addNewCard() {
-		Card aCard = new Card();
+		Card aCard = new Card(this.mode);
 		int key = aCard.hashCode();
 		cards.put(key, aCard);
 		this.addRemoveCardListener(aCard, this);
@@ -321,7 +321,7 @@ public class CreateNewDeckPanel extends JPanel {
 		// display default deck
 		int[] defaultDeck = { 0, 1, 1, 2, 3, 5, 8, 13 };
 		for (int i = 0; i < defaultDeck.length; i++) {
-			Card aCard = new Card();
+			Card aCard = new Card(this.mode);
 			int key = aCard.hashCode();
 			cards.put(key, aCard);
 			this.addRemoveCardListener(aCard, this);
