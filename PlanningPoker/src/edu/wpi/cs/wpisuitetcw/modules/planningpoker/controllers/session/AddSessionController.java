@@ -89,7 +89,7 @@ public class AddSessionController implements ActionListener {
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
 	 */
 	@Override
-	public void actionPerformed(ActionEvent event) {
+	public synchronized void actionPerformed(ActionEvent event) {
 		// if a name was entered create the session
 		// otherwise the button will do nothing
 		if ((this.view.validateAllInputs() == true)
@@ -116,17 +116,20 @@ public class AddSessionController implements ActionListener {
 			session.setDeadline(d);
 			session.setDescription(des);
 			
-			// TODO BIND THE NEW DECK TO THE SESSION
-			try {
-				session.setDeck(GetAllDecksController.getInstance()
-						.setDeckByName(deckName));
-			} catch (WPISuiteException e) {
-				Logger.getLogger("PlanningPoker").log(Level.SEVERE,
-						"Error getting all decks", e);
+			if (this.view.isInCreateMode() || this.view.isInDisplayMode()) {
+				try {
+					session.setDeck(GetAllDecksController.getInstance()
+							.setDeckByName(deckName));
+				} catch (WPISuiteException e) {
+					Logger.getLogger("PlanningPoker").log(Level.SEVERE,
+							"Error getting all decks", e);
+				}
 			}
 
 			session.create();
 			ViewEventManager.getInstance().removeTab(this.view);
+			
+			// TODO This causes Null pointer error
 			ViewEventManager.getInstance().viewSession(session);
 		} else {
 			// user has yet entered all required data

@@ -267,6 +267,14 @@ public class CreateSessionPanel extends JPanel {
 	public boolean isInCreateMode() {
 		return this.mode.equals(CardDisplayMode.CREATE);
 	}
+	
+	/**
+	 * Return true if the deck panel is in display mode
+	 * @return Return true if the deck panel is in display mode
+	 */
+	public boolean isInDisplayMode() {
+		return this.mode.equals(CardDisplayMode.DISPLAY);
+	}
 
 	/**
 	 * determine if users has entered all required values
@@ -749,4 +757,5 @@ public class CreateSessionPanel extends JPanel {
 	public CreateNewDeckPanel getDeckPanel() {
 		return this.deckPanel;
 	}
+
 }
