@@ -34,6 +34,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
 
 /**
  * 
@@ -51,9 +52,24 @@ public class Card extends JPanel {
 	private boolean isValueValid;
 	private boolean isMouseovered;
 
+	private JPanel container;
+
 	private Image cardPicture = null;
 
+	/** Display mode for the card */
+
 	public Card() {
+
+		// load background image
+		try {
+			Image img = ImageIO.read(getClass().getResource("new_card.png"));
+			ImageIcon icon = new ImageIcon(img);
+			this.cardPicture = icon.getImage();
+		} catch (IOException e) {
+			Logger.getLogger("PlanningPoker").log(Level.INFO,
+					"Could not load the image for planning poker cards", e);
+		}
+
 		// textfield
 		txtboxValue = new JTextField(3);
 
@@ -76,20 +92,10 @@ public class Card extends JPanel {
 		this.addListenerToValueTextBox(txtboxValue, this);
 		this.addListenerToCloseButton(closeButton, this);
 
-		// load background image
-		try {
-			Image img = ImageIO.read(getClass().getResource("new_card.png"));
-			ImageIcon icon = new ImageIcon(img);
-			this.cardPicture = icon.getImage();
-		} catch (IOException e) {
-			Logger.getLogger("PlanningPoker").log(Level.INFO,
-					"Could not load the image for planning poker cards", e);
-		}
-
 		// setup the card panel
 		this.setLayout(new MigLayout());
 
-		JPanel container = new JPanel();
+		container = new JPanel();
 		container.setLayout(new MigLayout());
 		container.add(txtboxValue, "center, wrap");
 		container.add(labelError, "center");
@@ -107,6 +113,7 @@ public class Card extends JPanel {
 		this.addMouseoverHightlight(txtboxValue, this);
 		this.addMouseoverHightlight(labelError, this);
 		this.addMouseoverHightlight(this, this);
+
 	}
 
 	/**

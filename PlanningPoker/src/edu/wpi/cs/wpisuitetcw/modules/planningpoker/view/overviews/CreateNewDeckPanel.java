@@ -34,7 +34,7 @@ import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddNewCardController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.InitNewDeckPanelController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardMode;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
 
 /**
@@ -80,11 +80,11 @@ public class CreateNewDeckPanel extends JPanel {
 	private final JPanel errorPanel;
 
 	/** Mode for the panel */
-	private final CardMode mode;
+	private final CardDisplayMode mode;
 
 	// subject to change
 	// private final JTextField textboxVal;
-	public CreateNewDeckPanel(CardMode mode) {
+	public CreateNewDeckPanel(CardDisplayMode mode) {
 		// mode for the panel
 		this.mode = mode;
 
@@ -174,7 +174,7 @@ public class CreateNewDeckPanel extends JPanel {
 		this.add(bottomPanel, "center, dock south");
 
 		// determine what type of mode the panel is
-		if (mode.equals(CardMode.CREATE)) {
+		if (mode.equals(CardDisplayMode.CREATE)) {
 			// create mode allows users to enter values
 			setInitialCard();
 		} else {

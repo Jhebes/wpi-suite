@@ -42,7 +42,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.AddSessi
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.CancelCreateSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardMode;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
@@ -153,7 +153,7 @@ public class CreateSessionPanel extends JPanel {
 		setupLeftPanel();
 		
 		// Use display mode since the default deck is displayed by default
-		deckPanel = new CreateNewDeckPanel(CardMode.DISPLAY);
+		deckPanel = new CreateNewDeckPanel(CardDisplayMode.DISPLAY);
 		deckPanel.displayDefaultDeck();
 	
 		setupBottomPanel();

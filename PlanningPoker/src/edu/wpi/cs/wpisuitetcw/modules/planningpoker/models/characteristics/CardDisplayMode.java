@@ -3,7 +3,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics;
 /**
  * Display mode of a card
  */
-public enum CardMode {
+public enum CardDisplayMode {
 	CREATE("Create"),
 	DISPLAY("Display");
 	
@@ -13,7 +13,7 @@ public enum CardMode {
 	 * Constructor for CardMode.
 	 * @param s String
 	 */
-	private CardMode(String s)
+	private CardDisplayMode(String s)
 	{
 		type = s;
 	}
