@@ -115,6 +115,9 @@ public class Card extends JPanel {
 		// set border
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
+		// add highlight feature to the card
+		this.addMouseoverHightlight(this, this);
+
 		// display selective elements based on the mode it's in
 		if (mode.equals(CardDisplayMode.DISPLAY)) {
 			disableEditableFields();
@@ -127,7 +130,7 @@ public class Card extends JPanel {
 			this.addMouseoverHightlight(closeButton, this);
 			this.addMouseoverHightlight(txtboxValue, this);
 			this.addMouseoverHightlight(labelError, this);
-			this.addMouseoverHightlight(this, this);
+
 		}
 	}
 
@@ -140,11 +143,11 @@ public class Card extends JPanel {
 		valuePanel.setLayout(new MigLayout());
 		valuePanel.setBackground(Color.WHITE);
 		valuePanel.setOpaque(false);
-		
+
 		// label for displaying value
 		JLabel valueLabel = new JLabel(Integer.toString(value), JLabel.CENTER);
 		valueLabel.setFont(new Font("Serif", Font.BOLD, 48));
-		
+
 		// set up the main panel
 		valuePanel.add(valueLabel, "dock center");
 		this.add(valuePanel, "dock center");
