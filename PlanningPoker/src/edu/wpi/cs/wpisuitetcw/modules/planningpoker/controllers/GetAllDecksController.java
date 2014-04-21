@@ -100,7 +100,7 @@ public class GetAllDecksController {
 	 * @return Return the deck that has the given name
 	 * @throws WPISuiteException
 	 */
-	public PlanningPokerDeck setDeckByName(String deckName) throws WPISuiteException{
+	public PlanningPokerDeck getDeckByName(String deckName) throws WPISuiteException{
 		for(PlanningPokerDeck d : decks){
 			if(d.getDeckName() == deckName){
 				return d;
