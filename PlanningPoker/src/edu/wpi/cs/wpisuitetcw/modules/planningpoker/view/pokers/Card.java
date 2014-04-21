@@ -131,6 +131,9 @@ public class Card extends JPanel {
 			this.addMouseoverHightlight(txtboxValue, this);
 			this.addMouseoverHightlight(labelError, this);
 
+		} else if (mode.equals(CardDisplayMode.NO_DECK)) {
+			// this should never be executed
+			disableEditableFields();
 		}
 	}
 

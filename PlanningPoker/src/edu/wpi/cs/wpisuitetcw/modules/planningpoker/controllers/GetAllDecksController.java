@@ -18,8 +18,6 @@ import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
-import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
-
 
 public class GetAllDecksController {
 
@@ -48,31 +46,32 @@ public class GetAllDecksController {
 	 * returns all the names of available decks in our database
 	 * 
 	 * @return ArrayList of deck names
-	 * @throws InterruptedException 
+	 * @throws InterruptedException
 	 */
 	public ArrayList<String> getAllDeckNames() {
 		this.refreshDecks(); // set up the deck
 		ArrayList<String> deckNames = new ArrayList<String>();
-		
-		// delay the this process since the request fired in refreshDecks() might not be completed
+
+		// delay the this process since the request fired in refreshDecks()
+		// might not be completed
 		try {
-			Thread.sleep(250); 
+			Thread.sleep(250);
 		} catch (InterruptedException e) {
 		}
-		
+
 		deckNames.add("Default");
 		deckNames.add("Create new deck");
 		deckNames.add("No deck");
-		
+
 		// make sure the decks is not null
-		if(decks != null) {
+		if (decks != null) {
 			for (PlanningPokerDeck deck : this.decks) {
 				deckNames.add(deck.getDeckName());
 			}
 		}
 		return deckNames;
 	}
-	
+
 	/**
 	 * retrieve decks from database
 	 */
@@ -82,16 +81,16 @@ public class GetAllDecksController {
 		request.addObserver(new GetAllDecksRequestObserver(this));
 		request.send();
 	}
-	
-	public PlanningPokerDeck setDeckByName(String deckName) throws WPISuiteException{
-		for(PlanningPokerDeck d : decks){
-			if(d.getDeckName() == deckName){
+
+	public PlanningPokerDeck setDeckByName(String deckName)
+			throws WPISuiteException {
+		for (PlanningPokerDeck d : decks) {
+			if (d.getDeckName() == deckName) {
 				return d;
 			}
 		}
 		throw new WPISuiteException();
 
-		
 	}
 
 }

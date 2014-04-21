@@ -55,6 +55,8 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
  * This panel is used to create or edit a session's basic information
  */
 public class CreateSessionPanel extends JPanel {
+	private static final String NO_DECK = "No deck";
+
 	private static final String DEFAULT_DECK = "Default";
 
 	private static final long serialVersionUID = 8733539608651885877L;
@@ -572,6 +574,11 @@ public class CreateSessionPanel extends JPanel {
 					mode = CardDisplayMode.DISPLAY;
 					// display default deck
 					displayDefaultDeck();
+				} else if (deckName.equals(NO_DECK)) {
+					// no deck mode
+					mode = CardDisplayMode.NO_DECK;
+					// nothing should be displayed
+					displayNoDeck();
 				} else {
 					// display mode
 					mode = CardDisplayMode.DISPLAY;
@@ -644,8 +651,8 @@ public class CreateSessionPanel extends JPanel {
 	}
 
 	/**
-	 * display a deck of cards with a given name TODO implement this method TODO
-	 * this will be implemented later
+	 * display a deck of cards with a given name TODO implement this method this
+	 * will be implemented later
 	 */
 	private void displayDeck(String deckName) {
 		System.out.println(mode);
@@ -658,6 +665,27 @@ public class CreateSessionPanel extends JPanel {
 		// Use display mode since the default deck is displayed by default
 		this.deckPanel = new CreateNewDeckPanel(CardDisplayMode.DISPLAY);
 		this.deckPanel.displayDefaultDeck();
+
+		// update the current panel view
+		this.remove(mainPanel);
+
+		// Put the left and card panel into a JSplitpane
+		mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.leftPanel,
+				this.deckPanel);
+		// Prevent users resize left panel
+		mainPanel.setEnabled(false);
+
+		// Add the mainPanel and bottom panel to the canvas
+		this.add(mainPanel, "center, span");
+		updateUI();
+	}
+
+	/**
+	 * display no card on the deck panel
+	 */
+	public void displayNoDeck() {
+		System.out.println(this.mode);
+		this.deckPanel = new CreateNewDeckPanel(CardDisplayMode.NO_DECK);
 
 		// update the current panel view
 		this.remove(mainPanel);
