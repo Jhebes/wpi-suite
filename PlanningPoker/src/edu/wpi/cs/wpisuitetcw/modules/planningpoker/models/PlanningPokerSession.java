@@ -18,8 +18,7 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendNotificationController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put.PutSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
-import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-import edu.wpi.cs.wpisuitetng.janeway.config.Configuration;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.UserStash;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -77,8 +76,6 @@ public class PlanningPokerSession extends AbstractModel {
 		requirements = new ArrayList<PlanningPokerRequirement>();
 	}
 
-
-
 	/**
 	 * Return true if this session has been assigned a completed time,
 	 * indicating that the session has been terminated in some way
@@ -107,7 +104,7 @@ public class PlanningPokerSession extends AbstractModel {
 		if (!this.isCancelled && !this.isActive()) {
 			this.startTime = new Date();
 		}
-		
+
 		String command = "sendEmail";
 		// Send email to everyone in a session
 		if (this.getUsers() != null) {
@@ -118,14 +115,13 @@ public class PlanningPokerSession extends AbstractModel {
 							sendTo, this.getDeadline(), command);
 				} else {
 					SendNotificationController.sendNotification("start",
-							"teamcombatwombat@gmail.com",
-							this.getDeadline(), command);
+							"teamcombatwombat@gmail.com", this.getDeadline(),
+							command);
 				}
 			}
 		} else {
 			SendNotificationController.sendNotification("start",
-					"teamcombatwombat@gmail.com", this.getDeadline(),
-					command);
+					"teamcombatwombat@gmail.com", this.getDeadline(), command);
 		}
 
 		// Send SMS to everyone in a session
@@ -146,7 +142,7 @@ public class PlanningPokerSession extends AbstractModel {
 					this.getDeadline(), command);
 		}
 	}
-	
+
 	/**
 	 * Deactivates a session by basically undoing what activate would. If it is
 	 * already active, and not cancelled, then it would set the start time to
@@ -157,7 +153,7 @@ public class PlanningPokerSession extends AbstractModel {
 			this.startTime = null;
 		}
 	}
-	
+
 	/**
 	 * Closes a session without canceling it.
 	 */
@@ -185,19 +181,21 @@ public class PlanningPokerSession extends AbstractModel {
 
 	public void addVoteToRequirement(PlanningPokerRequirement req,
 			PlanningPokerVote v, String requestingUser) {
-		PlanningPokerRequirement r = requirements.get(requirements.indexOf(req));
+		PlanningPokerRequirement r = requirements
+				.get(requirements.indexOf(req));
 		requirements.remove(r);
-		for(PlanningPokerVote vote : r.votes){
-			if(vote.getUser().equals(v.getUser())){
+		for (PlanningPokerVote vote : r.votes) {
+			if (vote.getUser().equals(v.getUser())) {
 				vote.setCardValue(v.getCardValue());
 				requirements.add(r);
 				this.save();
 				return;
 			}
 		}
-		
+
 		r.addVote(v);
 		requirements.add(r);
+		this.isVotingComplete();
 		this.save();
 	}
 
@@ -259,28 +257,6 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public void deleteUsers(ArrayList<User> newUsers) {
 		requirements.removeAll(newUsers);
-	}
-
-	/**
-	 * This function compares the total number of votes to the number of votes
-	 * needed to end the voting.
-	 * 
-	 * *sets the votingComplete flag
-	 * 
-	 * Should be called after every vote is added to a requirement
-	 */
-	public void voteStatus() {
-		int totalVotes = requirements.size() * users.size();
-		int votes = 0;
-
-		for (int i = 0; i < requirements.size(); i++) {
-			votes += requirements.get(i).votes.size();
-		}
-
-		if (votes == totalVotes) {
-			setVotingComplete(true);
-		}
-
 	}
 
 	/**
@@ -473,24 +449,44 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
+	 * Checks to see if all users have voted on every requirement
 	 * 
 	 * @return voting complete boolean
 	 */
-
 	public boolean isVotingComplete() {
-		return this.votingComplete;
+		boolean done = true;
+		ArrayList<String> outliers = new ArrayList<String>();
+
+		// Iterate across all requirements
+		for (PlanningPokerRequirement r : this.requirements) {
+			ArrayList<User> users = UserStash.getInstance().getUsers();
+		
+			// Make sure the votes belong to the right people
+			for (User u : users) {
+				boolean userVoted = r.hasUserVoted(u.getUsername());
+				if (!userVoted) {
+
+					outliers.add(String.format("%15s\t=>%s\n", u.getUsername(),
+							r.getName()));
+				}
+				done = done && userVoted;
+			}
+		}
+		
+//		Basic printout to see who hasn't voted on what
+//		if (done) {
+//			System.out.println("The session has been voted on by everyone; closing");
+//			this.close();
+//		} else {
+//			System.out.println("Still need:");
+//			for (String s : outliers) {
+//				System.out.println(s);
+//			}
+//		}
+
+		return done;
 	}
 
-	/**
-	 * 
-	 * @param votingComplete
-	 *            If all the users in the session have voted
-	 */
-
-	public void setVotingComplete(boolean votingComplete) {
-		this.votingComplete = votingComplete;
-	}
-	
 	/**
 	 * 
 	 * @return has voted boolean it is true if one user has voted
@@ -526,7 +522,7 @@ public class PlanningPokerSession extends AbstractModel {
 			return "New";
 		}
 	}
-	
+
 	/**
 	 * @return The end time
 	 */
@@ -563,7 +559,7 @@ public class PlanningPokerSession extends AbstractModel {
 	public void create() {
 		new PutSessionController(this);
 	}
-	
+
 	public void copyFrom(PlanningPokerSession updatedSession) {
 		this.isCancelled = updatedSession.isCancelled;
 		this.startTime = updatedSession.startTime;

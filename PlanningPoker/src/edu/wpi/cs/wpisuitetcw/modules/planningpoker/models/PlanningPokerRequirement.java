@@ -207,4 +207,17 @@ public class PlanningPokerRequirement extends AbstractModel {
 		this.finalEstimate = estimate;
 		
 	}
+	/**
+	 * Determines whether or not a given user has voted on this requirement
+	 * @param user The user in question
+	 * @return Yes or no
+	 */
+	public boolean hasUserVoted(String user){
+		for(PlanningPokerVote v : this.votes){
+			if(v.getUser().equals(user)){
+				return true;
+			}
+		}
+		return false;
+	}
 }
