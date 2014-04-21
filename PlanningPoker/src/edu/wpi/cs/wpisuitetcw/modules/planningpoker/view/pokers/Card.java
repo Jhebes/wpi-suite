@@ -360,4 +360,13 @@ public class Card extends JPanel {
 		return value;
 	}
 
+	/**
+	 * return what mode the card is on
+	 * 
+	 * @return mode the card is on
+	 */
+	public CardDisplayMode getMode() {
+		return this.mode;
+	}
+
 }
