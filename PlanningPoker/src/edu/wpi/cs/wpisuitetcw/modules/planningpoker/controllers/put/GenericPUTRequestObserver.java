@@ -18,12 +18,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  */
 public class GenericPUTRequestObserver implements RequestObserver {
 	
-	/**
-	 * Creates a listener attached to the controller
-	 * @param a Tied controller
-	 */
-	public GenericPUTRequestObserver() {
-	}
+	
 	
 	/*
 	 * Parse the message that was received from the server then pass them to the

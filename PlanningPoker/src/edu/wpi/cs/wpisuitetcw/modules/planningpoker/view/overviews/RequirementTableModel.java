@@ -16,10 +16,20 @@ import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 
+/**
+ * RequirementTableModel is a model that store the name and description
+ * of the PlanningPokerRequirements
+ */
 public class RequirementTableModel extends DefaultTableModel{
 	private static final long serialVersionUID = -2776175314270450120L;
+	
+	/** First row */
 	private final String[] colNames = {"Name", "Description"};
 	
+	/**
+	 * Construct a RequirementTableModel by assign
+	 * values to the first row, the column identifiers
+	 */
 	public RequirementTableModel() {
 		setColumnIdentifiers(colNames);
 	}
@@ -31,13 +41,12 @@ public class RequirementTableModel extends DefaultTableModel{
 	 *            The new list of requirements
 	 */
 	public void refreshRequirements(List<PlanningPokerRequirement> requirements) {
-
+		// Remove all the existing data
 		this.setDataVector(null, colNames);
+		
 		for (PlanningPokerRequirement requirement : requirements) {			
-			Object[] row = { 
-					requirement.getName(),
-					requirement.getDescription()
-			};
+			Object[] row = {requirement.getName(), 
+							requirement.getDescription()};
 			this.addRow(row);
 		}
 	}

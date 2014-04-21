@@ -14,25 +14,29 @@ import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 
-public class sessionInProgressTableModel extends  DefaultTableModel {
-	/**
-	 * random number for serializing
-	 */
+/**
+ * SessionInProgressTableModel is a singleton model that stores 
+ * a list of PlanningPokerSessions that are in progress
+ */
+public class SessionInProgressTableModel extends DefaultTableModel {
+	/** Random number for serializing */
 	private static final long serialVersionUID = -7397557876939565129L;
 
-	private static sessionInProgressTableModel instance;
+	/** First row */
 	private final String[] colNames = { "Name", "Description", "Voted" };
 
+	private static SessionInProgressTableModel instance;
+		
 	/**
 	 * Constructs a table session for the overview table.
 	 */
-	private sessionInProgressTableModel() {
+	private SessionInProgressTableModel() {
 		setColumnIdentifiers(colNames);
 	}
 
-	public static sessionInProgressTableModel getInstance() {
+	public static SessionInProgressTableModel getInstance() {
 		if (instance == null) {
-			instance = new sessionInProgressTableModel();
+			instance = new SessionInProgressTableModel();
 		}
 		return instance;
 	}
