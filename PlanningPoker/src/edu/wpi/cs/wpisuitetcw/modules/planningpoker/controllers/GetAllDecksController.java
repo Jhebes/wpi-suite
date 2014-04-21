@@ -35,7 +35,6 @@ public class GetAllDecksController {
 
 	/**
 	 * Instantiates a new controller tied to the specified view. 
-	 * Private because this is a singleton.
 	 */
 	public static GetAllDecksController getInstance() {
 		if (instance == null) {
