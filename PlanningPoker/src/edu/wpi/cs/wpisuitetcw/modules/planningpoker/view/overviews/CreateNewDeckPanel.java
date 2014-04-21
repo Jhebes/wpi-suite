@@ -21,6 +21,7 @@ import java.awt.event.ComponentListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -402,6 +403,7 @@ public class CreateNewDeckPanel extends JPanel {
 		for (Card aCard : map.values()) {
 			deckValues.add(aCard.getValue());
 		}
+		Collections.sort(deckValues);
 		return deckValues;
 	}
 
