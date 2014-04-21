@@ -98,30 +98,21 @@ public class CreateNewDeckPanel extends JPanel {
 	// subject to change
 	// private final JTextField textboxVal;
 	public CreateNewDeckPanel(CardDisplayMode mode) {
-		// mode for the panel
+		// Assign mode for the panel
 		this.mode = mode;
-
-		// sub panels
-		topPanel = new JPanel();
-		centerPanel = new JPanel();
-		errorPanel = new JPanel();
-
-		// Create Error Panel
-		errorPanel.add(new JLabel(NO_CARD_ERR_MSG));
-		errorPanel.setVisible(false);
-
+		
 		cards = new HashMap<Integer, Card>();
-
-		// Create card selection dropdown
-		this.labelCardSelection = new JLabel(CARD_SELECTION_LABEL);
-		this.deckOption = new JComboBox<String>();
-		deckOption.addItem(SINGLE_SELECT);
-		deckOption.addItem(MULTIPLE_SELECT);
 
 		// Create text field for deck's name
 		this.labelName = new JLabel(DECK_NAME_LABEL);
 		this.textboxName = new JTextField(18);
 		this.textboxName.setText(TEXTBOX_PLACEHOLDER);
+		
+		// Create card selection dropdown
+		this.labelCardSelection = new JLabel(CARD_SELECTION_LABEL);
+		this.deckOption = new JComboBox<String>();
+		deckOption.addItem(SINGLE_SELECT);
+		deckOption.addItem(MULTIPLE_SELECT);
 
 		// Create a label to keep track number of card
 		this.labelCount = new JLabel(CARD_COUNT_LABEL);
@@ -131,15 +122,18 @@ public class CreateNewDeckPanel extends JPanel {
 		this.labelNameErr = new JLabel(NAME_ERR_MSG);
 		this.labelNameErr.setVisible(false);
 
-		// Create add card button
+		// Create add card button and bind an action listener to it
 		this.btnAddCard = new JButton(ADD_CARD_LABEL);
-		// this.btnCreate = new JButton(CREATE_LABEL_STRING);
-		// this.btnCancel = new JButton(CANCEL_LABEL_STRING);
-
-		// Construct action listeners
 		btnAddCard.addActionListener(new AddNewCardController(this));
-		// btnCreate.addActionListener(new CreateNewDeckController(this));
-		// this.addAction(btnCancel, this);
+		
+		// Create Error Panel
+		errorPanel = new JPanel();
+		errorPanel.add(new JLabel(NO_CARD_ERR_MSG));
+		errorPanel.setVisible(false);
+		
+		// sub panels
+		topPanel = new JPanel();
+		centerPanel = new JPanel();
 
 		// Add sets of buttons that modify the deck to a panel
 		JPanel centerTopPanel = new JPanel();
