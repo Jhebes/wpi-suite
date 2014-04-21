@@ -47,26 +47,23 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 public class SessionInProgressPanel extends JSplitPane {
 
 	private final PlanningPokerSession session;
-	private JTextField vote;
 	private JTextField ownerName;
 	private JTextField name;
 	private JTextField description;
 	private JTextField deadline;
 	private PlanningPokerRequirement[] reqsList;
-	private JButton btnSubmit;
 	private String selectedReqName;
-	private JTable reqsViewTable;
 	private RequirementTableManager reqsViewTableManager = new RequirementTableManager();
-	private JList voteList;
 	private JLabel label_1 = new JLabel("");
 	private JLabel label_2 = new JLabel("");
-	private JLabel numVotes = new JLabel("0", JLabel.LEFT);
 	private PlanningPokerRequirement selectedReq;
 	private String reqName;
 	private String reqDescription;
 	private JButton endSession;
 	private JSplitPane splitTopBottom;
 	private JButton btnEditSession = new JButton("Edit Session");
+	private JTextField txtVoteField;
+	private JList VoteList;
 
 	/**
 	 * Create the panel.
@@ -191,56 +188,6 @@ public class SessionInProgressPanel extends JSplitPane {
 		requirementsPanel.setLayout(new BoxLayout(requirementsPanel,
 				BoxLayout.X_AXIS));
 
-		// Split out panes
-		JSplitPane splitTopBottom = new JSplitPane();
-		splitTopBottom.setResizeWeight(0.8);
-		splitTopBottom.setOrientation(JSplitPane.VERTICAL_SPLIT);
-
-		// Set up tabs at bottom
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-
-		// Set up "Stats Tab"
-		JPanel statsTab = new JPanel();
-		tabbedPane.addTab("Statistics", null, statsTab, null);
-		statsTab.setLayout(new GridLayout(1, 0, 0, 0));
-
-		// Holder label (TBM)
-		JLabel lblCurrentEstimate = new JLabel("Current Estimate:");
-		statsTab.add(lblCurrentEstimate);
-
-		// Holder label (TBM)
-		JLabel lblNumberOfVotes = new JLabel("Number of Votes:");
-		statsTab.add(lblNumberOfVotes);
-
-		statsTab.add(numVotes);
-
-		voteList = new JList();
-		statsTab.add(voteList);
-
-		// Set up "Vote Tab"
-		JPanel voteTab = new JPanel();
-		tabbedPane.addTab("Voting", null, voteTab, null);
-
-		// "Vote" label
-		JLabel lblEstimate = new JLabel("Vote:");
-		voteTab.add(lblEstimate);
-
-		// Text box for vote
-		vote = new JTextField(10);
-		voteTab.add(vote);
-
-		// Submit button
-		btnSubmit = new JButton("Submit");
-		btnSubmit.addActionListener(new AddVoteController(this, this.session));
-		voteTab.add(btnSubmit);
-
-		// Split into Reqs list and Reqs info
-		JSplitPane splitLeftRight = new JSplitPane();
-		splitLeftRight.setResizeWeight(0.8);
-		splitLeftRight.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-
-		JPanel reqsView = new JPanel();
-
 		// Extract the requirements from the table provided by
 		// ViewSessionTableManager and converts them to list
 		ArrayList<String> testReqs = new ArrayList<String>();
@@ -254,81 +201,8 @@ public class SessionInProgressPanel extends JSplitPane {
 		for (int i = 0; i < testReqs.size(); ++i) {
 			reqArr[i] = testReqs.get(i);
 		}
-
-		reqsViewTable = new JTable(sessionInProgressTableModel.getInstance()) {
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-		};
-
-		reqsViewTable.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JTable table = (JTable) e.getSource();
-				int row = table.getSelectedRow();
-
-				if (row != -1) {
-					RequirementTableManager m = new RequirementTableManager();
-					Vector v = m.get(session.getID()).getDataVector();
-					String name = (String) ((Vector) v.elementAt(row))
-							.elementAt(0);
-					selectedReq = session.getReqByName(name);
-					this.setSuperClassVariables(name);
-
-					setVoteList(selectedReq.getVotes());
-				}
-			}
-
-			public void setSuperClassVariables(String name) {
-				// System.out.println(name);
-				reqName = name;
-				setReqLabels();
-			}
-		});
-
-		reqsViewTable.setFillsViewportHeight(true);
 		// reqsViewTable.getColumnModel().getColumn(1).setResizable(false);
 		this.getReqsViewTable();
-		reqsView.setLayout(new BorderLayout(0, 0));
-		reqsView.add(reqsViewTable);
-
-		JPanel ReqsDetail = new JPanel();
-		ReqsDetail.setLayout(new BorderLayout(0, 0));
-
-		JLabel lblRequirementDetail = new JLabel("Requirement Detail:");
-		lblRequirementDetail.setHorizontalAlignment(SwingConstants.CENTER);
-		ReqsDetail.add(lblRequirementDetail, BorderLayout.NORTH);
-
-		// Set all components
-		splitLeftRight.setLeftComponent(reqsView);
-
-		JLabel lblNewLabel = new JLabel("Requirements");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		reqsView.add(lblNewLabel, BorderLayout.NORTH);
-		splitLeftRight.setRightComponent(ReqsDetail);
-
-		JPanel panel = new JPanel();
-		ReqsDetail.add(panel, BorderLayout.CENTER);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-		Component verticalStrut_1 = Box.createVerticalStrut(20);
-		panel.add(verticalStrut_1);
-
-		JLabel lblName_1 = new JLabel("Name:");
-		panel.add(lblName_1);
-
-		panel.add(label_1);
-
-		Component verticalStrut_3 = Box.createVerticalStrut(20);
-		panel.add(verticalStrut_3);
-
-		JLabel lblDescription_1 = new JLabel("Description:");
-		panel.add(lblDescription_1);
-
-		panel.add(label_2);
-
-		splitTopBottom.setTopComponent(splitLeftRight);
-		splitTopBottom.setBottomComponent(tabbedPane);
 
 		setLeftComponent(LeftPanel);
 
@@ -342,11 +216,64 @@ public class SessionInProgressPanel extends JSplitPane {
 		Component verticalGlue = Box.createVerticalGlue();
 		LeftPanel.add(verticalGlue);
 		LeftPanel.add(btnEditSession);
-		setRightComponent(splitTopBottom);
+		
+		JPanel RightPanel = new JPanel();
+		setRightComponent(RightPanel);
+		RightPanel.setLayout(new BorderLayout(0, 0));
+		
+		JPanel DetailPanel = new JPanel();
+		RightPanel.add(DetailPanel, BorderLayout.CENTER);
+				DetailPanel.setLayout(new BoxLayout(DetailPanel, BoxLayout.Y_AXIS));
+				
+				Component verticalStrut = Box.createVerticalStrut(20);
+				DetailPanel.add(verticalStrut);
+		
+				JLabel lblName_1 = new JLabel("Name:");
+				DetailPanel.add(lblName_1);
+						DetailPanel.add(label_1);
+				
+						Component verticalStrut_3 = Box.createVerticalStrut(20);
+						DetailPanel.add(verticalStrut_3);
+						
+								JLabel lblDescription_1 = new JLabel("Description:");
+								DetailPanel.add(lblDescription_1);
+								DetailPanel.add(label_2);
+								
+								JPanel DeckPanel = new JPanel();
+								DetailPanel.add(DeckPanel);
+								DeckPanel.setLayout(new BoxLayout(DeckPanel, BoxLayout.X_AXIS));
+								
+								JLabel lblRequirementsDetail = new JLabel("Requirements Detail:");
+								lblRequirementsDetail.setHorizontalAlignment(SwingConstants.CENTER);
+								RightPanel.add(lblRequirementsDetail, BorderLayout.NORTH);
+								
+								JPanel VotingPanel = new JPanel();
+								RightPanel.add(VotingPanel, BorderLayout.SOUTH);
+								VotingPanel.setLayout(new BoxLayout(VotingPanel, BoxLayout.X_AXIS));
+								
+								Component verticalStrut_1 = Box.createVerticalStrut(40);
+								VotingPanel.add(verticalStrut_1);
+								
+								JButton btnSubmitVote = new JButton("Submit Vote");
+								VotingPanel.add(btnSubmitVote);
+								
+								Component horizontalStrut = Box.createHorizontalStrut(20);
+								VotingPanel.add(horizontalStrut);
+								
+								txtVoteField = new JTextField();
+								txtVoteField.setEditable(false);
+								VotingPanel.add(txtVoteField);
+								txtVoteField.setColumns(3);
+								
+								Component horizontalStrut_1 = Box.createHorizontalStrut(20);
+								VotingPanel.add(horizontalStrut_1);
+								
+								JList VoteList = new JList();
+								VotingPanel.add(VoteList);
 	}
 
 	public void setNumVotesLabel(int n) {
-		this.numVotes.setText(Integer.toString(n));
+		//this.VoteList.setText(Integer.toString(n));
 	}
 
 	private void closeTab() {
@@ -406,7 +333,8 @@ public class SessionInProgressPanel extends JSplitPane {
 	 * @return vote parsed as an integer
 	 */
 	public int getVote() {
-		return Integer.parseInt(vote.getText());
+		//return Integer.parseInt(vote.getText());
+		return 0;
 	}
 
 	/**
@@ -420,22 +348,26 @@ public class SessionInProgressPanel extends JSplitPane {
 		for (int i = 0; i < votes.size(); ++i) {
 			array[i] = votes.get(i).toString();
 		}
-		this.voteList.setListData(array);
+		this.VoteList.setListData(array);
 	}
 
 	public JList getVoteList() {
-		return this.voteList;
+		return this.VoteList;
 	}
 
 	/**
 	 * sets the reqsViewTable with the appropriate information
 	 */
 	public void getReqsViewTable() {
-		reqsViewTable.setModel(reqsViewTableManager.get(session.getID()));
 	}
 
 	public void setReqLabels() {
 		label_1.setText("<html>" + reqName + "</html>");
 		label_2.setText("<html>" + reqDescription + "</html>");
+	}
+
+	public void disableEditSession() {
+		this.btnEditSession.setEnabled(false);
+		
 	}
 }
