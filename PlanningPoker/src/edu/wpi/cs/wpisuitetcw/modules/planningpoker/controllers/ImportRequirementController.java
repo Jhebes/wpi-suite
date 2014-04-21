@@ -28,9 +28,7 @@ public class ImportRequirementController implements ActionListener {
 
 	private PlanningPokerRequirement requirement;
 	
-	public ImportRequirementController() {
-
-	}
+	
 
 	/**
 	 * {@inheritDoc}

@@ -66,7 +66,7 @@ public class AddVoteController implements ActionListener {
 			this.req = session.getReqByName(r);
 		} catch (NullPointerException e) {
 			Logger.getLogger("PlanningPoker").log(Level.WARNING,
-					"Could not find requirement by name: " + r, e);
+					"Could not find requirement by name", e);
 			return;
 		}
 

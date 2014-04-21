@@ -32,11 +32,7 @@ public class RetrievePlanningPokerRequirementsForSessionController{
 	/** The requirements retrieved from the server */
 	protected PlanningPokerRequirement[] data = null;
 	public int target;
-	/**
-	 * Constructs a new RetrieveFreePlanningPokerRequirementsController
-	 */
-	public RetrievePlanningPokerRequirementsForSessionController() {
-	}
+	
 	
 	public static RetrievePlanningPokerRequirementsForSessionController getInstance() {
 		if (instance == null) {
