@@ -17,13 +17,17 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateNewDeckController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session.GetAllSessionsController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.Request;
 
 /**
  * This controller responds when the user clicks the "Create" button by using
@@ -90,9 +94,9 @@ public class AddSessionController implements ActionListener {
 		// otherwise the button will do nothing
 		if ((this.view.validateAllInputs() == true)
 				&& (this.isEditMode == false)) {
-			// Get the name of the session
+			
+			// Get the inputs from user
 			String name = this.view.getNameTextField().getText();
-
 			Date d = this.view.getDeadline();
 			String des = this.view.getDescriptionBox().getText();
 			String deckName = (String) this.view.getDeckType()
@@ -100,11 +104,9 @@ public class AddSessionController implements ActionListener {
 
 			// collect inputs for the deck, if necessary
 			if (this.view.isInCreateMode()) {
-				String deck = this.view.getDeckPanel().getTextboxName()
-						.getText();
-				ArrayList<Integer> cardValues = this.view.getDeckPanel()
-						.getAllCardsValue();
 				// TODO the creating deck should be stored
+				CreateNewDeckController createDeckController = new CreateNewDeckController(view.getDeckPanel());
+				createDeckController.addDeckToDatabase();
 			}
 
 			// Create a new session and populate its data

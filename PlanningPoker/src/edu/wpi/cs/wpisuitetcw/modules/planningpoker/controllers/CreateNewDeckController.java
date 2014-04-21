@@ -22,7 +22,7 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
-public class CreateNewDeckController implements ActionListener {
+public class CreateNewDeckController {
 
 	private CreateNewDeckPanel view;
 
@@ -32,12 +32,10 @@ public class CreateNewDeckController implements ActionListener {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Create a new deck based on the information in the CreateNewDeckPanel 
+	 * and store it in the database
 	 */
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// String deckName = this.view.getTextboxName().getText();
-
+	public void addDeckToDatabase() {
 		// make sure all cards are validated
 		if (validateAllInputs()) {
 			// all inputs are good
@@ -103,4 +101,5 @@ public class CreateNewDeckController implements ActionListener {
 		}
 		return isAllInputValid;
 	}
+
 }
