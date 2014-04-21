@@ -25,6 +25,7 @@ public class ViewEventManager {
 	private MainView main;
 	private ImportRequirementsPanel requirementPanel;
 	private OverviewPanel overviewPanel;
+	private OverviewTreePanel overviewTreePanel;
 	private ToolbarView toolbarView;
 	private boolean isWelcomePageOnDisplay = true;
 	private ArrayList<ViewSessionPanel> viewSessionPanels = new ArrayList<ViewSessionPanel>();
@@ -149,15 +150,6 @@ public class ViewEventManager {
 	}
 
 	/**
-	 * sets overview tree in the overview panel
-	 * 
-	 * @param overviewTree
-	 *            overviewTreePanel
-	 */
-	public void setOverviewTree(OverviewTreePanel overviewTree) {
-	}
-
-	/**
 	 * Sets the toolbarview to the given toolbar
 	 * 
 	 * @param tb
@@ -242,6 +234,14 @@ public class ViewEventManager {
 	 */
 	public void refreshOverviewPanel() {
 		this.overviewPanel.updateUI();
+	}
+
+	/**
+	 * the tree panel for updating the session
+	 * @param overviewTreePanel
+	 */
+	public void setOverviewTree(OverviewTreePanel overviewTreePanel) {
+		this.overviewTreePanel = overviewTreePanel;
 	}
 
 }
