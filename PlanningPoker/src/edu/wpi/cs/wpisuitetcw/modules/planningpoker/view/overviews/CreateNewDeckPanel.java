@@ -61,6 +61,8 @@ public class CreateNewDeckPanel extends JPanel {
 	private static final String MULTIPLE_SELECT = "Multiple selection";
 	private static final String SINGLE_SELECT 	= "Single selection";
 	private final int CARD_WIDTH = 146;
+	private static final int CENTER_PANEL_WIDTH  = 350;
+	private static final int CENTER_PANEL_HEIGHT = 250;
 
 	// ########################### Top UI Components ######################
 	/** A container holding all the top UI components */ 
@@ -114,7 +116,7 @@ public class CreateNewDeckPanel extends JPanel {
 		container.add(cardPanel);
 
 		centerPanel = new JScrollPane(container);
-		centerPanel.setMinimumSize(new Dimension(350, 250));
+		centerPanel.setMinimumSize(new Dimension(CENTER_PANEL_WIDTH, CENTER_PANEL_HEIGHT));
 
 		// setup the entire layout
 		this.setLayout(new MigLayout("insets 0", "", ""));
