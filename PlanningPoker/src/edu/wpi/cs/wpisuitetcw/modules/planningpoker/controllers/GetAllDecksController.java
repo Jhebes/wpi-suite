@@ -22,7 +22,7 @@ import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 
 /**
  * A singleton controller that gets all the decks or their names
- * from the Gdatabase
+ * from the database
  */
 public class GetAllDecksController {
 	/** A list of PlanningPokerDeck */
