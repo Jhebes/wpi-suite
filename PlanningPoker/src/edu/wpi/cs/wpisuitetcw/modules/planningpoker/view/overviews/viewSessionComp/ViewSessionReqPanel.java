@@ -60,7 +60,6 @@ public class ViewSessionReqPanel extends JPanel {
 	private final JButton moveAllRequirementsToAll;
 	private final JButton moveRequirementToSession;
 	private final JButton moveAllRequirementsToSession;
-	private final JButton addRequirementToAll;
 	private final JButton addRequirementToSession;
 	private final JButton updateDescription;
 	private final JTable allReqTable;
@@ -176,7 +175,6 @@ public class ViewSessionReqPanel extends JPanel {
 		this.moveAllRequirementsToAll = new JButton(" << ");
 		this.moveRequirementToSession = new JButton(" > ");
 		this.moveAllRequirementsToSession = new JButton(" >> ");
-		this.addRequirementToAll = new JButton("Add Requirement to All");
 		this.addRequirementToSession = new JButton("Add Requirement to Session");
 		this.updateDescription = new JButton("Update Description");
 
@@ -209,6 +207,7 @@ public class ViewSessionReqPanel extends JPanel {
 		allReqTable.setBackground(Color.WHITE);
 		allReqTable.getTableHeader().setReorderingAllowed(false);
 
+		updateDescription.setPreferredSize(new Dimension(70, 50));
 		// add table to rightPanel
 		JLabel leftLabel = new JLabel("All Requirements");
 		leftPanel.setLayout(new BorderLayout());
@@ -216,7 +215,7 @@ public class ViewSessionReqPanel extends JPanel {
 		leftPanel.add(leftLabel, BorderLayout.NORTH);
 		leftPanel.add(allReqSp);
 
-		// table for left pain
+		// table for left pane
 		// Right table
 		sessionReqTable = new JTable(
 				new RequirementTableManager().get(this.session.getID())) {
@@ -254,11 +253,8 @@ public class ViewSessionReqPanel extends JPanel {
 		moveRequirementToSession.setPreferredSize(new Dimension(70, 50));
 		moveRequirementToAll.setPreferredSize(new Dimension(70, 50));
 		moveAllRequirementsToAll.setPreferredSize(new Dimension(70, 50));
-		updateDescription.setPreferredSize(new Dimension(70, 50));
 
 		// Action Handlers
-		this.addRequirementToAll
-				.addActionListener(new AddRequirementToAllController(this));
 		// need to change so it adds to the right side
 		this.addRequirementToSession
 				.addActionListener(new AddRequirementToSessionController(this));
@@ -283,7 +279,7 @@ public class ViewSessionReqPanel extends JPanel {
 		allReqTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JTable table = (JTable) e.getSource();
+				/*JTable table = (JTable) e.getSource();
 				int row = table.getSelectedRow();
 
 				if (row != -1) {
@@ -298,8 +294,16 @@ public class ViewSessionReqPanel extends JPanel {
 					reqDescription = desc;
 
 					setReqInfo(reqName, reqDescription);
+				}*/
+				
+				PlanningPokerRequirement selectedReq;
+				ArrayList<String> requirementNames = getLeftSelectedRequirements();
+				selectedReq = session.getReqByName(requirementNames.get(0));
 
-				}
+				reqName = selectedReq.getName();
+				reqDescription = selectedReq.getDescription();
+
+				setReqInfo(reqName, reqDescription);
 			}
 		});
 
@@ -316,7 +320,6 @@ public class ViewSessionReqPanel extends JPanel {
 				reqDescription = selectedReq.getDescription();
 
 				setReqInfo(reqName, reqDescription);
-
 			}
 		});
 
@@ -326,7 +329,6 @@ public class ViewSessionReqPanel extends JPanel {
 		buttonsPanel.add(moveRequirementToSession);
 		buttonsPanel.add(moveRequirementToAll);
 		buttonsPanel.add(moveAllRequirementsToAll);
-		buttonsPanel.add(updateDescription);
 
 		// buttons panel goes in the center
 		centerPanel.setLayout(new BorderLayout());
@@ -360,7 +362,7 @@ public class ViewSessionReqPanel extends JPanel {
 		c.anchor = GridBagConstraints.CENTER;
 		c.gridx = 1;
 		c.gridy = 1;
-		this.add(addRequirementToAll, c);
+		this.add(updateDescription, c);
 
 		// constraints for addRequirementToSessoin button
 		c.anchor = GridBagConstraints.WEST;
