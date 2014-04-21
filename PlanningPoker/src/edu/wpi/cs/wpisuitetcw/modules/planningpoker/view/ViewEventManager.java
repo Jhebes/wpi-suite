@@ -243,5 +243,13 @@ public class ViewEventManager {
 	public void setOverviewTree(OverviewTreePanel overviewTreePanel) {
 		this.overviewTreePanel = overviewTreePanel;
 	}
+	
+	/**
+	 * return the tree panel
+	 * @return tree panel
+	 */
+	public OverviewTreePanel getOverviewTreePanel() {
+		return this.overviewTreePanel;
+	}
 
 }

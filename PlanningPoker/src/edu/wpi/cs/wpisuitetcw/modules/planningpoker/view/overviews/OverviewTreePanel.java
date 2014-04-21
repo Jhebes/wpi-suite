@@ -56,6 +56,9 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 				"Closed Sessions");
 
 		try {
+			// get a list of sessions
+			this.sessions = SessionStash.getInstance().getSessions();
+
 			if (this.sessions != null) {
 				PlanningPokerSession[] openSessions = sortForOpenSessions(this.sessions);
 				PlanningPokerSession[] closedSessions = sortForClosedSessions(this.sessions);
@@ -161,14 +164,13 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		if (!initialized) {
 			// retrieve sessions and initialize the tree
 			SessionStash.getInstance().synchronize();
-			this.sessions = SessionStash.getInstance().getSessions();
 
-			if (this.sessions.size() == 0) {
+			if (this.sessions.size() != 0) {
 				initialized = true;
 			}
-			// println
-			// System.out.println("There are " + this.sessions.size());
-			// System.out.println(this.sessions);
+
+			System.out.println("There are " + this.sessions.size());
+			System.out.println(this.sessions);
 
 			this.refresh();
 		}

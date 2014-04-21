@@ -14,6 +14,7 @@ import java.util.List;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -42,6 +43,7 @@ public class GetAllSessionsController {
 	
 
 	public void receivedSessions(List<PlanningPokerSession> sessions) {
+		ViewEventManager.getInstance().getOverviewTreePanel().refresh();
 		SessionStash.getInstance().mergeFromServer(sessions);
 	}
 
