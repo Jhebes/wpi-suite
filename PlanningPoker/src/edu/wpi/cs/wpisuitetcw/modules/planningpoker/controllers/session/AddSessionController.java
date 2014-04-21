@@ -87,12 +87,12 @@ public class AddSessionController implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		// if a name was entered create the session
 		// otherwise the button will do nothing
-		if ((this.view.requiredFieldEntered() == true)
+		if ((this.view.validateAllInputs() == true)
 				&& (this.isEditMode == false)) {
 			// Get the name of the session
 			String name = this.view.getNameTextField().getText();
 
-			// TODO Session type should be stored
+			// TODO the creating deck should be stored
 			Date d = this.view.getDeadline();
 			String des = this.view.getDescriptionBox().getText();
 			String deckName = (String) this.view.getDeckType()

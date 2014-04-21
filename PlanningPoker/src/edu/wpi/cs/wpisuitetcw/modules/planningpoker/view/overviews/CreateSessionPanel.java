@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -46,6 +47,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirem
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 /**
@@ -66,7 +68,7 @@ public class CreateSessionPanel extends JPanel {
 	private static final int DROPDOWN_WIDTH = 150;
 	private static final int DESCRIPTION_BOX_WIDTH = 300;
 	private static final int DESCRIPTION_BOX_HEIGHT = 110;
-	private static final int GAP_LENGTH_DEADLINE_TO_BOTTOM = 0;//220;
+	private static final int GAP_LENGTH_DEADLINE_TO_BOTTOM = 0;// 220;
 	private static final String REQUIRED_LABEL = "<html><font color='red'>Required field *</font></html>";
 	private static final String CREATE_DECK = "Create new deck";
 
@@ -269,15 +271,68 @@ public class CreateSessionPanel extends JPanel {
 	}
 
 	/**
+	 * determine if users has entered all required values
+	 * 
+	 * @return true if all values are valid
+	 */
+	public boolean validateAllInputs() {
+		// new deck is being created
+		if (this.mode.equals(CardDisplayMode.CREATE)) {
+			// validate session and deck input
+			boolean isDeckValid = validateAllDeckInputs();
+			boolean isSessionValide = validateAllSessionInputs();
+
+			return isDeckValid && isSessionValide;
+		} else {
+			// display mode
+			return validateAllSessionInputs();
+		}
+
+	}
+
+	/**
 	 * Determine whether user has entered anything in all required fields
 	 * 
 	 * @return true if anything is entered; false otherwise
 	 */
-	public boolean requiredFieldEntered() {
+	public boolean validateAllSessionInputs() {
 		// this is to avoid short circuit evaluation
 		boolean nameEntered = sessionNameEntered();
 		boolean desEntered = sessionDescriptionEntered();
+
 		return nameEntered && desEntered;
+
+	}
+
+	/**
+	 * Determine if user has entered all required fields in the deck panel
+	 * 
+	 * @return true if all inputs are valid
+	 */
+	private boolean validateAllDeckInputs() {
+		boolean areCardsValid = validateCardValues();
+		boolean isNameEntered = this.deckPanel.isDeckNameEntered();
+		return areCardsValid && isNameEntered;
+	}
+
+	/**
+	 * Validate all the values for the entire deck of cards
+	 * 
+	 * @return true if so; false otherwise
+	 */
+	private boolean validateCardValues() {
+		boolean isAllInputValid = true;
+
+		Map<Integer, Card> cards = this.deckPanel.getCards();
+		for (Card aCard : cards.values()) {
+			if (!aCard.validateCardValue()) {
+				aCard.setCardInvalid();
+				isAllInputValid = false;
+			} else {
+				aCard.setCardValid();
+			}
+		}
+		return isAllInputValid;
 	}
 
 	/**
