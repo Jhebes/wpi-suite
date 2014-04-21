@@ -400,14 +400,6 @@ public class SessionInProgressPanel extends JSplitPane {
 
 	/**
 	 * 
-	 * @param reqsList
-	 */
-	public void setReqsList(PlanningPokerRequirement[] reqsList) {
-		this.reqsList = reqsList;
-	}
-
-	/**
-	 * 
 	 * @return Requirement Name selected in the list
 	 */
 	public String getSelectedRequirement() {
