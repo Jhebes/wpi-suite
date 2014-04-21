@@ -28,13 +28,13 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
  * This controller responds when the user clicks the "Create" button by using
  * all entered information to construct a new session and storing in the
  * database
- * 
  */
 public class AddSessionController implements ActionListener {
 	private final CreateSessionPanel view;
-
-	private boolean isEditMode;
 	private PlanningPokerSession session;
+	
+	/** Allow users editing a session's content or not */
+	private boolean isEditMode;
 
 	/**
 	 * Construct an AddSessionController for the given view
@@ -123,7 +123,10 @@ public class AddSessionController implements ActionListener {
 
 	}
 
-	// removes a tab and opens another
+	/**
+	 * Removes the current tab and opens another tab that
+	 * exhibits the given session's information
+	 */
 	public void onSuccess(PlanningPokerSession session) {
 		// TODO open a session after creating it
 
