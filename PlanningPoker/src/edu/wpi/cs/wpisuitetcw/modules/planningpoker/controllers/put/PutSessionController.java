@@ -19,19 +19,20 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * This controller responds when the user clicks the "Create" button by using
- * all entered information to construct a new session and storing in the
- * database
- * 
+ * A controller that stores the given PlanningPokerSession to the database
  */
 public class PutSessionController {
 
+	/**
+	 * Store the given PlanningPokerSession to the database
+	 * @param session a PlanningPokerSession that would be stored
+	 * in the database
+	 */
 	public PutSessionController(PlanningPokerSession session) {
 		final Request request = Network.getInstance().makeRequest(
 				"planningpoker/session", HttpMethod.PUT);
 		request.setBody(session.toJSON());
 		request.addObserver(new GenericPUTRequestObserver());
-		
 		request.send();
 	}
 
