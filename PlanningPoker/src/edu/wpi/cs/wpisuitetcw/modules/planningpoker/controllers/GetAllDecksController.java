@@ -20,18 +20,22 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 
-
+/**
+ * A singleton controller that gets all the decks or their names
+ * from the Gdatabase
+ */
 public class GetAllDecksController {
-
-	private static GetAllDecksController instance;
+	/** A list of PlanningPokerDeck */
 	private List<PlanningPokerDeck> decks = null;
 
-	private GetAllDecksController() {
-	}
+	/** An instance of this controller */
+	private static GetAllDecksController instance;
+
+	private GetAllDecksController() {}
 
 	/**
-	 * Instantiates a new controller tied to the specified view. Private because
-	 * this is a singleton.
+	 * Instantiates a new controller tied to the specified view. 
+	 * Private because this is a singleton.
 	 */
 	public static GetAllDecksController getInstance() {
 		if (instance == null) {
@@ -40,14 +44,22 @@ public class GetAllDecksController {
 		return instance;
 	}
 
+	/**
+	 * Assign the given List of PlanningPokerDecks to the 
+	 * GetAllDecksController's 
+	 * @param decks A List of PlanningPokerDeck that would be
+	 * assigned to the GetAllDecksController
+	 */
 	public void updateDecks(List<PlanningPokerDeck> decks) {
 		this.decks = decks;
 	}
 
 	/**
-	 * returns all the names of available decks in our database
-	 * 
-	 * @return ArrayList of deck names
+	 * Returns all the names of the available decks in the database
+	 * This method is used to exhibit the names of the deck in the
+	 * dropdown of the CreateNewSessionPanel
+	 * @return Returns an array list of all the names 
+	 * of the available decks in the database
 	 * @throws InterruptedException 
 	 */
 	public ArrayList<String> getAllDeckNames() {
@@ -57,9 +69,9 @@ public class GetAllDecksController {
 		// delay the this process since the request fired in refreshDecks() might not be completed
 		try {
 			Thread.sleep(250); 
-		} catch (InterruptedException e) {
-		}
+		} catch (InterruptedException e) {}
 		
+		// Default options
 		deckNames.add("Default");
 		deckNames.add("No deck");
 		deckNames.add("Create new deck");
@@ -74,7 +86,7 @@ public class GetAllDecksController {
 	}
 	
 	/**
-	 * retrieve decks from database
+	 * Send a request to get all the decks back from the database
 	 */
 	public void refreshDecks() {
 		final Request request = Network.getInstance().makeRequest(
@@ -83,15 +95,19 @@ public class GetAllDecksController {
 		request.send();
 	}
 	
+	/**
+	 * Return the deck that has the given name
+	 * @param deckName A String represents the name of a deck
+	 * @return Return the deck that has the given name
+	 * @throws WPISuiteException
+	 */
 	public PlanningPokerDeck setDeckByName(String deckName) throws WPISuiteException{
 		for(PlanningPokerDeck d : decks){
 			if(d.getDeckName() == deckName){
 				return d;
 			}
 		}
-		throw new WPISuiteException();
-
-		
+		throw new WPISuiteException();	
 	}
 
 }
