@@ -102,10 +102,10 @@ public class AddSessionController implements ActionListener {
 			String deckName = (String) this.view.getDeckType()
 					.getSelectedItem();
 
-			// collect inputs for the deck, if necessary
+			// Store the new deck if user creates one
 			if (this.view.isInCreateMode()) {
-				// TODO the creating deck should be stored
-				CreateNewDeckController createDeckController = new CreateNewDeckController(view.getDeckPanel());
+				CreateNewDeckController createDeckController = 
+						new CreateNewDeckController(view.getDeckPanel());
 				createDeckController.addDeckToDatabase();
 			}
 
@@ -115,6 +115,8 @@ public class AddSessionController implements ActionListener {
 			session.setName(name);
 			session.setDeadline(d);
 			session.setDescription(des);
+			
+			// TODO BIND THE NEW DECK TO THE SESSION
 			try {
 				session.setDeck(GetAllDecksController.getInstance()
 						.setDeckByName(deckName));
