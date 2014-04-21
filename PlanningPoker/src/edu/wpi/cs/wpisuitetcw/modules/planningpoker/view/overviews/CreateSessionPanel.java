@@ -170,16 +170,7 @@ public class CreateSessionPanel extends JPanel {
 
 		setupBottomPanel();
 
-		// Put the left and card panel into a JSplitpane
-		mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel,
-				deckPanel);
-		// Prevent users resize left panel
-		mainPanel.setEnabled(false);
-
-		// Add the mainPanel and bottom panel to the canvas
-		this.setLayout(new MigLayout("insets 0"));
-		this.add(mainPanel, "dock center");
-		this.add(bottomPanel, "dock south, height 45px!");
+		setupEntirePanel();
 	}
 
 	/**
@@ -698,17 +689,7 @@ public class CreateSessionPanel extends JPanel {
 		// new deck panel for creating a deck of cards
 		this.deckPanel = new CreateNewDeckPanel(CardDisplayMode.CREATE);
 
-		// update the current panel view
-		this.remove(mainPanel);
-
-		// Put the left and card panel into a JSplitpane
-		mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.leftPanel,
-				this.deckPanel);
-		// Prevent users resize left panel
-		mainPanel.setEnabled(false);
-
-		// Add the mainPanel and bottom panel to the canvas
-		this.add(mainPanel, "dock center");
+		setupEntirePanel();
 		updateUI();
 	}
 
@@ -728,17 +709,7 @@ public class CreateSessionPanel extends JPanel {
 		this.deckPanel = new CreateNewDeckPanel(CardDisplayMode.DISPLAY);
 		this.deckPanel.displayDefaultDeck();
 
-		// update the current panel view
-		this.remove(mainPanel);
-
-		// Put the left and card panel into a JSplitpane
-		mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.leftPanel,
-				this.deckPanel);
-		// Prevent users resize left panel
-		mainPanel.setEnabled(false);
-
-		// Add the mainPanel and bottom panel to the canvas
-		this.add(mainPanel, "dock center");
+		setupEntirePanel();
 		updateUI();
 	}
 
@@ -749,18 +720,28 @@ public class CreateSessionPanel extends JPanel {
 		System.out.println(this.mode);
 		this.deckPanel = new CreateNewDeckPanel(CardDisplayMode.NO_DECK);
 
-		// update the current panel view
-		this.remove(mainPanel);
-
+		setupEntirePanel();
+		updateUI();
+	}
+	
+	/*
+	 * Put the left and right panel into a JSplitpane and
+	 * add this JSplitpane with bottom panel to the window
+	 */
+	private void setupEntirePanel() {
+		// Remove all the UI Components on the CreateSessionPanel
+		removeAll();
+		
 		// Put the left and card panel into a JSplitpane
-		mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.leftPanel,
-				this.deckPanel);
+		mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel,
+				deckPanel);
 		// Prevent users resize left panel
 		mainPanel.setEnabled(false);
 
 		// Add the mainPanel and bottom panel to the canvas
+		this.setLayout(new MigLayout("insets 0"));
 		this.add(mainPanel, "dock center");
-		updateUI();
+		this.add(bottomPanel, "dock south, height 45px!");		
 	}
 	
 	/**
