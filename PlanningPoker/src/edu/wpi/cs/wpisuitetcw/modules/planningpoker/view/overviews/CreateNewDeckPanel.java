@@ -64,30 +64,29 @@ public class CreateNewDeckPanel extends JPanel {
 
 	// ########################### Top UI Components ######################
 	/** A container holding all the top UI components */ 
-	private final JPanel topPanel;
+	private JPanel topPanel;
 	
 	/** Text field to type deck's name in */
-	private final JLabel labelName;
-	private final JTextField textboxName;
+	private JLabel labelName;
+	private JTextField textboxName;
 
 	/** Dropdown to choose single OR multiple card selection */
-	private final JLabel labelCardSelection;
-	private final JComboBox<String> deckOption;
+	private JLabel labelCardSelection;
+	private JComboBox<String> deckOption;
 
 	/** Group of button and labels to add new card */
-	private final JButton btnAddCard;
-	private final JLabel labelCount;
-	private final JLabel labelNumCards;
-	private final JLabel labelNameErr;
+	private JButton btnAddCard;
+	private JLabel labelCount;
+	private JLabel labelNumCards;
+	private JLabel labelNameErr;
 	
 	// ######################### Center UI Components #####################
 	/** A container holding all the center UI component */
-	private final JPanel centerPanel;
+	private JScrollPane centerPanel;
 
 	/** A scroll panel having all the cards */
-	private final JScrollPane cardSP;
-	private final JPanel cardPanel;
-	private final JPanel errorPanel;
+	private JPanel cardPanel;
+	private JPanel errorPanel;
 	
 	// ############################### DATA ###############################
 	private final HashMap<Integer, Card> cards;
@@ -103,6 +102,39 @@ public class CreateNewDeckPanel extends JPanel {
 		
 		cards = new HashMap<Integer, Card>();
 
+		setupTopPanel();
+
+		// add a new panel to the scrollpane, since cards are panels which
+		// cannot be drawn on scrollpane directly
+		cardPanel = new JPanel();
+		cardPanel.add(errorPanel);
+
+		JPanel container = new JPanel();
+		container.setLayout(new GridBagLayout());
+		container.add(cardPanel);
+
+		centerPanel = new JScrollPane(container);
+		centerPanel.setMinimumSize(new Dimension(350, 250));
+
+		// setup the entire layout
+		this.setLayout(new MigLayout("insets 0", "", ""));
+		this.add(topPanel, "dock north");
+		this.add(centerPanel, "dock center");
+
+		// determine what type of mode the panel is
+		if (mode.equals(CardDisplayMode.CREATE)) {
+			// create mode allows users to enter values
+			setInitialCard();
+		} else if (mode.equals(CardDisplayMode.DISPLAY)) {
+			// display mode should display the cards in a deck and disallow any
+			// modification
+			disableAllInputFields();
+		} else if (mode.equals(CardDisplayMode.NO_DECK)) {
+			displayNoDeckPanel();
+		}
+	}
+
+	private void setupTopPanel() {
 		// Create text field for deck's name
 		this.labelName = new JLabel(DECK_NAME_LABEL);
 		this.textboxName = new JTextField(18);
@@ -130,60 +162,10 @@ public class CreateNewDeckPanel extends JPanel {
 		errorPanel = new JPanel();
 		errorPanel.add(new JLabel(NO_CARD_ERR_MSG));
 		errorPanel.setVisible(false);
-		
-		// sub panels
-		topPanel = new JPanel();
-		centerPanel = new JPanel();
 
 		// Add sets of buttons that modify the deck to a panel
-		JPanel centerTopPanel = new JPanel();
-		addModifyDeckButtons(centerTopPanel);
-
-		// add a new panel to the scrollpane, since cards are panels which
-		// cannot be drawn on scrollpane directly
-		cardPanel = new JPanel();
-
-		JPanel container = new JPanel();
-		container.setLayout(new GridBagLayout());
-
-		cardSP = new JScrollPane(container);
-		cardSP.setMinimumSize(new Dimension(350, 250));
-
-		// centerPanel includes the add button and additional cards
-		centerPanel.setLayout(new MigLayout());
-
-		// removes cards
-		cardPanel.add(errorPanel);
-		//
-		container.add(cardPanel);
-
-		// add sub panels to center panels
-		centerPanel.add(centerTopPanel, "dock north, center");
-		centerPanel
-				.add(cardSP, "gapleft 5px, gapright 5px, growx, dock center");
-		// centerPanel.setBorder(null);
-
-		// setup bottomPanel
-		// bottomPanel.add(btnCreate);
-		// bottomPanel.add(btnCancel);
-
-		// setup the entire layout
-		this.setLayout(new MigLayout("", "", ""));
-		this.add(topPanel, "dock north");
-		this.add(centerPanel, "dock center");
-		//this.add(bottomPanel, "center, dock south");
-
-		// determine what type of mode the panel is
-		if (mode.equals(CardDisplayMode.CREATE)) {
-			// create mode allows users to enter values
-			setInitialCard();
-		} else if (mode.equals(CardDisplayMode.DISPLAY)) {
-			// display mode should display the cards in a deck and disallow any
-			// modification
-			disableAllInputFields();
-		} else if (mode.equals(CardDisplayMode.NO_DECK)) {
-			displayNoDeckPanel();
-		}
+		topPanel = new JPanel();
+		addModifyDeckButtons(topPanel);		
 	}
 
 	/**
@@ -231,7 +213,7 @@ public class CreateNewDeckPanel extends JPanel {
 		this.updateNumCard();
 
 		// This yet moves to the rightmost position when a new card is added.
-		this.cardSP.getHorizontalScrollBar().setValue(
+		this.centerPanel.getHorizontalScrollBar().setValue(
 				(int) (this.cardPanel.getBounds().getWidth() + CARD_WIDTH));
 	}
 
@@ -409,7 +391,7 @@ public class CreateNewDeckPanel extends JPanel {
 	 * 
 	 * @return the center panel of this deck creation instance
 	 */
-	public JPanel getCenterPanel() {
+	public JScrollPane getCenterPanel() {
 		return this.centerPanel;
 	}
 
