@@ -708,7 +708,7 @@ public class CreateSessionPanel extends JPanel {
 		mainPanel.setEnabled(false);
 
 		// Add the mainPanel and bottom panel to the canvas
-		this.add(mainPanel, "center, span");
+		this.add(mainPanel, "dock center");
 		updateUI();
 	}
 
@@ -738,7 +738,7 @@ public class CreateSessionPanel extends JPanel {
 		mainPanel.setEnabled(false);
 
 		// Add the mainPanel and bottom panel to the canvas
-		this.add(mainPanel, "center, span");
+		this.add(mainPanel, "dock center");
 		updateUI();
 	}
 
@@ -759,7 +759,7 @@ public class CreateSessionPanel extends JPanel {
 		mainPanel.setEnabled(false);
 
 		// Add the mainPanel and bottom panel to the canvas
-		this.add(mainPanel, "center, span");
+		this.add(mainPanel, "dock center");
 		updateUI();
 	}
 	
