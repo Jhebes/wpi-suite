@@ -55,6 +55,8 @@ public class SessionInProgressPanel extends JPanel {
 	private static final int MIN_EDIT_SESSION_BUTTON_WIDTH = 50;
 	private static final int GAP_BETWEEN_BOTTOM_BUTTONS = 20;
 	private static final int MIN_END_SESSION_BUTTON_WIDTH = 50;
+	private static final int PADDING_RIGHT_PANEL = 10;
+	private static final int GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX = 20;
 	
 	private final PlanningPokerSession session;
 	private PlanningPokerRequirement[] reqsList;
@@ -311,29 +313,36 @@ public class SessionInProgressPanel extends JPanel {
 	 * on the right panel
 	 */
 	private void addGUIComponentsOnRightPanel() {	
-		rightPanel.setLayout(new MigLayout("insets 10 10 10 10, fillx"));
-
-		rightPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
+		// Add the padding around the right panel
+		rightPanel.setLayout(new MigLayout("insets " + PADDING_RIGHT_PANEL + " "
+													 + PADDING_RIGHT_PANEL + " "
+													 + PADDING_RIGHT_PANEL + " "
+													 + PADDING_RIGHT_PANEL + ", fillx"));
 		
 		// Add the label of the panel
 		rightPanel.add(rightPanelLabel, "center, span");
 		
 		// Add the requirement name and its label
 		rightPanel.add(requirementNameLabel, "growx, left, wrap");
-		rightPanel.add(requirementNameTextbox, "growx, gapright 20px, wrap");
+		rightPanel.add(requirementNameTextbox, "growx, gapright " + 
+												GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX + "px, wrap");
 		
 		// Add the requirement description box and its label
 		rightPanel.add(descriptionLabel, "growx, left, wrap");
 		rightPanel.add(descriptionTextbox, "hmin " + MIN_DESC_TEXTBOX_HEIGHT + "px, "
-										 		   + "growx, gapright 20px, wrap");
+										 + "growx, "
+										 + "gapright" + GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX + "px, "
+										 + "wrap");
 		
 		// Add the card panel
 		rightPanel.add(cardPanel, "grow, wrap");
 		
 		// Add the vote text field to the right side
-		rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH + "px, "
+		rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH  + "px, "
 								   	+ "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, "
-								   	+ "dock east, gaptop 10px, gapright 10px");
+								   	+ "dock east, "
+								   	+ "gaptop "   + PADDING_RIGHT_PANEL + "px, "
+								   	+ "gapright " + PADDING_RIGHT_PANEL + "px");
 		
 		//rightDock.add(submitVoteButton, "center, wrap");
 	}
