@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
@@ -52,7 +53,7 @@ public class MoveAllRequirementsToAllController implements ActionListener {
 		//Move the requested reqs from session to all
 		for(String a : this.view.getAllRightRequirements()){
 				r = session.getReqByName(a);
-				ArrayList<PlanningPokerRequirement> d = new ArrayList<PlanningPokerRequirement>();
+				List<PlanningPokerRequirement> d = new ArrayList<PlanningPokerRequirement>();
 				d.add(r);
 				session.deleteRequirements(d);
 				s.addRequirement(r);

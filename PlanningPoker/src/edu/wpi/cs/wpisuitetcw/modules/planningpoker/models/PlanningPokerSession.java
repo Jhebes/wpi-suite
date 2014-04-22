@@ -12,16 +12,14 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendNotificationController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put.PutSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
-import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-import edu.wpi.cs.wpisuitetng.janeway.config.Configuration;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.UserStash;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -256,7 +254,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @param newReqs
 	 *            New Requirements to be added
 	 */
-	public void addRequirements(ArrayList<PlanningPokerRequirement> newReqs) {
+	public void addRequirements(List<PlanningPokerRequirement> newReqs) {
 		requirements.addAll(newReqs);
 	}
 
@@ -276,7 +274,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @param reqs
 	 *            The requirements to delete
 	 */
-	public void deleteRequirements(ArrayList<PlanningPokerRequirement> reqs) {
+	public void deleteRequirements(List<PlanningPokerRequirement> reqs) {
 		requirements.removeAll(reqs);
 	}
 
