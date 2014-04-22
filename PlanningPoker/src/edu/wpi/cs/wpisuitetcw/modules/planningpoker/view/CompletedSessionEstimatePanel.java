@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -19,6 +20,8 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class CompletedSessionEstimatePanel extends JPanel {
 
@@ -30,6 +33,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	private final JLabel lblVotes;
 	private final JLabel lblStats;
 	private final JLabel lblFinalEstimate;
+	private final JTable tblVotes;
 	private final Font headerFont;
 
 	/**
@@ -64,13 +68,18 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		// Initialize the default font for JLabel headers
 		headerFont = new Font("TimesRoman", Font.BOLD, 15);
 
-		// Initialize the Headers for this panel.
+		// Initialize the Headers for the panels.
 		lblVotes = new JLabel("Votes");
 		lblVotes.setFont(headerFont);
+		lblVotes.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
 		lblStats = new JLabel("Stats");
 		lblStats.setFont(headerFont);
+		lblStats.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
 		lblFinalEstimate = new JLabel("Final Estimate");
 		lblFinalEstimate.setFont(headerFont);
+		lblFinalEstimate.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		// Create the Final Estimate Panel
 		pnlFinalEstimate.add(lblFinalEstimate);
@@ -79,7 +88,20 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		pnlStats.add(lblStats);
 
 		// Create the Votes Panel
+		Object[][] data = {
+				{"remckenna",new Integer(2)}, /// This data is all dummy change
+				{"Somebody else", new Integer(6)}
+				};
+		Object[] voteTableColHeaders = {"User", "Votes"};
+		tblVotes = new JTable(data, voteTableColHeaders);
+		
+		JScrollPane votesScrollPane = new JScrollPane(tblVotes);
+		tblVotes.setFillsViewportHeight(true);
+		
 		pnlVotes.add(lblVotes);
+		pnlVotes.add(votesScrollPane);
+		
+		
 
 		// put the completed Session panel together
 		this.add(pnlVotes);
