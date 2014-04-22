@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -22,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 public class CompletedSessionEstimatePanel extends JPanel {
 
@@ -33,7 +35,13 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	private final JLabel lblVotes;
 	private final JLabel lblStats;
 	private final JLabel lblFinalEstimate;
+	private final JLabel lblMean;
+	private final JLabel lblMedian;
+	private final JLabel lblMode;
 	private final JTable tblVotes;
+	private JTextField statsMean;
+	private JTextField statsMedian;
+	private JTextField statsMode;
 	private final Font headerFont;
 
 	/**
@@ -66,7 +74,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		
 
 		// Initialize the default font for JLabel headers
-		headerFont = new Font("TimesRoman", Font.BOLD, 15);
+		headerFont = new Font("TimesRoman", Font.BOLD, 20);
 
 		// Initialize the Headers for the panels.
 		lblVotes = new JLabel("Votes");
@@ -84,9 +92,50 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		// Create the Final Estimate Panel
 		pnlFinalEstimate.add(lblFinalEstimate);
 
+		
+		
+		
 		// Create the Stats Panel
+		lblMean = new JLabel("Mean");
+		lblMean.setAlignmentX(Component.CENTER_ALIGNMENT);
+		statsMean = new JTextField(10);
+		// Keeps the text box from filling the entire statBox
+		statsMean.setMaximumSize(statsMean.getPreferredSize()); 
+		statsMean.setAlignmentX(Component.CENTER_ALIGNMENT);
+		statsMean.setEditable(false);
+		
+		lblMedian = new JLabel("Median");
+		lblMedian.setAlignmentX(Component.CENTER_ALIGNMENT);
+		statsMedian = new JTextField(10);
+		// Keeps the text box from filling the entire statBox
+		statsMedian.setMaximumSize(statsMedian.getPreferredSize());
+		statsMedian.setAlignmentX(Component.CENTER_ALIGNMENT);
+		statsMedian.setEditable(false);
+		
+		lblMode = new JLabel("Mode");
+		lblMode.setAlignmentX(Component.CENTER_ALIGNMENT);
+		statsMode = new JTextField(10);
+		// Keeps the text box from filling the entire statBox
+		statsMode.setMaximumSize(statsMode.getPreferredSize()); 
+		statsMode.setAlignmentX(Component.CENTER_ALIGNMENT);
+		statsMode.setEditable(false);
+		
 		pnlStats.add(lblStats);
+		
+		pnlStats.add(lblMean);
+		pnlStats.add(statsMean);
+		
+		pnlStats.add(lblMedian);
+		pnlStats.add(statsMedian);
+		
+		pnlStats.add(lblMode);
+		pnlStats.add(statsMode);
+		
 
+	
+		
+		
+		
 		// Create the Votes Panel
 		Object[][] data = {
 				{"remckenna",new Integer(2)}, /// This data is all dummy change
@@ -109,4 +158,24 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		this.add(pnlFinalEstimate);
 
 	}
+	
+
+
+	public void setStatsMean(int statsMean) {
+		this.statsMean.setText(""+ statsMean +"  ;");
+	}
+
+
+
+	public void setStatsMedian(int statsMedian) {
+		this.statsMedian.setText("" + statsMedian + "  ;");
+	}
+
+
+
+	public void setStatsMode(int statsMode) {
+		this.statsMode.setText(""+ statsMode + "  ;");
+	}
+	
+	
 }
