@@ -14,22 +14,21 @@ import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 
-public class DispalyDeckPanel extends JPanel {
+public class DisplayDeckPanel extends JPanel {
 	private final PlanningPokerDeck deck;
-	
-	public DispalyDeckPanel(PlanningPokerDeck deck) {
+
+	public DisplayDeckPanel(PlanningPokerDeck deck) {
 		this.deck = deck;
 		displayDeck();
 	}
-	
-	
+
 	/**
 	 * Display a deck of cards for voting.
 	 */
 	public void displayDeck() {
-		for(int value : this.deck.getDeck()) {
+		for (int value : this.deck.getDeck()) {
 			// TODO: implement
 		}
 	}
-	
+
 }
