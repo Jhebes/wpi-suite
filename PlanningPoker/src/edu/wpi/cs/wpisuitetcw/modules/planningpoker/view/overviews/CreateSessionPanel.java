@@ -63,12 +63,11 @@ public class CreateSessionPanel extends JPanel {
 
 	private static final long serialVersionUID = 8733539608651885877L;
 
-	private static final int SESSION_NAME_BOX_WIDTH = 300;
 	private static final int DEADLINE_DATEPICKER_WIDTH = 170;
 	private static final int DROPDOWN_WIDTH = 150;
-	private static final int DESCRIPTION_BOX_WIDTH = 300;
+	private static final int DROPDOWN_DECK_WIDTH = 200;
 	private static final int DESCRIPTION_BOX_HEIGHT = 110;
-	private static final int GAP_LENGTH_DEADLINE_TO_BOTTOM = 0;// 220;
+	private static final int GAP_LENGTH_DEADLINE_TO_BOTTOM = 0;
 	private static final String REQUIRED_LABEL = "<html><font color='red'>Required field *</font></html>";
 	private static final String CREATE_DECK = "Create new deck";
 
@@ -510,7 +509,7 @@ public class CreateSessionPanel extends JPanel {
 
 		// Add session name text field and its label
 		leftPanel.add(labelName, "span");
-		leftPanel.add(nameTextField, "span");
+		leftPanel.add(nameTextField, "growx, span");
 
 		// Add labels for the dropdowns of session type and deck to 1 row
 		leftPanel.add(labelDropdownType, "width " + DROPDOWN_WIDTH
@@ -520,7 +519,7 @@ public class CreateSessionPanel extends JPanel {
 		// Add the dropdowns of session type and deck to 1 row
 		leftPanel.add(dropdownType, "width " + DROPDOWN_WIDTH
 				+ "px!, left, split2");
-		leftPanel.add(deckType, "growx, left, wrap");
+		leftPanel.add(deckType, "width " + DROPDOWN_DECK_WIDTH + "px!, left, wrap");
 
 		// Add the description text field and its label to 2 separate rows
 		leftPanel.add(labelDescriptionBox, "wrap");
