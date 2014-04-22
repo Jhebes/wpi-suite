@@ -66,7 +66,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	private final JTextField Name = new JTextField();
 	private final JTextField reqDesc = new JTextField();
 	private final JPanel DetailPanel;
-	
+
 	private final DisplayDeckPanel deckPanel;
 
 	/**
@@ -77,21 +77,21 @@ public class SessionInProgressPanel extends JSplitPane {
 		this.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 
 		// Set up Session Info Panel
-		final JPanel LeftPanel = new JPanel();
-		LeftPanel.setLayout(new BoxLayout(LeftPanel, BoxLayout.Y_AXIS));
-		LeftPanel.setAlignmentX(TOP_ALIGNMENT);
+		final JPanel leftPanel = new JPanel();
+		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+		leftPanel.setAlignmentX(TOP_ALIGNMENT);
 
 		/*
 		 * // "Session Info" label JLabel lblSessionInfo = new
 		 * JLabel("Session Info:"); lblSessionInfo.setFont(new
-		 * Font("Sans-Serif", Font.BOLD, 15)); LeftPanel.add(lblSessionInfo);
+		 * Font("Sans-Serif", Font.BOLD, 15)); leftPanel.add(lblSessionInfo);
 		 * 
-		 * // Padding LeftPanel.add(Box.createVerticalStrut(10));
+		 * // Padding leftPanel.add(Box.createVerticalStrut(10));
 		 */
 
 		// "Name" label
 		JLabel lblName = new JLabel("Session Name:");
-		LeftPanel.add(lblName);
+		leftPanel.add(lblName);
 
 		// session name adding it to left panel
 		name = new JTextField(session.getName());
@@ -100,13 +100,13 @@ public class SessionInProgressPanel extends JSplitPane {
 		name.setHorizontalAlignment(JLabel.CENTER);
 		name.setBorder(BorderFactory.createEmptyBorder());
 		// TODO: figure out what to do with runover
-		LeftPanel.add(name);
+		leftPanel.add(name);
 
 		// Padding
-		LeftPanel.add(Box.createVerticalStrut(10));
+		leftPanel.add(Box.createVerticalStrut(10));
 
 		JLabel lblOwnerName = new JLabel("Owner Name:");
-		LeftPanel.add(lblOwnerName);
+		leftPanel.add(lblOwnerName);
 
 		// session owner name adding it to left panel
 		ownerName = new JTextField(session.getOwnerUserName());
@@ -114,14 +114,14 @@ public class SessionInProgressPanel extends JSplitPane {
 		ownerName.setMaximumSize(new Dimension(500, 10));
 		ownerName.setHorizontalAlignment(JLabel.CENTER);
 		ownerName.setBorder(BorderFactory.createEmptyBorder());
-		LeftPanel.add(ownerName);
+		leftPanel.add(ownerName);
 
 		// Padding
-		LeftPanel.add(Box.createVerticalStrut(10));
+		leftPanel.add(Box.createVerticalStrut(10));
 
 		// "Description" label
 		JLabel lblDescription = new JLabel("Session Description:");
-		LeftPanel.add(lblDescription);
+		leftPanel.add(lblDescription);
 
 		// session description adding it to left panel
 		description = new JTextField(session.getDescription());
@@ -129,27 +129,27 @@ public class SessionInProgressPanel extends JSplitPane {
 		description.setMaximumSize(new Dimension(500, 10));
 		description.setHorizontalAlignment(JLabel.CENTER);
 		description.setBorder(BorderFactory.createEmptyBorder());
-		LeftPanel.add(description);
+		leftPanel.add(description);
 
 		// Padding
-		LeftPanel.add(Box.createVerticalStrut(10));
+		leftPanel.add(Box.createVerticalStrut(10));
 
 		// "Deadline" label
 		JLabel lblDate = new JLabel("Session Deadline:");
-		LeftPanel.add(lblDate);
+		leftPanel.add(lblDate);
 
 		// session deadline adding it to left panel
 		setSessionDeadline(session.getDeadline());
 		deadline.setMaximumSize(new Dimension(500, 10));
 		deadline.setHorizontalAlignment(JLabel.CENTER);
 		deadline.setBorder(BorderFactory.createEmptyBorder());
-		LeftPanel.add(deadline);
+		leftPanel.add(deadline);
 
-		LeftPanel.add(Box.createVerticalStrut(10));
+		leftPanel.add(Box.createVerticalStrut(10));
 
 		JLabel reqHeader = new JLabel("Session Requirements:");
 		reqHeader.setHorizontalAlignment(JLabel.CENTER);
-		LeftPanel.add(reqHeader);
+		leftPanel.add(reqHeader);
 
 		// TODO: sleep
 		ArrayList<PlanningPokerRequirement> reqs = session.getRequirements();
@@ -189,7 +189,7 @@ public class SessionInProgressPanel extends JSplitPane {
 				}
 			}
 		});
-		LeftPanel.add(reqList);
+		leftPanel.add(reqList);
 
 		// End session button
 		String currentUserName = ConfigManager.getConfig().getUserName();
@@ -223,15 +223,14 @@ public class SessionInProgressPanel extends JSplitPane {
 				closeTab();
 			}
 		});
-		LeftPanel.add(endSession);
+		leftPanel.add(endSession);
 
-		if (session.isClosed() || session.isCancelled()){
+		if (session.isClosed() || session.isCancelled()) {
 			endSession.setEnabled(false);
 		}
-		if (currentUserName.equals(session.getOwnerUserName())){
+		if (currentUserName.equals(session.getOwnerUserName())) {
 			endSession.setVisible(true);
-		}
-		else{
+		} else {
 			endSession.setVisible(false);
 		}
 
@@ -246,18 +245,17 @@ public class SessionInProgressPanel extends JSplitPane {
 				closeTab();
 			}
 		});
-		LeftPanel.add(cancelSession);
+		leftPanel.add(cancelSession);
 
-		if (session.isClosed() || session.isCancelled()){
+		if (session.isClosed() || session.isCancelled()) {
 			cancelSession.setEnabled(false);
 		}
-		if (currentUserName.equals(session.getOwnerUserName())){
+		if (currentUserName.equals(session.getOwnerUserName())) {
 			cancelSession.setVisible(true);
-		}
-		else{
+		} else {
 			cancelSession.setVisible(false);
 		}
-		
+
 		// Set up Reqs Panel
 		JPanel requirementsPanel = new JPanel();
 		requirementsPanel.setLayout(new BoxLayout(requirementsPanel,
@@ -279,8 +277,6 @@ public class SessionInProgressPanel extends JSplitPane {
 		// reqsViewTable.getColumnModel().getColumn(1).setResizable(false);
 		this.getReqsViewTable();
 
-		setLeftComponent(LeftPanel);
-
 		btnEditSession = new JButton("Edit Session");
 		btnEditSession.addActionListener(new EditActivatedSessionController(
 				session, this));
@@ -289,15 +285,16 @@ public class SessionInProgressPanel extends JSplitPane {
 		}
 
 		Component verticalGlue = Box.createVerticalGlue();
-		LeftPanel.add(verticalGlue);
-		LeftPanel.add(btnEditSession);
+		leftPanel.add(verticalGlue);
+		leftPanel.add(btnEditSession);
 
-		JPanel RightPanel = new JPanel();
-		setRightComponent(RightPanel);
-		RightPanel.setLayout(new BorderLayout(0, 0));
+		// setup right panel
+		JPanel rightPanel = new JPanel();
+
+		rightPanel.setLayout(new BorderLayout(0, 0));
 
 		DetailPanel = new JPanel();
-		RightPanel.add(DetailPanel, BorderLayout.CENTER);
+		rightPanel.add(DetailPanel, BorderLayout.CENTER);
 		DetailPanel.setLayout(new BoxLayout(DetailPanel, BoxLayout.Y_AXIS));
 
 		Component verticalStrut = Box.createVerticalStrut(20);
@@ -326,14 +323,14 @@ public class SessionInProgressPanel extends JSplitPane {
 		// deck panel
 		deckPanel = new DisplayDeckPanel(session.getDeck());
 		deckPanel.setLayout(new BoxLayout(deckPanel, BoxLayout.X_AXIS));
-		RightPanel.add(deckPanel, BorderLayout.CENTER);
+		rightPanel.add(deckPanel, BorderLayout.CENTER);
 
 		JLabel lblRequirementsDetail = new JLabel("Requirements Detail:");
 		lblRequirementsDetail.setHorizontalAlignment(SwingConstants.CENTER);
-		RightPanel.add(lblRequirementsDetail, BorderLayout.NORTH);
+		rightPanel.add(lblRequirementsDetail, BorderLayout.NORTH);
 
 		JPanel VotingPanel = new JPanel();
-		RightPanel.add(VotingPanel, BorderLayout.SOUTH);
+		rightPanel.add(VotingPanel, BorderLayout.SOUTH);
 		VotingPanel.setLayout(new BoxLayout(VotingPanel, BoxLayout.X_AXIS));
 
 		Component verticalStrut_1 = Box.createVerticalStrut(40);
@@ -366,6 +363,10 @@ public class SessionInProgressPanel extends JSplitPane {
 		VoteList.setPreferredSize(new Dimension(50, 10));
 		VoteList.setMinimumSize(new Dimension(50, 10));
 		VotingPanel.add(VoteList);
+
+		// setup entire panel
+		this.setLeftComponent(leftPanel);
+		this.setRightComponent(rightPanel);
 
 	}
 
