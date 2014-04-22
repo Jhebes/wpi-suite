@@ -332,8 +332,8 @@ public class SessionInProgressPanel extends JPanel {
 		
 		// Add the vote text field to the right side
 		rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH + "px, "
-								   + "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, "
-								   + "dock east");
+								   	+ "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, "
+								   	+ "dock east, gaptop 10px, gapright 10px");
 		
 		//rightDock.add(submitVoteButton, "center, wrap");
 	}
