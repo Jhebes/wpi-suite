@@ -16,8 +16,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,10 +27,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.AddRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.importexport.JsonFileChooser;
 
@@ -86,27 +83,21 @@ public class ImportExportButtonsPanel extends ToolbarGroupView {
 						final String data = new String(Files.readAllBytes(file.toPath()));
 						final Requirement[] newRequirements = Requirement.fromJsonArray(data);
 						
-						final List<Requirement> requirements = RequirementModel.getInstance().getRequirements();
-						final List<Integer> requirementIDs = new ArrayList<Integer>();
-						for (Requirement requirement : requirements) {
-							requirementIDs.add(requirement.getId());
-						}
-
 						for (Requirement newRequirement : newRequirements) {
-							if (requirementIDs.contains(newRequirement.getId())) {
-								UpdateRequirementController.getInstance().updateRequirement(newRequirement);
-								RequirementModel.getInstance().getRequirement(
-										newRequirement.getId()).copyFrom(newRequirement);
-							} else {
-								AddRequirementController.getInstance().addRequirement(newRequirement);
-								RequirementModel.getInstance().addRequirement(newRequirement);
+							newRequirement.setId(RequirementModel.getInstance().getNextID());
+							try {
+								newRequirement.setParentID(-1);
+							} catch (Exception e1) {
+								Logger.getLogger("RequirementManager").log(
+										Level.SEVERE, "Error setting the parent ID to -1", e1);
 							}
-							
+							newRequirement.getHistory().add("Requirement was imported.");
+							newRequirement.setIteration("Backlog");
+							newRequirement.setRelease("");
+							newRequirement.setPriority(RequirementPriority.BLANK);
+							newRequirement.setEstimate(0);
+							RequirementModel.getInstance().addRequirement(newRequirement);
 						}
-
-						ViewEventController.getInstance().refreshTable();
-						ViewEventController.getInstance().refreshTree();
-
 					} catch (IOException ex) {
 						Logger.getLogger("RequirementManager").log(Level.WARNING, "Could not write to file.", ex);
 					}
