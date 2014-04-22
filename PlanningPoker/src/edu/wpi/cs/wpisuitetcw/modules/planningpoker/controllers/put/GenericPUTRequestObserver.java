@@ -18,16 +18,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  * Handles requests to server to store pieces of data in the database
  */
 public class GenericPUTRequestObserver implements RequestObserver {
-
-	/**
-	 * Creates a listener attached to the controller
-	 * 
-	 * @param a
-	 *            Tied controller
-	 */
-	public GenericPUTRequestObserver() {
-	}
-
+	
 	/*
 	 * Parse the message that was received from the server then pass them to the
 	 * controller.

@@ -19,10 +19,16 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
+/**
+ * A singleton controller that gets all the decks or their names
+ * from the database
+ */
 public class GetAllDecksController {
-
-	private static GetAllDecksController instance;
+	/** A list of PlanningPokerDeck */
 	private List<PlanningPokerDeck> decks = null;
+
+	/** An instance of this controller */
+	private static GetAllDecksController instance;
 
 	private GetAllDecksController() {
 	}
@@ -38,27 +44,35 @@ public class GetAllDecksController {
 		return instance;
 	}
 
+	/**
+	 * Assign the given List of PlanningPokerDecks to the 
+	 * GetAllDecksController's 
+	 * @param decks A List of PlanningPokerDeck that would be
+	 * assigned to the GetAllDecksController
+	 */
 	public void updateDecks(List<PlanningPokerDeck> decks) {
 		this.decks = decks;
 	}
 
 	/**
-	 * returns all the names of available decks in our database
-	 * 
-	 * @return ArrayList of deck names
+	 * Returns all the names of the available decks in the database
+	 * This method is used to exhibit the names of the deck in the
+	 * dropdown of the CreateNewSessionPanel
+	 * @return Returns an array list of all the names 
+	 * of the available decks in the database
 	 * @throws InterruptedException
 	 */
 	public ArrayList<String> getAllDeckNames() {
 		this.refreshDecks(); // set up the deck
 		ArrayList<String> deckNames = new ArrayList<String>();
-
-		// delay the this process since the request fired in refreshDecks()
-		// might not be completed
+		
+		// delay the this process since the request fired in refreshDecks() might not be completed
 		try {
 			Thread.sleep(250);
 		} catch (InterruptedException e) {
 		}
-
+		
+		// Default options
 		deckNames.add("Default");
 		deckNames.add("No deck");
 
@@ -72,7 +86,7 @@ public class GetAllDecksController {
 	}
 
 	/**
-	 * retrieve decks from database
+	 * Send a request to get all the decks back from the database
 	 */
 	public void refreshDecks() {
 		final Request request = Network.getInstance().makeRequest(
@@ -81,15 +95,20 @@ public class GetAllDecksController {
 		request.send();
 	}
 
-	public PlanningPokerDeck setDeckByName(String deckName)
+	/**
+	 * Return the deck that has the given name
+	 * @param deckName A String represents the name of a deck
+	 * @return Return the deck that has the given name
+	 * @throws WPISuiteException
+	 */
+	public PlanningPokerDeck getDeckByName(String deckName)
 			throws WPISuiteException {
 		for (PlanningPokerDeck d : decks) {
 			if (d.getDeckName() == deckName) {
 				return d;
 			}
 		}
-		throw new WPISuiteException();
-
+		throw new WPISuiteException();	
 	}
 
 }

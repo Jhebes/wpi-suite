@@ -20,6 +20,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -240,7 +241,7 @@ public class SessionInProgressPanel extends JSplitPane {
 			reqArr[i] = testReqs.get(i);
 		}
 
-		reqsViewTable = new JTable(sessionInProgressTableModel.getInstance()) {
+		reqsViewTable = new JTable(SessionInProgressTableModel.getInstance()) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
@@ -400,14 +401,6 @@ public class SessionInProgressPanel extends JSplitPane {
 
 	/**
 	 * 
-	 * @param reqsList
-	 */
-	public void setReqsList(PlanningPokerRequirement[] reqsList) {
-		this.reqsList = reqsList;
-	}
-
-	/**
-	 * 
 	 * @return Requirement Name selected in the list
 	 */
 	public String getSelectedRequirement() {
@@ -425,13 +418,13 @@ public class SessionInProgressPanel extends JSplitPane {
 	/**
 	 * Sets the contents of the list of votes for the specified requirement
 	 * 
-	 * @param votes
+	 * @param list
 	 */
 
-	public void setVoteList(ArrayList<PlanningPokerVote> votes) {
-		String[] array = new String[votes.size()];
-		for (int i = 0; i < votes.size(); ++i) {
-			array[i] = votes.get(i).toString();
+	public void setVoteList(List<PlanningPokerVote> list) {
+		String[] array = new String[list.size()];
+		for (int i = 0; i < list.size(); ++i) {
+			array[i] = list.get(i).toString();
 		}
 		this.voteList.setListData(array);
 	}

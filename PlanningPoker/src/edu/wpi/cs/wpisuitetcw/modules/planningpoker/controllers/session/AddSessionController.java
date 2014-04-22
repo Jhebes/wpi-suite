@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
@@ -27,23 +28,23 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
  * This controller responds when the user clicks the "Create" button by using
  * all entered information to construct a new session and storing in the
  * database
- * 
  */
 public class AddSessionController implements ActionListener {
 	private final CreateSessionPanel view;
-
-	private boolean isEditMode;
 	private PlanningPokerSession session;
+	
+	/** Allow users editing a session's content or not */
+	private boolean isEditMode;
 
 	/**
 	 * Construct an AddSessionController for the given view
 	 * 
 	 * @param view
 	 *            the view where the user enters data for the new session
-	 *   
+	 * 
 	 * @param isEditMode
-	 *			  the value representing if the panel contains an already
-	 *			  created session or not
+	 *            the value representing if the panel contains an already
+	 *            created session or not
 	 */
 	public AddSessionController(CreateSessionPanel view, boolean isEditMode) {
 		/*
@@ -55,20 +56,21 @@ public class AddSessionController implements ActionListener {
 		this.view = view;
 		this.isEditMode = isEditMode;
 	}
-	
+
 	/**
 	 * Construct an AddSessionController for the given view
 	 * 
 	 * @param view
 	 *            the view where the user enters data for the new session
-	 *
+	 * 
 	 * @param isEditMode
-	 *			  the value representing if the panel contains an already
-	 *			  created session or not
+	 *            the value representing if the panel contains an already
+	 *            created session or not
 	 * @param session
-	 *			  the planning poker session being edited
+	 *            the planning poker session being edited
 	 */
-	public AddSessionController(CreateSessionPanel view, boolean isEditMode, PlanningPokerSession session) {
+	public AddSessionController(CreateSessionPanel view, boolean isEditMode,
+			PlanningPokerSession session) {
 
 		this.view = view;
 		this.isEditMode = isEditMode;
@@ -85,15 +87,17 @@ public class AddSessionController implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		// if a name was entered create the session
 		// otherwise the button will do nothing
-		if ((this.view.requiredFieldEntered() == true) && (this.isEditMode == false)) {
+		if ((this.view.requiredFieldEntered() == true)
+				&& (this.isEditMode == false)) {
 			// Get the name of the session
 			String name = this.view.getNameTextField().getText();
 
 			// TODO Session type should be stored
 			Date d = this.view.getDeadline();
 			String des = this.view.getDescriptionBox().getText();
-			String deckName = (String) this.view.getDeckType().getSelectedItem();
-			
+			String deckName = (String) this.view.getDeckType()
+					.getSelectedItem();
+
 			// Create a new session and populate its data
 			PlanningPokerSession session = new PlanningPokerSession();
 			session.setOwnerUserName(ConfigManager.getConfig().getUserName());
@@ -102,18 +106,33 @@ public class AddSessionController implements ActionListener {
 			session.setDescription(des);
 			try {
 				session.setDeck(GetAllDecksController.getInstance()
-						.setDeckByName(deckName));
+						.getDeckByName(deckName));
 			} catch (WPISuiteException e) {
-				Logger.getLogger("PlanningPoker").log(Level.SEVERE, "Error getting all decks", e);
+				Logger.getLogger("PlanningPoker").log(Level.SEVERE,
+						"Error getting all decks", e);
 			}
-			
+
 			session.create();
 			ViewEventManager.getInstance().removeTab(this.view);
+			ViewEventManager.getInstance().viewSession(session);
 		} else {
 			// user has yet entered all required data
-			//TODO: maybe make the warning a pop-up
+			// TODO: maybe make the warning a pop-up
 			this.view.repaint();
 		}
 
+	}
+
+	/**
+	 * Removes the current tab and opens another tab that
+	 * exhibits the given session's information
+	 */
+	public void onSuccess(PlanningPokerSession session) {
+		// TODO open a session after creating it
+
+		ViewEventManager.getInstance().removeTab(this.view);
+
+		ViewEventManager.getInstance().viewSession(session);
+		GetAllSessionsController.getInstance().retrieveSessions();
 	}
 }

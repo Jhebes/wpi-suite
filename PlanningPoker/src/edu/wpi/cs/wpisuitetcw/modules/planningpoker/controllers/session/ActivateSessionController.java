@@ -19,17 +19,32 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
+/**
+ * A controller that activates a session and sends SMS with email
+ * to the users to inform a session is activated
+ */
 public class ActivateSessionController implements ActionListener {
 
 	private ViewSessionPanel panel;
 	private PlanningPokerSession session;
 
+	/**
+	 * Construct the controller by storing the ViewSessionPanel and
+	 * PlanningPokerSession
+	 * @param panel A ViewSessionPanel that exhibits the to-be-activated
+	 * session
+	 * @param session A PlanningPokerSession that would be activated
+	 */
 	public ActivateSessionController(ViewSessionPanel panel,
 			PlanningPokerSession session) {
 		this.panel = panel;
 		this.session = session;
 	}
 
+	/**
+	 * Activate the session
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		this.session.activate();
@@ -38,6 +53,9 @@ public class ActivateSessionController implements ActionListener {
 		ViewEventManager.getInstance().viewSession(session);
 	}
 
+	/**
+	 * Send email and SMS to users
+	 */
 	public void onSuccess() {
 		ViewEventManager.getInstance().removeTab(panel);
 		ViewEventManager.getInstance().viewSession(session);

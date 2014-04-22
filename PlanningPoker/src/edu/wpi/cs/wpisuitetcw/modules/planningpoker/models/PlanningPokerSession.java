@@ -18,7 +18,10 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendNotificationController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put.PutSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.janeway.config.Configuration;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.UserStash;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -107,9 +110,10 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * Activate the session if it meets the following conditions: - It isn't
-	 * active currently - It isn't canceled - It must have at least one
-	 * requirement (Temporarily not included)
+	 * Activate the session if it meets the following conditions: 
+	 * - It isn't active currently 
+	 * - It isn't canceled 
+	 * - It must have at least one requirement (Temporarily not included)
 	 */
 	public void activate() {
 		if (!this.isCancelled && !this.isActive()) {
@@ -126,13 +130,14 @@ public class PlanningPokerSession extends AbstractModel {
 							sendTo, this.getDeadline(), command);
 				} else {
 					SendNotificationController.sendNotification("start",
-							"teamcombatwombat@gmail.com", this.getDeadline(),
-							command);
+							"teamcombatwombat@gmail.com",
+							this.getDeadline(), command);
 				}
 			}
 		} else {
 			SendNotificationController.sendNotification("start",
-					"teamcombatwombat@gmail.com", this.getDeadline(), command);
+					"teamcombatwombat@gmail.com", this.getDeadline(),
+					command);
 		}
 
 		// Send SMS to everyone in a session
@@ -155,9 +160,9 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * Deactivates a session by basically undoing what activate would. If it is
-	 * already active, and not cancelled, then it would set the start time to
-	 * null
+	 * Deactivates a session by basically undoing what activate would. 
+	 * If the session is already active, and not cancelled, 
+	 * then it would set the start time to null
 	 */
 	public void deactivate() {
 		if (!this.isCancelled && this.isActive()) {
@@ -190,15 +195,25 @@ public class PlanningPokerSession extends AbstractModel {
 		requirements.add(req);
 	}
 
+	/**
+	 * Add a PlanningPokerVote for a PlanningPokerRequirement from an user
+	 * to the PlanningPokerSession
+	 * @param req A PlanningPokerRequirement that is voted
+	 * @param v A PlanningPokerVote of the PlanningPokerRequirement
+	 * @param requestingUser A String represents the user
+	 */
 	public void addVoteToRequirement(PlanningPokerRequirement req,
 			PlanningPokerVote v, String requestingUser) {
+		// Remove the corresponding requirement from this session
 		PlanningPokerRequirement r = requirements
 				.get(requirements.indexOf(req));
 		requirements.remove(r);
-		for (PlanningPokerVote vote : r.votes) {
-			if (vote.getUser().equals(v.getUser())) {
+		
+		// Add the vote of the user to the requirement
+		for(PlanningPokerVote vote : r.votes) {
+			if(vote.getUser().equals(v.getUser())) {
 				vote.setCardValue(v.getCardValue());
-				requirements.add(r);
+				requirements.add(r);		// Add the requirement back
 				this.save();
 				return;
 			}
@@ -206,14 +221,20 @@ public class PlanningPokerSession extends AbstractModel {
 
 		r.addVote(v);
 		requirements.add(r);
+		this.isVotingComplete();
 		this.save();
 	}
 
-	public PlanningPokerRequirement getReqByName(String n) {
-		for (PlanningPokerRequirement r : requirements) {
-			System.out.printf("%s = %s?\n", n, r.getName());
-			if (r.getName().equals(n)) {
-				return r;
+	/**
+	 * Return the PlanningPokerRequirement that has the given name
+	 * @param A String of the requirement that would be returned
+	 * @return Return the PlanningPokerRequirement that has the given name
+	 */
+	public PlanningPokerRequirement getReqByName(String reqName) {
+		for (PlanningPokerRequirement requirement : requirements) {
+			System.out.printf("%s = %s?\n", reqName, requirement.getName());
+			if (requirement.getName().equals(reqName)) {
+				return requirement;
 			}
 		}
 		throw new NullPointerException();
@@ -267,28 +288,6 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public void deleteUsers(ArrayList<User> newUsers) {
 		requirements.removeAll(newUsers);
-	}
-
-	/**
-	 * This function compares the total number of votes to the number of votes
-	 * needed to end the voting.
-	 * 
-	 * *sets the votingComplete flag
-	 * 
-	 * Should be called after every vote is added to a requirement
-	 */
-	public void voteStatus() {
-		int totalVotes = requirements.size() * users.size();
-		int votes = 0;
-
-		for (int i = 0; i < requirements.size(); i++) {
-			votes += requirements.get(i).votes.size();
-		}
-
-		if (votes == totalVotes) {
-			setVotingComplete(true);
-		}
-
 	}
 
 	/**
@@ -355,6 +354,7 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
+	 * Assign a String to the session's name
 	 * @param name
 	 *            The new session name
 	 */
@@ -381,9 +381,9 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * 
-	 * @param userName
-	 * 
+	 * Assign an user name to the name of the session's owner
+	 * @param userName A string that would be assigned to
+	 * the session's username
 	 */
 	public void setOwnerUserName(String userName) {
 		this.ownerUserName = userName;
@@ -574,7 +574,13 @@ public class PlanningPokerSession extends AbstractModel {
 	public void create() {
 		new PutSessionController(this);
 	}
-
+		
+	/**
+	 * Copy the data from the given PlanningPokerSession to
+	 * the calling PlanningPokerSession object
+	 * @param updatedRequirement A PlanningPokerSession whose
+	 * data would be copied to the calling PlanningPokerSession object
+	 */
 	public void copyFrom(PlanningPokerSession updatedSession) {
 		this.isCancelled = updatedSession.isCancelled;
 		this.startTime = updatedSession.startTime;
