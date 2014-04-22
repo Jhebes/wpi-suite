@@ -57,13 +57,17 @@ public class Card extends JPanel {
 
 	private Image cardPicture = null;
 
+	/** card value */
+	private int cardValue;
+
 	/** Display mode for the card */
 	private CardDisplayMode mode;
 
 	/** for displaying a card */
 	public Card(CardDisplayMode mode, int value) {
 		this(mode);
-		this.displayCardValue(value);
+		this.cardValue = value;
+		this.displayCardValue();
 	}
 
 	public Card(CardDisplayMode mode) {
@@ -121,6 +125,8 @@ public class Card extends JPanel {
 		// display selective elements based on the mode it's in
 		if (mode.equals(CardDisplayMode.DISPLAY)) {
 			disableEditableFields();
+			// TODO add action listener for selecting the value of the card
+
 		} else if (mode.equals(CardDisplayMode.CREATE)) {
 			// add listener
 			this.addListenerToValueTextBox(txtboxValue, this);
@@ -140,7 +146,7 @@ public class Card extends JPanel {
 	/**
 	 * Display the card with the given value
 	 */
-	private void displayCardValue(int value) {
+	private void displayCardValue() {
 		// containing panel
 		JPanel valuePanel = new JPanel();
 		valuePanel.setLayout(new MigLayout());
@@ -148,7 +154,7 @@ public class Card extends JPanel {
 		valuePanel.setOpaque(false);
 
 		// label for displaying value
-		JLabel valueLabel = new JLabel(Integer.toString(value), JLabel.CENTER);
+		JLabel valueLabel = new JLabel(Integer.toString(cardValue), JLabel.CENTER);
 		valueLabel.setFont(new Font("Serif", Font.BOLD, 48));
 
 		// set up the main panel
