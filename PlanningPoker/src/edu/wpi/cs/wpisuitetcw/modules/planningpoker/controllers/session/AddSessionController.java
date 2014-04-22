@@ -116,10 +116,17 @@ public class AddSessionController implements ActionListener {
 			session.setDeadline(d);
 			session.setDescription(des);
 			
-			if (this.view.isInCreateMode() || this.view.isInDisplayMode()) {
+			// Associate a deck to the new session if the user does not choose 'No deck'
+			if (!this.view.isInNoDeckMode()) {
 				try {
-					session.setDeck(GetAllDecksController.getInstance()
-							.setDeckByName(deckName));
+					// 'Default' option, bind a new Fibonacci deck to the session
+					if (deckName.equals("Default")) {
+						session.setDeck(new PlanningPokerDeck());
+					} else {
+						session.setDeck(GetAllDecksController
+										.getInstance()
+										.setDeckByName(deckName));
+					}
 				} catch (WPISuiteException e) {
 					Logger.getLogger("PlanningPoker").log(Level.SEVERE,
 							"Error getting all decks", e);

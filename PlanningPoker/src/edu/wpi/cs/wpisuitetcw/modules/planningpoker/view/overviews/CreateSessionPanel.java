@@ -274,6 +274,14 @@ public class CreateSessionPanel extends JPanel {
 	public boolean isInDisplayMode() {
 		return this.mode.equals(CardDisplayMode.DISPLAY);
 	}
+	
+	/**
+	 * Return true if the deck panel is in no deck mode
+	 * @return Return true if the deck panel is in no deck mode
+	 */
+	public boolean isInNoDeckMode() {
+		return this.mode.equals(CardDisplayMode.NO_DECK);
+	}
 
 	/**
 	 * determine if users has entered all required values
