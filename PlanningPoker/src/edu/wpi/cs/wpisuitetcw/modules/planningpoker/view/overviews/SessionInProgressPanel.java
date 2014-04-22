@@ -391,7 +391,6 @@ public class SessionInProgressPanel extends JSplitPane {
 		return session.getDeck() != null;
 	}
 
-	
 	public void setNumVotesLabel(int n) {
 		txtVoteField.setText(Integer.toString(n));
 	}

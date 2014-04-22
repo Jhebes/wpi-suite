@@ -62,14 +62,21 @@ public class Card extends JPanel {
 
 	/** Display mode for the card */
 	private CardDisplayMode mode;
-	
+
 	/** Parent panel that contains the card */
 	private DisplayDeckPanel parentPanel;
-	
+
+	/** card is selected or not */
+	private boolean isSelected;
+
 	/** Display a card and ability to notify parent panel */
 	public Card(CardDisplayMode mode, int value, DisplayDeckPanel deckPanel) {
 		this(mode, value);
 		this.parentPanel = deckPanel;
+		if (mode.equals(CardDisplayMode.DISPLAY)) {
+			// TODO add action listener for selecting the value of the card
+			this.addSelectionListener(this);
+		}
 	}
 
 	/** for displaying a card */
@@ -134,8 +141,6 @@ public class Card extends JPanel {
 		// display selective elements based on the mode it's in
 		if (mode.equals(CardDisplayMode.DISPLAY)) {
 			disableEditableFields();
-			// TODO add action listener for selecting the value of the card
-
 		} else if (mode.equals(CardDisplayMode.CREATE)) {
 			// add listener
 			this.addListenerToValueTextBox(txtboxValue, this);
@@ -163,7 +168,8 @@ public class Card extends JPanel {
 		valuePanel.setOpaque(false);
 
 		// label for displaying value
-		JLabel valueLabel = new JLabel(Integer.toString(cardValue), JLabel.CENTER);
+		JLabel valueLabel = new JLabel(Integer.toString(cardValue),
+				JLabel.CENTER);
 		valueLabel.setFont(new Font("Serif", Font.BOLD, 48));
 
 		// set up the main panel
@@ -254,6 +260,13 @@ public class Card extends JPanel {
 	}
 
 	/**
+	 * card is selected, set the border to green
+	 */
+	public void setCardSelected() {
+		this.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+	}
+
+	/**
 	 * change the card's layout
 	 */
 	public void changeCardLayout() {
@@ -289,6 +302,66 @@ public class Card extends JPanel {
 				}
 			}
 		});
+	}
+
+	/**
+	 * add selection listener for the card. Notify the parent panel when is card
+	 * is selected
+	 */
+	private void addSelectionListener(final Card aCard) {
+		aCard.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO implement this
+				if (!isSelected) {
+					// set the card selection
+					isSelected = true;
+					selectCard();
+				} else {
+					isSelected = false;
+					unselectCard();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Selecting the card
+	 */
+	private void selectCard() {
+		// highlight the card
+		setCardSelected();
+
+		// TODO notify the parent panel
+		System.out.println("Card is selected with value " + this.cardValue);
+	}
+
+	/**
+	 * Unselecting the card
+	 */
+	private void unselectCard() {
+		// remove the highlight
+		setCardValid();
+
+		// TODO delete this
+		System.out.println("Card is unselected with value " + this.cardValue);
 	}
 
 	/**
