@@ -48,6 +48,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
+import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 /**
@@ -266,17 +267,19 @@ public class CreateSessionPanel extends JPanel {
 	public boolean isInCreateMode() {
 		return this.mode.equals(CardDisplayMode.CREATE);
 	}
-	
+
 	/**
 	 * Return true if the deck panel is in display mode
+	 * 
 	 * @return Return true if the deck panel is in display mode
 	 */
 	public boolean isInDisplayMode() {
 		return this.mode.equals(CardDisplayMode.DISPLAY);
 	}
-	
+
 	/**
 	 * Return true if the deck panel is in no deck mode
+	 * 
 	 * @return Return true if the deck panel is in no deck mode
 	 */
 	public boolean isInNoDeckMode() {
@@ -527,11 +530,13 @@ public class CreateSessionPanel extends JPanel {
 		// Add the dropdowns of session type and deck to 1 row
 		leftPanel.add(dropdownType, "width " + DROPDOWN_WIDTH
 				+ "px!, left, split2");
-		leftPanel.add(deckType, "width " + DROPDOWN_DECK_WIDTH + "px!, left, wrap");
+		leftPanel.add(deckType, "width " + DROPDOWN_DECK_WIDTH
+				+ "px!, left, wrap");
 
 		// Add the description text field and its label to 2 separate rows
 		leftPanel.add(labelDescriptionBox, "wrap");
-		leftPanel.add(descriptionFrame, "growx, hmin " + DESCRIPTION_BOX_HEIGHT + "px, span");
+		leftPanel.add(descriptionFrame, "growx, hmin " + DESCRIPTION_BOX_HEIGHT
+				+ "px, span");
 
 		// Add the label for deadline and a check box next to it
 		leftPanel.add(labelDeadline, "split2");
@@ -649,7 +654,11 @@ public class CreateSessionPanel extends JPanel {
 					// display mode
 					mode = CardDisplayMode.DISPLAY;
 					// display a selected deck of cards
-					displayDeck(deckName);
+					try {
+						displayDeck(deckName);
+					} catch (WPISuiteException e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
@@ -707,11 +716,17 @@ public class CreateSessionPanel extends JPanel {
 	}
 
 	/**
-	 * display a deck of cards with a given name TODO implement this method this
-	 * will be implemented later
+	 * Displays a previously created deck
+	 * @param deckName Name of the deck to be shown
+	 * @throws WPISuiteException 
 	 */
-	private void displayDeck(String deckName) {
+	private void displayDeck(String deckName) throws WPISuiteException {
 		System.out.println(mode);
+		this.deckPanel = new CreateNewDeckPanel(CardDisplayMode.DISPLAY);
+		this.deckPanel.displayDeck(deckName);
+
+		setupEntirePanel();
+		updateUI();
 	}
 
 	/**
@@ -736,15 +751,15 @@ public class CreateSessionPanel extends JPanel {
 		setupEntirePanel();
 		updateUI();
 	}
-	
+
 	/*
-	 * Put the left and right panel into a JSplitpane and
-	 * add this JSplitpane with bottom panel to the window
+	 * Put the left and right panel into a JSplitpane and add this JSplitpane
+	 * with bottom panel to the window
 	 */
 	private void setupEntirePanel() {
 		// Remove all the UI Components on the CreateSessionPanel
 		removeAll();
-		
+
 		// Put the left and card panel into a JSplitpane
 		mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel,
 				deckPanel);
@@ -754,11 +769,12 @@ public class CreateSessionPanel extends JPanel {
 		// Add the mainPanel and bottom panel to the canvas
 		this.setLayout(new MigLayout("insets 0"));
 		this.add(mainPanel, "dock center");
-		this.add(bottomPanel, "dock south, height 45px!");		
+		this.add(bottomPanel, "dock south, height 45px!");
 	}
-	
+
 	/**
 	 * getter for the deck panel
+	 * 
 	 * @return deck panel
 	 */
 	public CreateNewDeckPanel getDeckPanel() {
