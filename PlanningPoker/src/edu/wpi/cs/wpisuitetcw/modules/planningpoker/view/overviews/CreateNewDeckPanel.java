@@ -415,56 +415,28 @@ public class CreateNewDeckPanel extends JPanel {
 	/*
 	 * Add text field, dropdown card selection, create new card button, number
 	 * of card label, and their corresponding labels to the given panel
+	 * 			|labelName labelNameErr | labelCardSelection |
+	 * 			----------------------------------------------
+	 * 			|textboxName			| deckOption		 |
+	 * 			----------------------------------------------
+	 * 			|	btnAddCard | labelCount | labelNumCards  |
 	 */
 	private void addModifyDeckButtons(JPanel centerTopPanel) {
 		// Set the layout for given panel
-		centerTopPanel.setLayout(new GridBagLayout());
+		centerTopPanel.setLayout(new MigLayout("", "push[]push[]push", ""));
 
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 0;
+		// 1ST ROW
+		centerTopPanel.add(labelName, "left, split2");
+		centerTopPanel.add(labelNameErr, "center");
+		centerTopPanel.add(labelCardSelection, "left, wrap");
 
-		// Create label for name's text field
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		gbc.insets = new Insets(12, 5, 3, 0);
-		centerTopPanel.add(labelName, gbc);
+		// 2ND ROW
+		centerTopPanel.add(textboxName, "left");
+		centerTopPanel.add(deckOption, "left, wrap");
 
-		// Create label for error message
-		gbc.gridx++;
-		centerTopPanel.add(labelNameErr, gbc);
-
-		// Create label for card selection dropdown
-		gbc.gridx++;
-		centerTopPanel.add(labelCardSelection, gbc);
-
-		// Create text field for deck's name
-		gbc.gridx = 1;
-		gbc.gridy = 2;
-		gbc.gridwidth = 2;
-		gbc.insets = new Insets(0, 5, 15, 30);
-		centerTopPanel.add(textboxName, gbc);
-
-		// Create dropdown for card selection
-		gbc.gridx += 2;
-		centerTopPanel.add(deckOption, gbc);
-
-		// Create "New Card" button
-		Insets createCardButtonsInset = new Insets(0, 0, 0, 5);
-		gbc.gridx = 1;
-		gbc.gridy++;
-		gbc.insets = createCardButtonsInset;
-		centerTopPanel.add(btnAddCard, gbc);
-
-		// Create label for number of card
-		gbc.gridx++;
-		gbc.insets = new Insets(0, 80, 0, 0);
-		centerTopPanel.add(labelCount, gbc);
-
-		// Create label holding the number of card
-		gbc.gridx++;
-		gbc.ipadx = 0;
-		gbc.insets = createCardButtonsInset;
-		centerTopPanel.add(labelNumCards, gbc);
+		// 3RD ROW
+		centerTopPanel.add(btnAddCard, "span, split3, center");
+		centerTopPanel.add(labelCount);
+		centerTopPanel.add(labelNumCards);
 	}
 }
