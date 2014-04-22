@@ -10,11 +10,8 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -64,6 +61,7 @@ public class CreateNewDeckPanel extends JPanel {
 	private final String CARD_SELECTION_LABEL	= "Card selection *";
 	private static final String MULTIPLE_SELECT = "Multiple selection";
 	private static final String SINGLE_SELECT 	= "Single selection";
+	private static final String DEFAULT_DECK    = "Default";
 	private final int CARD_WIDTH = 146;
 	private static final int CENTER_PANEL_WIDTH  = 350;
 	private static final int CENTER_PANEL_HEIGHT = 250;
@@ -345,6 +343,8 @@ public class CreateNewDeckPanel extends JPanel {
 			validateNumCards();
 			this.updateNumCard();
 		}
+		
+		this.textboxName.setText(DEFAULT_DECK);
 		this.updateUI();
 	}
 
@@ -369,6 +369,18 @@ public class CreateNewDeckPanel extends JPanel {
 			cardPanel.add(aCard);
 			validateNumCards();
 			this.updateNumCard();
+		}
+		
+		// set other instance variables
+		this.textboxName.setText(deck.getDeckName());
+		
+		this.deckOption.removeAllItems();
+		int selection = deck.getMaxSelection();
+			
+		if(selection == 1) {
+			this.deckOption.addItem(SINGLE_SELECT);
+		} else {
+			this.deckOption.addItem(MULTIPLE_SELECT);
 		}
 		
 		this.updateUI();
