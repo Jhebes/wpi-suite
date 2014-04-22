@@ -222,13 +222,39 @@ public class SessionInProgressPanel extends JSplitPane {
 		});
 		LeftPanel.add(endSession);
 
-		if (session.isClosed())
+		if (session.isClosed() || session.isCancelled()){
 			endSession.setEnabled(false);
-		if (currentUserName.equals(session.getOwnerUserName()))
+		}
+		if (currentUserName.equals(session.getOwnerUserName())){
 			endSession.setVisible(true);
-		else
+		}
+		else{
 			endSession.setVisible(false);
+		}
 
+		// cancel session button
+		JButton cancelSession = new JButton("Cancel Session");
+		cancelSession.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				session.cancel();
+				session.save();
+				SessionTableModel.getInstance().update();
+				closeTab();
+			}
+		});
+		LeftPanel.add(cancelSession);
+
+		if (session.isClosed() || session.isCancelled()){
+			cancelSession.setEnabled(false);
+		}
+		if (currentUserName.equals(session.getOwnerUserName())){
+			cancelSession.setVisible(true);
+		}
+		else{
+			cancelSession.setVisible(false);
+		}
+		
 		// Set up Reqs Panel
 		JPanel requirementsPanel = new JPanel();
 		requirementsPanel.setLayout(new BoxLayout(requirementsPanel,
