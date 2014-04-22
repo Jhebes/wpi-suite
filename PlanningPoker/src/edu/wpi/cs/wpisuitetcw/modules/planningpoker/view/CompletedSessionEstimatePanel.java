@@ -49,7 +49,6 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	private final Font statNameFont;
 	private final JButton btnFinalEstimate;
 
-
 	/**
 	 * Create the panel.
 	 */
@@ -95,31 +94,26 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		lblFinalEstimate.setFont(headerFont);
 		lblFinalEstimate.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		
-		
-		
-		
 		// Create the Final Estimate Panel
 		finalEstimateField = new JTextField(3);
 		finalEstimateField.setFont(new Font("TimeRoman", Font.BOLD, 30));
-		finalEstimateField.setMaximumSize(finalEstimateField.getPreferredSize());
+		finalEstimateField
+				.setMaximumSize(finalEstimateField.getPreferredSize());
 		finalEstimateField.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+
 		Component verticalStrut = Box.createVerticalStrut(50);
-		
-		
+
 		btnFinalEstimate = new JButton("Submit Final Estimation");
 		btnFinalEstimate.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+
 		pnlFinalEstimate.add(lblFinalEstimate);
 		pnlFinalEstimate.add(verticalStrut);
 		pnlFinalEstimate.add(finalEstimateField);
 		pnlFinalEstimate.add(btnFinalEstimate);
-		
 
 		// Create the Stats Panel
 		statNameFont = new Font("TimesRoman", Font.BOLD, 15);
-		
+
 		lblMean = new JLabel("Mean");
 		lblMean.setFont(statNameFont);
 		lblMean.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -161,10 +155,19 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		// Create the Votes Panel
 		Object[][] data = { { "remckenna", new Integer(2) }, // / This data is
 																// all dummy
-																//TODO: change
+																// TODO: change
 				{ "Somebody else", new Integer(6) } };
 		Object[] voteTableColHeaders = { "User", "Vote" };
-		tblVotes = new JTable(data, voteTableColHeaders);
+		tblVotes = new JTable(data, voteTableColHeaders) {
+			@Override
+			public boolean isCellEditable(int row, int column) { // disables the
+																	// ability
+																	// to edit
+																	// cells
+				// all cells false
+				return false;
+			}
+		};
 
 		JScrollPane votesScrollPane = new JScrollPane(tblVotes);
 		tblVotes.setFillsViewportHeight(true);
@@ -181,20 +184,25 @@ public class CompletedSessionEstimatePanel extends JPanel {
 
 	/**
 	 * sets the text field for Mean in the completed session view.
+	 * 
 	 * @param statsMean
 	 */
 	public void setStatsMean(int statsMean) {
 		this.statsMean.setText("" + statsMean + "  ;");
 	}
+
 	/**
 	 * sets the text field for Median in the completed session view.
+	 * 
 	 * @param statsMedian
 	 */
 	public void setStatsMedian(int statsMedian) {
 		this.statsMedian.setText("" + statsMedian + "  ;");
 	}
+
 	/**
 	 * sets the text field for Mode in the completed session view.
+	 * 
 	 * @param statsMode
 	 */
 	public void setStatsMode(int statsMode) {
