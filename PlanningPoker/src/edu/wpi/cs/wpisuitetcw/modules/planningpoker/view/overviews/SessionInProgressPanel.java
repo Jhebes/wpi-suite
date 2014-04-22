@@ -164,25 +164,26 @@ public class SessionInProgressPanel extends JSplitPane {
 		reqList.setListData(reqNames);
 		reqList.setBackground(Color.WHITE);
 		reqList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		reqList.setAlignmentX(CENTER_ALIGNMENT);
+		reqList.setAlignmentX(LEFT_ALIGNMENT);
 		reqList.setPreferredSize(new Dimension(100, 500));
+		reqList.setMinimumSize(new Dimension(100, 200));
 		reqList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// Check to see if user double clicked
 				if (e.getClickCount() == 2) {
-					String reqname = (String) reqList.getModel().getElementAt(reqList.getSelectedIndex());
-					PlanningPokerRequirement requirement = session.getReqByName(reqname);
-					if (requirement.getName() == null){
+					String reqname = (String) reqList.getModel().getElementAt(
+							reqList.getSelectedIndex());
+					PlanningPokerRequirement requirement = session
+							.getReqByName(reqname);
+					if (requirement.getName() == null) {
 						Name.setText(" ");
-					}
-					else{
+					} else {
 						Name.setText(requirement.getName());
 					}
-					if (requirement.getDescription() == null){
+					if (requirement.getDescription() == null) {
 						reqDesc.setText(" ");
-					}
-					else{
+					} else {
 						reqDesc.setText(requirement.getDescription());
 					}
 					DetailPanel.updateUI();
@@ -284,13 +285,13 @@ public class SessionInProgressPanel extends JSplitPane {
 		Name.setMaximumSize(new Dimension(2000, 20));
 		Name.setEditable(false);
 		DetailPanel.add(Name);
-		
+
 		DetailPanel.add(Box.createVerticalStrut(20));
 
 		JLabel lblDescription_1 = new JLabel("Description:");
 		DetailPanel.add(lblDescription_1);
 		DetailPanel.add(label_2);
-		
+
 		DetailPanel.add(Box.createVerticalStrut(10));
 
 		reqDesc.setMaximumSize(new Dimension(2000, 40));
@@ -319,7 +320,12 @@ public class SessionInProgressPanel extends JSplitPane {
 		VotingPanel.add(horizontalStrut);
 
 		txtVoteField = new JTextField();
-		txtVoteField.setEditable(false);
+		
+		//if the session has a deck, we can't let the user submit a vote manually
+		if (session.getDeck() != null){
+			txtVoteField.setEnabled(false);
+		}
+		
 		VotingPanel.add(txtVoteField);
 		txtVoteField.setColumns(3);
 
@@ -327,7 +333,13 @@ public class SessionInProgressPanel extends JSplitPane {
 		VotingPanel.add(horizontalStrut_1);
 
 		JList VoteList = new JList();
+		VoteList.setBackground(Color.WHITE);
+		VoteList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		VoteList.setAlignmentX(CENTER_ALIGNMENT);
+		VoteList.setPreferredSize(new Dimension(50, 10));
+		VoteList.setMinimumSize(new Dimension(50, 10));
 		VotingPanel.add(VoteList);
+		
 	}
 
 	public void setNumVotesLabel(int n) {
