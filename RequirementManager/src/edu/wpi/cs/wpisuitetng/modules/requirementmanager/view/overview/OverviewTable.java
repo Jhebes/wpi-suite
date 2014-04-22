@@ -47,18 +47,31 @@ public class OverviewTable extends JTable
 	private Border paddingBorder = BorderFactory.createEmptyBorder(0, 4, 0, 0);
 	
 	/**
-	 * Sets initial table view
+	 * Sets initial table view. Assumes that it is in fact the overview table, 
+	 * and is not a part of the export panel.
 	 * 
 	 * @param data	Initial data to fill OverviewTable
 	 * @param columnNames	Column headers of OverviewTable
 	 */
-	public OverviewTable(Object[][] data, String[] columnNames)
+	public OverviewTable(Object[][] data, String[] columnNames) {
+		this(data, columnNames, false);
+	}
+	
+	/**
+	 * Sets initial table view. If it is a part of the export panel, does NOT
+	 * call the ViewEventController's event
+	 * 
+	 * @param data	Initial data to fill OverviewTable
+	 * @param columnNames	Column headers of OverviewTable
+	 * @param isExport	Whether this instance is part of the export panel
+	 */
+	public OverviewTable(Object[][] data, String[] columnNames, boolean isExport)
 	{
 		this.tableModel = new DefaultTableModel(data, columnNames);
 		this.setModel(tableModel);
 		this.setDefaultRenderer(Object.class, new OverviewTableCellRenderer());
 		this.setDefaultEditor(Object.class, new OverviewTableEstimateCellEditor(new JTextField()));
-		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		this.setDragEnabled(true);
         this.setDropMode(DropMode.ON);
         this.setTransferHandler(new OverviewTableTransferHandler(this));
@@ -68,7 +81,10 @@ public class OverviewTable extends JTable
 		setFillsViewportHeight(true);
 		isInEditMode = false;
 
-		ViewEventController.getInstance().setOverviewTable(this);
+		if (!isExport) {
+			ViewEventController.getInstance().setOverviewTable(this);
+		}
+		
 		initialized = false;
 
 		/* Create double-click event listener */
@@ -355,6 +371,10 @@ public class OverviewTable extends JTable
 			}
 		}
 		ViewEventController.getInstance().getToolbar().editButton.setSaveEnabled(!errors);
+	}
+
+	public DefaultTableModel getTableModel() {
+		return tableModel;
 	}
 	
 }

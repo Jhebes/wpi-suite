@@ -37,7 +37,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 public class EditButtonsPanel extends ToolbarGroupView{
 	
 	private final JPanel contentPanel = new JPanel();
-	JButton createEditButton = new JButton("<html>Edit<br />Estimates</html>");
+	final JButton createEditButton = new JButton("<html>Edit<br />Estimates</html>");
 	final JButton createCancelButton = new JButton("<html>Cancel<br />Changes</html>");
 	private ImageIcon editImg = null;
 	private ImageIcon saveImg = null;
