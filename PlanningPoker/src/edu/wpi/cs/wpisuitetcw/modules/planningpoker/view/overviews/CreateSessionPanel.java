@@ -340,6 +340,12 @@ public class CreateSessionPanel extends JPanel {
 		boolean isAllInputValid = true;
 
 		Map<Integer, Card> cards = this.deckPanel.getCards();
+		
+		// check if the deck contains any card
+		if(cards.size() == 0) {
+			isAllInputValid = false;
+		}
+		
 		for (Card aCard : cards.values()) {
 			if (!aCard.validateCardValue()) {
 				aCard.setCardInvalid();
@@ -634,7 +640,6 @@ public class CreateSessionPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String deckName = String.valueOf(deckType.getSelectedItem());
-				System.out.println("This is executed. With " + deckName);
 				if (deckName.equals(CREATE_DECK)) {
 					// create mode
 					mode = CardDisplayMode.CREATE;
@@ -707,7 +712,6 @@ public class CreateSessionPanel extends JPanel {
 	 * invoke a right panel for creating a new deck of cards
 	 */
 	private void createNewDeck() {
-		System.out.println(mode);
 		// new deck panel for creating a deck of cards
 		this.deckPanel = new CreateNewDeckPanel(CardDisplayMode.CREATE);
 
@@ -721,7 +725,6 @@ public class CreateSessionPanel extends JPanel {
 	 * @throws WPISuiteException 
 	 */
 	private void displayDeck(String deckName) throws WPISuiteException {
-		System.out.println(mode);
 		this.deckPanel = new CreateNewDeckPanel(CardDisplayMode.DISPLAY);
 		this.deckPanel.displayDeck(deckName);
 
@@ -745,7 +748,6 @@ public class CreateSessionPanel extends JPanel {
 	 * display no card on the deck panel
 	 */
 	public void displayNoDeck() {
-		System.out.println(this.mode);
 		this.deckPanel = new CreateNewDeckPanel(CardDisplayMode.NO_DECK);
 
 		setupEntirePanel();

@@ -10,11 +10,8 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -64,6 +61,7 @@ public class CreateNewDeckPanel extends JPanel {
 	private final String CARD_SELECTION_LABEL	= "Card selection *";
 	private static final String MULTIPLE_SELECT = "Multiple selection";
 	private static final String SINGLE_SELECT 	= "Single selection";
+	private static final String DEFAULT_DECK    = "Default";
 	private final int CARD_WIDTH = 146;
 	private static final int CENTER_PANEL_WIDTH  = 350;
 	private static final int CENTER_PANEL_HEIGHT = 250;
@@ -316,35 +314,37 @@ public class CreateNewDeckPanel extends JPanel {
 	 * @return true if so; false otherwise
 	 */
 	public boolean isDeckNameEntered() {
-		if (this.textboxName.getText().equals("")) {
+		if (textboxName.getText().equals("")) {
 			// nothing is entered
 			System.out.println("Name not entered");
-			this.labelNameErr.setVisible(true);
+			labelNameErr.setVisible(true);
 			return false;
 		} else {
 			System.out.println("Name entered");
-			this.labelNameErr.setVisible(false);
+			labelNameErr.setVisible(false);
 			return true;
 		}
 	}
 
 	/**
-	 * TODO display the default fibonacci deck
+	 * display the default fibonacci deck
 	 */
 	public void displayDefaultDeck() {
 		// clear the panel
 		removeAllCard();
 		// display default deck
-		int[] defaultDeck = { 0, 1, 1, 2, 3, 5, 8, 13 };
+		final int[] defaultDeck = { 0, 1, 1, 2, 3, 5, 8, 13 };
 		for (int i = 0; i < defaultDeck.length; i++) {
-			Card aCard = new Card(this.mode, defaultDeck[i]);
+			Card aCard = new Card(mode, defaultDeck[i]);
 			int key = aCard.hashCode();
 			cards.put(key, aCard);
 			this.addRemoveCardListener(aCard, this);
-			this.cardPanel.add(aCard);
+			cardPanel.add(aCard);
 			validateNumCards();
 			this.updateNumCard();
 		}
+		
+		this.textboxName.setText(DEFAULT_DECK);
 		this.updateUI();
 	}
 
@@ -358,18 +358,31 @@ public class CreateNewDeckPanel extends JPanel {
 		removeAllCard();
 		// display default deck
 		
-		PlanningPokerDeck deck = GetAllDecksController.getInstance().getDeckByName(deckName);
+		final PlanningPokerDeck deck = GetAllDecksController.getInstance().getDeckByName(deckName);
 		
-		ArrayList<Integer> deckValues = deck.getDeck();
-		for (int i = 0; i < deckValues.size(); i++) {
-			Card aCard = new Card(this.mode, (int) deckValues.get(i));
+		final ArrayList<Integer> deckValues = deck.getDeck();
+		for (int value : deckValues) {
+			Card aCard = new Card(mode, value);
 			int key = aCard.hashCode();
 			cards.put(key, aCard);
 			this.addRemoveCardListener(aCard, this);
-			this.cardPanel.add(aCard);
+			cardPanel.add(aCard);
 			validateNumCards();
 			this.updateNumCard();
 		}
+		
+		// set other instance variables
+		this.textboxName.setText(deck.getDeckName());
+		
+		this.deckOption.removeAllItems();
+		int selection = deck.getMaxSelection();
+			
+		if(selection == 1) {
+			this.deckOption.addItem(SINGLE_SELECT);
+		} else {
+			this.deckOption.addItem(MULTIPLE_SELECT);
+		}
+		
 		this.updateUI();
 	}
 	
