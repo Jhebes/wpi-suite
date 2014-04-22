@@ -326,6 +326,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		// deck panel
 		deckPanel = new DisplayDeckPanel(session.getDeck());
 		deckPanel.setLayout(new BoxLayout(deckPanel, BoxLayout.X_AXIS));
+		RightPanel.add(deckPanel, BorderLayout.CENTER);
 
 		JLabel lblRequirementsDetail = new JLabel("Requirements Detail:");
 		lblRequirementsDetail.setHorizontalAlignment(SwingConstants.CENTER);
