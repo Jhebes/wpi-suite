@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -48,8 +49,8 @@ public class SessionInProgressPanel extends JPanel {
 	private static final int MIN_REQ_TEXTBOX_WIDTH = 200;
 	private static final int MIN_DESC_TEXTBOX_WIDTH = 400;
 	private static final int MIN_DESC_TEXTBOX_HEIGHT = 100;
-	private static final int MIN_VOTE_TEXTFIELD_WIDTH = 50;
-	private static final int MIN_VOTE_TEXTFIELD_HEIGHT = 50;
+	private static final int MIN_VOTE_TEXTFIELD_WIDTH = 150;
+	private static final int MIN_VOTE_TEXTFIELD_HEIGHT = 150;
 	
 	private static final int MIN_EDIT_SESSION_BUTTON_WIDTH = 50;
 	private static final int GAP_BETWEEN_BOTTOM_BUTTONS = 20;
@@ -293,6 +294,7 @@ public class SessionInProgressPanel extends JPanel {
 		
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
+		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
 
 		addGUIComponentsOnRightPanel();
 
@@ -307,33 +309,44 @@ public class SessionInProgressPanel extends JPanel {
 	 * Add the requirement name and desciption text field, 
 	 * vote submit button, vote text field, and their labels
 	 * on the right panel
+	 * 
+	 * ---------------- RIGHT PANEL------------------
+	 * | 			SUB LEFT		| 	SUB RIGHT	|
 	 */
-	private void addGUIComponentsOnRightPanel() {
-		rightPanel.setLayout(new MigLayout("insets 5 5 5 5, fillx"));
-		rightPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
+	private void addGUIComponentsOnRightPanel() {	
+		// Set up the left sub panel.
+		// The left sub panel has panel label, name and desc text fields, and card panel
+		JPanel requirementInfoPanel = new JPanel();
+		requirementInfoPanel.setLayout(new MigLayout("insets 0, fillx"));
+		requirementInfoPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
 		
 		// Add the label of the panel
-		rightPanel.add(rightPanelLabel, "center, span");
+		requirementInfoPanel.add(rightPanelLabel, "center, span");
 		
 		// Add the requirement name and its label
-		rightPanel.add(requirementNameLabel, "growx, left, wrap");
-		rightPanel.add(requirementNameTextbox, "growx, wrap");
+		requirementInfoPanel.add(requirementNameLabel, "growx, left, wrap");
+		requirementInfoPanel.add(requirementNameTextbox, "growx, wrap");
 		
 		// Add the requirement description box and its label
-		rightPanel.add(descriptionLabel, "growx, left, wrap");
-		rightPanel.add(descriptionTextbox, "hmin " + MIN_DESC_TEXTBOX_HEIGHT + "px, "
-										 + "growx, wrap");
+		requirementInfoPanel.add(descriptionLabel, "growx, left, wrap");
+		requirementInfoPanel.add(descriptionTextbox, "hmin " + MIN_DESC_TEXTBOX_HEIGHT + "px, "
+										 		   + "growx, wrap");
 		
 		// Add the card panel
-		rightPanel.add(cardPanel, "grow, wrap");
+		requirementInfoPanel.add(cardPanel, "grow, wrap");
 		
-		// Add the vote button and vote text field
+		// Add the vote button and vote text field to the sub right panel
 		JPanel rightDock = new JPanel();
+		rightDock.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 		rightDock.setLayout(new MigLayout("filly, insets 0", "", "push[center]"));
 		rightDock.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH + "px, "
-									+ "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, "
-									+ "center, wrap push");
-		rightDock.add(submitVoteButton, "wrap");
+								   + "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, "
+								   + "center, wrap push");
+		rightDock.add(submitVoteButton, "center, wrap");
+		
+		// Add the sub left and right to right panel
+		rightPanel.setLayout(new MigLayout("insets 5 5 5 5, fill"));
+		rightPanel.add(requirementInfoPanel, "dock center");
 		rightPanel.add(rightDock, "dock east");
 	}
 
