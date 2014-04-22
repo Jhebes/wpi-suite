@@ -415,28 +415,25 @@ public class CreateNewDeckPanel extends JPanel {
 	/*
 	 * Add text field, dropdown card selection, create new card button, number
 	 * of card label, and their corresponding labels to the given panel
-	 * 			|labelName labelNameErr | labelCardSelection |
-	 * 			----------------------------------------------
-	 * 			|textboxName			| deckOption		 |
-	 * 			----------------------------------------------
-	 * 			|	btnAddCard | labelCount | labelNumCards  |
+	 * 	|labelName labelNameErr | labelCardSelection | labelCount labelNumCards |
+	 * 	-------------------------------------------------------------------------
+	 * 	|textboxName			| deckOption		 | 			btnAddCard		|
 	 */
 	private void addModifyDeckButtons(JPanel centerTopPanel) {
 		// Set the layout for given panel
-		centerTopPanel.setLayout(new MigLayout("", "push[]push[]push", ""));
+		centerTopPanel.setLayout(new MigLayout("", "push[]push[]push[]push", ""));
 
 		// 1ST ROW
 		centerTopPanel.add(labelName, "left, split2");
 		centerTopPanel.add(labelNameErr, "center");
-		centerTopPanel.add(labelCardSelection, "left, wrap");
-
+		centerTopPanel.add(labelCardSelection, "left");
+		centerTopPanel.add(labelCount, "split2, center");
+		centerTopPanel.add(labelNumCards, "wrap");
+		
 		// 2ND ROW
 		centerTopPanel.add(textboxName, "left");
-		centerTopPanel.add(deckOption, "left, wrap");
-
-		// 3RD ROW
-		centerTopPanel.add(btnAddCard, "span, split3, center");
-		centerTopPanel.add(labelCount);
-		centerTopPanel.add(labelNumCards);
+		centerTopPanel.add(deckOption, "left");
+		centerTopPanel.add(btnAddCard, "center");
+		
 	}
 }
