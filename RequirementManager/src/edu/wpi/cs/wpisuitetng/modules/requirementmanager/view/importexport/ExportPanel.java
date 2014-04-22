@@ -67,7 +67,8 @@ public class ExportPanel extends JPanel {
 		String[] columnNames = { "ID", "Name", "Release #", "Iteration", "Type", "Status", "Priority", "Estimate" };
 		Object[][] data = {};
 
-		overviewTable = new OverviewTable(data, columnNames);
+		overviewTable = new OverviewTable(data, columnNames, true);
+		overviewTable.refresh();
 
 		JScrollPane tablePanel = new JScrollPane(overviewTable);
 
