@@ -50,6 +50,8 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		DefaultMutableTreeNode top = new DefaultMutableTreeNode("All Sessions");
 		// DefaultMutableTreeNode draftSessionNode = new
 		// DefaultMutableTreeNode("Draft Sessions");
+		DefaultMutableTreeNode newSessionNode = new DefaultMutableTreeNode(
+				"New Sessions");
 		DefaultMutableTreeNode openSessionNode = new DefaultMutableTreeNode(
 				"Open Sessions");
 		DefaultMutableTreeNode closedSessionNode = new DefaultMutableTreeNode(
@@ -60,10 +62,16 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 			this.sessions = SessionStash.getInstance().getSessions();
 
 			if (this.sessions != null) {
+				PlanningPokerSession[] newSessions = sortForNewSessions(this.sessions);
 				PlanningPokerSession[] openSessions = sortForOpenSessions(this.sessions);
 				PlanningPokerSession[] closedSessions = sortForClosedSessions(this.sessions);
-				// PlanningPokerSession[] draftSessions =
-				// sortForDraftSessions(allSessions);
+
+				// add new sessions to the node
+				for (PlanningPokerSession s : newSessions) {
+					DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(
+							s);
+					newSessionNode.add(newNode);
+				}
 
 				// add open sessions to the node
 				for (PlanningPokerSession s : openSessions) {
@@ -87,6 +95,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 					"Network configuration error", e);
 		}
 
+		top.add(newSessionNode);
 		top.add(openSessionNode);
 		top.add(closedSessionNode);
 
@@ -104,6 +113,26 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 
 		// update the ViewEventController so it contains the right tree
 		ViewEventManager.getInstance().setOverviewTree(this);
+	}
+
+	/**
+	 * sort for open sessions from a given array of sessions
+	 * 
+	 * @param allSessions
+	 * @return open sessions
+	 */
+	private PlanningPokerSession[] sortForNewSessions(
+			List<PlanningPokerSession> allSessions) {
+		ArrayList<PlanningPokerSession> tempNewSessions = new ArrayList<PlanningPokerSession>();
+		for (PlanningPokerSession pps : allSessions) {
+			if (pps.isNew()) {
+				tempNewSessions.add(pps);
+			}
+		}
+		PlanningPokerSession[] newSessions = new PlanningPokerSession[tempNewSessions
+				.size()];
+		newSessions = tempNewSessions.toArray(newSessions);
+		return newSessions;
 	}
 
 	/**
