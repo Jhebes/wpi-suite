@@ -361,8 +361,8 @@ public class CreateNewDeckPanel extends JPanel {
 		PlanningPokerDeck deck = GetAllDecksController.getInstance().getDeckByName(deckName);
 		
 		ArrayList<Integer> deckValues = deck.getDeck();
-		for (int i = 0; i < deckValues.size(); i++) {
-			Card aCard = new Card(this.mode, (int) deckValues.get(i));
+		for (int value : deckValues) {
+			Card aCard = new Card(this.mode, value);
 			int key = aCard.hashCode();
 			cards.put(key, aCard);
 			this.addRemoveCardListener(aCard, this);
