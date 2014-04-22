@@ -281,20 +281,16 @@ public class ViewSessionReqPanel extends JPanel {
 
 				JTable table = (JTable) e.getSource();
 				int row = table.getSelectedRow();
-				int col = table.getSelectedColumn();
 
 				for (int i = 0; i < 2; i = i + 1) {
 					if (i == 0) {
-						reqName = allReqTable.getModel().getValueAt(row, col)
+						reqName = allReqTable.getModel().getValueAt(row, 0)
 								.toString();
 					}
 					if (i == 1) {
-						reqDescription = allReqTable.getModel().getValueAt(row, col)
+						reqDescription = allReqTable.getModel().getValueAt(row, 1)
 								.toString();
 					}
-
-					col++;
-
 				}
 
 				setReqInfo(reqName, reqDescription);
@@ -309,20 +305,16 @@ public class ViewSessionReqPanel extends JPanel {
 
 				JTable table = (JTable) e.getSource();
 				int row = table.getSelectedRow();
-				int col = table.getSelectedColumn();
 
 				for (int i = 0; i < 2; i = i + 1) {
 					if (i == 0) {
-						reqName = sessionReqTable.getModel().getValueAt(row, col)
+						reqName = sessionReqTable.getModel().getValueAt(row, 0)
 								.toString();
 					}
 					if (i == 1) {
-						reqDescription = sessionReqTable.getModel().getValueAt(row, col)
+						reqDescription = sessionReqTable.getModel().getValueAt(row, 1)
 								.toString();
 					}
-
-					col++;
-
 				}
 
 				setReqInfo(reqName, reqDescription);
