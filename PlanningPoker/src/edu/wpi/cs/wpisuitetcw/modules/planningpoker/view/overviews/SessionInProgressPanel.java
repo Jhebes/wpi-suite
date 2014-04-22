@@ -195,6 +195,9 @@ public class SessionInProgressPanel extends JPanel {
 			btnEditSession.setEnabled(false);
 		}
 		
+		// Create a submit vote button
+		submitVoteButton = new JButton(VOTE_BUTTON_LABEL);
+				
 		addGUIComponentsToBottomPanel();
 			
 	}
@@ -204,9 +207,10 @@ public class SessionInProgressPanel extends JPanel {
 	 * cancel session button to the bottom panel
 	 */
 	private void addGUIComponentsToBottomPanel() {
-		bottomPanel.add(endSessionButton, "wmin " + MIN_END_SESSION_BUTTON_WIDTH + "px");
-		bottomPanel.add(btnEditSession, "wmin " + MIN_EDIT_SESSION_BUTTON_WIDTH + "px, "
-									  + "gapleft " + GAP_BETWEEN_BOTTOM_BUTTONS + "px");
+		bottomPanel.add(endSessionButton, "left, wmin " + MIN_END_SESSION_BUTTON_WIDTH  + "px");
+		bottomPanel.add(btnEditSession,   "left, wmin " + MIN_EDIT_SESSION_BUTTON_WIDTH + "px, "
+										+ "gapleft " + GAP_BETWEEN_BOTTOM_BUTTONS + "px");
+		bottomPanel.add(submitVoteButton, "righta");
 	}
 
 	/*
@@ -291,9 +295,6 @@ public class SessionInProgressPanel extends JPanel {
 		// Create a deck panel
 		cardPanel = new JPanel();
 		
-		// Create a submit vote button
-		submitVoteButton = new JButton(VOTE_BUTTON_LABEL);
-		
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
@@ -334,9 +335,6 @@ public class SessionInProgressPanel extends JPanel {
 										 + "gapright" + GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX + "px, "
 										 + "wrap");
 		
-		// Add the card panel
-		rightPanel.add(cardPanel, "grow, wrap");
-		
 		// Add the vote text field to the right side
 		rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH  + "px, "
 								   	+ "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, "
@@ -344,7 +342,8 @@ public class SessionInProgressPanel extends JPanel {
 								   	+ "gaptop "   + PADDING_RIGHT_PANEL + "px, "
 								   	+ "gapright " + PADDING_RIGHT_PANEL + "px");
 		
-		//rightDock.add(submitVoteButton, "center, wrap");
+		// Add the card panel
+		rightPanel.add(cardPanel, "grow, dock south");
 	}
 
 	public void setNumVotesLabel(int n) {
