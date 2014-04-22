@@ -12,7 +12,6 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers;
 
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
-import java.util.logging.Logger;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -21,12 +20,15 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
 
 public class DisplayDeckPanel extends JPanel {
+	// constants
+	private static final int CENTER_PANEL_WIDTH = 350;
+	private static final int CENTER_PANEL_HEIGHT = 250;
+
+	// panels for setting up the view
 	private PlanningPokerDeck deck;
 	private final JPanel cardPanel;
 	private final JScrollPane centerPanel;
 	private final JPanel container;
-	private static final int CENTER_PANEL_WIDTH = 350;
-	private static final int CENTER_PANEL_HEIGHT = 250;
 
 	/**
 	 * Constructor - creating a panel for displaying a deck of card
@@ -43,17 +45,10 @@ public class DisplayDeckPanel extends JPanel {
 		centerPanel.setMinimumSize(new Dimension(CENTER_PANEL_WIDTH,
 				CENTER_PANEL_HEIGHT));
 
-		// TODO check if the deck is null
-		if (deck != null) {
+		// initialize the deck
+		this.deck = deck;
 
-			// initialize the deck
-			this.deck = deck;
-
-			displayDeck();
-
-		} else {
-			Logger.getLogger(this.getName()).fine("No deck");
-		}
+		displayDeck();
 
 		// setup the entire panel
 		this.add(centerPanel);
@@ -63,11 +58,19 @@ public class DisplayDeckPanel extends JPanel {
 	/**
 	 * Display a deck of cards for voting.
 	 */
-	public void displayDeck() {
+	private void displayDeck() {
 		for (int value : deck.getDeck()) {
 			Card aCard = new Card(CardDisplayMode.DISPLAY, value);
 			cardPanel.add(aCard);
 		}
 	}
 
+	/**
+	 * Determine if the deck allows multiple selection
+	 * 
+	 * @return true if deck allows multiple selection
+	 */
+	private boolean isMultipleSelection() {
+		return deck.getMaxSelection() != 1;
+	}
 }
