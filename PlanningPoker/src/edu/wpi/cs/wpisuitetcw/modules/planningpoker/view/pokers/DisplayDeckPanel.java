@@ -30,6 +30,9 @@ public class DisplayDeckPanel extends JPanel {
 	private final JScrollPane centerPanel;
 	private final JPanel container;
 
+	// vote value for the deck
+	private int voteValue = 0;
+
 	/**
 	 * Constructor - creating a panel for displaying a deck of card
 	 */
@@ -70,7 +73,31 @@ public class DisplayDeckPanel extends JPanel {
 	 * 
 	 * @return true if deck allows multiple selection
 	 */
-	private boolean isMultipleSelection() {
-		return deck.getMaxSelection() != 1;
+	private boolean isSingleSelection() {
+		return deck.getMaxSelection() == 1;
+	}
+
+	/**
+	 * update the vote by adding the given value
+	 */
+	public void addRequirementValue(int value) {
+		if (isSingleSelection()) {
+			// only one card is able to be selected
+			voteValue = value;
+		} else {
+			voteValue += value;
+		}
+	}
+
+	/**
+	 * update the vote by subtracting the given value
+	 */
+	public void subtractRequirementValue(int value) {
+		if (isSingleSelection()) {
+			// vote is reset to 0
+			voteValue = 0;
+		} else {
+			voteValue -= value;
+		}
 	}
 }

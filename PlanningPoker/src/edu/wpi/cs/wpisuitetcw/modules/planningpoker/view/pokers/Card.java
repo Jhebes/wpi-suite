@@ -337,12 +337,12 @@ public class Card extends JPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO implement this
 				if (!isSelected) {
-					// set the card selection
+					// selecting the card
 					isSelected = true;
 					selectCard();
 				} else {
+					// card is being unseleted
 					isSelected = false;
 					unselectCard();
 				}
@@ -351,25 +351,23 @@ public class Card extends JPanel {
 	}
 
 	/**
-	 * Selecting the card
+	 * Selecting the card and update the vote in the parent panel
 	 */
 	private void selectCard() {
 		// highlight the card
 		setCardSelected();
-
-		// TODO notify the parent panel
-		System.out.println("Card is selected with value " + this.cardValue);
+		// update the vote
+		parentPanel.addRequirementValue(this.cardValue);
 	}
 
 	/**
-	 * Unselecting the card
+	 * Unselecting the card and update the vote in the parent panel
 	 */
 	private void unselectCard() {
 		// remove the highlight
 		setCardValid();
-
-		// TODO delete this
-		System.out.println("Card is unselected with value " + this.cardValue);
+		// update the vote
+		parentPanel.subtractRequirementValue(this.cardValue);
 	}
 
 	/**
