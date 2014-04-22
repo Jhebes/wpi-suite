@@ -246,7 +246,9 @@ public class SessionInProgressPanel extends JSplitPane {
 		RightPanel.setLayout(new BorderLayout(0, 0));
 
 		JPanel DetailPanel = new JPanel();
-		RightPanel.add(DetailPanel, BorderLayout.PAGE_START);//Changed from CENTER to Page Star
+		RightPanel.add(DetailPanel, BorderLayout.PAGE_START);// Changed from
+																// CENTER to
+																// Page Star
 		DetailPanel.setLayout(new BoxLayout(DetailPanel, BoxLayout.Y_AXIS));
 
 		Component verticalStrut = Box.createVerticalStrut(20);
@@ -262,11 +264,13 @@ public class SessionInProgressPanel extends JSplitPane {
 		JLabel lblDescription_1 = new JLabel("Description:");
 		DetailPanel.add(lblDescription_1);
 		DetailPanel.add(label_2);
-		
+
 		// Add in the panel for final estimation
-// TODO: Enable it so that this will only appear in finished sessions.
-		finalEstimatePnl = new CompletedSessionEstimatePanel();
-		RightPanel.add(finalEstimatePnl);
+		// Review this, does it cover all possibilities.
+		if (this.session.isClosed()) {
+			finalEstimatePnl = new CompletedSessionEstimatePanel();
+			RightPanel.add(finalEstimatePnl);
+		}
 
 		JPanel DeckPanel = new JPanel();
 		DetailPanel.add(DeckPanel);
