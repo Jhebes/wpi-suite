@@ -60,7 +60,7 @@ public class DisplayDeckPanel extends JPanel {
 	 */
 	private void displayDeck() {
 		for (int value : deck.getDeck()) {
-			Card aCard = new Card(CardDisplayMode.DISPLAY, value);
+			Card aCard = new Card(CardDisplayMode.DISPLAY, value, this);
 			cardPanel.add(aCard);
 		}
 	}

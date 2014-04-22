@@ -62,6 +62,15 @@ public class Card extends JPanel {
 
 	/** Display mode for the card */
 	private CardDisplayMode mode;
+	
+	/** Parent panel that contains the card */
+	private DisplayDeckPanel parentPanel;
+	
+	/** Display a card and ability to notify parent panel */
+	public Card(CardDisplayMode mode, int value, DisplayDeckPanel deckPanel) {
+		this(mode, value);
+		this.parentPanel = deckPanel;
+	}
 
 	/** for displaying a card */
 	public Card(CardDisplayMode mode, int value) {
