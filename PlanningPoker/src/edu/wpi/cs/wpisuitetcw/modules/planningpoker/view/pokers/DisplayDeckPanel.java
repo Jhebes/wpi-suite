@@ -17,7 +17,12 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 public class DisplayDeckPanel extends JPanel {
 	private final PlanningPokerDeck deck;
 
+	/**
+	 * Constructor - creating a panel for displaying a deck of card
+	 */
 	public DisplayDeckPanel(PlanningPokerDeck deck) {
+		//
+		System.out.println(deck);
 		this.deck = deck;
 		displayDeck();
 	}

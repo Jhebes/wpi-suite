@@ -38,6 +38,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirem
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.DisplayDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
@@ -65,6 +66,8 @@ public class SessionInProgressPanel extends JSplitPane {
 	private final JTextField Name = new JTextField();
 	private final JTextField reqDesc = new JTextField();
 	private final JPanel DetailPanel;
+	
+	private final DisplayDeckPanel deckPanel;
 
 	/**
 	 * Create the panel.
@@ -320,9 +323,9 @@ public class SessionInProgressPanel extends JSplitPane {
 		reqDesc.setEditable(false);
 		DetailPanel.add(reqDesc);
 
-		JPanel DeckPanel = new JPanel();
-		DetailPanel.add(DeckPanel);
-		DeckPanel.setLayout(new BoxLayout(DeckPanel, BoxLayout.X_AXIS));
+		// deck panel
+		deckPanel = new DisplayDeckPanel(session.getDeck());
+		deckPanel.setLayout(new BoxLayout(deckPanel, BoxLayout.X_AXIS));
 
 		JLabel lblRequirementsDetail = new JLabel("Requirements Detail:");
 		lblRequirementsDetail.setHorizontalAlignment(SwingConstants.CENTER);
