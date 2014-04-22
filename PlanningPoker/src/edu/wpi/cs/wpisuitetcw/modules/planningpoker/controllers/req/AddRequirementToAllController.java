@@ -18,6 +18,9 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionReqPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.AddRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 
 /**
  * A controller that adds a requirement to the default planning poker session, 
@@ -46,6 +49,11 @@ public class AddRequirementToAllController implements ActionListener {
 	public void addRequirement() {
 		PlanningPokerSession defaultSession = SessionStash.getInstance()
 				.getDefaultSession();
+		// Adds the model of requirements from the req manager, add a
+		// requirement to this model, will add to and update
+		// the req manager
+		RequirementModel addReqModel = RequirementModel.getInstance();
+		Requirement reqManagerRequirement = new Requirement();
 
 		PlanningPokerRequirement requirement = new PlanningPokerRequirement();
 		requirement.setName(this.panel.getNewReqName());
@@ -54,6 +62,13 @@ public class AddRequirementToAllController implements ActionListener {
 		defaultSession.save();
 		this.panel.clearNewReqName();
 		this.panel.clearNewReqDesc();
+
+		// Fill in the information for the requirement being created
+		reqManagerRequirement.setId(addReqModel.getNextID());
+		reqManagerRequirement.setName(requirement.getName());
+		reqManagerRequirement.setDescription(requirement.getDescription());
+		// Add the new Requirement to the requirement manager
+		addReqModel.addRequirement(reqManagerRequirement);
 
 		(new RequirementTableManager()).fetch(1);
 	}
