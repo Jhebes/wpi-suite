@@ -27,11 +27,9 @@ public class AddDeckRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		// TODO Auto-generated method stub
 		final ResponseModel response = iReq.getResponse();
-		final PlanningPokerDeck deck = PlanningPokerDeck.fromJson(response
-				.getBody());
-		controller.onSuccess(deck);
+		final PlanningPokerDeck deck = PlanningPokerDeck.fromJson(response.getBody());
+		System.out.println("New deck " + deck.getDeckName() + " has been stored!");
 	}
 
 	/**

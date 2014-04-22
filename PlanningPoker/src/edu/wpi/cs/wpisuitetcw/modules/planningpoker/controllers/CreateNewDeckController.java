@@ -10,8 +10,6 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -26,7 +24,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * Controller that creates a new deck when users click 
  * a button that sets this controller as action listener
  */
-public class CreateNewDeckController implements ActionListener {
+public class CreateNewDeckController {
 	/** A view that exhibits the deck */
 	private CreateNewDeckPanel view;
 	
@@ -39,20 +37,17 @@ public class CreateNewDeckController implements ActionListener {
 	}
 
 	/**
-	 * Stored the deck in the database
-	 * {@inheritDoc}
+	 * Create a new deck based on the information in the CreateNewDeckPanel 
+	 * and store it in the database
 	 */
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// String deckName = this.view.getTextboxName().getText();
-
+	public void addDeckToDatabase() {
 		// make sure all cards are validated
 		if (validateAllInputs()) {
 			// all inputs are good
 			String deckName = this.view.getTextboxName().getText();
 			ArrayList<Integer> cardValues = this.view.getAllCardsValue();
-
-			PlanningPokerDeck deck = new PlanningPokerDeck(deckName, cardValues);
+			int maxSelection = view.getMaxSelectionCards();
+			PlanningPokerDeck deck = new PlanningPokerDeck(deckName, cardValues, maxSelection);
 
 			// send a request
 			final Request request = Network.getInstance().makeRequest(
@@ -71,17 +66,6 @@ public class CreateNewDeckController implements ActionListener {
 			this.view.repaint();
 		}
 
-	}
-
-	/**
-	 * TODO WHAT DOES THIS FUNCTION SAY?
-	 * Removes the tab
-	 * @param deck
-	 */
-	public void onSuccess(PlanningPokerDeck deck) {
-		// close the tab
-		this.view.getInvokingPanel().setupDeckDropdown();
-		InitNewDeckPanelController.getInstance(null).removeDeckPanel();
 	}
 
 	/**

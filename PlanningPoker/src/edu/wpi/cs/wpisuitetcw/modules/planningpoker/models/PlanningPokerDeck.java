@@ -31,8 +31,11 @@ public class PlanningPokerDeck extends AbstractModel {
 	/** ID of the deck */
 	private int id;
 
+	/** Number of cards that can be chosen */
+	private int maxSelection;
+	
 	/**
-	 * Construct the default deck in which the cards have Fibonacci values TODO
+	 * This constructor creates the default deck with the fibonacci values TODO
 	 * the default deck should be a database entry
 	 */
 	public PlanningPokerDeck() {
@@ -42,19 +45,42 @@ public class PlanningPokerDeck extends AbstractModel {
 		for (int i : defaultDeck) {
 			this.deck.add(i);
 		}
+		this.maxSelection = defaultDeck.length;
 	}
 
 	/**
-	 * Construct a deck from the given name and arrayList of values
-	 * 
-	 * @param deckName
+	 * This constructor creates the deck from the imported arrayList of values
+	 *
+	 * @param name_in
 	 *            The name of the deck
-	 * @param deck
-	 *            An array of integer representing the cards' values
+	 * @param deck_in
+	 *            the inputed deck
 	 */
-	public PlanningPokerDeck(String deckName, ArrayList<Integer> deck) {
+	public PlanningPokerDeck(String name_in, ArrayList<Integer> deck_in) {
+		this.deckName = name_in;
+		this.deck = deck_in;
+		this.maxSelection = deck.size();
+	}
+	
+	/**
+	 * Construct a Planning Poker Deck with the given name, a set of integers,
+	 * and a number of cards that can be selected
+	 * @param deckName A name of the deck that would be created
+	 * @param cardValues A set of values that the new deck would have
+	 * @param maxSelections A number of cards that can be chosen
+	 */
+	public PlanningPokerDeck(String deckName, ArrayList<Integer> cardValues, int maxSelection) {
 		this.deckName = deckName;
-		this.deck = deck;
+		this.deck = cardValues;
+		this.maxSelection = maxSelection;
+	}
+
+	/**
+	 * Return the max number of cards that can be chosen
+	 * @return Return the max number of cards that can be chosen
+	 */
+	public int getMaxSelection() {
+		return maxSelection;
 	}
 
 	/**

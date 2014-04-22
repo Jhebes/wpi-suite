@@ -65,8 +65,9 @@ public class GetAllDecksController {
 	public ArrayList<String> getAllDeckNames() {
 		this.refreshDecks(); // set up the deck
 		ArrayList<String> deckNames = new ArrayList<String>();
-		
-		// delay the this process since the request fired in refreshDecks() might not be completed
+
+		// delay the this process since the request fired in refreshDecks()
+		// might not be completed
 		try {
 			Thread.sleep(250);
 		} catch (InterruptedException e) {
@@ -74,6 +75,7 @@ public class GetAllDecksController {
 		
 		// Default options
 		deckNames.add("Default");
+		deckNames.add("Create new deck");
 		deckNames.add("No deck");
 
 		// make sure the decks is not null
@@ -108,7 +110,7 @@ public class GetAllDecksController {
 				return d;
 			}
 		}
-		throw new WPISuiteException();	
+		throw new WPISuiteException();
 	}
 
 }
