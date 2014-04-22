@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendNotificationController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put.PutSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -565,6 +566,9 @@ public class PlanningPokerSession extends AbstractModel {
 				"planningpoker/session", HttpMethod.POST);
 		request.setBody(this.toJSON());
 		request.send();
+		
+		// refresh the tree
+		ViewEventManager.getInstance().getOverviewTreePanel().refresh();
 	}
 
 	public void create() {
