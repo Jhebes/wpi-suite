@@ -340,6 +340,12 @@ public class CreateSessionPanel extends JPanel {
 		boolean isAllInputValid = true;
 
 		Map<Integer, Card> cards = this.deckPanel.getCards();
+		
+		// check if the deck contains any card
+		if(cards.size() == 0) {
+			isAllInputValid = false;
+		}
+		
 		for (Card aCard : cards.values()) {
 			if (!aCard.validateCardValue()) {
 				aCard.setCardInvalid();
