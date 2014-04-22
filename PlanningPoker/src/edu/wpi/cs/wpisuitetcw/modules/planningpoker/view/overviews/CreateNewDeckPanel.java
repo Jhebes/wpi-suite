@@ -35,9 +35,12 @@ import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddNewCardController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.InitNewDeckPanelController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
+import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 
 /**
  * A view to create a new deck
@@ -345,6 +348,33 @@ public class CreateNewDeckPanel extends JPanel {
 		this.updateUI();
 	}
 
+	/**
+	 * Displays a selected deck
+	 * @param deckName Name of the deck to be shown
+	 * @throws WPISuiteException 
+	 */
+	public void displayDeck(String deckName) throws WPISuiteException {
+		// clear the panel
+		removeAllCard();
+		// display default deck
+		
+		PlanningPokerDeck deck = GetAllDecksController.getInstance().getDeckByName(deckName);
+		
+		ArrayList<Integer> deckValues = deck.getDeck();
+		for (int i = 0; i < deckValues.size(); i++) {
+			Card aCard = new Card(this.mode, (int) deckValues.get(i));
+			int key = aCard.hashCode();
+			cards.put(key, aCard);
+			this.addRemoveCardListener(aCard, this);
+			this.cardPanel.add(aCard);
+			validateNumCards();
+			this.updateNumCard();
+		}
+		this.updateUI();
+	}
+	
+	
+	
 	/**
 	 * notify createNewDeckPanel when a Card is discarded, so that it removes
 	 * the card from the cards HashMap
