@@ -309,45 +309,33 @@ public class SessionInProgressPanel extends JPanel {
 	 * Add the requirement name and desciption text field, 
 	 * vote submit button, vote text field, and their labels
 	 * on the right panel
-	 * 
-	 * ---------------- RIGHT PANEL------------------
-	 * | 			SUB LEFT		| 	SUB RIGHT	|
 	 */
 	private void addGUIComponentsOnRightPanel() {	
-		// Set up the left sub panel.
-		// The left sub panel has panel label, name and desc text fields, and card panel
-		JPanel requirementInfoPanel = new JPanel();
-		requirementInfoPanel.setLayout(new MigLayout("insets 0, fillx"));
-		requirementInfoPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
+		rightPanel.setLayout(new MigLayout("insets 10 10 10 10, fillx"));
+
+		rightPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
 		
 		// Add the label of the panel
-		requirementInfoPanel.add(rightPanelLabel, "center, span");
+		rightPanel.add(rightPanelLabel, "center, span");
 		
 		// Add the requirement name and its label
-		requirementInfoPanel.add(requirementNameLabel, "growx, left, wrap");
-		requirementInfoPanel.add(requirementNameTextbox, "growx, wrap");
+		rightPanel.add(requirementNameLabel, "growx, left, wrap");
+		rightPanel.add(requirementNameTextbox, "growx, gapright 20px, wrap");
 		
 		// Add the requirement description box and its label
-		requirementInfoPanel.add(descriptionLabel, "growx, left, wrap");
-		requirementInfoPanel.add(descriptionTextbox, "hmin " + MIN_DESC_TEXTBOX_HEIGHT + "px, "
-										 		   + "growx, wrap");
+		rightPanel.add(descriptionLabel, "growx, left, wrap");
+		rightPanel.add(descriptionTextbox, "hmin " + MIN_DESC_TEXTBOX_HEIGHT + "px, "
+										 		   + "growx, gapright 20px, wrap");
 		
 		// Add the card panel
-		requirementInfoPanel.add(cardPanel, "grow, wrap");
+		rightPanel.add(cardPanel, "grow, wrap");
 		
-		// Add the vote button and vote text field to the sub right panel
-		JPanel rightDock = new JPanel();
-		rightDock.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-		rightDock.setLayout(new MigLayout("filly, insets 0", "", "push[center]"));
-		rightDock.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH + "px, "
+		// Add the vote text field to the right side
+		rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH + "px, "
 								   + "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, "
-								   + "center, wrap push");
-		rightDock.add(submitVoteButton, "center, wrap");
+								   + "dock east");
 		
-		// Add the sub left and right to right panel
-		rightPanel.setLayout(new MigLayout("insets 5 5 5 5, fill"));
-		rightPanel.add(requirementInfoPanel, "dock center");
-		rightPanel.add(rightDock, "dock east");
+		//rightDock.add(submitVoteButton, "center, wrap");
 	}
 
 	public void setNumVotesLabel(int n) {
