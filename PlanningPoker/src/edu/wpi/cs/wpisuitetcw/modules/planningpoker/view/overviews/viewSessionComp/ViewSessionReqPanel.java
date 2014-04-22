@@ -61,7 +61,7 @@ public class ViewSessionReqPanel extends JPanel {
 	private final JButton moveRequirementToSession;
 	private final JButton moveAllRequirementsToSession;
 	private final JButton addRequirementToSession;
-	private final JButton updateDescription;
+	private final JButton saveRequirement;
 	private final JTable allReqTable;
 	private final JTable sessionReqTable;
 	private final PlanningPokerSession session;
@@ -176,7 +176,7 @@ public class ViewSessionReqPanel extends JPanel {
 		this.moveRequirementToSession = new JButton(" > ");
 		this.moveAllRequirementsToSession = new JButton(" >> ");
 		this.addRequirementToSession = new JButton("Add Requirement to Session");
-		this.updateDescription = new JButton("Update Description");
+		this.saveRequirement = new JButton("Save Requirement");
 
 		// setup panels
 		Panel namePanel = new Panel();
@@ -269,7 +269,7 @@ public class ViewSessionReqPanel extends JPanel {
 		this.moveAllRequirementsToAll
 				.addActionListener(new MoveAllRequirementsToAllController(
 						this.session, this));
-		this.updateDescription
+		this.saveRequirement
 				.addActionListener(new EditRequirementDescriptionController(
 						this.session, this));
 
@@ -277,13 +277,25 @@ public class ViewSessionReqPanel extends JPanel {
 		// requirement in the all session table
 		allReqTable.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {				
-				PlanningPokerRequirement selectedReq;
-				ArrayList<String> requirementNames = getLeftSelectedRequirements();
-				selectedReq = session.getReqByName(requirementNames.get(0));
+			public void mouseClicked(MouseEvent e) {
 
-				reqName = selectedReq.getName();
-				reqDescription = selectedReq.getDescription();
+				JTable table = (JTable) e.getSource();
+				int row = table.getSelectedRow();
+				int col = table.getSelectedColumn();
+
+				for (int i = 0; i < 2; i = i + 1) {
+					if (i == 0) {
+						reqName = allReqTable.getModel().getValueAt(row, col)
+								.toString();
+					}
+					if (i == 1) {
+						reqDescription = allReqTable.getModel().getValueAt(row, col)
+								.toString();
+					}
+
+					col++;
+
+				}
 
 				setReqInfo(reqName, reqDescription);
 			}
@@ -294,12 +306,24 @@ public class ViewSessionReqPanel extends JPanel {
 		sessionReqTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				PlanningPokerRequirement selectedReq;
-				ArrayList<String> requirementNames = getRightSelectedRequirements();
-				selectedReq = session.getReqByName(requirementNames.get(0));
 
-				reqName = selectedReq.getName();
-				reqDescription = selectedReq.getDescription();
+				JTable table = (JTable) e.getSource();
+				int row = table.getSelectedRow();
+				int col = table.getSelectedColumn();
+
+				for (int i = 0; i < 2; i = i + 1) {
+					if (i == 0) {
+						reqName = sessionReqTable.getModel().getValueAt(row, col)
+								.toString();
+					}
+					if (i == 1) {
+						reqDescription = sessionReqTable.getModel().getValueAt(row, col)
+								.toString();
+					}
+
+					col++;
+
+				}
 
 				setReqInfo(reqName, reqDescription);
 			}
@@ -344,7 +368,7 @@ public class ViewSessionReqPanel extends JPanel {
 		c.anchor = GridBagConstraints.CENTER;
 		c.gridx = 1;
 		c.gridy = 1;
-		this.add(updateDescription, c);
+		this.add(saveRequirement, c);
 
 		// constraints for addRequirementToSessoin button
 		c.anchor = GridBagConstraints.WEST;
@@ -404,7 +428,7 @@ public class ViewSessionReqPanel extends JPanel {
 	}
 
 	public JButton getUpdateDescription() {
-		return updateDescription;
+		return saveRequirement;
 	}
 
 	public JTable getAllReqTable() {
