@@ -117,6 +117,7 @@ public class Card extends JPanel {
 		// card initial status
 		isValueValid = true;
 		isMouseovered = false;
+		isSelected = false;
 
 		// setup the card panel
 		this.setLayout(new MigLayout());
@@ -274,19 +275,26 @@ public class Card extends JPanel {
 		closeButton.setVisible(this.isMouseovered);
 
 		// change the border of the card
-		if (this.isMouseovered) {
-			if (this.isValueValid) {
-				this.setCardHighlighted();
-			} else {
-				this.setCardInvalid();
-			}
+		if (isSelected) {
+			// card is selected
+			setCardSelected();
 		} else {
-			if (this.isValueValid) {
-				this.setCardValid();
+			// card is not selected
+			if (this.isMouseovered) {
+				if (this.isValueValid) {
+					this.setCardHighlighted();
+				} else {
+					this.setCardInvalid();
+				}
 			} else {
-				this.setCardInvalid();
+				if (this.isValueValid) {
+					this.setCardValid();
+				} else {
+					this.setCardInvalid();
+				}
 			}
 		}
+
 	}
 
 	/**
