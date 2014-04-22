@@ -233,7 +233,7 @@ public class SessionInProgressPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// Check to see if user double clicked
-				if (e.getClickCount() == 2) {
+				if (e.getClickCount() == 1) {
 					String reqname = (String) reqList.getModel().getElementAt(
 							reqList.getSelectedIndex());
 					PlanningPokerRequirement requirement = session
