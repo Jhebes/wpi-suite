@@ -26,25 +26,24 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class GetAllSessionsController {
 
 	private static GetAllSessionsController instance;
-	
+
 	/**
-	 * Instantiates a new controller tied to the specified view.
-	 * Private because this is a singleton.
+	 * Instantiates a new controller tied to the specified view. Private because
+	 * this is a singleton.
 	 */
 	private GetAllSessionsController() {
 	}
-	
+
 	public static GetAllSessionsController getInstance() {
 		if (instance == null) {
 			instance = new GetAllSessionsController();
 		}
 		return instance;
 	}
-	
 
 	public void receivedSessions(List<PlanningPokerSession> sessions) {
-		ViewEventManager.getInstance().getOverviewTreePanel().refresh();
 		SessionStash.getInstance().mergeFromServer(sessions);
+		ViewEventManager.getInstance().getOverviewTreePanel().refresh();
 	}
 
 	/**
@@ -64,6 +63,5 @@ public class GetAllSessionsController {
 		request.addObserver(new GetAllSessionsRequestObserver(this));
 		request.send(); // send the request
 	}
-	
-	
+
 }
