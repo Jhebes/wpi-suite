@@ -566,7 +566,7 @@ public class PlanningPokerSession extends AbstractModel {
 				"planningpoker/session", HttpMethod.POST);
 		request.setBody(this.toJSON());
 		request.send();
-		
+
 		// refresh the tree
 		ViewEventManager.getInstance().getOverviewTreePanel().refresh();
 	}
