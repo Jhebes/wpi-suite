@@ -44,37 +44,42 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 public class SessionInProgressPanel extends JSplitPane {
 
+	// session
 	private final PlanningPokerSession session;
 	private final JTextField ownerName;
-	private final JTextField name;
+	private final JTextField sessionName;
 	private final JTextField description;
 	private JTextField deadline;
+
+	// requirement
 	private PlanningPokerRequirement[] reqsList;
-	private String selectedReqName;
-	private RequirementTableManager reqsViewTableManager = new RequirementTableManager();
 	private final JLabel label_1 = new JLabel("");
 	private final JLabel label_2 = new JLabel("");
-	private PlanningPokerRequirement selectedReq;
+
 	private String reqName;
 	private String reqDescription;
+
 	private final JButton endSession;
-	private JSplitPane splitTopBottom;
 	private JButton btnEditSession = new JButton("Edit Session");
 	private final JTextField txtVoteField;
 	private JList VoteList;
 	private final JList reqList;
-	private final JTextField Name = new JTextField();
-	private final JTextField reqDesc = new JTextField();
-	private final JPanel DetailPanel;
+	private final JTextField reqNameDisplay = new JTextField();
+	private final JTextField reqDescDisplay = new JTextField();
+	private final JPanel reqDetailName;
 
-	private final DisplayDeckPanel deckPanel;
+	// private String selectedReqName;
+	// private RequirementTableManager reqsViewTableManager = new
+	// RequirementTableManager();
+	// private PlanningPokerRequirement selectedReq;
+
+	private DisplayDeckPanel deckPanel;
 
 	/**
 	 * Create the panel.
 	 */
 	public SessionInProgressPanel(final PlanningPokerSession session) {
 		this.session = session;
-		this.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 
 		// Set up Session Info Panel
 		final JPanel leftPanel = new JPanel();
@@ -94,13 +99,13 @@ public class SessionInProgressPanel extends JSplitPane {
 		leftPanel.add(lblName);
 
 		// session name adding it to left panel
-		name = new JTextField(session.getName());
-		name.setEditable(false);
-		name.setMaximumSize(new Dimension(500, 10));
-		name.setHorizontalAlignment(JLabel.CENTER);
-		name.setBorder(BorderFactory.createEmptyBorder());
+		sessionName = new JTextField(session.getName());
+		sessionName.setEditable(false);
+		sessionName.setMaximumSize(new Dimension(500, 10));
+		sessionName.setHorizontalAlignment(JLabel.CENTER);
+		sessionName.setBorder(BorderFactory.createEmptyBorder());
 		// TODO: figure out what to do with runover
-		leftPanel.add(name);
+		leftPanel.add(sessionName);
 
 		// Padding
 		leftPanel.add(Box.createVerticalStrut(10));
@@ -176,16 +181,16 @@ public class SessionInProgressPanel extends JSplitPane {
 					PlanningPokerRequirement requirement = session
 							.getReqByName(reqname);
 					if (requirement.getName() == null) {
-						Name.setText(" ");
+						reqNameDisplay.setText(" ");
 					} else {
-						Name.setText(requirement.getName());
+						reqNameDisplay.setText(requirement.getName());
 					}
 					if (requirement.getDescription() == null) {
-						reqDesc.setText(" ");
+						reqDescDisplay.setText(" ");
 					} else {
-						reqDesc.setText(requirement.getDescription());
+						reqDescDisplay.setText(requirement.getDescription());
 					}
-					DetailPanel.updateUI();
+					reqDetailName.updateUI();
 				}
 			}
 		});
@@ -293,37 +298,43 @@ public class SessionInProgressPanel extends JSplitPane {
 
 		rightPanel.setLayout(new BorderLayout(0, 0));
 
-		DetailPanel = new JPanel();
-		rightPanel.add(DetailPanel, BorderLayout.CENTER);
-		DetailPanel.setLayout(new BoxLayout(DetailPanel, BoxLayout.Y_AXIS));
+		reqDetailName = new JPanel();
+		rightPanel.add(reqDetailName, BorderLayout.CENTER);
+		reqDetailName.setLayout(new BoxLayout(reqDetailName, BoxLayout.Y_AXIS));
 
 		Component verticalStrut = Box.createVerticalStrut(20);
-		DetailPanel.add(verticalStrut);
+		reqDetailName.add(verticalStrut);
 
 		JLabel lblName_1 = new JLabel("Name:");
-		DetailPanel.add(lblName_1);
-		DetailPanel.add(label_1);
+		reqDetailName.add(lblName_1);
+		reqDetailName.add(label_1);
 
-		Name.setMaximumSize(new Dimension(2000, 20));
-		Name.setEditable(false);
-		DetailPanel.add(Name);
+		reqNameDisplay.setMaximumSize(new Dimension(2000, 20));
+		reqNameDisplay.setEditable(false);
+		reqDetailName.add(reqNameDisplay);
 
-		DetailPanel.add(Box.createVerticalStrut(20));
+		reqDetailName.add(Box.createVerticalStrut(20));
 
 		JLabel lblDescription_1 = new JLabel("Description:");
-		DetailPanel.add(lblDescription_1);
-		DetailPanel.add(label_2);
+		reqDetailName.add(lblDescription_1);
+		reqDetailName.add(label_2);
 
-		DetailPanel.add(Box.createVerticalStrut(10));
+		reqDetailName.add(Box.createVerticalStrut(10));
 
-		reqDesc.setMaximumSize(new Dimension(2000, 40));
-		reqDesc.setEditable(false);
-		DetailPanel.add(reqDesc);
+		reqDescDisplay.setMaximumSize(new Dimension(2000, 40));
+		reqDescDisplay.setEditable(false);
+		reqDetailName.add(reqDescDisplay);
 
 		// deck panel
-		deckPanel = new DisplayDeckPanel(session.getDeck());
-		deckPanel.setLayout(new BoxLayout(deckPanel, BoxLayout.X_AXIS));
-		rightPanel.add(deckPanel, BorderLayout.CENTER);
+		if (isDeckInSession()) {
+			// the session is voted with a deck of cards
+			deckPanel = new DisplayDeckPanel(session.getDeck());
+			deckPanel.setLayout(new BoxLayout(deckPanel, BoxLayout.X_AXIS));
+			rightPanel.add(deckPanel, BorderLayout.CENTER);
+		} else {
+			// session is voted with value entered
+			// rightPanel.add(new JLabel("No deck"));
+		}
 
 		JLabel lblRequirementsDetail = new JLabel("Requirements Detail:");
 		lblRequirementsDetail.setHorizontalAlignment(SwingConstants.CENTER);
@@ -365,13 +376,24 @@ public class SessionInProgressPanel extends JSplitPane {
 		VotingPanel.add(VoteList);
 
 		// setup entire panel
+		this.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		this.setLeftComponent(leftPanel);
 		this.setRightComponent(rightPanel);
 
 	}
 
+	/**
+	 * Return true if the session contains a deck
+	 * 
+	 * @param n
+	 */
+	private boolean isDeckInSession() {
+		return session.getDeck() != null;
+	}
+
+	
 	public void setNumVotesLabel(int n) {
-		this.txtVoteField.setText(Integer.toString(n));
+		txtVoteField.setText(Integer.toString(n));
 	}
 
 	private void closeTab() {
