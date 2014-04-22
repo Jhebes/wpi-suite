@@ -53,7 +53,7 @@ public class OverviewPanel extends JSplitPane {
 		this.setLeftComponent(treePanel);
 
 		// Set divider location between right and left panel
-		this.setDividerLocation(180);
+		this.setDividerLocation(220);
 		ViewEventManager.getInstance().setOverviewPanel(this);
 	}
 

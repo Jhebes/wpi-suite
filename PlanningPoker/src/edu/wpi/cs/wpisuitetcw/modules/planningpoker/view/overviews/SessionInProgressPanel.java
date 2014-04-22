@@ -191,10 +191,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		// End session button
 		String currentUserName = ConfigManager.getConfig().getUserName();
 		endSession = new JButton("End Session");
-		// endSession.setBackground(new Color(255, 255, 255));
-		// endSession.setForeground(new Color(255, 255, 255));
-		// endSession.setContentAreaFilled(false);
-		// endSession.setOpaque(true);
+		endSession.setAlignmentY(CENTER_ALIGNMENT);
 		endSession.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
