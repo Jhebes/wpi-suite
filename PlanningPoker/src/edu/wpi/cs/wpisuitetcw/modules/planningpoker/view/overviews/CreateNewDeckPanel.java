@@ -436,4 +436,18 @@ public class CreateNewDeckPanel extends JPanel {
 		centerTopPanel.add(btnAddCard, "center");
 		
 	}
+	
+	/**
+	 * Return the number of cards that can be selected
+	 * @return Return the number of cards that can be selected
+	 */
+	public int getMaxSelectionCards() {
+		if (deckOption.getSelectedItem().equals(SINGLE_SELECT)) {
+			return 1;
+		} else if (deckOption.getSelectedItem().equals(MULTIPLE_SELECT)) { 
+			return cards.values().size();
+		} else {
+			return 0;
+		}
+	}
 }

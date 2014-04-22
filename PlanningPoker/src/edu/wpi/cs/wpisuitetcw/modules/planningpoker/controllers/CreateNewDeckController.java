@@ -10,8 +10,6 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -41,8 +39,8 @@ public class CreateNewDeckController {
 			// all inputs are good
 			String deckName = this.view.getTextboxName().getText();
 			ArrayList<Integer> cardValues = this.view.getAllCardsValue();
-
-			PlanningPokerDeck deck = new PlanningPokerDeck(deckName, cardValues);
+			int maxSelection = view.getMaxSelectionCards();
+			PlanningPokerDeck deck = new PlanningPokerDeck(deckName, cardValues, maxSelection);
 
 			// send a request
 			final Request request = Network.getInstance().makeRequest(
