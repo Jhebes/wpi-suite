@@ -162,6 +162,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		reqList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		reqList.setAlignmentX(CENTER_ALIGNMENT);
 		reqList.setPreferredSize(new Dimension(100, 500));
+		reqList.setMinimumSize(new Dimension(100, 100));
 		LeftPanel.add(reqList);
 
 		// End session button
@@ -283,7 +284,11 @@ public class SessionInProgressPanel extends JSplitPane {
 		VotingPanel.add(horizontalStrut);
 
 		txtVoteField = new JTextField();
-		txtVoteField.setEditable(false);
+		
+		if (session.getDeck() != null){
+			txtVoteField.setEnabled(false);
+		}
+		
 		VotingPanel.add(txtVoteField);
 		txtVoteField.setColumns(3);
 
@@ -291,6 +296,11 @@ public class SessionInProgressPanel extends JSplitPane {
 		VotingPanel.add(horizontalStrut_1);
 
 		JList VoteList = new JList();
+		VoteList.setBackground(Color.WHITE);
+		VoteList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		VoteList.setAlignmentX(CENTER_ALIGNMENT);
+		VoteList.setPreferredSize(new Dimension(50, 10));
+		VoteList.setMinimumSize(new Dimension(50, 10));
 		VotingPanel.add(VoteList);
 	}
 
