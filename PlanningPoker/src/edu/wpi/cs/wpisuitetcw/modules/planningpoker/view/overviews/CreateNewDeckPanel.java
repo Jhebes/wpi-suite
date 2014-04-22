@@ -316,32 +316,32 @@ public class CreateNewDeckPanel extends JPanel {
 	 * @return true if so; false otherwise
 	 */
 	public boolean isDeckNameEntered() {
-		if (this.textboxName.getText().equals("")) {
+		if (textboxName.getText().equals("")) {
 			// nothing is entered
 			System.out.println("Name not entered");
-			this.labelNameErr.setVisible(true);
+			labelNameErr.setVisible(true);
 			return false;
 		} else {
 			System.out.println("Name entered");
-			this.labelNameErr.setVisible(false);
+			labelNameErr.setVisible(false);
 			return true;
 		}
 	}
 
 	/**
-	 * TODO display the default fibonacci deck
+	 * display the default fibonacci deck
 	 */
 	public void displayDefaultDeck() {
 		// clear the panel
 		removeAllCard();
 		// display default deck
-		int[] defaultDeck = { 0, 1, 1, 2, 3, 5, 8, 13 };
+		final int[] defaultDeck = { 0, 1, 1, 2, 3, 5, 8, 13 };
 		for (int i = 0; i < defaultDeck.length; i++) {
-			Card aCard = new Card(this.mode, defaultDeck[i]);
+			Card aCard = new Card(mode, defaultDeck[i]);
 			int key = aCard.hashCode();
 			cards.put(key, aCard);
 			this.addRemoveCardListener(aCard, this);
-			this.cardPanel.add(aCard);
+			cardPanel.add(aCard);
 			validateNumCards();
 			this.updateNumCard();
 		}
@@ -358,18 +358,19 @@ public class CreateNewDeckPanel extends JPanel {
 		removeAllCard();
 		// display default deck
 		
-		PlanningPokerDeck deck = GetAllDecksController.getInstance().getDeckByName(deckName);
+		final PlanningPokerDeck deck = GetAllDecksController.getInstance().getDeckByName(deckName);
 		
-		ArrayList<Integer> deckValues = deck.getDeck();
+		final ArrayList<Integer> deckValues = deck.getDeck();
 		for (int value : deckValues) {
-			Card aCard = new Card(this.mode, value);
+			Card aCard = new Card(mode, value);
 			int key = aCard.hashCode();
 			cards.put(key, aCard);
 			this.addRemoveCardListener(aCard, this);
-			this.cardPanel.add(aCard);
+			cardPanel.add(aCard);
 			validateNumCards();
 			this.updateNumCard();
 		}
+		
 		this.updateUI();
 	}
 	
