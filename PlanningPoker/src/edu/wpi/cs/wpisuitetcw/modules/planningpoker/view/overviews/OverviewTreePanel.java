@@ -26,6 +26,7 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.CustomTreeCellRenderer;
 
@@ -37,10 +38,11 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTree tree;
+	private boolean initialized = false;
+	private ArrayList<PlanningPokerSession> sessions = null;
 
 	public OverviewTreePanel() {
 		this.setViewportView(tree);
-		ViewEventManager.getInstance().setOverviewTree(this);
 		this.refresh();
 	}
 
@@ -48,36 +50,52 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		DefaultMutableTreeNode top = new DefaultMutableTreeNode("All Sessions");
 		// DefaultMutableTreeNode draftSessionNode = new
 		// DefaultMutableTreeNode("Draft Sessions");
+		DefaultMutableTreeNode newSessionNode = new DefaultMutableTreeNode(
+				"New Sessions");
 		DefaultMutableTreeNode openSessionNode = new DefaultMutableTreeNode(
 				"Open Sessions");
 		DefaultMutableTreeNode closedSessionNode = new DefaultMutableTreeNode(
 				"Closed Sessions");
 
 		try {
-			List<PlanningPokerSession> allSessions = SessionTableModel
-					.getInstance().getSessions();
-			PlanningPokerSession[] openSessions = sortForOpenSessions(allSessions);
-			PlanningPokerSession[] closedSessions = sortForClosedSessions(allSessions);
-			// PlanningPokerSession[] draftSessions =
-			// sortForDraftSessions(allSessions);
+			// get a list of sessions
+			this.sessions = SessionStash.getInstance().getSessions();
 
-			// add open sessions to the node
-			for (PlanningPokerSession s : openSessions) {
-				DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(s);
-				openSessionNode.add(newNode);
-			}
+			if (this.sessions != null) {
+				PlanningPokerSession[] newSessions = sortForNewSessions(this.sessions);
+				PlanningPokerSession[] openSessions = sortForOpenSessions(this.sessions);
+				PlanningPokerSession[] closedSessions = sortForClosedSessions(this.sessions);
 
-			// add closed sessions to the node
-			for (PlanningPokerSession s : closedSessions) {
-				DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(s);
-				closedSessionNode.add(newNode);
+				// add new sessions to the node
+				for (PlanningPokerSession s : newSessions) {
+					DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(
+							s);
+					newSessionNode.add(newNode);
+				}
+
+				// add open sessions to the node
+				for (PlanningPokerSession s : openSessions) {
+					DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(
+							s);
+					openSessionNode.add(newNode);
+				}
+
+				// add closed sessions to the node
+				for (PlanningPokerSession s : closedSessions) {
+					DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(
+							s);
+					closedSessionNode.add(newNode);
+				}
+				System.out.println("not a problem");
 			}
 
 		} catch (NullPointerException e) {
+			System.out.println("network error erroe");
 			Logger.getLogger("PlanningPoker").log(Level.FINE,
 					"Network configuration error", e);
 		}
 
+		top.add(newSessionNode);
 		top.add(openSessionNode);
 		top.add(closedSessionNode);
 
@@ -91,16 +109,30 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		tree.addMouseListener(this); // add a listener to check for clicking
 		tree.addTreeSelectionListener(this);
 
-		// tree.setDragEnabled(true);
-		// tree.setDropMode(DropMode.ON);
-
 		this.setViewportView(tree);
 
-		// update the ViewEventControler so it contains the right tree
+		// update the ViewEventController so it contains the right tree
 		ViewEventManager.getInstance().setOverviewTree(this);
+	}
 
-		System.out.println("finished refreshing the tree");
-
+	/**
+	 * sort for open sessions from a given array of sessions
+	 * 
+	 * @param allSessions
+	 * @return open sessions
+	 */
+	private PlanningPokerSession[] sortForNewSessions(
+			List<PlanningPokerSession> allSessions) {
+		ArrayList<PlanningPokerSession> tempNewSessions = new ArrayList<PlanningPokerSession>();
+		for (PlanningPokerSession pps : allSessions) {
+			if (pps.isNew()) {
+				tempNewSessions.add(pps);
+			}
+		}
+		PlanningPokerSession[] newSessions = new PlanningPokerSession[tempNewSessions
+				.size()];
+		newSessions = tempNewSessions.toArray(newSessions);
+		return newSessions;
 	}
 
 	/**
@@ -112,9 +144,9 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	private PlanningPokerSession[] sortForOpenSessions(
 			List<PlanningPokerSession> allSessions) {
 		ArrayList<PlanningPokerSession> tempOpenSessions = new ArrayList<PlanningPokerSession>();
-		for (int i = 0; i < allSessions.size(); i++) {
-			if (allSessions.get(i).isOpen()) {
-				tempOpenSessions.add(allSessions.get(i));
+		for (PlanningPokerSession pps : allSessions) {
+			if (pps.isOpen()) {
+				tempOpenSessions.add(pps);
 			}
 		}
 		PlanningPokerSession[] openSessions = new PlanningPokerSession[tempOpenSessions
@@ -131,15 +163,15 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 */
 	private PlanningPokerSession[] sortForClosedSessions(
 			List<PlanningPokerSession> allSessions) {
-		ArrayList<PlanningPokerSession> tempOpenSessions = new ArrayList<PlanningPokerSession>();
-		for (int i = 0; i < allSessions.size(); i++) {
-			if (allSessions.get(i).isClosed()) {
-				tempOpenSessions.add(allSessions.get(i));
+		ArrayList<PlanningPokerSession> tempClosedSessions = new ArrayList<PlanningPokerSession>();
+		for (PlanningPokerSession pps : allSessions) {
+			if (pps.isClosed()) {
+				tempClosedSessions.add(pps);
 			}
 		}
-		PlanningPokerSession[] closedSessions = new PlanningPokerSession[tempOpenSessions
+		PlanningPokerSession[] closedSessions = new PlanningPokerSession[tempClosedSessions
 				.size()];
-		closedSessions = tempOpenSessions.toArray(closedSessions);
+		closedSessions = tempClosedSessions.toArray(closedSessions);
 		return closedSessions;
 	}
 
@@ -148,8 +180,6 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 */
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -157,40 +187,41 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (ViewEventManager.getInstance().isWelcomePageOnDisplay()) {
-			ViewEventManager.getInstance().showSessionTable();
+
+		// we no longer want to show the session table. we only want to show the
+		// tree and to keep the welcome page up when interacting with the tree
+		if (!initialized) {
+			// retrieve sessions and initialize the tree
+			SessionStash.getInstance().synchronize();
+
+			if (this.sessions.size() != 0) {
+				initialized = true;
+			}
+
+			System.out.println("There are " + this.sessions.size());
+			System.out.println(this.sessions);
+
+			this.refresh();
 		}
 
+		// mouse position
 		int x = e.getX();
 		int y = e.getY();
 
-		if (e.getClickCount() == 1) {
-			SessionTableModel.getInstance().update();
+		if (e.getClickCount() == 2) {
 			TreePath path = tree.getPathForLocation(x, y);
 			if (path != null) {
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
 						.getLastSelectedPathComponent();
 				if (node != null) {
-					if (node.toString().equals("All Sessions")) {
-						System.out.println("all sessions refreshing");
-						SessionTableModel.getInstance().setMode(SessionTableModel.Mode.ALL);
-						refresh();
-					} else if (node.toString().equals("Open Sessions")) {
-						System.out.println("open sessions refreshing");
-						SessionTableModel.getInstance().setMode(SessionTableModel.Mode.OPEN);
-						refresh();
-					} else if (node.toString().equals("Closed Sessions")) {
-						System.out.println("closed sessions refreshing");
-						SessionTableModel.getInstance().setMode(SessionTableModel.Mode.CLOSED);
-						refresh();
-					} else if (node.getUserObject() instanceof PlanningPokerSession) {
+					// open a session
+					if (node.getUserObject() instanceof PlanningPokerSession) {
 						ViewEventManager.getInstance().viewSession(
 								(PlanningPokerSession) node.getUserObject());
 					}
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -198,8 +229,6 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -207,8 +236,6 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -216,8 +243,6 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -225,8 +250,6 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

@@ -18,6 +18,9 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendNotificationController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put.PutSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.janeway.config.Configuration;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.UserStash;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -77,6 +80,17 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
+	 * Return true if the session has just been created but not yet open or
+	 * closed.
+	 * 
+	 * @return true if the session has just been created but not yet open or
+	 *         closed.
+	 */
+	public boolean isNew() {
+		return !isClosed() && !isOpen();
+	}
+
+	/**
 	 * Return true if this session has been assigned a completed time,
 	 * indicating that the session has been terminated in some way
 	 * 
@@ -92,7 +106,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @return Return true if the session is open
 	 */
 	public boolean isOpen() {
-		return isActive();
+		return isActive() && !isClosed();
 	}
 
 	/**
@@ -189,10 +203,10 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @param requestingUser A String represents the user
 	 */
 	public void addVoteToRequirement(PlanningPokerRequirement req,
-									 PlanningPokerVote v, 
-									 String requestingUser) {
+			PlanningPokerVote v, String requestingUser) {
 		// Remove the corresponding requirement from this session
-		PlanningPokerRequirement r = requirements.get(requirements.indexOf(req));
+		PlanningPokerRequirement r = requirements
+				.get(requirements.indexOf(req));
 		requirements.remove(r);
 		
 		// Add the vote of the user to the requirement
@@ -204,7 +218,7 @@ public class PlanningPokerSession extends AbstractModel {
 				return;
 			}
 		}
-		
+
 		r.addVote(v);
 		requirements.add(r);
 		this.isVotingComplete();
@@ -341,7 +355,8 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Assign a String to the session's name
-	 * @param name The new session name
+	 * @param name
+	 *            The new session name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -349,7 +364,8 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Return the name of this session
-	 * @return Return the name of this session
+	 * 
+	 * @return Name of this session
 	 */
 	public String getName() {
 		return this.name;
@@ -357,7 +373,8 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Return the users in this session
-	 * @return Return the users in this session
+	 * 
+	 * @return users in this session
 	 */
 	public ArrayList<User> getUsers() {
 		return this.users;
@@ -373,40 +390,35 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * Return the user name of this session's owner
 	 * @return the user name of the Owner of this session
 	 */
+
 	public String getOwnerUserName() {
 		return this.ownerUserName;
 	}
 
 	/**
-	 * Assign the given ID to the session's
-	 * @param The id to set
+	 * @param The
+	 *            id to set
 	 */
 	public void setID(int id) {
 		this.id = id;
 	}
 
 	/**
-	 * Return the Session ID
-	 * @return Return the Session ID
+	 * @return The Session ID
 	 */
 	public int getID() {
 		return this.id;
 	}
 
-	/**
-	 * Return the number of vote of the given PlanningPokerRequirement
-	 * @param req A PlanningPokerRequirement whose votes would be returned
-	 * @return Return the number of vote of the given PlanningPokerRequirement
-	 */
 	public int getNumVotes(PlanningPokerRequirement req) {
 		return req.getVotes().size();
 	}
 
 	/**
 	 * Returns the deck
+	 * 
 	 * @return deck the deck for this session
 	 */
 	public PlanningPokerDeck getDeck() {
@@ -415,6 +427,7 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Sets the deck!
+	 * 
 	 * @param deck
 	 *            the inputed deck
 	 */
@@ -468,42 +481,22 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * Checks to see if all users have voted on every requirement
 	 * 
 	 * @return voting complete boolean
 	 */
+
 	public boolean isVotingComplete() {
-		boolean done = true;
-		ArrayList<String> outliers = new ArrayList<String>();
+		return this.votingComplete;
+	}
 
-		// Iterate across all requirements
-		for (PlanningPokerRequirement r : this.requirements) {
-			ArrayList<User> users = UserStash.getInstance().getUsers();
-		
-			// Make sure the votes belong to the right people
-			for (User u : users) {
-				boolean userVoted = r.hasUserVoted(u.getUsername());
-				if (!userVoted) {
+	/**
+	 * 
+	 * @param votingComplete
+	 *            If all the users in the session have voted
+	 */
 
-					outliers.add(String.format("%15s\t=>%s\n", u.getUsername(),
-							r.getName()));
-				}
-				done = done && userVoted;
-			}
-		}
-		
-//		Basic printout to see who hasn't voted on what
-//		if (done) {
-//			System.out.println("The session has been voted on by everyone; closing");
-//			this.close();
-//		} else {
-//			System.out.println("Still need:");
-//			for (String s : outliers) {
-//				System.out.println(s);
-//			}
-//		}
-
-		return done;
+	public void setVotingComplete(boolean votingComplete) {
+		this.votingComplete = votingComplete;
 	}
 
 	/**
@@ -543,38 +536,29 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * Return the end time of the session
-	 * @return Return the end time of the session
+	 * @return The end time
 	 */
 	public Date getEndTime() {
 		return this.endTime;
 	}
 
-	/**
-	 * {@inheritDoc}}
+	/*
+	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return this.name;
 	}
 
-	/**
-	 * This class does not provide implementation for this method
-	 * {@inheritDoc}
-	 */
 	@Override
-	public void delete() {}
+	public void delete() {
+	}
 
-	/**
-	 * This class does not provide implementation for this method
-	 * {@inheritDoc}
-	 */
 	@Override
-	public Boolean identify(Object o) {return null;}
+	public Boolean identify(Object o) {
+		return null;
+	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void save() {
 		SessionStash.getInstance().update(this);
@@ -582,12 +566,11 @@ public class PlanningPokerSession extends AbstractModel {
 				"planningpoker/session", HttpMethod.POST);
 		request.setBody(this.toJSON());
 		request.send();
+
+		// refresh the tree
+		ViewEventManager.getInstance().getOverviewTreePanel().refresh();
 	}
 
-	/**
-	 * // TODO: A person who implemented this method must write
-	 * comments for this method 
-	 */
 	public void create() {
 		new PutSessionController(this);
 	}
@@ -608,10 +591,6 @@ public class PlanningPokerSession extends AbstractModel {
 		this.requirements = updatedSession.requirements;
 	}
 
-	/**
-	 * Return the start time of the session
-	 * @return Return the start time of the session
-	 */
 	public Object getStartTime() {
 		return startTime;
 	}

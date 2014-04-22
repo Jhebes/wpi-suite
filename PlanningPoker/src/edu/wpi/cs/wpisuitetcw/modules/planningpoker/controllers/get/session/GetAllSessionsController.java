@@ -14,6 +14,7 @@ import java.util.List;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -26,12 +27,13 @@ public class GetAllSessionsController {
 
 	/** An instance of this controller */
 	private static GetAllSessionsController instance;
-	
-	private GetAllSessionsController() {}
-	
+
 	/**
-	 * Instantiates a new controller.
+	 * Instantiates a new controller tied to the specified view.
+	 * Private because this is a singleton.
 	 */
+	private GetAllSessionsController() {}
+
 	public static GetAllSessionsController getInstance() {
 		if (instance == null) {
 			instance = new GetAllSessionsController();
@@ -46,6 +48,7 @@ public class GetAllSessionsController {
 	 */
 	public void receivedSessions(List<PlanningPokerSession> sessions) {
 		SessionStash.getInstance().mergeFromServer(sessions);
+		ViewEventManager.getInstance().getOverviewTreePanel().refresh();
 	}
 
 	/**
@@ -58,6 +61,5 @@ public class GetAllSessionsController {
 		request.addObserver(new GetAllSessionsRequestObserver(this));
 		request.send(); // send the request
 	}
-	
-	
+
 }

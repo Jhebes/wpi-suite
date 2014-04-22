@@ -12,7 +12,6 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -29,7 +28,6 @@ public class OverviewPanel extends JSplitPane {
 	private final OverviewTreePanel treePanel;
 	// this will be the panel of a welcome page
 	private final DefaultHomePanel welcomePanel;
-	private final JScrollPane sessionPanelJsp;
 
 	public OverviewPanel() {
 		// Create the right side of the panel
@@ -38,17 +36,11 @@ public class OverviewPanel extends JSplitPane {
 		// Create the left side
 		treePanel = new OverviewTreePanel();
 
-		// TODO add the real welcome panel
+		// welcome page
 		welcomePanel = new DefaultHomePanel();
-
-		JTable table = new OverviewTable(
-				SessionTableModel.getInstance());
 
 		// Set layout for right panel;
 		rightPanel.setLayout(new BorderLayout());
-
-		// Add table inside a JScrollPane to rightPanel
-		sessionPanelJsp = new JScrollPane(table);
 
 		// Add the JSP to the rightPanel
 		rightPanel.add(welcomePanel);
@@ -72,7 +64,6 @@ public class OverviewPanel extends JSplitPane {
 		SessionStash.getInstance().synchronize();
 		UserStash.getInstance().synchronize();
 		this.rightPanel.remove(welcomePanel);
-		this.rightPanel.add(sessionPanelJsp);
 		updateUI();
 	}
 

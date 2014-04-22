@@ -18,7 +18,6 @@ import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
-import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 
 /**
  * A singleton controller that gets all the decks or their names
@@ -31,10 +30,12 @@ public class GetAllDecksController {
 	/** An instance of this controller */
 	private static GetAllDecksController instance;
 
-	private GetAllDecksController() {}
+	private GetAllDecksController() {
+	}
 
 	/**
-	 * Instantiates a new controller tied to the specified view. 
+	 * Instantiates a new controller tied to the specified view. Private because
+	 * this is a singleton.
 	 */
 	public static GetAllDecksController getInstance() {
 		if (instance == null) {
@@ -59,7 +60,7 @@ public class GetAllDecksController {
 	 * dropdown of the CreateNewSessionPanel
 	 * @return Returns an array list of all the names 
 	 * of the available decks in the database
-	 * @throws InterruptedException 
+	 * @throws InterruptedException
 	 */
 	public ArrayList<String> getAllDeckNames() {
 		this.refreshDecks(); // set up the deck
@@ -67,22 +68,23 @@ public class GetAllDecksController {
 		
 		// delay the this process since the request fired in refreshDecks() might not be completed
 		try {
-			Thread.sleep(250); 
-		} catch (InterruptedException e) {}
+			Thread.sleep(250);
+		} catch (InterruptedException e) {
+		}
 		
 		// Default options
 		deckNames.add("Default");
 		deckNames.add("No deck");
-		
+
 		// make sure the decks is not null
-		if(decks != null) {
+		if (decks != null) {
 			for (PlanningPokerDeck deck : this.decks) {
 				deckNames.add(deck.getDeckName());
 			}
 		}
 		return deckNames;
 	}
-	
+
 	/**
 	 * Send a request to get all the decks back from the database
 	 */
@@ -92,16 +94,17 @@ public class GetAllDecksController {
 		request.addObserver(new GetAllDecksRequestObserver(this));
 		request.send();
 	}
-	
+
 	/**
 	 * Return the deck that has the given name
 	 * @param deckName A String represents the name of a deck
 	 * @return Return the deck that has the given name
 	 * @throws WPISuiteException
 	 */
-	public PlanningPokerDeck getDeckByName(String deckName) throws WPISuiteException{
-		for(PlanningPokerDeck d : decks){
-			if(d.getDeckName() == deckName){
+	public PlanningPokerDeck getDeckByName(String deckName)
+			throws WPISuiteException {
+		for (PlanningPokerDeck d : decks) {
+			if (d.getDeckName() == deckName) {
 				return d;
 			}
 		}
