@@ -10,10 +10,8 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -65,8 +63,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		pnlFinalEstimate = new JPanel();
 		pnlFinalEstimate.setLayout(new BoxLayout(pnlFinalEstimate,
 				BoxLayout.Y_AXIS));
-		pnlFinalEstimate
-				.setBorder(BorderFactory.createLineBorder(Color.black));
+		pnlFinalEstimate.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		// Statistical info of the PP Session
 		pnlStats = new JPanel();
