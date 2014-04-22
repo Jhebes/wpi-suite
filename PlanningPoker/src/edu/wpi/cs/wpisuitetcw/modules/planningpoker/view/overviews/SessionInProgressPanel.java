@@ -41,6 +41,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteCont
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.CompletedSessionEstimatePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
@@ -65,6 +66,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	private JButton btnEditSession = new JButton("Edit Session");
 	private JTextField txtVoteField;
 	private JList VoteList;
+	private CompletedSessionEstimatePanel finalEstimatePnl;
 
 	/**
 	 * Create the panel.
@@ -244,7 +246,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		RightPanel.setLayout(new BorderLayout(0, 0));
 
 		JPanel DetailPanel = new JPanel();
-		RightPanel.add(DetailPanel, BorderLayout.CENTER);
+		RightPanel.add(DetailPanel, BorderLayout.PAGE_START);//Changed from CENTER to Page Star
 		DetailPanel.setLayout(new BoxLayout(DetailPanel, BoxLayout.Y_AXIS));
 
 		Component verticalStrut = Box.createVerticalStrut(20);
@@ -260,6 +262,11 @@ public class SessionInProgressPanel extends JSplitPane {
 		JLabel lblDescription_1 = new JLabel("Description:");
 		DetailPanel.add(lblDescription_1);
 		DetailPanel.add(label_2);
+		
+		// Add in the panel for final estimation
+// TODO: Enable it so that this will only appear in finished sessions.
+		finalEstimatePnl = new CompletedSessionEstimatePanel();
+		RightPanel.add(finalEstimatePnl);
 
 		JPanel DeckPanel = new JPanel();
 		DetailPanel.add(DeckPanel);
