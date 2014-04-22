@@ -14,6 +14,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -30,10 +31,13 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.EditActivatedSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
@@ -269,7 +273,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		DetailPanel = new JPanel();
 		RightPanel.add(DetailPanel, BorderLayout.CENTER);
 		DetailPanel.setLayout(new BoxLayout(DetailPanel, BoxLayout.Y_AXIS));
-		
+
 		Component verticalStrut = Box.createVerticalStrut(20);
 		DetailPanel.add(verticalStrut);
 
@@ -327,7 +331,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	}
 
 	public void setNumVotesLabel(int n) {
-		// this.VoteList.setText(Integer.toString(n));
+		this.txtVoteField.setText(Integer.toString(n));
 	}
 
 	private void closeTab() {
@@ -387,8 +391,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	 * @return vote parsed as an integer
 	 */
 	public int getVote() {
-		// return Integer.parseInt(vote.getText());
-		return 0;
+		return Integer.parseInt(this.txtVoteField.getText());
 	}
 
 	/**

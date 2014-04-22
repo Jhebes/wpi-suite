@@ -18,8 +18,7 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendNotificationController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put.PutSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
-import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-import edu.wpi.cs.wpisuitetng.janeway.config.Configuration;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.UserStash;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -77,8 +76,6 @@ public class PlanningPokerSession extends AbstractModel {
 		requirements = new ArrayList<PlanningPokerRequirement>();
 	}
 
-
-
 	/**
 	 * Return true if this session has been assigned a completed time,
 	 * indicating that the session has been terminated in some way
@@ -99,15 +96,16 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * Activate the session if it meets the following conditions: - It isn't
-	 * active currently - It isn't canceled - It must have at least one
-	 * requirement (Temporarily not included)
+	 * Activate the session if it meets the following conditions: 
+	 * - It isn't active currently 
+	 * - It isn't canceled 
+	 * - It must have at least one requirement (Temporarily not included)
 	 */
 	public void activate() {
 		if (!this.isCancelled && !this.isActive()) {
 			this.startTime = new Date();
 		}
-		
+
 		String command = "sendEmail";
 		// Send email to everyone in a session
 		if (this.getUsers() != null) {
@@ -146,18 +144,18 @@ public class PlanningPokerSession extends AbstractModel {
 					this.getDeadline(), command);
 		}
 	}
-	
+
 	/**
-	 * Deactivates a session by basically undoing what activate would. If it is
-	 * already active, and not cancelled, then it would set the start time to
-	 * null
+	 * Deactivates a session by basically undoing what activate would. 
+	 * If the session is already active, and not cancelled, 
+	 * then it would set the start time to null
 	 */
 	public void deactivate() {
 		if (!this.isCancelled && this.isActive()) {
 			this.startTime = null;
 		}
 	}
-	
+
 	/**
 	 * Closes a session without canceling it.
 	 */
@@ -183,14 +181,25 @@ public class PlanningPokerSession extends AbstractModel {
 		requirements.add(req);
 	}
 
+	/**
+	 * Add a PlanningPokerVote for a PlanningPokerRequirement from an user
+	 * to the PlanningPokerSession
+	 * @param req A PlanningPokerRequirement that is voted
+	 * @param v A PlanningPokerVote of the PlanningPokerRequirement
+	 * @param requestingUser A String represents the user
+	 */
 	public void addVoteToRequirement(PlanningPokerRequirement req,
-			PlanningPokerVote v, String requestingUser) {
+									 PlanningPokerVote v, 
+									 String requestingUser) {
+		// Remove the corresponding requirement from this session
 		PlanningPokerRequirement r = requirements.get(requirements.indexOf(req));
 		requirements.remove(r);
-		for(PlanningPokerVote vote : r.votes){
-			if(vote.getUser().equals(v.getUser())){
+		
+		// Add the vote of the user to the requirement
+		for(PlanningPokerVote vote : r.votes) {
+			if(vote.getUser().equals(v.getUser())) {
 				vote.setCardValue(v.getCardValue());
-				requirements.add(r);
+				requirements.add(r);		// Add the requirement back
 				this.save();
 				return;
 			}
@@ -198,14 +207,20 @@ public class PlanningPokerSession extends AbstractModel {
 		
 		r.addVote(v);
 		requirements.add(r);
+		this.isVotingComplete();
 		this.save();
 	}
 
-	public PlanningPokerRequirement getReqByName(String n) {
-		for (PlanningPokerRequirement r : requirements) {
-			System.out.printf("%s = %s?\n", n, r.getName());
-			if (r.getName().equals(n)) {
-				return r;
+	/**
+	 * Return the PlanningPokerRequirement that has the given name
+	 * @param A String of the requirement that would be returned
+	 * @return Return the PlanningPokerRequirement that has the given name
+	 */
+	public PlanningPokerRequirement getReqByName(String reqName) {
+		for (PlanningPokerRequirement requirement : requirements) {
+			System.out.printf("%s = %s?\n", reqName, requirement.getName());
+			if (requirement.getName().equals(reqName)) {
+				return requirement;
 			}
 		}
 		throw new NullPointerException();
@@ -259,28 +274,6 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public void deleteUsers(ArrayList<User> newUsers) {
 		requirements.removeAll(newUsers);
-	}
-
-	/**
-	 * This function compares the total number of votes to the number of votes
-	 * needed to end the voting.
-	 * 
-	 * *sets the votingComplete flag
-	 * 
-	 * Should be called after every vote is added to a requirement
-	 */
-	public void voteStatus() {
-		int totalVotes = requirements.size() * users.size();
-		int votes = 0;
-
-		for (int i = 0; i < requirements.size(); i++) {
-			votes += requirements.get(i).votes.size();
-		}
-
-		if (votes == totalVotes) {
-			setVotingComplete(true);
-		}
-
 	}
 
 	/**
@@ -347,8 +340,8 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * @param name
-	 *            The new session name
+	 * Assign a String to the session's name
+	 * @param name The new session name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -356,8 +349,7 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Return the name of this session
-	 * 
-	 * @return Name of this session
+	 * @return Return the name of this session
 	 */
 	public String getName() {
 		return this.name;
@@ -365,52 +357,56 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Return the users in this session
-	 * 
-	 * @return users in this session
+	 * @return Return the users in this session
 	 */
 	public ArrayList<User> getUsers() {
 		return this.users;
 	}
 
 	/**
-	 * 
-	 * @param userName
-	 * 
+	 * Assign an user name to the name of the session's owner
+	 * @param userName A string that would be assigned to
+	 * the session's username
 	 */
 	public void setOwnerUserName(String userName) {
 		this.ownerUserName = userName;
 	}
 
 	/**
+	 * Return the user name of this session's owner
 	 * @return the user name of the Owner of this session
 	 */
-
 	public String getOwnerUserName() {
 		return this.ownerUserName;
 	}
 
 	/**
-	 * @param The
-	 *            id to set
+	 * Assign the given ID to the session's
+	 * @param The id to set
 	 */
 	public void setID(int id) {
 		this.id = id;
 	}
 
 	/**
-	 * @return The Session ID
+	 * Return the Session ID
+	 * @return Return the Session ID
 	 */
 	public int getID() {
 		return this.id;
 	}
 
+	/**
+	 * Return the number of vote of the given PlanningPokerRequirement
+	 * @param req A PlanningPokerRequirement whose votes would be returned
+	 * @return Return the number of vote of the given PlanningPokerRequirement
+	 */
 	public int getNumVotes(PlanningPokerRequirement req) {
 		return req.getVotes().size();
 	}
 
 	/**
 	 * Returns the deck
-	 * 
 	 * @return deck the deck for this session
 	 */
 	public PlanningPokerDeck getDeck() {
@@ -419,7 +415,6 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Sets the deck!
-	 * 
 	 * @param deck
 	 *            the inputed deck
 	 */
@@ -473,24 +468,44 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
+	 * Checks to see if all users have voted on every requirement
 	 * 
 	 * @return voting complete boolean
 	 */
-
 	public boolean isVotingComplete() {
-		return this.votingComplete;
+		boolean done = true;
+		ArrayList<String> outliers = new ArrayList<String>();
+
+		// Iterate across all requirements
+		for (PlanningPokerRequirement r : this.requirements) {
+			ArrayList<User> users = UserStash.getInstance().getUsers();
+		
+			// Make sure the votes belong to the right people
+			for (User u : users) {
+				boolean userVoted = r.hasUserVoted(u.getUsername());
+				if (!userVoted) {
+
+					outliers.add(String.format("%15s\t=>%s\n", u.getUsername(),
+							r.getName()));
+				}
+				done = done && userVoted;
+			}
+		}
+		
+//		Basic printout to see who hasn't voted on what
+//		if (done) {
+//			System.out.println("The session has been voted on by everyone; closing");
+//			this.close();
+//		} else {
+//			System.out.println("Still need:");
+//			for (String s : outliers) {
+//				System.out.println(s);
+//			}
+//		}
+
+		return done;
 	}
 
-	/**
-	 * 
-	 * @param votingComplete
-	 *            If all the users in the session have voted
-	 */
-
-	public void setVotingComplete(boolean votingComplete) {
-		this.votingComplete = votingComplete;
-	}
-	
 	/**
 	 * 
 	 * @return has voted boolean it is true if one user has voted
@@ -526,31 +541,40 @@ public class PlanningPokerSession extends AbstractModel {
 			return "New";
 		}
 	}
-	
+
 	/**
-	 * @return The end time
+	 * Return the end time of the session
+	 * @return Return the end time of the session
 	 */
 	public Date getEndTime() {
 		return this.endTime;
 	}
 
-	/*
-	 * @see java.lang.Object#toString()
+	/**
+	 * {@inheritDoc}}
 	 */
 	@Override
 	public String toString() {
 		return this.name;
 	}
 
+	/**
+	 * This class does not provide implementation for this method
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void delete() {
-	}
+	public void delete() {}
 
+	/**
+	 * This class does not provide implementation for this method
+	 * {@inheritDoc}
+	 */
 	@Override
-	public Boolean identify(Object o) {
-		return null;
-	}
+	public Boolean identify(Object o) {return null;}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void save() {
 		SessionStash.getInstance().update(this);
@@ -560,10 +584,20 @@ public class PlanningPokerSession extends AbstractModel {
 		request.send();
 	}
 
+	/**
+	 * // TODO: A person who implemented this method must write
+	 * comments for this method 
+	 */
 	public void create() {
 		new PutSessionController(this);
 	}
-	
+		
+	/**
+	 * Copy the data from the given PlanningPokerSession to
+	 * the calling PlanningPokerSession object
+	 * @param updatedRequirement A PlanningPokerSession whose
+	 * data would be copied to the calling PlanningPokerSession object
+	 */
 	public void copyFrom(PlanningPokerSession updatedSession) {
 		this.isCancelled = updatedSession.isCancelled;
 		this.startTime = updatedSession.startTime;
@@ -574,6 +608,10 @@ public class PlanningPokerSession extends AbstractModel {
 		this.requirements = updatedSession.requirements;
 	}
 
+	/**
+	 * Return the start time of the session
+	 * @return Return the start time of the session
+	 */
 	public Object getStartTime() {
 		return startTime;
 	}

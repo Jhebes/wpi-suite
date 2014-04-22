@@ -24,26 +24,31 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.Configuration;
 
 /**
- * Adds a new vote to a particular requirement.
+ * A controller that adds a new vote to a particular requirement.
  */
 public class AddVoteController implements ActionListener {
-
+	/** A PlanningPokerSession whose PlanningPokerRequirement has a new vote */
 	private PlanningPokerSession session = null;
+	
 	private SessionInProgressPanel view;
 
+	/** A PlanningPokerRequirement that has a new vote */
 	private PlanningPokerRequirement req = null;
 
+	/**
+	 * Construct the controller
+	 * @param view The SessionInProgressPanel
+	 * @param session A PlanningPokerSession 
+	 * whose PlanningPokerRequirement has a new vote
+	 */
 	public AddVoteController(SessionInProgressPanel view,
 			PlanningPokerSession session) {
 		this.view = view;
 		this.session = session;
 	}
 
-	/*
-	 * This method is called when the user clicks the vote button
-	 * 
-	 * @see
-	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
+	/**
+	 * Adds a new vote to the PlanningPokerRequirement.
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
@@ -66,7 +71,7 @@ public class AddVoteController implements ActionListener {
 			this.req = session.getReqByName(r);
 		} catch (NullPointerException e) {
 			Logger.getLogger("PlanningPoker").log(Level.WARNING,
-					"Could not find requirement by name: " + r, e);
+					"Could not find requirement by name", e);
 			return;
 		}
 
