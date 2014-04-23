@@ -548,15 +548,26 @@ public class PlanningPokerSession extends AbstractModel {
 		return this.name;
 	}
 
+	/**
+	 * This class does not provide implementation for this method
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void delete() {
 	}
 
+	/**
+	 * This class does not provide implementation for this method
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Boolean identify(Object o) {
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void save() {
 		SessionStash.getInstance().update(this);
@@ -569,6 +580,9 @@ public class PlanningPokerSession extends AbstractModel {
 		ViewEventManager.getInstance().getOverviewTreePanel().refresh();
 	}
 
+	/**
+	 * Synchronizes the new session with the server
+	 */
 	public void create() {
 		new PutSessionController(this);
 	}
@@ -589,6 +603,10 @@ public class PlanningPokerSession extends AbstractModel {
 		this.requirements = updatedSession.requirements;
 	}
 
+	/**
+	 * Return the start time of the session
+	 * @return Return the start time of the session
+	 */
 	public Object getStartTime() {
 		return startTime;
 	}

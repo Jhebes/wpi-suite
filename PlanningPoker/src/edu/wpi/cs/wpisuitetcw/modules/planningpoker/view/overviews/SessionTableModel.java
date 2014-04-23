@@ -116,12 +116,19 @@ public class SessionTableModel extends DefaultTableModel {
 		
 		this.sessions = sessions;
 		
+		
 		// Stop update if there is no given session
-		if (sessions == null) {
+		if (this.sessions == null || this.sessions.size() == 0) {
 			return;
 		}
-		
-		for (PlanningPokerSession session : sessions) {
+		if(this.sessions.size() > 0){
+			for(int i = 0; i < this.sessions.size(); ++i){
+				if(this.sessions.get(i).getID() == 1){
+					this.sessions.remove(i);
+				}
+			}
+		}
+		for (PlanningPokerSession session : this.sessions) {
 			Date deadline = session.getDeadline();
 			String formattedDeadline = "";
 			if (deadline != null) {

@@ -125,7 +125,8 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 			List<PlanningPokerSession> allSessions) {
 		ArrayList<PlanningPokerSession> tempNewSessions = new ArrayList<PlanningPokerSession>();
 		for (PlanningPokerSession pps : allSessions) {
-			if (pps.isNew()) {
+			// Do not display the "default" planning poker session
+			if (pps.isNew() && pps.getID() != 1) {
 				tempNewSessions.add(pps);
 			}
 		}
