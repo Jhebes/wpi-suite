@@ -35,6 +35,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirem
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.DisplayDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
@@ -67,47 +68,47 @@ public class SessionInProgressPanel extends JPanel {
 	private JPanel leftPanel;
 	private JScrollPane requirementFrame;
 	private JList reqList;
-	
+
 	// ################### GUI right components ####################
 	/** The right container holding all the GUI components */
 	private JLabel rightPanelLabel;
 	private JPanel rightPanel;
-	
+
 	/** Name of a requirement */
-	private	JLabel requirementNameLabel; 
+	private JLabel requirementNameLabel;
 	private JTextField requirementNameTextbox;
-	
+
 	/** Description of a requirement */
 	private JLabel descriptionLabel;
 	private JTextField descriptionTextbox;
 
 	/** A Panel exhibiting the cards */
-	private JPanel cardPanel;
-	
+	private DisplayDeckPanel cardPanel;
+
 	/** A text field holding the final result */
-	private  JTextField voteTextField;
-	
+	private JTextField voteTextField;
+
 	/** Button submit the vote to the database */
-	private JButton submitVoteButton; 
-	
-	// ################# GUI bottom components #################### 
+	private JButton submitVoteButton;
+
+	// ################# GUI bottom components ####################
 	/** A bottom container holding the buttons below this */
 	private JPanel bottomPanel;
-	
+
 	/** A button to end a session */
 	private JButton endSessionButton;
-	
+
 	/** A button to edit a session */
 	private JButton btnEditSession;
-	
+
 	// #%%##%%##%#%%###%%##%#%%###%%##%#%%# DO THIS LATER
 	private String reqName;
 	private String reqDescription;
 	private JList VoteList;
 
 	/**
-	 * Construct a SessionInProgressPanel that displays the requirements
-	 * needed to vote and provides GUI components to vote
+	 * Construct a SessionInProgressPanel that displays the requirements needed
+	 * to vote and provides GUI components to vote
 	 */
 	public SessionInProgressPanel(final PlanningPokerSession session) {
 		this.session = session;
@@ -117,10 +118,10 @@ public class SessionInProgressPanel extends JPanel {
 		setupBottomPanel();
 
 		// Need to add both left and right to the JSplitpane
-		JSplitPane mainView = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
-											leftPanel, rightPanel);
+		JSplitPane mainView = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+				leftPanel, rightPanel);
 		mainView.setEnabled(false);
-		
+
 		// Add mainView and the bottom panel to the canvas
 		setLayout(new MigLayout());
 		add(mainView, "dock center");
@@ -133,7 +134,7 @@ public class SessionInProgressPanel extends JPanel {
 	private void setupBottomPanel() {
 		// Create the container
 		bottomPanel = new JPanel();
-		
+
 		// Create the end session button
 		endSessionButton = new JButton(END_SESSION_BUTTON_LABEL);
 		endSessionButton.addActionListener(new ActionListener() {
@@ -170,8 +171,6 @@ public class SessionInProgressPanel extends JPanel {
 		else
 			endSessionButton.setVisible(false);
 
-		
-
 		// Extract the requirements from the table provided by
 		// ViewSessionTableManager and converts them to list
 		ArrayList<String> testReqs = new ArrayList<String>();
@@ -190,37 +189,48 @@ public class SessionInProgressPanel extends JPanel {
 
 		// Create an edit session button
 		btnEditSession = new JButton("Edit Session");
-		btnEditSession.addActionListener(new EditActivatedSessionController(session, this));
+		btnEditSession.addActionListener(new EditActivatedSessionController(
+				session, this));
 		if (session.isHasVoted()) {
 			btnEditSession.setEnabled(false);
 		}
+<<<<<<< HEAD
 		
 		// Create a submit vote button
 		submitVoteButton = new JButton(VOTE_BUTTON_LABEL);
 				
+=======
+
+>>>>>>> d06268b0dfdc076a58f2f51ec5a928737dd58097
 		addGUIComponentsToBottomPanel();
-			
+
 	}
 
 	/*
-	 * Add end session button, edit session button, and 
-	 * cancel session button to the bottom panel
+	 * Add end session button, edit session button, and cancel session button to
+	 * the bottom panel
 	 */
 	private void addGUIComponentsToBottomPanel() {
+<<<<<<< HEAD
 		bottomPanel.add(endSessionButton, "left, wmin " + MIN_END_SESSION_BUTTON_WIDTH  + "px");
 		bottomPanel.add(btnEditSession,   "left, wmin " + MIN_EDIT_SESSION_BUTTON_WIDTH + "px, "
 										+ "gapleft " + GAP_BETWEEN_BOTTOM_BUTTONS + "px");
 		bottomPanel.add(submitVoteButton, "right");
+=======
+		bottomPanel.add(endSessionButton, "wmin "
+				+ MIN_END_SESSION_BUTTON_WIDTH + "px");
+		bottomPanel.add(btnEditSession, "wmin " + MIN_EDIT_SESSION_BUTTON_WIDTH
+				+ "px, " + "gapleft " + GAP_BETWEEN_BOTTOM_BUTTONS + "px");
+>>>>>>> d06268b0dfdc076a58f2f51ec5a928737dd58097
 	}
 
 	/*
-	 * Construct the left panel and its GUI component:
-	 * a JLabel and a JList
+	 * Construct the left panel and its GUI component: a JLabel and a JList
 	 */
 	private void setupLeftPanel() {
 		leftPanel = new JPanel();
 		leftPanelLabel = new JLabel(LEFT_PANEL_LABEL);
-				
+
 		// TODO: sleep
 		ArrayList<PlanningPokerRequirement> reqs = session.getRequirements();
 		String[] reqNames = new String[reqs.size()];
@@ -229,7 +239,7 @@ public class SessionInProgressPanel extends JPanel {
 			reqNames[j] = ppr.getName();
 			j++;
 		}
-		
+
 		reqList = new JList<String>();
 		reqList.setListData(reqNames);
 		reqList.setBackground(Color.WHITE);
@@ -240,7 +250,7 @@ public class SessionInProgressPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// Check to see if user double clicked
-				if (e.getClickCount() == 2) {
+				if (e.getClickCount() == 1) {
 					String reqname = (String) reqList.getModel().getElementAt(
 							reqList.getSelectedIndex());
 					PlanningPokerRequirement requirement = session
@@ -258,11 +268,11 @@ public class SessionInProgressPanel extends JPanel {
 				}
 			}
 		});
-		
+
 		// Put the list of requirement in a scroll pane
 		requirementFrame = new JScrollPane();
 		requirementFrame.setViewportView(reqList);
-		
+
 		addGUIComponentsOnLeftPanel();
 	}
 
@@ -271,30 +281,37 @@ public class SessionInProgressPanel extends JPanel {
 	 */
 	private void addGUIComponentsOnLeftPanel() {
 		leftPanel.setLayout(new MigLayout());
-		
+
 		leftPanel.add(leftPanelLabel, "center, wrap");
 		leftPanel.add(reqList, "grow, wrap");
 	}
 
 	private void setupRightPanel() {
 		rightPanel = new JPanel();
-		
+
 		// Create a label for right panel
 		rightPanelLabel = new JLabel(RIGHT_PANEL_LABEL);
-		
+
 		// Create a requirement name text box
 		requirementNameLabel = new JLabel(REQ_NAME_LABEL);
 		requirementNameTextbox = new JTextField();
 		requirementNameTextbox.setEditable(false);
-		
+
 		// Create a requirement description text box
 		descriptionLabel = new JLabel(REQ_DESC_LABEL);
 		descriptionTextbox = new JTextField();
 		descriptionTextbox.setEditable(false);
+<<<<<<< HEAD
 		
 		// Create a deck panel
 		cardPanel = new JPanel();
 		
+=======
+
+		// Create a submit vote button
+		submitVoteButton = new JButton(VOTE_BUTTON_LABEL);
+
+>>>>>>> d06268b0dfdc076a58f2f51ec5a928737dd58097
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
@@ -305,14 +322,19 @@ public class SessionInProgressPanel extends JPanel {
 		// manually
 		if (session.getDeck() != null) {
 			voteTextField.setEnabled(false);
+			// Create a deck panel
+			cardPanel = new DisplayDeckPanel(session.getDeck(), this);
+			rightPanel.add(cardPanel);
+		} else {
+			// user votes by entering a number
 		}
 	}
 
 	/*
-	 * Add the requirement name and desciption text field, 
-	 * vote submit button, vote text field, and their labels
-	 * on the right panel
+	 * Add the requirement name and desciption text field, vote submit button,
+	 * vote text field, and their labels on the right panel
 	 */
+<<<<<<< HEAD
 	private void addGUIComponentsOnRightPanel() {	
 		// Add the padding around the right panel
 		rightPanel.setLayout(new MigLayout("insets " + PADDING_RIGHT_PANEL + " "
@@ -320,11 +342,18 @@ public class SessionInProgressPanel extends JPanel {
 													 + PADDING_RIGHT_PANEL + " "
 													 + PADDING_RIGHT_PANEL + ", fillx"));
 		
+=======
+	private void addGUIComponentsOnRightPanel() {
+		rightPanel.setLayout(new MigLayout("insets 5 5 5 5, fillx"));
+		rightPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
+
+>>>>>>> d06268b0dfdc076a58f2f51ec5a928737dd58097
 		// Add the label of the panel
 		rightPanel.add(rightPanelLabel, "center, span");
-		
+
 		// Add the requirement name and its label
 		rightPanel.add(requirementNameLabel, "growx, left, wrap");
+<<<<<<< HEAD
 		rightPanel.add(requirementNameTextbox, "growx, gapright " + 
 												GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX + "px, wrap");
 		
@@ -344,6 +373,27 @@ public class SessionInProgressPanel extends JPanel {
 								   	+ "dock east, "
 								   	+ "gaptop "   + PADDING_RIGHT_PANEL + "px, "
 								   	+ "gapright " + PADDING_RIGHT_PANEL + "px");
+=======
+		rightPanel.add(requirementNameTextbox, "growx, wrap");
+
+		// Add the requirement description box and its label
+		rightPanel.add(descriptionLabel, "growx, left, wrap");
+		rightPanel.add(descriptionTextbox, "hmin " + MIN_DESC_TEXTBOX_HEIGHT
+				+ "px, " + "growx, wrap");
+
+		// Add the card panel
+		// rightPanel.add(cardPanel, "grow, wrap");
+
+		// Add the vote button and vote text field
+		JPanel rightDock = new JPanel();
+		rightDock
+				.setLayout(new MigLayout("filly, insets 0", "", "push[center]"));
+		rightDock.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH
+				+ "px, " + "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, "
+				+ "center, wrap push");
+		rightDock.add(submitVoteButton, "wrap");
+		rightPanel.add(rightDock, "dock east");
+>>>>>>> d06268b0dfdc076a58f2f51ec5a928737dd58097
 	}
 
 	public void setNumVotesLabel(int n) {
@@ -369,14 +419,14 @@ public class SessionInProgressPanel extends JPanel {
 	 * @param sessionDeadlineTime
 	 *            Deadline Time (hh:mm AM) of Session as a String
 	 */
-//	public void setSessionDeadline(Date date) {
-//		if (date != null)
-//			deadline = new JTextField(date.toString());
-//		else
-//			deadline = new JTextField("");
-//
-//		deadline.setEditable(false);
-//	}
+	// public void setSessionDeadline(Date date) {
+	// if (date != null)
+	// deadline = new JTextField(date.toString());
+	// else
+	// deadline = new JTextField("");
+	//
+	// deadline.setEditable(false);
+	// }
 
 	/**
 	 * 
@@ -437,6 +487,22 @@ public class SessionInProgressPanel extends JPanel {
 
 	public void disableEditSession() {
 		btnEditSession.setEnabled(false);
+	}
+
+	/**
+	 * @return the voteTextField
+	 */
+	public JTextField getVoteTextField() {
+		return voteTextField;
+	}
+
+	/**
+	 * setter for voteTextField
+	 * 
+	 * @param voteTextField
+	 */
+	public void setVoteTextFieldWithValue(int value) {
+		this.voteTextField.setText(Integer.toString(value));;
 	}
 
 }

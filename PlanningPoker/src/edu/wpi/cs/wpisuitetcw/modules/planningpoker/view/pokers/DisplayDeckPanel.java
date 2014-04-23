@@ -18,8 +18,13 @@ import javax.swing.JScrollPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 
 public class DisplayDeckPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// constants
 	private static final int CENTER_PANEL_WIDTH = 350;
 	private static final int CENTER_PANEL_HEIGHT = 250;
@@ -30,13 +35,18 @@ public class DisplayDeckPanel extends JPanel {
 	private final JScrollPane centerPanel;
 	private final JPanel container;
 
+	// partent panel
+	private SessionInProgressPanel parentPanel;
+
 	// vote value for the deck
 	private int voteValue = 0;
 
 	/**
 	 * Constructor - creating a panel for displaying a deck of card
 	 */
-	public DisplayDeckPanel(PlanningPokerDeck deck) {
+	public DisplayDeckPanel(PlanningPokerDeck deck,
+			SessionInProgressPanel progressPanel) {
+		this.parentPanel = progressPanel;
 		// setup panel
 		container = new JPanel();
 		cardPanel = new JPanel();
@@ -74,6 +84,7 @@ public class DisplayDeckPanel extends JPanel {
 	 * @return true if deck allows multiple selection
 	 */
 	private boolean isSingleSelection() {
+		System.out.println("Deck selection: " + deck.getMaxSelection());
 		return deck.getMaxSelection() == 1;
 	}
 
@@ -87,6 +98,7 @@ public class DisplayDeckPanel extends JPanel {
 		} else {
 			voteValue += value;
 		}
+		parentPanel.setVoteTextFieldWithValue(voteValue);
 	}
 
 	/**
@@ -99,5 +111,6 @@ public class DisplayDeckPanel extends JPanel {
 		} else {
 			voteValue -= value;
 		}
+		parentPanel.setVoteTextFieldWithValue(voteValue);
 	}
 }
