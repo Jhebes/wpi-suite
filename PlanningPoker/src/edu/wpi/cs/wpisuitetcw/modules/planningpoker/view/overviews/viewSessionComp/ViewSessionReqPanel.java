@@ -178,6 +178,8 @@ public class ViewSessionReqPanel extends JPanel {
 		this.moveAllRequirementsToSession = new JButton(" >> ");
 		this.addRequirementToSession = new JButton("Add Requirement to Session");
 		this.saveRequirement = new JButton("Save Requirement");
+		saveRequirement.setEnabled(false);
+		
 
 		// setup panels
 		Panel namePanel = new Panel();
@@ -273,6 +275,13 @@ public class ViewSessionReqPanel extends JPanel {
 
 				JTable table = (JTable) e.getSource();
 				int row = table.getSelectedRow();
+				
+				if (row == -1){
+					saveRequirement.setEnabled(false);
+					addRequirementToSession.setEnabled(true);
+					name.setEnabled(true);
+					setReqInfo("","");
+				}
 
 				for (int i = 0; i < 2; i = i + 1) {
 					if (i == 0) {
@@ -286,6 +295,10 @@ public class ViewSessionReqPanel extends JPanel {
 				}
 
 				setReqInfo(reqName, reqDescription);
+				saveRequirement.setEnabled(true);
+				addRequirementToSession.setEnabled(false);
+				name.setEnabled(false);
+				
 			}
 		});
 
@@ -297,6 +310,13 @@ public class ViewSessionReqPanel extends JPanel {
 
 				JTable table = (JTable) e.getSource();
 				int row = table.getSelectedRow();
+				
+				if (row == -1){
+					saveRequirement.setEnabled(false);
+					addRequirementToSession.setEnabled(true);
+					name.setEnabled(true);
+					setReqInfo("","");
+				}
 
 				for (int i = 0; i < 2; i = i + 1) {
 					if (i == 0) {
@@ -310,6 +330,9 @@ public class ViewSessionReqPanel extends JPanel {
 				}
 
 				setReqInfo(reqName, reqDescription);
+				saveRequirement.setEnabled(true);
+				addRequirementToSession.setEnabled(false);
+				name.setEnabled(false);
 			}
 		});
 
