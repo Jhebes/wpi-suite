@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -67,6 +68,7 @@ public class SessionInProgressPanel extends JSplitPane {
 	private JTextField txtVoteField;
 	private JList VoteList;
 	private CompletedSessionEstimatePanel finalEstimatePnl;
+	private JPanel DetailPanel;
 
 	/**
 	 * Create the panel.
@@ -158,12 +160,34 @@ public class SessionInProgressPanel extends JSplitPane {
 			reqNames[j] = ppr.getName();
 			j++;
 		}
-		JList<String> reqList = new JList<String>();
+		final JList<String> reqList = new JList<String>();
 		reqList.setListData(reqNames);
 		reqList.setBackground(Color.WHITE);
 		reqList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		reqList.setAlignmentX(CENTER_ALIGNMENT);
 		reqList.setPreferredSize(new Dimension(100, 500));
+		reqList.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// Check to see if user double clicked
+				if (e.getClickCount() == 2) {
+					String reqname = (String) reqList.getModel().getElementAt(
+							reqList.getSelectedIndex());
+					PlanningPokerRequirement requirement = session
+							.getReqByName(reqname);
+					if (session.isClosed()) {
+						finalEstimatePnl.setMean(requirement.setMean());
+						finalEstimatePnl.setMedian(requirement.setMedian());
+						finalEstimatePnl.setMode(requirement.setMode());
+						finalEstimatePnl.fillTable(requirement);
+					}
+					else{
+						//Instructions for merge: Hoang's stuff here
+					}
+					DetailPanel.updateUI();
+				}
+			}
+		});
 		LeftPanel.add(reqList);
 
 		// End session button
@@ -242,10 +266,9 @@ public class SessionInProgressPanel extends JSplitPane {
 		setRightComponent(RightPanel);
 		RightPanel.setLayout(new BorderLayout(0, 0));
 
-		JPanel DetailPanel = new JPanel();
-		RightPanel.add(DetailPanel, BorderLayout.PAGE_START);// Changed from
-																// CENTER to
-																// Page Star
+		DetailPanel = new JPanel();
+		RightPanel.add(DetailPanel, BorderLayout.PAGE_START);
+		// Changed from CENTER to Page Star
 		DetailPanel.setLayout(new BoxLayout(DetailPanel, BoxLayout.Y_AXIS));
 
 		Component verticalStrut = Box.createVerticalStrut(20);
@@ -261,6 +284,12 @@ public class SessionInProgressPanel extends JSplitPane {
 		JLabel lblDescription_1 = new JLabel("Description:");
 		DetailPanel.add(lblDescription_1);
 		DetailPanel.add(label_2);
+
+		finalEstimatePnl = new CompletedSessionEstimatePanel();
+		finalEstimatePnl.setAlignmentX(Component.CENTER_ALIGNMENT);
+		if (this.session.isClosed()) {
+			RightPanel.add(finalEstimatePnl);
+		}
 
 		JPanel DeckPanel = new JPanel();
 		DetailPanel.add(DeckPanel);
