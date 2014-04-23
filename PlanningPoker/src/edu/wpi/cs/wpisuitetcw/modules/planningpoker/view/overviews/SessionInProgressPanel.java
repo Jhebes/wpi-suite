@@ -41,22 +41,19 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 public class SessionInProgressPanel extends JPanel {
 
-	private static final String REQ_NAME_LABEL = "Name";
-	private static final String REQ_DESC_LABEL = "Description";
-	private static final String VOTE_BUTTON_LABEL = "Submit Vote";
-	private static final String RIGHT_PANEL_LABEL = "Requirements Detail:";
-	private static final String LEFT_PANEL_LABEL = "Session Requirements:";
+	private static final String REQ_NAME_LABEL 			 = "Name";
+	private static final String REQ_DESC_LABEL 			 = "Description";
+	private static final String VOTE_BUTTON_LABEL 		 = "Submit Vote";
+	private static final String RIGHT_PANEL_LABEL 		 = "Requirements Detail:";
+	private static final String LEFT_PANEL_LABEL 		 = "Session Requirements:";
 	private static final String END_SESSION_BUTTON_LABEL = "End Session";
-	private static final int MIN_REQ_TEXTBOX_WIDTH = 200;
-	private static final int MIN_DESC_TEXTBOX_WIDTH = 400;
-	private static final int MIN_DESC_TEXTBOX_HEIGHT = 140;
-	private static final int MIN_VOTE_TEXTFIELD_WIDTH = 150;
-	private static final int MIN_VOTE_TEXTFIELD_HEIGHT = 150;
 	
-	private static final int MIN_EDIT_SESSION_BUTTON_WIDTH = 50;
-	private static final int GAP_BETWEEN_BOTTOM_BUTTONS = 20;
-	private static final int MIN_END_SESSION_BUTTON_WIDTH = 50;
-	private static final int PADDING_RIGHT_PANEL = 10;
+	private static final int MIN_DESC_TEXTBOX_HEIGHT 				  = 140;
+	private static final int MIN_VOTE_TEXTFIELD_WIDTH 				  = 150;
+	private static final int MIN_VOTE_TEXTFIELD_HEIGHT 				  = 150;
+	private static final int MIN_BUTTON_WIDTH 						  = 50;
+	private static final int GAP_BETWEEN_BOTTOM_BUTTONS 			  = 20;
+	private static final int PADDING_RIGHT_PANEL 					  = 10;
 	private static final int GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX = 20;
 	
 	private final PlanningPokerSession session;
