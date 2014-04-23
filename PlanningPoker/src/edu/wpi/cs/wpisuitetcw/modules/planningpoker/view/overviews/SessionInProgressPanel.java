@@ -313,7 +313,7 @@ public class SessionInProgressPanel extends JPanel {
 		leftPanel.setLayout(new MigLayout("fill, center"));
 
 		leftPanel.add(leftPanelLabel, "dock north");
-		leftPanel.add(requirementFrame, "width 150:250:, growy, dock center");
+		leftPanel.add(requirementFrame, "width 250::, growy, dock center");
 	}
 
 	private void setupRightPanel() {
