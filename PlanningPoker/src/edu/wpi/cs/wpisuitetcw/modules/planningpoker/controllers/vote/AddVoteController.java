@@ -90,7 +90,6 @@ public class AddVoteController implements ActionListener {
 		}
 
 		session.addVoteToRequirement(req, vote, username);
-		view.setNumVotesLabel(session.getNumVotes(req));
 
 		System.out.println(session.getNumVotes(req));
 		System.out.println("Added vote to requirement " + req.getName());
@@ -109,10 +108,11 @@ public class AddVoteController implements ActionListener {
 					"Sleeping was interrupted.", e);
 		}
 
+		this.view.setVoteTextFieldWithValue(vote.getCardValue());
+		this.view.updateUI();
+		
 		GetRequirementsVotesController getVotes = new GetRequirementsVotesController(
 				view, session);
-		getVotes.actionPerformed(new ActionEvent(getVotes, 0, r));
-
-		this.view.setVoteList((ArrayList<PlanningPokerVote>) req.getVotes());
+		getVotes.actionPerformed(new ActionEvent(getVotes, 0, r));	
 	}
 }

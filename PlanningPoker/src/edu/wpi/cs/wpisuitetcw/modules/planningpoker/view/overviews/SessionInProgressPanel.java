@@ -31,6 +31,7 @@ import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.EditActivatedSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
@@ -104,7 +105,6 @@ public class SessionInProgressPanel extends JPanel {
 	// #%%##%%##%#%%###%%##%#%%###%%##%#%%# DO THIS LATER
 	private String reqName;
 	private String reqDescription;
-	private JList VoteList;
 
 	/**
 	 * Construct a SessionInProgressPanel that displays the requirements needed
@@ -197,6 +197,7 @@ public class SessionInProgressPanel extends JPanel {
 		
 		// Create a submit vote button
 		submitVoteButton = new JButton(VOTE_BUTTON_LABEL);
+		submitVoteButton.addActionListener(new AddVoteController(this, this.session));
 			
 		addGUIComponentsToBottomPanel();
 
@@ -240,10 +241,11 @@ public class SessionInProgressPanel extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				// Check to see if user double clicked
 				if (e.getClickCount() == 1) {
-					String reqname = (String) reqList.getModel().getElementAt(
+					reqName = (String) reqList.getModel().getElementAt(
 							reqList.getSelectedIndex());
+					
 					PlanningPokerRequirement requirement = session
-							.getReqByName(reqname);
+							.getReqByName(reqName);
 					if (requirement.getName() == null) {
 						requirementNameTextbox.setText(" ");
 					} else {
@@ -254,14 +256,18 @@ public class SessionInProgressPanel extends JPanel {
 					} else {
 						descriptionTextbox.setText(requirement.getDescription());
 					}
-					setVoteList((ArrayList<PlanningPokerVote>) requirement.getVotes());
+					PlanningPokerVote vote = requirement.getVoteByUser(ConfigManager.getConfig().getUserName());
+					if(vote != null) {
+						setVoteTextFieldWithValue(vote.getCardValue());
+						updateUI();
+					}					
 				}
 			}
 		});
 
 		// Put the list of requirement in a scroll pane
-		requirementFrame = new JScrollPane();
-		requirementFrame.setViewportView(reqList);
+		//requirementFrame = new JScrollPane();
+		//requirementFrame.setViewportView(reqList);
 
 		addGUIComponentsOnLeftPanel();
 	}
@@ -291,9 +297,6 @@ public class SessionInProgressPanel extends JPanel {
 		descriptionLabel = new JLabel(REQ_DESC_LABEL);
 		descriptionTextbox = new JTextField();
 		descriptionTextbox.setEditable(false);
-		
-		// Create a deck panel
-		cardPanel = new DisplayDeckPanel(session.getDeck(), this);
 		
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
@@ -339,19 +342,12 @@ public class SessionInProgressPanel extends JPanel {
 										 + "gapright" + GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX + "px, "
 										 + "wrap");
 		
-		// Add the card panel
-		rightPanel.add(cardPanel, "grow, dock south");
-		
 		// Add the vote text field to the right side
 		rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH  + "px, "
 								   	+ "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, "
 								   	+ "dock east, "
 								   	+ "gaptop "   + PADDING_RIGHT_PANEL + "px, "
 								   	+ "gapright " + PADDING_RIGHT_PANEL + "px");
-	}
-
-	public void setNumVotesLabel(int n) {
-		this.voteTextField.setText(Integer.toString(n));
 	}
 
 	private void closeTab() {
@@ -411,31 +407,13 @@ public class SessionInProgressPanel extends JPanel {
 	 * @return vote parsed as an integer
 	 */
 	public int getVote() {
-		return Integer.parseInt(voteTextField.getText());
-	}
-
-	/**
-	 * Sets the contents of the list of votes for the specified requirement
-	 * 
-	 * @param votes
-	 */
-
-	public void setVoteList(ArrayList<PlanningPokerVote> votes) {
-		String[] array = new String[votes.size()];
-		for (int i = 0; i < votes.size(); ++i) {
-			array[i] = votes.get(i).toString();
-		}
-		this.VoteList.setListData(array);
-	}
-
-	public JList getVoteList() {
-		return VoteList;
+		return cardPanel.getVoteValue();
 	}
 
 	/**
 	 * sets the reqsViewTable with the appropriate information
 	 */
-
+	
 	public void getReqsViewTable() {
 	}
 
@@ -458,5 +436,4 @@ public class SessionInProgressPanel extends JPanel {
 	public void setVoteTextFieldWithValue(int value) {
 		this.voteTextField.setText(Integer.toString(value));;
 	}
-
 }

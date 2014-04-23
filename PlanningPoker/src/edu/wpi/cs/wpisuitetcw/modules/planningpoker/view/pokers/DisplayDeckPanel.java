@@ -98,7 +98,6 @@ public class DisplayDeckPanel extends JPanel {
 		} else {
 			voteValue += value;
 		}
-		parentPanel.setVoteTextFieldWithValue(voteValue);
 	}
 
 	/**
@@ -111,6 +110,9 @@ public class DisplayDeckPanel extends JPanel {
 		} else {
 			voteValue -= value;
 		}
-		parentPanel.setVoteTextFieldWithValue(voteValue);
+	}
+	
+	public int getVoteValue() {
+		return voteValue;
 	}
 }
