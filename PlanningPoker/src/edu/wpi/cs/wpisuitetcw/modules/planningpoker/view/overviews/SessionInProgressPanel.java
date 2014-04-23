@@ -120,7 +120,6 @@ public class SessionInProgressPanel extends JPanel {
 		// Need to add both left and right to the JSplitpane
 		JSplitPane mainView = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				leftPanel, rightPanel);
-		mainView.setEnabled(false);
 
 		// Add mainView and the bottom panel to the canvas
 		setLayout(new MigLayout());
