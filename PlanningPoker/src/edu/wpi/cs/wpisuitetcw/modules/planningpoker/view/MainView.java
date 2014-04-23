@@ -15,7 +15,7 @@ import java.awt.Component;
 import javax.swing.Icon;
 import javax.swing.JTabbedPane;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.DefaultHomePanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 
 public class MainView extends JTabbedPane {
 
@@ -23,7 +23,7 @@ public class MainView extends JTabbedPane {
 	 * Serializable ID
 	 */
 	private static final long serialVersionUID = 4184001083813964646L;
-	private DefaultHomePanel defaultHomePanel;
+	private OverviewPanel overviewPanel;
 
 	/**
 	 * Create the panel.
@@ -33,8 +33,8 @@ public class MainView extends JTabbedPane {
 		// Put all tabs in a scroll layout
 		setTabLayoutPolicy(SCROLL_TAB_LAYOUT);
 		
-		defaultHomePanel = new DefaultHomePanel();
-		this.addTab("Session Overview", defaultHomePanel);
+		overviewPanel = new OverviewPanel();
+		this.addTab("Session Overview", overviewPanel);
 	}
 	
 	/**
@@ -50,7 +50,7 @@ public class MainView extends JTabbedPane {
 	public void insertTab(String title, Icon icon, Component component,
 			String tip, int index) {
 		super.insertTab(title, icon, component, tip, index);
-		if (!(component instanceof DefaultHomePanel)) {
+		if (!(component instanceof OverviewPanel)) {
 			setTabComponentAt(index, new ClosableTabComponent(this));
 		}
 	}

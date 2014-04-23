@@ -22,6 +22,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksContr
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
@@ -113,6 +114,7 @@ public class AddSessionController implements ActionListener {
 			PlanningPokerSession session = new PlanningPokerSession();
 			session.setOwnerUserName(ConfigManager.getConfig().getUserName());
 			session.setName(name);
+			session.setID(0);
 			session.setDeadline(d);
 			session.setDescription(des);
 			
@@ -134,8 +136,9 @@ public class AddSessionController implements ActionListener {
 			}
 
 			session.create();
+			GetAllSessionsController.getInstance().retrieveSessions();
 			ViewEventManager.getInstance().removeTab(this.view);
-			ViewEventManager.getInstance().viewSession(session);
+			
 		} else {
 			// user has yet entered all required data
 			// TODO: maybe make the warning a pop-up
