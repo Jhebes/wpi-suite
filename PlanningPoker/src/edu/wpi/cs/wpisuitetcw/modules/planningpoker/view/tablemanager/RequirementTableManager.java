@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.RequirementTableModel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.RequirementTableModel;
 
 public class RequirementTableManager {
 	/** Hashmap of table models for each session ID */
