@@ -100,6 +100,9 @@ public class SessionInProgressPanel extends JPanel {
 
 	/** A button to edit a session */
 	private JButton btnEditSession;
+	
+	/** A button to cancel a session */
+	private JButton cancelSessionButton ;
 
 	// #%%##%%##%#%%###%%##%#%%###%%##%#%%# DO THIS LATER
 	private String reqName;
@@ -162,6 +165,28 @@ public class SessionInProgressPanel extends JPanel {
 				closeTab();
 			}
 		});
+
+		// Create the cancel session button
+		cancelSessionButton = new JButton("Cancel Session");
+		cancelSessionButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				session.cancel();
+				session.save();
+				SessionTableModel.getInstance().update();
+				closeTab();
+			}
+		});
+		leftPanel.add(cancelSessionButton);
+
+		if (session.isClosed() || session.isCancelled()) {
+			cancelSessionButton.setEnabled(false);
+		}
+		if (cancelSessionButton.equals(session.getOwnerUserName())) {
+			cancelSessionButton.setVisible(true);
+		} else {
+			cancelSessionButton.setVisible(false);
+		}
 
 		String currentUserName = ConfigManager.getConfig().getUserName();
 		if (session.isClosed())
