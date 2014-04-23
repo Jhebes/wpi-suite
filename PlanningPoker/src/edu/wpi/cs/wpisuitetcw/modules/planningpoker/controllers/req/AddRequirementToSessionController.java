@@ -19,6 +19,8 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionReqPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -50,6 +52,10 @@ public class AddRequirementToSessionController implements ActionListener {
 
 		PlanningPokerSession session = SessionStash.getInstance()
 				.getSessionByID(id);
+		// Adds the model of requirements from the req manager, add a requirement to this model, will add and update 
+		// the req manager
+		RequirementModel addReqModel = RequirementModel.getInstance();
+		Requirement reqManagerRequirement = new Requirement();
 
 		PlanningPokerRequirement requirement = new PlanningPokerRequirement();
 		requirement.setName(this.panel.getNewReqName());
@@ -58,8 +64,17 @@ public class AddRequirementToSessionController implements ActionListener {
 		session.save();
 		this.panel.clearNewReqName();
 		this.panel.clearNewReqDesc();
+		
+		// Fill in the information for the requirement being created
+		reqManagerRequirement.setId(addReqModel.getNextID());
+		reqManagerRequirement.setName(requirement.getName());
+		reqManagerRequirement.setDescription(requirement.getDescription());
+		
+		// Add the requirement to the Requirement Manager
+		addReqModel.addRequirement(reqManagerRequirement);
 
 		(new RequirementTableManager()).fetch(id);
+		panel.validateActivateSession();
 	}
 
 	/*

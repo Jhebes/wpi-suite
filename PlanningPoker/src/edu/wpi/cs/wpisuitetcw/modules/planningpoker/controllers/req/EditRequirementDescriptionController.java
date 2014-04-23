@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
@@ -32,40 +33,47 @@ public class EditRequirementDescriptionController implements ActionListener {
 	private ViewSessionReqPanel view;
 
 	/**
-	 * Construct the controller by storing the given PlanningPokerSession
-	 * and ViewSessionReqPanel
-	 * @param s A PlanningPokerSession that would be stored
-	 * @param v A ViewSessionReqPanel that would be stored
+	 * Construct the controller by storing the given PlanningPokerSession and
+	 * ViewSessionReqPanel
+	 * 
+	 * @param s
+	 *            A PlanningPokerSession that would be stored
+	 * @param v
+	 *            A ViewSessionReqPanel that would be stored
 	 */
-	public EditRequirementDescriptionController(PlanningPokerSession s,
-			ViewSessionReqPanel v) {
+	public EditRequirementDescriptionController(PlanningPokerSession s, ViewSessionReqPanel v) {
 		this.session = s;
 		this.view = v;
 	}
 
 	/**
-	 * TODO What?
-	 * @param s
+	 * Success callback for the request observer. Updates the description of the
+	 * edited requirement everywhere in our system.
+	 * 
+	 * @param session
+	 *            The session containing this requirement, so that we can edit
+	 *            it.
 	 */
-	public void receivedData(PlanningPokerSession s) {
-		PlanningPokerRequirement r;
-		ArrayList<PlanningPokerRequirement> a = new ArrayList<PlanningPokerRequirement>();
-		ArrayList<String> requirementNames = this.view
-				.getLeftSelectedRequirements();
-		r = s.getReqByName(requirementNames.get(0));
-		a.add(r);
-		s.deleteRequirements(a);
-		a.remove(r);
-		r.setDescription(this.view.getNewReqDesc());
-		a.add(r);
-		s.addRequirements(a);
-		RequirementTableManager a1 = new RequirementTableManager();
-		a1.refreshRequirements(1, s.getRequirements());
-		
-		s.save();
+	public void receivedData(PlanningPokerSession session) {
+		final PlanningPokerRequirement requirement;
+		final List<PlanningPokerRequirement> requirements = new ArrayList<PlanningPokerRequirement>();
+		final String requirementNames = view.getReqName();
+		requirement = session.getReqByName(requirementNames);
+		requirements.add(requirement);
+		session.deleteRequirements(requirements);
+		requirements.remove(requirement);
+		requirement.setDescription(view.getNewReqDesc());
+		requirements.add(requirement);
+		session.addRequirements(requirements);
+		RequirementTableManager tableManager = new RequirementTableManager();
+		tableManager.refreshRequirements(session.getID(), session.getRequirements());
+
+		session.save();
 
 		this.view.getAllReqTable().repaint();
 		this.view.getSessionReqTable().repaint();
+		
+		view.validateActivateSession();
 	}
 
 	/*
@@ -76,8 +84,7 @@ public class EditRequirementDescriptionController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		final Request request = Network.getInstance().makeRequest(
-				"planningpoker/session/1", HttpMethod.GET);
+		final Request request = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.GET);
 		request.addObserver(new EditRequirementDescriptionObserver(this));
 		request.send();
 

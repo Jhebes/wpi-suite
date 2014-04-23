@@ -47,10 +47,12 @@ public class ActivateSessionController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.session.activate();
-		session.save();
-		ViewEventManager.getInstance().removeTab(panel);
-		ViewEventManager.getInstance().viewSession(session);
+		if (this.session.getRequirements().size() > 0) {
+			this.session.activate();
+			session.save();
+			ViewEventManager.getInstance().removeTab(panel);
+			ViewEventManager.getInstance().viewSession(session);
+		}
 	}
 
 	/**

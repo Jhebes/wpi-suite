@@ -28,7 +28,7 @@ public class DispalyDeckPanel extends JPanel {
 	 */
 	public void displayDeck() {
 		for(int value : this.deck.getDeck()) {
-			Card aCard = new Card();
+			// TODO: implement
 		}
 	}
 	

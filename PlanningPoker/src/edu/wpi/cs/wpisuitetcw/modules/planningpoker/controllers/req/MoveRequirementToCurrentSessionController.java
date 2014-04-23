@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
@@ -51,7 +52,7 @@ public class MoveRequirementToCurrentSessionController implements ActionListener
 		
 		for(String a : this.view.getLeftSelectedRequirements()){
 				r = s.getReqByName(a);
-				ArrayList<PlanningPokerRequirement> d = new ArrayList<PlanningPokerRequirement>();
+				List<PlanningPokerRequirement> d = new ArrayList<PlanningPokerRequirement>();
 				d.add(r);
 				s.deleteRequirements(d);
 				session.addRequirement(r);
@@ -67,6 +68,8 @@ public class MoveRequirementToCurrentSessionController implements ActionListener
 		a2.refreshRequirements(session.getID(), session.getRequirements());
 		this.view.getAllReqTable().repaint();
 		this.view.getSessionReqTable().repaint();
+
+		view.validateActivateSession();
 	}
 	
 	/*
