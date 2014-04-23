@@ -44,8 +44,8 @@ public class ImportExportButtonsPanel extends ToolbarGroupView {
 	private static final long serialVersionUID = -8151853089564675130L;
 
 	private final JPanel contentPanel = new JPanel();
-	private final JButton importButton = new JButton("<html>Import<br />Requirements</html>");
-	private final JButton exportButton = new JButton("<html>Export<br />Requirements</html>");
+	private final JButton importButton = new JButton("<html>Import</html>");
+	private final JButton exportButton = new JButton("<html>Export</html>");
 	private static final JFileChooser fc = new JsonFileChooser(); 
 
 	/**
