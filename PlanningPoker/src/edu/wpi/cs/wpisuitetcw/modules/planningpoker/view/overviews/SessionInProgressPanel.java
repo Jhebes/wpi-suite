@@ -125,6 +125,24 @@ public class SessionInProgressPanel extends JPanel {
 		setLayout(new MigLayout());
 		add(mainView, "dock center");
 		add(bottomPanel, "dock south");
+		
+		// Exhibit the information of the 1st requirement 
+		setupInitData();
+	}
+
+	/*
+	 * Put the name and description of the 1st requirement
+	 * in the name and description text field
+	 */
+	private void setupInitData() {
+		// Prevent getting requirement from an empty array list
+		if (session.getRequirements().size() > 0) {
+			PlanningPokerRequirement firstReq = session
+												.getRequirements()
+												.get(0);
+			requirementNameTextbox.setText(firstReq.getName());
+			descriptionTextbox.setText(firstReq.getDescription());
+		}
 	}
 
 	/*
