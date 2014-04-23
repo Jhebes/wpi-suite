@@ -49,9 +49,9 @@ public class SessionInProgressPanel extends JPanel {
 	private static final String NO_DECK_MSG = 
 			"<html><font color='red'>No deck. Please enter your vote in the white box</font></html>";
 
-	private static final int MIN_DESC_TEXTBOX_HEIGHT 				  = 140;
-	private static final int MIN_VOTE_TEXTFIELD_WIDTH 				  = 150;
-	private static final int MIN_VOTE_TEXTFIELD_HEIGHT 				  = 150;
+	private static final int MIN_DESC_TEXTBOX_HEIGHT 				  = 80;
+	private static final int MIN_VOTE_TEXTFIELD_WIDTH 				  = 120;
+	private static final int MIN_VOTE_TEXTFIELD_HEIGHT 				  = 120;
 	private static final int MIN_BUTTON_WIDTH 						  = 50;
 	private static final int GAP_BETWEEN_BOTTOM_BUTTONS 			  = 20;
 	private static final int PADDING_RIGHT_PANEL 					  = 10;
@@ -389,11 +389,9 @@ public class SessionInProgressPanel extends JPanel {
 		// Add the card panel
 		if (cardFrame != null) {
 			rightPanel.add(cardFrame, "hmin 250px, grow, dock south");
-			cardFrame.setBorder(BorderFactory.createLineBorder(Color.RED));
 		} else {
 			JLabel messageLabel = new JLabel(NO_DECK_MSG);
-			messageLabel.setBorder(BorderFactory.createLineBorder(Color.RED));
-			rightPanel.add(messageLabel, "center, hmin 250px, grow, dock south");
+			rightPanel.add(messageLabel, "align center, hmin 250px, grow, dock south");
 		}
 
 		// Add the vote text field to the right side
