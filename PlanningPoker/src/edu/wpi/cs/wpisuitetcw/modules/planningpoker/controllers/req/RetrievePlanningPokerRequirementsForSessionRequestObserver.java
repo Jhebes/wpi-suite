@@ -10,6 +10,9 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -53,7 +56,6 @@ public class RetrievePlanningPokerRequirementsForSessionRequestObserver implemen
 
 			for(PlanningPokerSession s : session){
 				if(s.getID() == this.controller.target){
-					System.out.println("Got session with id: "  + s.getID() + " back");
 					controller.receivedData(s);
 				}
 			}

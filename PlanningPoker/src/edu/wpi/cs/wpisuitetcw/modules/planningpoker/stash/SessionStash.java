@@ -12,13 +12,13 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.requirementmanagerrequirements.GetAllRequirementsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session.GetAllSessionsController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.AddSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionTableModel;
 
 public class SessionStash {
 
@@ -64,7 +64,7 @@ public class SessionStash {
 
 	public void mergeFromServer(List<PlanningPokerSession> incomingSessions) {
 		if(incomingSessions.size() == 0){
-			System.out.println("No storage session found-- creating!");
+			Logger.getLogger("PlanningPoker").log(Level.INFO, "No storage session found-- creating!");
 			PlanningPokerSession s = new PlanningPokerSession();
 			s.setName("NULLSESS");
 			s.create();
@@ -92,7 +92,6 @@ public class SessionStash {
 	}
 
 	public void synchronize() {
-		System.out.println("Synchronizing SessionStash");
 		GetAllRequirementsController.getInstance().retrieveRequirements();
 		GetAllSessionsController.getInstance().retrieveSessions();
 	}
