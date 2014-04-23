@@ -173,8 +173,7 @@ public class SessionInProgressPanel extends JPanel {
 				closeTab();
 			}
 		});
-		leftPanel.add(cancelSessionButton);
-
+		
 		if (session.isClosed() || session.isCancelled()) {
 			cancelSessionButton.setEnabled(false);
 		}
@@ -327,7 +326,6 @@ public class SessionInProgressPanel extends JPanel {
 			voteTextField.setEnabled(false);
 			// Create a deck panel
 			cardPanel = new DisplayDeckPanel(session.getDeck(), this);
-			rightPanel.add(cardPanel);
 		} else {
 			// user votes by entering a number
 		}
