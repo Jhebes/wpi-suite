@@ -270,7 +270,9 @@ public class ViewSessionReqPanel extends JPanel {
 		allReqTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
+				RequirementTableManager n = new RequirementTableManager();
+				n.fetch(session.getID());
+				sessionReqTable.updateUI();
 				JTable table = (JTable) e.getSource();
 				int row = table.getSelectedRow();
 
@@ -294,7 +296,9 @@ public class ViewSessionReqPanel extends JPanel {
 		sessionReqTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
+				RequirementTableManager n = new RequirementTableManager();
+				n.fetch(session.getID());
+				sessionReqTable.updateUI();
 				JTable table = (JTable) e.getSource();
 				int row = table.getSelectedRow();
 
