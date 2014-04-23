@@ -333,7 +333,7 @@ public class SessionInProgressPanel extends JPanel {
 	private void addGUIComponentsOnLeftPanel() {
 		leftPanel.setLayout(new MigLayout("fill, center"));
 
-		leftPanel.add(leftPanelLabel, "dock north");
+		leftPanel.add(leftPanelLabel, "gapleft 50px, dock north");
 		leftPanel.add(requirementFrame, "width 250::, growy, dock center");
 	}
 
