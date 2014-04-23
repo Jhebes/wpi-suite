@@ -13,7 +13,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateDeckPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.CreateDeckPanel;
 
 /**
  * Controller that adds images of cards to the CreateNewDeckPanel
