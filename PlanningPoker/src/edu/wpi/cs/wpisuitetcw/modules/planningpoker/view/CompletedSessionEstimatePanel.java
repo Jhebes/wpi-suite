@@ -42,7 +42,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	private final JLabel lblMean;
 	private final JLabel lblMedian;
 	private final JLabel lblMode;
-	private final JTable tblVotes;
+	private JTable tblVotes;
 	private JTextField statsMean;
 	private JTextField statsMedian;
 	private JTextField statsMode;
@@ -50,16 +50,16 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	private final Font headerFont;
 	private final Font statNameFont;
 	private final JButton btnFinalEstimate;
-	private final PlanningPokerRequirement requirement;
+	private int mean;
+	private int mode;
+	private int median;
 
 	/**
 	 * Create the panel.
 	 */
-	public CompletedSessionEstimatePanel(PlanningPokerRequirement req) {
+	public CompletedSessionEstimatePanel() {
 
 		panelLayout = new GridLayout(0, 3);
-		this.requirement = req;
-		
 
 		/*
 		 * Create and set up the 3 panels used to create the CompletedSession
@@ -156,38 +156,11 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		pnlStats.add(lblMode);
 		pnlStats.add(statsMode);
 
-		// Create the Votes Panel
-		/*Object[][] data = { { "remckenna", new Integer(2) }, // / This data is
-																// all dummy
-																// TODO: change
-				{ "Somebody else", new Integer(6) } };*/
-		Object[] voteTableColHeaders = { "User", "Vote" };
-		Object[][] data = new Object[requirement.getVotes().size()][2];
-		int j = 0;
-		for(PlanningPokerVote vote : requirement.getVotes()){
-			data[j][0] = vote;
-			data[j][1] = vote.getUser();
-			j++;
-		}
-		tblVotes = new JTable(data, voteTableColHeaders) {
-			@Override
-			public boolean isCellEditable(int row, int column) { 
-				// disables the ability to edit cells
-				// all cells false
-				return false;
-			}
-		};
-
-		JScrollPane votesScrollPane = new JScrollPane(tblVotes);
-		tblVotes.setFillsViewportHeight(true);
-
-		pnlVotes.add(lblVotes);
-		pnlVotes.add(votesScrollPane);
-
 		// put the completed Session panel together
 		this.add(pnlVotes);
 		this.add(pnlStats);
 		this.add(pnlFinalEstimate);
+		pnlVotes.add(lblVotes);
 
 	}
 
@@ -218,4 +191,52 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		this.statsMode.setText("" + statsMode + "  ;");
 	}
 
+	public void fillTable(PlanningPokerRequirement requirement) {
+		// Create the Votes Panel
+		Object[] voteTableColHeaders = { "User", "Vote" };
+		Object[][] data = new Object[requirement.getVotes().size()][2];
+		int j = 0;
+		for (PlanningPokerVote vote : requirement.getVotes()) {
+			data[j][1] = vote.getUser();
+			data[j][0] = vote;
+			j++;
+		}
+		tblVotes = new JTable(data, voteTableColHeaders) {
+			@Override
+			// disables the ability to edit cells
+			public boolean isCellEditable(int row, int column) {
+				// all cells false
+				return false;
+			}
+		};
+
+		JScrollPane votesScrollPane = new JScrollPane(tblVotes);
+		tblVotes.setFillsViewportHeight(true);
+
+		pnlVotes.add(votesScrollPane);
+	}
+
+	public int getMean() {
+		return mean;
+	}
+
+	public void setMean(int mean) {
+		this.mean = mean;
+	}
+
+	public int getMode() {
+		return mode;
+	}
+
+	public void setMode(int mode) {
+		this.mode = mode;
+	}
+
+	public int getMedian() {
+		return median;
+	}
+
+	public void setMedian(int median) {
+		this.median = median;
+	}
 }
