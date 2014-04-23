@@ -9,7 +9,6 @@
 		<pathelement path="../Janeway/build"/>
 		<pathelement path="../Network/build"/>
 		<pathelement path="../Janeway/lib"/>
-		<pathelement path="../PlanningPoker/build" />
 		<pathelement path="../Core/WPISuite-Interfaces/build"/>
 		<fileset dir="${core-lib}">
 			<include name="gson-*.jar"/>
