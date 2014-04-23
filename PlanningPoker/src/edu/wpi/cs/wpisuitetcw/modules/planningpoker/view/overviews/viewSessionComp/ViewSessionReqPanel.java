@@ -30,6 +30,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 
 import java.awt.event.MouseAdapter;
@@ -194,14 +195,13 @@ public class ViewSessionReqPanel extends JPanel {
 				return false;
 			}
 
-			public void valueChanged(ListSelectionEvent e) {
-
-			}
-
 		};
 
 		allReqTable.setBackground(Color.WHITE);
 		allReqTable.getTableHeader().setReorderingAllowed(false);
+		allReqTable.setRowSelectionAllowed(true);
+		allReqTable
+				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
 		// add table to rightPanel
 		JLabel leftLabel = new JLabel("All Requirements");
@@ -220,14 +220,13 @@ public class ViewSessionReqPanel extends JPanel {
 				return false;
 			}
 
-			public void valueChanged(ListSelectionEvent e) {
-
-			}
-
 		};
 
 		sessionReqTable.getTableHeader().setReorderingAllowed(false);
 		sessionReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		sessionReqTable.setRowSelectionAllowed(true);
+		sessionReqTable
+				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		allReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
 		// rightPanel formatting
@@ -277,8 +276,8 @@ public class ViewSessionReqPanel extends JPanel {
 								.toString();
 					}
 					if (i == 1) {
-						reqDescription = allReqTable.getModel().getValueAt(row, 1)
-								.toString();
+						reqDescription = allReqTable.getModel()
+								.getValueAt(row, 1).toString();
 					}
 				}
 
@@ -301,8 +300,8 @@ public class ViewSessionReqPanel extends JPanel {
 								.toString();
 					}
 					if (i == 1) {
-						reqDescription = sessionReqTable.getModel().getValueAt(row, 1)
-								.toString();
+						reqDescription = sessionReqTable.getModel()
+								.getValueAt(row, 1).toString();
 					}
 				}
 
@@ -310,12 +309,33 @@ public class ViewSessionReqPanel extends JPanel {
 			}
 		});
 
+		/**
+		 * Clears the selections of the req panels when parent panel is clicked
+		 * on
+		 */
+
+		parentPanel.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				allReqTable.clearSelection();
+				sessionReqTable.clearSelection();
+			}
+
+		});		
+		
+
 		// setup buttons panel
 		buttonsPanel.setLayout(new GridLayout(0, 1, 0, 20));
 		buttonsPanel.add(moveAllRequirementsToSession);
 		buttonsPanel.add(moveRequirementToSession);
 		buttonsPanel.add(moveRequirementToAll);
 		buttonsPanel.add(moveAllRequirementsToAll);
+
+		// Rob said to do this but nobody knows what it does/means
+		// JScrollPane jsp1 = new JScrollPane();
+		// JScrollPane.add(sessionReqTable);
 
 		// buttons panel goes in the center
 		centerPanel.setLayout(new BorderLayout());
