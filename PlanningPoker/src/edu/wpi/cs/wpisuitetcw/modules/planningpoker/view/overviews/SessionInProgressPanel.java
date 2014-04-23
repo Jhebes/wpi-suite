@@ -367,9 +367,10 @@ public class SessionInProgressPanel extends JPanel {
 	 */
 	private void addGUIComponentsOnRightPanel() {
 		// Add the padding around the right panel
-		rightPanel.setLayout(new MigLayout("insets " + PADDING_RIGHT_PANEL
-				+ " " + PADDING_RIGHT_PANEL + " " + PADDING_RIGHT_PANEL + " "
-				+ PADDING_RIGHT_PANEL + ", fillx"));
+		rightPanel.setLayout(new MigLayout("insets " + PADDING_RIGHT_PANEL + " " 
+													 + PADDING_RIGHT_PANEL + " " 
+													 + PADDING_RIGHT_PANEL + " "
+													 + PADDING_RIGHT_PANEL + ", fill"));
 
 		// Add the label of the panel
 		rightPanel.add(rightPanelLabel, "center, span");
