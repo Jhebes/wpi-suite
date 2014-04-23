@@ -32,12 +32,12 @@ import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.VotePanel;
 
 public class CompletedSessionEstimatePanel extends JPanel {
 
 	// private final JPanel pnlCompletedSession;
-	private final SessionInProgressPanel parentPanel;
+	private final VotePanel parentPanel;
 	private final GridLayout panelLayout;
 	private final JPanel pnlFinalEstimate;
 	private final JPanel pnlStats;
@@ -71,7 +71,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 *            The parent panel containing this panel.
 	 */
 	public CompletedSessionEstimatePanel(
-			final SessionInProgressPanel parentPanel) {
+			final VotePanel parentPanel) {
 		this.parentPanel = parentPanel;
 
 		panelLayout = new GridLayout(0, 3);

@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.VotePanel;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -31,7 +31,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class GetRequirementsVotesController implements ActionListener{
 	/** The create session panel */
-	protected SessionInProgressPanel view;
+	protected VotePanel view;
 
 	/** The requirements retrieved from the server */
 	protected PlanningPokerRequirement[] data = null;
@@ -45,7 +45,7 @@ public class GetRequirementsVotesController implements ActionListener{
 	/**
 	 * Constructs a new RetrieveFreePlanningPokerRequirementsController
 	 */
-	public GetRequirementsVotesController(SessionInProgressPanel view, PlanningPokerSession session) {
+	public GetRequirementsVotesController(VotePanel view, PlanningPokerSession session) {
 		this.session = session;
 		this.view = view;
 	}

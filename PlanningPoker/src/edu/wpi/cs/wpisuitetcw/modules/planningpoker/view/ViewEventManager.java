@@ -17,7 +17,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTreePanel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.VotePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 
 public class ViewEventManager {
@@ -28,7 +28,7 @@ public class ViewEventManager {
 	private ToolbarView toolbarView;
 	private boolean isWelcomePageOnDisplay = true;
 	private ArrayList<ViewSessionPanel> viewSessionPanels = new ArrayList<ViewSessionPanel>();
-	private ArrayList<SessionInProgressPanel> inProgressSessionPanels = new ArrayList<SessionInProgressPanel>();
+	private ArrayList<VotePanel> inProgressSessionPanels = new ArrayList<VotePanel>();
 
 	/**
 	 * Default constructor for ViewEventController. It is set to private to
@@ -85,9 +85,9 @@ public class ViewEventManager {
 	public void viewSession(PlanningPokerSession session) {
 		if (session.getStartTime() != null) {
 			// check if the panel of the session is opened
-			SessionInProgressPanel exist = null;
+			VotePanel exist = null;
 
-			for (SessionInProgressPanel panel : inProgressSessionPanels) {
+			for (VotePanel panel : inProgressSessionPanels) {
 				if (panel.getSession() == session) {
 					exist = panel;
 					break;
@@ -95,7 +95,7 @@ public class ViewEventManager {
 			}
 
 			if (exist == null) {
-				SessionInProgressPanel newPanel = new SessionInProgressPanel(
+				VotePanel newPanel = new VotePanel(
 						session);
 				inProgressSessionPanels.add(newPanel);
 				main.addTab(session.getName(), null, newPanel,
@@ -180,7 +180,7 @@ public class ViewEventManager {
 		if (component instanceof ViewSessionPanel) {
 			this.viewSessionPanels.remove(component);
 		}
-		if (component instanceof SessionInProgressPanel) {
+		if (component instanceof VotePanel) {
 			this.inProgressSessionPanels.remove(component);
 		}
 		
