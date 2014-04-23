@@ -45,7 +45,8 @@ public class PlanningPokerDeck extends AbstractModel {
 		for (int i : defaultDeck) {
 			this.deck.add(i);
 		}
-		this.maxSelection = defaultDeck.length;
+		// default deck should be single selection
+		this.maxSelection = 1;
 	}
 
 	/**

@@ -91,7 +91,6 @@ public class UserStash {
 	 * Connect to the remote database and pull its list of users
 	 */
 	public void synchronize() {
-		System.out.println("Synchronizing User Stash");
 		GetAllUsersController.getInstance().retrieveUsers();
 
 	}

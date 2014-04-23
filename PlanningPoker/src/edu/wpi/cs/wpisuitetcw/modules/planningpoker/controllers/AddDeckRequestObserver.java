@@ -10,6 +10,9 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -29,7 +32,7 @@ public class AddDeckRequestObserver implements RequestObserver {
 	public void responseSuccess(IRequest iReq) {
 		final ResponseModel response = iReq.getResponse();
 		final PlanningPokerDeck deck = PlanningPokerDeck.fromJson(response.getBody());
-		System.out.println("New deck " + deck.getDeckName() + " has been stored!");
+		Logger.getLogger("PlanningPoker").log(Level.INFO, "New deck " + deck.getDeckName() + " has been stored!");
 	}
 
 	/**

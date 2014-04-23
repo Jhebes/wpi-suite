@@ -22,6 +22,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -316,11 +318,11 @@ public class CreateNewDeckPanel extends JPanel {
 	public boolean isDeckNameEntered() {
 		if (textboxName.getText().equals("")) {
 			// nothing is entered
-			System.out.println("Name not entered");
+			Logger.getLogger("PlanningPoker").log(Level.INFO, "Name not entered");
 			labelNameErr.setVisible(true);
 			return false;
 		} else {
-			System.out.println("Name entered");
+			Logger.getLogger("PlanningPoker").log(Level.INFO, "Name entered");
 			labelNameErr.setVisible(false);
 			return true;
 		}
@@ -411,7 +413,7 @@ public class CreateNewDeckPanel extends JPanel {
 			@Override
 			public void componentHidden(ComponentEvent e) {
 				Card aCard = (Card) e.getComponent();
-				System.out.println("Card removed");
+				Logger.getLogger("PlanningPoker").log(Level.INFO, "Card removed");
 				panel.removeCardWithKey(aCard.hashCode());
 				panel.updateUI();
 			}

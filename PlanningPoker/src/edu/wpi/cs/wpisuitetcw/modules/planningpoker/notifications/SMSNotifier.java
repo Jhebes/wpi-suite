@@ -61,16 +61,17 @@ public class SMSNotifier extends BaseNotifier {
 		parameters.put("text", message);
 		parameters.put("url", "http://server/message/notification/");
 
+		Logger logger = Logger.getLogger("PlanningPoker");
 		try {
 			MessageResponse msgResponse = api.sendMessage(parameters);
-			System.out.println(msgResponse.apiId);
+			logger.log(Level.INFO, msgResponse.apiId);
 			if (msgResponse.serverCode == 202) {
-				System.out.println(msgResponse.messageUuids.get(0).toString());
+				logger.log(Level.INFO, msgResponse.messageUuids.get(0).toString());
 			} else {
-				System.out.println(msgResponse.error);
+				logger.log(Level.INFO, msgResponse.error);
 			}
 		} catch (PlivoException e) {
-			System.out.println(e.getLocalizedMessage());
+			logger.log(Level.INFO, e.getLocalizedMessage());
 		}
 	}
 }

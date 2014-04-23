@@ -117,13 +117,24 @@ public class PlanningPokerSessionEntityManager implements
 	 */
 	@Override
 	public PlanningPokerSession[] getAll(Session s) throws WPISuiteException {
-		// Ask the database to retrieve all objects of the type
-		// PlanningPokerSession.
-		// Passing a dummy PlanningPokerSession lets the db know what type of
-		// object to retrieve
-		// Passing the project makes it only get messages from that project
 		List<Model> messages = db.retrieveAll(new PlanningPokerSession(),
 				s.getProject());
+		
+		if (messages.size() == 0) {
+			System.out.println("CREATED DEFAULT.");
+			PlanningPokerSession defaultSession = new PlanningPokerSession();
+			defaultSession.setID(1);
+			defaultSession.setName("Default Session");
+			defaultSession.setDescription("This session is for requirements that have not been assigned");
+			
+			if (db.save(defaultSession, s.getProject())) {
+				PlanningPokerSession[] created = new PlanningPokerSession[1];
+				created[0] = defaultSession;
+				return created;
+			} else {
+				throw new WPISuiteException();
+			}
+		}
 
 		// Return the list of messages as an array
 		return messages.toArray(new PlanningPokerSession[0]);

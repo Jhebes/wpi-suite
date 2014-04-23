@@ -12,6 +12,8 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
@@ -61,11 +63,10 @@ public class GetRequirementsVotesController implements ActionListener{
 		this.req = this.session.getReqByName(this.view.getSelectedRequirement());
 		PlanningPokerRequirement r = session.getReqByName(this.req.getName());
 
-		System.out.println("Votes for selected requirement:");
+		Logger.getLogger("PlanningPoker").log(Level.INFO, "Votes for selected requirement:");
 		for(PlanningPokerVote v : r.votes){
 			System.out.print(v.getCardValue()+ " ");
 		}
-		System.out.println();
 		//view.setVoteList(r.votes);
 	}
 
