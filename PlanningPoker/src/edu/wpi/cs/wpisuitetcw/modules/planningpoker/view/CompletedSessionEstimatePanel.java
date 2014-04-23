@@ -14,7 +14,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -25,6 +24,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
@@ -42,6 +43,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	private final JLabel lblMean;
 	private final JLabel lblMedian;
 	private final JLabel lblMode;
+	private DefaultTableModel tableModel;
 	private JTable tblVotes;
 	private JTextField statsMean;
 	private JTextField statsMedian;
@@ -53,7 +55,8 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	private int mean;
 	private int mode;
 	private int median;
-	private Object[][] data;
+	
+	private static final Object[] voteTableColHeaders = { "User", "Vote" };
 
 	/**
 	 * Create the panel.
@@ -170,19 +173,17 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	}
 
 	public void createTable() {
-		Object[] voteTableColHeaders = { "User", "Vote" };
-		if (data != null) {
-			tblVotes = new JTable(data, voteTableColHeaders) {
-				@Override
-				// disables the ability to edit cells
-				public boolean isCellEditable(int row, int column) {
-					// all cells false
-					return false;
-				}
-			};
-		} else {
-			tblVotes = new JTable();
-		}
+		tableModel = new DefaultTableModel(new Object[0][0], voteTableColHeaders);
+		tblVotes = new JTable(tableModel) {
+			private static final long serialVersionUID = -1948465013583690161L;
+
+			@Override
+			// disables the ability to edit cells
+			public boolean isCellEditable(int row, int column) {
+				// all cells false
+				return false;
+			}
+		};
 	}
 
 	/**
@@ -213,13 +214,13 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	}
 
 	public void fillTable(PlanningPokerRequirement requirement) {
-		// Create the Votes Panel
-		data = new Object[requirement.getVotes().size()][2];
-		int j = 0;
-		for (PlanningPokerVote vote : requirement.getVotes()) {
-			data[j][1] = vote.getUser();
-			data[j][0] = vote;
-			j++;
+		// Clear the table model.
+		tableModel.setRowCount(0);
+		
+		for (PlanningPokerVote vote : requirement.getVotes()) {			
+			Object[] row = {vote.getUser(), 
+							vote.getCardValue()};
+			tableModel.addRow(row);
 		}
 	}
 }

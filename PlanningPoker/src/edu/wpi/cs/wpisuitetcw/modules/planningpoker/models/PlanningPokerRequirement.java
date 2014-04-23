@@ -420,7 +420,7 @@ public class PlanningPokerRequirement extends AbstractModel {
 		if (size % 2 == 1) {
 			return numList[(size / 2)];
 		} else {
-			return (numList[size / 2] + numList[(size / 2) + 1]) / 2;
+			return (numList[size / 2] + numList[(size / 2) - 1]) / 2;
 		}
 	}
 
