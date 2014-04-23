@@ -25,7 +25,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
@@ -55,7 +54,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	private int mean;
 	private int mode;
 	private int median;
-	
+
 	private static final Object[] voteTableColHeaders = { "User", "Vote" };
 
 	/**
@@ -113,11 +112,21 @@ public class CompletedSessionEstimatePanel extends JPanel {
 
 		btnFinalEstimate = new JButton("Submit Final Estimation");
 		btnFinalEstimate.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnFinalEstimate.setEnabled(false);
 
 		pnlFinalEstimate.add(lblFinalEstimate);
 		pnlFinalEstimate.add(verticalStrut);
 		pnlFinalEstimate.add(finalEstimateField);
 		pnlFinalEstimate.add(btnFinalEstimate);
+
+		try {
+			Integer.parseInt(finalEstimateField.getText());
+			btnFinalEstimate.setEnabled(true);
+		} catch (NumberFormatException n) {
+			JLabel Error = new JLabel("Must input a number");
+			Error.setAlignmentX(Component.CENTER_ALIGNMENT);
+			pnlFinalEstimate.add(Error);
+		}
 
 		// Create the Stats Panel
 		statNameFont = new Font("TimesRoman", Font.BOLD, 15);
@@ -173,7 +182,8 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	}
 
 	public void createTable() {
-		tableModel = new DefaultTableModel(new Object[0][0], voteTableColHeaders);
+		tableModel = new DefaultTableModel(new Object[0][0],
+				voteTableColHeaders);
 		tblVotes = new JTable(tableModel) {
 			private static final long serialVersionUID = -1948465013583690161L;
 
@@ -216,10 +226,9 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	public void fillTable(PlanningPokerRequirement requirement) {
 		// Clear the table model.
 		tableModel.setRowCount(0);
-		
-		for (PlanningPokerVote vote : requirement.getVotes()) {			
-			Object[] row = {vote.getUser(), 
-							vote.getCardValue()};
+
+		for (PlanningPokerVote vote : requirement.getVotes()) {
+			Object[] row = { vote.getUser(), vote.getCardValue() };
 			tableModel.addRow(row);
 		}
 	}
