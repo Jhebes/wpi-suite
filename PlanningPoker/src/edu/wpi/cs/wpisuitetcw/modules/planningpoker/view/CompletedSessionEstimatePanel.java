@@ -191,7 +191,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * @param statsMean
 	 */
 	public void setStatsMean(int statsMean) {
-		this.statsMean.setText("" + statsMean + "  ;");
+		this.statsMean.setText("" + statsMean + "  ");
 	}
 
 	/**
@@ -200,7 +200,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * @param statsMedian
 	 */
 	public void setStatsMedian(int statsMedian) {
-		this.statsMedian.setText("" + statsMedian + "  ;");
+		this.statsMedian.setText("" + statsMedian + "  ");
 	}
 
 	/**
@@ -209,7 +209,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * @param statsMode
 	 */
 	public void setStatsMode(int statsMode) {
-		this.statsMode.setText("" + statsMode + "  ;");
+		this.statsMode.setText("" + statsMode + "  ");
 	}
 
 	public void fillTable(PlanningPokerRequirement requirement) {
