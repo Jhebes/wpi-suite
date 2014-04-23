@@ -47,7 +47,9 @@ public class SessionInProgressPanel extends JPanel {
 	private static final String RIGHT_PANEL_LABEL 		 = "Requirements Detail:";
 	private static final String LEFT_PANEL_LABEL 		 = "Session Requirements:";
 	private static final String END_SESSION_BUTTON_LABEL = "End Session";
-	
+	private static final String NO_DECK_MSG = 
+			"<html><font color='red'>No deck. Please enter your vote in the white box</font></html>";
+
 	private static final int MIN_DESC_TEXTBOX_HEIGHT 				  = 140;
 	private static final int MIN_VOTE_TEXTFIELD_WIDTH 				  = 150;
 	private static final int MIN_VOTE_TEXTFIELD_HEIGHT 				  = 150;
@@ -338,8 +340,6 @@ public class SessionInProgressPanel extends JPanel {
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
 		voteTextField.setHorizontalAlignment(JTextField.CENTER);
 
-		addGUIComponentsOnRightPanel();
-
 		// if the session has a deck, we can't let the user submit a vote
 		// manually
 		if (session.getDeck() != null) {
@@ -347,11 +347,11 @@ public class SessionInProgressPanel extends JPanel {
 			// Create a deck panel
 			cardPanel = new DisplayDeckPanel(session.getDeck(), this);
 		} else {
+			voteTextField.setEnabled(true);
 			JPanel votingPanel = new JPanel();// user votes by entering a number
-			
-			// Add the card panel
-			rightPanel.add(votingPanel, "grow, dock south");
 		}
+		
+		addGUIComponentsOnRightPanel();
 	}
 
 	/*
@@ -378,7 +378,13 @@ public class SessionInProgressPanel extends JPanel {
 				+ "px, " + "growx, " + "gapright"
 				+ GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX + "px, " + "wrap");
 
-		
+		// Add the card panel
+		if (cardPanel != null) {
+			rightPanel.add(cardPanel, "grow, dock south");
+		} else {
+			JLabel messageLabel = new JLabel(NO_DECK_MSG);
+			rightPanel.add(messageLabel, "center, grow, dock south");
+		}
 
 		// Add the vote text field to the right side
 		rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH
