@@ -248,7 +248,7 @@ public class SessionInProgressPanel extends JPanel {
 	 * the bottom panel
 	 */
 	private void addGUIComponentsToBottomPanel() {
-		bottomPanel.setLayout(new MigLayout("fillx", "10[][]10", "push[]push"));
+		bottomPanel.setLayout(new MigLayout("fillx", "", "5[]5"));
 		bottomPanel.add(endSessionButton, "left, wmin " + MIN_BUTTON_WIDTH  + "px, split3");
 		bottomPanel.add(btnEditSession, "left, wmin " + MIN_BUTTON_WIDTH + "px");
 		bottomPanel.add(cancelSessionButton, "left, wmin " + MIN_BUTTON_WIDTH + "px");
