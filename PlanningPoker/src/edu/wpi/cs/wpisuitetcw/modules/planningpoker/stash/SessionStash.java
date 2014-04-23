@@ -62,18 +62,7 @@ public class SessionStash {
 		return null;
 	}
 
-	public void mergeFromServer(List<PlanningPokerSession> incomingSessions) {
-		if(incomingSessions.size() == 0){
-			Logger.getLogger("PlanningPoker").log(Level.INFO, "No storage session found-- creating!");
-			PlanningPokerSession s = new PlanningPokerSession();
-			s.setName("NULLSESS");
-			s.create();
-			s.setID(1);
-			this.sessions.add(s);
-			initialized = true;
-			return;
-		}
-		
+	public void mergeFromServer(List<PlanningPokerSession> incomingSessions) {	
 		for (PlanningPokerSession s : this.sessions) {
 			s.save();
 		}
