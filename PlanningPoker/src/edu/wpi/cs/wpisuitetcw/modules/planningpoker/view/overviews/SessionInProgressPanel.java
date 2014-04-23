@@ -247,7 +247,7 @@ public class SessionInProgressPanel extends JPanel {
 			
 		// Create a JLabel holding the card selection mode
 		cardSelectionModeLabel = new JLabel();
-		if (session.getDeck().getMaxSelection() == 1) {
+		if (session.getDeck() != null && session.getDeck().getMaxSelection() == 1) {
 			cardSelectionModeLabel.setText("Single selection deck");
 		} else {
 			cardSelectionModeLabel.setText("Multiple selection deck");
