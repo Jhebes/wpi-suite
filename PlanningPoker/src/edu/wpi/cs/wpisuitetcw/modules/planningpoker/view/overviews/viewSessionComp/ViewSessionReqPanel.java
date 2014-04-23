@@ -418,6 +418,18 @@ public class ViewSessionReqPanel extends JPanel {
 		description.setText(reqDescription);
 
 	}
+	
+	/**
+	 * Checks whether there is at least 1 requirement in this session and disables
+	 * the "Activate" button if there are no requirements.
+	 */
+	public void validateActivateSession() {
+		if (session.getRequirements().size() == 0) {
+			parentPanel.getButtonPanel().getActivateBtn().setEnabled(false);
+		} else {
+			parentPanel.getButtonPanel().getActivateBtn().setEnabled(true);
+		}
+	}
 
 	public JButton getUpdateDescription() {
 		return saveRequirement;

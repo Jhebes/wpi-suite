@@ -60,6 +60,7 @@ public class AddRequirementToSessionController implements ActionListener {
 		this.panel.clearNewReqDesc();
 
 		(new RequirementTableManager()).fetch(id);
+		panel.validateActivateSession();
 	}
 
 	/*

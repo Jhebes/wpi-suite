@@ -36,5 +36,12 @@ public class ViewSessionBtnPanel extends JPanel{
 	public ViewSessionPanel getParentPanel() {
 		return parentPanel;
 	}	
+	
+	/**
+	 * @return This panel's activate session button
+	 */
+	public JButton getActivateBtn() {
+		return activateBtn;
+	}
 
 }
