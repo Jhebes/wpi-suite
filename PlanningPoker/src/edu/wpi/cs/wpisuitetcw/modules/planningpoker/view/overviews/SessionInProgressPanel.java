@@ -160,8 +160,14 @@ public class SessionInProgressPanel extends JPanel {
 	 * Construct the GUI components of the bottom panel
 	 */
 	private void setupBottomPanel() {
+		
 		// Create the container
 		bottomPanel = new JPanel();
+		
+		// Don't draw bottom buttons if we're in final estimation
+		if (session.isClosed()) {
+			return;
+		}
 
 		// Create the end session button
 		endSessionButton = new JButton(END_SESSION_BUTTON_LABEL);
