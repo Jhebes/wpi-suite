@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateNewDeckPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 
 /**
@@ -28,7 +28,7 @@ public class InitNewDeckPanelController implements ActionListener {
 	private CreateSessionPanel view;
 	
 	/** A CreateNewDeckPanel */
-	private CreateNewDeckPanel deckPanel = null;
+	private CreateDeckPanel deckPanel = null;
 	
 	/** An instance of this controller */
 	private static InitNewDeckPanelController instance;

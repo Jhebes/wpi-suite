@@ -19,7 +19,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session.GetA
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateNewDeckPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
@@ -120,7 +120,7 @@ public class AddSessionController implements ActionListener {
 					session.setDeck(new PlanningPokerDeck());
 				} else {
 
-					CreateNewDeckPanel deckPanel = view.getDeckPanel();
+					CreateDeckPanel deckPanel = view.getDeckPanel();
 					session.setDeck(new PlanningPokerDeck(deckPanel.getName(),
 							deckPanel.getNewDeckValues(), deckPanel
 									.getMaxSelectionCards()));

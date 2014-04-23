@@ -44,7 +44,7 @@ import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 /**
  * A view to create a new deck
  */
-public class CreateNewDeckPanel extends JPanel {
+public class CreateDeckPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
@@ -102,7 +102,7 @@ public class CreateNewDeckPanel extends JPanel {
 
 	// subject to change
 	// private final JTextField textboxVal;
-	public CreateNewDeckPanel(CardDisplayMode mode) {
+	public CreateDeckPanel(CardDisplayMode mode) {
 		// Assign mode for the panel
 		this.mode = mode;
 		
@@ -287,7 +287,7 @@ public class CreateNewDeckPanel extends JPanel {
 	 * @param button
 	 * @param panel
 	 */
-	public void addAction(JButton button, final CreateNewDeckPanel panel) {
+	public void addAction(JButton button, final CreateDeckPanel panel) {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -394,7 +394,7 @@ public class CreateNewDeckPanel extends JPanel {
 	 * notify createNewDeckPanel when a Card is discarded, so that it removes
 	 * the card from the cards HashMap
 	 */
-	public void addRemoveCardListener(Card aCard, final CreateNewDeckPanel panel) {
+	public void addRemoveCardListener(Card aCard, final CreateDeckPanel panel) {
 		// remove a card
 		aCard.addComponentListener(new ComponentListener() {
 
