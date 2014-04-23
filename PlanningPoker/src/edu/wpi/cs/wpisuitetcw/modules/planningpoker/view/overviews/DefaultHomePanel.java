@@ -200,8 +200,9 @@ public class DefaultHomePanel extends JPanel {
 		String[] rightPaneText = {
 				"Frequently Asked Questions", // large
 				"\n\nWho can view my vote?", // medium
-				"\n Once your vote is submitted, your vote remains anonymous and is only"
-				+ " used for the calculation of the final estimation of a requirement.", //small
+				"\n Once your vote is submitted, your vote cannot be seen by anyone until final " +
+				"estimation and is only used for the calculation of the final estimation of a " +
+				"requirement.", //small
 				"\n\nWhat is the difference between cancelling and ending a session?", // medium
 				"\n   When a session ends due to the deadline being reached or the administrator"
 				+ " manually ending a session, a final estimation is calculated, while cancelling "
