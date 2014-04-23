@@ -26,8 +26,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
@@ -60,7 +58,10 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	private int mean;
 	private int mode;
 	private int median;
+<<<<<<< HEAD
+=======
 	private PlanningPokerRequirement focusedRequirement = null;
+>>>>>>> 61748fc62022d13fd64e8cfce901177ed7da3fde
 
 	private static final Object[] voteTableColHeaders = { "User", "Vote" };
 
@@ -70,8 +71,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * @param parentPanel
 	 *            The parent panel containing this panel.
 	 */
-	public CompletedSessionEstimatePanel(
-			final SessionInProgressPanel parentPanel) {
+	public CompletedSessionEstimatePanel(final SessionInProgressPanel parentPanel) {
 		this.parentPanel = parentPanel;
 
 		panelLayout = new GridLayout(0, 3);
@@ -83,8 +83,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		// Used to make the final estimate
 		this.setLayout(panelLayout);
 		pnlFinalEstimate = new JPanel();
-		pnlFinalEstimate.setLayout(new BoxLayout(pnlFinalEstimate,
-				BoxLayout.Y_AXIS));
+		pnlFinalEstimate.setLayout(new BoxLayout(pnlFinalEstimate, BoxLayout.Y_AXIS));
 		pnlFinalEstimate.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		// Statistical info of the PP Session
@@ -116,38 +115,14 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		// Create the Final Estimate Panel
 		finalEstimateField = new JTextField(3);
 		finalEstimateField.setFont(new Font("TimeRoman", Font.BOLD, 30));
-		finalEstimateField
-				.setMaximumSize(finalEstimateField.getPreferredSize());
+		finalEstimateField.setMaximumSize(finalEstimateField.getPreferredSize());
 		finalEstimateField.setAlignmentX(Component.CENTER_ALIGNMENT);
-		finalEstimateField.getDocument().addDocumentListener(
-				new DocumentListener() {
-					public void changedUpdate(DocumentEvent e) {
-						warn();
-					}
-
-					public void removeUpdate(DocumentEvent e) {
-						warn();
-					}
-
-					public void insertUpdate(DocumentEvent e) {
-						warn();
-					}
-
-					public void warn() {
-						try {
-							Integer.parseInt(finalEstimateField.getText());
-							btnFinalEstimate.setEnabled(true);
-						} catch (NumberFormatException n) {
-							btnFinalEstimate.setEnabled(false);
-						}
-					}
-				});
 
 		Component verticalStrut = Box.createVerticalStrut(50);
 
 		btnFinalEstimate = new JButton("Submit Final Estimation");
 		btnFinalEstimate.setAlignmentX(Component.CENTER_ALIGNMENT);
-		// btnFinalEstimate.setEnabled(false);
+		btnFinalEstimate.setEnabled(false);
 
 		btnFinalEstimate.addActionListener(new ActionListener() {
 
@@ -166,6 +141,15 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		pnlFinalEstimate.add(verticalStrut);
 		pnlFinalEstimate.add(finalEstimateField);
 		pnlFinalEstimate.add(btnFinalEstimate);
+
+		try {
+			Integer.parseInt(finalEstimateField.getText());
+			btnFinalEstimate.setEnabled(true);
+		} catch (NumberFormatException n) {
+			JLabel Error = new JLabel("Must input a number");
+			Error.setAlignmentX(Component.CENTER_ALIGNMENT);
+			pnlFinalEstimate.add(Error);
+		}
 
 		// Create the Stats Panel
 		statNameFont = new Font("TimesRoman", Font.BOLD, 15);
@@ -285,8 +269,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 *            The new focused requirement
 	 */
 	public void updateEstimateTextField(PlanningPokerRequirement requirement) {
-		finalEstimateField.setText(Integer.valueOf(
-				requirement.getFinalEstimate()).toString());
+		finalEstimateField.setText(Integer.valueOf(requirement.getFinalEstimate()).toString());
 	}
 
 	/**
@@ -300,8 +283,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * @param focusedRequirement
 	 *            The new requirement to estimate
 	 */
-	public void setFocusedRequirement(
-			PlanningPokerRequirement focusedRequirement) {
+	public void setFocusedRequirement(PlanningPokerRequirement focusedRequirement) {
 		this.focusedRequirement = focusedRequirement;
 	}
 
