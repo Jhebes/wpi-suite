@@ -408,7 +408,7 @@ public class SessionInProgressPanel extends JPanel {
 			rightPanel.add(cardFrame, "hmin 250px, grow, dock south");
 		} else {
 			JLabel messageLabel = new JLabel(NO_DECK_MSG);
-			rightPanel.add(messageLabel, "align center, hmin 250px, grow, dock south");
+			rightPanel.add(messageLabel, "gapleft 150px, hmin 250px, grow, dock south");
 		}
 
 		// Add the vote text field to the right side
