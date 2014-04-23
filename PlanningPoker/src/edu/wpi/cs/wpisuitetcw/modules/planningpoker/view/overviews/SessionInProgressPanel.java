@@ -48,7 +48,7 @@ public class SessionInProgressPanel extends JPanel {
 	private static final String END_SESSION_BUTTON_LABEL = "End Session";
 	private static final int MIN_REQ_TEXTBOX_WIDTH = 200;
 	private static final int MIN_DESC_TEXTBOX_WIDTH = 400;
-	private static final int MIN_DESC_TEXTBOX_HEIGHT = 100;
+	private static final int MIN_DESC_TEXTBOX_HEIGHT = 140;
 	private static final int MIN_VOTE_TEXTFIELD_WIDTH = 150;
 	private static final int MIN_VOTE_TEXTFIELD_HEIGHT = 150;
 	
@@ -335,15 +335,15 @@ public class SessionInProgressPanel extends JPanel {
 										 + "gapright" + GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX + "px, "
 										 + "wrap");
 		
+		// Add the card panel
+		rightPanel.add(cardPanel, "grow, dock south");
+		
 		// Add the vote text field to the right side
 		rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH  + "px, "
 								   	+ "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, "
 								   	+ "dock east, "
 								   	+ "gaptop "   + PADDING_RIGHT_PANEL + "px, "
 								   	+ "gapright " + PADDING_RIGHT_PANEL + "px");
-		
-		// Add the card panel
-		rightPanel.add(cardPanel, "grow, dock south");
 	}
 
 	public void setNumVotesLabel(int n) {
