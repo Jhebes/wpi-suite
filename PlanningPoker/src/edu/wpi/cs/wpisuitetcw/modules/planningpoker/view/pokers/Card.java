@@ -357,7 +357,7 @@ public class Card extends JPanel {
 		// highlight the card
 		setCardSelected();
 		// update the vote
-		parentPanel.addRequirementValue(this.cardValue);
+		parentPanel.addRequirementValue(this);
 	}
 
 	/**
@@ -367,7 +367,7 @@ public class Card extends JPanel {
 		// remove the highlight
 		setCardValid();
 		// update the vote
-		parentPanel.subtractRequirementValue(this.cardValue);
+		parentPanel.subtractRequirementValue(this);
 	}
 
 	/**
@@ -465,5 +465,19 @@ public class Card extends JPanel {
 	public CardDisplayMode getMode() {
 		return this.mode;
 	}
+	
+	/**
+	 * setter for isSelected
+	 * @param isSelected
+	 */
+	public void setSelected(boolean isSelected) {
+		this.isSelected = isSelected;
+	}
 
+	/** 
+	 * getter for cardValue
+	 */
+	public int getCardValue() {
+		return cardValue;
+	}
 }

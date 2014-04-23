@@ -112,5 +112,7 @@ public class AddVoteController implements ActionListener {
 		GetRequirementsVotesController getVotes = new GetRequirementsVotesController(
 				view, session);
 		getVotes.actionPerformed(new ActionEvent(getVotes, 0, r));
+
+		this.view.setVoteList((ArrayList<PlanningPokerVote>) req.getVotes());
 	}
 }

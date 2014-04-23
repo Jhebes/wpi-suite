@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers;
 
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -37,6 +38,9 @@ public class DisplayDeckPanel extends JPanel {
 
 	// partent panel
 	private SessionInProgressPanel parentPanel;
+
+	/** cards that are highlighted */
+	private ArrayList<Card> cards = new ArrayList<Card>();
 
 	// vote value for the deck
 	private int voteValue = 0;
@@ -91,26 +95,51 @@ public class DisplayDeckPanel extends JPanel {
 	/**
 	 * update the vote by adding the given value
 	 */
-	public void addRequirementValue(int value) {
+	public void addRequirementValue(Card aCard) {
 		if (isSingleSelection()) {
 			// only one card is able to be selected
-			voteValue = value;
+			voteValue = aCard.getCardValue();
+			// removes highlighted card
+			removeHighlight();
+
 		} else {
-			voteValue += value;
+			voteValue += aCard.getCardValue();
 		}
+		System.out.println("vote value: " + voteValue);
+		cards.add(aCard);
 		parentPanel.setVoteTextFieldWithValue(voteValue);
 	}
 
 	/**
 	 * update the vote by subtracting the given value
 	 */
-	public void subtractRequirementValue(int value) {
+	public void subtractRequirementValue(Card aCard) {
 		if (isSingleSelection()) {
 			// vote is reset to 0
 			voteValue = 0;
+			// removes highlighted card
+			removeHighlight();
+
 		} else {
-			voteValue -= value;
+			voteValue -= aCard.getCardValue();
 		}
+		System.out.println("vote value: " + voteValue);
+		cards.add(aCard);
 		parentPanel.setVoteTextFieldWithValue(voteValue);
+	}
+
+	/**
+	 * removes the highlight for the card
+	 */
+	public void removeHighlight() {
+
+		for (int i = 0; i < cards.size(); i++) {
+			Card aCard = cards.get(i);
+			cards.remove(i);
+
+			aCard.setCardValid();
+			aCard.setSelected(false);
+
+		}
 	}
 }
