@@ -13,7 +13,6 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -180,9 +179,8 @@ public class SessionInProgressPanel extends JSplitPane {
 						finalEstimatePnl.setMedian(requirement.setMedian());
 						finalEstimatePnl.setMode(requirement.setMode());
 						finalEstimatePnl.fillTable(requirement);
-					}
-					else{
-						//Instructions for merge: Hoang's stuff here
+					} else {
+						// Instructions for merge: Hoang's stuff here
 					}
 					DetailPanel.updateUI();
 				}
