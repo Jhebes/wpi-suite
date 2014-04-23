@@ -89,7 +89,6 @@ public class AddVoteController implements ActionListener {
 		session.addVoteToRequirement(req, vote, username);
 		view.setNumVotesLabel(session.getNumVotes(req));
 
-		Logger.getLogger("PlanningPoker").log(Level.INFO, session.getNumVotes(req));
 		Logger.getLogger("PlanningPoker").log(Level.INFO, "Added vote to requirement " + req.getName());
 		session.setHasVoted(true);
 		view.disableEditSession();
