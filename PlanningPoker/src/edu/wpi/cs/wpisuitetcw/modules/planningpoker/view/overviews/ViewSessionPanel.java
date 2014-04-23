@@ -11,6 +11,8 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.BorderLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JSplitPane;
 
@@ -30,6 +32,7 @@ public class ViewSessionPanel extends JSplitPane {
 	 * Create a view session panel
 	 */
 	public ViewSessionPanel(PlanningPokerSession session) {
+		Logger.getLogger("PlanningPoker").log(Level.INFO, "Session loaded: " + session.getID());
 		RequirementTableManager manager = new RequirementTableManager();
 		manager.fetch(session.getID());
 		this.session = session;
