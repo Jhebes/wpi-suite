@@ -326,11 +326,13 @@ public class SessionInProgressPanel extends JPanel {
 		requirementNameLabel = new JLabel(REQ_NAME_LABEL);
 		requirementNameTextbox = new JTextField();
 		requirementNameTextbox.setEditable(false);
+		requirementNameTextbox.setBackground(Color.WHITE);
 
 		// Create a requirement description text box
 		descriptionLabel = new JLabel(REQ_DESC_LABEL);
 		descriptionTextbox = new JTextField();
 		descriptionTextbox.setEditable(false);
+		descriptionTextbox.setBackground(Color.WHITE);
 
 		// Create a deck panel
 		//cardPanel = (DisplayDeckPanel) new JPanel(); //new DisplayDeckPanel(session.getDeck(), this);
