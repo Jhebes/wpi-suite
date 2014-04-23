@@ -162,21 +162,19 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		this.add(pnlStats);
 		this.add(pnlFinalEstimate);	
 		Object[] voteTableColHeaders = { "User", "Vote" };	
-		tblVotes = new //JTable(data, voteTableColHeaders) {//this is not how to create a table, use a table model
-				JTable(){//hacky to the max
+		tblVotes = new JTable() {//data, voteTableColHeaders
 			@Override
 			// disables the ability to edit cells
 			public boolean isCellEditable(int row, int column) {
-				// all cells false
 				return false;
 			}
+			//setColumnIdentifiers(voteTableColHeaders);
 		};
 
 		JScrollPane votesScrollPane = new JScrollPane(tblVotes);
 		tblVotes.setFillsViewportHeight(true);
-
-		pnlVotes.add(votesScrollPane);
 		pnlVotes.add(lblVotes);
+		pnlVotes.add(votesScrollPane);
 
 	}
 
