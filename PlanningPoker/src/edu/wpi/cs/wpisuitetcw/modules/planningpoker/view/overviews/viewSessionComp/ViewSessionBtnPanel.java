@@ -14,7 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.ActivateSessionController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.AddRequirementPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementPanel;
 
 public class ViewSessionBtnPanel extends JPanel {
 	private static final long serialVersionUID = -5483659811074321821L;

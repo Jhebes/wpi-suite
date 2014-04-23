@@ -19,7 +19,7 @@ import javax.swing.JScrollPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.VotePanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 
 public class DisplayDeckPanel extends JPanel {
 	/**
