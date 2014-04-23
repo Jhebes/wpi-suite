@@ -255,7 +255,6 @@ public class SessionInProgressPanel extends JPanel {
 		reqList.setBackground(Color.WHITE);
 		reqList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		reqList.setAlignmentX(LEFT_ALIGNMENT);
-		reqList.setMinimumSize(new Dimension(100, 400));
 		reqList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -291,10 +290,10 @@ public class SessionInProgressPanel extends JPanel {
 	 * Add the GUI component to the left panel
 	 */
 	private void addGUIComponentsOnLeftPanel() {
-		leftPanel.setLayout(new MigLayout());
+		leftPanel.setLayout(new MigLayout("fill, center"));
 
-		leftPanel.add(leftPanelLabel, "center, wrap");
-		leftPanel.add(reqList, "grow, wrap");
+		leftPanel.add(leftPanelLabel, "dock north");
+		leftPanel.add(requirementFrame, "width 150:250:, growy, dock center");
 	}
 
 	private void setupRightPanel() {
