@@ -105,6 +105,9 @@ public class SessionInProgressPanel extends JPanel {
 	
 	/** A button to cancel a session */
 	private JButton cancelSessionButton ;
+	
+	/** A JLabel informing the card selection mode (single/multiple selection) */
+	private JLabel cardSelectionModeLabel;
 
 	// #%%##%%##%#%%###%%##%#%%###%%##%#%%# DO THIS LATER
 	private String reqName;
@@ -242,6 +245,14 @@ public class SessionInProgressPanel extends JPanel {
 		submitVoteButton = new JButton(VOTE_BUTTON_LABEL);
 		submitVoteButton.addActionListener(new AddVoteController(this, this.session));
 			
+		// Create a JLabel holding the card selection mode
+		cardSelectionModeLabel = new JLabel();
+		if (session.getDeck().getMaxSelection() == 1) {
+			cardSelectionModeLabel.setText("Single selection deck");
+		} else {
+			cardSelectionModeLabel.setText("Multiple selection deck");
+		}
+		
 		addGUIComponentsToBottomPanel();
 
 	}
@@ -255,6 +266,7 @@ public class SessionInProgressPanel extends JPanel {
 		bottomPanel.add(endSessionButton, "left, wmin " + MIN_BUTTON_WIDTH  + "px, split3");
 		bottomPanel.add(btnEditSession, "left, wmin " + MIN_BUTTON_WIDTH + "px");
 		bottomPanel.add(cancelSessionButton, "left, wmin " + MIN_BUTTON_WIDTH + "px");
+		bottomPanel.add(cardSelectionModeLabel, "left, wmin " + MIN_BUTTON_WIDTH + "px");
 		bottomPanel.add(submitVoteButton, "right");
 	}
 
