@@ -12,7 +12,6 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -406,9 +405,8 @@ public class PlanningPokerRequirement extends AbstractModel {
 		Arrays.sort(numList);
 		if (size % 2 == 1) {
 			return numList[(size / 2)];
-		}
-		else{
-			return (numList[size/2]+numList[(size/2)+1])/2;
+		} else {
+			return (numList[size / 2] + numList[(size / 2) + 1]) / 2;
 		}
 	}
 

@@ -20,8 +20,8 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPa
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * A controller that activates a session and sends SMS with email
- * to the users to inform a session is activated
+ * A controller that activates a session and sends SMS with email to the users
+ * to inform a session is activated
  */
 public class ActivateSessionController implements ActionListener {
 
@@ -31,9 +31,11 @@ public class ActivateSessionController implements ActionListener {
 	/**
 	 * Construct the controller by storing the ViewSessionPanel and
 	 * PlanningPokerSession
-	 * @param panel A ViewSessionPanel that exhibits the to-be-activated
-	 * session
-	 * @param session A PlanningPokerSession that would be activated
+	 * 
+	 * @param panel
+	 *            A ViewSessionPanel that exhibits the to-be-activated session
+	 * @param session
+	 *            A PlanningPokerSession that would be activated
 	 */
 	public ActivateSessionController(ViewSessionPanel panel,
 			PlanningPokerSession session) {
@@ -42,8 +44,7 @@ public class ActivateSessionController implements ActionListener {
 	}
 
 	/**
-	 * Activate the session
-	 * {@inheritDoc}
+	 * Activate the session {@inheritDoc}
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
