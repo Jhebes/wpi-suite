@@ -145,11 +145,11 @@ public class SessionInProgressPanel extends JPanel {
 		// TODO programmatically select the requirement and set reqName
 		// Prevent getting requirement from an empty array list
 		if (session.getRequirements().size() > 0) {
-			PlanningPokerRequirement firstReq = session
-												.getRequirements()
-												.get(0);
+			PlanningPokerRequirement firstReq = session.getRequirements().get(0);
 			requirementNameTextbox.setText(firstReq.getName());
 			descriptionTextbox.setText(firstReq.getDescription());
+			this.reqName = firstReq.getName();
+			reqList.setSelectionInterval(0, 0);
 		}
 	}
 
@@ -475,7 +475,11 @@ public class SessionInProgressPanel extends JPanel {
 	 * @return vote parsed as an integer
 	 */
 	public int getVote() {
-		return cardPanel.getVoteValue();
+		if(this.session.getDeck() == null) {
+			return Integer.parseInt(voteTextField.getText());
+		} else {
+			return cardPanel.getVoteValue();
+		}
 	}
 
 	/**
