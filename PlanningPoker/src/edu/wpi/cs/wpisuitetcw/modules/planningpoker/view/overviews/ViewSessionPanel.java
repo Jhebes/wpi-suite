@@ -11,10 +11,13 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.BorderLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JSplitPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionBtnPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionInfoPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionReqPanel;
@@ -30,6 +33,7 @@ public class ViewSessionPanel extends JSplitPane {
 	 * Create a view session panel
 	 */
 	public ViewSessionPanel(PlanningPokerSession session) {
+		Logger.getLogger("PlanningPoker").log(Level.INFO, "Session loaded: " + session.getID());
 		RequirementTableManager manager = new RequirementTableManager();
 		manager.fetch(session.getID());
 		this.session = session;
@@ -47,6 +51,8 @@ public class ViewSessionPanel extends JSplitPane {
 		// set up the viewSessionPanel
 		this.add(contentPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
+		
+		SessionStash.getInstance().synchronize();
 	}
 
 	public ViewSessionBtnPanel getButtonPanel() {
