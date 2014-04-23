@@ -18,7 +18,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSession
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTreePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.VotePanel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.AddRequirementPanel;
 
 public class ViewEventManager {
 	private static ViewEventManager instance = null;
@@ -27,7 +27,7 @@ public class ViewEventManager {
 	private OverviewTreePanel overviewTreePanel;
 	private ToolbarView toolbarView;
 	private boolean isWelcomePageOnDisplay = true;
-	private ArrayList<ViewSessionPanel> viewSessionPanels = new ArrayList<ViewSessionPanel>();
+	private ArrayList<AddRequirementPanel> viewSessionPanels = new ArrayList<AddRequirementPanel>();
 	private ArrayList<VotePanel> inProgressSessionPanels = new ArrayList<VotePanel>();
 
 	/**
@@ -108,9 +108,9 @@ public class ViewEventManager {
 			}
 
 		} else {
-			ViewSessionPanel exist = null;
+			AddRequirementPanel exist = null;
 
-			for (ViewSessionPanel panel : viewSessionPanels) {
+			for (AddRequirementPanel panel : viewSessionPanels) {
 				if (panel.getPPSession() == session) {
 					exist = panel;
 					break;
@@ -119,7 +119,7 @@ public class ViewEventManager {
 
 			if (exist == null) {
 				// check if the panel of the session is opened
-				ViewSessionPanel viewSession = new ViewSessionPanel(session);
+				AddRequirementPanel viewSession = new AddRequirementPanel(session);
 				viewSessionPanels.add(viewSession);
 				main.addTab(session.getName(), null, viewSession,
 						"View Session.");
@@ -177,7 +177,7 @@ public class ViewEventManager {
 	 *            the component to remove
 	 */
 	public void removeTab(JComponent component) {
-		if (component instanceof ViewSessionPanel) {
+		if (component instanceof AddRequirementPanel) {
 			this.viewSessionPanels.remove(component);
 		}
 		if (component instanceof VotePanel) {

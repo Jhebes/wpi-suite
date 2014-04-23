@@ -47,12 +47,12 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.RetrievePlan
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.AddRequirementPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
 public class ViewSessionReqPanel extends JPanel {
-	private final ViewSessionPanel parentPanel;
+	private final AddRequirementPanel parentPanel;
 	private final ScrollablePanel sessionReqPanel;
 	private final ScrollablePanel allReqPanel;
 	private final JPanel buttonsPanel;
@@ -162,7 +162,7 @@ public class ViewSessionReqPanel extends JPanel {
 		return selectedNames;
 	}
 
-	public ViewSessionReqPanel(ViewSessionPanel parentPanel, PlanningPokerSession s) {
+	public ViewSessionReqPanel(AddRequirementPanel parentPanel, PlanningPokerSession s) {
 		this.session = s;
 		this.setLayout(new GridBagLayout());
 		this.parentPanel = parentPanel;
