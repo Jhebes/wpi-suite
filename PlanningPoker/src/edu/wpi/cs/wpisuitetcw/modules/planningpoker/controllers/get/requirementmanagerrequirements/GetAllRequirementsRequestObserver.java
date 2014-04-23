@@ -8,9 +8,13 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.requirementmanagerrequirements;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
@@ -37,8 +41,18 @@ public class GetAllRequirementsRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		PlanningPokerRequirement[] requirements = PlanningPokerRequirement.fromJsonArray(iReq.getResponse().getBody());
-		controller.receivedData(requirements);
+		Requirement[] requirements = Requirement
+				.fromJsonArray(iReq.getResponse().getBody());
+		if (requirements == null) {
+			requirements = new Requirement[0];
+		}
+		ArrayList<Requirement> returnedReqs = new ArrayList<Requirement>();
+		for(Requirement r : requirements){
+			if(r.getIteration().equals("Backlog")){
+				returnedReqs.add(r);
+			}
+		}
+		controller.receivedRequirements(returnedReqs);
 	}
 
 	/*
