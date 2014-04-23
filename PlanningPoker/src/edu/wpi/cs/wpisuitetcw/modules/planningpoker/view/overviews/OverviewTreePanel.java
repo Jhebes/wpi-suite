@@ -56,7 +56,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 				"Open Sessions");
 		DefaultMutableTreeNode closedSessionNode = new DefaultMutableTreeNode(
 				"Closed Sessions");
-
+		
 		try {
 			// get a list of sessions
 			this.sessions = SessionStash.getInstance().getSessions();

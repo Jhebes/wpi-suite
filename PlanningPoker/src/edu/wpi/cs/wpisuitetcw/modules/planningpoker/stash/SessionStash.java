@@ -87,7 +87,6 @@ public class SessionStash {
 			}
 		}
 //		SessionTableModel.getInstance().getSessions();
-
 		
 		initialized = true;
 	}
