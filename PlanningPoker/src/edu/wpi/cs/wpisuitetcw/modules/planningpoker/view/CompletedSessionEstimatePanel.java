@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -24,6 +25,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 
 public class CompletedSessionEstimatePanel extends JPanel {
 
@@ -46,13 +50,16 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	private final Font headerFont;
 	private final Font statNameFont;
 	private final JButton btnFinalEstimate;
+	private final PlanningPokerRequirement requirement;
 
 	/**
 	 * Create the panel.
 	 */
-	public CompletedSessionEstimatePanel() {
+	public CompletedSessionEstimatePanel(PlanningPokerRequirement req) {
 
 		panelLayout = new GridLayout(0, 3);
+		this.requirement = req;
+		
 
 		/*
 		 * Create and set up the 3 panels used to create the CompletedSession
@@ -150,17 +157,22 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		pnlStats.add(statsMode);
 
 		// Create the Votes Panel
-		Object[][] data = { { "remckenna", new Integer(2) }, // / This data is
+		/*Object[][] data = { { "remckenna", new Integer(2) }, // / This data is
 																// all dummy
 																// TODO: change
-				{ "Somebody else", new Integer(6) } };
+				{ "Somebody else", new Integer(6) } };*/
 		Object[] voteTableColHeaders = { "User", "Vote" };
+		Object[][] data = new Object[requirement.getVotes().size()][2];
+		int j = 0;
+		for(PlanningPokerVote vote : requirement.getVotes()){
+			data[j][0] = vote;
+			data[j][1] = vote.getUser();
+			j++;
+		}
 		tblVotes = new JTable(data, voteTableColHeaders) {
 			@Override
-			public boolean isCellEditable(int row, int column) { // disables the
-																	// ability
-																	// to edit
-																	// cells
+			public boolean isCellEditable(int row, int column) { 
+				// disables the ability to edit cells
 				// all cells false
 				return false;
 			}
