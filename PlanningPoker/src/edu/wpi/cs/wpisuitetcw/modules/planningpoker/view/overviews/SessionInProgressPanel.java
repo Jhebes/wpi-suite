@@ -254,6 +254,7 @@ public class SessionInProgressPanel extends JPanel {
 					} else {
 						descriptionTextbox.setText(requirement.getDescription());
 					}
+					setVoteList((ArrayList<PlanningPokerVote>) requirement.getVotes());
 				}
 			}
 		});
