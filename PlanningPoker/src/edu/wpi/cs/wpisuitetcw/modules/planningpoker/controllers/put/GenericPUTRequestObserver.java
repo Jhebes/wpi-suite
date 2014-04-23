@@ -31,7 +31,6 @@ public class GenericPUTRequestObserver implements RequestObserver {
 	public void responseSuccess(IRequest iReq) {
 		// update the tree on overview panel
 		SessionStash.getInstance().synchronize();
-		// ViewEventManager.getInstance().getOverviewTreePanel().refresh();
 	}
 
 	/**
