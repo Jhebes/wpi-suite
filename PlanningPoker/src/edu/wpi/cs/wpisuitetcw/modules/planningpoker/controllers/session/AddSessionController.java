@@ -12,23 +12,16 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateNewDeckController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateNewDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
-import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-import edu.wpi.cs.wpisuitetng.network.Network;
-import edu.wpi.cs.wpisuitetng.network.Request;
 
 /**
  * This controller responds when the user clicks the "Create" button by using
@@ -38,7 +31,7 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 public class AddSessionController implements ActionListener {
 	private final CreateSessionPanel view;
 	private PlanningPokerSession session;
-	
+
 	/** Allow users editing a session's content or not */
 	private boolean isEditMode;
 
@@ -95,7 +88,7 @@ public class AddSessionController implements ActionListener {
 		// otherwise the button will do nothing
 		if ((this.view.validateAllInputs() == true)
 				&& (this.isEditMode == false)) {
-			
+
 			// Get the inputs from user
 			String name = this.view.getNameTextField().getText();
 			Date d = this.view.getDeadline();
@@ -105,8 +98,8 @@ public class AddSessionController implements ActionListener {
 
 			// Store the new deck if user creates one
 			if (this.view.isInCreateMode()) {
-				CreateNewDeckController createDeckController = 
-						new CreateNewDeckController(view.getDeckPanel());
+				CreateNewDeckController createDeckController = new CreateNewDeckController(
+						view.getDeckPanel());
 				createDeckController.addDeckToDatabase();
 			}
 
@@ -117,28 +110,30 @@ public class AddSessionController implements ActionListener {
 			session.setID(0);
 			session.setDeadline(d);
 			session.setDescription(des);
-			
-			// Associate a deck to the new session if the user does not choose 'No deck'
+
+			// Associate a deck to the new session if the user does not choose
+			// 'No deck'
 			if (!this.view.isInNoDeckMode()) {
-				try {
-					// 'Default' option, bind a new Fibonacci deck to the session
-					if (deckName.equals("Default")) {
-						session.setDeck(new PlanningPokerDeck());
-					} else {
-						session.setDeck(GetAllDecksController
-										.getInstance()
-										.getDeckByName(deckName));
-					}
-				} catch (WPISuiteException e) {
-					Logger.getLogger("PlanningPoker").log(Level.SEVERE,
-							"Error getting all decks", e);
+				// 'Default' option, bind a new Fibonacci deck to the
+				// session
+				if (deckName.equals("Default")) {
+					session.setDeck(new PlanningPokerDeck());
+				} else {
+
+					CreateNewDeckPanel deckPanel = view.getDeckPanel();
+					session.setDeck(new PlanningPokerDeck(deckPanel.getName(),
+							deckPanel.getNewDeckValues(), deckPanel
+									.getMaxSelectionCards()));
+					// session.setDeck(GetAllDecksController
+					// .getInstance()
+					// .getDeckByName(deckName));
 				}
 			}
 
 			session.create();
 			GetAllSessionsController.getInstance().retrieveSessions();
 			ViewEventManager.getInstance().removeTab(this.view);
-			
+
 		} else {
 			// user has yet entered all required data
 			// TODO: maybe make the warning a pop-up
