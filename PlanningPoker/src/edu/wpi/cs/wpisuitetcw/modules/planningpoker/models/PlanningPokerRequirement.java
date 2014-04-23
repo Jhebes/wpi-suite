@@ -75,6 +75,20 @@ public class PlanningPokerRequirement extends AbstractModel {
 	}
 	
 	/**
+	 * 
+	 * @param id
+	 * @return PlanningPokerVote corresponding to the requirement (if it has been voted on by user)
+	 */
+	public PlanningPokerVote getVoteByUser(String user) {
+		for(PlanningPokerVote v : this.votes) {
+			if(v.getUser().equals(user)) {
+				return v;
+			}
+		}
+		return null;
+	}
+	
+	/**
 	 * Returns an instance of PlanningPokerRequirement constructed using the
 	 * given Requirement encoded as a JSON string.
 	 * 

@@ -105,9 +105,8 @@ public class DisplayDeckPanel extends JPanel {
 		} else {
 			voteValue += aCard.getCardValue();
 		}
-		System.out.println("vote value: " + voteValue);
 		cards.add(aCard);
-		parentPanel.setVoteTextFieldWithValue(voteValue);
+		// parentPanel.setVoteTextFieldWithValue(voteValue);
 	}
 
 	/**
@@ -123,9 +122,8 @@ public class DisplayDeckPanel extends JPanel {
 		} else {
 			voteValue -= aCard.getCardValue();
 		}
-		System.out.println("vote value: " + voteValue);
 		cards.add(aCard);
-		parentPanel.setVoteTextFieldWithValue(voteValue);
+		// parentPanel.setVoteTextFieldWithValue(voteValue);
 	}
 
 	/**
@@ -141,5 +139,13 @@ public class DisplayDeckPanel extends JPanel {
 			aCard.setSelected(false);
 
 		}
+	}
+
+	/**
+	 * 
+	 * @return estimate for requirement
+	 */
+	public int getVoteValue() {
+		return voteValue;
 	}
 }

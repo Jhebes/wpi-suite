@@ -11,6 +11,7 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,6 +31,7 @@ import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.EditActivatedSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
@@ -40,11 +42,11 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 public class SessionInProgressPanel extends JPanel {
 
-	private static final String REQ_NAME_LABEL 			 = "Name";
-	private static final String REQ_DESC_LABEL 			 = "Description";
-	private static final String VOTE_BUTTON_LABEL 		 = "Submit Vote";
-	private static final String RIGHT_PANEL_LABEL 		 = "Requirements Detail:";
-	private static final String LEFT_PANEL_LABEL 		 = "Session Requirements:";
+	private static final String REQ_NAME_LABEL = "Name";
+	private static final String REQ_DESC_LABEL = "Description";
+	private static final String VOTE_BUTTON_LABEL = "Submit Vote";
+	private static final String RIGHT_PANEL_LABEL = "Requirements Detail:";
+	private static final String LEFT_PANEL_LABEL = "Session Requirements:";
 	private static final String END_SESSION_BUTTON_LABEL = "End Session";
 	private static final String NO_DECK_MSG = 
 			"<html><font color='red'>No deck. Please enter your vote in the white box</font></html>";
@@ -107,7 +109,6 @@ public class SessionInProgressPanel extends JPanel {
 	// #%%##%%##%#%%###%%##%#%%###%%##%#%%# DO THIS LATER
 	private String reqName;
 	private String reqDescription;
-	private JList VoteList;
 
 	/**
 	 * Construct a SessionInProgressPanel that displays the requirements needed
@@ -138,6 +139,7 @@ public class SessionInProgressPanel extends JPanel {
 	 * in the name and description text field
 	 */
 	private void setupInitData() {
+		// TODO programmatically select the requirement and set reqName
 		// Prevent getting requirement from an empty array list
 		if (session.getRequirements().size() > 0) {
 			PlanningPokerRequirement firstReq = session
@@ -238,7 +240,8 @@ public class SessionInProgressPanel extends JPanel {
 
 		// Create a submit vote button
 		submitVoteButton = new JButton(VOTE_BUTTON_LABEL);
-
+		submitVoteButton.addActionListener(new AddVoteController(this, this.session));
+			
 		addGUIComponentsToBottomPanel();
 
 	}
@@ -281,10 +284,11 @@ public class SessionInProgressPanel extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				// Check to see if user double clicked
 				if (e.getClickCount() == 1) {
-					String reqname = (String) reqList.getModel().getElementAt(
+					reqName = (String) reqList.getModel().getElementAt(
 							reqList.getSelectedIndex());
+					
 					PlanningPokerRequirement requirement = session
-							.getReqByName(reqname);
+							.getReqByName(reqName);
 					if (requirement.getName() == null) {
 						requirementNameTextbox.setText(" ");
 					} else {
@@ -295,7 +299,11 @@ public class SessionInProgressPanel extends JPanel {
 					} else {
 						descriptionTextbox.setText(requirement.getDescription());
 					}
-					setVoteList((ArrayList<PlanningPokerVote>) requirement.getVotes());
+					PlanningPokerVote vote = requirement.getVoteByUser(ConfigManager.getConfig().getUserName());
+					if(vote != null) {
+						setVoteTextFieldWithValue(vote.getCardValue());
+						updateUI();
+					}					
 				}
 			}
 		});
@@ -337,9 +345,6 @@ public class SessionInProgressPanel extends JPanel {
 		descriptionTextbox.setBackground(Color.WHITE);
 		descriptionFrame.setViewportView(descriptionTextbox);
 
-		// Create a deck panel
-		//cardPanel = (DisplayDeckPanel) new JPanel(); //new DisplayDeckPanel(session.getDeck(), this);
-		
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
@@ -401,10 +406,6 @@ public class SessionInProgressPanel extends JPanel {
 				+ "gapright " + PADDING_RIGHT_PANEL + "px");
 	}
 
-	public void setNumVotesLabel(int n) {
-		this.voteTextField.setText(Integer.toString(n));
-	}
-
 	private void closeTab() {
 		ViewEventManager.getInstance().removeTab(this);
 	}
@@ -462,31 +463,13 @@ public class SessionInProgressPanel extends JPanel {
 	 * @return vote parsed as an integer
 	 */
 	public int getVote() {
-		return Integer.parseInt(voteTextField.getText());
-	}
-
-	/**
-	 * Sets the contents of the list of votes for the specified requirement
-	 * 
-	 * @param votes
-	 */
-
-	public void setVoteList(ArrayList<PlanningPokerVote> votes) {
-		String[] array = new String[votes.size()];
-		for (int i = 0; i < votes.size(); ++i) {
-			array[i] = votes.get(i).toString();
-		}
-		this.VoteList.setListData(array);
-	}
-
-	public JList getVoteList() {
-		return VoteList;
+		return cardPanel.getVoteValue();
 	}
 
 	/**
 	 * sets the reqsViewTable with the appropriate information
 	 */
-
+	
 	public void getReqsViewTable() {
 	}
 
@@ -508,7 +491,5 @@ public class SessionInProgressPanel extends JPanel {
 	 */
 	public void setVoteTextFieldWithValue(int value) {
 		this.voteTextField.setText(Integer.toString(value));
-		;
 	}
-
 }
