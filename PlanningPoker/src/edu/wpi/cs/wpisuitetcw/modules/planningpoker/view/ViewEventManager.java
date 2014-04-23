@@ -23,7 +23,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPa
 public class ViewEventManager {
 	private static ViewEventManager instance = null;
 	private MainView main;
-	private ImportRequirementsPanel requirementPanel;
 	private OverviewPanel overviewPanel;
 	private OverviewTreePanel overviewTreePanel;
 	private ToolbarView toolbarView;
@@ -184,29 +183,12 @@ public class ViewEventManager {
 		if (component instanceof SessionInProgressPanel) {
 			this.inProgressSessionPanels.remove(component);
 		}
-		if (component instanceof ImportRequirementsPanel) {
-			this.requirementPanel = null;
-		}
+		
 		main.remove(component);
 
 	}
 
-	/**
-	 * Creates the import requirements panel.
-	 */
-	public void createImportRequirementsPanel() {
-		if (requirementPanel == null) {
-			ImportRequirementsPanel newPanel = new ImportRequirementsPanel();
-			this.requirementPanel = newPanel;
-			main.addTab("Import Requirements", null, newPanel,
-					"Import a new requirement.");
-			main.invalidate();
-			main.repaint();
-			main.setSelectedComponent(newPanel);
-		} else {
-			main.setSelectedComponent(requirementPanel);
-		}
-	}
+
 
 	/**
 	 * return whether a welcome page is on display
