@@ -319,10 +319,12 @@ public class SessionInProgressPanel extends JPanel {
 					}
 					
 					if (session.isClosed()) {
+						finalEstimatePnl.setFocusedRequirement(requirement);
 						finalEstimatePnl.setStatsMean(requirement.setMean());
 						finalEstimatePnl.setStatsMedian(requirement.setMedian());
 						finalEstimatePnl.setStatsMode(requirement.setMode());
 						finalEstimatePnl.fillTable(requirement);
+						finalEstimatePnl.updateEstimateTextField(requirement);
 						updateUI();
 					} else {
 						PlanningPokerVote vote = requirement.getVoteByUser(ConfigManager.getConfig().getUserName());
@@ -331,7 +333,6 @@ public class SessionInProgressPanel extends JPanel {
 							updateUI();
 						}
 					}
-
 				}
 			}
 		});
@@ -416,7 +417,7 @@ public class SessionInProgressPanel extends JPanel {
 				+ GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX + "px, " + "wrap");
 
 		// Add the card panel or final estimation GUI
-		finalEstimatePnl = new CompletedSessionEstimatePanel();
+		finalEstimatePnl = new CompletedSessionEstimatePanel(this);
 		finalEstimatePnl.setAlignmentX(Component.CENTER_ALIGNMENT);
 		if (this.session.isClosed()) {
 			rightPanel.add(finalEstimatePnl);
