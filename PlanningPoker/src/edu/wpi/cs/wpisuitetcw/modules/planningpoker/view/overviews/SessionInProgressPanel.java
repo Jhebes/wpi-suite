@@ -317,6 +317,7 @@ public class SessionInProgressPanel extends JPanel {
 						requirement.setMedian();
 						requirement.setMode();
 						finalEstimatePnl.fillTable(requirement);
+						finalEstimatePnl.createTable();
 						updateUI();
 					} else {
 						PlanningPokerVote vote = requirement.getVoteByUser(ConfigManager.getConfig().getUserName());
