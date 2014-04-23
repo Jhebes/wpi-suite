@@ -68,6 +68,8 @@ public class MoveRequirementToCurrentSessionController implements ActionListener
 		a2.refreshRequirements(session.getID(), session.getRequirements());
 		this.view.getAllReqTable().repaint();
 		this.view.getSessionReqTable().repaint();
+
+		view.validateActivateSession();
 	}
 	
 	/*
