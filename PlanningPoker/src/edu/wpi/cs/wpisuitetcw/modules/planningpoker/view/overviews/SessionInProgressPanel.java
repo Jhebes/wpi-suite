@@ -313,11 +313,12 @@ public class SessionInProgressPanel extends JPanel {
 		descriptionTextbox.setEditable(false);
 		
 		// Create a deck panel
-		cardPanel = new DisplayDeckPanel(session.getDeck(), this);
+		//cardPanel = (DisplayDeckPanel) new JPanel(); //new DisplayDeckPanel(session.getDeck(), this);
 		
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
+		voteTextField.setHorizontalAlignment(JTextField.CENTER);
 
 		addGUIComponentsOnRightPanel();
 
