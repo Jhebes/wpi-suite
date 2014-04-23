@@ -62,11 +62,9 @@ public class AddVoteController implements ActionListener {
 		Configuration c = ConfigManager.getConfig();
 		String username = c.getUserName();
 
-		System.out.println(username);
-
 		PlanningPokerVote vote = new PlanningPokerVote(username, view.getVote());
 		String r = view.getSelectedRequirement();
-		System.out.println("Attempting to get Req: " + r);
+
 		try {
 			this.req = session.getReqByName(r);
 		} catch (NullPointerException e) {
@@ -79,7 +77,6 @@ public class AddVoteController implements ActionListener {
 
 		// checking list of votes to see if user has already voted
 		for (PlanningPokerVote v : this.req.getVotes()) {
-			System.out.println(v.getUser());
 			if (v.getUser().equals(username)) {
 				toRemove.add(v);
 			}
@@ -90,10 +87,8 @@ public class AddVoteController implements ActionListener {
 		}
 
 		session.addVoteToRequirement(req, vote, username);
-		view.setNumVotesLabel(session.getNumVotes(req));
 
-		System.out.println(session.getNumVotes(req));
-		System.out.println("Added vote to requirement " + req.getName());
+		Logger.getLogger("PlanningPoker").log(Level.INFO, "Added vote to requirement " + req.getName());
 		session.setHasVoted(true);
 		view.disableEditSession();
 
@@ -101,7 +96,6 @@ public class AddVoteController implements ActionListener {
 		session.save();
 
 		// Much hack! Very broke!
-		// TODO: FIX PLZZZZZZ!
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
@@ -109,8 +103,11 @@ public class AddVoteController implements ActionListener {
 					"Sleeping was interrupted.", e);
 		}
 
+		this.view.setVoteTextFieldWithValue(vote.getCardValue());
+		this.view.updateUI();
+		
 		GetRequirementsVotesController getVotes = new GetRequirementsVotesController(
 				view, session);
-		getVotes.actionPerformed(new ActionEvent(getVotes, 0, r));
+		getVotes.actionPerformed(new ActionEvent(getVotes, 0, r));	
 	}
 }

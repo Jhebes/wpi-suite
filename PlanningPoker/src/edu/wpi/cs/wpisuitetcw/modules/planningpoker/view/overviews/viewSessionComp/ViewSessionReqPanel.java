@@ -46,6 +46,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveRequirem
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.RetrievePlanningPokerRequirementsForSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
@@ -66,6 +67,7 @@ public class ViewSessionReqPanel extends JPanel {
 	private final JTable allReqTable;
 	private final JTable sessionReqTable;
 	private final PlanningPokerSession session;
+	private PlanningPokerSession editRequirementsSession;
 	private String reqName;
 	private String reqDescription;
 
@@ -138,8 +140,7 @@ public class ViewSessionReqPanel extends JPanel {
 		ArrayList<String> selectedNames = new ArrayList<String>();
 		for (int i = 0; i < selectedRows.length; i++) {
 			// Get the 0th column which should be the name
-			selectedNames.add(this.allReqTable.getValueAt(selectedRows[i], 0)
-					.toString());
+			selectedNames.add(this.allReqTable.getValueAt(selectedRows[i], 0).toString());
 		}
 		return selectedNames;
 	}
@@ -156,14 +157,12 @@ public class ViewSessionReqPanel extends JPanel {
 		ArrayList<String> selectedNames = new ArrayList<String>();
 		for (int i = 0; i < selectedRows.length; i++) {
 			// Get the 0th column which should be the name
-			selectedNames.add(this.sessionReqTable.getValueAt(selectedRows[i],
-					0).toString());
+			selectedNames.add(this.sessionReqTable.getValueAt(selectedRows[i], 0).toString());
 		}
 		return selectedNames;
 	}
 
-	public ViewSessionReqPanel(ViewSessionPanel parentPanel,
-			PlanningPokerSession s) {
+	public ViewSessionReqPanel(ViewSessionPanel parentPanel, PlanningPokerSession s) {
 		this.session = s;
 		this.setLayout(new GridBagLayout());
 		this.parentPanel = parentPanel;
@@ -178,6 +177,8 @@ public class ViewSessionReqPanel extends JPanel {
 		this.moveAllRequirementsToSession = new JButton(" >> ");
 		this.addRequirementToSession = new JButton("Add Requirement to Session");
 		this.saveRequirement = new JButton("Save Requirement");
+		saveRequirement.setEnabled(false);
+		validateActivateSession();
 
 		// setup panels
 		Panel namePanel = new Panel();
@@ -202,8 +203,7 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// allows multiple reqs to be selected and unselected
 		allReqTable.setRowSelectionAllowed(true);
-		allReqTable
-				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		allReqTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
 		// add table to rightPanel
 		JLabel leftLabel = new JLabel("All Requirements");
@@ -214,8 +214,7 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// table for left pane
 		// Right table
-		sessionReqTable = new JTable(
-				new RequirementTableManager().get(this.session.getID())) {
+		sessionReqTable = new JTable(new RequirementTableManager().get(this.session.getID())) {
 			private static final long serialVersionUID = 2L;
 
 			public boolean isCellEditable(int row, int colunm) {
@@ -229,8 +228,7 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// allows multiple reqs to be selected and unselected
 		sessionReqTable.setRowSelectionAllowed(true);
-		sessionReqTable
-				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		sessionReqTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		allReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
 		// rightPanel formatting
@@ -247,23 +245,14 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// Action Handlers
 		// need to change so it adds to the right side
-		this.addRequirementToSession
-				.addActionListener(new AddRequirementToSessionController(this));
-		this.moveRequirementToSession
-				.addActionListener(new MoveRequirementToCurrentSessionController(
-						this.session, this));
-		this.moveRequirementToAll
-				.addActionListener(new MoveRequirementToAllController(
-						this.session, this));
-		this.moveAllRequirementsToSession
-				.addActionListener(new MoveAllRequirementsToCurrentSessionController(
-						this.session, this));
-		this.moveAllRequirementsToAll
-				.addActionListener(new MoveAllRequirementsToAllController(
-						this.session, this));
-		this.saveRequirement
-				.addActionListener(new EditRequirementDescriptionController(
-						this.session, this));
+		this.addRequirementToSession.addActionListener(new AddRequirementToSessionController(this));
+		this.moveRequirementToSession.addActionListener(new MoveRequirementToCurrentSessionController(this.session,
+				this));
+		this.moveRequirementToAll.addActionListener(new MoveRequirementToAllController(this.session, this));
+		this.moveAllRequirementsToSession.addActionListener(new MoveAllRequirementsToCurrentSessionController(
+				this.session, this));
+		this.moveAllRequirementsToAll.addActionListener(new MoveAllRequirementsToAllController(this.session, this));
+		this.saveRequirement.addActionListener(new EditRequirementDescriptionController(this.session, this));
 
 		// this will populate the name and description field when clicking on a
 		// requirement in the all session table
@@ -276,18 +265,28 @@ public class ViewSessionReqPanel extends JPanel {
 				JTable table = (JTable) e.getSource();
 				int row = table.getSelectedRow();
 
+				if (row == -1) {
+					saveRequirement.setEnabled(false);
+					addRequirementToSession.setEnabled(true);
+					name.setEnabled(true);
+					setReqInfo("", "");
+				}
+
 				for (int i = 0; i < 2; i = i + 1) {
 					if (i == 0) {
-						reqName = allReqTable.getModel().getValueAt(row, 0)
-								.toString();
+						reqName = allReqTable.getModel().getValueAt(row, 0).toString();
 					}
 					if (i == 1) {
-						reqDescription = allReqTable.getModel()
-								.getValueAt(row, 1).toString();
+						reqDescription = allReqTable.getModel().getValueAt(row, 1).toString();
 					}
 				}
 
 				setReqInfo(reqName, reqDescription);
+				saveRequirement.setEnabled(true);
+				addRequirementToSession.setEnabled(false);
+				name.setEnabled(false);
+				editRequirementsSession = SessionStash.getInstance().getDefaultSession();
+
 			}
 		});
 
@@ -296,24 +295,30 @@ public class ViewSessionReqPanel extends JPanel {
 		sessionReqTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				RequirementTableManager n = new RequirementTableManager();
-				n.fetch(session.getID());
-				sessionReqTable.updateUI();
 				JTable table = (JTable) e.getSource();
 				int row = table.getSelectedRow();
 
-				for (int i = 0; i < 2; i = i + 1) {
-					if (i == 0) {
-						reqName = sessionReqTable.getModel().getValueAt(row, 0)
-								.toString();
+				if (row == -1) {
+					saveRequirement.setEnabled(false);
+					addRequirementToSession.setEnabled(true);
+					name.setEnabled(true);
+					setReqInfo("", "");
+				} else {
+					for (int i = 0; i < 2; i = i + 1) {
+						if (i == 0) {
+							reqName = sessionReqTable.getModel().getValueAt(row, 0).toString();
+						}
+						if (i == 1) {
+							reqDescription = sessionReqTable.getModel().getValueAt(row, 1).toString();
+						}
 					}
-					if (i == 1) {
-						reqDescription = sessionReqTable.getModel()
-								.getValueAt(row, 1).toString();
-					}
-				}
 
-				setReqInfo(reqName, reqDescription);
+					setReqInfo(reqName, reqDescription);
+					saveRequirement.setEnabled(true);
+					addRequirementToSession.setEnabled(false);
+					name.setEnabled(false);
+					editRequirementsSession = ViewSessionReqPanel.this.session;
+				}
 			}
 		});
 
@@ -434,10 +439,10 @@ public class ViewSessionReqPanel extends JPanel {
 		description.setText(reqDescription);
 
 	}
-	
+
 	/**
-	 * Checks whether there is at least 1 requirement in this session and disables
-	 * the "Activate" button if there are no requirements.
+	 * Checks whether there is at least 1 requirement in this session and
+	 * disables the "Activate" button if there are no requirements.
 	 */
 	public void validateActivateSession() {
 		if (session.getRequirements().size() == 0) {
@@ -477,6 +482,13 @@ public class ViewSessionReqPanel extends JPanel {
 
 	public void setReqDescription(String reqDescription) {
 		this.reqDescription = reqDescription;
+	}
+
+	/**
+	 * @return The session belonging to the requirement that is being edited.
+	 */
+	public PlanningPokerSession getEditRequirementsSession() {
+		return editRequirementsSession;
 	}
 
 }

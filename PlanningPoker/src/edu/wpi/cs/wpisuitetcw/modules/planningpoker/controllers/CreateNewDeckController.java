@@ -58,8 +58,6 @@ public class CreateNewDeckController {
 			request.addObserver(new AddDeckRequestObserver(this));
 			// Send the request on its way
 			request.send();
-			// System.out.println("DeckName is: " + deckName);
-			// System.out.println("Card value: " + deckName.toString());
 
 		} else {
 			// inputs are not valid
