@@ -136,11 +136,46 @@ public class AddSessionController implements ActionListener {
 			session.create();
 			ViewEventManager.getInstance().removeTab(this.view);
 			ViewEventManager.getInstance().viewSession(session);
-		} else {
+		} 	if ((this.view.validateAllInputs() == true)
+				&& (this.isEditMode == true)) {
+			
+			// Get the inputs from user
+			
+			Date d = this.view.getDeadline();
+			String deckName = (String) this.view.getDeckType()
+					.getSelectedItem();
+			
+			session.setDeadline(d);
+			
+			if (!this.view.isInNoDeckMode()) {
+				try {
+					// 'Default' option, bind a new Fibonacci deck to the session
+					if (deckName.equals("Default")) {
+						session.setDeck(new PlanningPokerDeck());
+					} else {
+						session.setDeck(GetAllDecksController
+										.getInstance()
+										.getDeckByName(deckName));
+					}
+				} catch (WPISuiteException e) {
+					Logger.getLogger("PlanningPoker").log(Level.SEVERE,
+							"Error getting all decks", e);
+				}
+			}
+			
+			
+			ViewEventManager.getInstance().removeTab(this.view);
+			ViewEventManager.getInstance().viewSession(session);
+			
+		}
+		
+		
+		else {
 			// user has yet entered all required data
 			// TODO: maybe make the warning a pop-up
 			this.view.repaint();
 		}
+		
 
 	}
 }
