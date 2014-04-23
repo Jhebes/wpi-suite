@@ -14,6 +14,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -25,14 +27,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
 
 public class CompletedSessionEstimatePanel extends JPanel {
 
 	// private final JPanel pnlCompletedSession;
+	private final SessionInProgressPanel parentPanel;
 	private final GridLayout panelLayout;
 	private final JPanel pnlFinalEstimate;
 	private final JPanel pnlStats;
@@ -55,13 +58,18 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	private int mean;
 	private int mode;
 	private int median;
-	
+	private PlanningPokerRequirement focusedRequirement = null;
+
 	private static final Object[] voteTableColHeaders = { "User", "Vote" };
 
 	/**
 	 * Create the panel.
+	 * 
+	 * @param parentPanel
+	 *            The parent panel containing this panel.
 	 */
-	public CompletedSessionEstimatePanel() {
+	public CompletedSessionEstimatePanel(final SessionInProgressPanel parentPanel) {
+		this.parentPanel = parentPanel;
 
 		panelLayout = new GridLayout(0, 3);
 
@@ -72,8 +80,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		// Used to make the final estimate
 		this.setLayout(panelLayout);
 		pnlFinalEstimate = new JPanel();
-		pnlFinalEstimate.setLayout(new BoxLayout(pnlFinalEstimate,
-				BoxLayout.Y_AXIS));
+		pnlFinalEstimate.setLayout(new BoxLayout(pnlFinalEstimate, BoxLayout.Y_AXIS));
 		pnlFinalEstimate.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		// Statistical info of the PP Session
@@ -105,14 +112,26 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		// Create the Final Estimate Panel
 		finalEstimateField = new JTextField(3);
 		finalEstimateField.setFont(new Font("TimeRoman", Font.BOLD, 30));
-		finalEstimateField
-				.setMaximumSize(finalEstimateField.getPreferredSize());
+		finalEstimateField.setMaximumSize(finalEstimateField.getPreferredSize());
 		finalEstimateField.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		Component verticalStrut = Box.createVerticalStrut(50);
 
 		btnFinalEstimate = new JButton("Submit Final Estimation");
 		btnFinalEstimate.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		btnFinalEstimate.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PlanningPokerRequirement focusedRequirement = CompletedSessionEstimatePanel.this
+						.getFocusedRequirement();
+				int estimate = CompletedSessionEstimatePanel.this.getEstimate();
+				focusedRequirement.setFinalEstimate(estimate);
+				parentPanel.getSession().save();
+			}
+
+		});
 
 		pnlFinalEstimate.add(lblFinalEstimate);
 		pnlFinalEstimate.add(verticalStrut);
@@ -213,14 +232,52 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		this.statsMode.setText("" + statsMode + "  ");
 	}
 
+	/**
+	 * Populates the vote table with the cotes from a requirement
+	 * 
+	 * @param requirement
+	 *            The requirement whose votes to use for this table
+	 */
 	public void fillTable(PlanningPokerRequirement requirement) {
 		// Clear the table model.
 		tableModel.setRowCount(0);
-		
-		for (PlanningPokerVote vote : requirement.getVotes()) {			
-			Object[] row = {vote.getUser(), 
-							vote.getCardValue()};
+
+		for (PlanningPokerVote vote : requirement.getVotes()) {
+			Object[] row = { vote.getUser(), vote.getCardValue() };
 			tableModel.addRow(row);
 		}
+	}
+
+	/**
+	 * Updates the estimate text field for this newly focused requirement.
+	 * 
+	 * @param requirement
+	 *            The new focused requirement
+	 */
+	public void updateEstimateTextField(PlanningPokerRequirement requirement) {
+		finalEstimateField.setText(Integer.valueOf(requirement.getFinalEstimate()).toString());
+	}
+
+	/**
+	 * @return The requirement being estimated
+	 */
+	public PlanningPokerRequirement getFocusedRequirement() {
+		return focusedRequirement;
+	}
+
+	/**
+	 * @param focusedRequirement
+	 *            The new requirement to estimate
+	 */
+	public void setFocusedRequirement(PlanningPokerRequirement focusedRequirement) {
+		this.focusedRequirement = focusedRequirement;
+	}
+
+	/**
+	 * @return The estimate as parsed from the textbox
+	 */
+	public int getEstimate() {
+		final String estimateText = finalEstimateField.getText();
+		return Integer.parseInt(estimateText);
 	}
 }
