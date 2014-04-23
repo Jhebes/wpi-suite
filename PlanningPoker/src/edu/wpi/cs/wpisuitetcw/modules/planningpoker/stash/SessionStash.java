@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.requirementmanagerrequirements.GetAllRequirementsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
@@ -78,6 +79,7 @@ public class SessionStash {
 
 	public void synchronize() {
 		System.out.println("Synchronizing SessionStash");
+		GetAllRequirementsController.getInstance().retrieveRequirements();
 		GetAllSessionsController.getInstance().retrieveSessions();
 	}
 
