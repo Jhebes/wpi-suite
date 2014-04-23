@@ -245,7 +245,7 @@ public class SessionInProgressPanel extends JSplitPane {
 		setRightComponent(RightPanel);
 		RightPanel.setLayout(new BorderLayout(0, 0));
 
-		DetailPanel = new JPanel();
+		JPanel DetailPanel = new JPanel();
 		RightPanel.add(DetailPanel, BorderLayout.PAGE_START);// Changed from
 																// CENTER to
 																// Page Star
