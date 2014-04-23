@@ -210,7 +210,7 @@ public class SessionInProgressPanel extends JPanel {
 		bottomPanel.add(endSessionButton, "left, wmin " + MIN_END_SESSION_BUTTON_WIDTH  + "px");
 		bottomPanel.add(btnEditSession,   "left, wmin " + MIN_EDIT_SESSION_BUTTON_WIDTH + "px, "
 										+ "gapleft " + GAP_BETWEEN_BOTTOM_BUTTONS + "px");
-		bottomPanel.add(submitVoteButton, "righta");
+		bottomPanel.add(submitVoteButton, "right");
 	}
 
 	/*
