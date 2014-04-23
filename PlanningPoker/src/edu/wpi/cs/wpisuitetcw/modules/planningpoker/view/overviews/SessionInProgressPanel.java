@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -48,14 +49,16 @@ public class SessionInProgressPanel extends JPanel {
 	private static final String END_SESSION_BUTTON_LABEL = "End Session";
 	private static final int MIN_REQ_TEXTBOX_WIDTH = 200;
 	private static final int MIN_DESC_TEXTBOX_WIDTH = 400;
-	private static final int MIN_DESC_TEXTBOX_HEIGHT = 100;
-	private static final int MIN_VOTE_TEXTFIELD_WIDTH = 50;
-	private static final int MIN_VOTE_TEXTFIELD_HEIGHT = 50;
-
+	private static final int MIN_DESC_TEXTBOX_HEIGHT = 140;
+	private static final int MIN_VOTE_TEXTFIELD_WIDTH = 150;
+	private static final int MIN_VOTE_TEXTFIELD_HEIGHT = 150;
+	
 	private static final int MIN_EDIT_SESSION_BUTTON_WIDTH = 50;
 	private static final int GAP_BETWEEN_BOTTOM_BUTTONS = 20;
 	private static final int MIN_END_SESSION_BUTTON_WIDTH = 50;
-
+	private static final int PADDING_RIGHT_PANEL = 10;
+	private static final int GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX = 20;
+	
 	private final PlanningPokerSession session;
 	private PlanningPokerRequirement[] reqsList;
 
@@ -191,7 +194,10 @@ public class SessionInProgressPanel extends JPanel {
 		if (session.isHasVoted()) {
 			btnEditSession.setEnabled(false);
 		}
-
+		
+		// Create a submit vote button
+		submitVoteButton = new JButton(VOTE_BUTTON_LABEL);
+			
 		addGUIComponentsToBottomPanel();
 
 	}
@@ -201,10 +207,10 @@ public class SessionInProgressPanel extends JPanel {
 	 * the bottom panel
 	 */
 	private void addGUIComponentsToBottomPanel() {
-		bottomPanel.add(endSessionButton, "wmin "
-				+ MIN_END_SESSION_BUTTON_WIDTH + "px");
-		bottomPanel.add(btnEditSession, "wmin " + MIN_EDIT_SESSION_BUTTON_WIDTH
-				+ "px, " + "gapleft " + GAP_BETWEEN_BOTTOM_BUTTONS + "px");
+		bottomPanel.add(endSessionButton, "left, wmin " + MIN_END_SESSION_BUTTON_WIDTH  + "px");
+		bottomPanel.add(btnEditSession,   "left, wmin " + MIN_EDIT_SESSION_BUTTON_WIDTH + "px, "
+										+ "gapleft " + GAP_BETWEEN_BOTTOM_BUTTONS + "px");
+		bottomPanel.add(submitVoteButton, "right");
 	}
 
 	/*
@@ -284,12 +290,13 @@ public class SessionInProgressPanel extends JPanel {
 		descriptionLabel = new JLabel(REQ_DESC_LABEL);
 		descriptionTextbox = new JTextField();
 		descriptionTextbox.setEditable(false);
-
-		// Create a submit vote button
-		submitVoteButton = new JButton(VOTE_BUTTON_LABEL);
-
+		
+		// Create a deck panel
+		cardPanel = new DisplayDeckPanel(session.getDeck(), this);
+		
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
+		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
 
 		addGUIComponentsOnRightPanel();
 
@@ -309,34 +316,37 @@ public class SessionInProgressPanel extends JPanel {
 	 * Add the requirement name and desciption text field, vote submit button,
 	 * vote text field, and their labels on the right panel
 	 */
-	private void addGUIComponentsOnRightPanel() {
-		rightPanel.setLayout(new MigLayout("insets 5 5 5 5, fillx"));
-		rightPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
+	private void addGUIComponentsOnRightPanel() {	
+		// Add the padding around the right panel
+		rightPanel.setLayout(new MigLayout("insets " + PADDING_RIGHT_PANEL + " "
+													 + PADDING_RIGHT_PANEL + " "
+													 + PADDING_RIGHT_PANEL + " "
+													 + PADDING_RIGHT_PANEL + ", fillx"));
 
 		// Add the label of the panel
 		rightPanel.add(rightPanelLabel, "center, span");
 
 		// Add the requirement name and its label
 		rightPanel.add(requirementNameLabel, "growx, left, wrap");
-		rightPanel.add(requirementNameTextbox, "growx, wrap");
-
+		rightPanel.add(requirementNameTextbox, "growx, gapright " + 
+												GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX + "px, wrap");
+		
 		// Add the requirement description box and its label
 		rightPanel.add(descriptionLabel, "growx, left, wrap");
-		rightPanel.add(descriptionTextbox, "hmin " + MIN_DESC_TEXTBOX_HEIGHT
-				+ "px, " + "growx, wrap");
-
+		rightPanel.add(descriptionTextbox, "hmin " + MIN_DESC_TEXTBOX_HEIGHT + "px, "
+										 + "growx, "
+										 + "gapright" + GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX + "px, "
+										 + "wrap");
+		
 		// Add the card panel
-		// rightPanel.add(cardPanel, "grow, wrap");
-
-		// Add the vote button and vote text field
-		JPanel rightDock = new JPanel();
-		rightDock
-				.setLayout(new MigLayout("filly, insets 0", "", "push[center]"));
-		rightDock.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH
-				+ "px, " + "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, "
-				+ "center, wrap push");
-		rightDock.add(submitVoteButton, "wrap");
-		rightPanel.add(rightDock, "dock east");
+		rightPanel.add(cardPanel, "grow, dock south");
+		
+		// Add the vote text field to the right side
+		rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH  + "px, "
+								   	+ "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, "
+								   	+ "dock east, "
+								   	+ "gaptop "   + PADDING_RIGHT_PANEL + "px, "
+								   	+ "gapright " + PADDING_RIGHT_PANEL + "px");
 	}
 
 	public void setNumVotesLabel(int n) {
