@@ -10,6 +10,7 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
@@ -30,7 +31,7 @@ public class GenericPUTRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		
+		SessionStash.getInstance().synchronize();
 	}
 
 	/**

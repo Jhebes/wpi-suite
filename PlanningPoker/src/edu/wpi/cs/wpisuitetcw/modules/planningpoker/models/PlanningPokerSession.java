@@ -582,14 +582,15 @@ public class PlanningPokerSession extends AbstractModel {
 				"planningpoker/session", HttpMethod.POST);
 		request.setBody(this.toJSON());
 		request.send();
+		System.out.println("Sent request to update session " + this.getName());
 	}
 
 	/**
-	 * // TODO: A person who implemented this method must write
-	 * comments for this method 
+	 * // TODO: Synchronizes the new session with the server
 	 */
 	public void create() {
 		new PutSessionController(this);
+		System.out.println("Sent request to create session " + this.getName());
 	}
 		
 	/**
