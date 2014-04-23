@@ -11,7 +11,6 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -79,9 +78,11 @@ public class SessionInProgressPanel extends JPanel {
 
 	/** Description of a requirement */
 	private JLabel descriptionLabel;
+	private JScrollPane descriptionFrame;
 	private JTextField descriptionTextbox;
 
 	/** A Panel exhibiting the cards */
+	private JScrollPane cardFrame;
 	private DisplayDeckPanel cardPanel;
 
 	/** A text field holding the final result */
@@ -330,9 +331,11 @@ public class SessionInProgressPanel extends JPanel {
 
 		// Create a requirement description text box
 		descriptionLabel = new JLabel(REQ_DESC_LABEL);
+		descriptionFrame = new JScrollPane();
 		descriptionTextbox = new JTextField();
 		descriptionTextbox.setEditable(false);
 		descriptionTextbox.setBackground(Color.WHITE);
+		descriptionFrame.setViewportView(descriptionTextbox);
 
 		// Create a deck panel
 		//cardPanel = (DisplayDeckPanel) new JPanel(); //new DisplayDeckPanel(session.getDeck(), this);
@@ -348,6 +351,8 @@ public class SessionInProgressPanel extends JPanel {
 			voteTextField.setEnabled(false);
 			// Create a deck panel
 			cardPanel = new DisplayDeckPanel(session.getDeck(), this);
+			cardFrame = new JScrollPane();
+			cardFrame.setViewportView(cardPanel);
 		} else {
 			voteTextField.setEnabled(true);
 			JPanel votingPanel = new JPanel();// user votes by entering a number
@@ -376,16 +381,18 @@ public class SessionInProgressPanel extends JPanel {
 
 		// Add the requirement description box and its label
 		rightPanel.add(descriptionLabel, "growx, left, wrap");
-		rightPanel.add(descriptionTextbox, "hmin " + MIN_DESC_TEXTBOX_HEIGHT
+		rightPanel.add(descriptionFrame, "hmin " + MIN_DESC_TEXTBOX_HEIGHT
 				+ "px, " + "growx, " + "gapright"
 				+ GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX + "px, " + "wrap");
 
 		// Add the card panel
-		if (cardPanel != null) {
-			rightPanel.add(cardPanel, "grow, dock south");
+		if (cardFrame != null) {
+			rightPanel.add(cardFrame, "hmin 250px, grow, dock south");
+			cardFrame.setBorder(BorderFactory.createLineBorder(Color.RED));
 		} else {
 			JLabel messageLabel = new JLabel(NO_DECK_MSG);
-			rightPanel.add(messageLabel, "center, grow, dock south");
+			messageLabel.setBorder(BorderFactory.createLineBorder(Color.RED));
+			rightPanel.add(messageLabel, "center, hmin 250px, grow, dock south");
 		}
 
 		// Add the vote text field to the right side
