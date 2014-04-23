@@ -46,15 +46,16 @@ public class EditRequirementDescriptionController implements ActionListener {
 		this.view = v;
 	}
 
-	/**
-	 * Success callback for the request observer. Updates the description of the
-	 * edited requirement everywhere in our system.
+	/*
+	 * This method is called when the user clicks the vote button
 	 * 
-	 * @param session
-	 *            The session containing this requirement, so that we can edit
-	 *            it.
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
 	 */
-	public void receivedData(PlanningPokerSession session) {
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		PlanningPokerSession session = view.getEditRequirementsSession();
+		
 		final PlanningPokerRequirement requirement;
 		final List<PlanningPokerRequirement> requirements = new ArrayList<PlanningPokerRequirement>();
 		final String requirementNames = view.getReqName();
@@ -74,19 +75,6 @@ public class EditRequirementDescriptionController implements ActionListener {
 		this.view.getSessionReqTable().repaint();
 		
 		view.validateActivateSession();
-	}
-
-	/*
-	 * This method is called when the user clicks the vote button
-	 * 
-	 * @see
-	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
-	 */
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		final Request request = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.GET);
-		request.addObserver(new EditRequirementDescriptionObserver(this));
-		request.send();
 
 	}
 }

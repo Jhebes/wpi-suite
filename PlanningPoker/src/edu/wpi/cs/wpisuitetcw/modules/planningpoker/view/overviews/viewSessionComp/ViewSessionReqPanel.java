@@ -46,6 +46,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveRequirem
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.RetrievePlanningPokerRequirementsForSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
@@ -66,6 +67,7 @@ public class ViewSessionReqPanel extends JPanel {
 	private final JTable allReqTable;
 	private final JTable sessionReqTable;
 	private final PlanningPokerSession session;
+	private PlanningPokerSession editRequirementsSession;
 	private String reqName;
 	private String reqDescription;
 
@@ -178,6 +180,8 @@ public class ViewSessionReqPanel extends JPanel {
 		this.moveAllRequirementsToSession = new JButton(" >> ");
 		this.addRequirementToSession = new JButton("Add Requirement to Session");
 		this.saveRequirement = new JButton("Save Requirement");
+		saveRequirement.setEnabled(false);
+		
 
 		// setup panels
 		Panel namePanel = new Panel();
@@ -275,6 +279,13 @@ public class ViewSessionReqPanel extends JPanel {
 				sessionReqTable.updateUI();
 				JTable table = (JTable) e.getSource();
 				int row = table.getSelectedRow();
+				
+				if (row == -1){
+					saveRequirement.setEnabled(false);
+					addRequirementToSession.setEnabled(true);
+					name.setEnabled(true);
+					setReqInfo("","");
+				}
 
 				for (int i = 0; i < 2; i = i + 1) {
 					if (i == 0) {
@@ -288,6 +299,11 @@ public class ViewSessionReqPanel extends JPanel {
 				}
 
 				setReqInfo(reqName, reqDescription);
+				saveRequirement.setEnabled(true);
+				addRequirementToSession.setEnabled(false);
+				name.setEnabled(false);
+				editRequirementsSession = SessionStash.getInstance().getDefaultSession();
+				
 			}
 		});
 
@@ -301,6 +317,13 @@ public class ViewSessionReqPanel extends JPanel {
 				sessionReqTable.updateUI();
 				JTable table = (JTable) e.getSource();
 				int row = table.getSelectedRow();
+				
+				if (row == -1){
+					saveRequirement.setEnabled(false);
+					addRequirementToSession.setEnabled(true);
+					name.setEnabled(true);
+					setReqInfo("","");
+				}
 
 				for (int i = 0; i < 2; i = i + 1) {
 					if (i == 0) {
@@ -314,6 +337,10 @@ public class ViewSessionReqPanel extends JPanel {
 				}
 
 				setReqInfo(reqName, reqDescription);
+				saveRequirement.setEnabled(true);
+				addRequirementToSession.setEnabled(false);
+				name.setEnabled(false);
+				editRequirementsSession = ViewSessionReqPanel.this.session;
 			}
 		});
 
@@ -477,6 +504,13 @@ public class ViewSessionReqPanel extends JPanel {
 
 	public void setReqDescription(String reqDescription) {
 		this.reqDescription = reqDescription;
+	}
+
+	/**
+	 * @return The session belonging to the requirement that is being edited.
+	 */
+	public PlanningPokerSession getEditRequirementsSession() {
+		return editRequirementsSession;
 	}
 
 }
