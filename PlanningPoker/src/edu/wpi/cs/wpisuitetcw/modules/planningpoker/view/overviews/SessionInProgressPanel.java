@@ -319,9 +319,9 @@ public class SessionInProgressPanel extends JPanel {
 					}
 					
 					if (session.isClosed()) {
-						requirement.setMean();
-						requirement.setMedian();
-						requirement.setMode();
+						finalEstimatePnl.setStatsMean(requirement.setMean());
+						finalEstimatePnl.setStatsMedian(requirement.setMedian());
+						finalEstimatePnl.setStatsMode(requirement.setMode());
 						finalEstimatePnl.fillTable(requirement);
 						finalEstimatePnl.createTable();
 						updateUI();
