@@ -199,6 +199,8 @@ public class ViewSessionReqPanel extends JPanel {
 
 		allReqTable.setBackground(Color.WHITE);
 		allReqTable.getTableHeader().setReorderingAllowed(false);
+
+		// allows multiple reqs to be selected and unselected
 		allReqTable.setRowSelectionAllowed(true);
 		allReqTable
 				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -224,6 +226,8 @@ public class ViewSessionReqPanel extends JPanel {
 
 		sessionReqTable.getTableHeader().setReorderingAllowed(false);
 		sessionReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
+		// allows multiple reqs to be selected and unselected
 		sessionReqTable.setRowSelectionAllowed(true);
 		sessionReqTable
 				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -323,8 +327,7 @@ public class ViewSessionReqPanel extends JPanel {
 				sessionReqTable.clearSelection();
 			}
 
-		});		
-		
+		});
 
 		// setup buttons panel
 		buttonsPanel.setLayout(new GridLayout(0, 1, 0, 20));
