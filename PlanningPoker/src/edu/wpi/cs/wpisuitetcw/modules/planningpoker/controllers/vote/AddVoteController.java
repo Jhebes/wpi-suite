@@ -87,7 +87,6 @@ public class AddVoteController implements ActionListener {
 		}
 
 		session.addVoteToRequirement(req, vote, username);
-		view.setNumVotesLabel(session.getNumVotes(req));
 
 		Logger.getLogger("PlanningPoker").log(Level.INFO, "Added vote to requirement " + req.getName());
 		session.setHasVoted(true);
@@ -97,7 +96,6 @@ public class AddVoteController implements ActionListener {
 		session.save();
 
 		// Much hack! Very broke!
-		// TODO: FIX PLZZZZZZ!
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
@@ -105,8 +103,11 @@ public class AddVoteController implements ActionListener {
 					"Sleeping was interrupted.", e);
 		}
 
+		this.view.setVoteTextFieldWithValue(vote.getCardValue());
+		this.view.updateUI();
+		
 		GetRequirementsVotesController getVotes = new GetRequirementsVotesController(
 				view, session);
-		getVotes.actionPerformed(new ActionEvent(getVotes, 0, r));
+		getVotes.actionPerformed(new ActionEvent(getVotes, 0, r));	
 	}
 }
