@@ -175,9 +175,9 @@ public class SessionInProgressPanel extends JSplitPane {
 					PlanningPokerRequirement requirement = session
 							.getReqByName(reqname);
 					if (session.isClosed()) {
-						finalEstimatePnl.setMean(requirement.setMean());
-						finalEstimatePnl.setMedian(requirement.setMedian());
-						finalEstimatePnl.setMode(requirement.setMode());
+						requirement.setMean();
+						requirement.setMedian();
+						requirement.setMode();
 						finalEstimatePnl.fillTable(requirement);
 					} else {
 						// Instructions for merge: Hoang's stuff here

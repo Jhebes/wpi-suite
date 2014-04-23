@@ -53,6 +53,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	private int mean;
 	private int mode;
 	private int median;
+	private Object[][] data;
 
 	/**
 	 * Create the panel.
@@ -159,7 +160,22 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		// put the completed Session panel together
 		this.add(pnlVotes);
 		this.add(pnlStats);
-		this.add(pnlFinalEstimate);
+		this.add(pnlFinalEstimate);	
+		Object[] voteTableColHeaders = { "User", "Vote" };	
+		tblVotes = new //JTable(data, voteTableColHeaders) {//this is not how to create a table, use a table model
+				JTable(){//hacky to the max
+			@Override
+			// disables the ability to edit cells
+			public boolean isCellEditable(int row, int column) {
+				// all cells false
+				return false;
+			}
+		};
+
+		JScrollPane votesScrollPane = new JScrollPane(tblVotes);
+		tblVotes.setFillsViewportHeight(true);
+
+		pnlVotes.add(votesScrollPane);
 		pnlVotes.add(lblVotes);
 
 	}
@@ -193,50 +209,12 @@ public class CompletedSessionEstimatePanel extends JPanel {
 
 	public void fillTable(PlanningPokerRequirement requirement) {
 		// Create the Votes Panel
-		Object[] voteTableColHeaders = { "User", "Vote" };
-		Object[][] data = new Object[requirement.getVotes().size()][2];
+		data = new Object[requirement.getVotes().size()][2];
 		int j = 0;
 		for (PlanningPokerVote vote : requirement.getVotes()) {
 			data[j][1] = vote.getUser();
 			data[j][0] = vote;
 			j++;
 		}
-		tblVotes = new JTable(data, voteTableColHeaders) {
-			@Override
-			// disables the ability to edit cells
-			public boolean isCellEditable(int row, int column) {
-				// all cells false
-				return false;
-			}
-		};
-
-		JScrollPane votesScrollPane = new JScrollPane(tblVotes);
-		tblVotes.setFillsViewportHeight(true);
-
-		pnlVotes.add(votesScrollPane);
-	}
-
-	public int getMean() {
-		return mean;
-	}
-
-	public void setMean(int mean) {
-		this.mean = mean;
-	}
-
-	public int getMode() {
-		return mode;
-	}
-
-	public void setMode(int mode) {
-		this.mode = mode;
-	}
-
-	public int getMedian() {
-		return median;
-	}
-
-	public void setMedian(int median) {
-		this.median = median;
 	}
 }
