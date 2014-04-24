@@ -519,26 +519,4 @@ public class ViewEventController {
 	public ArrayList<RequirementPanel> getListOfRequirementPanels() {
 		return listOfEditingPanels;
 	}
-
-	/**
-	 * Opens the tab for exporting a requirement.
-	 */
-	public void openExportTab() {
-		for(int i = 0; i < main.getTabCount(); i++){
-			if(main.getTitleAt(i).equals("Export")){ 
-					if(main.getTabComponentAt(i) instanceof ExportPanel){
-						main.setSelectedIndex(i);
-						return;
-					}
-					else{
-						main.remove(i);
-					}
-			}
-		}
-		ExportPanel newReq = new ExportPanel();
-		main.addTab("Export", null, newReq, "Export some requirements to a JSON file.");
-		main.invalidate(); //force the tabbedpane to redraw.
-		main.repaint();
-		main.setSelectedComponent(newReq);
-	}
 }
