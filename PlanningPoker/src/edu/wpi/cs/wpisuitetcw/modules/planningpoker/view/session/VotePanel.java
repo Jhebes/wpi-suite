@@ -37,6 +37,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.CompletedSessionEstimatePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.NameDescriptionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.DisplayDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
@@ -75,15 +76,9 @@ public class VotePanel extends JPanel {
 	/** The right container holding all the GUI components */
 	private JLabel rightPanelLabel;
 	private JPanel rightPanel;
-
-	/** Name of a requirement */
-	private JLabel requirementNameLabel;
-	private JTextField requirementNameTextbox;
-
-	/** Description of a requirement */
-	private JLabel descriptionLabel;
-	private JScrollPane descriptionFrame;
-	private JTextField descriptionTextbox;
+	
+	/** The name and description text box */
+	private NameDescriptionPanel nameDescriptionPanel;
 
 	/** A Panel exhibiting the cards */
 	private JScrollPane cardFrame;
@@ -149,8 +144,8 @@ public class VotePanel extends JPanel {
 		// Prevent getting requirement from an empty array list
 		if (session.getRequirements().size() > 0) {
 			PlanningPokerRequirement firstReq = session.getRequirements().get(0);
-			requirementNameTextbox.setText(firstReq.getName());
-			descriptionTextbox.setText(firstReq.getDescription());
+			nameDescriptionPanel.setName(firstReq.getName());
+			nameDescriptionPanel.setDescription(firstReq.getDescription());
 			this.reqName = firstReq.getName();
 			reqList.setSelectionInterval(0, 0);
 		}
@@ -308,14 +303,14 @@ public class VotePanel extends JPanel {
 					PlanningPokerRequirement requirement = session.getReqByName(reqName);
 
 					if (requirement.getName() == null) {
-						requirementNameTextbox.setText(" ");
+						nameDescriptionPanel.setName(" ");
 					} else {
-						requirementNameTextbox.setText(requirement.getName());
+						nameDescriptionPanel.setName(requirement.getName());
 					}
 					if (requirement.getDescription() == null) {
-						descriptionTextbox.setText(" ");
+						nameDescriptionPanel.setDescription(" ");
 					} else {
-						descriptionTextbox.setText(requirement.getDescription());
+						nameDescriptionPanel.setDescription(requirement.getDescription());
 					}
 					
 					if (session.isClosed()) {
@@ -360,19 +355,8 @@ public class VotePanel extends JPanel {
 		// Create a label for right panel
 		rightPanelLabel = new JLabel(RIGHT_PANEL_LABEL);
 
-		// Create a requirement name text box
-		requirementNameLabel = new JLabel(REQ_NAME_LABEL);
-		requirementNameTextbox = new JTextField();
-		requirementNameTextbox.setEditable(false);
-		requirementNameTextbox.setBackground(Color.WHITE);
-
-		// Create a requirement description text box
-		descriptionLabel = new JLabel(REQ_DESC_LABEL);
-		descriptionFrame = new JScrollPane();
-		descriptionTextbox = new JTextField();
-		descriptionTextbox.setEditable(false);
-		descriptionTextbox.setBackground(Color.WHITE);
-		descriptionFrame.setViewportView(descriptionTextbox);
+		// Create a requirement name and description text box
+		nameDescriptionPanel = new NameDescriptionPanel(REQ_NAME_LABEL, REQ_DESC_LABEL);
 
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
@@ -404,18 +388,12 @@ public class VotePanel extends JPanel {
 				+ PADDING_RIGHT_PANEL + " " + PADDING_RIGHT_PANEL + ", fill"));
 
 		// Add the label of the panel
-		rightPanel.add(rightPanelLabel, "center, span");
+		rightPanel.add(rightPanelLabel, "center, dock north");
 
 		// Add the requirement name and its label
-		rightPanel.add(requirementNameLabel, "growx, left, wrap");
-		rightPanel.add(requirementNameTextbox, "growx, gapright " + GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX
-				+ "px, wrap");
-
-		// Add the requirement description box and its label
-		rightPanel.add(descriptionLabel, "growx, left, wrap");
-		rightPanel.add(descriptionFrame, "hmin " + MIN_DESC_TEXTBOX_HEIGHT + "px, " + "growx, " + "gapright"
-				+ GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX + "px, " + "wrap");
-
+		rightPanel.add(nameDescriptionPanel, "grow");
+		//nameDescriptionPanel.setBorder(BorderFactory.createLineBorder(Color.REDa));
+		
 		// Add the card panel or final estimation GUI
 		finalEstimatePnl = new CompletedSessionEstimatePanel(this);
 		finalEstimatePnl.setAlignmentX(Component.CENTER_ALIGNMENT);
