@@ -125,7 +125,7 @@ public class ImportExportButtonsPanel extends ToolbarGroupView {
 
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					final File file = fc.getSelectedFile();
-					Logger.getLogger("RequirementManger").log(
+					Logger.getLogger("RequirementManager").log(
 							Level.INFO, "Exporting to: " + file.getName() + ".");
 
 					try {
@@ -151,7 +151,7 @@ public class ImportExportButtonsPanel extends ToolbarGroupView {
 								Level.WARNING, "Could not write to file.", ex);
 					}
 				} else {
-					Logger.getLogger("RequirementManger").log(
+					Logger.getLogger("RequirementManager").log(
 							Level.INFO, "Export command cancelled by user.");
 				}
 			}
