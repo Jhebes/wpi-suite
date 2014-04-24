@@ -10,6 +10,9 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent;
 
+import java.awt.Color;
+
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -41,15 +44,16 @@ public class NameDescriptionPanel extends JPanel {
 		// Create text box and label for name
 		nameLabel =  new JLabel("Name *");
 		nameTextField	 = new JTextField();
-		
+
 		// Create text box and label for desription
 		descriptionLabel = new JLabel("Description *");
 		descriptionTextField 	= new JTextField();
 
-		setLayout(new MigLayout());
-		add(nameLabel, "left, span");
-		add(nameTextField, "span");
-		add(descriptionLabel, "left, span");
+
+		setLayout(new MigLayout("fill, inset 0", "", "0[][][][grow]0"));
+		add(nameLabel, "left, growx, wrap");
+		add(nameTextField, "growx, wrap");
+		add(descriptionLabel, "left, growx, span");
 		add(descriptionTextField, "grow");
 	}
 	
