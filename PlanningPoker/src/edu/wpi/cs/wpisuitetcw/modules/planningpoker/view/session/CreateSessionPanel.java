@@ -8,7 +8,7 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -48,6 +48,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.CreateDeckPanel;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
@@ -93,7 +94,7 @@ public class CreateSessionPanel extends JPanel {
 	private JLabel labelRequireField;
 
 	// ################ UI Right Component #################
-	private CreateNewDeckPanel deckPanel;
+	private CreateDeckPanel deckPanel;
 
 	// ################ UI Left Component #################
 	/** The left panel holds components to see the deck */
@@ -165,7 +166,7 @@ public class CreateSessionPanel extends JPanel {
 		setupLeftPanel();
 
 		// Use display mode since the default deck is displayed by default
-		deckPanel = new CreateNewDeckPanel(CardDisplayMode.DISPLAY);
+		deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
 		deckPanel.displayDefaultDeck();
 
 		setupBottomPanel();
@@ -713,7 +714,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private void createNewDeck() {
 		// new deck panel for creating a deck of cards
-		this.deckPanel = new CreateNewDeckPanel(CardDisplayMode.CREATE);
+		this.deckPanel = new CreateDeckPanel(CardDisplayMode.CREATE);
 
 		setupEntirePanel();
 		updateUI();
@@ -725,7 +726,7 @@ public class CreateSessionPanel extends JPanel {
 	 * @throws WPISuiteException 
 	 */
 	private void displayDeck(String deckName) throws WPISuiteException {
-		this.deckPanel = new CreateNewDeckPanel(CardDisplayMode.DISPLAY);
+		this.deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
 		this.deckPanel.displayDeck(deckName);
 
 		setupEntirePanel();
@@ -737,7 +738,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private void displayDefaultDeck() {
 		// Use display mode since the default deck is displayed by default
-		this.deckPanel = new CreateNewDeckPanel(CardDisplayMode.DISPLAY);
+		this.deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
 		this.deckPanel.displayDefaultDeck();
 
 		setupEntirePanel();
@@ -748,7 +749,7 @@ public class CreateSessionPanel extends JPanel {
 	 * display no card on the deck panel
 	 */
 	public void displayNoDeck() {
-		this.deckPanel = new CreateNewDeckPanel(CardDisplayMode.NO_DECK);
+		this.deckPanel = new CreateDeckPanel(CardDisplayMode.NO_DECK);
 
 		setupEntirePanel();
 		updateUI();
@@ -779,7 +780,7 @@ public class CreateSessionPanel extends JPanel {
 	 * 
 	 * @return deck panel
 	 */
-	public CreateNewDeckPanel getDeckPanel() {
+	public CreateDeckPanel getDeckPanel() {
 		return this.deckPanel;
 	}
 

@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.Configuration;
 
@@ -30,7 +30,7 @@ public class AddVoteController implements ActionListener {
 	/** A PlanningPokerSession whose PlanningPokerRequirement has a new vote */
 	private PlanningPokerSession session = null;
 	
-	private SessionInProgressPanel view;
+	private VotePanel view;
 
 	/** A PlanningPokerRequirement that has a new vote */
 	private PlanningPokerRequirement req = null;
@@ -41,7 +41,7 @@ public class AddVoteController implements ActionListener {
 	 * @param session A PlanningPokerSession 
 	 * whose PlanningPokerRequirement has a new vote
 	 */
-	public AddVoteController(SessionInProgressPanel view,
+	public AddVoteController(VotePanel view,
 			PlanningPokerSession session) {
 		this.view = view;
 		this.session = session;

@@ -12,7 +12,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.CreateSessionPanel;
 
 /**
  * Controller that handles actions of the CreateSessionPanel buttons.

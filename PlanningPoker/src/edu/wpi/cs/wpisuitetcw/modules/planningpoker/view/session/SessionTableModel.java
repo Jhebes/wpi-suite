@@ -8,7 +8,7 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session;
 
 import java.text.DateFormat;
 import java.util.ArrayList;

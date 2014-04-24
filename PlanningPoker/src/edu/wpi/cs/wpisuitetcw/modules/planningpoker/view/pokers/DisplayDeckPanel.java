@@ -19,7 +19,7 @@ import javax.swing.JScrollPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 
 public class DisplayDeckPanel extends JPanel {
 	/**
@@ -37,7 +37,7 @@ public class DisplayDeckPanel extends JPanel {
 	private final JPanel container;
 
 	// partent panel
-	private SessionInProgressPanel parentPanel;
+	private VotePanel parentPanel;
 
 	/** cards that are highlighted */
 	private ArrayList<Card> cards = new ArrayList<Card>();
@@ -49,7 +49,7 @@ public class DisplayDeckPanel extends JPanel {
 	 * Constructor - creating a panel for displaying a deck of card
 	 */
 	public DisplayDeckPanel(PlanningPokerDeck deck,
-			SessionInProgressPanel progressPanel) {
+			VotePanel progressPanel) {
 		this.parentPanel = progressPanel;
 		// setup panel
 		container = new JPanel();

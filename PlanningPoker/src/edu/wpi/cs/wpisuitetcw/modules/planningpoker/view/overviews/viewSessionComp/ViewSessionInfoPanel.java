@@ -14,13 +14,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementPanel;
 
 public class ViewSessionInfoPanel extends JPanel {
 	private final PlanningPokerSession session;
-	private final ViewSessionPanel parentPanel;
+	private final AddRequirementPanel parentPanel;
 	
-	public ViewSessionInfoPanel(ViewSessionPanel parentPanel, PlanningPokerSession session) {
+	public ViewSessionInfoPanel(AddRequirementPanel parentPanel, PlanningPokerSession session) {
 		this.parentPanel = parentPanel;
 		this.session = session;
 		

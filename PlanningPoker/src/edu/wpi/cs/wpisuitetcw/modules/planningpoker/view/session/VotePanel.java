@@ -8,7 +8,7 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -44,7 +44,7 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 /**
  * Panel for voting.
  */
-public class SessionInProgressPanel extends JPanel {
+public class VotePanel extends JPanel {
 
 	private static final String REQ_NAME_LABEL = "Name";
 	private static final String REQ_DESC_LABEL = "Description";
@@ -121,7 +121,7 @@ public class SessionInProgressPanel extends JPanel {
 	 * Construct a SessionInProgressPanel that displays the requirements needed
 	 * to vote and provides GUI components to vote
 	 */
-	public SessionInProgressPanel(final PlanningPokerSession session) {
+	public VotePanel(final PlanningPokerSession session) {
 		this.session = session;
 
 		setupLeftPanel();

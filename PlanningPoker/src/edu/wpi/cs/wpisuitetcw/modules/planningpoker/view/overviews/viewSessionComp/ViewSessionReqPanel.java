@@ -18,10 +18,9 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Panel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -31,28 +30,21 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.AddRequirementToAllController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.AddRequirementToSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.EditRequirementDescriptionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveAllRequirementsToAllController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveAllRequirementsToCurrentSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveRequirementToAllController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveRequirementToCurrentSessionController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.RetrievePlanningPokerRequirementsForSessionController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
 public class ViewSessionReqPanel extends JPanel {
-	private final ViewSessionPanel parentPanel;
+	private final AddRequirementPanel parentPanel;
 	private final ScrollablePanel sessionReqPanel;
 	private final ScrollablePanel allReqPanel;
 	private final JPanel buttonsPanel;
@@ -162,7 +154,7 @@ public class ViewSessionReqPanel extends JPanel {
 		return selectedNames;
 	}
 
-	public ViewSessionReqPanel(ViewSessionPanel parentPanel, PlanningPokerSession s) {
+	public ViewSessionReqPanel(AddRequirementPanel parentPanel, PlanningPokerSession s) {
 		this.session = s;
 		this.setLayout(new GridBagLayout());
 		this.parentPanel = parentPanel;
