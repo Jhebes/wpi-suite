@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
@@ -27,11 +28,11 @@ public class NameDescriptionPanel extends JPanel {
 	
 	/** A text field for name */
 	private final JLabel nameLabel;
-	private final JTextField nameTextField;
+	private final JTextArea nameTextField;
 	
 	/** A text field for description */
 	private final JLabel descriptionLabel;
-	private final JTextField descriptionTextField;
+	private final JTextArea descriptionTextField;
 	
 	/**
 	 * Construct the NameDescriptionPanel by
@@ -41,12 +42,16 @@ public class NameDescriptionPanel extends JPanel {
 	public NameDescriptionPanel() {
 		// Create text box and label for name
 		nameLabel =  new JLabel("Name *");
-		nameTextField	 = new JTextField();
+		nameTextField	 = new JTextArea();
+		nameTextField.setLineWrap(true);
+		nameTextField.setWrapStyleWord(true);
 		JScrollPane nameFrame = new JScrollPane(nameTextField);
 
 		// Create text box and label for desription
 		descriptionLabel = new JLabel("Description *");
-		descriptionTextField 	= new JTextField();
+		descriptionTextField 	= new JTextArea();
+		descriptionTextField.setLineWrap(true);
+		descriptionTextField.setWrapStyleWord(true);
 		JScrollPane descriptionFrame = new JScrollPane(descriptionTextField);
 
 
