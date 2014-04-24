@@ -384,15 +384,14 @@ public class VotePanel extends JPanel {
 	 */
 	private void addGUIComponentsOnRightPanel() {
 		// Add the padding around the right panel
-		rightPanel.setLayout(new MigLayout("insets " + PADDING_RIGHT_PANEL + " " + PADDING_RIGHT_PANEL + " "
-				+ PADDING_RIGHT_PANEL + " " + PADDING_RIGHT_PANEL + ", fill"));
+		rightPanel.setLayout(new MigLayout("insets " + PADDING_RIGHT_PANEL + ", fill",
+											"", "[][grow]"));
 
 		// Add the label of the panel
-		rightPanel.add(rightPanelLabel, "center, dock north");
+		rightPanel.add(rightPanelLabel, "center, wrap");
 
 		// Add the requirement name and its label
 		rightPanel.add(nameDescriptionPanel, "grow");
-		//nameDescriptionPanel.setBorder(BorderFactory.createLineBorder(Color.REDa));
 		
 		// Add the card panel or final estimation GUI
 		finalEstimatePnl = new CompletedSessionEstimatePanel(this);
