@@ -10,11 +10,9 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent;
 
-import java.awt.Color;
-
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
@@ -44,17 +42,19 @@ public class NameDescriptionPanel extends JPanel {
 		// Create text box and label for name
 		nameLabel =  new JLabel("Name *");
 		nameTextField	 = new JTextField();
+		JScrollPane nameFrame = new JScrollPane(nameTextField);
 
 		// Create text box and label for desription
 		descriptionLabel = new JLabel("Description *");
 		descriptionTextField 	= new JTextField();
+		JScrollPane descriptionFrame = new JScrollPane(descriptionTextField);
 
 
 		setLayout(new MigLayout("fill, inset 0", "", "0[][][][grow]0"));
 		add(nameLabel, "left, growx, wrap");
-		add(nameTextField, "growx, wrap");
+		add(nameFrame, "growx, wrap");
 		add(descriptionLabel, "left, growx, span");
-		add(descriptionTextField, "grow");
+		add(descriptionFrame, "grow");
 	}
 	
 	/**
