@@ -70,4 +70,35 @@ public class NameDescriptionPanel extends JPanel {
 		descriptionLabel.setText(description);
 	}
 	
+	/**
+	 * Put the given name in the name text box
+	 * @param A string that would be put 
+	 * in the name text box
+	 */
+	public void setName(String name) {
+		nameTextField.setText(name);
+	}
+	
+	/**
+	 * Remove the text inside the name text box
+	 */
+	public void clearName() {
+		nameTextField.setText("");
+	}
+	
+	/**
+	 * Put the given text in the description text box
+	 * @param text A string that would be put
+	 * in the description text box
+	 */
+	public void setDescription(String text) {
+		descriptionTextField.setText(text);
+	}
+	
+	/**
+	 * Remove the text inside the description text box
+	 */
+	public void clearDescription() {
+		descriptionTextField.setText("");
+	}
 }
