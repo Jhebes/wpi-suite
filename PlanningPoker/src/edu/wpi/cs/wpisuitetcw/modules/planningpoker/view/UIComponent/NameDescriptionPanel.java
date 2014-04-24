@@ -76,6 +76,22 @@ public class NameDescriptionPanel extends JPanel {
 	}
 	
 	/**
+	 * Construct the NameDescriptionPanel by
+	 * creating and adding the name and description
+	 * text boxes with the given Strings as their corresponding labels
+	 * The text boxes can only be editable when if isEditable is true
+	 */
+	public NameDescriptionPanel(String name, String description, boolean isEditable) {
+		this(name, description);
+		
+		// Disable the text boxes if isEditable is false
+		if (!isEditable) {
+			nameTextField.setEditable(false);
+			descriptionTextField.setEditable(false);
+		}
+	}
+	
+	/**
 	 * Put the given name in the name text box
 	 * @param A string that would be put 
 	 * in the name text box

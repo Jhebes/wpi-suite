@@ -356,7 +356,7 @@ public class VotePanel extends JPanel {
 		rightPanelLabel = new JLabel(RIGHT_PANEL_LABEL);
 
 		// Create a requirement name and description text box
-		nameDescriptionPanel = new NameDescriptionPanel(REQ_NAME_LABEL, REQ_DESC_LABEL);
+		nameDescriptionPanel = new NameDescriptionPanel(REQ_NAME_LABEL, REQ_DESC_LABEL, false);
 
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
