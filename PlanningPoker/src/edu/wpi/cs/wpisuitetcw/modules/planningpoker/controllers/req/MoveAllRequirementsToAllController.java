@@ -74,6 +74,7 @@ public class MoveAllRequirementsToAllController implements ActionListener {
 		this.view.getSessionReqTable().repaint();
 		
 		view.validateActivateSession();
+		this.view.refreshMoveButtons();
 	}
 	
 	/*
