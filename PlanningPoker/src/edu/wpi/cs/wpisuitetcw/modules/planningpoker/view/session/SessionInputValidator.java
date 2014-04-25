@@ -33,4 +33,23 @@ public class SessionInputValidator {
 	public boolean areInputsValid() {
 		return false;
 	}
+	
+	
+	private boolean isNameTextFieldValid() {
+		return false;
+	}
+	
+	private boolean isDescriptionBoxValid() {
+		return false;
+	}
+	
+	private boolean isDeadlineValid() {
+		return false;
+	}
+	
+	private boolean isDeckPanelValid() {
+		return false;
+	}
+	
+	
 }
