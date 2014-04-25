@@ -16,6 +16,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -205,24 +207,24 @@ public class CompletedSessionEstimatePanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PlanningPokerRequirement focusedRequirement = CompletedSessionEstimatePanel.this
+				final PlanningPokerRequirement focusedReq = CompletedSessionEstimatePanel.this
 						.getFocusedRequirement();
-				int estimate = CompletedSessionEstimatePanel.this.getEstimate();
-				focusedRequirement.setFinalEstimate(estimate);
+				final int estimate = CompletedSessionEstimatePanel.this
+						.getEstimate();
+				final int correspondingReqID = focusedReq
+						.getCorrespondingReqManagerID();
+				focusedReq.setFinalEstimate(estimate);
+
+				// Update the Requirement manager requirement estimate.
+				final Requirement focusedRequirementManagerRequirement = reqManagerRequirementModel
+						.getRequirement(correspondingReqID);
+				focusedRequirementManagerRequirement.setEstimate(estimate);
+
 				parentPanel.getSession().save();
-				
-				//Update the Requirement manager requirement estimate.
-				Requirement focusedRequirementmanagerRequirement = reqManagerRequirementModel.getRequirement(focusedRequirement.getCorrespondingReqManagerID());
-				focusedRequirementmanagerRequirement.setEstimate(estimate);
-				focusedRequirementmanagerRequirement.save();
-				UpdateRequirementController.getInstance().updateRequirement(focusedRequirementmanagerRequirement);
+				UpdateRequirementController.getInstance().updateRequirement(
+						focusedRequirementManagerRequirement);
 				ViewEventController.getInstance().refreshTable();
 				ViewEventController.getInstance().refreshTree();
-				
-			
-				
-				
-				
 			}
 
 		});
@@ -377,4 +379,6 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		final String estimateText = finalEstimateField.getText();
 		return Integer.parseInt(estimateText);
 	}
+	
+
 }

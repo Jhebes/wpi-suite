@@ -29,7 +29,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
  */
 public class PlanningPokerRequirement extends AbstractModel {
 	/** This is the ID the corresponds with the requirment manager ID */
-	private int CorrespondingReqManagerID;
+	private int correspondingReqManagerID;
 
 	/** ID of a planning poker requirement */
 	private UUID id;
@@ -455,7 +455,7 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 * @param ID
 	 */
 	public void setCorrespondingReqManagerID(int ID){
-		this.CorrespondingReqManagerID = ID;
+		this.correspondingReqManagerID = ID;
 	}
 	
 	/**
@@ -463,6 +463,6 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 * @return The ID of the PPreq that corresponds with the requirement manager requirement.
 	 */
 	public int getCorrespondingReqManagerID(){
-		return this.CorrespondingReqManagerID;
+		return this.correspondingReqManagerID;
 	}
 }
