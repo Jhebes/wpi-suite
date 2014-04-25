@@ -13,8 +13,6 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.SimpleDateFormat;
@@ -142,7 +140,7 @@ public class CreateSessionPanel extends JPanel {
 
 	/** mode for the create new deck panel */
 	private CardDisplayMode mode = CardDisplayMode.DISPLAY;
-	
+
 	/**
 	 * Constructor to create a Create Session Panel This constructor is used to
 	 * edit an existing session.
@@ -320,18 +318,18 @@ public class CreateSessionPanel extends JPanel {
 		boolean isAllInputValid = true;
 
 		Map<Integer, Card> cards = this.deckPanel.getCards();
-		
+
 		// check if the deck contains any card
-		if(cards.size() == 0) {
+		if (cards.size() == 0) {
 			isAllInputValid = false;
 		}
-		
+
 		for (Card aCard : cards.values()) {
 			if (!aCard.validateCardValue()) {
-				aCard.setCardInvalid();
+				// aCard.setCardInvalid();
 				isAllInputValid = false;
 			} else {
-				aCard.setCardValid();
+				// aCard.setCardValid();
 			}
 		}
 		return isAllInputValid;
@@ -347,7 +345,6 @@ public class CreateSessionPanel extends JPanel {
 		if (this.nameTextField.getText().equals("")) {
 			return false;
 		} else {
-			this.labelName.setText("Name *");
 			return true;
 		}
 	}
@@ -362,7 +359,6 @@ public class CreateSessionPanel extends JPanel {
 		if (this.descriptionBox.getText().equals("")) {
 			return false;
 		} else {
-			this.labelDescriptionBox.setText("Description *");
 			return true;
 		}
 	}
@@ -600,37 +596,40 @@ public class CreateSessionPanel extends JPanel {
 		descriptionFrame = new JScrollPane();
 		descriptionFrame.setViewportView(descriptionBox);
 	}
-	
+
 	/**
-	 * Trigger dynamic input validation when the given input is entered in the given textfield 
+	 * Trigger dynamic input validation when the given input is entered in the
+	 * given textfield
 	 */
 	private void addTextInputValidation(JTextComponent element) {
 		element.addKeyListener(new KeyListener() {
-			
+
 			@Override
-			public void keyTyped(KeyEvent e) {}
-			
+			public void keyTyped(KeyEvent e) {
+			}
+
 			@Override
 			public void keyReleased(KeyEvent e) {
 				checkSessionValidation();
 			}
-			
+
 			@Override
-			public void keyPressed(KeyEvent e) {}
+			public void keyPressed(KeyEvent e) {
+			}
 		});
 	}
-	
-	/** 
+
+	/**
 	 * enable save button if a session is ready
 	 */
 	private void checkSessionValidation() {
-		if(validateAllInputs()) {
+		if (validateAllInputs()) {
 			btnSaveSession.setEnabled(true);
 		} else {
 			btnSaveSession.setEnabled(false);
 		}
 	}
-	
+
 	/*
 	 * Create dropdown to select an existed deck
 	 */
@@ -673,7 +672,7 @@ public class CreateSessionPanel extends JPanel {
 						e1.printStackTrace();
 					}
 				}
-				
+
 				// dynamic validation when selection is changed
 				// TODO this is somehow not working properly
 				checkSessionValidation();
@@ -737,8 +736,10 @@ public class CreateSessionPanel extends JPanel {
 
 	/**
 	 * Displays a previously created deck
-	 * @param deckName Name of the deck to be shown
-	 * @throws WPISuiteException 
+	 * 
+	 * @param deckName
+	 *            Name of the deck to be shown
+	 * @throws WPISuiteException
 	 */
 	private void displayDeck(String deckName) throws WPISuiteException {
 		this.deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
