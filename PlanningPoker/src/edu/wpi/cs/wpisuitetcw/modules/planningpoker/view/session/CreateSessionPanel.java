@@ -162,6 +162,8 @@ public class CreateSessionPanel extends JPanel {
 		this.nameTextField.setEnabled(false);
 		this.descriptionBox.setText(session.getDescription());
 		this.descriptionBox.setEnabled(false);
+		// adds dynamic validation for session description
+		triggerTextfieldValidation(descriptionBox);
 
 	}
 
@@ -623,6 +625,8 @@ public class CreateSessionPanel extends JPanel {
 			public void keyReleased(KeyEvent e) {
 				if(validator.areInputsValid()) {
 					btnSaveSession.setEnabled(true);
+				} else {
+					btnSaveSession.setEnabled(false);
 				}
 			}
 			
@@ -631,7 +635,6 @@ public class CreateSessionPanel extends JPanel {
 		});
 	}
 	
-
 	/*
 	 * Create dropdown to select an existed deck
 	 */
@@ -695,6 +698,8 @@ public class CreateSessionPanel extends JPanel {
 		labelName = new JLabel("Name *");
 		labelRequireField = new JLabel(REQUIRED_LABEL);
 		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
+		// add dynamic validation to session name
+		triggerTextfieldValidation(nameTextField);
 	}
 
 	/*
