@@ -622,7 +622,7 @@ public class CreateSessionPanel extends JPanel {
 	/**
 	 * enable save button if a session is ready
 	 */
-	private void checkSessionValidation() {
+	public void checkSessionValidation() {
 		if (validateAllInputs()) {
 			btnSaveSession.setEnabled(true);
 		} else {
@@ -728,7 +728,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private void createNewDeck() {
 		// new deck panel for creating a deck of cards
-		this.deckPanel = new CreateDeckPanel(CardDisplayMode.CREATE);
+		this.deckPanel = new CreateDeckPanel(CardDisplayMode.CREATE, this);
 
 		setupEntirePanel();
 		updateUI();
