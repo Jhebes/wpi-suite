@@ -345,8 +345,6 @@ public class CreateSessionPanel extends JPanel {
 	private boolean sessionNameEntered() {
 		// textbox for session name
 		if (this.nameTextField.getText().equals("")) {
-			this.labelName
-					.setText("<html>Name * <font color='red'>REQUIRES</font></html>");
 			return false;
 		} else {
 			this.labelName.setText("Name *");
@@ -362,8 +360,6 @@ public class CreateSessionPanel extends JPanel {
 	private boolean sessionDescriptionEntered() {
 		// textarea for session description
 		if (this.descriptionBox.getText().equals("")) {
-			this.labelDescriptionBox
-					.setText("<html>Description * <font color='red'>REQUIRED</font></html>");
 			return false;
 		} else {
 			this.labelDescriptionBox.setText("Description *");
@@ -651,9 +647,6 @@ public class CreateSessionPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// dynamic validation when selection is changed
-				checkSessionValidation();
-				
 				String deckName = String.valueOf(deckType.getSelectedItem());
 				if (deckName.equals(CREATE_DECK)) {
 					// create mode
@@ -680,6 +673,10 @@ public class CreateSessionPanel extends JPanel {
 						e1.printStackTrace();
 					}
 				}
+				
+				// dynamic validation when selection is changed
+				// TODO this is somehow not working properly
+				checkSessionValidation();
 			}
 		});
 	}
