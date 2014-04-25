@@ -11,7 +11,6 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -28,7 +27,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -143,9 +141,6 @@ public class CreateSessionPanel extends JPanel {
 	/** mode for the create new deck panel */
 	private CardDisplayMode mode = CardDisplayMode.DISPLAY;
 	
-	/** inputs validation */
-	private final SessionInputValidator validator;
-
 	/**
 	 * Constructor to create a Create Session Panel This constructor is used to
 	 * edit an existing session.
@@ -162,9 +157,6 @@ public class CreateSessionPanel extends JPanel {
 		this.nameTextField.setEnabled(false);
 		this.descriptionBox.setText(session.getDescription());
 		this.descriptionBox.setEnabled(false);
-		// adds dynamic validation for session description
-		triggerTextfieldValidation(descriptionBox);
-
 	}
 
 	/**
@@ -178,9 +170,6 @@ public class CreateSessionPanel extends JPanel {
 		// Use display mode since the default deck is displayed by default
 		deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
 		deckPanel.displayDefaultDeck();
-		
-		// setup validator
-		validator = new SessionInputValidator(this);
 
 		setupBottomPanel();
 
@@ -606,6 +595,8 @@ public class CreateSessionPanel extends JPanel {
 		descriptionBox.setLineWrap(true);
 		descriptionBox.setWrapStyleWord(true);
 		descriptionBox.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		// adds dynamic validation for session description
+		triggerTextInputValidation(descriptionBox);
 
 		// Add scroll bar to the text area. It only appears when needed
 		descriptionFrame = new JScrollPane();
@@ -615,7 +606,7 @@ public class CreateSessionPanel extends JPanel {
 	/**
 	 * Trigger dynamic input validation when the given input is entered in the given textfield 
 	 */
-	private void triggerTextfieldValidation(JTextComponent element) {
+	private void triggerTextInputValidation(JTextComponent element) {
 		element.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -623,7 +614,7 @@ public class CreateSessionPanel extends JPanel {
 			
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if(validator.areInputsValid()) {
+				if(validateAllInputs()) {
 					btnSaveSession.setEnabled(true);
 				} else {
 					btnSaveSession.setEnabled(false);
@@ -699,7 +690,7 @@ public class CreateSessionPanel extends JPanel {
 		labelRequireField = new JLabel(REQUIRED_LABEL);
 		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
 		// add dynamic validation to session name
-		triggerTextfieldValidation(nameTextField);
+		triggerTextInputValidation(nameTextField);
 	}
 
 	/*
