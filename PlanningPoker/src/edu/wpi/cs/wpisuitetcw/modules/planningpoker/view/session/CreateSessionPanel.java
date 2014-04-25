@@ -13,6 +13,8 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.SimpleDateFormat;
@@ -596,7 +598,7 @@ public class CreateSessionPanel extends JPanel {
 		descriptionBox.setWrapStyleWord(true);
 		descriptionBox.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		// adds dynamic validation for session description
-		triggerTextInputValidation(descriptionBox);
+		addTextInputValidation(descriptionBox);
 
 		// Add scroll bar to the text area. It only appears when needed
 		descriptionFrame = new JScrollPane();
@@ -606,7 +608,7 @@ public class CreateSessionPanel extends JPanel {
 	/**
 	 * Trigger dynamic input validation when the given input is entered in the given textfield 
 	 */
-	private void triggerTextInputValidation(JTextComponent element) {
+	private void addTextInputValidation(JTextComponent element) {
 		element.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -614,16 +616,23 @@ public class CreateSessionPanel extends JPanel {
 			
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if(validateAllInputs()) {
-					btnSaveSession.setEnabled(true);
-				} else {
-					btnSaveSession.setEnabled(false);
-				}
+				checkSessionValidation();
 			}
 			
 			@Override
 			public void keyPressed(KeyEvent e) {}
 		});
+	}
+	
+	/** 
+	 * enable save button if a session is ready
+	 */
+	private void checkSessionValidation() {
+		if(validateAllInputs()) {
+			btnSaveSession.setEnabled(true);
+		} else {
+			btnSaveSession.setEnabled(false);
+		}
 	}
 	
 	/*
@@ -642,6 +651,9 @@ public class CreateSessionPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// dynamic validation when selection is changed
+				checkSessionValidation();
+				
 				String deckName = String.valueOf(deckType.getSelectedItem());
 				if (deckName.equals(CREATE_DECK)) {
 					// create mode
@@ -690,7 +702,7 @@ public class CreateSessionPanel extends JPanel {
 		labelRequireField = new JLabel(REQUIRED_LABEL);
 		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
 		// add dynamic validation to session name
-		triggerTextInputValidation(nameTextField);
+		addTextInputValidation(nameTextField);
 	}
 
 	/*
