@@ -170,6 +170,7 @@ public class ViewSessionReqPanel extends JPanel {
 		this.addRequirementToSession = new JButton("Add Requirement to Session");
 		this.saveRequirement = new JButton("Save Requirement");
 		saveRequirement.setEnabled(false);
+		addRequirementToSession.setEnabled(false);
 		validateActivateSession();
 
 		// setup panels

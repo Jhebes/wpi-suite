@@ -292,14 +292,14 @@ public class CreateSessionPanel extends JPanel {
 	 * 
 	 * @return true if all values are valid
 	 */
-	public boolean validateAllInputs() {
+	public boolean validateAllInputs() { //this should be in the controller
 		// new deck is being created
 		if (this.mode.equals(CardDisplayMode.CREATE)) {
 			// validate session and deck input
 			boolean isDeckValid = validateAllDeckInputs();
-			boolean isSessionValide = validateAllSessionInputs();
+			boolean isSessionValid = validateAllSessionInputs();
 
-			return isDeckValid && isSessionValide;
+			return isDeckValid && isSessionValid;
 		} else {
 			// display mode
 			return validateAllSessionInputs();
@@ -341,12 +341,12 @@ public class CreateSessionPanel extends JPanel {
 		boolean isAllInputValid = true;
 
 		Map<Integer, Card> cards = this.deckPanel.getCards();
-		
+
 		// check if the deck contains any card
-		if(cards.size() == 0) {
+		if (cards.size() == 0) {
 			isAllInputValid = false;
 		}
-		
+
 		for (Card aCard : cards.values()) {
 			if (!aCard.validateCardValue()) {
 				aCard.setCardInvalid();
@@ -367,7 +367,7 @@ public class CreateSessionPanel extends JPanel {
 		// textbox for session name
 		if (this.nameTextField.getText().equals("")) {
 			this.labelName
-					.setText("<html>Name * <font color='red'>REQUIRES</font></html>");
+					.setText("<html>Name * <font color='red'>REQUIRED</font></html>");
 			return false;
 		} else {
 			this.labelName.setText("Name *");
@@ -722,8 +722,10 @@ public class CreateSessionPanel extends JPanel {
 
 	/**
 	 * Displays a previously created deck
-	 * @param deckName Name of the deck to be shown
-	 * @throws WPISuiteException 
+	 * 
+	 * @param deckName
+	 *            Name of the deck to be shown
+	 * @throws WPISuiteException
 	 */
 	private void displayDeck(String deckName) throws WPISuiteException {
 		this.deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
