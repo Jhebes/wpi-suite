@@ -156,6 +156,9 @@ public class ViewSessionReqPanel extends JPanel {
 		return selectedNames;
 	}
 
+	/**
+	 * Refreshes all buttons in the buttonPanel
+	 */
 	public void refreshMoveButtons() {
 		if (getRightSelectedRequirements().size() == 0) {
 			this.moveRequirementToAll.setEnabled(false);
