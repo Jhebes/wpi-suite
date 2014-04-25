@@ -11,8 +11,11 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,6 +28,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -34,6 +38,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
+import javax.swing.text.JTextComponent;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -137,6 +142,9 @@ public class CreateSessionPanel extends JPanel {
 
 	/** mode for the create new deck panel */
 	private CardDisplayMode mode = CardDisplayMode.DISPLAY;
+	
+	/** inputs validation */
+	private final SessionInputValidator validator;
 
 	/**
 	 * Constructor to create a Create Session Panel This constructor is used to
@@ -168,6 +176,9 @@ public class CreateSessionPanel extends JPanel {
 		// Use display mode since the default deck is displayed by default
 		deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
 		deckPanel.displayDefaultDeck();
+		
+		// setup validator
+		validator = new SessionInputValidator(this);
 
 		setupBottomPanel();
 
@@ -185,31 +196,6 @@ public class CreateSessionPanel extends JPanel {
 			deckType.addItem(name);
 		}
 	}
-
-	/**
-	 * notify createSessionPanel when a new deck is created, so that it updates
-	 * the dropdown list for names of decks
-	 */
-	// public void addCreateDeckListener(final CreateNewDeckPanel deckPanel,
-	// final CreateSessionPanel sessionPanel) {
-	// sessionPanel.addComponentListener(new ComponentListener() {
-	//
-	// @Override
-	// public void componentShown(ComponentEvent e) {}
-	//
-	// @Override
-	// public void componentResized(ComponentEvent e) {}
-	//
-	// @Override
-	// public void componentMoved(ComponentEvent e) {}
-	//
-	// @Override
-	// public void componentHidden(ComponentEvent e) {
-	// sessionPanel.setUpDeckDropdown();
-	// ViewEventManager.getInstance().removeTab(deckPanel);
-	// }
-	// });
-	// }
 
 	/**
 	 * Returns the description of what user enters
@@ -623,6 +609,28 @@ public class CreateSessionPanel extends JPanel {
 		descriptionFrame = new JScrollPane();
 		descriptionFrame.setViewportView(descriptionBox);
 	}
+	
+	/**
+	 * Trigger dynamic input validation when the given input is entered in the given textfield 
+	 */
+	private void triggerTextfieldValidation(JTextComponent element) {
+		element.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(validator.areInputsValid()) {
+					btnSaveSession.setEnabled(true);
+				}
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {}
+		});
+	}
+	
 
 	/*
 	 * Create dropdown to select an existed deck
@@ -697,6 +705,8 @@ public class CreateSessionPanel extends JPanel {
 		// Create Save session button
 		btnSaveSession = new JButton("Save");
 		btnSaveSession.addActionListener(new AddSessionController(this, false));
+		// save button is initially disable
+		btnSaveSession.setEnabled(false);
 
 		// Create Cancel create session button
 		btnCancel = new JButton("Cancel");
