@@ -33,6 +33,10 @@ import javax.swing.table.DefaultTableModel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 public class CompletedSessionEstimatePanel extends JPanel {
 
@@ -103,6 +107,9 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	
 	// Headers for the tblVotes JTable.
 	private static final Object[] voteTableColHeaders = { "User", "Vote" };
+	
+	// The Requirement Manager requirement Model.
+	private RequirementModel reqManagerRequirementModel;
 
 	/**
 	 * Create the panel.
@@ -116,6 +123,9 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		
 		// Create a new grid layout that is 3 columns across.
 		panelLayout = new GridLayout(0, 3);
+		
+		// Set the reqManagerRequirementModel field equal to the Instance of the Requirement Model;
+		reqManagerRequirementModel = RequirementModel.getInstance();
 		
 
 		/*
@@ -200,6 +210,19 @@ public class CompletedSessionEstimatePanel extends JPanel {
 				int estimate = CompletedSessionEstimatePanel.this.getEstimate();
 				focusedRequirement.setFinalEstimate(estimate);
 				parentPanel.getSession().save();
+				
+				//Update the Requirement manager requirement estimate.
+				Requirement focusedRequirementmanagerRequirement = reqManagerRequirementModel.getRequirement(focusedRequirement.getCorrespondingReqManagerID());
+				focusedRequirementmanagerRequirement.setEstimate(estimate);
+				focusedRequirementmanagerRequirement.save();
+				UpdateRequirementController.getInstance().updateRequirement(focusedRequirementmanagerRequirement);
+				ViewEventController.getInstance().refreshTable();
+				ViewEventController.getInstance().refreshTree();
+				
+			
+				
+				
+				
 			}
 
 		});
