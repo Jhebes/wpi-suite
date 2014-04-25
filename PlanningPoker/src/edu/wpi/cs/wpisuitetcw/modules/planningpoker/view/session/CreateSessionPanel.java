@@ -784,4 +784,12 @@ public class CreateSessionPanel extends JPanel {
 		return this.deckPanel;
 	}
 
+	/**
+	 * 
+	 * @return the checkbox for deadline
+	 */
+	public JCheckBox getCbDeadline() {
+		return cbDeadline;
+	}
+
 }
