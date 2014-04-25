@@ -37,31 +37,71 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 public class CompletedSessionEstimatePanel extends JPanel {
 
 	// private final JPanel pnlCompletedSession;
+	
+	//The panel that the final estimate panel is placed in.
 	private final VotePanel parentPanel;
+	
+	// The GridLayout that holds the stats panel, vote panel, and final estimate panel.
 	private final GridLayout panelLayout;
+	
+	// Panel that displays the final estimate text box and submission button
 	private final JPanel pnlFinalEstimate;
+	
+	// Panel that displays the stats of a requirement.
 	private final JPanel pnlStats;
+	
+	// Panel that displays a table of users and their votes for a requirement.
 	private final JPanel pnlVotes;
+	
+	// Header for the votes panel.
 	private final JLabel lblVotes;
+	
+	// Header for the stats panel.
 	private final JLabel lblStats;
+	
+	// Header for the final estimate panel.
 	private final JLabel lblFinalEstimate;
+	
+	// Label of the Mean text field.
 	private final JLabel lblMean;
+	
+	// Label of the Median text field.
 	private final JLabel lblMedian;
+	
+	// Label of the Mode text field.
 	private final JLabel lblMode;
+	
+	// Holds the model to populate the Votes table.
 	private DefaultTableModel tableModel;
+	
+	// Table that displays users and their votes for a requirement.
 	private JTable tblVotes;
+	
+	// text field that displays the mean for a requirements votes.
 	private JTextField statsMean;
+	
+	// text field that displays the median of a requirements votes.
 	private JTextField statsMedian;
+	
+	// text field that displays the mode of a requirements votes.
 	private JTextField statsMode;
+	
+	// text field that takes the final estimate given by the owner of a session.
 	private JTextField finalEstimateField;
+	
+	// The font to be used for headers in this panel.
 	private final Font headerFont;
+	
+	// the font used for statistical labels
 	private final Font statNameFont;
+	
+	// Button to submit the final estimation.
 	private final JButton btnFinalEstimate;
-	private int mean;
-	private int mode;
-	private int median;
+	
+	// The requirement that has been chosen for analysis and estimation
 	private PlanningPokerRequirement focusedRequirement = null;
-
+	
+	// Headers for the tblVotes JTable.
 	private static final Object[] voteTableColHeaders = { "User", "Vote" };
 
 	/**
@@ -73,8 +113,10 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	public CompletedSessionEstimatePanel(
 			final VotePanel parentPanel) {
 		this.parentPanel = parentPanel;
-
+		
+		// Create a new grid layout that is 3 columns across.
 		panelLayout = new GridLayout(0, 3);
+		
 
 		/*
 		 * Create and set up the 3 panels used to create the CompletedSession
@@ -263,7 +305,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	}
 
 	/**
-	 * Populates the vote table with the cotes from a requirement
+	 * Populates the vote table with the votes from a requirement
 	 * 
 	 * @param requirement
 	 *            The requirement whose votes to use for this table
