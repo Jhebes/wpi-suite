@@ -208,16 +208,21 @@ public class VotePanel extends JPanel {
 			}
 		});
 
+		// enabling buttons by checking the ownership of the session
+		String currentUserName = ConfigManager.getConfig().getUserName();
+		
 		if (session.isClosed() || session.isCancelled()) {
 			cancelSessionButton.setEnabled(false);
 		}
-		if (cancelSessionButton.equals(session.getOwnerUserName())) {
+		
+		// only owner has the ability to cancel a session
+		if (currentUserName.equals(session.getOwnerUserName())) {
 			cancelSessionButton.setVisible(true);
 		} else {
 			cancelSessionButton.setVisible(false);
 		}
 
-		String currentUserName = ConfigManager.getConfig().getUserName();
+		// only owner has the ability to close a session
 		if (session.isClosed())
 			endSessionButton.setEnabled(false);
 		if (currentUserName.equals(session.getOwnerUserName()))
