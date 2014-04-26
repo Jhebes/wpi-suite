@@ -54,29 +54,27 @@ public class AddVoteController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		// FIXME: most of this could be moved into the model.
-		session = view.getSession();
+		session = voteView.getSession();
 
-		if (!session.isActive())
-			return;
-
-		System.out.print("Requesting user is: ");
-		Configuration c = ConfigManager.getConfig();
-		String username = c.getUserName();
-
-		PlanningPokerVote vote = new PlanningPokerVote(username, view.getVote());
-		String r = view.getSelectedRequirement();
-
+		// Terminate voting process if the session is not active
+		if (!session.isActive()) return;
+		
+		// Get the requirement that has been selected from VotePanel
 		try {
-			this.req = session.getReqByName(r);
+			this.req = ((PlanningPokerRequirement) voteView.getRequirementList().getSelectedValue());
 		} catch (NullPointerException e) {
 			Logger.getLogger("PlanningPoker").log(Level.WARNING,
 					"Could not find requirement by name", e);
 			return;
 		}
 
+		// checking list of votes to see if user has already voted
 		ArrayList<PlanningPokerVote> toRemove = new ArrayList<PlanningPokerVote>();
 
-		// checking list of votes to see if user has already voted
+		System.out.print("Requesting user is: ");
+		Configuration c = ConfigManager.getConfig();
+		String username = c.getUserName();
+		
 		for (PlanningPokerVote v : this.req.getVotes()) {
 			if (v.getUser().equals(username)) {
 				toRemove.add(v);
