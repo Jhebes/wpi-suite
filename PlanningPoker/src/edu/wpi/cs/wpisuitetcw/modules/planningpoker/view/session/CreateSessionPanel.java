@@ -468,6 +468,7 @@ public class CreateSessionPanel extends JPanel {
 	public void enableDeadlineField() {
 		this.deadlinePicker.setEnabled(true);
 		this.pickerDeadlineTime.setEnabled(true);
+		checkSessionValidation();
 	}
 
 	/**
@@ -476,6 +477,7 @@ public class CreateSessionPanel extends JPanel {
 	public void disableDeadlineField() {
 		this.deadlinePicker.setEnabled(false);
 		this.pickerDeadlineTime.setEnabled(false);
+		labelDeadlineErr.setVisible(false);
 	}
 
 	/*
@@ -863,5 +865,4 @@ public class CreateSessionPanel extends JPanel {
 			return false;
 		}
 	}
-
 }
