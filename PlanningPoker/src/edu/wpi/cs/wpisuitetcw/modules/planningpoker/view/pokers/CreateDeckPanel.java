@@ -468,16 +468,16 @@ public class CreateDeckPanel extends JPanel {
 		centerTopPanel.setLayout(new MigLayout("", "push[]push[]push[]push", ""));
 
 		// 1ST ROW
-		centerTopPanel.add(labelName, "left, split2");
+		centerTopPanel.add(labelName, "gapleft 5, left, split2");
 		centerTopPanel.add(labelNameErr, "center");
-		centerTopPanel.add(labelCardSelection, "left");
-		centerTopPanel.add(labelCount, "split2, center");
+		centerTopPanel.add(labelCardSelection, "gapleft 5, left");
+		centerTopPanel.add(labelCount, "gapleft 5, split2, center");
 		centerTopPanel.add(labelNumCards, "wrap");
 		
 		// 2ND ROW
-		centerTopPanel.add(textboxName, "left");
-		centerTopPanel.add(deckOption, "left");
-		centerTopPanel.add(btnAddCard, "center");
+		centerTopPanel.add(textboxName, "gapleft 5, left");
+		centerTopPanel.add(deckOption, "gapleft 5, left");
+		centerTopPanel.add(btnAddCard, "gapleft 5, center");
 		
 	}
 	
