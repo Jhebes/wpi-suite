@@ -74,6 +74,7 @@ public class CreateSessionPanel extends JPanel {
 	private static final int DESCRIPTION_BOX_HEIGHT = 110;
 	private static final int GAP_LENGTH_DEADLINE_TO_BOTTOM = 0;
 	private static final String REQUIRED_LABEL = "<html><font color='red'>Required field *</font></html>";
+	private static final String DEADLINE_ERR_LABEL = "<html><font color='red'>Deadline cannot be in the past</font></html>";
 	private static final String CREATE_DECK = "Create new deck";
 
 	// default data size for database entry
@@ -127,6 +128,9 @@ public class CreateSessionPanel extends JPanel {
 	/** Deadline date and time picker */
 	private JXDatePicker deadlinePicker;
 	private JSpinner pickerDeadlineTime;
+
+	/** Label for indicating the deadline is in the past */
+	private JLabel labelDeadlineErr;
 
 	// ###################### DATA ########################
 	/** Model used for requirements JList */
@@ -517,8 +521,9 @@ public class CreateSessionPanel extends JPanel {
 				+ "px, span");
 
 		// Add the label for deadline and a check box next to it
-		leftPanel.add(labelDeadline, "split2");
-		leftPanel.add(cbDeadline, "wrap");
+		leftPanel.add(labelDeadline, "split3");
+		leftPanel.add(cbDeadline);
+		leftPanel.add(labelDeadlineErr, "wrap");
 
 		// Add deadline date picker and time picker
 		leftPanel.add(deadlinePicker, "split2, " + "width "
@@ -569,6 +574,10 @@ public class CreateSessionPanel extends JPanel {
 		deadlinePicker.setDate(Calendar.getInstance().getTime());
 		deadlinePicker.setFormats(new SimpleDateFormat("MM/dd/yyyy"));
 		deadlinePicker.setEnabled(false);
+
+		// deadline error indicator
+		labelDeadlineErr = new JLabel(DEADLINE_ERR_LABEL);
+		labelDeadlineErr.setVisible(false);
 	}
 
 	/*
