@@ -65,6 +65,7 @@ public class CreateSessionPanel extends JPanel {
 
 	private static final long serialVersionUID = 8733539608651885877L;
 
+	private static final int DEFAULT_HEIGHT = 26;
 	private static final int DEADLINE_DATEPICKER_WIDTH = 170;
 	private static final int DROPDOWN_WIDTH = 150;
 	private static final int DROPDOWN_DECK_WIDTH = 200;
@@ -527,7 +528,7 @@ public class CreateSessionPanel extends JPanel {
 
 		// Add session name text field and its label
 		leftPanel.add(labelName, "span");
-		leftPanel.add(nameTextField, "growx, span");
+		leftPanel.add(nameTextField, "growx, span, height " + DEFAULT_HEIGHT + "px!");
 
 		// Add labels for the dropdowns of session type and deck to 1 row
 		leftPanel.add(labelDropdownType, "width " + DROPDOWN_WIDTH
@@ -550,12 +551,13 @@ public class CreateSessionPanel extends JPanel {
 		leftPanel.add(cbDeadline, "wrap");
 
 		// Add deadline date picker and time picker
-		leftPanel.add(deadlinePicker, "split2, " + "width "
-				+ DEADLINE_DATEPICKER_WIDTH + "px!, " + "gapbottom "
-				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px");
-		leftPanel.add(pickerDeadlineTime, "growx, " + "gapbottom "
-				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, wrap");
-
+		leftPanel.add(deadlinePicker, "split2, "
+				+ "width " + DEADLINE_DATEPICKER_WIDTH + "px!, " 
+				+ "gapbottom " + GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, " 
+				+ "height " + DEFAULT_HEIGHT + "px!");
+		leftPanel.add(pickerDeadlineTime, "growx, " 
+				+ "gapbottom " + GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, "
+				+ "height " + DEFAULT_HEIGHT + "px!, wrap");
 	}
 
 	/*

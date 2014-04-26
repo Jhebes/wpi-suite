@@ -26,6 +26,8 @@ import net.miginfocom.swing.MigLayout;
  */
 public class NameDescriptionPanel extends JPanel {
 	
+	private static final int TEXTBOX_HEIGHT = 26;
+	
 	/** A text field for name */
 	private final JLabel nameLabel;
 	private final JTextArea nameTextField;
@@ -57,7 +59,7 @@ public class NameDescriptionPanel extends JPanel {
 
 		setLayout(new MigLayout("fill, inset 0", "", "0[][][][grow]0"));
 		add(nameLabel, "left, growx, wrap");
-		add(nameFrame, "growx, wrap");
+		add(nameFrame, "growx, wrap, height " + TEXTBOX_HEIGHT + "px!");
 		add(descriptionLabel, "left, growx, span");
 		add(descriptionFrame, "grow");
 	}

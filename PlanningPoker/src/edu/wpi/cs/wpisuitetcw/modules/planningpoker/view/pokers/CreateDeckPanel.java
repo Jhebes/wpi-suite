@@ -66,7 +66,7 @@ public class CreateDeckPanel extends JPanel {
 	private static final int CARD_WIDTH = 146;
 	private static final int CENTER_PANEL_WIDTH  = 350;
 	private static final int CENTER_PANEL_HEIGHT = 250;
-	private static final int BUTTON_HEIGHT = 27;
+	private static final int BUTTON_HEIGHT = 26;
 
 	// ########################### Top UI Components ######################
 	/** A container holding all the top UI components */ 
