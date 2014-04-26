@@ -36,6 +36,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.text.JTextComponent;
 
 import net.miginfocom.swing.MigLayout;
@@ -62,6 +64,8 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
  * This panel is used to create or edit a session's basic information
  */
 public class CreateSessionPanel extends JPanel {
+	private static final Date CURRENT_TIME = Calendar.getInstance().getTime();
+
 	private static final String NO_DECK = "No deck";
 
 	private static final String DEFAULT_DECK = "Default";
@@ -297,8 +301,9 @@ public class CreateSessionPanel extends JPanel {
 		// this is to avoid short circuit evaluation
 		boolean nameEntered = sessionNameEntered();
 		boolean desEntered = sessionDescriptionEntered();
+		boolean deadlineValid = isDeadlineValid();
 
-		return nameEntered && desEntered;
+		return nameEntered && desEntered && deadlineValid;
 
 	}
 
@@ -564,6 +569,15 @@ public class CreateSessionPanel extends JPanel {
 		pickerDeadlineTime.setValue(new Date()); // will only show the current
 													// time
 		pickerDeadlineTime.setEnabled(false);
+
+		// action listener to validate the picker
+		pickerDeadlineTime.addChangeListener(new ChangeListener() {
+
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				checkSessionValidation();
+			}
+		});
 	}
 
 	/*
@@ -571,9 +585,18 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private void createDatePicker() {
 		deadlinePicker = new JXDatePicker();
-		deadlinePicker.setDate(Calendar.getInstance().getTime());
+		deadlinePicker.setDate(CURRENT_TIME);
 		deadlinePicker.setFormats(new SimpleDateFormat("MM/dd/yyyy"));
 		deadlinePicker.setEnabled(false);
+
+		// dynamically validate deadline
+		deadlinePicker.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				checkSessionValidation();
+			}
+		});
 
 		// deadline error indicator
 		labelDeadlineErr = new JLabel(DEADLINE_ERR_LABEL);
@@ -815,6 +838,30 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	public JCheckBox getCbDeadline() {
 		return cbDeadline;
+	}
+
+	/**
+	 * validate the deadline
+	 * 
+	 * @return true if valid, false if the entered deadline is in the past
+	 */
+	private boolean isDeadlineValid() {
+		Date enteredDate = getDeadline();
+
+		// check if deadline box is checked
+		if (!cbDeadline.isSelected()) {
+			return true;
+		}
+
+		if (enteredDate.after(CURRENT_TIME)) {
+			// valid
+			labelDeadlineErr.setVisible(false);
+			return true;
+		} else {
+			// invalide
+			labelDeadlineErr.setVisible(true);
+			return false;
+		}
 	}
 
 }
