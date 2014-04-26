@@ -93,6 +93,7 @@ public class CreateSessionPanel extends JPanel {
 	private JLabel labelRequireField;
 
 	// ################ UI Right Component #################
+	/** The panel that shows cards and creates deck */
 	private CreateDeckPanel deckPanel;
 
 	// ################ UI Left Component #################
