@@ -56,7 +56,9 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 				"Open Sessions");
 		DefaultMutableTreeNode closedSessionNode = new DefaultMutableTreeNode(
 				"Closed Sessions");
-		
+		DefaultMutableTreeNode cancelledSessionNode = new DefaultMutableTreeNode(
+				"Cancelled Sessions");
+
 		try {
 			// get a list of sessions
 			this.sessions = SessionStash.getInstance().getSessions();
@@ -65,6 +67,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 				PlanningPokerSession[] newSessions = sortForNewSessions(this.sessions);
 				PlanningPokerSession[] openSessions = sortForOpenSessions(this.sessions);
 				PlanningPokerSession[] closedSessions = sortForClosedSessions(this.sessions);
+				PlanningPokerSession[] cancelledSessions = sortForCancelledSessions(this.sessions);
 
 				// add new sessions to the node
 				for (PlanningPokerSession s : newSessions) {
@@ -86,6 +89,13 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 							s);
 					closedSessionNode.add(newNode);
 				}
+				
+				// add cancelled sessions to the node
+				for (PlanningPokerSession s : cancelledSessions) {
+					DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(
+							s);
+					cancelledSessionNode.add(newNode);
+				}
 			}
 
 		} catch (NullPointerException e) {
@@ -93,9 +103,11 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 					"Network configuration error", e);
 		}
 
+		// adds nodes to the tree
 		top.add(newSessionNode);
 		top.add(openSessionNode);
 		top.add(closedSessionNode);
+		top.add(cancelledSessionNode);
 
 		tree = new JTree(top); // create the tree with the top created above
 		// tell it that it can only select one thing at a time
@@ -172,6 +184,27 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 				.size()];
 		closedSessions = tempClosedSessions.toArray(closedSessions);
 		return closedSessions;
+	}
+
+	/**
+	 * 
+	 * sort for cancelled sessions from a given array of sessions
+	 * 
+	 * @param allSessions
+	 * @return cancelled sessions
+	 */
+	private PlanningPokerSession[] sortForCancelledSessions(
+			List<PlanningPokerSession> allSessions) {
+		ArrayList<PlanningPokerSession> tempCancelledSessions = new ArrayList<PlanningPokerSession>();
+		for (PlanningPokerSession pps : allSessions) {
+			if (pps.isCancelled()) {
+				tempCancelledSessions.add(pps);
+			}
+		}
+		PlanningPokerSession[] cancelledSessions = new PlanningPokerSession[tempCancelledSessions
+				.size()];
+		cancelledSessions = tempCancelledSessions.toArray(cancelledSessions);
+		return cancelledSessions;
 	}
 
 	/**
