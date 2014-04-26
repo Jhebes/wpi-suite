@@ -103,12 +103,27 @@ public class AddVoteController implements ActionListener {
 			Logger.getLogger("PlanningPoker").log(Level.SEVERE,
 					"Sleeping was interrupted.", e);
 		}
-
-		this.view.setVoteTextFieldWithValue(vote.getCardValue());
-		this.view.updateUI();
 		
 		GetRequirementsVotesController getVotes = new GetRequirementsVotesController(
-				view, session);
-		getVotes.actionPerformed(new ActionEvent(getVotes, 0, r));	
+				voteView, session);
+		getVotes.actionPerformed(new ActionEvent(getVotes, 0, req.getName()));	
+		
+		// Update the vote panel
+		updateVoteIcon();
+		this.voteView.setVoteTextFieldWithValue(vote.getCardValue());
+		this.voteView.updateUI();
+	}
+
+	/*
+	 * Change the vote icon by updating the list's model
+	 */
+	@SuppressWarnings("unchecked")
+	private void updateVoteIcon() {
+		int index = voteView.getRequirementList().getSelectedIndex();
+		((DefaultListModel<PlanningPokerRequirement>) voteView
+														.getRequirementList()
+														.getModel())
+															.set(index, req);
+		voteView.getRequirementList().setSelectedIndex(index);		
 	}
 }
