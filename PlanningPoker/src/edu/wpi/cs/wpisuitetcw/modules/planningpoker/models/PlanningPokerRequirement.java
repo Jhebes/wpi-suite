@@ -28,6 +28,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
  * This model encapsulates a requirement in the context of planning poker.
  */
 public class PlanningPokerRequirement extends AbstractModel {
+	/** This is the ID the corresponds with the requirment manager ID */
+	private int correspondingReqManagerID;
 
 	/** ID of a planning poker requirement */
 	private UUID id;
@@ -86,17 +88,18 @@ public class PlanningPokerRequirement extends AbstractModel {
 	/**
 	 * 
 	 * @param id
-	 * @return PlanningPokerVote corresponding to the requirement (if it has been voted on by user)
+	 * @return PlanningPokerVote corresponding to the requirement (if it has
+	 *         been voted on by user)
 	 */
 	public PlanningPokerVote getVoteByUser(String user) {
-		for(PlanningPokerVote v : this.votes) {
-			if(v.getUser().equals(user)) {
+		for (PlanningPokerVote v : this.votes) {
+			if (v.getUser().equals(user)) {
 				return v;
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Returns an instance of PlanningPokerRequirement constructed using the
 	 * given Requirement encoded as a JSON string.
@@ -445,5 +448,21 @@ public class PlanningPokerRequirement extends AbstractModel {
 			}
 		}
 		return mode;
+	}
+	
+	/**
+	 * Set the ID the is given to this requirement in the requirement manager.
+	 * @param ID
+	 */
+	public void setCorrespondingReqManagerID(int ID){
+		this.correspondingReqManagerID = ID;
+	}
+	
+	/**
+	 * 
+	 * @return The ID of the PPreq that corresponds with the requirement manager requirement.
+	 */
+	public int getCorrespondingReqManagerID(){
+		return this.correspondingReqManagerID;
 	}
 }
