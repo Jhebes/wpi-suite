@@ -68,8 +68,10 @@ public class VotePanel extends JPanel {
 	/** The left container holding all the requirements' info */
 	private JLabel leftPanelLabel;
 	private JPanel leftPanel;
+	
+	/** List of requirements */
 	private JScrollPane requirementFrame;
-	private JList<String> reqList;
+	private JList<PlanningPokerRequirement> reqList;
 
 	// ################### GUI right components ####################
 	/** The right container holding all the GUI components */
@@ -510,5 +512,13 @@ public class VotePanel extends JPanel {
 	 */
 	public void setVoteTextFieldWithValue(int value) {
 		this.voteTextField.setText(Integer.toString(value));
+	}
+	
+	/**
+	 * Return the GUI list of requirements
+	 * @return Return the GUI list of requirements
+	 */
+	public JList getRequirementList() {
+		return reqList;
 	}
 }

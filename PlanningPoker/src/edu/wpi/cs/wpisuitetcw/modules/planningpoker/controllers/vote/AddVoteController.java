@@ -30,7 +30,8 @@ public class AddVoteController implements ActionListener {
 	/** A PlanningPokerSession whose PlanningPokerRequirement has a new vote */
 	private PlanningPokerSession session = null;
 	
-	private VotePanel view;
+	/** A view that users vote requirements */
+	private VotePanel voteView;
 
 	/** A PlanningPokerRequirement that has a new vote */
 	private PlanningPokerRequirement req = null;
@@ -41,9 +42,9 @@ public class AddVoteController implements ActionListener {
 	 * @param session A PlanningPokerSession 
 	 * whose PlanningPokerRequirement has a new vote
 	 */
-	public AddVoteController(VotePanel view,
+	public AddVoteController(VotePanel voteView,
 			PlanningPokerSession session) {
-		this.view = view;
+		this.voteView = voteView;
 		this.session = session;
 	}
 
@@ -85,12 +86,14 @@ public class AddVoteController implements ActionListener {
 		for (PlanningPokerVote v : toRemove) {
 			req.deleteVote(v);
 		}
-
+		
+		// Add vote to the requirement
+		PlanningPokerVote vote = new PlanningPokerVote(username, voteView.getVote());
 		session.addVoteToRequirement(req, vote, username);
 
 		Logger.getLogger("PlanningPoker").log(Level.INFO, "Added vote to requirement " + req.getName());
 		session.setHasVoted(true);
-		view.disableEditSession();
+		voteView.disableEditSession();
 
 		// Update the session remotely
 		session.save();
