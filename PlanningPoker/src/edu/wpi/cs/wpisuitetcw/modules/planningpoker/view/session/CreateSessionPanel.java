@@ -59,9 +59,6 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
  * This panel is used to create or edit a session's basic information
  */
 public class CreateSessionPanel extends JPanel {
-	private static final String NO_DECK = "No deck";
-
-	private static final String DEFAULT_DECK = "Default";
 
 	private static final long serialVersionUID = 8733539608651885877L;
 
@@ -72,11 +69,13 @@ public class CreateSessionPanel extends JPanel {
 	private static final int GAP_LENGTH_DEADLINE_TO_BOTTOM = 0;
 	private static final String REQUIRED_LABEL = "<html><font color='red'>Required field *</font></html>";
 	private static final String CREATE_DECK = "Create new deck";
+	private static final String DEFAULT_DECK = "Default";
+	private static final String NO_DECK = "No deck";
+	
+	public final String DISPLAY_MSG = "New Deck";
 
 	// default data size for database entry
 	private final int DEFAULT_DATA_SIZE = 30;
-
-	public final String DISPLAY_MSG = "New Deck";
 
 	private JSplitPane mainPanel;
 
