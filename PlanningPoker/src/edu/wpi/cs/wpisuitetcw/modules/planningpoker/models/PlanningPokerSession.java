@@ -104,7 +104,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @return Return true if the session is open
 	 */
 	public boolean isOpen() {
-		return isActive() && !isClosed();
+		return isActive() && !isClosed() && !isCancelled;
 	}
 
 	/**
