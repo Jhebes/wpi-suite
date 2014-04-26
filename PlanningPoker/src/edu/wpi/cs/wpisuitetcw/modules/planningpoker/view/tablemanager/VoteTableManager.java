@@ -13,6 +13,8 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.RetrievePlanningPokerRequirementsForSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
@@ -22,13 +24,13 @@ public class VoteTableManager{
 	private static HashMap<UUID, VoteTableModel> t = new HashMap<UUID, VoteTableModel>();
 
 	public VoteTableModel get(UUID i){
-		System.out.println("Processing query for table for requirement " + i);
+		Logger.getLogger("PlanningPoker").log(Level.INFO, "Processing query for table for requirement " + i);
 		//this.fetch(i);
 		return VoteTableManager.t.get(i);
 	}
 	
 	public void init(UUID i){
-		System.out.println("Initializing session " + i.toString());
+		Logger.getLogger("PlanningPoker").log(Level.INFO, "Initializing session " + i.toString());
 		VoteTableModel a = VoteTableManager.t.get(i);
 		if(a == null){
 			a = new VoteTableModel();
@@ -46,16 +48,16 @@ public class VoteTableManager{
 		
 		VoteTableModel a = VoteTableManager.t.get(i);
 		if(a == null){
-			System.out.println("Not present, building");
+			Logger.getLogger("PlanningPoker").log(Level.INFO, "Not present, building");
 			a = new VoteTableModel();
 			
 		}
 		a.refreshVotes(votes);
 		VoteTableManager.t.put(i, a);
-		System.out.println("Done");
+		Logger.getLogger("PlanningPoker").log(Level.INFO, "Done");
 	}
 	public void fetch(UUID i){
-		System.out.println("Fetching session details for requirements " + i.toString());
+		Logger.getLogger("PlanningPoker").log(Level.INFO, "Fetching session details for requirements " + i.toString());
 		new RetrievePlanningPokerRequirementsForSessionController();
 		//a.refreshData(i);
 	}

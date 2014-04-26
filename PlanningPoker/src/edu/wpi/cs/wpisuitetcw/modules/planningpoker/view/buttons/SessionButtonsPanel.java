@@ -52,7 +52,6 @@ public class SessionButtonsPanel extends ToolbarGroupView {
 		// add image to buttons
 		try {
 			Image img = ImageIO.read(getClass().getResource("new_session.png"));
-			System.out.println("ICON IMAGE: " + img.toString());
 			createSession.setIcon(new ImageIcon(img));
 
 			img = ImageIO.read(getClass().getResource("help.png"));

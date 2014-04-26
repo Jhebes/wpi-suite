@@ -12,10 +12,12 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateNewDeckPanel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.CreateDeckPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.CreateSessionPanel;
 
 /**
  * A singleton controller that sets the main view to CreateNewDeckPanel
@@ -26,7 +28,7 @@ public class InitNewDeckPanelController implements ActionListener {
 	private CreateSessionPanel view;
 	
 	/** A CreateNewDeckPanel */
-	private CreateNewDeckPanel deckPanel = null;
+	private CreateDeckPanel deckPanel = null;
 	
 	/** An instance of this controller */
 	private static InitNewDeckPanelController instance;
@@ -75,7 +77,7 @@ public class InitNewDeckPanelController implements ActionListener {
 	public void removeDeckPanel() {
 		ViewEventManager.getInstance().removeTab(this.deckPanel);
 		this.deckPanel = null;
-		System.out.println(this.view.toString());
+		Logger.getLogger("PlanningPoker").log(Level.INFO, this.view.toString());
 		ViewEventManager.getInstance().getMainview()
 				.setSelectedComponent(this.view);
 	}

@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateNewDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.CreateDeckPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -26,13 +26,13 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class CreateNewDeckController {
 	/** A view that exhibits the deck */
-	private CreateNewDeckPanel view;
+	private CreateDeckPanel view;
 	
 	/**
 	 * Construct the controller by storing the given CreateNewDeckPanel
 	 * @param deckPanel A CreateNewDeckPanel that has the deck to be created
 	 */
-	public CreateNewDeckController(CreateNewDeckPanel deckPanel) {
+	public CreateNewDeckController(CreateDeckPanel deckPanel) {
 		this.view = deckPanel;
 	}
 
@@ -58,8 +58,6 @@ public class CreateNewDeckController {
 			request.addObserver(new AddDeckRequestObserver(this));
 			// Send the request on its way
 			request.send();
-			// System.out.println("DeckName is: " + deckName);
-			// System.out.println("Card value: " + deckName.toString());
 
 		} else {
 			// inputs are not valid

@@ -56,7 +56,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 				"Open Sessions");
 		DefaultMutableTreeNode closedSessionNode = new DefaultMutableTreeNode(
 				"Closed Sessions");
-
+		
 		try {
 			// get a list of sessions
 			this.sessions = SessionStash.getInstance().getSessions();
@@ -86,11 +86,9 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 							s);
 					closedSessionNode.add(newNode);
 				}
-				System.out.println("not a problem");
 			}
 
 		} catch (NullPointerException e) {
-			System.out.println("network error erroe");
 			Logger.getLogger("PlanningPoker").log(Level.FINE,
 					"Network configuration error", e);
 		}
@@ -198,9 +196,6 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 			if (this.sessions.size() != 0) {
 				initialized = true;
 			}
-
-			System.out.println("There are " + this.sessions.size());
-			System.out.println(this.sessions);
 
 			this.refresh();
 		}

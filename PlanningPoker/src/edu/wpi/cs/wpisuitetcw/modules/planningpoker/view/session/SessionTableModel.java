@@ -8,7 +8,7 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -77,7 +77,6 @@ public class SessionTableModel extends DefaultTableModel {
 						b.add(a.get(i));
 					}
 				}
-				System.out.println("Found:");
 				this.refreshSessions(b);
 				break;
 			case OPEN:
@@ -87,7 +86,6 @@ public class SessionTableModel extends DefaultTableModel {
 						b2.add(a.get(i));
 					}
 				}
-				System.out.println("Found:");
 				this.refreshSessions(b2);
 				break;
 			default:
@@ -101,7 +99,6 @@ public class SessionTableModel extends DefaultTableModel {
 	 */
 	public void update(){		
 		this.refreshSessions(SessionStash.getInstance().getSessions());
-		System.out.println("Success");
 	}
 	
 	/**

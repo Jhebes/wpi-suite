@@ -14,22 +14,21 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTreePanel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 
 public class ViewEventManager {
 	private static ViewEventManager instance = null;
 	private MainView main;
-	private ImportRequirementsPanel requirementPanel;
 	private OverviewPanel overviewPanel;
 	private OverviewTreePanel overviewTreePanel;
 	private ToolbarView toolbarView;
 	private boolean isWelcomePageOnDisplay = true;
-	private ArrayList<ViewSessionPanel> viewSessionPanels = new ArrayList<ViewSessionPanel>();
-	private ArrayList<SessionInProgressPanel> inProgressSessionPanels = new ArrayList<SessionInProgressPanel>();
+	private ArrayList<AddRequirementPanel> viewSessionPanels = new ArrayList<AddRequirementPanel>();
+	private ArrayList<VotePanel> inProgressSessionPanels = new ArrayList<VotePanel>();
 
 	/**
 	 * Default constructor for ViewEventController. It is set to private to
@@ -86,9 +85,9 @@ public class ViewEventManager {
 	public void viewSession(PlanningPokerSession session) {
 		if (session.getStartTime() != null) {
 			// check if the panel of the session is opened
-			SessionInProgressPanel exist = null;
+			VotePanel exist = null;
 
-			for (SessionInProgressPanel panel : inProgressSessionPanels) {
+			for (VotePanel panel : inProgressSessionPanels) {
 				if (panel.getSession() == session) {
 					exist = panel;
 					break;
@@ -96,7 +95,7 @@ public class ViewEventManager {
 			}
 
 			if (exist == null) {
-				SessionInProgressPanel newPanel = new SessionInProgressPanel(
+				VotePanel newPanel = new VotePanel(
 						session);
 				inProgressSessionPanels.add(newPanel);
 				main.addTab(session.getName(), null, newPanel,
@@ -109,9 +108,9 @@ public class ViewEventManager {
 			}
 
 		} else {
-			ViewSessionPanel exist = null;
+			AddRequirementPanel exist = null;
 
-			for (ViewSessionPanel panel : viewSessionPanels) {
+			for (AddRequirementPanel panel : viewSessionPanels) {
 				if (panel.getPPSession() == session) {
 					exist = panel;
 					break;
@@ -120,7 +119,7 @@ public class ViewEventManager {
 
 			if (exist == null) {
 				// check if the panel of the session is opened
-				ViewSessionPanel viewSession = new ViewSessionPanel(session);
+				AddRequirementPanel viewSession = new AddRequirementPanel(session);
 				viewSessionPanels.add(viewSession);
 				main.addTab(session.getName(), null, viewSession,
 						"View Session.");
@@ -178,35 +177,18 @@ public class ViewEventManager {
 	 *            the component to remove
 	 */
 	public void removeTab(JComponent component) {
-		if (component instanceof ViewSessionPanel) {
+		if (component instanceof AddRequirementPanel) {
 			this.viewSessionPanels.remove(component);
 		}
-		if (component instanceof SessionInProgressPanel) {
+		if (component instanceof VotePanel) {
 			this.inProgressSessionPanels.remove(component);
 		}
-		if (component instanceof ImportRequirementsPanel) {
-			this.requirementPanel = null;
-		}
+		
 		main.remove(component);
 
 	}
 
-	/**
-	 * Creates the import requirements panel.
-	 */
-	public void createImportRequirementsPanel() {
-		if (requirementPanel == null) {
-			ImportRequirementsPanel newPanel = new ImportRequirementsPanel();
-			this.requirementPanel = newPanel;
-			main.addTab("Import Requirements", null, newPanel,
-					"Import a new requirement.");
-			main.invalidate();
-			main.repaint();
-			main.setSelectedComponent(newPanel);
-		} else {
-			main.setSelectedComponent(requirementPanel);
-		}
-	}
+
 
 	/**
 	 * return whether a welcome page is on display

@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 
 /**
  * A controller that allows users editing an activated session
@@ -23,7 +23,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProg
 public class EditActivatedSessionController implements ActionListener{
 
 	private PlanningPokerSession session;
-	private SessionInProgressPanel panel;
+	private VotePanel panel;
 
 	/**
 	 * Construct the controller by storing the given PlanningPokerSession
@@ -32,7 +32,7 @@ public class EditActivatedSessionController implements ActionListener{
 	 * @param panel A SessionInProgressPanel that would be stored
 	 */
 	public EditActivatedSessionController(PlanningPokerSession session,
-										  SessionInProgressPanel panel) {
+										  VotePanel panel) {
 		this.panel = panel;
 		this.session = session;
 	}

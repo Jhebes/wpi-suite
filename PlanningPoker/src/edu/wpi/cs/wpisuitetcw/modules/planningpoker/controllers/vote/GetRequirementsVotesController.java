@@ -12,13 +12,15 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.SessionInProgressPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -29,7 +31,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class GetRequirementsVotesController implements ActionListener{
 	/** The create session panel */
-	protected SessionInProgressPanel view;
+	protected VotePanel view;
 
 	/** The requirements retrieved from the server */
 	protected PlanningPokerRequirement[] data = null;
@@ -43,7 +45,7 @@ public class GetRequirementsVotesController implements ActionListener{
 	/**
 	 * Constructs a new RetrieveFreePlanningPokerRequirementsController
 	 */
-	public GetRequirementsVotesController(SessionInProgressPanel view, PlanningPokerSession session) {
+	public GetRequirementsVotesController(VotePanel view, PlanningPokerSession session) {
 		this.session = session;
 		this.view = view;
 	}
@@ -61,11 +63,10 @@ public class GetRequirementsVotesController implements ActionListener{
 		this.req = this.session.getReqByName(this.view.getSelectedRequirement());
 		PlanningPokerRequirement r = session.getReqByName(this.req.getName());
 
-		System.out.println("Votes for selected requirement:");
+		Logger.getLogger("PlanningPoker").log(Level.INFO, "Votes for selected requirement:");
 		for(PlanningPokerVote v : r.votes){
 			System.out.print(v.getCardValue()+ " ");
 		}
-		System.out.println();
 		//view.setVoteList(r.votes);
 	}
 

@@ -8,7 +8,7 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers;
 
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -22,6 +22,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -36,13 +38,12 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksContr
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.InitNewDeckPanelController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 
 /**
  * A view to create a new deck
  */
-public class CreateNewDeckPanel extends JPanel {
+public class CreateDeckPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
@@ -100,7 +101,7 @@ public class CreateNewDeckPanel extends JPanel {
 
 	// subject to change
 	// private final JTextField textboxVal;
-	public CreateNewDeckPanel(CardDisplayMode mode) {
+	public CreateDeckPanel(CardDisplayMode mode) {
 		// Assign mode for the panel
 		this.mode = mode;
 		
@@ -285,7 +286,7 @@ public class CreateNewDeckPanel extends JPanel {
 	 * @param button
 	 * @param panel
 	 */
-	public void addAction(JButton button, final CreateNewDeckPanel panel) {
+	public void addAction(JButton button, final CreateDeckPanel panel) {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -316,11 +317,11 @@ public class CreateNewDeckPanel extends JPanel {
 	public boolean isDeckNameEntered() {
 		if (textboxName.getText().equals("")) {
 			// nothing is entered
-			System.out.println("Name not entered");
+			Logger.getLogger("PlanningPoker").log(Level.INFO, "Name not entered");
 			labelNameErr.setVisible(true);
 			return false;
 		} else {
-			System.out.println("Name entered");
+			Logger.getLogger("PlanningPoker").log(Level.INFO, "Name entered");
 			labelNameErr.setVisible(false);
 			return true;
 		}
@@ -392,7 +393,7 @@ public class CreateNewDeckPanel extends JPanel {
 	 * notify createNewDeckPanel when a Card is discarded, so that it removes
 	 * the card from the cards HashMap
 	 */
-	public void addRemoveCardListener(Card aCard, final CreateNewDeckPanel panel) {
+	public void addRemoveCardListener(Card aCard, final CreateDeckPanel panel) {
 		// remove a card
 		aCard.addComponentListener(new ComponentListener() {
 
@@ -411,7 +412,7 @@ public class CreateNewDeckPanel extends JPanel {
 			@Override
 			public void componentHidden(ComponentEvent e) {
 				Card aCard = (Card) e.getComponent();
-				System.out.println("Card removed");
+				Logger.getLogger("PlanningPoker").log(Level.INFO, "Card removed");
 				panel.removeCardWithKey(aCard.hashCode());
 				panel.updateUI();
 			}

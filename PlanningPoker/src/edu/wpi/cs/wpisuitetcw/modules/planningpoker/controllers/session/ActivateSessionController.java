@@ -16,34 +16,35 @@ import java.awt.event.ActionListener;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendNotificationController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.ViewSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * A controller that activates a session and sends SMS with email
- * to the users to inform a session is activated
+ * A controller that activates a session and sends SMS with email to the users
+ * to inform a session is activated
  */
 public class ActivateSessionController implements ActionListener {
 
-	private ViewSessionPanel panel;
+	private AddRequirementPanel panel;
 	private PlanningPokerSession session;
 
 	/**
 	 * Construct the controller by storing the ViewSessionPanel and
 	 * PlanningPokerSession
-	 * @param panel A ViewSessionPanel that exhibits the to-be-activated
-	 * session
-	 * @param session A PlanningPokerSession that would be activated
+	 * 
+	 * @param panel
+	 *            A ViewSessionPanel that exhibits the to-be-activated session
+	 * @param session
+	 *            A PlanningPokerSession that would be activated
 	 */
-	public ActivateSessionController(ViewSessionPanel panel,
+	public ActivateSessionController(AddRequirementPanel panel,
 			PlanningPokerSession session) {
 		this.panel = panel;
 		this.session = session;
 	}
 
 	/**
-	 * Activate the session
-	 * {@inheritDoc}
+	 * Activate the session {@inheritDoc}
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {

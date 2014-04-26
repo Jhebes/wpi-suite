@@ -10,11 +10,14 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -53,7 +56,7 @@ public class RetrievePlanningPokerRequirementsForSessionController {
 	 */
 	public void refreshData(int t){
 		this.target = t;
-		System.out.println("Refreshing table for session " + t);
+		Logger.getLogger("PlanningPoker").log(Level.INFO, "Refreshing table for session " + t);
 		final Request request = Network.getInstance().makeRequest("planningpoker/session/", HttpMethod.GET);
 		request.addObserver(new RetrievePlanningPokerRequirementsForSessionRequestObserver(this));
 		request.send();
@@ -69,10 +72,6 @@ public class RetrievePlanningPokerRequirementsForSessionController {
 	 * @throws NotImplementedException
 	 */
 	public void receivedData(PlanningPokerSession session){
-//		System.out.println("Current requirements are:");
-//		for(PlanningPokerRequirement r: session.getRequirements()){
-//			System.out.println(r.getName());
-//		}
 		RequirementTableManager a = new RequirementTableManager();
 		a.refreshRequirements(this.target, session.getRequirements());
 	}

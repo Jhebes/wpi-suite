@@ -57,13 +57,33 @@ public class Card extends JPanel {
 
 	private Image cardPicture = null;
 
+	/** card value */
+	private int cardValue;
+
 	/** Display mode for the card */
 	private CardDisplayMode mode;
+
+	/** Parent panel that contains the card */
+	private DisplayDeckPanel parentPanel;
+
+	/** card is selected or not */
+	private boolean isSelected;
+
+	/** Display a card and ability to notify parent panel */
+	public Card(CardDisplayMode mode, int value, DisplayDeckPanel deckPanel) {
+		this(mode, value);
+		this.parentPanel = deckPanel;
+		if (mode.equals(CardDisplayMode.DISPLAY)) {
+			// TODO add action listener for selecting the value of the card
+			this.addSelectionListener(this);
+		}
+	}
 
 	/** for displaying a card */
 	public Card(CardDisplayMode mode, int value) {
 		this(mode);
-		this.displayCardValue(value);
+		this.cardValue = value;
+		this.displayCardValue();
 	}
 
 	public Card(CardDisplayMode mode) {
@@ -97,6 +117,7 @@ public class Card extends JPanel {
 		// card initial status
 		isValueValid = true;
 		isMouseovered = false;
+		isSelected = false;
 
 		// setup the card panel
 		this.setLayout(new MigLayout());
@@ -140,7 +161,7 @@ public class Card extends JPanel {
 	/**
 	 * Display the card with the given value
 	 */
-	private void displayCardValue(int value) {
+	private void displayCardValue() {
 		// containing panel
 		JPanel valuePanel = new JPanel();
 		valuePanel.setLayout(new MigLayout());
@@ -148,7 +169,8 @@ public class Card extends JPanel {
 		valuePanel.setOpaque(false);
 
 		// label for displaying value
-		JLabel valueLabel = new JLabel(Integer.toString(value), JLabel.CENTER);
+		JLabel valueLabel = new JLabel(Integer.toString(cardValue),
+				JLabel.CENTER);
 		valueLabel.setFont(new Font("Serif", Font.BOLD, 48));
 
 		// set up the main panel
@@ -239,6 +261,13 @@ public class Card extends JPanel {
 	}
 
 	/**
+	 * card is selected, set the border to green
+	 */
+	public void setCardSelected() {
+		this.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+	}
+
+	/**
 	 * change the card's layout
 	 */
 	public void changeCardLayout() {
@@ -246,19 +275,26 @@ public class Card extends JPanel {
 		closeButton.setVisible(this.isMouseovered);
 
 		// change the border of the card
-		if (this.isMouseovered) {
-			if (this.isValueValid) {
-				this.setCardHighlighted();
-			} else {
-				this.setCardInvalid();
-			}
+		if (isSelected) {
+			// card is selected
+			setCardSelected();
 		} else {
-			if (this.isValueValid) {
-				this.setCardValid();
+			// card is not selected
+			if (this.isMouseovered) {
+				if (this.isValueValid) {
+					this.setCardHighlighted();
+				} else {
+					this.setCardInvalid();
+				}
 			} else {
-				this.setCardInvalid();
+				if (this.isValueValid) {
+					this.setCardValid();
+				} else {
+					this.setCardInvalid();
+				}
 			}
 		}
+
 	}
 
 	/**
@@ -274,6 +310,64 @@ public class Card extends JPanel {
 				}
 			}
 		});
+	}
+
+	/**
+	 * add selection listener for the card. Notify the parent panel when is card
+	 * is selected
+	 */
+	private void addSelectionListener(final Card aCard) {
+		aCard.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (!isSelected) {
+					// selecting the card
+					isSelected = true;
+					selectCard();
+				} else {
+					// card is being unseleted
+					isSelected = false;
+					unselectCard();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Selecting the card and update the vote in the parent panel
+	 */
+	private void selectCard() {
+		// highlight the card
+		setCardSelected();
+		// update the vote
+		parentPanel.addRequirementValue(this);
+	}
+
+	/**
+	 * Unselecting the card and update the vote in the parent panel
+	 */
+	private void unselectCard() {
+		// remove the highlight
+		setCardValid();
+		// update the vote
+		parentPanel.subtractRequirementValue(this);
 	}
 
 	/**
@@ -371,5 +465,19 @@ public class Card extends JPanel {
 	public CardDisplayMode getMode() {
 		return this.mode;
 	}
+	
+	/**
+	 * setter for isSelected
+	 * @param isSelected
+	 */
+	public void setSelected(boolean isSelected) {
+		this.isSelected = isSelected;
+	}
 
+	/** 
+	 * getter for cardValue
+	 */
+	public int getCardValue() {
+		return cardValue;
+	}
 }

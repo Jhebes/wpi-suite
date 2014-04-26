@@ -12,23 +12,25 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.RequirementTableModel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.RequirementTableModel;
 
 public class RequirementTableManager {
 	/** Hashmap of table models for each session ID */
 	private static HashMap<Integer, RequirementTableModel> t = new HashMap<Integer, RequirementTableModel>();
 
 	public RequirementTableModel get(int i) {
-		System.out.println("sProcessing query for table for session " + i);
+		Logger.getLogger("PlanningPoker").log(Level.INFO, "Processing query for table for session " + i);
 		this.fetch(i);
 		return RequirementTableManager.t.get(i);
 	}
 
 	public void init(int i) {
-		System.out.println("Initializing session " + String.valueOf(i));
+		Logger.getLogger("PlanningPoker").log(Level.INFO, "Initializing session " + String.valueOf(i));
 		RequirementTableModel a = RequirementTableManager.t.get(i);
 		if (a == null) {
 			a = new RequirementTableModel();
@@ -41,17 +43,17 @@ public class RequirementTableManager {
 			ArrayList<PlanningPokerRequirement> requirements) {
 		RequirementTableModel a = RequirementTableManager.t.get(i);
 		if (a == null) {
-			System.out.println("Not present, building");
+			Logger.getLogger("PlanningPoker").log(Level.INFO, "Not present, building");
 			a = new RequirementTableModel();
 
 		}
 		a.refreshRequirements(requirements);
 		RequirementTableManager.t.put(i, a);
-		System.out.println("Done");
+		Logger.getLogger("PlanningPoker").log(Level.INFO, "Done");
 	}
 
 	public void fetch(int i) {
-		System.out.println("Fetching session details for session " + i);
+		Logger.getLogger("PlanningPoker").log(Level.INFO, "Fetching session details for session " + i);
 		ArrayList<PlanningPokerRequirement> reqs = SessionStash.getInstance()
 				.getSessionByID(i).getRequirements();
 		this.refreshRequirements(i, reqs);
