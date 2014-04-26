@@ -16,6 +16,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,6 +33,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddNewCardController;
@@ -53,7 +56,6 @@ public class CreateDeckPanel extends JPanel {
 	private final String TEXTBOX_PLACEHOLDER = "Deck "
 			+ new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar
 					.getInstance().getTime());
-	private final String NAME_ERR_MSG = "<html><font color='red'>REQUIRES</font></html>";
 	private final String NO_CARD_ERR_MSG = "<html><font color='red'>A deck must contain </br >at least one card. </font></html>";
 	private final String DECK_NAME_LABEL = "Name *";
 	private final String CARD_COUNT_LABEL = "# of Cards: ";
@@ -82,7 +84,6 @@ public class CreateDeckPanel extends JPanel {
 	private JButton btnAddCard;
 	private JLabel labelCount;
 	private JLabel labelNumCards;
-	private JLabel labelNameErr;
 
 	// ######################### Center UI Components #####################
 	/** A container holding all the center UI component */
@@ -172,26 +173,22 @@ public class CreateDeckPanel extends JPanel {
 		topPanel = new JPanel();
 
 		// Create text field for deck's name
-		this.labelName = new JLabel(DECK_NAME_LABEL);
-		this.textboxName = new JTextField(18);
-		this.textboxName.setText(TEXTBOX_PLACEHOLDER);
+		labelName = new JLabel(DECK_NAME_LABEL);
+		textboxName = new JTextField(18);
+		textboxName.setText(TEXTBOX_PLACEHOLDER);
 
 		// Create card selection dropdown
-		this.labelCardSelection = new JLabel(CARD_SELECTION_LABEL);
-		this.deckOption = new JComboBox<String>();
+		labelCardSelection = new JLabel(CARD_SELECTION_LABEL);
+		deckOption = new JComboBox<String>();
 		deckOption.addItem(SINGLE_SELECT);
 		deckOption.addItem(MULTIPLE_SELECT);
 
 		// Create a label to keep track number of card
-		this.labelCount = new JLabel(CARD_COUNT_LABEL);
-		this.labelNumCards = new JLabel("1");
-
-		// Create a label to inform invalid deck name
-		this.labelNameErr = new JLabel(NAME_ERR_MSG);
-		this.labelNameErr.setVisible(false);
+		labelCount = new JLabel(CARD_COUNT_LABEL);
+		labelNumCards = new JLabel("1");
 
 		// Create add card button and bind an action listener to it
-		this.btnAddCard = new JButton(ADD_CARD_LABEL);
+		btnAddCard = new JButton(ADD_CARD_LABEL);
 		btnAddCard.addActionListener(new AddNewCardController(this));
 
 		// Create Error Panel
@@ -201,6 +198,7 @@ public class CreateDeckPanel extends JPanel {
 
 		// Add sets of buttons that modify the deck to a panel
 		addModifyDeckButtons(topPanel);
+		addTextInputValidation(textboxName);
 	}
 
 	/**
@@ -342,11 +340,9 @@ public class CreateDeckPanel extends JPanel {
 			// nothing is entered
 			Logger.getLogger("PlanningPoker").log(Level.INFO,
 					"Name not entered");
-			labelNameErr.setVisible(true);
 			return false;
 		} else {
 			Logger.getLogger("PlanningPoker").log(Level.INFO, "Name entered");
-			labelNameErr.setVisible(false);
 			return true;
 		}
 	}
@@ -497,8 +493,7 @@ public class CreateDeckPanel extends JPanel {
 				.setLayout(new MigLayout("", "push[]push[]push[]push", ""));
 
 		// 1ST ROW
-		centerTopPanel.add(labelName, "left, split2");
-		centerTopPanel.add(labelNameErr, "center");
+		centerTopPanel.add(labelName, "left");
 		centerTopPanel.add(labelCardSelection, "left");
 		centerTopPanel.add(labelCount, "split2, center");
 		centerTopPanel.add(labelNumCards, "wrap");
@@ -524,6 +519,29 @@ public class CreateDeckPanel extends JPanel {
 			return 0;
 		}
 	}
+	
+	/**
+	 * Trigger dynamic input validation when the given input is entered in the
+	 * given textfield
+	 */
+	private void addTextInputValidation(JTextComponent element) {
+		element.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				sessionPanel.checkSessionValidation();
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+			}
+		});
+	}
+	
 
 	/**
 	 * @return create session panel
