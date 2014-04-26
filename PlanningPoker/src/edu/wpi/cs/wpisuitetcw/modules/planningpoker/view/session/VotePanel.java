@@ -59,7 +59,8 @@ public class VotePanel extends JPanel {
 	private static final int MIN_VOTE_TEXTFIELD_WIDTH = 120;
 	private static final int MIN_VOTE_TEXTFIELD_HEIGHT = 120;
 	private static final int MIN_BUTTON_WIDTH = 50;
-	private static final int PADDING_RIGHT_PANEL = 10;
+	private static final int VERTICAL_PADDING_RIGHT_PANEL = 10;
+	private static final int HORIZONTAL_PADDING_RIGHT_PANEL = 20;
 	private static final int GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX = 20;
 
 	private final PlanningPokerSession session;
@@ -343,10 +344,8 @@ public class VotePanel extends JPanel {
 	 * Add the GUI component to the left panel
 	 */
 	private void addGUIComponentsOnLeftPanel() {
-		leftPanel.setLayout(new MigLayout("insets 0, fill"));
-
+		leftPanel.setLayout(new MigLayout("insets 0, fill", "", "10[]10[]0"));
 		leftPanel.add(leftPanelLabel, "center, wrap");
-		leftPanelLabel.setBorder(BorderFactory.createLineBorder(Color.RED));
 		leftPanel.add(requirementFrame, "width 250::, growy, dock center");
 	}
 
@@ -385,7 +384,10 @@ public class VotePanel extends JPanel {
 	 */
 	private void addGUIComponentsOnRightPanel() {
 		// Add the padding around the right panel
-		rightPanel.setLayout(new MigLayout("insets " + PADDING_RIGHT_PANEL + ", fill",
+		rightPanel.setLayout(new MigLayout("insets " + VERTICAL_PADDING_RIGHT_PANEL   + " "
+													 + HORIZONTAL_PADDING_RIGHT_PANEL + " " 
+													 + VERTICAL_PADDING_RIGHT_PANEL   + " "
+													 + HORIZONTAL_PADDING_RIGHT_PANEL + ", fill",
 											"", "[][grow]"));
 
 		// Add the label of the panel
@@ -408,9 +410,12 @@ public class VotePanel extends JPanel {
 			}
 			
 			// Add the vote text field to the right side
-			rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH + "px, " + "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT
-					+ "px, " + "dock east, " + "gaptop " + PADDING_RIGHT_PANEL + "px, " + "gapright " + PADDING_RIGHT_PANEL
-					+ "px");
+			rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH  + "px, " 
+										+ "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, " 
+										+ "dock east, " 
+										+ "gaptop "   + VERTICAL_PADDING_RIGHT_PANEL   + "px, " 
+										+ "gapright " + HORIZONTAL_PADDING_RIGHT_PANEL + "px, "
+										+ "gapbottom" + VERTICAL_PADDING_RIGHT_PANEL   + "px");
 		}		
 
 	}
