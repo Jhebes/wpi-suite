@@ -99,8 +99,10 @@ public class CreateDeckPanel extends JPanel {
 	/** Mode for the panel */
 	private final CardDisplayMode mode;
 
-	// subject to change
-	// private final JTextField textboxVal;
+	/**
+	 * Construct a CreateDeckPanel with the given mode
+	 * @param mode A value of CardDisplayMode
+	 */
 	public CreateDeckPanel(CardDisplayMode mode) {
 		// Assign mode for the panel
 		this.mode = mode;
