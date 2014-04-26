@@ -441,6 +441,8 @@ public class CreateDeckPanel extends JPanel {
 						"Card removed");
 				panel.removeCardWithKey(aCard.hashCode());
 				panel.updateUI();
+				// validate all inputs in the create session panel
+				sessionPanel.checkSessionValidation();
 			}
 		});
 	}
