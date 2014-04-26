@@ -57,8 +57,8 @@ public class VotePanel extends JPanel {
 
 	private static final int DEFAULT_INSETS = 20;
 	private static final int DEFAULT_HEIGHT = 26;
-	private static final int MIN_VOTE_TEXTFIELD_WIDTH = 120;
-	private static final int MIN_VOTE_TEXTFIELD_HEIGHT = 120;
+	private static final int MIN_VOTE_TEXTFIELD_WIDTH = 118;
+	private static final int MIN_VOTE_TEXTFIELD_HEIGHT = 118;
 	private static final int MIN_BUTTON_WIDTH = 50;
 	private static final int VERTICAL_PADDING_RIGHT_PANEL = 10;
 	private static final int HORIZONTAL_PADDING_RIGHT_PANEL = 20;
@@ -414,10 +414,10 @@ public class VotePanel extends JPanel {
 			rightPanel.add(finalEstimatePnl);
 		} else {
 			if (cardFrame != null) {
-				rightPanel.add(cardFrame, "hmin 250px, grow, dock south");
+				rightPanel.add(cardFrame, "height 235::, grow, dock south");
 			} else {
 				JLabel messageLabel = new JLabel(NO_DECK_MSG);
-				rightPanel.add(messageLabel, "gapleft 150px, hmin 250px, grow, dock south");
+				rightPanel.add(messageLabel, "gapleft 150px, hmin 230px, grow, dock south");
 			}
 			
 			// Add the vote text field to the right side

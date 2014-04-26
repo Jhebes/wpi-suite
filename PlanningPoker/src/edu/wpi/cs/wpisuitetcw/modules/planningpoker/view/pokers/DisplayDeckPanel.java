@@ -28,7 +28,7 @@ public class DisplayDeckPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	// constants
 	private static final int CENTER_PANEL_WIDTH = 350;
-	private static final int CENTER_PANEL_HEIGHT = 250;
+	private static final int CENTER_PANEL_HEIGHT = 200;
 
 	// panels for setting up the view
 	private PlanningPokerDeck deck;
