@@ -55,13 +55,13 @@ public class VotePanel extends JPanel {
 	private static final String END_SESSION_BUTTON_LABEL = "End Session";
 	private static final String NO_DECK_MSG = "<html><font color='red'>No deck. Please enter your vote in the white box</font></html>";
 
-	private static final int MIN_DESC_TEXTBOX_HEIGHT = 80;
+	private static final int DEFAULT_INSETS = 20;
+	private static final int DEFAULT_HEIGHT = 26;
 	private static final int MIN_VOTE_TEXTFIELD_WIDTH = 120;
 	private static final int MIN_VOTE_TEXTFIELD_HEIGHT = 120;
 	private static final int MIN_BUTTON_WIDTH = 50;
 	private static final int VERTICAL_PADDING_RIGHT_PANEL = 10;
 	private static final int HORIZONTAL_PADDING_RIGHT_PANEL = 20;
-	private static final int GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX = 20;
 
 	private final PlanningPokerSession session;
 	private PlanningPokerRequirement[] reqsList;
@@ -130,7 +130,7 @@ public class VotePanel extends JPanel {
 		// Add mainView and the bottom panel to the canvas
 		setLayout(new MigLayout());
 		add(mainView, "dock center");
-		add(bottomPanel, "dock south");
+		add(bottomPanel, "dock south, height 45px!");
 
 		// Exhibit the information of the 1st requirement
 		setupInitData();
@@ -265,12 +265,24 @@ public class VotePanel extends JPanel {
 	 * the bottom panel
 	 */
 	private void addGUIComponentsToBottomPanel() {
-		bottomPanel.setLayout(new MigLayout("fillx", "", "5[]5"));
-		bottomPanel.add(endSessionButton, "left, wmin " + MIN_BUTTON_WIDTH + "px, split3");
-		bottomPanel.add(btnEditSession, "left, wmin " + MIN_BUTTON_WIDTH + "px");
-		bottomPanel.add(cancelSessionButton, "left, wmin " + MIN_BUTTON_WIDTH + "px");
+		bottomPanel.setLayout(new MigLayout("inset 5 "// + DEFAULT_INSETS / 2 + " "
+									  				 + DEFAULT_INSETS + " "
+													 + "5 " //DEFAULT_INSETS / 2 + " "
+													 + DEFAULT_INSETS + ", fill", 
+											"", "push[]push"));
+		bottomPanel.add(endSessionButton, "left, "
+										+ "wmin " + MIN_BUTTON_WIDTH + "px, "
+										+ "height " + DEFAULT_HEIGHT + "px!, "
+										+ "split3");
+		bottomPanel.add(btnEditSession, "left, "
+									  + "wmin " + MIN_BUTTON_WIDTH + "px, "
+									  + "height " + DEFAULT_HEIGHT + "px!");
+		bottomPanel.add(cancelSessionButton, "left, "
+										   + "wmin " + MIN_BUTTON_WIDTH + "px, "
+										   + "height " + DEFAULT_HEIGHT + "px!");
 		bottomPanel.add(cardSelectionModeLabel, "left, wmin " + MIN_BUTTON_WIDTH + "px");
-		bottomPanel.add(submitVoteButton, "right");
+		bottomPanel.add(submitVoteButton, "right, "
+										+ "height " + DEFAULT_HEIGHT + "px!");
 	}
 
 	/*
