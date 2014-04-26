@@ -64,7 +64,8 @@ public class CreateSessionPanel extends JPanel {
 	private static final String DEFAULT_DECK = "Default";
 
 	private static final long serialVersionUID = 8733539608651885877L;
-
+	
+	private static final int DEFAULT_INSETS = 20;
 	private static final int DEFAULT_HEIGHT = 26;
 	private static final int DEADLINE_DATEPICKER_WIDTH = 170;
 	private static final int DROPDOWN_WIDTH = 150;
@@ -523,7 +524,7 @@ public class CreateSessionPanel extends JPanel {
 	 * layout with Swing
 	 */
 	private void addUIComponentsToLeftPanel() {
-		leftPanel.setLayout(new MigLayout("", "", "[]5[]"));
+		leftPanel.setLayout(new MigLayout("inset " + DEFAULT_INSETS, "", "[]5[]"));
 		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
 
 		// Add session name text field and its label
@@ -705,7 +706,11 @@ public class CreateSessionPanel extends JPanel {
 		btnCancel.addActionListener(new CancelCreateSessionController(this));
 
 		bottomPanel = new JPanel();
-		bottomPanel.setLayout(new MigLayout("inset 5 5 5 5", "", "push[]push"));
+		bottomPanel.setLayout(new MigLayout("inset 5 " 
+												+ DEFAULT_INSETS 
+												+ " 5 " 
+												+ DEFAULT_INSETS, 
+											"", "push[]push"));
 		bottomPanel.add(btnSaveSession, "left, width 120px, height " + DEFAULT_HEIGHT + "px!");
 		bottomPanel.add(btnCancel, "width 120px, height " + DEFAULT_HEIGHT + "px!");
 		bottomPanel.add(labelRequireField, "gapleft 10px, height " + DEFAULT_HEIGHT + "px!");

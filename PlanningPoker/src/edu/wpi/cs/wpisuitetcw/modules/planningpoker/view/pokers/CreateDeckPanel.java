@@ -466,7 +466,7 @@ public class CreateDeckPanel extends JPanel {
 	 */
 	private void addModifyDeckButtons(JPanel centerTopPanel) {
 		// Set the layout for given panel
-		centerTopPanel.setLayout(new MigLayout("inset 20 5 20 5, fill",
+		centerTopPanel.setLayout(new MigLayout("inset 20 20 20 20, fill",
 											   "push[]push[]push[]push", ""));
 
 		// 1ST ROW
