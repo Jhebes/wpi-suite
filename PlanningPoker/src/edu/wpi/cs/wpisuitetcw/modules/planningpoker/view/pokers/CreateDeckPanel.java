@@ -63,9 +63,10 @@ public class CreateDeckPanel extends JPanel {
 	private static final String MULTIPLE_SELECT = "Multiple selection";
 	private static final String SINGLE_SELECT 	= "Single selection";
 	private static final String DEFAULT_DECK    = "Default";
-	private final int CARD_WIDTH = 146;
+	private static final int CARD_WIDTH = 146;
 	private static final int CENTER_PANEL_WIDTH  = 350;
 	private static final int CENTER_PANEL_HEIGHT = 250;
+	private static final int BUTTON_HEIGHT = 27;
 
 	// ########################### Top UI Components ######################
 	/** A container holding all the top UI components */ 
@@ -465,7 +466,8 @@ public class CreateDeckPanel extends JPanel {
 	 */
 	private void addModifyDeckButtons(JPanel centerTopPanel) {
 		// Set the layout for given panel
-		centerTopPanel.setLayout(new MigLayout("", "push[]push[]push[]push", ""));
+		centerTopPanel.setLayout(new MigLayout("inset 20 5 20 5, fill",
+											   "push[]push[]push[]push", ""));
 
 		// 1ST ROW
 		centerTopPanel.add(labelName, "gapleft 5, left, split2");
@@ -475,10 +477,9 @@ public class CreateDeckPanel extends JPanel {
 		centerTopPanel.add(labelNumCards, "wrap");
 		
 		// 2ND ROW
-		centerTopPanel.add(textboxName, "gapleft 5, left");
-		centerTopPanel.add(deckOption, "gapleft 5, left");
-		centerTopPanel.add(btnAddCard, "gapleft 5, center");
-		
+		centerTopPanel.add(textboxName, "gapleft 5, left, height " + BUTTON_HEIGHT + "px!");
+		centerTopPanel.add(deckOption, "gapleft 5, left, height " + BUTTON_HEIGHT + "px!");
+		centerTopPanel.add(btnAddCard, "gapleft 5, center, height " + BUTTON_HEIGHT + "px!");
 	}
 	
 	/**
