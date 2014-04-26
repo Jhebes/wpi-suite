@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -28,6 +29,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListModel;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.EditActivatedSessionController;
@@ -37,6 +42,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.CompletedSessionEstimatePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.VoteRequirementCellRenderer;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.DisplayDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
@@ -288,26 +294,30 @@ public class VotePanel extends JPanel {
 
 		// TODO: sleep
 		ArrayList<PlanningPokerRequirement> reqs = session.getRequirements();
-		String[] reqNames = new String[reqs.size()];
-		int j = 0;
+		DefaultListModel<PlanningPokerRequirement> requirementModel = 
+				new DefaultListModel<PlanningPokerRequirement>();
 		for (PlanningPokerRequirement ppr : reqs) {
-			reqNames[j] = ppr.getName();
-			j++;
+			requirementModel.addElement(ppr);
 		}
 
-		reqList = new JList<String>();
-		reqList.setListData(reqNames);
+		reqList = new JList<PlanningPokerRequirement>(requirementModel);
 		reqList.setBackground(Color.WHITE);
 		reqList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		reqList.setAlignmentX(LEFT_ALIGNMENT);
+		reqList.setSelectedIndex(0);
+		reqList.setCellRenderer(new VoteRequirementCellRenderer());
+		
+		// Change the red light
+		//requirementModel.addListDataListener(new NewVoteListener(reqList));
+
+		
 		reqList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// Check to see if user double clicked
 				if (e.getClickCount() == 1) {
-					reqName = (String) reqList.getModel().getElementAt(reqList.getSelectedIndex());
 
-					PlanningPokerRequirement requirement = session.getReqByName(reqName);
+					PlanningPokerRequirement requirement = reqList.getModel().getElementAt(reqList.getSelectedIndex());
 
 					if (requirement.getName() == null) {
 						requirementNameTextbox.setText(" ");
