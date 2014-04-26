@@ -292,7 +292,6 @@ public class VotePanel extends JPanel {
 		reqList = new JList<String>();
 		reqList.setListData(reqNames);
 		reqList.setBackground(Color.WHITE);
-		reqList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		reqList.setAlignmentX(LEFT_ALIGNMENT);
 		reqList.addMouseListener(new MouseAdapter() {
 			@Override
