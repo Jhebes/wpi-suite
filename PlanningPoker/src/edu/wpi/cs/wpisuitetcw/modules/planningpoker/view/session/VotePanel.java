@@ -343,9 +343,10 @@ public class VotePanel extends JPanel {
 	 * Add the GUI component to the left panel
 	 */
 	private void addGUIComponentsOnLeftPanel() {
-		leftPanel.setLayout(new MigLayout("fill, center"));
+		leftPanel.setLayout(new MigLayout("insets 0, fill"));
 
-		leftPanel.add(leftPanelLabel, "gapleft 50px, dock north");
+		leftPanel.add(leftPanelLabel, "center, wrap");
+		leftPanelLabel.setBorder(BorderFactory.createLineBorder(Color.RED));
 		leftPanel.add(requirementFrame, "width 250::, growy, dock center");
 	}
 
