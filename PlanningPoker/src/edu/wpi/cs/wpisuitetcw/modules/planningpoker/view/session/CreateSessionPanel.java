@@ -705,10 +705,10 @@ public class CreateSessionPanel extends JPanel {
 		btnCancel.addActionListener(new CancelCreateSessionController(this));
 
 		bottomPanel = new JPanel();
-		bottomPanel.setLayout(new MigLayout());
-		bottomPanel.add(btnSaveSession, "left, width 120px, height 30px");
-		bottomPanel.add(btnCancel, "width 120px, height 30px");
-		bottomPanel.add(labelRequireField, "gapleft 10px");
+		bottomPanel.setLayout(new MigLayout("inset 5 5 5 5", "", "push[]push"));
+		bottomPanel.add(btnSaveSession, "left, width 120px, height " + DEFAULT_HEIGHT + "px!");
+		bottomPanel.add(btnCancel, "width 120px, height " + DEFAULT_HEIGHT + "px!");
+		bottomPanel.add(labelRequireField, "gapleft 10px, height " + DEFAULT_HEIGHT + "px!");
 	}
 
 	/**
