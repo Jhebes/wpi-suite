@@ -91,6 +91,7 @@ public class VotePanel extends JPanel {
 
 	/** A text field holding the final result */
 	private JTextField voteTextField;
+	private JLabel errorMsg;
 
 	/** Button submit the vote to the database */
 	private JButton submitVoteButton;
@@ -145,8 +146,7 @@ public class VotePanel extends JPanel {
 	 * description text field
 	 */
 	private void setupInitData() {
-		// TODO programmatically select the requirement and set reqName
-		// Prevent getting requirement from an empty array list
+		// TODO programmatically select the necessary cards and set current vote
 		if (session.getRequirements().size() > 0) {
 			PlanningPokerRequirement firstReq = session.getRequirements().get(0);
 			requirementNameTextbox.setText(firstReq.getName());
@@ -365,7 +365,6 @@ public class VotePanel extends JPanel {
 		requirementNameTextbox = new JTextField();
 		requirementNameTextbox.setEditable(false);
 		requirementNameTextbox.setBackground(Color.WHITE);
-
 		// Create a requirement description text box
 		descriptionLabel = new JLabel(REQ_DESC_LABEL);
 		descriptionFrame = new JScrollPane();
@@ -378,6 +377,11 @@ public class VotePanel extends JPanel {
 		voteTextField = new JTextField(3);
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
 		voteTextField.setHorizontalAlignment(JTextField.CENTER);
+		
+		// Set up ErrorMsg Label
+		errorMsg = new JLabel("");
+		errorMsg.setForeground(Color.RED);
+		errorMsg.setHorizontalAlignment(JLabel.CENTER);
 
 		// if the session has a deck, we can't let the user submit a vote
 		// manually
@@ -433,6 +437,9 @@ public class VotePanel extends JPanel {
 			rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH + "px, " + "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT
 					+ "px, " + "dock east, " + "gaptop " + PADDING_RIGHT_PANEL + "px, " + "gapright " + PADDING_RIGHT_PANEL
 					+ "px");
+			
+			// Add the error message to the right side
+			rightPanel.add(errorMsg, "dock east");
 		}		
 
 	}
@@ -479,7 +486,14 @@ public class VotePanel extends JPanel {
 	 */
 	public int getVote() {
 		if (this.session.getDeck() == null) {
-			return Integer.parseInt(voteTextField.getText());
+			try {
+				setErrorMsg(""); // Clear Error Message
+				return Integer.parseInt(voteTextField.getText());
+			} catch (NumberFormatException e) {
+				setErrorMsg("Must enter an integer");
+				
+				return 0;
+			}
 		} else {
 			return cardPanel.getVoteValue();
 		}
@@ -510,5 +524,13 @@ public class VotePanel extends JPanel {
 	 */
 	public void setVoteTextFieldWithValue(int value) {
 		this.voteTextField.setText(Integer.toString(value));
+	}
+	
+	/**
+	 * 
+	 * @param msg Error Message to be displayed
+	 */
+	private void setErrorMsg(String msg) {
+		errorMsg.setText(msg);
 	}
 }

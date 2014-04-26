@@ -22,9 +22,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardD
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 
 public class DisplayDeckPanel extends JPanel {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	// constants
 	private static final int CENTER_PANEL_WIDTH = 350;
@@ -36,7 +33,7 @@ public class DisplayDeckPanel extends JPanel {
 	private final JScrollPane centerPanel;
 	private final JPanel container;
 
-	// partent panel
+	// parent panel
 	private VotePanel parentPanel;
 
 	/** cards that are highlighted */
@@ -147,5 +144,13 @@ public class DisplayDeckPanel extends JPanel {
 	 */
 	public int getVoteValue() {
 		return voteValue;
+	}
+	
+	/**
+	 * 
+	 * @return list of cards in the deck
+	 */
+	public ArrayList<Card> getCards() {
+		return cards;
 	}
 }
