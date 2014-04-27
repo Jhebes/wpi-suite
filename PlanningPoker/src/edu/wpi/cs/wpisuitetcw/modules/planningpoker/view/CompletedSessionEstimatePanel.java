@@ -16,6 +16,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -26,8 +28,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
@@ -70,8 +70,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * @param parentPanel
 	 *            The parent panel containing this panel.
 	 */
-	public CompletedSessionEstimatePanel(
-			final VotePanel parentPanel) {
+	public CompletedSessionEstimatePanel(final VotePanel parentPanel) {
 		this.parentPanel = parentPanel;
 
 		panelLayout = new GridLayout(0, 3);
@@ -119,29 +118,29 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		finalEstimateField
 				.setMaximumSize(finalEstimateField.getPreferredSize());
 		finalEstimateField.setAlignmentX(Component.CENTER_ALIGNMENT);
-		finalEstimateField.getDocument().addDocumentListener(
-				new DocumentListener() {
-					public void changedUpdate(DocumentEvent e) {
-						warn();
-					}
+		finalEstimateField.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				keyTyped(e);
 
-					public void removeUpdate(DocumentEvent e) {
-						warn();
-					}
+			}
 
-					public void insertUpdate(DocumentEvent e) {
-						warn();
-					}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				keyTyped(e);
 
-					public void warn() {
-						try {
-							Integer.parseInt(finalEstimateField.getText());
-							btnFinalEstimate.setEnabled(true);
-						} catch (NumberFormatException n) {
-							btnFinalEstimate.setEnabled(false);
-						}
-					}
-				});
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				try {
+					Integer.parseInt(finalEstimateField.getText());
+					btnFinalEstimate.setEnabled(true);
+				} catch (NumberFormatException n) {
+					btnFinalEstimate.setEnabled(false);
+				}
+			}
+		});
 
 		Component verticalStrut = Box.createVerticalStrut(50);
 
