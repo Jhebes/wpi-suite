@@ -67,6 +67,8 @@ public class AddRequirementToSessionController implements ActionListener {
 		
 		// Fill in the information for the requirement being created
 		reqManagerRequirement.setId(addReqModel.getNextID());
+		// sync up the ID's in the req manager requirement and our PPrequirement.
+		requirement.setCorrespondingReqManagerID(reqManagerRequirement.getId());
 		reqManagerRequirement.setName(requirement.getName());
 		reqManagerRequirement.setDescription(requirement.getDescription());
 		

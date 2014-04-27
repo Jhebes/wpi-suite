@@ -47,6 +47,9 @@ public class PlanningPokerRequirement extends AbstractModel {
 	/** Total number of votes for this requirement */
 	private int totalVotes;
 
+	/** This is the ID the corresponds with the requirment manager ID */
+	private int correspondingReqManagerID;
+
 	/**
 	 * Construct a Planning poker requirement with no data
 	 */
@@ -449,7 +452,8 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 */
 	@Override
 	public int hashCode() {
-		return Arrays.hashCode(new Object[] { new String(id.toString()), new Integer(sessionID) });
+		return Arrays.hashCode(new Object[] { new String(id.toString()),
+				new Integer(sessionID) });
 	}
 
 	/**
@@ -464,5 +468,21 @@ public class PlanningPokerRequirement extends AbstractModel {
 			return false;
 		}
 		return id.equals(((PlanningPokerRequirement) arg).id);
+	}
+
+	/**
+	 * Set the ID the is given to this requirement in the requirement manager.
+	 * @param ID
+	 */
+	public void setCorrespondingReqManagerID(int ID){
+		this.correspondingReqManagerID = ID;
+	}
+	
+	/**
+	 * 
+	 * @return The ID of the PPreq that corresponds with the requirement manager requirement.
+	 */
+	public int getCorrespondingReqManagerID(){
+		return this.correspondingReqManagerID;
 	}
 }

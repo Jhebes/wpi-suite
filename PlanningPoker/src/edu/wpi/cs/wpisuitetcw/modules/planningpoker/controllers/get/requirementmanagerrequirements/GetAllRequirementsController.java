@@ -73,6 +73,7 @@ public class GetAllRequirementsController {
 				PlanningPokerRequirement newReq = new PlanningPokerRequirement();
 				newReq.setName(r.getName());
 				newReq.setDescription(r.getDescription());
+				newReq.setCorrespondingReqManagerID(r.getId());
 				SessionStash.getInstance().getSessionByID(1).addRequirement(newReq);
 			}
 		}
