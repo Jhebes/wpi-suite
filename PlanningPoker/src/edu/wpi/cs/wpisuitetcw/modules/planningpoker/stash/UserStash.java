@@ -29,7 +29,7 @@ public class UserStash {
 	/**
 	 * This is a singleton
 	 * 
-	 * @return
+	 * @return The instance for the singleton
 	 */
 	public static UserStash getInstance() {
 		if (self == null) {

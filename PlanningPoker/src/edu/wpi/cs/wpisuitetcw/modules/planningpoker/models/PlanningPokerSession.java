@@ -236,7 +236,7 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Return the PlanningPokerRequirement that has the given name
-	 * @param A String of the requirement that would be returned
+	 * @param reqName String of the requirement that would be returned
 	 * @return Return the PlanningPokerRequirement that has the given name
 	 */
 	public PlanningPokerRequirement getReqByName(String reqName) {
@@ -310,7 +310,7 @@ public class PlanningPokerSession extends AbstractModel {
 	/**
 	 * Convert from JSON back to a Planning Poker Session
 	 * 
-	 * @param Serialized
+	 * @param json
 	 *            JSON String that encodes to a Session Model
 	 * @return the PlanningPokerSession contained in the given JSON
 	 */
@@ -421,6 +421,11 @@ public class PlanningPokerSession extends AbstractModel {
 		return id;
 	}
 
+	/**
+	 * Calculates and the number of vote associated with a requirement
+	 * @param req The requirement whose votes to count
+	 * @return The number of votes for the given requirement
+	 */
 	public int getNumVotes(PlanningPokerRequirement req) {
 		return req.getVotes().size();
 	}
@@ -601,7 +606,7 @@ public class PlanningPokerSession extends AbstractModel {
 	/**
 	 * Copy the data from the given PlanningPokerSession to
 	 * the calling PlanningPokerSession object
-	 * @param updatedRequirement A PlanningPokerSession whose
+	 * @param updatedSession A PlanningPokerSession whose
 	 * data would be copied to the calling PlanningPokerSession object
 	 */
 	public void copyFrom(PlanningPokerSession updatedSession) {

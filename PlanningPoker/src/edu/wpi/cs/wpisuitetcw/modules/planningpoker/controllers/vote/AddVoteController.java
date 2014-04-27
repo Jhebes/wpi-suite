@@ -41,7 +41,7 @@ public class AddVoteController implements ActionListener {
 
 	/**
 	 * Construct the controller
-	 * @param view The SessionInProgressPanel
+	 * @param voteView The SessionInProgressPanel
 	 * @param session A PlanningPokerSession 
 	 * whose PlanningPokerRequirement has a new vote
 	 */

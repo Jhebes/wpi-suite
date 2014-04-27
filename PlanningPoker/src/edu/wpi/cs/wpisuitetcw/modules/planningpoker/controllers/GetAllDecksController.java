@@ -30,6 +30,9 @@ public class GetAllDecksController {
 	/** An instance of this controller */
 	private static GetAllDecksController instance = null;
 
+	/**
+	 * Constructs a controller to get all decks. Private because it's a singleton.
+	 */
 	private GetAllDecksController() {
 	}
 

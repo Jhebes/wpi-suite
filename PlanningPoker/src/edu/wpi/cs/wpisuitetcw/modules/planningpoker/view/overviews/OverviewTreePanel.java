@@ -41,11 +41,17 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	private boolean initialized = false;
 	private List<PlanningPokerSession> sessions = null;
 
+	/**
+	 * Constructs a tree panel.
+	 */
 	public OverviewTreePanel() {
 		this.setViewportView(tree);
 		this.refresh();
 	}
 
+	/**
+	 * Re-draws this tree panel.
+	 */
 	public void refresh() {
 		final DefaultMutableTreeNode top = new DefaultMutableTreeNode("All Sessions");
 		// DefaultMutableTreeNode draftSessionNode = new

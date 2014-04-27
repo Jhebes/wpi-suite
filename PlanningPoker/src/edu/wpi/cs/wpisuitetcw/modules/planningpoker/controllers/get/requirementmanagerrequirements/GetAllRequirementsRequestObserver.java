@@ -18,14 +18,19 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
 /**
- * This observer handles responses to requests for all planning poker session
- * 
- * 
+ * This observer handles responses to requests for all planning poker session.
  */
 public class GetAllRequirementsRequestObserver implements RequestObserver {
 
+	/**
+	 * The parent controller.
+	 */
 	private GetAllRequirementsController controller;
 
+	/**
+	 * Constructs a request observer for getting all requirements.
+	 * @param controller The parent controller
+	 */
 	public GetAllRequirementsRequestObserver(GetAllRequirementsController controller) {
 		this.controller = controller;
 	}

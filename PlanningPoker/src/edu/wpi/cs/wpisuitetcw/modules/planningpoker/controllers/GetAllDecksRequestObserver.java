@@ -17,10 +17,20 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
+/**
+ * Request observer for handling the request to get all decks.
+ */
 public class GetAllDecksRequestObserver implements RequestObserver {
 
+	/**
+	 * The parent controller.
+	 */
 	private GetAllDecksController controller;
 
+	/**
+	 * Constructs a request observer for getting all request observers
+	 * @param controller The parent controller
+	 */
 	public GetAllDecksRequestObserver(GetAllDecksController controller) {
 		this.controller = controller;
 	}

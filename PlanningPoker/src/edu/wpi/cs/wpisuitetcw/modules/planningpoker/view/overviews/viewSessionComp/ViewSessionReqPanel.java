@@ -72,7 +72,7 @@ public class ViewSessionReqPanel extends JPanel {
 	}
 
 	/**
-	 * @return this.name.setText("") Clear this requirement's name
+	 * Clears this requirement's name
 	 */
 	public void clearNewReqName() {
 		name.setText("");
@@ -187,6 +187,11 @@ public class ViewSessionReqPanel extends JPanel {
 
 	}
 
+	/**
+	 * Constructs the panel for adding requirements.
+	 * @param parentPanel The parent panel
+	 * @param s The session for this panel
+	 */
 	public ViewSessionReqPanel(AddRequirementPanel parentPanel,
 			PlanningPokerSession s) {
 		session = s;

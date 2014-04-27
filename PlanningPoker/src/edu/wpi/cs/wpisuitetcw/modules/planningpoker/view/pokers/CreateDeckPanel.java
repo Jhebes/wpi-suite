@@ -215,7 +215,7 @@ public class CreateDeckPanel extends JPanel {
 		msgPanel.setLayout(new MigLayout());
 
 		// No deck message
-		final JLabel msgLabel = new JLabel(NO_DECK_MSG, JLabel.CENTER);
+		final JLabel msgLabel = new JLabel(NO_DECK_MSG, javax.swing.SwingConstants.CENTER);
 
 		msgPanel.add(msgLabel, "center");
 		this.add(msgLabel, "dock center");
@@ -263,6 +263,7 @@ public class CreateDeckPanel extends JPanel {
 
 	/**
 	 * Remove a card from the view and the hashmap
+	 * @param key The card to remove
 	 */
 	public void removeCardWithKey(int key) {
 		cards.remove(key);
@@ -415,6 +416,8 @@ public class CreateDeckPanel extends JPanel {
 	/**
 	 * notify createNewDeckPanel when a Card is discarded, so that it removes
 	 * the card from the cards HashMap
+	 * @param aCard The card to discard
+	 * @param panel The create deck panel
 	 */
 	public void addRemoveCardListener(Card aCard, final CreateDeckPanel panel) {
 		// remove a card

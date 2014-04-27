@@ -70,6 +70,7 @@ public class ViewEventManager {
 
 	/**
 	 * Opens a new tab for the editing of a session
+	 * @param session The session to edit
 	 */
 	public void editSession(PlanningPokerSession session) {
 		final CreateSessionPanel newSession = new CreateSessionPanel(session);
@@ -82,6 +83,7 @@ public class ViewEventManager {
 
 	/**
 	 * Opens a new tab for viewing a session
+	 * @param session The session whose info to gather when building the panel.
 	 */
 	public void viewSession(PlanningPokerSession session) {
 		if (session.getStartTime() != null) {
@@ -135,6 +137,8 @@ public class ViewEventManager {
 
 	/**
 	 * displays a given panel with given msg
+	 * @param panel The panel to display
+	 * @param displayMsg The mouseover text for this tab
 	 */
 	public void display(JComponent panel, String displayMsg) {
 		main.addTab(displayMsg, null, panel, displayMsg);
@@ -174,7 +178,7 @@ public class ViewEventManager {
 	/**
 	 * Removes the tab for the given JComponent
 	 * 
-	 * @param comp
+	 * @param component
 	 *            the component to remove
 	 */
 	public void removeTab(JComponent component) {
