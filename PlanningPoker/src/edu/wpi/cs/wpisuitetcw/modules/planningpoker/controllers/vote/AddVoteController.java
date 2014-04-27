@@ -63,7 +63,7 @@ public class AddVoteController implements ActionListener {
 		
 		// Get the requirement that has been selected from VotePanel
 		try {
-			this.req = ((PlanningPokerRequirement) voteView.getRequirementList().getSelectedValue());
+			this.req = voteView.getRequirementList().getSelectedValue();
 		} catch (NullPointerException e) {
 			Logger.getLogger("PlanningPoker").log(Level.WARNING,
 					"Could not find requirement by name", e);
