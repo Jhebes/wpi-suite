@@ -106,15 +106,26 @@ public class PlanningPokerSession extends AbstractModel {
 	public boolean isOpen() {
 		return isActive() && !isClosed();
 	}
+	
+	/**
+	 * A session can be activated if it meets the following conditions: 
+	 * <ul>
+	 * 	<li>It isn't active currently</li> 
+	 * 	<li>It isn't canceled</li>
+	 *  <li>It must have at least one requirement</li>
+	 * </ul>
+	 * @return Whether the session can be activated
+	 */
+	public boolean canBeActivated() {
+		return !isCancelled && !isActive() && requirements.size() > 0;
+	}
 
 	/**
-	 * Activate the session if it meets the following conditions: 
-	 * - It isn't active currently 
-	 * - It isn't canceled 
-	 * - It must have at least one requirement
+	 * Activate the sessions a session if it meets all the criteria 
+	 * specified in {@link #canBeActivated() canBeActivated} method.
 	 */
 	public void activate() {
-		if (!isCancelled && !isActive() && requirements.size() > 0) {
+		if (canBeActivated()) {
 			this.startTime = new Date();
 			
 			String command = "sendEmail";

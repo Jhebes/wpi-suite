@@ -81,6 +81,31 @@ public class PlanningPokerSessionTest extends PlanningPokerMockTest {
 		assertEquals("Open", planningPokerSession.getStatus());
 	}
 	
+	@Test
+	public void testCannotBeActivatedWithoutReqs() {
+		planningPokerSession.setRequirements(new ArrayList<PlanningPokerRequirement>());
+		assertFalse(planningPokerSession.canBeActivated());
+	}
+	
+	@Test
+	public void testCanBeActivatedWithAReq() {
+		planningPokerSession.addRequirement(new PlanningPokerRequirement());
+		assertTrue(planningPokerSession.canBeActivated());
+	}
+	
+	@Test
+	public void testCannotBeActivatedTwice() {
+		planningPokerSession.addRequirement(new PlanningPokerRequirement());
+		planningPokerSession.activate();
+		assertFalse(planningPokerSession.canBeActivated());
+	}
+	
+	@Test
+	public void testCannotBeActivatedWhenCancelled() {
+		planningPokerSession.cancel();
+		assertFalse(planningPokerSession.canBeActivated());
+	}
+	
 //	@Test
 //	public void testGetStatusClose() {
 //		planningPokerSession.close();
