@@ -22,6 +22,7 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
@@ -46,6 +47,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 
 	/** Tree for displaying sessions */
 	private JTree tree;
+	private DefaultTreeModel model;
 
 	/** Parent node for the tree */
 	private DefaultMutableTreeNode top;
@@ -70,15 +72,33 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 
 	public OverviewTreePanel() {
 
+		// setup the tree
+		model = new DefaultTreeModel(null);
+		tree = new JTree(model); // create the tree with the top created above
+
+		// tell it that it can only select one thing at a time
+		tree.getSelectionModel().setSelectionMode(
+				TreeSelectionModel.SINGLE_TREE_SELECTION);
+		tree.setToggleClickCount(0);
+
+		tree.setCellRenderer(new CustomTreeCellRenderer());
+
+		// add a listener to check for clicking
+		tree.addMouseListener(this);
+		tree.addTreeSelectionListener(this);
+
+		// setup viewport
+		this.setViewportView(tree);
+
 		// refresh the session to start
 		refresh();
+
 	}
 
 	/**
 	 * Refresh the tree with updates on planning poker session
 	 */
 	public void refresh() {
-
 		top = new DefaultMutableTreeNode("All Sessions");
 		// DefaultMutableTreeNode draftSessionNode = new
 		// DefaultMutableTreeNode("Draft Sessions");
@@ -140,21 +160,8 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		top.add(closedSessionNode);
 		top.add(cancelledSessionNode);
 
-		// setup the tree
-		tree = new JTree(top); // create the tree with the top created above
-		// tell it that it can only select one thing at a time
-		tree.getSelectionModel().setSelectionMode(
-				TreeSelectionModel.SINGLE_TREE_SELECTION);
-		tree.setToggleClickCount(0);
-
-		tree.setCellRenderer(new CustomTreeCellRenderer());
-
-		// add a listener to check for clicking
-		tree.addMouseListener(this);
-		tree.addTreeSelectionListener(this);
-
-		// setup viewport
-		this.setViewportView(tree);
+		model.setRoot(top);
+		tree.setModel(model);
 
 		// update the ViewEventController so it contains the right tree
 		ViewEventManager.getInstance().setOverviewTree(this);
