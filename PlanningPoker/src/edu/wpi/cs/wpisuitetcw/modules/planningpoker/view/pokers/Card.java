@@ -237,11 +237,7 @@ public class Card extends JPanel {
 	private boolean isPositiveInteger(String s) {
 		try {
 			final int value = Integer.parseInt(s);
-			if (value > 0) {
-				return true;
-			} else {
-				return false;
-			}
+			return value > 0;
 		} catch (NumberFormatException e) {
 			return false;
 		}

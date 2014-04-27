@@ -354,11 +354,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private boolean isSessionNameEntered() {
 		// textbox for session name
-		if (nameTextField.getText().equals("")) {
-			return false;
-		} else {
-			return true;
-		}
+		return nameTextField.getText().equals("");
 	}
 
 	/**
@@ -368,11 +364,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private boolean isSessionDescriptionEntered() {
 		// textarea for session description
-		if (descriptionBox.getText().equals("")) {
-			return false;
-		} else {
-			return true;
-		}
+		return descriptionBox.getText().equals("");
 	}
 
 	/**
