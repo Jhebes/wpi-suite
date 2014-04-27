@@ -23,10 +23,4 @@ public class ConfigLoaderError extends Exception {
 	public ConfigLoaderError(String string) {
 		super(string);
 	}
-
-	/**
-	 * Version UID for serializing.
-	 */
-	private static final long serialVersionUID = -8160649805099358043L;
-
 }
