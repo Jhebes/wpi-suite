@@ -136,7 +136,7 @@ public class DisplayDeckPanel extends JPanel {
 			Card aCard = cards.get(i);
 			cards.remove(i);
 
-			aCard.setCardValid();
+			aCard.markCardValid();
 			aCard.setSelected(false);
 
 		}

@@ -250,14 +250,14 @@ public class Card extends JPanel {
 	/**
 	 * highlights the card
 	 */
-	public void setCardHighlighted() {
+	public void markCardHighlighted() {
 		this.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
 	}
 
 	/**
 	 * makes the card invalid by changing the color
 	 */
-	public void setCardInvalid() {
+	public void markCardInvalid() {
 		this.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 		labelError.setVisible(true);
 	}
@@ -265,7 +265,7 @@ public class Card extends JPanel {
 	/**
 	 * card is valid, set the border back to black
 	 */
-	public void setCardValid() {
+	public void markCardValid() {
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 		labelError.setVisible(false);
 	}
@@ -273,7 +273,7 @@ public class Card extends JPanel {
 	/**
 	 * card is selected, set the border to green
 	 */
-	public void setCardSelected() {
+	public void markCardSelected() {
 		this.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
 	}
 
@@ -287,20 +287,20 @@ public class Card extends JPanel {
 		// change the border of the card
 		if (isSelected) {
 			// card is selected
-			setCardSelected();
+			markCardSelected();
 		} else {
 			// card is not selected
 			if (isMouseovered) {
 				if (isValueValid) {
-					this.setCardHighlighted();
+					this.markCardHighlighted();
 				} else {
-					this.setCardInvalid();
+					this.markCardInvalid();
 				}
 			} else {
 				if (isValueValid) {
-					this.setCardValid();
+					this.markCardValid();
 				} else {
-					this.setCardInvalid();
+					this.markCardInvalid();
 				}
 			}
 		}
@@ -314,9 +314,9 @@ public class Card extends JPanel {
 		textbox.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				if (aCard.hasValidCardValue()) {
-					aCard.setCardValid();
+					aCard.markCardValid();
 				} else {
-					aCard.setCardInvalid();
+					aCard.markCardInvalid();
 				}
 				// validate all inputs in the create session panel
 				createDeckPanel.getSessionPanel().checkSessionValidation();
@@ -367,7 +367,7 @@ public class Card extends JPanel {
 	 */
 	private void selectCard() {
 		// highlight the card
-		setCardSelected();
+		markCardSelected();
 		// update the vote
 		parentPanel.addRequirementValue(this);
 	}
@@ -377,7 +377,7 @@ public class Card extends JPanel {
 	 */
 	private void unselectCard() {
 		// remove the highlight
-		setCardValid();
+		markCardValid();
 		// update the vote
 		parentPanel.subtractRequirementValue(this);
 	}

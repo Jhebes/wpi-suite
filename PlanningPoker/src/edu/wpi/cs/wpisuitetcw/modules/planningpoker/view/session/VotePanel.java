@@ -243,8 +243,6 @@ public class VotePanel extends JPanel {
 		for (int i = 0; i < testReqs.size(); ++i) {
 			reqArr[i] = testReqs.get(i);
 		}
-		// reqsViewTable.getColumnModel().getColumn(1).setResizable(false);
-		this.getReqsViewTable();
 
 		// Create an edit session button
 		btnEditSession = new JButton("Edit Session");
@@ -491,13 +489,6 @@ public class VotePanel extends JPanel {
 		} else {
 			return cardPanel.getVoteValue();
 		}
-	}
-
-	/**
-	 * sets the reqsViewTable with the appropriate information
-	 */
-
-	public void getReqsViewTable() {
 	}
 
 	public void disableEditSession() {

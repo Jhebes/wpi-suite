@@ -156,7 +156,7 @@ public class CreateDeckPanel extends JPanel {
 		// determine what type of mode the panel is
 		if (mode.equals(CardDisplayMode.CREATE)) {
 			// create mode allows users to enter values
-			setInitialCard();
+			addInitialCard();
 		} else if (mode.equals(CardDisplayMode.DISPLAY)) {
 			// display mode should display the cards in a deck and disallow any
 			// modification
@@ -225,7 +225,7 @@ public class CreateDeckPanel extends JPanel {
 	/**
 	 * Add a initial card to the panel
 	 */
-	private void setInitialCard() {
+	private void addInitialCard() {
 		// cards
 		final Card starterCard = new Card(mode, this);
 		final int key = starterCard.hashCode();

@@ -89,10 +89,10 @@ public class CreateNewDeckController {
 		final Map<Integer, Card> cards = view.getCards();
 		for (Card aCard : cards.values()) {
 			if (!aCard.hasValidCardValue()) {
-				aCard.setCardInvalid();
+				aCard.markCardInvalid();
 				isAllInputValid = false;
 			} else {
-				aCard.setCardValid();
+				aCard.markCardValid();
 			}
 		}
 		return isAllInputValid;
