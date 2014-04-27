@@ -111,10 +111,10 @@ public class PlanningPokerSession extends AbstractModel {
 	 * Activate the session if it meets the following conditions: 
 	 * - It isn't active currently 
 	 * - It isn't canceled 
-	 * - It must have at least one requirement (Temporarily not included)
+	 * - It must have at least one requirement
 	 */
 	public void activate() {
-		if (!this.isCancelled && !this.isActive()) {
+		if (!isCancelled && !isActive() && requirements.size() > 0) {
 			this.startTime = new Date();
 		}
 
