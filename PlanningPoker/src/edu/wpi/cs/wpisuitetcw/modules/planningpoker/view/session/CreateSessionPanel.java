@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
@@ -146,7 +147,7 @@ public class CreateSessionPanel extends JPanel {
 	JList<String> existingRequirements;
 
 	/** List of requirements available to this create session tab. */
-	private ArrayList<PlanningPokerRequirement> requirements = null;
+	private List<PlanningPokerRequirement> requirements = null;
 
 	/** mode for the create new deck panel */
 	private CardDisplayMode mode = CardDisplayMode.DISPLAY;
@@ -191,7 +192,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	public void setupDeckDropdown() {
 		deckType.removeAllItems();
-		ArrayList<String> deckNames = GetAllDecksController.getInstance()
+		List<String> deckNames = GetAllDecksController.getInstance()
 				.getAllDeckNames();
 		for (String name : deckNames) {
 			deckType.addItem(name);
@@ -437,10 +438,9 @@ public class CreateSessionPanel extends JPanel {
 	 * @param requirements
 	 *            The list of new requirements
 	 */
-	public void updateRequirements(
-			ArrayList<PlanningPokerRequirement> requirements) {
+	public void updateRequirements(List<PlanningPokerRequirement> requirements) {
 		setRequirements(requirements);
-		ArrayList<String> names = new ArrayList<String>();
+		List<String> names = new ArrayList<String>();
 		for (PlanningPokerRequirement requirement : requirements) {
 			names.add(requirement.getName());
 		}
@@ -451,7 +451,7 @@ public class CreateSessionPanel extends JPanel {
 	 * 
 	 * @return The internal list of planning poker requirements
 	 */
-	public ArrayList<PlanningPokerRequirement> getRequirements() {
+	public List<PlanningPokerRequirement> getRequirements() {
 		return requirements;
 	}
 
@@ -460,7 +460,7 @@ public class CreateSessionPanel extends JPanel {
 	 * @param requirements
 	 *            A list of new planning poker requirements
 	 */
-	public void setRequirements(ArrayList<PlanningPokerRequirement> requirements) {
+	public void setRequirements(List<PlanningPokerRequirement> requirements) {
 		this.requirements = requirements;
 	}
 

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -385,7 +386,7 @@ public class CreateDeckPanel extends JPanel {
 		final PlanningPokerDeck deck = GetAllDecksController.getInstance()
 				.getDeckByName(deckName);
 
-		final ArrayList<Integer> deckValues = deck.getDeck();
+		final List<Integer> deckValues = deck.getDeck();
 		for (int value : deckValues) {
 			Card aCard = new Card(mode, value);
 			int key = aCard.hashCode();
@@ -454,10 +455,10 @@ public class CreateDeckPanel extends JPanel {
 	/**
 	 * get a deck of cards with values
 	 * 
-	 * @return an arraylist of card values
+	 * @return a list of card values
 	 */
-	public ArrayList<Integer> getAllCardsValue() {
-		ArrayList<Integer> deckValues = new ArrayList<Integer>();
+	public List<Integer> getAllCardsValue() {
+		List<Integer> deckValues = new ArrayList<Integer>();
 		Map<Integer, Card> map = this.cards;
 		for (Card aCard : map.values()) {
 			deckValues.add(aCard.getValue());

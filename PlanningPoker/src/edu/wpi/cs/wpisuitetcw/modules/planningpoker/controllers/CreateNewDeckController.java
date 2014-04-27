@@ -10,7 +10,7 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
@@ -45,7 +45,7 @@ public class CreateNewDeckController {
 		if (validateAllInputs()) {
 			// all inputs are good
 			String deckName = this.view.getTextboxName().getText();
-			ArrayList<Integer> cardValues = this.view.getAllCardsValue();
+			List<Integer> cardValues = this.view.getAllCardsValue();
 			int maxSelection = view.getMaxSelectionCards();
 			PlanningPokerDeck deck = new PlanningPokerDeck(deckName, cardValues, maxSelection);
 
