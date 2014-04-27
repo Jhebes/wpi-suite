@@ -108,7 +108,6 @@ public class Card extends JPanel {
 	public Card(CardDisplayMode mode, int value) {
 		this(mode);
 		this.cardValue = value;
-		txtboxValue.setText(value + "");
 		this.displayCardValue();
 	}
 	

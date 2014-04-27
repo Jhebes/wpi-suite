@@ -306,7 +306,13 @@ public class CreateDeckPanel extends JPanel {
 		ArrayList<Integer> cardValues = new ArrayList<Integer>();
 		
 		for (Card aCard : this.cards.values()) {
-			cardValues.add(Integer.parseInt(aCard.getTxtboxValue().getText()));
+			if (aCard.getTxtboxValue().getText() != null) {
+				cardValues.add(Integer.parseInt(aCard.getTxtboxValue().getText()));
+			} else if (aCard.getCardValue() >= 0) {
+				cardValues.add(aCard.getCardValue());
+			} else {
+				Logger.getLogger("PlanningPoker").log(Level.SEVERE, "Invalid card value");
+			}
 		}
 		
 		return cardValues;
