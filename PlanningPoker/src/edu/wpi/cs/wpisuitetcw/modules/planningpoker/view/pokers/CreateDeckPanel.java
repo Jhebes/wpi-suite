@@ -339,11 +339,11 @@ public class CreateDeckPanel extends JPanel {
 	public boolean isDeckNameEntered() {
 		if (textboxName.getText().equals("")) {
 			// nothing is entered
-			Logger.getLogger("PlanningPoker").log(Level.INFO,
+			Logger.getLogger("PlanningPoker").log(Level.FINE,
 					"Name not entered");
 			return false;
 		} else {
-			Logger.getLogger("PlanningPoker").log(Level.INFO, "Name entered");
+			Logger.getLogger("PlanningPoker").log(Level.FINE, "Name entered");
 			return true;
 		}
 	}
