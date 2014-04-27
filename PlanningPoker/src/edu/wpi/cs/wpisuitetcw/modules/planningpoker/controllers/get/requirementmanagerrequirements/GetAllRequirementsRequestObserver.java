@@ -25,7 +25,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  */
 public class GetAllRequirementsRequestObserver implements RequestObserver {
 
-	public GetAllRequirementsController controller;
+	private GetAllRequirementsController controller;
 
 	public GetAllRequirementsRequestObserver(GetAllRequirementsController controller) {
 		this.controller = controller;

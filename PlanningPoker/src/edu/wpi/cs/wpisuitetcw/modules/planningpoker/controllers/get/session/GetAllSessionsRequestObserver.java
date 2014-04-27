@@ -24,7 +24,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  */
 public class GetAllSessionsRequestObserver implements RequestObserver {
 
-	public GetAllSessionsController controller;
+	private GetAllSessionsController controller;
 
 	public GetAllSessionsRequestObserver(GetAllSessionsController controller) {
 		this.controller = controller;

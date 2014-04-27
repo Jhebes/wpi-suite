@@ -87,7 +87,7 @@ public class CreateSessionPanel extends JPanel {
 	// default data size for database entry
 	private final int DEFAULT_DATA_SIZE = 30;
 
-	public final String DISPLAY_MSG = "New Deck";
+	public static final String DISPLAY_MSG = "New Deck";
 
 	private JSplitPane mainPanel;
 

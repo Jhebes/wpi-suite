@@ -35,7 +35,7 @@ public class RetrievePlanningPokerRequirementsForSessionController {
 	/** The requirements retrieved from the server */
 	protected PlanningPokerRequirement[] data = null;
 	
-	public int target;
+	private int target;
 	
 	/** An instance of this controller */
 	private static RetrievePlanningPokerRequirementsForSessionController instance = null;
@@ -86,6 +86,13 @@ public class RetrievePlanningPokerRequirementsForSessionController {
 				"An error occurred retrieving requirements from the server. "
 						+ error, "Error Communicating with Server",
 				JOptionPane.ERROR_MESSAGE);
+	}
+
+	/**
+	 * @return The target ID
+	 */
+	public int getTarget() {
+		return target;
 	}
 
 }

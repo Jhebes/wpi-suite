@@ -19,7 +19,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
 public class GetAllDecksRequestObserver implements RequestObserver {
 
-	public GetAllDecksController controller;
+	private GetAllDecksController controller;
 
 	public GetAllDecksRequestObserver(GetAllDecksController controller) {
 		this.controller = controller;
