@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -28,6 +29,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListModel;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.EditActivatedSessionController;
@@ -37,7 +42,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.CompletedSessionEstimatePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.NameDescriptionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.VoteRequirementCellRenderer;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.DisplayDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
@@ -55,13 +60,12 @@ public class VotePanel extends JPanel {
 	private static final String END_SESSION_BUTTON_LABEL = "End Session";
 	private static final String NO_DECK_MSG = "<html><font color='red'>No deck. Please enter your vote in the white box</font></html>";
 
-	private static final int DEFAULT_INSETS = 20;
-	private static final int DEFAULT_HEIGHT = 26;
-	private static final int MIN_VOTE_TEXTFIELD_WIDTH = 118;
-	private static final int MIN_VOTE_TEXTFIELD_HEIGHT = 118;
+	private static final int MIN_DESC_TEXTBOX_HEIGHT = 80;
+	private static final int MIN_VOTE_TEXTFIELD_WIDTH = 120;
+	private static final int MIN_VOTE_TEXTFIELD_HEIGHT = 120;
 	private static final int MIN_BUTTON_WIDTH = 50;
-	private static final int VERTICAL_PADDING_RIGHT_PANEL = 10;
-	private static final int HORIZONTAL_PADDING_RIGHT_PANEL = 20;
+	private static final int PADDING_RIGHT_PANEL = 10;
+	private static final int GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX = 20;
 
 	private final PlanningPokerSession session;
 	private PlanningPokerRequirement[] reqsList;
@@ -70,16 +74,24 @@ public class VotePanel extends JPanel {
 	/** The left container holding all the requirements' info */
 	private JLabel leftPanelLabel;
 	private JPanel leftPanel;
+	
+	/** List of requirements */
 	private JScrollPane requirementFrame;
-	private JList<String> reqList;
+	private JList<PlanningPokerRequirement> reqList;
 
 	// ################### GUI right components ####################
 	/** The right container holding all the GUI components */
 	private JLabel rightPanelLabel;
 	private JPanel rightPanel;
-	
-	/** The name and description text box */
-	private NameDescriptionPanel nameDescriptionPanel;
+
+	/** Name of a requirement */
+	private JLabel requirementNameLabel;
+	private JTextField requirementNameTextbox;
+
+	/** Description of a requirement */
+	private JLabel descriptionLabel;
+	private JScrollPane descriptionFrame;
+	private JTextField descriptionTextbox;
 
 	/** A Panel exhibiting the cards */
 	private JScrollPane cardFrame;
@@ -130,7 +142,7 @@ public class VotePanel extends JPanel {
 		// Add mainView and the bottom panel to the canvas
 		setLayout(new MigLayout());
 		add(mainView, "dock center");
-		add(bottomPanel, "dock south, height 45px!");
+		add(bottomPanel, "dock south");
 
 		// Exhibit the information of the 1st requirement
 		setupInitData();
@@ -145,8 +157,8 @@ public class VotePanel extends JPanel {
 		// Prevent getting requirement from an empty array list
 		if (session.getRequirements().size() > 0) {
 			PlanningPokerRequirement firstReq = session.getRequirements().get(0);
-			nameDescriptionPanel.setName(firstReq.getName());
-			nameDescriptionPanel.setDescription(firstReq.getDescription());
+			requirementNameTextbox.setText(firstReq.getName());
+			descriptionTextbox.setText(firstReq.getDescription());
 			this.reqName = firstReq.getName();
 			reqList.setSelectionInterval(0, 0);
 		}
@@ -265,24 +277,12 @@ public class VotePanel extends JPanel {
 	 * the bottom panel
 	 */
 	private void addGUIComponentsToBottomPanel() {
-		bottomPanel.setLayout(new MigLayout("inset 5 "// + DEFAULT_INSETS / 2 + " "
-									  				 + DEFAULT_INSETS + " "
-													 + "5 " //DEFAULT_INSETS / 2 + " "
-													 + DEFAULT_INSETS + ", fill", 
-											"", "push[]push"));
-		bottomPanel.add(endSessionButton, "left, "
-										+ "wmin " + MIN_BUTTON_WIDTH + "px, "
-										+ "height " + DEFAULT_HEIGHT + "px!, "
-										+ "split3");
-		bottomPanel.add(btnEditSession, "left, "
-									  + "wmin " + MIN_BUTTON_WIDTH + "px, "
-									  + "height " + DEFAULT_HEIGHT + "px!");
-		bottomPanel.add(cancelSessionButton, "left, "
-										   + "wmin " + MIN_BUTTON_WIDTH + "px, "
-										   + "height " + DEFAULT_HEIGHT + "px!");
+		bottomPanel.setLayout(new MigLayout("fillx", "", "5[]5"));
+		bottomPanel.add(endSessionButton, "left, wmin " + MIN_BUTTON_WIDTH + "px, split3");
+		bottomPanel.add(btnEditSession, "left, wmin " + MIN_BUTTON_WIDTH + "px");
+		bottomPanel.add(cancelSessionButton, "left, wmin " + MIN_BUTTON_WIDTH + "px");
 		bottomPanel.add(cardSelectionModeLabel, "left, wmin " + MIN_BUTTON_WIDTH + "px");
-		bottomPanel.add(submitVoteButton, "right, "
-										+ "height " + DEFAULT_HEIGHT + "px!");
+		bottomPanel.add(submitVoteButton, "right");
 	}
 
 	/*
@@ -294,17 +294,23 @@ public class VotePanel extends JPanel {
 
 		// TODO: sleep
 		ArrayList<PlanningPokerRequirement> reqs = session.getRequirements();
-		String[] reqNames = new String[reqs.size()];
-		int j = 0;
+		DefaultListModel<PlanningPokerRequirement> requirementModel = 
+				new DefaultListModel<PlanningPokerRequirement>();
 		for (PlanningPokerRequirement ppr : reqs) {
-			reqNames[j] = ppr.getName();
-			j++;
+			requirementModel.addElement(ppr);
 		}
 
-		reqList = new JList<String>();
-		reqList.setListData(reqNames);
+		reqList = new JList<PlanningPokerRequirement>(requirementModel);
 		reqList.setBackground(Color.WHITE);
+		reqList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		reqList.setAlignmentX(LEFT_ALIGNMENT);
+		reqList.setSelectedIndex(0);
+		reqList.setCellRenderer(new VoteRequirementCellRenderer());
+		
+		// Change the red light
+		//requirementModel.addListDataListener(new NewVoteListener(reqList));
+
+		
 		reqList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -312,17 +318,17 @@ public class VotePanel extends JPanel {
 				if (e.getClickCount() == 1) {
 					reqName = (String) reqList.getModel().getElementAt(reqList.getSelectedIndex());
 
-					PlanningPokerRequirement requirement = session.getReqByName(reqName);
+					PlanningPokerRequirement requirement = reqList.getModel().getElementAt(reqList.getSelectedIndex());
 
 					if (requirement.getName() == null) {
-						nameDescriptionPanel.setName(" ");
+						requirementNameTextbox.setText(" ");
 					} else {
-						nameDescriptionPanel.setName(requirement.getName());
+						requirementNameTextbox.setText(requirement.getName());
 					}
 					if (requirement.getDescription() == null) {
-						nameDescriptionPanel.setDescription(" ");
+						descriptionTextbox.setText(" ");
 					} else {
-						nameDescriptionPanel.setDescription(requirement.getDescription());
+						descriptionTextbox.setText(requirement.getDescription());
 					}
 					
 					if (session.isClosed()) {
@@ -355,8 +361,9 @@ public class VotePanel extends JPanel {
 	 * Add the GUI component to the left panel
 	 */
 	private void addGUIComponentsOnLeftPanel() {
-		leftPanel.setLayout(new MigLayout("insets 0, fill", "", "10[]10[]0"));
-		leftPanel.add(leftPanelLabel, "center, wrap");
+		leftPanel.setLayout(new MigLayout("fill, center"));
+
+		leftPanel.add(leftPanelLabel, "gapleft 50px, dock north");
 		leftPanel.add(requirementFrame, "width 250::, growy, dock center");
 	}
 
@@ -366,8 +373,19 @@ public class VotePanel extends JPanel {
 		// Create a label for right panel
 		rightPanelLabel = new JLabel(RIGHT_PANEL_LABEL);
 
-		// Create a requirement name and description text box
-		nameDescriptionPanel = new NameDescriptionPanel(REQ_NAME_LABEL, REQ_DESC_LABEL, false);
+		// Create a requirement name text box
+		requirementNameLabel = new JLabel(REQ_NAME_LABEL);
+		requirementNameTextbox = new JTextField();
+		requirementNameTextbox.setEditable(false);
+		requirementNameTextbox.setBackground(Color.WHITE);
+
+		// Create a requirement description text box
+		descriptionLabel = new JLabel(REQ_DESC_LABEL);
+		descriptionFrame = new JScrollPane();
+		descriptionTextbox = new JTextField();
+		descriptionTextbox.setEditable(false);
+		descriptionTextbox.setBackground(Color.WHITE);
+		descriptionFrame.setViewportView(descriptionTextbox);
 
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
@@ -395,18 +413,22 @@ public class VotePanel extends JPanel {
 	 */
 	private void addGUIComponentsOnRightPanel() {
 		// Add the padding around the right panel
-		rightPanel.setLayout(new MigLayout("insets " + VERTICAL_PADDING_RIGHT_PANEL   + " "
-													 + HORIZONTAL_PADDING_RIGHT_PANEL + " " 
-													 + VERTICAL_PADDING_RIGHT_PANEL   + " "
-													 + HORIZONTAL_PADDING_RIGHT_PANEL + ", fill",
-											"", "[][grow]"));
+		rightPanel.setLayout(new MigLayout("insets " + PADDING_RIGHT_PANEL + " " + PADDING_RIGHT_PANEL + " "
+				+ PADDING_RIGHT_PANEL + " " + PADDING_RIGHT_PANEL + ", fill"));
 
 		// Add the label of the panel
-		rightPanel.add(rightPanelLabel, "center, wrap");
+		rightPanel.add(rightPanelLabel, "center, span");
 
 		// Add the requirement name and its label
-		rightPanel.add(nameDescriptionPanel, "grow");
-		
+		rightPanel.add(requirementNameLabel, "growx, left, wrap");
+		rightPanel.add(requirementNameTextbox, "growx, gapright " + GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX
+				+ "px, wrap");
+
+		// Add the requirement description box and its label
+		rightPanel.add(descriptionLabel, "growx, left, wrap");
+		rightPanel.add(descriptionFrame, "hmin " + MIN_DESC_TEXTBOX_HEIGHT + "px, " + "growx, " + "gapright"
+				+ GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX + "px, " + "wrap");
+
 		// Add the card panel or final estimation GUI
 		finalEstimatePnl = new CompletedSessionEstimatePanel(this);
 		finalEstimatePnl.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -414,19 +436,16 @@ public class VotePanel extends JPanel {
 			rightPanel.add(finalEstimatePnl);
 		} else {
 			if (cardFrame != null) {
-				rightPanel.add(cardFrame, "height 235::, grow, dock south");
+				rightPanel.add(cardFrame, "hmin 250px, grow, dock south");
 			} else {
 				JLabel messageLabel = new JLabel(NO_DECK_MSG);
-				rightPanel.add(messageLabel, "gapleft 150px, hmin 230px, grow, dock south");
+				rightPanel.add(messageLabel, "gapleft 150px, hmin 250px, grow, dock south");
 			}
 			
 			// Add the vote text field to the right side
-			rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH  + "px, " 
-										+ "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, " 
-										+ "dock east, " 
-										+ "gaptop "   + VERTICAL_PADDING_RIGHT_PANEL   + "px, " 
-										+ "gapright " + HORIZONTAL_PADDING_RIGHT_PANEL + "px, "
-										+ "gapbottom" + VERTICAL_PADDING_RIGHT_PANEL   + "px");
+			rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH + "px, " + "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT
+					+ "px, " + "dock east, " + "gaptop " + PADDING_RIGHT_PANEL + "px, " + "gapright " + PADDING_RIGHT_PANEL
+					+ "px");
 		}		
 
 	}
@@ -504,5 +523,13 @@ public class VotePanel extends JPanel {
 	 */
 	public void setVoteTextFieldWithValue(int value) {
 		this.voteTextField.setText(Integer.toString(value));
+	}
+	
+	/**
+	 * Return the GUI list of requirements
+	 * @return Return the GUI list of requirements
+	 */
+	public JList getRequirementList() {
+		return reqList;
 	}
 }
