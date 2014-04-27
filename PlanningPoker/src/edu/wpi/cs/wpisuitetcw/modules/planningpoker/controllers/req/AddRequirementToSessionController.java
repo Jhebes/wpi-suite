@@ -113,8 +113,7 @@ public class AddRequirementToSessionController implements ActionListener {
 			ArrayList<PlanningPokerRequirement> requirements,
 			PlanningPokerRequirement otherRequirement) {
 		for (PlanningPokerRequirement requirement : requirements) {
-			if (requirement.getName().equals(otherRequirement.getName()) &&
-					requirement.getDescription().equals(otherRequirement.getDescription())) {
+			if (requirement.getName().equals(otherRequirement.getName())) {
 				return true;
 			}
 		}
@@ -129,8 +128,7 @@ public class AddRequirementToSessionController implements ActionListener {
 			Requirement innerRequirement) {
 		List<Requirement> requirements = addReqModel.getRequirements();
 		for (Requirement requirement : requirements) {
-			if (requirement.getName().equals(innerRequirement.getName()) &&
-				requirement.getDescription().equals(innerRequirement.getDescription())) {
+			if (requirement.getName().equals(innerRequirement.getName())) {
 				return true;
 			}
 		}
