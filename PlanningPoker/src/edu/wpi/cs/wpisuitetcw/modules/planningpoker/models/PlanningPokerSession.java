@@ -116,44 +116,44 @@ public class PlanningPokerSession extends AbstractModel {
 	public void activate() {
 		if (!isCancelled && !isActive() && requirements.size() > 0) {
 			this.startTime = new Date();
-		}
-
-		String command = "sendEmail";
-		// Send email to everyone in a session
-		if (this.getUsers() != null) {
-			for (User user : this.getUsers()) {
-				String sendTo = user.getEmail();
-				if (!sendTo.equals("")) {
-					SendNotificationController.sendNotification("start",
-							sendTo, this.getDeadline(), command);
-				} else {
-					SendNotificationController.sendNotification("start",
-							"teamcombatwombat@gmail.com",
-							this.getDeadline(), command);
+			
+			String command = "sendEmail";
+			// Send email to everyone in a session
+			if (this.getUsers() != null) {
+				for (User user : this.getUsers()) {
+					String sendTo = user.getEmail();
+					if (!sendTo.equals("")) {
+						SendNotificationController.sendNotification("start",
+								sendTo, this.getDeadline(), command);
+					} else {
+						SendNotificationController.sendNotification("start",
+								"teamcombatwombat@gmail.com",
+								this.getDeadline(), command);
+					}
 				}
+			} else {
+				SendNotificationController.sendNotification("start",
+						"teamcombatwombat@gmail.com", this.getDeadline(),
+						command);
 			}
-		} else {
-			SendNotificationController.sendNotification("start",
-					"teamcombatwombat@gmail.com", this.getDeadline(),
-					command);
-		}
 
-		// Send SMS to everyone in a session
-		command = "sendSMS";
-		if (this.getUsers() != null) {
-			for (User user : this.getUsers()) {
-				String sendTo = user.getSMS();
-				if (!sendTo.equals("")) {
-					SendNotificationController.sendNotification("start",
-							sendTo, this.getDeadline(), command);
-				} else {
-					SendNotificationController.sendNotification("start",
-							"15189662284", this.getDeadline(), command);
+			// Send SMS to everyone in a session
+			command = "sendSMS";
+			if (this.getUsers() != null) {
+				for (User user : this.getUsers()) {
+					String sendTo = user.getSMS();
+					if (!sendTo.equals("")) {
+						SendNotificationController.sendNotification("start",
+								sendTo, this.getDeadline(), command);
+					} else {
+						SendNotificationController.sendNotification("start",
+								"15189662284", this.getDeadline(), command);
+					}
 				}
+			} else {
+				SendNotificationController.sendNotification("start", "15189662284",
+						this.getDeadline(), command);
 			}
-		} else {
-			SendNotificationController.sendNotification("start", "15189662284",
-					this.getDeadline(), command);
 		}
 	}
 
