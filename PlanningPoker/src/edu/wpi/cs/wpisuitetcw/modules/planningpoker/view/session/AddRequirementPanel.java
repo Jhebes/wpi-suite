@@ -33,7 +33,6 @@ public class AddRequirementPanel extends JSplitPane {
 	 * Create a view session panel
 	 */
 	public AddRequirementPanel(PlanningPokerSession session) {
-		Logger.getLogger("PlanningPoker").log(Level.INFO, "Session loaded: " + session.getID());
 		final RequirementTableManager manager = new RequirementTableManager();
 		manager.fetch(session.getID());
 		this.session = session;

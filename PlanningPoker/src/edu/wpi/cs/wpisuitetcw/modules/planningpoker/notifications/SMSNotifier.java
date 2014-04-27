@@ -64,13 +64,7 @@ public class SMSNotifier extends BaseNotifier {
 
 		final Logger logger = Logger.getLogger("PlanningPoker");
 		try {
-			final MessageResponse msgResponse = api.sendMessage((LinkedHashMap<String, String>) parameters);
-			logger.log(Level.INFO, msgResponse.apiId);
-			if (msgResponse.serverCode == 202) {
-				logger.log(Level.INFO, msgResponse.messageUuids.get(0).toString());
-			} else {
-				logger.log(Level.INFO, msgResponse.error);
-			}
+			api.sendMessage((LinkedHashMap<String, String>) parameters);
 		} catch (PlivoException e) {
 			logger.log(Level.INFO, e.getLocalizedMessage());
 		}
