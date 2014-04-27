@@ -132,7 +132,8 @@ public class ViewSessionReqPanel extends JPanel {
 		ArrayList<String> selectedNames = new ArrayList<String>();
 		for (int i = 0; i < selectedRows.length; i++) {
 			// Get the 0th column which should be the name
-			selectedNames.add(this.allReqTable.getValueAt(selectedRows[i], 0).toString());
+			selectedNames.add(this.allReqTable.getValueAt(selectedRows[i], 0)
+					.toString());
 		}
 		return selectedNames;
 	}
@@ -149,12 +150,44 @@ public class ViewSessionReqPanel extends JPanel {
 		ArrayList<String> selectedNames = new ArrayList<String>();
 		for (int i = 0; i < selectedRows.length; i++) {
 			// Get the 0th column which should be the name
-			selectedNames.add(this.sessionReqTable.getValueAt(selectedRows[i], 0).toString());
+			selectedNames.add(this.sessionReqTable.getValueAt(selectedRows[i],
+					0).toString());
 		}
 		return selectedNames;
 	}
 
-	public ViewSessionReqPanel(AddRequirementPanel parentPanel, PlanningPokerSession s) {
+	/**
+	 * Refreshes all buttons in the buttonPanel
+	 */
+	public void refreshMoveButtons() {
+		if (getRightSelectedRequirements().size() == 0) {
+			this.moveRequirementToAll.setEnabled(false);
+		} else {
+			this.moveRequirementToAll.setEnabled(true);
+		}
+
+		if (getLeftSelectedRequirements().size() == 0) {
+			this.moveRequirementToSession.setEnabled(false);
+		} else {
+			this.moveRequirementToSession.setEnabled(true);
+		}
+
+		if (getAllRightRequirements().size() == 0) {
+			this.moveAllRequirementsToAll.setEnabled(false);
+		} else {
+			this.moveAllRequirementsToAll.setEnabled(true);
+		}
+
+		if (getAllLeftRequirements().size() == 0) {
+			this.moveAllRequirementsToSession.setEnabled(false);
+		} else {
+			this.moveAllRequirementsToSession.setEnabled(true);
+		}
+
+	}
+
+	public ViewSessionReqPanel(AddRequirementPanel parentPanel,
+			PlanningPokerSession s) {
 		this.session = s;
 		this.setLayout(new GridBagLayout());
 		this.parentPanel = parentPanel;
@@ -195,7 +228,8 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// allows multiple reqs to be selected and unselected
 		allReqTable.setRowSelectionAllowed(true);
-		allReqTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		allReqTable
+				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
 		// add table to rightPanel
 		JLabel leftLabel = new JLabel("All Requirements");
@@ -206,7 +240,8 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// table for left pane
 		// Right table
-		sessionReqTable = new JTable(new RequirementTableManager().get(this.session.getID())) {
+		sessionReqTable = new JTable(
+				new RequirementTableManager().get(this.session.getID())) {
 			private static final long serialVersionUID = 2L;
 
 			public boolean isCellEditable(int row, int colunm) {
@@ -220,7 +255,8 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// allows multiple reqs to be selected and unselected
 		sessionReqTable.setRowSelectionAllowed(true);
-		sessionReqTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		sessionReqTable
+				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		allReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
 		// rightPanel formatting
@@ -237,20 +273,30 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// Action Handlers
 		// need to change so it adds to the right side
-		this.addRequirementToSession.addActionListener(new AddRequirementToSessionController(this));
-		this.moveRequirementToSession.addActionListener(new MoveRequirementToCurrentSessionController(this.session,
-				this));
-		this.moveRequirementToAll.addActionListener(new MoveRequirementToAllController(this.session, this));
-		this.moveAllRequirementsToSession.addActionListener(new MoveAllRequirementsToCurrentSessionController(
-				this.session, this));
-		this.moveAllRequirementsToAll.addActionListener(new MoveAllRequirementsToAllController(this.session, this));
-		this.saveRequirement.addActionListener(new EditRequirementDescriptionController(this.session, this));
+		this.addRequirementToSession
+				.addActionListener(new AddRequirementToSessionController(this));
+		this.moveRequirementToSession
+				.addActionListener(new MoveRequirementToCurrentSessionController(
+						this.session, this));
+		this.moveRequirementToAll
+				.addActionListener(new MoveRequirementToAllController(
+						this.session, this));
+		this.moveAllRequirementsToSession
+				.addActionListener(new MoveAllRequirementsToCurrentSessionController(
+						this.session, this));
+		this.moveAllRequirementsToAll
+				.addActionListener(new MoveAllRequirementsToAllController(
+						this.session, this));
+		this.saveRequirement
+				.addActionListener(new EditRequirementDescriptionController(
+						this.session, this));
 
 		// this will populate the name and description field when clicking on a
 		// requirement in the all session table
 		allReqTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				refreshMoveButtons();
 				RequirementTableManager n = new RequirementTableManager();
 				n.fetch(session.getID());
 				sessionReqTable.updateUI();
@@ -266,10 +312,12 @@ public class ViewSessionReqPanel extends JPanel {
 
 				for (int i = 0; i < 2; i = i + 1) {
 					if (i == 0) {
-						reqName = allReqTable.getModel().getValueAt(row, 0).toString();
+						reqName = allReqTable.getModel().getValueAt(row, 0)
+								.toString();
 					}
 					if (i == 1) {
-						reqDescription = allReqTable.getModel().getValueAt(row, 1).toString();
+						reqDescription = allReqTable.getModel()
+								.getValueAt(row, 1).toString();
 					}
 				}
 
@@ -277,8 +325,8 @@ public class ViewSessionReqPanel extends JPanel {
 				saveRequirement.setEnabled(true);
 				addRequirementToSession.setEnabled(false);
 				name.setEnabled(false);
-				editRequirementsSession = SessionStash.getInstance().getDefaultSession();
-
+				editRequirementsSession = SessionStash.getInstance()
+						.getDefaultSession();
 			}
 		});
 
@@ -287,6 +335,7 @@ public class ViewSessionReqPanel extends JPanel {
 		sessionReqTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				refreshMoveButtons();
 				JTable table = (JTable) e.getSource();
 				int row = table.getSelectedRow();
 
@@ -298,10 +347,12 @@ public class ViewSessionReqPanel extends JPanel {
 				} else {
 					for (int i = 0; i < 2; i = i + 1) {
 						if (i == 0) {
-							reqName = sessionReqTable.getModel().getValueAt(row, 0).toString();
+							reqName = sessionReqTable.getModel()
+									.getValueAt(row, 0).toString();
 						}
 						if (i == 1) {
-							reqDescription = sessionReqTable.getModel().getValueAt(row, 1).toString();
+							reqDescription = sessionReqTable.getModel()
+									.getValueAt(row, 1).toString();
 						}
 					}
 
@@ -320,10 +371,8 @@ public class ViewSessionReqPanel extends JPanel {
 		 */
 
 		parentPanel.addMouseListener(new MouseAdapter() {
-
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
 				allReqTable.clearSelection();
 				sessionReqTable.clearSelection();
 			}
@@ -417,6 +466,7 @@ public class ViewSessionReqPanel extends JPanel {
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		this.add(bottomPanel, c);
+		refreshMoveButtons();
 	}
 
 	/**

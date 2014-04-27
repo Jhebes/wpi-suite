@@ -70,6 +70,7 @@ public class MoveAllRequirementsToCurrentSessionController implements ActionList
 		this.view.getSessionReqTable().repaint();
 
 		view.validateActivateSession();
+		this.view.refreshMoveButtons();
 	}
 	
 	/*
