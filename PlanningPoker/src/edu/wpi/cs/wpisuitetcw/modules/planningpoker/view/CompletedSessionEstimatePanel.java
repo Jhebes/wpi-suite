@@ -146,7 +146,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 
 		btnFinalEstimate = new JButton("Submit Final Estimation");
 		btnFinalEstimate.setAlignmentX(Component.CENTER_ALIGNMENT);
-		// btnFinalEstimate.setEnabled(false);
+		btnFinalEstimate.setEnabled(false);
 
 		btnFinalEstimate.addActionListener(new ActionListener() {
 
