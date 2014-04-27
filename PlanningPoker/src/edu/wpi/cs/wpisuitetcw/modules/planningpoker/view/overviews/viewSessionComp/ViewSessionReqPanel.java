@@ -44,6 +44,9 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementP
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
+/**
+ * The panel for adding requirements to a session.
+ */
 public class ViewSessionReqPanel extends JPanel {
 	private final AddRequirementPanel parentPanel;
 	private final ScrollablePanel sessionReqPanel;

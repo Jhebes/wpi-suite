@@ -21,6 +21,9 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementP
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 
+/**
+ * Main class for controlling events that happen in our view.
+ */
 public class ViewEventManager {
 	private static ViewEventManager instance = null;
 	private MainView main;

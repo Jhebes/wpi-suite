@@ -15,8 +15,10 @@ import java.util.UUID;
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
+/**
+ * Represents by a user on a particular with a given value.
+ */
 public class PlanningPokerVote extends AbstractModel {
 
 	/** ID of the Vote */
