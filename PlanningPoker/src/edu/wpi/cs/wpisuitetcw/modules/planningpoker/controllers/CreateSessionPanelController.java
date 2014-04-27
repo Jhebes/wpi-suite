@@ -39,10 +39,10 @@ public class CreateSessionPanelController implements ItemListener {
 	public void itemStateChanged(ItemEvent e) {
 		// iCf the deadline checkbox is checked then enable the deadline selector
 		if (e.getStateChange() == ItemEvent.SELECTED)
-			this.view.enableDeadlineField();
+			view.enableDeadlineField();
 		// if the deadline checkbox is unchecked disable the deadline selector
 		else if (e.getStateChange() == ItemEvent.DESELECTED)
-			this.view.disableDeadlineField();
+			view.disableDeadlineField();
 
 	}
 }

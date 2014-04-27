@@ -33,7 +33,7 @@ public class CreateNewDeckController {
 	 * @param deckPanel A CreateNewDeckPanel that has the deck to be created
 	 */
 	public CreateNewDeckController(CreateDeckPanel deckPanel) {
-		this.view = deckPanel;
+		view = deckPanel;
 	}
 
 	/**
@@ -44,8 +44,8 @@ public class CreateNewDeckController {
 		// make sure all cards are validated
 		if (hasValidInputs()) {
 			// all inputs are good
-			final String deckName = this.view.getTextboxName().getText();
-			final List<Integer> cardValues = this.view.getAllCardsValue();
+			final String deckName = view.getTextboxName().getText();
+			final List<Integer> cardValues = view.getAllCardsValue();
 			final int maxSelection = view.getMaxSelectionCards();
 			final PlanningPokerDeck deck = new PlanningPokerDeck(deckName, cardValues, maxSelection);
 
@@ -61,7 +61,7 @@ public class CreateNewDeckController {
 
 		} else {
 			// inputs are not valid
-			this.view.repaint();
+			view.repaint();
 		}
 
 	}
@@ -74,7 +74,7 @@ public class CreateNewDeckController {
 	 */
 	private boolean hasValidInputs() {
 		final boolean areCardsValid = hasValidCardValues();
-		final boolean isNameEntered = this.view.isDeckNameEntered();
+		final boolean isNameEntered = view.isDeckNameEntered();
 		return areCardsValid && isNameEntered;
 	}
 
@@ -86,7 +86,7 @@ public class CreateNewDeckController {
 	private boolean hasValidCardValues() {
 		boolean isAllInputValid = true;
 
-		final Map<Integer, Card> cards = this.view.getCards();
+		final Map<Integer, Card> cards = view.getCards();
 		for (Card aCard : cards.values()) {
 			if (!aCard.hasValidCardValue()) {
 				aCard.setCardInvalid();

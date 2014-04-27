@@ -37,7 +37,7 @@ public class InitNewDeckPanelController implements ActionListener {
 	 * Store the given CreateSessionPanel 
 	 */
 	private InitNewDeckPanelController(CreateSessionPanel sessionPanel) {
-		this.view = sessionPanel;
+		view = sessionPanel;
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class InitNewDeckPanelController implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		try {
 			ViewEventManager.getInstance().getMainview()
-					.setSelectedComponent(this.deckPanel);
+					.setSelectedComponent(deckPanel);
 		} catch (IllegalArgumentException error) {
 			// this.deckPanel = new CreateNewDeckPanel();
 			ViewEventManager.getInstance().display(deckPanel,
@@ -75,10 +75,10 @@ public class InitNewDeckPanelController implements ActionListener {
 	 * go back to the create session panel
 	 */
 	public void removeDeckPanel() {
-		ViewEventManager.getInstance().removeTab(this.deckPanel);
-		this.deckPanel = null;
-		Logger.getLogger("PlanningPoker").log(Level.INFO, this.view.toString());
+		ViewEventManager.getInstance().removeTab(deckPanel);
+		deckPanel = null;
+		Logger.getLogger("PlanningPoker").log(Level.INFO, view.toString());
 		ViewEventManager.getInstance().getMainview()
-				.setSelectedComponent(this.view);
+				.setSelectedComponent(view);
 	}
 }

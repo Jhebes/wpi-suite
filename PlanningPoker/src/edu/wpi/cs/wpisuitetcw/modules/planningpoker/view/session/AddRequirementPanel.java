@@ -36,9 +36,9 @@ public class AddRequirementPanel extends JSplitPane {
 		final RequirementTableManager manager = new RequirementTableManager();
 		manager.fetch(session.getID());
 		this.session = session;
-		this.infoPanel = new ViewSessionInfoPanel(this, session);
-		this.buttonPanel = new ViewSessionBtnPanel(this);
-		this.pkgPanel = new ViewSessionReqPanel(this, session);
+		infoPanel = new ViewSessionInfoPanel(this, session);
+		buttonPanel = new ViewSessionBtnPanel(this);
+		pkgPanel = new ViewSessionReqPanel(this, session);
 
 		// set sub panels
 		final JSplitPane contentPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,

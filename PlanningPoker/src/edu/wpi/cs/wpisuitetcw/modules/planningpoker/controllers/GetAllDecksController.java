@@ -80,7 +80,7 @@ public class GetAllDecksController {
 
 		// make sure the decks is not null
 		if (decks != null) {
-			for (PlanningPokerDeck deck : this.decks) {
+			for (PlanningPokerDeck deck : decks) {
 				deckNames.add(deck.getDeckName());
 			}
 		}

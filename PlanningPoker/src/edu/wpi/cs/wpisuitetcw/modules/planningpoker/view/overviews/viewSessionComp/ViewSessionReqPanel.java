@@ -68,14 +68,14 @@ public class ViewSessionReqPanel extends JPanel {
 	 * @return this.name.getText() This requirement's name
 	 */
 	public String getNewReqName() {
-		return this.name.getText();
+		return name.getText();
 	}
 
 	/**
 	 * @return this.name.setText("") Clear this requirement's name
 	 */
 	public void clearNewReqName() {
-		this.name.setText("");
+		name.setText("");
 	}
 
 	/**
@@ -83,14 +83,14 @@ public class ViewSessionReqPanel extends JPanel {
 	 */
 	public String getNewReqDesc() {
 
-		return this.description.getText();
+		return description.getText();
 	}
 
 	/**
 	 * Sets the description to a default of an empty String
 	 */
 	public void clearNewReqDesc() {
-		this.description.setText("");
+		description.setText("");
 	}
 
 	/**
@@ -101,8 +101,8 @@ public class ViewSessionReqPanel extends JPanel {
 	 */
 	public List<String> getAllLeftRequirements() {
 		final List<String> selectedNames = new ArrayList<String>();
-		for (int i = 0; i < this.allReqTable.getRowCount(); ++i) {
-			selectedNames.add(this.allReqTable.getValueAt(i, 0).toString());
+		for (int i = 0; i < allReqTable.getRowCount(); ++i) {
+			selectedNames.add(allReqTable.getValueAt(i, 0).toString());
 		}
 		return selectedNames;
 	}
@@ -115,8 +115,8 @@ public class ViewSessionReqPanel extends JPanel {
 	 */
 	public List<String> getAllRightRequirements() {
 		final List<String> selectedNames = new ArrayList<String>();
-		for (int i = 0; i < this.sessionReqTable.getRowCount(); ++i) {
-			selectedNames.add(this.sessionReqTable.getValueAt(i, 0).toString());
+		for (int i = 0; i < sessionReqTable.getRowCount(); ++i) {
+			selectedNames.add(sessionReqTable.getValueAt(i, 0).toString());
 		}
 		return selectedNames;
 	}
@@ -128,12 +128,12 @@ public class ViewSessionReqPanel extends JPanel {
 	 *         requriements panel
 	 */
 	public List<String> getLeftSelectedRequirements() {
-		final int[] selectedRows = this.allReqTable.getSelectedRows();
+		final int[] selectedRows = allReqTable.getSelectedRows();
 
 		final List<String> selectedNames = new ArrayList<String>();
 		for (int i = 0; i < selectedRows.length; i++) {
 			// Get the 0th column which should be the name
-			selectedNames.add(this.allReqTable.getValueAt(selectedRows[i], 0)
+			selectedNames.add(allReqTable.getValueAt(selectedRows[i], 0)
 					.toString());
 		}
 		return selectedNames;
@@ -146,12 +146,12 @@ public class ViewSessionReqPanel extends JPanel {
 	 *         right requriements panel
 	 */
 	public List<String> getRightSelectedRequirements() {
-		final int[] selectedRows = this.sessionReqTable.getSelectedRows();
+		final int[] selectedRows = sessionReqTable.getSelectedRows();
 
 		final List<String> selectedNames = new ArrayList<String>();
 		for (int i = 0; i < selectedRows.length; i++) {
 			// Get the 0th column which should be the name
-			selectedNames.add(this.sessionReqTable.getValueAt(selectedRows[i],
+			selectedNames.add(sessionReqTable.getValueAt(selectedRows[i],
 					0).toString());
 		}
 		return selectedNames;
@@ -162,47 +162,47 @@ public class ViewSessionReqPanel extends JPanel {
 	 */
 	public void refreshMoveButtons() {
 		if (getRightSelectedRequirements().size() == 0) {
-			this.moveRequirementToAll.setEnabled(false);
+			moveRequirementToAll.setEnabled(false);
 		} else {
-			this.moveRequirementToAll.setEnabled(true);
+			moveRequirementToAll.setEnabled(true);
 		}
 
 		if (getLeftSelectedRequirements().size() == 0) {
-			this.moveRequirementToSession.setEnabled(false);
+			moveRequirementToSession.setEnabled(false);
 		} else {
-			this.moveRequirementToSession.setEnabled(true);
+			moveRequirementToSession.setEnabled(true);
 		}
 
 		if (getAllRightRequirements().size() == 0) {
-			this.moveAllRequirementsToAll.setEnabled(false);
+			moveAllRequirementsToAll.setEnabled(false);
 		} else {
-			this.moveAllRequirementsToAll.setEnabled(true);
+			moveAllRequirementsToAll.setEnabled(true);
 		}
 
 		if (getAllLeftRequirements().size() == 0) {
-			this.moveAllRequirementsToSession.setEnabled(false);
+			moveAllRequirementsToSession.setEnabled(false);
 		} else {
-			this.moveAllRequirementsToSession.setEnabled(true);
+			moveAllRequirementsToSession.setEnabled(true);
 		}
 
 	}
 
 	public ViewSessionReqPanel(AddRequirementPanel parentPanel,
 			PlanningPokerSession s) {
-		this.session = s;
+		session = s;
 		this.setLayout(new GridBagLayout());
 		this.parentPanel = parentPanel;
-		this.sessionReqPanel = new ScrollablePanel();
-		this.allReqPanel = new ScrollablePanel();
-		this.buttonsPanel = new JPanel();
-		this.description = new JTextArea("");
-		this.name = new JTextField("");
-		this.moveRequirementToAll = new JButton(" < ");
-		this.moveAllRequirementsToAll = new JButton(" << ");
-		this.moveRequirementToSession = new JButton(" > ");
-		this.moveAllRequirementsToSession = new JButton(" >> ");
-		this.addRequirementToSession = new JButton("Add Requirement to Session");
-		this.saveRequirement = new JButton("Save Requirement");
+		sessionReqPanel = new ScrollablePanel();
+		allReqPanel = new ScrollablePanel();
+		buttonsPanel = new JPanel();
+		description = new JTextArea("");
+		name = new JTextField("");
+		moveRequirementToAll = new JButton(" < ");
+		moveAllRequirementsToAll = new JButton(" << ");
+		moveRequirementToSession = new JButton(" > ");
+		moveAllRequirementsToSession = new JButton(" >> ");
+		addRequirementToSession = new JButton("Add Requirement to Session");
+		saveRequirement = new JButton("Save Requirement");
 		saveRequirement.setEnabled(false);
 		validateActivateSession();
 
@@ -242,7 +242,7 @@ public class ViewSessionReqPanel extends JPanel {
 		// table for left pane
 		// Right table
 		sessionReqTable = new JTable(
-				new RequirementTableManager().get(this.session.getID())) {
+				new RequirementTableManager().get(session.getID())) {
 			private static final long serialVersionUID = 2L;
 
 			public boolean isCellEditable(int row, int colunm) {
@@ -274,23 +274,23 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// Action Handlers
 		// need to change so it adds to the right side
-		this.addRequirementToSession
+		addRequirementToSession
 				.addActionListener(new AddRequirementToSessionController(this));
-		this.moveRequirementToSession
+		moveRequirementToSession
 				.addActionListener(new MoveRequirementToCurrentSessionController(
-						this.session, this));
-		this.moveRequirementToAll
+						session, this));
+		moveRequirementToAll
 				.addActionListener(new MoveRequirementToAllController(
-						this.session, this));
-		this.moveAllRequirementsToSession
+						session, this));
+		moveAllRequirementsToSession
 				.addActionListener(new MoveAllRequirementsToCurrentSessionController(
-						this.session, this));
-		this.moveAllRequirementsToAll
+						session, this));
+		moveAllRequirementsToAll
 				.addActionListener(new MoveAllRequirementsToAllController(
-						this.session, this));
-		this.saveRequirement
+						session, this));
+		saveRequirement
 				.addActionListener(new EditRequirementDescriptionController(
-						this.session, this));
+						session, this));
 
 		// this will populate the name and description field when clicking on a
 		// requirement in the all session table

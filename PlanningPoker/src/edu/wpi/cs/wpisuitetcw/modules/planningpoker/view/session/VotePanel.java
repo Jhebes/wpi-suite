@@ -234,7 +234,7 @@ public class VotePanel extends JPanel {
 		// ViewSessionTableManager and converts them to list
 		final List<String> testReqs = new ArrayList<String>();
 		final RequirementTableManager a = new RequirementTableManager();
-		final RequirementTableModel v = a.get(this.session.getID());
+		final RequirementTableModel v = a.get(session.getID());
 		final Vector vector = v.getDataVector();
 		for (int i = 0; i < vector.size(); ++i) {
 			testReqs.add((String) (((Vector) vector.elementAt(i)).elementAt(1)));
@@ -255,7 +255,7 @@ public class VotePanel extends JPanel {
 
 		// Create a submit vote button
 		submitVoteButton = new JButton(VOTE_BUTTON_LABEL);
-		submitVoteButton.addActionListener(new AddVoteController(this, this.session));
+		submitVoteButton.addActionListener(new AddVoteController(this, session));
 
 		// Create a JLabel holding the card selection mode
 		cardSelectionModeLabel = new JLabel();
@@ -427,7 +427,7 @@ public class VotePanel extends JPanel {
 		// Add the card panel or final estimation GUI
 		finalEstimatePnl = new CompletedSessionEstimatePanel(this);
 		finalEstimatePnl.setAlignmentX(Component.CENTER_ALIGNMENT);
-		if (this.session.isClosed()) {
+		if (session.isClosed()) {
 			rightPanel.add(finalEstimatePnl);
 		} else {
 			if (cardFrame != null) {
@@ -486,7 +486,7 @@ public class VotePanel extends JPanel {
 	 * @return vote parsed as an integer
 	 */
 	public int getVote() {
-		if (this.session.getDeck() == null) {
+		if (session.getDeck() == null) {
 			return Integer.parseInt(voteTextField.getText());
 		} else {
 			return cardPanel.getVoteValue();
@@ -517,7 +517,7 @@ public class VotePanel extends JPanel {
 	 * @param voteTextField
 	 */
 	public void setVoteTextFieldWithValue(int value) {
-		this.voteTextField.setText(Integer.toString(value));
+		voteTextField.setText(Integer.toString(value));
 	}
 	
 	/**

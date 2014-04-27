@@ -51,7 +51,7 @@ public class DisplayDeckPanel extends JPanel {
 	 */
 	public DisplayDeckPanel(PlanningPokerDeck deck,
 			VotePanel progressPanel) {
-		this.parentPanel = progressPanel;
+		parentPanel = progressPanel;
 		// setup panel
 		container = new JPanel();
 		cardPanel = new JPanel();

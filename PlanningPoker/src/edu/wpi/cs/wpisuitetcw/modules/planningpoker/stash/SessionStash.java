@@ -36,11 +36,11 @@ public class SessionStash {
 	}
 
 	public List<PlanningPokerSession> getSessions() {
-		return this.sessions;
+		return sessions;
 	}
 
 	public void addSession(PlanningPokerSession p) {
-		this.sessions.add(p);
+		sessions.add(p);
 	}
 
 	public void addSession(Iterable<PlanningPokerSession> p) {
@@ -50,11 +50,11 @@ public class SessionStash {
 	}
 
 	public void clear() {
-		this.sessions.clear();
+		sessions.clear();
 	}
 
 	public PlanningPokerSession getSessionByID(int id) {
-		for (PlanningPokerSession p : this.sessions) {
+		for (PlanningPokerSession p : sessions) {
 			if (p.getID() == id) {
 				return p;
 			}
@@ -63,14 +63,14 @@ public class SessionStash {
 	}
 
 	public void mergeFromServer(List<PlanningPokerSession> incomingSessions) {	
-		for (PlanningPokerSession s : this.sessions) {
+		for (PlanningPokerSession s : sessions) {
 			s.save();
 		}
 		
 		for (PlanningPokerSession s : incomingSessions) {
 			if (this.getSessionByID(s.getID()) == null) {
-				this.sessions.add(s);
-				if(this.initialized && s.getID() != 1){
+				sessions.add(s);
+				if(initialized && s.getID() != 1){
 					ViewEventManager.getInstance().viewSession(s);
 				}
 			}

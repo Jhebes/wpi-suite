@@ -75,7 +75,7 @@ public class Card extends JPanel {
 	/** Display a card and ability to notify parent panel */
 	public Card(CardDisplayMode mode, int value, DisplayDeckPanel deckPanel) {
 		this(mode, value);
-		this.parentPanel = deckPanel;
+		parentPanel = deckPanel;
 		if (mode.equals(CardDisplayMode.DISPLAY)) {
 			this.addSelectionListener(this);
 		}
@@ -92,7 +92,7 @@ public class Card extends JPanel {
 	/** for displaying a card */
 	public Card(CardDisplayMode mode, int value) {
 		this(mode);
-		this.cardValue = value;
+		cardValue = value;
 		this.displayCardValue();
 	}
 
@@ -104,7 +104,7 @@ public class Card extends JPanel {
 		try {
 			final Image img = ImageIO.read(getClass().getResource("new_card.png"));
 			final ImageIcon icon = new ImageIcon(img);
-			this.cardPicture = icon.getImage();
+			cardPicture = icon.getImage();
 		} catch (IOException e) {
 			Logger.getLogger("PlanningPoker").log(Level.INFO,
 					"Could not load the image for planning poker cards", e);
@@ -216,14 +216,14 @@ public class Card extends JPanel {
 	 * @return true if so, else otherwise
 	 */
 	public boolean hasValidCardValue() {
-		final String inputValue = this.txtboxValue.getText();
+		final String inputValue = txtboxValue.getText();
 
 		if (inputValue.equals("")) {
-			this.isValueValid = false;
+			isValueValid = false;
 			return false;
 		} else {
-			this.isValueValid = this.isPositiveInteger(inputValue);
-			return this.isValueValid;
+			isValueValid = this.isPositiveInteger(inputValue);
+			return isValueValid;
 		}
 	}
 
@@ -259,7 +259,7 @@ public class Card extends JPanel {
 	 */
 	public void setCardInvalid() {
 		this.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
-		this.labelError.setVisible(true);
+		labelError.setVisible(true);
 	}
 
 	/**
@@ -267,7 +267,7 @@ public class Card extends JPanel {
 	 */
 	public void setCardValid() {
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-		this.labelError.setVisible(false);
+		labelError.setVisible(false);
 	}
 
 	/**
@@ -282,7 +282,7 @@ public class Card extends JPanel {
 	 */
 	public void changeCardLayout() {
 		// toogle closebutton
-		closeButton.setVisible(this.isMouseovered);
+		closeButton.setVisible(isMouseovered);
 
 		// change the border of the card
 		if (isSelected) {
@@ -290,14 +290,14 @@ public class Card extends JPanel {
 			setCardSelected();
 		} else {
 			// card is not selected
-			if (this.isMouseovered) {
-				if (this.isValueValid) {
+			if (isMouseovered) {
+				if (isValueValid) {
 					this.setCardHighlighted();
 				} else {
 					this.setCardInvalid();
 				}
 			} else {
-				if (this.isValueValid) {
+				if (isValueValid) {
 					this.setCardValid();
 				} else {
 					this.setCardInvalid();
@@ -462,7 +462,7 @@ public class Card extends JPanel {
 	public int getValue() {
 		int value;
 		try {
-			value = Integer.parseInt(this.txtboxValue.getText());
+			value = Integer.parseInt(txtboxValue.getText());
 		} catch (NumberFormatException e) {
 			value = 0;
 		}
@@ -475,7 +475,7 @@ public class Card extends JPanel {
 	 * @return mode the card is on
 	 */
 	public CardDisplayMode getMode() {
-		return this.mode;
+		return mode;
 	}
 
 	/**

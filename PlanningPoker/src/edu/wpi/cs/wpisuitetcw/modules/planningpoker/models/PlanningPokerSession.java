@@ -126,7 +126,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public void activate() {
 		if (canBeActivated()) {
-			this.startTime = new Date();
+			startTime = new Date();
 			
 			String command = "sendEmail";
 			// Send email to everyone in a session
@@ -174,8 +174,8 @@ public class PlanningPokerSession extends AbstractModel {
 	 * then it would set the start time to null
 	 */
 	public void deactivate() {
-		if (!this.isCancelled && this.isActive()) {
-			this.startTime = null;
+		if (!isCancelled && this.isActive()) {
+			startTime = null;
 		}
 	}
 
@@ -183,7 +183,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * Closes a session without canceling it.
 	 */
 	public void close() {
-		this.endTime = new Date();
+		endTime = new Date();
 	}
 
 	/**
@@ -191,7 +191,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * the current time
 	 */
 	public void cancel() {
-		this.isCancelled = true;
+		isCancelled = true;
 	}
 
 	/**
@@ -341,7 +341,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 *            The date that the session should end
 	 */
 	public void setEndTime(Date d) {
-		this.endTime = d;
+		endTime = d;
 	}
 
 	/**
@@ -350,7 +350,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @return Returns true if this session has been prematurely terminated
 	 */
 	public boolean isCancelled() {
-		return this.isCancelled;
+		return isCancelled;
 	}
 
 	/**
@@ -359,7 +359,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @return Returns true it is open to voting in the meantime
 	 */
 	public boolean isActive() {
-		return this.startTime != null;
+		return startTime != null;
 	}
 
 	/**
@@ -377,7 +377,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @return Name of this session
 	 */
 	public String getName() {
-		return this.name;
+		return name;
 	}
 
 	/**
@@ -386,7 +386,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @return users in this session
 	 */
 	public List<User> getUsers() {
-		return this.users;
+		return users;
 	}
 
 	/**
@@ -395,7 +395,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * the session's username
 	 */
 	public void setOwnerUserName(String userName) {
-		this.ownerUserName = userName;
+		ownerUserName = userName;
 	}
 
 	/**
@@ -403,7 +403,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 
 	public String getOwnerUserName() {
-		return this.ownerUserName;
+		return ownerUserName;
 	}
 
 	/**
@@ -418,7 +418,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @return The Session ID
 	 */
 	public int getID() {
-		return this.id;
+		return id;
 	}
 
 	public int getNumVotes(PlanningPokerRequirement req) {
@@ -495,7 +495,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 
 	public boolean isVotingComplete() {
-		return this.votingComplete;
+		return votingComplete;
 	}
 
 	/**
@@ -548,7 +548,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @return The end time
 	 */
 	public Date getEndTime() {
-		return this.endTime;
+		return endTime;
 	}
 
 	/*
@@ -556,7 +556,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	@Override
 	public String toString() {
-		return this.name;
+		return name;
 	}
 
 	/**
@@ -605,13 +605,13 @@ public class PlanningPokerSession extends AbstractModel {
 	 * data would be copied to the calling PlanningPokerSession object
 	 */
 	public void copyFrom(PlanningPokerSession updatedSession) {
-		this.isCancelled = updatedSession.isCancelled;
-		this.startTime = updatedSession.startTime;
-		this.endTime = updatedSession.endTime;
-		this.deadline = updatedSession.deadline;
-		this.name = updatedSession.name;
-		this.description = updatedSession.description;
-		this.requirements = updatedSession.requirements;
+		isCancelled = updatedSession.isCancelled;
+		startTime = updatedSession.startTime;
+		endTime = updatedSession.endTime;
+		deadline = updatedSession.deadline;
+		name = updatedSession.name;
+		description = updatedSession.description;
+		requirements = updatedSession.requirements;
 	}
 
 	/**

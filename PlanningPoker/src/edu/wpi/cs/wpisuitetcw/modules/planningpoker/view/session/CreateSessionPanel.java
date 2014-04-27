@@ -164,10 +164,10 @@ public class CreateSessionPanel extends JPanel {
 		this();
 
 		// Display the name and description of a created session
-		this.nameTextField.setText(session.getName());
-		this.nameTextField.setEnabled(false);
-		this.descriptionBox.setText(session.getDescription());
-		this.descriptionBox.setEnabled(false);
+		nameTextField.setText(session.getName());
+		nameTextField.setEnabled(false);
+		descriptionBox.setText(session.getDescription());
+		descriptionBox.setEnabled(false);
 	}
 
 	/**
@@ -214,7 +214,7 @@ public class CreateSessionPanel extends JPanel {
 	 * @return description label
 	 */
 	public JLabel getLabelDescriptionBox() {
-		return this.labelDescriptionBox;
+		return labelDescriptionBox;
 	}
 
 	/**
@@ -225,7 +225,7 @@ public class CreateSessionPanel extends JPanel {
 	public Date getDeadline() {
 		// checks to see if the deadline picker is enabled, if it is return a
 		// deadline.
-		if (this.deadlinePicker.isEnabled()) {
+		if (deadlinePicker.isEnabled()) {
 			final Date date = deadlinePicker.getDate();
 			final Date time = (Date) pickerDeadlineTime.getValue();
 			final Calendar calendar1 = new GregorianCalendar();
@@ -254,7 +254,7 @@ public class CreateSessionPanel extends JPanel {
 	 * determine what mode the deck panel is in
 	 */
 	public boolean isInCreateMode() {
-		return this.mode.equals(CardDisplayMode.CREATE);
+		return mode.equals(CardDisplayMode.CREATE);
 	}
 
 	/**
@@ -263,7 +263,7 @@ public class CreateSessionPanel extends JPanel {
 	 * @return Return true if the deck panel is in display mode
 	 */
 	public boolean isInDisplayMode() {
-		return this.mode.equals(CardDisplayMode.DISPLAY);
+		return mode.equals(CardDisplayMode.DISPLAY);
 	}
 
 	/**
@@ -272,7 +272,7 @@ public class CreateSessionPanel extends JPanel {
 	 * @return Return true if the deck panel is in no deck mode
 	 */
 	public boolean isInNoDeckMode() {
-		return this.mode.equals(CardDisplayMode.NO_DECK);
+		return mode.equals(CardDisplayMode.NO_DECK);
 	}
 
 	/**
@@ -282,7 +282,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	public boolean hasAllValidInputs() {
 		// new deck is being created
-		if (this.mode.equals(CardDisplayMode.CREATE)) {
+		if (mode.equals(CardDisplayMode.CREATE)) {
 			// validate session and deck input
 			final boolean isDeckValid = hasValidDeckInputs();
 			final boolean isSessionValide = hasValidSessionInputs();
@@ -317,7 +317,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private boolean hasValidDeckInputs() {
 		final boolean areCardsValid = hasValidCardValues();
-		final boolean isNameEntered = this.deckPanel.isDeckNameEntered();
+		final boolean isNameEntered = deckPanel.isDeckNameEntered();
 		return areCardsValid && isNameEntered;
 	}
 
@@ -329,7 +329,7 @@ public class CreateSessionPanel extends JPanel {
 	private boolean hasValidCardValues() {
 		boolean isAllInputValid = true;
 
-		final Map<Integer, Card> cards = this.deckPanel.getCards();
+		final Map<Integer, Card> cards = deckPanel.getCards();
 
 		// check if the deck contains any card
 		if (cards.size() == 0) {
@@ -354,7 +354,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private boolean isSessionNameEntered() {
 		// textbox for session name
-		if (this.nameTextField.getText().equals("")) {
+		if (nameTextField.getText().equals("")) {
 			return false;
 		} else {
 			return true;
@@ -368,7 +368,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private boolean isSessionDescriptionEntered() {
 		// textarea for session description
-		if (this.descriptionBox.getText().equals("")) {
+		if (descriptionBox.getText().equals("")) {
 			return false;
 		} else {
 			return true;
@@ -390,7 +390,7 @@ public class CreateSessionPanel extends JPanel {
 	 * @return the name JLabel
 	 */
 	public JLabel getLabelName() {
-		return this.labelName;
+		return labelName;
 	}
 
 	/**
@@ -468,8 +468,8 @@ public class CreateSessionPanel extends JPanel {
 	 * Enable the deadline picker and fill in the place holder
 	 */
 	public void enableDeadlineField() {
-		this.deadlinePicker.setEnabled(true);
-		this.pickerDeadlineTime.setEnabled(true);
+		deadlinePicker.setEnabled(true);
+		pickerDeadlineTime.setEnabled(true);
 		checkSessionValidation();
 	}
 
@@ -477,8 +477,8 @@ public class CreateSessionPanel extends JPanel {
 	 * Disable the deadline picker and remote the data
 	 */
 	public void disableDeadlineField() {
-		this.deadlinePicker.setEnabled(false);
-		this.pickerDeadlineTime.setEnabled(false);
+		deadlinePicker.setEnabled(false);
+		pickerDeadlineTime.setEnabled(false);
 		labelDeadlineErr.setVisible(false);
 	}
 
@@ -769,7 +769,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private void createNewDeck() {
 		// new deck panel for creating a deck of cards
-		this.deckPanel = new CreateDeckPanel(CardDisplayMode.CREATE, this);
+		deckPanel = new CreateDeckPanel(CardDisplayMode.CREATE, this);
 
 		setupEntirePanel();
 		updateUI();
@@ -783,8 +783,8 @@ public class CreateSessionPanel extends JPanel {
 	 * @throws WPISuiteException
 	 */
 	private void displayDeck(String deckName) throws WPISuiteException {
-		this.deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
-		this.deckPanel.displayDeck(deckName);
+		deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
+		deckPanel.displayDeck(deckName);
 
 		setupEntirePanel();
 		updateUI();
@@ -795,8 +795,8 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private void displayDefaultDeck() {
 		// Use display mode since the default deck is displayed by default
-		this.deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
-		this.deckPanel.displayDefaultDeck();
+		deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
+		deckPanel.displayDefaultDeck();
 
 		setupEntirePanel();
 		updateUI();
@@ -806,7 +806,7 @@ public class CreateSessionPanel extends JPanel {
 	 * display no card on the deck panel
 	 */
 	public void displayNoDeck() {
-		this.deckPanel = new CreateDeckPanel(CardDisplayMode.NO_DECK);
+		deckPanel = new CreateDeckPanel(CardDisplayMode.NO_DECK);
 
 		setupEntirePanel();
 		updateUI();
@@ -838,7 +838,7 @@ public class CreateSessionPanel extends JPanel {
 	 * @return deck panel
 	 */
 	public CreateDeckPanel getDeckPanel() {
-		return this.deckPanel;
+		return deckPanel;
 	}
 
 	/**

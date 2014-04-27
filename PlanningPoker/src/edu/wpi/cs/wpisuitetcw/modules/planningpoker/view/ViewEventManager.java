@@ -146,7 +146,7 @@ public class ViewEventManager {
 	 * return the main view
 	 */
 	public MainView getMainview() {
-		return this.main;
+		return main;
 	}
 
 	/**
@@ -179,10 +179,10 @@ public class ViewEventManager {
 	 */
 	public void removeTab(JComponent component) {
 		if (component instanceof AddRequirementPanel) {
-			this.viewSessionPanels.remove(component);
+			viewSessionPanels.remove(component);
 		}
 		if (component instanceof VotePanel) {
-			this.inProgressSessionPanels.remove(component);
+			inProgressSessionPanels.remove(component);
 		}
 		
 		main.remove(component);
@@ -195,14 +195,14 @@ public class ViewEventManager {
 	 * return whether a welcome page is on display
 	 */
 	public boolean isWelcomePageOnDisplay() {
-		return this.isWelcomePageOnDisplay;
+		return isWelcomePageOnDisplay;
 	}
 
 	/**
 	 * show table and remove the welcome page
 	 */
 	public void showSessionTable() {
-		this.overviewPanel.showSessionTable();
+		overviewPanel.showSessionTable();
 	}
 
 	/**
@@ -216,7 +216,7 @@ public class ViewEventManager {
 	 * update the contents on overview panel
 	 */
 	public void refreshOverviewPanel() {
-		this.overviewPanel.updateUI();
+		overviewPanel.updateUI();
 	}
 
 	/**
@@ -232,7 +232,7 @@ public class ViewEventManager {
 	 * @return tree panel
 	 */
 	public OverviewTreePanel getOverviewTreePanel() {
-		return this.overviewTreePanel;
+		return overviewTreePanel;
 	}
 
 }
