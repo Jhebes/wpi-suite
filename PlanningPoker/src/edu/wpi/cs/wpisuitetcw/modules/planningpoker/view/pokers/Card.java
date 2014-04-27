@@ -38,26 +38,44 @@ import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
 
 /**
- * 
+ * A card is a GUI component that imitates a real card.
  */
 public class Card extends JPanel {
 	private static final long serialVersionUID = 8830282477028926730L;
-	// constants
-	private final String ERROR_MSG = "<html><font color='red'>Positive integer only</font></html>";
+
+	// VVVVVVVVVVVVVVVVVVVVVVVV Constants VVVVVVVVVVVVVVVVVVVVVVVVVVVV
+	private final String ERROR_MSG = 
+			"<html><font color='red'>Positive integer only</font></html>";
 	private final String BUTTON_TEXT = "\u2716";
 	private final Dimension CARD_DIMENSION = new Dimension(146, 194);
-
-	private final JTextField txtboxValue;
-	private final JLabel labelError;
-	private final JButton closeButton;
-	private boolean isValueValid;
-	private boolean isMouseovered;
-
+	
+	// VVVVVVVVVVVVVVVVVVVVVV GUI components VVVVVVVVVVVVVVVVVVVVVVVVV
+	/** A container holding all the GUI components of the card */
 	private JPanel container;
-
+	
+	/** A picture of the card */
 	private Image cardPicture = null;
 
-	/** card value */
+	/** A text box to enter a value of a card in */
+	private final JTextField txtboxValue;
+	
+	/** An error label to inform invalid value */
+	private final JLabel labelError;
+	
+	/** A button to delete the card */
+	private final JButton closeButton;
+	
+	// VVVVVVVVVVVVVVVVVVVVVVVVVV DATA VVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+	/** A flag determining the validity of the value in text box*/
+	private boolean isValueValid;
+	
+	/** A flag determining if a mouse is hovering the card */
+	private boolean isMouseovered;
+
+	/** A flag determining if card is selected or not */
+	private boolean isSelected;
+	
+	/** Card value */
 	private int cardValue;
 
 	/** Display mode for the card */
@@ -66,27 +84,39 @@ public class Card extends JPanel {
 	/** Parent panel that contains the card */
 	private DisplayDeckPanel parentPanel;
 
-	/** card is selected or not */
-	private boolean isSelected;
-
-	/** Display a card and ability to notify parent panel */
+	/** 
+	 * Construct a card 
+	 * 
+	 * @param mode A CardDisplayMode (Create/Display)
+	 * @param value An integer representing value of the card
+	 * @param deckPanel A DisplayDeckPanel exhibits this card
+	 */
 	public Card(CardDisplayMode mode, int value, DisplayDeckPanel deckPanel) {
 		this(mode, value);
 		this.parentPanel = deckPanel;
 		if (mode.equals(CardDisplayMode.DISPLAY)) {
-			// TODO add action listener for selecting the value of the card
 			this.addSelectionListener(this);
 		}
 	}
 
-	/** for displaying a card */
+	/**
+	 * Construct a card
+	 * 
+	 * @param mode A CardDisplayMode (Create/Display)
+	 * @param value An integer representing value of the card
+	 */
 	public Card(CardDisplayMode mode, int value) {
 		this(mode);
 		this.cardValue = value;
 		txtboxValue.setText(value + "");
 		this.displayCardValue();
 	}
-
+	
+	/** 
+	 * Construct a card 
+	 * 
+	 * @param mode A CardDisplayMode (Create/Display)
+	 */
 	public Card(CardDisplayMode mode) {
 		// display mode for the card
 		this.mode = mode;
