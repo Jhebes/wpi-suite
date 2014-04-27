@@ -11,9 +11,8 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.requirementmanagerrequirements;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -46,7 +45,7 @@ public class GetAllRequirementsRequestObserver implements RequestObserver {
 		if (requirements == null) {
 			requirements = new Requirement[0];
 		}
-		final ArrayList<Requirement> returnedReqs = new ArrayList<Requirement>();
+		final List<Requirement> returnedReqs = new ArrayList<Requirement>();
 		for(Requirement r : requirements){
 			if(r.getIteration().equals("Backlog")){
 				returnedReqs.add(r);

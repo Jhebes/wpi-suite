@@ -39,7 +39,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	private static final long serialVersionUID = 1L;
 	private JTree tree;
 	private boolean initialized = false;
-	private ArrayList<PlanningPokerSession> sessions = null;
+	private List<PlanningPokerSession> sessions = null;
 
 	public OverviewTreePanel() {
 		this.setViewportView(tree);

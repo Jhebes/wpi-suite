@@ -10,8 +10,8 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,7 +40,7 @@ public class RequirementTableManager {
 	}
 
 	public void refreshRequirements(int i,
-			ArrayList<PlanningPokerRequirement> requirements) {
+			List<PlanningPokerRequirement> requirements) {
 		RequirementTableModel a = RequirementTableManager.t.get(i);
 		if (a == null) {
 			Logger.getLogger("PlanningPoker").log(Level.INFO, "Not present, building");
@@ -54,7 +54,7 @@ public class RequirementTableManager {
 
 	public void fetch(int i) {
 		Logger.getLogger("PlanningPoker").log(Level.INFO, "Fetching session details for session " + i);
-		final ArrayList<PlanningPokerRequirement> reqs = SessionStash.getInstance()
+		final List<PlanningPokerRequirement> reqs = SessionStash.getInstance()
 				.getSessionByID(i).getRequirements();
 		this.refreshRequirements(i, reqs);
 	}

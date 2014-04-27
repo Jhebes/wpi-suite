@@ -22,7 +22,7 @@ import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
 
 public class PlanningPoker implements IJanewayModule {
-	private ArrayList<JanewayTabModel> tabs;
+	private List<JanewayTabModel> tabs;
 
 	public PlanningPoker() {
 		tabs = new ArrayList<JanewayTabModel>();

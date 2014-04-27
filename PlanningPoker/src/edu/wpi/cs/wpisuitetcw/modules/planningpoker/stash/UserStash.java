@@ -11,6 +11,7 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.user.GetAllUsersController;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -23,7 +24,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public class UserStash {
 
 	private static UserStash self = null;
-	private ArrayList<User> users = new ArrayList<User>();
+	private List<User> users = new ArrayList<User>();
 
 	/**
 	 * This is a singleton
@@ -41,7 +42,7 @@ public class UserStash {
 	 * 
 	 * @return All users stored locally
 	 */
-	public ArrayList<User> getUsers() {
+	public List<User> getUsers() {
 		return this.users;
 	}
 

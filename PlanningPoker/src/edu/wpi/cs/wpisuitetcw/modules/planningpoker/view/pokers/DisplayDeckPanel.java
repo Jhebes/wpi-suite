@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -40,7 +41,7 @@ public class DisplayDeckPanel extends JPanel {
 	private VotePanel parentPanel;
 
 	/** cards that are highlighted */
-	private ArrayList<Card> cards = new ArrayList<Card>();
+	private List<Card> cards = new ArrayList<Card>();
 
 	// vote value for the deck
 	private int voteValue = 0;

@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -29,10 +30,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
-import javax.swing.ListModel;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.EditActivatedSessionController;
@@ -188,7 +185,7 @@ public class VotePanel extends JPanel {
 			private void endSession() {
 				session.close();
 				session.save();
-				final ArrayList<PlanningPokerRequirement> reqList = session.getRequirements();
+				final List<PlanningPokerRequirement> reqList = session.getRequirements();
 				for (PlanningPokerRequirement ppr : reqList) {
 					int count = 0;
 					int total = 0;
@@ -235,7 +232,7 @@ public class VotePanel extends JPanel {
 
 		// Extract the requirements from the table provided by
 		// ViewSessionTableManager and converts them to list
-		final ArrayList<String> testReqs = new ArrayList<String>();
+		final List<String> testReqs = new ArrayList<String>();
 		final RequirementTableManager a = new RequirementTableManager();
 		final RequirementTableModel v = a.get(this.session.getID());
 		final Vector vector = v.getDataVector();
@@ -293,7 +290,7 @@ public class VotePanel extends JPanel {
 		leftPanelLabel = new JLabel(LEFT_PANEL_LABEL);
 
 		// TODO: sleep
-		final ArrayList<PlanningPokerRequirement> reqs = session.getRequirements();
+		final List<PlanningPokerRequirement> reqs = session.getRequirements();
 		final DefaultListModel<PlanningPokerRequirement> requirementModel = 
 				new DefaultListModel<PlanningPokerRequirement>();
 		for (PlanningPokerRequirement ppr : reqs) {

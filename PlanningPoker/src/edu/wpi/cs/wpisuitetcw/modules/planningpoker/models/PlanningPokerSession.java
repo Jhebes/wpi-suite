@@ -53,10 +53,10 @@ public class PlanningPokerSession extends AbstractModel {
 	private Date endTime = null;
 
 	/** List of requirements associated this session */
-	private ArrayList<PlanningPokerRequirement> requirements;
+	private List<PlanningPokerRequirement> requirements;
 
 	/** List of users in the session */
-	private ArrayList<User> users;
+	private List<User> users;
 
 	/** The deck to be used for this session */
 	private PlanningPokerDeck deck;
@@ -275,7 +275,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @param newUsers
 	 *            New users to be added
 	 */
-	public void addUsers(ArrayList<User> newUsers) {
+	public void addUsers(List<User> newUsers) {
 		users.addAll(newUsers);
 	}
 
@@ -295,7 +295,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @param newUsers
 	 *            The users to delete
 	 */
-	public void deleteUsers(ArrayList<User> newUsers) {
+	public void deleteUsers(List<User> newUsers) {
 		requirements.removeAll(newUsers);
 	}
 
@@ -385,7 +385,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * 
 	 * @return users in this session
 	 */
-	public ArrayList<User> getUsers() {
+	public List<User> getUsers() {
 		return this.users;
 	}
 
@@ -477,7 +477,7 @@ public class PlanningPokerSession extends AbstractModel {
 	/**
 	 * @return The list of requirements associated with his session.
 	 */
-	public ArrayList<PlanningPokerRequirement> getRequirements() {
+	public List<PlanningPokerRequirement> getRequirements() {
 		return requirements;
 	}
 
@@ -485,7 +485,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @param requirements
 	 *            The new list of requirements.
 	 */
-	public void setRequirements(ArrayList<PlanningPokerRequirement> requirements) {
+	public void setRequirements(List<PlanningPokerRequirement> requirements) {
 		this.requirements = requirements;
 	}
 

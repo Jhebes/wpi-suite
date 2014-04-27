@@ -24,7 +24,7 @@ public class SessionStash {
 
 	private boolean initialized = false;
 	private static SessionStash self = null;
-	private ArrayList<PlanningPokerSession> sessions = new ArrayList<PlanningPokerSession>();
+	private List<PlanningPokerSession> sessions = new ArrayList<PlanningPokerSession>();
 
 	
 
@@ -35,7 +35,7 @@ public class SessionStash {
 		return self;
 	}
 
-	public ArrayList<PlanningPokerSession> getSessions() {
+	public List<PlanningPokerSession> getSessions() {
 		return this.sessions;
 	}
 

@@ -323,8 +323,8 @@ public class CreateDeckPanel extends JPanel {
 	 * 
 	 * @return an array list with the card values user enters
 	 */
-	public ArrayList<Integer> getNewDeckValues() {
-		final ArrayList<Integer> cardValues = new ArrayList<Integer>();
+	public List<Integer> getNewDeckValues() {
+		final List<Integer> cardValues = new ArrayList<Integer>();
 		final Map<Integer, Card> map = this.cards;
 		for (Card aCard : map.values()) {
 			cardValues.add(Integer.parseInt(aCard.getTxtboxValue().getText()));
@@ -478,7 +478,7 @@ public class CreateDeckPanel extends JPanel {
 	/**
 	 * @return a hashmap of cards
 	 */
-	public HashMap<Integer, Card> getCards() {
+	public Map<Integer, Card> getCards() {
 		return cards;
 	}
 

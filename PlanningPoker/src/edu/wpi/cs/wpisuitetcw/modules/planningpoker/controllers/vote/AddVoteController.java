@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -71,7 +72,7 @@ public class AddVoteController implements ActionListener {
 		}
 
 		// checking list of votes to see if user has already voted
-		final ArrayList<PlanningPokerVote> toRemove = new ArrayList<PlanningPokerVote>();
+		final List<PlanningPokerVote> toRemove = new ArrayList<PlanningPokerVote>();
 
 		System.out.print("Requesting user is: ");
 		final Configuration c = ConfigManager.getConfig();

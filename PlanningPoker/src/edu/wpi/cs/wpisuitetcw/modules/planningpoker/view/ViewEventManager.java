@@ -10,6 +10,7 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JComponent;
 
@@ -27,8 +28,8 @@ public class ViewEventManager {
 	private OverviewTreePanel overviewTreePanel;
 	private ToolbarView toolbarView;
 	private boolean isWelcomePageOnDisplay = true;
-	private ArrayList<AddRequirementPanel> viewSessionPanels = new ArrayList<AddRequirementPanel>();
-	private ArrayList<VotePanel> inProgressSessionPanels = new ArrayList<VotePanel>();
+	private List<AddRequirementPanel> viewSessionPanels = new ArrayList<AddRequirementPanel>();
+	private List<VotePanel> inProgressSessionPanels = new ArrayList<VotePanel>();
 
 	/**
 	 * Default constructor for ViewEventController. It is set to private to

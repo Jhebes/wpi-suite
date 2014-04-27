@@ -62,9 +62,9 @@ public class GetAllDecksController {
 	 * of the available decks in the database
 	 * @throws InterruptedException
 	 */
-	public ArrayList<String> getAllDeckNames() {
+	public List<String> getAllDeckNames() {
 		this.refreshDecks(); // set up the deck
-		final ArrayList<String> deckNames = new ArrayList<String>();
+		final List<String> deckNames = new ArrayList<String>();
 
 		// delay the this process since the request fired in refreshDecks()
 		// might not be completed

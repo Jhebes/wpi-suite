@@ -11,6 +11,7 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -55,7 +56,7 @@ public class SMSNotifier extends BaseNotifier {
 
 		final RestAPI api = new RestAPI(authId, authToken, "v1");
 
-		final LinkedHashMap<String, String> parameters = new LinkedHashMap<String, String>();
+		final Map<String, String> parameters = new LinkedHashMap<String, String>();
 		parameters.put("src", src);
 		parameters.put("dst", recipient);
 		parameters.put("text", message);
@@ -63,7 +64,7 @@ public class SMSNotifier extends BaseNotifier {
 
 		final Logger logger = Logger.getLogger("PlanningPoker");
 		try {
-			final MessageResponse msgResponse = api.sendMessage(parameters);
+			final MessageResponse msgResponse = api.sendMessage((LinkedHashMap<String, String>) parameters);
 			logger.log(Level.INFO, msgResponse.apiId);
 			if (msgResponse.serverCode == 202) {
 				logger.log(Level.INFO, msgResponse.messageUuids.get(0).toString());

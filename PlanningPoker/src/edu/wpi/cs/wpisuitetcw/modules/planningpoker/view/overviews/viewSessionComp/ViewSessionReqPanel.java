@@ -21,6 +21,7 @@ import java.awt.Panel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -98,8 +99,8 @@ public class ViewSessionReqPanel extends JPanel {
 	 * @return selectedNames The ArrayList<String> of names on the left
 	 *         requriements panel
 	 */
-	public ArrayList<String> getAllLeftRequirements() {
-		final ArrayList<String> selectedNames = new ArrayList<String>();
+	public List<String> getAllLeftRequirements() {
+		final List<String> selectedNames = new ArrayList<String>();
 		for (int i = 0; i < this.allReqTable.getRowCount(); ++i) {
 			selectedNames.add(this.allReqTable.getValueAt(i, 0).toString());
 		}
@@ -112,8 +113,8 @@ public class ViewSessionReqPanel extends JPanel {
 	 * @return selectedNames The ArrayList<String> of names on the right
 	 *         requriements panel
 	 */
-	public ArrayList<String> getAllRightRequirements() {
-		final ArrayList<String> selectedNames = new ArrayList<String>();
+	public List<String> getAllRightRequirements() {
+		final List<String> selectedNames = new ArrayList<String>();
 		for (int i = 0; i < this.sessionReqTable.getRowCount(); ++i) {
 			selectedNames.add(this.sessionReqTable.getValueAt(i, 0).toString());
 		}
@@ -126,10 +127,10 @@ public class ViewSessionReqPanel extends JPanel {
 	 * @return selectedNames The ArrayList<String> of names on the left
 	 *         requriements panel
 	 */
-	public ArrayList<String> getLeftSelectedRequirements() {
+	public List<String> getLeftSelectedRequirements() {
 		final int[] selectedRows = this.allReqTable.getSelectedRows();
 
-		final ArrayList<String> selectedNames = new ArrayList<String>();
+		final List<String> selectedNames = new ArrayList<String>();
 		for (int i = 0; i < selectedRows.length; i++) {
 			// Get the 0th column which should be the name
 			selectedNames.add(this.allReqTable.getValueAt(selectedRows[i], 0)
@@ -144,10 +145,10 @@ public class ViewSessionReqPanel extends JPanel {
 	 * @return selectedNames The ArrayList<String> of selected names on the
 	 *         right requriements panel
 	 */
-	public ArrayList<String> getRightSelectedRequirements() {
+	public List<String> getRightSelectedRequirements() {
 		final int[] selectedRows = this.sessionReqTable.getSelectedRows();
 
-		final ArrayList<String> selectedNames = new ArrayList<String>();
+		final List<String> selectedNames = new ArrayList<String>();
 		for (int i = 0; i < selectedRows.length; i++) {
 			// Get the 0th column which should be the name
 			selectedNames.add(this.sessionReqTable.getValueAt(selectedRows[i],
