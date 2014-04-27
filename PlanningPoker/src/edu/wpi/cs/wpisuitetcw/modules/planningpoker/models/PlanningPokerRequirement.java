@@ -47,10 +47,6 @@ public class PlanningPokerRequirement extends AbstractModel {
 	/** Total number of votes for this requirement */
 	private int totalVotes;
 
-	private int mean;
-	private int median;
-	private int mode;
-
 	/**
 	 * Construct a Planning poker requirement with no data
 	 */
@@ -279,9 +275,12 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 *            calling PlanningPokerRequirement object
 	 */
 	public void copyFrom(PlanningPokerRequirement updatedRequirement) {
-		this.innerRequirement = updatedRequirement.innerRequirement;
-		this.sessionID = updatedRequirement.sessionID;
-		this.votes = updatedRequirement.votes;
+		id = updatedRequirement.id;
+		innerRequirement = updatedRequirement.innerRequirement;
+		sessionID = updatedRequirement.sessionID;
+		votes = updatedRequirement.votes;
+		finalEstimate = updatedRequirement.finalEstimate;
+		totalVotes = updatedRequirement.totalVotes;
 	}
 
 	/**
