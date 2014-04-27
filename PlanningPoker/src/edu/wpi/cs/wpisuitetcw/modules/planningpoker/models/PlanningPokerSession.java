@@ -53,10 +53,10 @@ public class PlanningPokerSession extends AbstractModel {
 	private Date endTime = null;
 
 	/** List of requirements associated this session */
-	private ArrayList<PlanningPokerRequirement> requirements;
+	private List<PlanningPokerRequirement> requirements;
 
 	/** List of users in the session */
-	private ArrayList<User> users;
+	private List<User> users;
 
 	/** The deck to be used for this session */
 	private PlanningPokerDeck deck;
@@ -106,54 +106,65 @@ public class PlanningPokerSession extends AbstractModel {
 	public boolean isOpen() {
 		return isActive() && !isClosed();
 	}
+	
+	/**
+	 * A session can be activated if it meets the following conditions: 
+	 * <ul>
+	 * 	<li>It isn't active currently</li> 
+	 * 	<li>It isn't canceled</li>
+	 *  <li>It must have at least one requirement</li>
+	 * </ul>
+	 * @return Whether the session can be activated
+	 */
+	public boolean canBeActivated() {
+		return !isCancelled && !isActive() && requirements.size() > 0;
+	}
 
 	/**
-	 * Activate the session if it meets the following conditions: 
-	 * - It isn't active currently 
-	 * - It isn't canceled 
-	 * - It must have at least one requirement (Temporarily not included)
+	 * Activate the sessions a session if it meets all the criteria 
+	 * specified in {@link #canBeActivated() canBeActivated} method.
 	 */
 	public void activate() {
-		if (!this.isCancelled && !this.isActive()) {
+		if (canBeActivated()) {
 			this.startTime = new Date();
-		}
-
-		String command = "sendEmail";
-		// Send email to everyone in a session
-		if (this.getUsers() != null) {
-			for (User user : this.getUsers()) {
-				String sendTo = user.getEmail();
-				if (!sendTo.equals("")) {
-					SendNotificationController.sendNotification("start",
-							sendTo, this.getDeadline(), command);
-				} else {
-					SendNotificationController.sendNotification("start",
-							"teamcombatwombat@gmail.com",
-							this.getDeadline(), command);
+			
+			String command = "sendEmail";
+			// Send email to everyone in a session
+			if (this.getUsers() != null) {
+				for (User user : this.getUsers()) {
+					String sendTo = user.getEmail();
+					if (!sendTo.equals("")) {
+						SendNotificationController.sendNotification("start",
+								sendTo, this.getDeadline(), command);
+					} else {
+						SendNotificationController.sendNotification("start",
+								"teamcombatwombat@gmail.com",
+								this.getDeadline(), command);
+					}
 				}
+			} else {
+				SendNotificationController.sendNotification("start",
+						"teamcombatwombat@gmail.com", this.getDeadline(),
+						command);
 			}
-		} else {
-			SendNotificationController.sendNotification("start",
-					"teamcombatwombat@gmail.com", this.getDeadline(),
-					command);
-		}
 
-		// Send SMS to everyone in a session
-		command = "sendSMS";
-		if (this.getUsers() != null) {
-			for (User user : this.getUsers()) {
-				String sendTo = user.getSMS();
-				if (!sendTo.equals("")) {
-					SendNotificationController.sendNotification("start",
-							sendTo, this.getDeadline(), command);
-				} else {
-					SendNotificationController.sendNotification("start",
-							"15189662284", this.getDeadline(), command);
+			// Send SMS to everyone in a session
+			command = "sendSMS";
+			if (this.getUsers() != null) {
+				for (User user : this.getUsers()) {
+					String sendTo = user.getSMS();
+					if (!sendTo.equals("")) {
+						SendNotificationController.sendNotification("start",
+								sendTo, this.getDeadline(), command);
+					} else {
+						SendNotificationController.sendNotification("start",
+								"15189662284", this.getDeadline(), command);
+					}
 				}
+			} else {
+				SendNotificationController.sendNotification("start", "15189662284",
+						this.getDeadline(), command);
 			}
-		} else {
-			SendNotificationController.sendNotification("start", "15189662284",
-					this.getDeadline(), command);
 		}
 	}
 
@@ -203,12 +214,12 @@ public class PlanningPokerSession extends AbstractModel {
 	public void addVoteToRequirement(PlanningPokerRequirement req,
 			PlanningPokerVote v, String requestingUser) {
 		// Remove the corresponding requirement from this session
-		PlanningPokerRequirement r = requirements
+		final PlanningPokerRequirement r = requirements
 				.get(requirements.indexOf(req));
 		requirements.remove(r);
 		
 		// Add the vote of the user to the requirement
-		for(PlanningPokerVote vote : r.votes) {
+		for(PlanningPokerVote vote : r.getVotes()) {
 			if(vote.getUser().equals(v.getUser())) {
 				vote.setCardValue(v.getCardValue());
 				requirements.add(r);		// Add the requirement back
@@ -264,7 +275,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @param newUsers
 	 *            New users to be added
 	 */
-	public void addUsers(ArrayList<User> newUsers) {
+	public void addUsers(List<User> newUsers) {
 		users.addAll(newUsers);
 	}
 
@@ -284,7 +295,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @param newUsers
 	 *            The users to delete
 	 */
-	public void deleteUsers(ArrayList<User> newUsers) {
+	public void deleteUsers(List<User> newUsers) {
 		requirements.removeAll(newUsers);
 	}
 
@@ -374,7 +385,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * 
 	 * @return users in this session
 	 */
-	public ArrayList<User> getUsers() {
+	public List<User> getUsers() {
 		return this.users;
 	}
 
@@ -466,7 +477,7 @@ public class PlanningPokerSession extends AbstractModel {
 	/**
 	 * @return The list of requirements associated with his session.
 	 */
-	public ArrayList<PlanningPokerRequirement> getRequirements() {
+	public List<PlanningPokerRequirement> getRequirements() {
 		return requirements;
 	}
 
@@ -474,7 +485,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * @param requirements
 	 *            The new list of requirements.
 	 */
-	public void setRequirements(ArrayList<PlanningPokerRequirement> requirements) {
+	public void setRequirements(List<PlanningPokerRequirement> requirements) {
 		this.requirements = requirements;
 	}
 

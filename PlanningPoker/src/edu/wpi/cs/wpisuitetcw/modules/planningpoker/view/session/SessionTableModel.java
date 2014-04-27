@@ -65,13 +65,13 @@ public class SessionTableModel extends DefaultTableModel {
 	 * @param m The mode of the sessions that would be retrieved
 	 */
 	public void setMode(Mode m){
-		ArrayList<PlanningPokerSession> a = SessionStash.getInstance().getSessions();
+		final List<PlanningPokerSession> a = SessionStash.getInstance().getSessions();
 		switch(m){
 			case ALL:
 				this.refreshSessions(a);
 				break;
 			case CLOSED:
-				ArrayList<PlanningPokerSession> b = new ArrayList<PlanningPokerSession>();
+				final List<PlanningPokerSession> b = new ArrayList<PlanningPokerSession>();
 				for (int i = 0; i < a.size(); ++i){
 					if (a.get(i).getStatus().equals("Closed")){
 						b.add(a.get(i));
@@ -80,7 +80,7 @@ public class SessionTableModel extends DefaultTableModel {
 				this.refreshSessions(b);
 				break;
 			case OPEN:
-				ArrayList<PlanningPokerSession> b2 = new ArrayList<PlanningPokerSession>();
+				final List<PlanningPokerSession> b2 = new ArrayList<PlanningPokerSession>();
 				for(int i = 0; i < a.size(); ++i){
 					if(a.get(i).getStatus().equals("Open")){
 						b2.add(a.get(i));

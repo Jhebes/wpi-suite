@@ -28,12 +28,12 @@ public class SendNotificationControllerTest extends PlanningPokerMockTest {
 
 	final String testRecipient = "test@test.com";
 	@SuppressWarnings("deprecation")
-	final Date testDeadline = new Date(2014, 04, 01, 12, 34);
+	final Date testDeadline = new Date(2014, 4, 1, 12, 34);
 	final String testExpectedURL = "Advanced/planningpoker/session/sendEmail/start/test%40test.com/3914-05-01+12%3A34";
 
 	@Test
 	public void testMakeURL() {
-		String url = SendNotificationController.makeURL("start", "test@test.com",
+		final String url = SendNotificationController.makeURL("start", "test@test.com",
 				testDeadline, "sendEmail");
 		assertEquals(testExpectedURL, url);
 	}
@@ -44,7 +44,7 @@ public class SendNotificationControllerTest extends PlanningPokerMockTest {
 				testDeadline, "sendEmail");
 
 		// See whether the request was sent
-		MockRequest request = ((MockNetwork) Network.getInstance())
+		final MockRequest request = ((MockNetwork) Network.getInstance())
 				.getLastRequestMade();
 		if (request == null) {
 			fail("Request not sent.");

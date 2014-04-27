@@ -18,9 +18,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -37,6 +39,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.CompletedSessionEstimatePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.VoteRequirementCellRenderer;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.DisplayDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
@@ -68,8 +71,10 @@ public class VotePanel extends JPanel {
 	/** The left container holding all the requirements' info */
 	private JLabel leftPanelLabel;
 	private JPanel leftPanel;
+	
+	/** List of requirements */
 	private JScrollPane requirementFrame;
-	private JList<String> reqList;
+	private JList<PlanningPokerRequirement> reqList;
 
 	// ################### GUI right components ####################
 	/** The right container holding all the GUI components */
@@ -116,7 +121,7 @@ public class VotePanel extends JPanel {
 	private JLabel cardSelectionModeLabel;
 
 	/** The name of the currently selected requirement */
-	private String reqName;
+	private PlanningPokerRequirement selectedRequirement;
 
 	/**
 	 * Construct a SessionInProgressPanel that displays the requirements needed
@@ -130,7 +135,7 @@ public class VotePanel extends JPanel {
 		setupBottomPanel();
 
 		// Need to add both left and right to the JSplitpane
-		JSplitPane mainView = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
+		final JSplitPane mainView = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
 
 		// Add mainView and the bottom panel to the canvas
 		setLayout(new MigLayout());
@@ -148,10 +153,10 @@ public class VotePanel extends JPanel {
 	private void setupInitData() {
 		// TODO programmatically select the necessary cards and set current vote
 		if (session.getRequirements().size() > 0) {
-			PlanningPokerRequirement firstReq = session.getRequirements().get(0);
+			final PlanningPokerRequirement firstReq = session.getRequirements().get(0);
 			requirementNameTextbox.setText(firstReq.getName());
 			descriptionTextbox.setText(firstReq.getDescription());
-			this.reqName = firstReq.getName();
+			selectedRequirement = firstReq;
 			reqList.setSelectionInterval(0, 0);
 		}
 	}
@@ -180,11 +185,11 @@ public class VotePanel extends JPanel {
 			private void endSession() {
 				session.close();
 				session.save();
-				ArrayList<PlanningPokerRequirement> reqList = session.getRequirements();
+				final List<PlanningPokerRequirement> reqList = session.getRequirements();
 				for (PlanningPokerRequirement ppr : reqList) {
 					int count = 0;
 					int total = 0;
-					for (PlanningPokerVote vote : ppr.votes) {
+					for (PlanningPokerVote vote : ppr.getVotes()) {
 						total += vote.getCardValue();
 						count++;
 					}
@@ -217,7 +222,7 @@ public class VotePanel extends JPanel {
 			cancelSessionButton.setVisible(false);
 		}
 
-		String currentUserName = ConfigManager.getConfig().getUserName();
+		final String currentUserName = ConfigManager.getConfig().getUserName();
 		if (session.isClosed())
 			endSessionButton.setEnabled(false);
 		if (currentUserName.equals(session.getOwnerUserName()))
@@ -227,14 +232,14 @@ public class VotePanel extends JPanel {
 
 		// Extract the requirements from the table provided by
 		// ViewSessionTableManager and converts them to list
-		ArrayList<String> testReqs = new ArrayList<String>();
-		RequirementTableManager a = new RequirementTableManager();
-		RequirementTableModel v = a.get(this.session.getID());
-		Vector vector = v.getDataVector();
+		final List<String> testReqs = new ArrayList<String>();
+		final RequirementTableManager a = new RequirementTableManager();
+		final RequirementTableModel v = a.get(this.session.getID());
+		final Vector vector = v.getDataVector();
 		for (int i = 0; i < vector.size(); ++i) {
 			testReqs.add((String) (((Vector) vector.elementAt(i)).elementAt(1)));
 		}
-		String[] reqArr = new String[testReqs.size()];
+		final String[] reqArr = new String[testReqs.size()];
 		for (int i = 0; i < testReqs.size(); ++i) {
 			reqArr[i] = testReqs.get(i);
 		}
@@ -285,27 +290,30 @@ public class VotePanel extends JPanel {
 		leftPanelLabel = new JLabel(LEFT_PANEL_LABEL);
 
 		// TODO: sleep
-		ArrayList<PlanningPokerRequirement> reqs = session.getRequirements();
-		String[] reqNames = new String[reqs.size()];
-		int j = 0;
+		final List<PlanningPokerRequirement> reqs = session.getRequirements();
+		final DefaultListModel<PlanningPokerRequirement> requirementModel = 
+				new DefaultListModel<PlanningPokerRequirement>();
 		for (PlanningPokerRequirement ppr : reqs) {
-			reqNames[j] = ppr.getName();
-			j++;
+			requirementModel.addElement(ppr);
 		}
 
-		reqList = new JList<String>();
-		reqList.setListData(reqNames);
+		reqList = new JList<PlanningPokerRequirement>(requirementModel);
 		reqList.setBackground(Color.WHITE);
 		reqList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		reqList.setAlignmentX(LEFT_ALIGNMENT);
+		reqList.setSelectedIndex(0);
+		reqList.setCellRenderer(new VoteRequirementCellRenderer());
+		
+		// Change the red light
+		//requirementModel.addListDataListener(new NewVoteListener(reqList));
+
+		
 		reqList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// Check to see if user double clicked
 				if (e.getClickCount() == 1) {
-					reqName = (String) reqList.getModel().getElementAt(reqList.getSelectedIndex());
-
-					PlanningPokerRequirement requirement = session.getReqByName(reqName);
+					final PlanningPokerRequirement requirement = reqList.getModel().getElementAt(reqList.getSelectedIndex());
 
 					if (requirement.getName() == null) {
 						requirementNameTextbox.setText(" ");
@@ -320,14 +328,14 @@ public class VotePanel extends JPanel {
 					
 					if (session.isClosed()) {
 						finalEstimatePnl.setFocusedRequirement(requirement);
-						finalEstimatePnl.setStatsMean(requirement.setMean());
-						finalEstimatePnl.setStatsMedian(requirement.setMedian());
-						finalEstimatePnl.setStatsMode(requirement.setMode());
+						finalEstimatePnl.setStatsMean(requirement.getMean());
+						finalEstimatePnl.setStatsMedian(requirement.getMedian());
+						finalEstimatePnl.setStatsMode(requirement.getMode());
 						finalEstimatePnl.fillTable(requirement);
 						finalEstimatePnl.updateEstimateTextField(requirement);
 						updateUI();
 					} else {
-						PlanningPokerVote vote = requirement.getVoteByUser(ConfigManager.getConfig().getUserName());
+						final PlanningPokerVote vote = requirement.getVoteByUser(ConfigManager.getConfig().getUserName());
 						if (vote != null) {
 							setVoteTextFieldWithValue(vote.getCardValue());
 							updateUI();
@@ -429,7 +437,7 @@ public class VotePanel extends JPanel {
 			if (cardFrame != null) {
 				rightPanel.add(cardFrame, "hmin 250px, grow, dock south");
 			} else {
-				JLabel messageLabel = new JLabel(NO_DECK_MSG);
+				final JLabel messageLabel = new JLabel(NO_DECK_MSG);
 				rightPanel.add(messageLabel, "gapleft 150px, hmin 250px, grow, dock south");
 			}
 			
@@ -474,10 +482,10 @@ public class VotePanel extends JPanel {
 
 	/**
 	 * 
-	 * @return Requirement Name selected in the list
+	 * @return Requirement selected in the list
 	 */
-	public String getSelectedRequirement() {
-		return reqName;
+	public PlanningPokerRequirement getSelectedRequirement() {
+		return selectedRequirement;
 	}
 
 	/**
@@ -532,5 +540,12 @@ public class VotePanel extends JPanel {
 	 */
 	private void setErrorMsg(String msg) {
 		errorMsg.setText(msg);
+	}
+	
+	/** Return the GUI list of requirements
+	 * @return Return the GUI list of requirements
+	 */
+	public JList<PlanningPokerRequirement> getRequirementList() {
+		return reqList;
 	}
 }

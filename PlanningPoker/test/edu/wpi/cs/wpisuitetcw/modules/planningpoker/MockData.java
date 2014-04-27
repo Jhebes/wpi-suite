@@ -8,17 +8,7 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker;/*******************************************************************************
-
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    Andrew Hurle
- ******************************************************************************/
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker;
 
 
 import java.lang.reflect.InvocationTargetException;
@@ -59,7 +49,7 @@ public class MockData implements Data {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> deleteAll(T arg0) {
-		List<T> deleted = new ArrayList<T>();
+		final List<T> deleted = new ArrayList<T>();
 		for(Object obj : objects) {
 			if(arg0.getClass().isInstance(obj)) {
 				deleted.add((T) obj);
@@ -73,7 +63,7 @@ public class MockData implements Data {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public List<Model> retrieve(Class type, String fieldName, Object value) {
-		List<Model> rv = new ArrayList<Model>();
+		final List<Model> rv = new ArrayList<Model>();
 		for(Object obj : objects) {
 			if(!type.isInstance(obj)) {
 				continue;
@@ -104,7 +94,7 @@ public class MockData implements Data {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> retrieveAll(T arg0) {
-		List<T> all = new ArrayList<T>();
+		final List<T> all = new ArrayList<T>();
 		for(Object obj : objects) {
 			if(arg0.getClass().isInstance(obj)) {
 				all.add((T) obj);
@@ -148,7 +138,7 @@ public class MockData implements Data {
 
 	@Override
 	public <T> List<Model> deleteAll(T arg0, Project arg1) {
-		List<Model> toDelete = retrieveAll(arg0, arg1);
+		final List<Model> toDelete = retrieveAll(arg0, arg1);
 		objects.removeAll(toDelete);
 		return toDelete;
 	}
@@ -163,7 +153,7 @@ public class MockData implements Data {
 	}
 
 	private List<Model> filterByProject(List<Model> models, Project project) {
-		List<Model> filteredModels = new ArrayList<Model>();
+		final List<Model> filteredModels = new ArrayList<Model>();
 		for(Model m : models) {
 			if(m.getProject().getName().equalsIgnoreCase(project.getName())) {
 				filteredModels.add(m);

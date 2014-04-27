@@ -37,11 +37,10 @@ public class AddNewCardController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.view.addNewCard();
-		// JPanel centerPanel = this.view.getCenterPanel();
-		// centerPanel.paintImmediately(centerPanel.getX(), centerPanel.getY(),
-		// centerPanel.getWidth(), centerPanel.getHeight());
-		this.view.updateUI();
+		view.addNewCard();
+		view.updateUI();
+		// check if all required inputs are entered
+		view.getSessionPanel().checkSessionValidation();
 	}
 
 }

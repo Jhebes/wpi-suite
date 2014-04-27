@@ -19,7 +19,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
 public class GetAllDecksRequestObserver implements RequestObserver {
 
-	public GetAllDecksController controller;
+	private GetAllDecksController controller;
 
 	public GetAllDecksRequestObserver(GetAllDecksController controller) {
 		this.controller = controller;
@@ -35,7 +35,7 @@ public class GetAllDecksRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		PlanningPokerDeck[] decks = PlanningPokerDeck.fromJSONArray(iReq
+		final PlanningPokerDeck[] decks = PlanningPokerDeck.fromJSONArray(iReq
 				.getResponse().getBody());
 		controller.updateDecks(new ArrayList<PlanningPokerDeck>(Arrays
 				.asList(decks)));

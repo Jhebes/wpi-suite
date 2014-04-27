@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -25,7 +26,7 @@ public class DisplayDeckPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	// constants
 	private static final int CENTER_PANEL_WIDTH = 350;
-	private static final int CENTER_PANEL_HEIGHT = 250;
+	private static final int CENTER_PANEL_HEIGHT = 200;
 
 	// panels for setting up the view
 	private PlanningPokerDeck deck;
@@ -37,7 +38,7 @@ public class DisplayDeckPanel extends JPanel {
 	private VotePanel parentPanel;
 
 	/** cards that are highlighted */
-	private ArrayList<Card> cards = new ArrayList<Card>();
+	private List<Card> cards = new ArrayList<Card>();
 
 	// vote value for the deck
 	private int voteValue = 0;
@@ -101,9 +102,9 @@ public class DisplayDeckPanel extends JPanel {
 
 		} else {
 			voteValue += aCard.getCardValue();
+			parentPanel.setVoteTextFieldWithValue(voteValue);
 		}
 		cards.add(aCard);
-		// parentPanel.setVoteTextFieldWithValue(voteValue);
 	}
 
 	/**
@@ -151,6 +152,6 @@ public class DisplayDeckPanel extends JPanel {
 	 * @return list of cards in the deck
 	 */
 	public ArrayList<Card> getCards() {
-		return cards;
+		return (ArrayList<Card>) cards;
 	}
 }

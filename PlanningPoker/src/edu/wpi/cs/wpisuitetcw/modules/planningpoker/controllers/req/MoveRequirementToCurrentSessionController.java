@@ -55,21 +55,21 @@ public class MoveRequirementToCurrentSessionController implements ActionListener
 				List<PlanningPokerRequirement> d = new ArrayList<PlanningPokerRequirement>();
 				d.add(r);
 				s.deleteRequirements(d);
-				session.addRequirement(r);
-				
+				session.addRequirement(r);	
 		}
 		
 		s.save();
 		session.save();
 		
-		RequirementTableManager a1 = new RequirementTableManager();
+		final RequirementTableManager a1 = new RequirementTableManager();
 		a1.refreshRequirements(1, s.getRequirements());
-		RequirementTableManager a2 = new RequirementTableManager();
+		final RequirementTableManager a2 = new RequirementTableManager();
 		a2.refreshRequirements(session.getID(), session.getRequirements());
 		this.view.getAllReqTable().repaint();
 		this.view.getSessionReqTable().repaint();
 
 		view.validateActivateSession();
+		this.view.refreshMoveButtons();
 	}
 	
 	/*

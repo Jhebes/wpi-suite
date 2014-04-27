@@ -21,6 +21,7 @@ import java.awt.Panel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -98,8 +99,8 @@ public class ViewSessionReqPanel extends JPanel {
 	 * @return selectedNames The ArrayList<String> of names on the left
 	 *         requriements panel
 	 */
-	public ArrayList<String> getAllLeftRequirements() {
-		ArrayList<String> selectedNames = new ArrayList<String>();
+	public List<String> getAllLeftRequirements() {
+		final List<String> selectedNames = new ArrayList<String>();
 		for (int i = 0; i < this.allReqTable.getRowCount(); ++i) {
 			selectedNames.add(this.allReqTable.getValueAt(i, 0).toString());
 		}
@@ -112,8 +113,8 @@ public class ViewSessionReqPanel extends JPanel {
 	 * @return selectedNames The ArrayList<String> of names on the right
 	 *         requriements panel
 	 */
-	public ArrayList<String> getAllRightRequirements() {
-		ArrayList<String> selectedNames = new ArrayList<String>();
+	public List<String> getAllRightRequirements() {
+		final List<String> selectedNames = new ArrayList<String>();
 		for (int i = 0; i < this.sessionReqTable.getRowCount(); ++i) {
 			selectedNames.add(this.sessionReqTable.getValueAt(i, 0).toString());
 		}
@@ -126,13 +127,14 @@ public class ViewSessionReqPanel extends JPanel {
 	 * @return selectedNames The ArrayList<String> of names on the left
 	 *         requriements panel
 	 */
-	public ArrayList<String> getLeftSelectedRequirements() {
-		int[] selectedRows = this.allReqTable.getSelectedRows();
+	public List<String> getLeftSelectedRequirements() {
+		final int[] selectedRows = this.allReqTable.getSelectedRows();
 
-		ArrayList<String> selectedNames = new ArrayList<String>();
+		final List<String> selectedNames = new ArrayList<String>();
 		for (int i = 0; i < selectedRows.length; i++) {
 			// Get the 0th column which should be the name
-			selectedNames.add(this.allReqTable.getValueAt(selectedRows[i], 0).toString());
+			selectedNames.add(this.allReqTable.getValueAt(selectedRows[i], 0)
+					.toString());
 		}
 		return selectedNames;
 	}
@@ -143,18 +145,50 @@ public class ViewSessionReqPanel extends JPanel {
 	 * @return selectedNames The ArrayList<String> of selected names on the
 	 *         right requriements panel
 	 */
-	public ArrayList<String> getRightSelectedRequirements() {
-		int[] selectedRows = this.sessionReqTable.getSelectedRows();
+	public List<String> getRightSelectedRequirements() {
+		final int[] selectedRows = this.sessionReqTable.getSelectedRows();
 
-		ArrayList<String> selectedNames = new ArrayList<String>();
+		final List<String> selectedNames = new ArrayList<String>();
 		for (int i = 0; i < selectedRows.length; i++) {
 			// Get the 0th column which should be the name
-			selectedNames.add(this.sessionReqTable.getValueAt(selectedRows[i], 0).toString());
+			selectedNames.add(this.sessionReqTable.getValueAt(selectedRows[i],
+					0).toString());
 		}
 		return selectedNames;
 	}
 
-	public ViewSessionReqPanel(AddRequirementPanel parentPanel, PlanningPokerSession s) {
+	/**
+	 * Refreshes all buttons in the buttonPanel
+	 */
+	public void refreshMoveButtons() {
+		if (getRightSelectedRequirements().size() == 0) {
+			this.moveRequirementToAll.setEnabled(false);
+		} else {
+			this.moveRequirementToAll.setEnabled(true);
+		}
+
+		if (getLeftSelectedRequirements().size() == 0) {
+			this.moveRequirementToSession.setEnabled(false);
+		} else {
+			this.moveRequirementToSession.setEnabled(true);
+		}
+
+		if (getAllRightRequirements().size() == 0) {
+			this.moveAllRequirementsToAll.setEnabled(false);
+		} else {
+			this.moveAllRequirementsToAll.setEnabled(true);
+		}
+
+		if (getAllLeftRequirements().size() == 0) {
+			this.moveAllRequirementsToSession.setEnabled(false);
+		} else {
+			this.moveAllRequirementsToSession.setEnabled(true);
+		}
+
+	}
+
+	public ViewSessionReqPanel(AddRequirementPanel parentPanel,
+			PlanningPokerSession s) {
 		this.session = s;
 		this.setLayout(new GridBagLayout());
 		this.parentPanel = parentPanel;
@@ -173,11 +207,11 @@ public class ViewSessionReqPanel extends JPanel {
 		validateActivateSession();
 
 		// setup panels
-		Panel namePanel = new Panel();
-		Panel leftPanel = new Panel();
-		Panel rightPanel = new Panel();
-		Panel centerPanel = new Panel();
-		Panel bottomPanel = new Panel();
+		final Panel namePanel = new Panel();
+		final Panel leftPanel = new Panel();
+		final Panel rightPanel = new Panel();
+		final Panel centerPanel = new Panel();
+		final Panel bottomPanel = new Panel();
 
 		// setup tables
 		// Left Table
@@ -195,18 +229,20 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// allows multiple reqs to be selected and unselected
 		allReqTable.setRowSelectionAllowed(true);
-		allReqTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		allReqTable
+				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
 		// add table to rightPanel
-		JLabel leftLabel = new JLabel("All Requirements");
+		final JLabel leftLabel = new JLabel("All Requirements");
 		leftPanel.setLayout(new BorderLayout());
-		JScrollPane allReqSp = new JScrollPane(allReqTable);
+		final JScrollPane allReqSp = new JScrollPane(allReqTable);
 		leftPanel.add(leftLabel, BorderLayout.NORTH);
 		leftPanel.add(allReqSp);
 
 		// table for left pane
 		// Right table
-		sessionReqTable = new JTable(new RequirementTableManager().get(this.session.getID())) {
+		sessionReqTable = new JTable(
+				new RequirementTableManager().get(this.session.getID())) {
 			private static final long serialVersionUID = 2L;
 
 			public boolean isCellEditable(int row, int colunm) {
@@ -220,13 +256,14 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// allows multiple reqs to be selected and unselected
 		sessionReqTable.setRowSelectionAllowed(true);
-		sessionReqTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		sessionReqTable
+				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		allReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
 		// rightPanel formatting
-		JLabel rightLabel = new JLabel("Current Session's Requirements");
+		final JLabel rightLabel = new JLabel("Current Session's Requirements");
 		rightPanel.setLayout(new BorderLayout());
-		JScrollPane sessionReqSp = new JScrollPane(sessionReqTable);
+		final JScrollPane sessionReqSp = new JScrollPane(sessionReqTable);
 		rightPanel.add(rightLabel, BorderLayout.NORTH);
 		rightPanel.add(sessionReqSp);
 
@@ -237,25 +274,35 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// Action Handlers
 		// need to change so it adds to the right side
-		this.addRequirementToSession.addActionListener(new AddRequirementToSessionController(this));
-		this.moveRequirementToSession.addActionListener(new MoveRequirementToCurrentSessionController(this.session,
-				this));
-		this.moveRequirementToAll.addActionListener(new MoveRequirementToAllController(this.session, this));
-		this.moveAllRequirementsToSession.addActionListener(new MoveAllRequirementsToCurrentSessionController(
-				this.session, this));
-		this.moveAllRequirementsToAll.addActionListener(new MoveAllRequirementsToAllController(this.session, this));
-		this.saveRequirement.addActionListener(new EditRequirementDescriptionController(this.session, this));
+		this.addRequirementToSession
+				.addActionListener(new AddRequirementToSessionController(this));
+		this.moveRequirementToSession
+				.addActionListener(new MoveRequirementToCurrentSessionController(
+						this.session, this));
+		this.moveRequirementToAll
+				.addActionListener(new MoveRequirementToAllController(
+						this.session, this));
+		this.moveAllRequirementsToSession
+				.addActionListener(new MoveAllRequirementsToCurrentSessionController(
+						this.session, this));
+		this.moveAllRequirementsToAll
+				.addActionListener(new MoveAllRequirementsToAllController(
+						this.session, this));
+		this.saveRequirement
+				.addActionListener(new EditRequirementDescriptionController(
+						this.session, this));
 
 		// this will populate the name and description field when clicking on a
 		// requirement in the all session table
 		allReqTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				RequirementTableManager n = new RequirementTableManager();
+				refreshMoveButtons();
+				final RequirementTableManager n = new RequirementTableManager();
 				n.fetch(session.getID());
 				sessionReqTable.updateUI();
-				JTable table = (JTable) e.getSource();
-				int row = table.getSelectedRow();
+				final JTable table = (JTable) e.getSource();
+				final int row = table.getSelectedRow();
 
 				if (row == -1) {
 					saveRequirement.setEnabled(false);
@@ -264,12 +311,14 @@ public class ViewSessionReqPanel extends JPanel {
 					setReqInfo("", "");
 				}
 
-				for (int i = 0; i < 2; i = i + 1) {
+				for (int i = 0; i < 2; i++) {
 					if (i == 0) {
-						reqName = allReqTable.getModel().getValueAt(row, 0).toString();
+						reqName = allReqTable.getModel().getValueAt(row, 0)
+								.toString();
 					}
 					if (i == 1) {
-						reqDescription = allReqTable.getModel().getValueAt(row, 1).toString();
+						reqDescription = allReqTable.getModel()
+								.getValueAt(row, 1).toString();
 					}
 				}
 
@@ -277,8 +326,8 @@ public class ViewSessionReqPanel extends JPanel {
 				saveRequirement.setEnabled(true);
 				addRequirementToSession.setEnabled(false);
 				name.setEnabled(false);
-				editRequirementsSession = SessionStash.getInstance().getDefaultSession();
-
+				editRequirementsSession = SessionStash.getInstance()
+						.getDefaultSession();
 			}
 		});
 
@@ -287,8 +336,9 @@ public class ViewSessionReqPanel extends JPanel {
 		sessionReqTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JTable table = (JTable) e.getSource();
-				int row = table.getSelectedRow();
+				refreshMoveButtons();
+				final JTable table = (JTable) e.getSource();
+				final int row = table.getSelectedRow();
 
 				if (row == -1) {
 					saveRequirement.setEnabled(false);
@@ -296,12 +346,14 @@ public class ViewSessionReqPanel extends JPanel {
 					name.setEnabled(true);
 					setReqInfo("", "");
 				} else {
-					for (int i = 0; i < 2; i = i + 1) {
+					for (int i = 0; i < 2; i++) {
 						if (i == 0) {
-							reqName = sessionReqTable.getModel().getValueAt(row, 0).toString();
+							reqName = sessionReqTable.getModel()
+									.getValueAt(row, 0).toString();
 						}
 						if (i == 1) {
-							reqDescription = sessionReqTable.getModel().getValueAt(row, 1).toString();
+							reqDescription = sessionReqTable.getModel()
+									.getValueAt(row, 1).toString();
 						}
 					}
 
@@ -320,10 +372,8 @@ public class ViewSessionReqPanel extends JPanel {
 		 */
 
 		parentPanel.addMouseListener(new MouseAdapter() {
-
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
 				allReqTable.clearSelection();
 				sessionReqTable.clearSelection();
 			}
@@ -346,20 +396,20 @@ public class ViewSessionReqPanel extends JPanel {
 		centerPanel.add(buttonsPanel);
 
 		// text field for name goes in the top of the panel
-		JLabel nameLabel = new JLabel("Name:");
+		final JLabel nameLabel = new JLabel("Name:");
 		namePanel.setLayout(new BorderLayout());
 		namePanel.add(nameLabel, BorderLayout.NORTH);
 		namePanel.add(name, BorderLayout.SOUTH);
 
 		// text field for description goes in the bottom of the panel
-		JLabel descriptionLabel = new JLabel("Description:");
-		JScrollPane descriptionSp = new JScrollPane(description);
+		final JLabel descriptionLabel = new JLabel("Description:");
+		final JScrollPane descriptionSp = new JScrollPane(description);
 		description.setLineWrap(true);
 		bottomPanel.setLayout(new BorderLayout());
 		bottomPanel.add(descriptionLabel, BorderLayout.NORTH);
 		bottomPanel.add(descriptionSp, BorderLayout.CENTER);
 
-		GridBagConstraints c = new GridBagConstraints();
+		final GridBagConstraints c = new GridBagConstraints();
 
 		// constraints for centerPanel
 		c.insets = new Insets(10, 10, 10, 10);
@@ -417,6 +467,7 @@ public class ViewSessionReqPanel extends JPanel {
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		this.add(bottomPanel, c);
+		refreshMoveButtons();
 	}
 
 	/**

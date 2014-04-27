@@ -24,17 +24,16 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionCo
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 
 public class AddRequirementPanel extends JSplitPane {
-	final private ViewSessionBtnPanel buttonPanel;
-	final private ViewSessionInfoPanel infoPanel;
-	final private ViewSessionReqPanel pkgPanel;
-	final private PlanningPokerSession session;
+	private final ViewSessionBtnPanel buttonPanel;
+	private final ViewSessionInfoPanel infoPanel;
+	private final ViewSessionReqPanel pkgPanel;
+	private final PlanningPokerSession session;
 
 	/**
 	 * Create a view session panel
 	 */
 	public AddRequirementPanel(PlanningPokerSession session) {
-		Logger.getLogger("PlanningPoker").log(Level.INFO, "Session loaded: " + session.getID());
-		RequirementTableManager manager = new RequirementTableManager();
+		final RequirementTableManager manager = new RequirementTableManager();
 		manager.fetch(session.getID());
 		this.session = session;
 		this.infoPanel = new ViewSessionInfoPanel(this, session);
@@ -42,7 +41,7 @@ public class AddRequirementPanel extends JSplitPane {
 		this.pkgPanel = new ViewSessionReqPanel(this, session);
 
 		// set sub panels
-		JSplitPane contentPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+		final JSplitPane contentPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				true, infoPanel, pkgPanel);
 		contentPanel.setDividerLocation(180);
 		contentPanel.setEnabled(false);

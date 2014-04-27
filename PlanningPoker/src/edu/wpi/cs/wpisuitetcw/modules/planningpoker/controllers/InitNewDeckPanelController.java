@@ -31,7 +31,7 @@ public class InitNewDeckPanelController implements ActionListener {
 	private CreateDeckPanel deckPanel = null;
 	
 	/** An instance of this controller */
-	private static InitNewDeckPanelController instance;
+	private static InitNewDeckPanelController instance = null;
 
 	/*
 	 * Store the given CreateSessionPanel 
@@ -66,7 +66,7 @@ public class InitNewDeckPanelController implements ActionListener {
 		} catch (IllegalArgumentException error) {
 			// this.deckPanel = new CreateNewDeckPanel();
 			ViewEventManager.getInstance().display(deckPanel,
-					this.view.DISPLAY_MSG);
+					CreateSessionPanel.DISPLAY_MSG);
 		}
 	}
 
