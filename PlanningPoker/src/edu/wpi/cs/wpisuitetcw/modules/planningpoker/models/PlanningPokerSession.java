@@ -106,54 +106,65 @@ public class PlanningPokerSession extends AbstractModel {
 	public boolean isOpen() {
 		return isActive() && !isClosed();
 	}
+	
+	/**
+	 * A session can be activated if it meets the following conditions: 
+	 * <ul>
+	 * 	<li>It isn't active currently</li> 
+	 * 	<li>It isn't canceled</li>
+	 *  <li>It must have at least one requirement</li>
+	 * </ul>
+	 * @return Whether the session can be activated
+	 */
+	public boolean canBeActivated() {
+		return !isCancelled && !isActive() && requirements.size() > 0;
+	}
 
 	/**
-	 * Activate the session if it meets the following conditions: 
-	 * - It isn't active currently 
-	 * - It isn't canceled 
-	 * - It must have at least one requirement (Temporarily not included)
+	 * Activate the sessions a session if it meets all the criteria 
+	 * specified in {@link #canBeActivated() canBeActivated} method.
 	 */
 	public void activate() {
-		if (!this.isCancelled && !this.isActive()) {
+		if (canBeActivated()) {
 			this.startTime = new Date();
-		}
-
-		String command = "sendEmail";
-		// Send email to everyone in a session
-		if (this.getUsers() != null) {
-			for (User user : this.getUsers()) {
-				String sendTo = user.getEmail();
-				if (!sendTo.equals("")) {
-					SendNotificationController.sendNotification("start",
-							sendTo, this.getDeadline(), command);
-				} else {
-					SendNotificationController.sendNotification("start",
-							"teamcombatwombat@gmail.com",
-							this.getDeadline(), command);
+			
+			String command = "sendEmail";
+			// Send email to everyone in a session
+			if (this.getUsers() != null) {
+				for (User user : this.getUsers()) {
+					String sendTo = user.getEmail();
+					if (!sendTo.equals("")) {
+						SendNotificationController.sendNotification("start",
+								sendTo, this.getDeadline(), command);
+					} else {
+						SendNotificationController.sendNotification("start",
+								"teamcombatwombat@gmail.com",
+								this.getDeadline(), command);
+					}
 				}
+			} else {
+				SendNotificationController.sendNotification("start",
+						"teamcombatwombat@gmail.com", this.getDeadline(),
+						command);
 			}
-		} else {
-			SendNotificationController.sendNotification("start",
-					"teamcombatwombat@gmail.com", this.getDeadline(),
-					command);
-		}
 
-		// Send SMS to everyone in a session
-		command = "sendSMS";
-		if (this.getUsers() != null) {
-			for (User user : this.getUsers()) {
-				String sendTo = user.getSMS();
-				if (!sendTo.equals("")) {
-					SendNotificationController.sendNotification("start",
-							sendTo, this.getDeadline(), command);
-				} else {
-					SendNotificationController.sendNotification("start",
-							"15189662284", this.getDeadline(), command);
+			// Send SMS to everyone in a session
+			command = "sendSMS";
+			if (this.getUsers() != null) {
+				for (User user : this.getUsers()) {
+					String sendTo = user.getSMS();
+					if (!sendTo.equals("")) {
+						SendNotificationController.sendNotification("start",
+								sendTo, this.getDeadline(), command);
+					} else {
+						SendNotificationController.sendNotification("start",
+								"15189662284", this.getDeadline(), command);
+					}
 				}
+			} else {
+				SendNotificationController.sendNotification("start", "15189662284",
+						this.getDeadline(), command);
 			}
-		} else {
-			SendNotificationController.sendNotification("start", "15189662284",
-					this.getDeadline(), command);
 		}
 	}
 

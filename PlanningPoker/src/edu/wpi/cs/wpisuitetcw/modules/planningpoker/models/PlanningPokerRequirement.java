@@ -336,9 +336,12 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 *            calling PlanningPokerRequirement object
 	 */
 	public void copyFrom(PlanningPokerRequirement updatedRequirement) {
+		id = updatedRequirement.id;
 		innerRequirement = updatedRequirement.innerRequirement;
 		sessionID = updatedRequirement.sessionID;
 		votes = updatedRequirement.votes;
+		finalEstimate = updatedRequirement.finalEstimate;
+		totalVotes = updatedRequirement.totalVotes;
 	}
 
 	/**
