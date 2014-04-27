@@ -28,6 +28,9 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel
  */
 public class AddRequirementToSessionController implements ActionListener {
 
+	private static final String DUPLICATE_REQ_MESSAGE = 
+			"<html><font color='red'>This name has been used</font></html>";
+	
 	private ViewSessionReqPanel panel;
 
 	/**
@@ -84,8 +87,13 @@ public class AddRequirementToSessionController implements ActionListener {
 			// Clear the texts in name and description box
 			this.panel.clearNewReqName();
 			this.panel.clearNewReqDesc();
+			
+			// Hide error message if needed
+			panel.hideErrorMessage();
 		} else {
-			// 
+			// Warn user about duplicate requirement
+			panel.setErrorMessage(DUPLICATE_REQ_MESSAGE);
+			panel.showErrorMessage();
 		}
 	}
 	

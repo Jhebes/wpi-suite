@@ -164,7 +164,7 @@ public class ViewSessionReqPanel extends JPanel {
 		this.buttonsPanel = new JPanel();
 		this.description = new JTextArea("");
 		this.name = new JTextField("");
-		this.errorMessage = new JLabel();
+		this.errorMessage = new JLabel("TESTSET");
 		errorMessage.setVisible(false);
 		this.moveRequirementToAll = new JButton(" < ");
 		this.moveAllRequirementsToAll = new JButton(" << ");
@@ -350,8 +350,9 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// text field for name goes in the top of the panel
 		JLabel nameLabel = new JLabel("Name:");
-		namePanel.setLayout(new BorderLayout());
-		namePanel.add(nameLabel, BorderLayout.NORTH);
+		namePanel.setLayout(new BorderLayout(6, 2));
+		namePanel.add(nameLabel, BorderLayout.LINE_START);
+		namePanel.add(errorMessage, BorderLayout.CENTER);
 		namePanel.add(name, BorderLayout.SOUTH);
 
 		// text field for description goes in the bottom of the panel
