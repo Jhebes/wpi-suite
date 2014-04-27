@@ -33,41 +33,69 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.CustomTre
 public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		TreeSelectionListener {
 
+	/** constant strings */
+	private static final String CANCELLED_SESSIONS = "Cancelled Sessions";
+	private static final String CLOSED_SESSIONS = "Closed Sessions";
+	private static final String OPEN_SESSIONS = "Open Sessions";
+	private static final String NEW_SESSIONS = "New Sessions";
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	/** Tree for displaying sessions */
 	private JTree tree;
+
+	/** Parent node for the tree */
+	private DefaultMutableTreeNode top;
+
+	/** is the tree initialized */
 	private boolean initialized = false;
+
+	/** all planning poker sessions */
 	private ArrayList<PlanningPokerSession> sessions = null;
 
+	/** branches */
+	private DefaultMutableTreeNode newSessionNode;
+	private DefaultMutableTreeNode openSessionNode;
+	private DefaultMutableTreeNode closedSessionNode;
+	private DefaultMutableTreeNode cancelledSessionNode;
+
+	/** planning poker sessions */
+	private PlanningPokerSession[] newSessions;
+	private PlanningPokerSession[] openSessions;
+	private PlanningPokerSession[] closedSessions;
+	private PlanningPokerSession[] cancelledSessions;
+
 	public OverviewTreePanel() {
-		this.setViewportView(tree);
-		this.refresh();
+
+		// refresh the session to start
+		refresh();
 	}
 
+	/**
+	 * Refresh the tree with updates on planning poker session
+	 */
 	public void refresh() {
-		DefaultMutableTreeNode top = new DefaultMutableTreeNode("All Sessions");
+
+		top = new DefaultMutableTreeNode("All Sessions");
 		// DefaultMutableTreeNode draftSessionNode = new
 		// DefaultMutableTreeNode("Draft Sessions");
-		DefaultMutableTreeNode newSessionNode = new DefaultMutableTreeNode(
-				"New Sessions");
-		DefaultMutableTreeNode openSessionNode = new DefaultMutableTreeNode(
-				"Open Sessions");
-		DefaultMutableTreeNode closedSessionNode = new DefaultMutableTreeNode(
-				"Closed Sessions");
-		DefaultMutableTreeNode cancelledSessionNode = new DefaultMutableTreeNode(
-				"Cancelled Sessions");
+		newSessionNode = new DefaultMutableTreeNode();
+		openSessionNode = new DefaultMutableTreeNode();
+		closedSessionNode = new DefaultMutableTreeNode();
+		cancelledSessionNode = new DefaultMutableTreeNode();
 
 		try {
 			// get a list of sessions
-			this.sessions = SessionStash.getInstance().getSessions();
+			sessions = SessionStash.getInstance().getSessions();
 
 			if (this.sessions != null) {
-				PlanningPokerSession[] newSessions = sortForNewSessions(this.sessions);
-				PlanningPokerSession[] openSessions = sortForOpenSessions(this.sessions);
-				PlanningPokerSession[] closedSessions = sortForClosedSessions(this.sessions);
-				PlanningPokerSession[] cancelledSessions = sortForCancelledSessions(this.sessions);
+				newSessions = sortForNewSessions(sessions);
+				openSessions = sortForOpenSessions(sessions);
+				closedSessions = sortForClosedSessions(sessions);
+				cancelledSessions = sortForCancelledSessions(sessions);
 
 				// add new sessions to the node
 				for (PlanningPokerSession s : newSessions) {
@@ -89,7 +117,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 							s);
 					closedSessionNode.add(newNode);
 				}
-				
+
 				// add cancelled sessions to the node
 				for (PlanningPokerSession s : cancelledSessions) {
 					DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(
@@ -103,12 +131,16 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 					"Network configuration error", e);
 		}
 
+		// setup name for all branches
+		setupBranchNames();
+
 		// adds nodes to the tree
 		top.add(newSessionNode);
 		top.add(openSessionNode);
 		top.add(closedSessionNode);
 		top.add(cancelledSessionNode);
 
+		// setup the tree
 		tree = new JTree(top); // create the tree with the top created above
 		// tell it that it can only select one thing at a time
 		tree.getSelectionModel().setSelectionMode(
@@ -116,13 +148,47 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		tree.setToggleClickCount(0);
 
 		tree.setCellRenderer(new CustomTreeCellRenderer());
-		tree.addMouseListener(this); // add a listener to check for clicking
+
+		// add a listener to check for clicking
+		tree.addMouseListener(this);
 		tree.addTreeSelectionListener(this);
 
+		// setup viewport
 		this.setViewportView(tree);
 
 		// update the ViewEventController so it contains the right tree
 		ViewEventManager.getInstance().setOverviewTree(this);
+	}
+
+	private void setupBranchNames() {
+		// set names for nodes
+		if (newSessions.length != 0) {
+			newSessionNode.setUserObject(NEW_SESSIONS + " ("
+					+ newSessions.length + ")");
+		} else {
+			newSessionNode.setUserObject(NEW_SESSIONS);
+		}
+
+		if (openSessions.length != 0) {
+			openSessionNode.setUserObject(OPEN_SESSIONS + " ("
+					+ openSessions.length + ")");
+		} else {
+			openSessionNode.setUserObject(OPEN_SESSIONS);
+		}
+
+		if (closedSessions.length != 0) {
+			closedSessionNode.setUserObject(CLOSED_SESSIONS + " ("
+					+ closedSessions.length + ")");
+		} else {
+			closedSessionNode.setUserObject(CLOSED_SESSIONS);
+		}
+
+		if (cancelledSessions.length != 0) {
+			cancelledSessionNode.setUserObject(CANCELLED_SESSIONS + " ("
+					+ cancelledSessions.length + ")");
+		} else {
+			cancelledSessionNode.setUserObject(CANCELLED_SESSIONS);
+		}
 	}
 
 	/**
