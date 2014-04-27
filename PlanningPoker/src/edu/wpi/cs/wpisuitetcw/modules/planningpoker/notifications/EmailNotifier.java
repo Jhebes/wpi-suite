@@ -21,7 +21,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.ConfigLoader;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.exceptions.ConfigLoaderError;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.exceptions.ConfigLoaderException;
 
 /**
  * Class for sending notifications to users via email.
@@ -62,7 +62,7 @@ public class EmailNotifier extends BaseNotifier {
 							return new PasswordAuthentication(ConfigLoader
 									.getEmailUsername(), ConfigLoader
 									.getEmailPassword());
-						} catch (ConfigLoaderError e) {
+						} catch (ConfigLoaderException e) {
 							Logger.getLogger("PlanningPoker").log(
 									Level.SEVERE,
 									"Could not load email address or " + 
