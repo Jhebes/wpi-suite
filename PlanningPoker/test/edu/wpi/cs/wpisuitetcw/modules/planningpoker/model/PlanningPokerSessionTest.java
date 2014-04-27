@@ -45,8 +45,6 @@ public class PlanningPokerSessionTest {
 	public void testCancel() {
 		planningPokerSession.cancel();
 		assertTrue(planningPokerSession.isCancelled());
-		assertNotNull(planningPokerSession.getEndTime());
-		// End time is not null anymore. Cannot test this
 	}
 
 	@Test
