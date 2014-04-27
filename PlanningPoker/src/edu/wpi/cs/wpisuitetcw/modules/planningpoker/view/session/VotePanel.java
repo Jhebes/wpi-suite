@@ -385,7 +385,7 @@ public class VotePanel extends JPanel {
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
-		voteTextField.setHorizontalAlignment(JTextField.CENTER);
+		voteTextField.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
 		// if the session has a deck, we can't let the user submit a vote
 		// manually
