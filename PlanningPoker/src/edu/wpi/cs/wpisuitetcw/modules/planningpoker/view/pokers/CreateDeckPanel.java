@@ -304,10 +304,11 @@ public class CreateDeckPanel extends JPanel {
 	 */
 	public ArrayList<Integer> getNewDeckValues() {
 		ArrayList<Integer> cardValues = new ArrayList<Integer>();
-		Map<Integer, Card> map = this.cards;
-		for (Card aCard : map.values()) {
+		
+		for (Card aCard : this.cards.values()) {
 			cardValues.add(Integer.parseInt(aCard.getTxtboxValue().getText()));
 		}
+		
 		return cardValues;
 	}
 
@@ -359,16 +360,18 @@ public class CreateDeckPanel extends JPanel {
 	public void displayDeck(String deckName) throws WPISuiteException {
 		// clear the panel
 		removeAllCard();
-		// display default deck
 		
 		final PlanningPokerDeck deck = GetAllDecksController.getInstance().getDeckByName(deckName);
-		
 		final ArrayList<Integer> deckValues = deck.getDeck();
+		
+		cards.clear();
+		
 		for (int value : deckValues) {
 			Card aCard = new Card(mode, value);
 			int key = aCard.hashCode();
-			cards.put(key, aCard);
 			this.addRemoveCardListener(aCard, this);
+
+			cards.put(key, aCard);
 			cardPanel.add(aCard);
 			validateNumCards();
 			this.updateNumCard();
