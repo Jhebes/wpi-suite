@@ -12,7 +12,6 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.UUID;
@@ -85,7 +84,7 @@ public class PlanningPokerRequirementTest {
 		updatedRequirement.addVote(new PlanningPokerVote("test", 1));
 		updatedRequirement.setName("test");
 		updatedRequirement.setDescription("test");
-		assertNotEquals(planningPokerRequirement, updatedRequirement);
+		assertFalse(planningPokerRequirement.equals(updatedRequirement));
 		planningPokerRequirement.copyFrom(updatedRequirement);
 		assertEquals(planningPokerRequirement, updatedRequirement);
 		assertEquals(planningPokerRequirement.getVotes(), updatedRequirement.getVotes());
