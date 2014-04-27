@@ -293,7 +293,7 @@ public class ViewSessionReqPanel extends JPanel {
 
 				if (row == -1) {
 					saveRequirement.setEnabled(false);
-					addRequirementToSession.setEnabled(true);
+					addRequirementToSession.setEnabled(false);
 					name.setEnabled(true);
 					setReqInfo("", "");
 				} else {
@@ -308,7 +308,7 @@ public class ViewSessionReqPanel extends JPanel {
 
 					setReqInfo(reqName, reqDescription);
 					saveRequirement.setEnabled(true);
-					addRequirementToSession.setEnabled(false);
+					addRequirementToSession.setEnabled(true);
 					name.setEnabled(false);
 					editRequirementsSession = ViewSessionReqPanel.this.session;
 				}
@@ -339,6 +339,7 @@ public class ViewSessionReqPanel extends JPanel {
 		buttonsPanel.add(moveAllRequirementsToAll);
 
 		// Rob said to do this but nobody knows what it does/means
+		// it adds a scroll pane to the req table but not the panel, so it has no effect
 		// JScrollPane jsp1 = new JScrollPane();
 		// JScrollPane.add(sessionReqTable);
 
