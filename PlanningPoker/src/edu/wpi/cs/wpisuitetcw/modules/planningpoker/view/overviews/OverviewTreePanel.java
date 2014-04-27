@@ -138,16 +138,16 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		top.add(closedSessionNode);
 		top.add(cancelledSessionNode);
 
+		// set up the tree
+		model.setRoot(top);
+		tree.setModel(model);
+
 		// expand new session and open session branches
 		TreePath newSessionPath = new TreePath(newSessionNode.getPath());
 		TreePath openSessionPath = new TreePath(openSessionNode.getPath());
 
 		tree.expandPath(newSessionPath);
 		tree.expandPath(openSessionPath);
-
-		// set up the tree
-		model.setRoot(top);
-		tree.setModel(model);
 
 		// update the ViewEventController so it contains the right tree
 		ViewEventManager.getInstance().setOverviewTree(this);
