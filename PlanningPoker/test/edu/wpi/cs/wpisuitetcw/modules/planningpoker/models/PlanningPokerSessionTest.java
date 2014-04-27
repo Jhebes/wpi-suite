@@ -8,7 +8,7 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.model;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
