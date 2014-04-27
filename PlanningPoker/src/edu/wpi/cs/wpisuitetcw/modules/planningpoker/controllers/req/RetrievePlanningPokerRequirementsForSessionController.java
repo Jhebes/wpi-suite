@@ -72,7 +72,7 @@ public class RetrievePlanningPokerRequirementsForSessionController {
 	 * @throws NotImplementedException
 	 */
 	public void receivedData(PlanningPokerSession session){
-		RequirementTableManager a = new RequirementTableManager();
+		final RequirementTableManager a = new RequirementTableManager();
 		a.refreshRequirements(this.target, session.getRequirements());
 	}
 

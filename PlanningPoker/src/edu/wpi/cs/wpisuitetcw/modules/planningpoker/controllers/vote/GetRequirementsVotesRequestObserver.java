@@ -43,13 +43,13 @@ public class GetRequirementsVotesRequestObserver implements
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		// cast observable to request
-		Request request = (Request) iReq;
+		final Request request = (Request) iReq;
 
 		// get the response from the request
-		ResponseModel response = request.getResponse();
+		final ResponseModel response = request.getResponse();
 
 		if (response.getStatusCode() == 200) {
-			PlanningPokerSession session[] = PlanningPokerSession.fromJSONArray(response.getBody());
+			final PlanningPokerSession session[] = PlanningPokerSession.fromJSONArray(response.getBody());
 			controller.receivedData(session[0]);
 		} else {
 			controller.errorReceivingData("Received "

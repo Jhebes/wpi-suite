@@ -54,7 +54,7 @@ public class RequirementTableManager {
 
 	public void fetch(int i) {
 		Logger.getLogger("PlanningPoker").log(Level.INFO, "Fetching session details for session " + i);
-		ArrayList<PlanningPokerRequirement> reqs = SessionStash.getInstance()
+		final ArrayList<PlanningPokerRequirement> reqs = SessionStash.getInstance()
 				.getSessionByID(i).getRequirements();
 		this.refreshRequirements(i, reqs);
 	}

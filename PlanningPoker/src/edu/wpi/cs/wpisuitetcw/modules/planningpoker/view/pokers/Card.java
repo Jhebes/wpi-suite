@@ -102,8 +102,8 @@ public class Card extends JPanel {
 
 		// load background image
 		try {
-			Image img = ImageIO.read(getClass().getResource("new_card.png"));
-			ImageIcon icon = new ImageIcon(img);
+			final Image img = ImageIO.read(getClass().getResource("new_card.png"));
+			final ImageIcon icon = new ImageIcon(img);
 			this.cardPicture = icon.getImage();
 		} catch (IOException e) {
 			Logger.getLogger("PlanningPoker").log(Level.INFO,
@@ -173,13 +173,13 @@ public class Card extends JPanel {
 	 */
 	private void displayCardValue() {
 		// containing panel
-		JPanel valuePanel = new JPanel();
+		final JPanel valuePanel = new JPanel();
 		valuePanel.setLayout(new MigLayout());
 		valuePanel.setBackground(Color.WHITE);
 		valuePanel.setOpaque(false);
 
 		// label for displaying value
-		JLabel valueLabel = new JLabel(Integer.toString(cardValue),
+		final JLabel valueLabel = new JLabel(Integer.toString(cardValue),
 				JLabel.CENTER);
 		valueLabel.setFont(new Font("Serif", Font.BOLD, 48));
 
@@ -216,7 +216,7 @@ public class Card extends JPanel {
 	 * @return true if so, else otherwise
 	 */
 	public boolean validateCardValue() {
-		String inputValue = this.txtboxValue.getText();
+		final String inputValue = this.txtboxValue.getText();
 
 		if (inputValue.equals("")) {
 			this.isValueValid = false;
@@ -236,7 +236,7 @@ public class Card extends JPanel {
 	 */
 	private boolean isPositiveInteger(String s) {
 		try {
-			int value = Integer.parseInt(s);
+			final int value = Integer.parseInt(s);
 			if (value > 0) {
 				return true;
 			} else {

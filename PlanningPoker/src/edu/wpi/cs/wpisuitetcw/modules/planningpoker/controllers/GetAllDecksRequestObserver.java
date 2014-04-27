@@ -35,7 +35,7 @@ public class GetAllDecksRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		PlanningPokerDeck[] decks = PlanningPokerDeck.fromJSONArray(iReq
+		final PlanningPokerDeck[] decks = PlanningPokerDeck.fromJSONArray(iReq
 				.getResponse().getBody());
 		controller.updateDecks(new ArrayList<PlanningPokerDeck>(Arrays
 				.asList(decks)));

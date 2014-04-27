@@ -51,9 +51,9 @@ public class DefaultHomePanel extends JPanel {
 		// sets the panel border
 		this.setBorder(compound);
 
-		JTextPane leftTextPane = createLeftTextPane();
-		JTextPane rightTextPane = createRightTextPane();
-		JTextPane topTextPane = createTopTextPane();
+		final JTextPane leftTextPane = createLeftTextPane();
+		final JTextPane rightTextPane = createRightTextPane();
+		final JTextPane topTextPane = createTopTextPane();
 
 		// Cannot edit text panes
 		leftTextPane.setEditable(false);
@@ -66,8 +66,8 @@ public class DefaultHomePanel extends JPanel {
 		topTextPane.setOpaque(false);
 
 		// Makes containers for top and bottom halves
-		JPanel topContainer = new JPanel();
-		JSplitPane container = new JSplitPane();
+		final JPanel topContainer = new JPanel();
+		final JSplitPane container = new JSplitPane();
 
 		// Gets rid of SplitPane Border
 		container.setBorder(null);
@@ -91,11 +91,11 @@ public class DefaultHomePanel extends JPanel {
 
 	private JTextPane createTopTextPane() {
 
-		String[] TopPaneText = { "Welcome to Planning Poker!" };
-		String[] initStyles = { "super huge" };
+		final String[] TopPaneText = { "Welcome to Planning Poker!" };
+		final String[] initStyles = { "super huge" };
 
-		JTextPane textPane = new JTextPane();
-		StyledDocument doc = textPane.getStyledDocument();
+		final JTextPane textPane = new JTextPane();
+		final StyledDocument doc = textPane.getStyledDocument();
 		addStylesToDocument(doc);
 
 		try {
@@ -111,7 +111,7 @@ public class DefaultHomePanel extends JPanel {
 
 	private JTextPane createLeftTextPane() {
 
-		String[] leftPaneText = {
+		final String[] leftPaneText = {
 				"What is Planning Poker?", // large
 				"\n\n   Planning Poker is a software development tool for estimating "
 						+ "requirements in software development projects. In Planning Poker, "
@@ -128,10 +128,10 @@ public class DefaultHomePanel extends JPanel {
 						+ "or create a requirement of your own. Now it's time to start the voting!\n", // small
 		};
 
-		String[] initStyles = { "large", "small", "large", "small" };
+		final String[] initStyles = { "large", "small", "large", "small" };
 
-		JTextPane textPane = new JTextPane();
-		StyledDocument doc = textPane.getStyledDocument();
+		final JTextPane textPane = new JTextPane();
+		final StyledDocument doc = textPane.getStyledDocument();
 		addStylesToDocument(doc);
 
 		try {
@@ -147,7 +147,7 @@ public class DefaultHomePanel extends JPanel {
 
 	private JTextPane createRightTextPane() {
 
-		String[] rightPaneText = {
+		final String[] rightPaneText = {
 				"Frequently Asked Questions", // large
 				"\n\nWho can view my vote?", // medium
 				"\n Once your vote is submitted, your vote remains anonymous and is only"
@@ -160,11 +160,11 @@ public class DefaultHomePanel extends JPanel {
 				"" // small
 		};
 
-		String[] initStyles = { "large", "medium", "small", "medium", "small",
+		final String[] initStyles = { "large", "medium", "small", "medium", "small",
 				"medium", "small" };
 
-		JTextPane textPane = new JTextPane();
-		StyledDocument doc = textPane.getStyledDocument();
+		final JTextPane textPane = new JTextPane();
+		final StyledDocument doc = textPane.getStyledDocument();
 		addStylesToDocument(doc);
 
 		try {
@@ -180,13 +180,13 @@ public class DefaultHomePanel extends JPanel {
 
 	protected void addStylesToDocument(StyledDocument doc) {
 		// Initialize some styles.
-		Style def = StyleContext.getDefaultStyleContext().getStyle(
+		final Style def = StyleContext.getDefaultStyleContext().getStyle(
 				StyleContext.DEFAULT_STYLE);
 
-		Style regular = doc.addStyle("regular", def);
+		final Style regular = doc.addStyle("regular", def);
 		StyleConstants.setFontFamily(def, "SansSerif");
 
-		Style Georgia = doc.addStyle("georgia", def);
+		final Style Georgia = doc.addStyle("georgia", def);
 		StyleConstants.setFontFamily(def, "Georgia");
 
 		Style s = doc.addStyle("italic", regular);

@@ -140,7 +140,7 @@ public class CreateDeckPanel extends JPanel {
 		cardPanel = new JPanel();
 		cardPanel.add(errorPanel);
 
-		JPanel container = new JPanel();
+		final JPanel container = new JPanel();
 		container.setLayout(new GridBagLayout());
 		container.add(cardPanel);
 
@@ -211,11 +211,11 @@ public class CreateDeckPanel extends JPanel {
 		this.removeAll();
 
 		// panel for display a message
-		JPanel msgPanel = new JPanel();
+		final JPanel msgPanel = new JPanel();
 		msgPanel.setLayout(new MigLayout());
 
 		// No deck message
-		JLabel msgLabel = new JLabel(NO_DECK_MSG, JLabel.CENTER);
+		final JLabel msgLabel = new JLabel(NO_DECK_MSG, JLabel.CENTER);
 
 		msgPanel.add(msgLabel, "center");
 		this.add(msgLabel, "dock center");
@@ -227,8 +227,8 @@ public class CreateDeckPanel extends JPanel {
 	 */
 	private void setInitialCard() {
 		// cards
-		Card starterCard = new Card(this.mode, this);
-		int key = starterCard.hashCode();
+		final Card starterCard = new Card(this.mode, this);
+		final int key = starterCard.hashCode();
 		cards.put(key, starterCard);
 		this.addRemoveCardListener(starterCard, this);
 		this.cardPanel.add(starterCard);
@@ -238,8 +238,8 @@ public class CreateDeckPanel extends JPanel {
 	 * Add a new card to both the storing hashmap and the view
 	 */
 	public void addNewCard() {
-		Card aCard = new Card(this.mode, this);
-		int key = aCard.hashCode();
+		final Card aCard = new Card(this.mode, this);
+		final int key = aCard.hashCode();
 		cards.put(key, aCard);
 		this.addRemoveCardListener(aCard, this);
 
@@ -274,7 +274,7 @@ public class CreateDeckPanel extends JPanel {
 	 * Removes all card from the panel
 	 */
 	public void removeAllCard() {
-		Map<Integer, Card> map = this.cards;
+		final Map<Integer, Card> map = this.cards;
 		for (Card aCard : map.values()) {
 			removeCardWithKey(aCard.hashCode());
 		}
@@ -324,8 +324,8 @@ public class CreateDeckPanel extends JPanel {
 	 * @return an array list with the card values user enters
 	 */
 	public ArrayList<Integer> getNewDeckValues() {
-		ArrayList<Integer> cardValues = new ArrayList<Integer>();
-		Map<Integer, Card> map = this.cards;
+		final ArrayList<Integer> cardValues = new ArrayList<Integer>();
+		final Map<Integer, Card> map = this.cards;
 		for (Card aCard : map.values()) {
 			cardValues.add(Integer.parseInt(aCard.getTxtboxValue().getText()));
 		}
@@ -401,7 +401,7 @@ public class CreateDeckPanel extends JPanel {
 		this.textboxName.setText(deck.getDeckName());
 
 		this.deckOption.removeAllItems();
-		int selection = deck.getMaxSelection();
+		final int selection = deck.getMaxSelection();
 
 		if (selection == 1) {
 			this.deckOption.addItem(SINGLE_SELECT);
@@ -434,7 +434,7 @@ public class CreateDeckPanel extends JPanel {
 
 			@Override
 			public void componentHidden(ComponentEvent e) {
-				Card aCard = (Card) e.getComponent();
+				final Card aCard = (Card) e.getComponent();
 				Logger.getLogger("PlanningPoker").log(Level.INFO,
 						"Card removed");
 				panel.removeCardWithKey(aCard.hashCode());
@@ -458,8 +458,8 @@ public class CreateDeckPanel extends JPanel {
 	 * @return a list of card values
 	 */
 	public List<Integer> getAllCardsValue() {
-		List<Integer> deckValues = new ArrayList<Integer>();
-		Map<Integer, Card> map = this.cards;
+		final List<Integer> deckValues = new ArrayList<Integer>();
+		final Map<Integer, Card> map = this.cards;
 		for (Card aCard : map.values()) {
 			deckValues.add(aCard.getValue());
 		}

@@ -192,7 +192,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	public void setupDeckDropdown() {
 		deckType.removeAllItems();
-		List<String> deckNames = GetAllDecksController.getInstance()
+		final List<String> deckNames = GetAllDecksController.getInstance()
 				.getAllDeckNames();
 		for (String name : deckNames) {
 			deckType.addItem(name);
@@ -226,10 +226,10 @@ public class CreateSessionPanel extends JPanel {
 		// checks to see if the deadline picker is enabled, if it is return a
 		// deadline.
 		if (this.deadlinePicker.isEnabled()) {
-			Date date = deadlinePicker.getDate();
-			Date time = (Date) pickerDeadlineTime.getValue();
-			Calendar calendar1 = new GregorianCalendar();
-			Calendar calendar2 = new GregorianCalendar();
+			final Date date = deadlinePicker.getDate();
+			final Date time = (Date) pickerDeadlineTime.getValue();
+			final Calendar calendar1 = new GregorianCalendar();
+			final Calendar calendar2 = new GregorianCalendar();
 
 			calendar1.setTime(date);
 			calendar2.setTime(time);
@@ -240,12 +240,12 @@ public class CreateSessionPanel extends JPanel {
 			calendar1.set(Calendar.MINUTE, calendar2.get(Calendar.MINUTE));
 			calendar1.set(Calendar.SECOND, calendar2.get(Calendar.SECOND));
 
-			Date deadline = calendar1.getTime();
+			final Date deadline = calendar1.getTime();
 
 			return deadline;
 		} else {
 			// if the deadline picker isn't enabled don't return a deadline.
-			Date deadline = null;
+			final Date deadline = null;
 			return deadline;
 		}
 	}
@@ -284,8 +284,8 @@ public class CreateSessionPanel extends JPanel {
 		// new deck is being created
 		if (this.mode.equals(CardDisplayMode.CREATE)) {
 			// validate session and deck input
-			boolean isDeckValid = validateAllDeckInputs();
-			boolean isSessionValide = validateAllSessionInputs();
+			final boolean isDeckValid = validateAllDeckInputs();
+			final boolean isSessionValide = validateAllSessionInputs();
 
 			return isDeckValid && isSessionValide;
 		} else {
@@ -302,9 +302,9 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private boolean validateAllSessionInputs() {
 		// this is to avoid short circuit evaluation
-		boolean nameEntered = sessionNameEntered();
-		boolean desEntered = sessionDescriptionEntered();
-		boolean deadlineValid = isDeadlineValid();
+		final boolean nameEntered = sessionNameEntered();
+		final boolean desEntered = sessionDescriptionEntered();
+		final boolean deadlineValid = isDeadlineValid();
 
 		return nameEntered && desEntered && deadlineValid;
 
@@ -316,8 +316,8 @@ public class CreateSessionPanel extends JPanel {
 	 * @return true if all inputs are valid
 	 */
 	private boolean validateAllDeckInputs() {
-		boolean areCardsValid = validateCardValues();
-		boolean isNameEntered = this.deckPanel.isDeckNameEntered();
+		final boolean areCardsValid = validateCardValues();
+		final boolean isNameEntered = this.deckPanel.isDeckNameEntered();
 		return areCardsValid && isNameEntered;
 	}
 
@@ -329,7 +329,7 @@ public class CreateSessionPanel extends JPanel {
 	private boolean validateCardValues() {
 		boolean isAllInputValid = true;
 
-		Map<Integer, Card> cards = this.deckPanel.getCards();
+		final Map<Integer, Card> cards = this.deckPanel.getCards();
 
 		// check if the deck contains any card
 		if (cards.size() == 0) {
@@ -440,7 +440,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	public void updateRequirements(List<PlanningPokerRequirement> requirements) {
 		setRequirements(requirements);
-		List<String> names = new ArrayList<String>();
+		final List<String> names = new ArrayList<String>();
 		for (PlanningPokerRequirement requirement : requirements) {
 			names.add(requirement.getName());
 		}
@@ -548,9 +548,9 @@ public class CreateSessionPanel extends JPanel {
 	 * Set up the initial text in the session's name text field
 	 */
 	private void setupDefaultInitialData() {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-		String defaultNameDate = sdf.format(new Date());
-		String projectName = ConfigManager.getConfig().getProjectName();
+		final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		final String defaultNameDate = sdf.format(new Date());
+		final String projectName = ConfigManager.getConfig().getProjectName();
 		nameTextField.setText(projectName + " - " + defaultNameDate);
 	}
 
@@ -568,7 +568,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private void createTimeSelector() {
 		pickerDeadlineTime = new JSpinner(new SpinnerDateModel());
-		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(
+		final JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(
 				pickerDeadlineTime, "HH:mm:ss");
 		pickerDeadlineTime.setEditor(timeEditor);
 		pickerDeadlineTime.setValue(new Date()); // will only show the current
@@ -683,7 +683,7 @@ public class CreateSessionPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String deckName = String.valueOf(deckType.getSelectedItem());
+				final String deckName = String.valueOf(deckType.getSelectedItem());
 				if (deckName.equals(CREATE_DECK)) {
 					// create mode
 					mode = CardDisplayMode.CREATE;
@@ -855,7 +855,7 @@ public class CreateSessionPanel extends JPanel {
 	 * @return true if valid, false if the entered deadline is in the past
 	 */
 	private boolean isDeadlineValid() {
-		Date enteredDate = getDeadline();
+		final Date enteredDate = getDeadline();
 
 		// check if deadline box is checked
 		if (!cbDeadline.isSelected()) {

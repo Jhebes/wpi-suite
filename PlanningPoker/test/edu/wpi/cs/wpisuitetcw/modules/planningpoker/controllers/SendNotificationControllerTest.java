@@ -33,7 +33,7 @@ public class SendNotificationControllerTest extends PlanningPokerMockTest {
 
 	@Test
 	public void testMakeURL() {
-		String url = SendNotificationController.makeURL("start", "test@test.com",
+		final String url = SendNotificationController.makeURL("start", "test@test.com",
 				testDeadline, "sendEmail");
 		assertEquals(testExpectedURL, url);
 	}
@@ -44,7 +44,7 @@ public class SendNotificationControllerTest extends PlanningPokerMockTest {
 				testDeadline, "sendEmail");
 
 		// See whether the request was sent
-		MockRequest request = ((MockNetwork) Network.getInstance())
+		final MockRequest request = ((MockNetwork) Network.getInstance())
 				.getLastRequestMade();
 		if (request == null) {
 			fail("Request not sent.");

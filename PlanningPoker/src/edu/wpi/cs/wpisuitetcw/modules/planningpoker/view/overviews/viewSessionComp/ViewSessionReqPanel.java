@@ -99,7 +99,7 @@ public class ViewSessionReqPanel extends JPanel {
 	 *         requriements panel
 	 */
 	public ArrayList<String> getAllLeftRequirements() {
-		ArrayList<String> selectedNames = new ArrayList<String>();
+		final ArrayList<String> selectedNames = new ArrayList<String>();
 		for (int i = 0; i < this.allReqTable.getRowCount(); ++i) {
 			selectedNames.add(this.allReqTable.getValueAt(i, 0).toString());
 		}
@@ -113,7 +113,7 @@ public class ViewSessionReqPanel extends JPanel {
 	 *         requriements panel
 	 */
 	public ArrayList<String> getAllRightRequirements() {
-		ArrayList<String> selectedNames = new ArrayList<String>();
+		final ArrayList<String> selectedNames = new ArrayList<String>();
 		for (int i = 0; i < this.sessionReqTable.getRowCount(); ++i) {
 			selectedNames.add(this.sessionReqTable.getValueAt(i, 0).toString());
 		}
@@ -127,9 +127,9 @@ public class ViewSessionReqPanel extends JPanel {
 	 *         requriements panel
 	 */
 	public ArrayList<String> getLeftSelectedRequirements() {
-		int[] selectedRows = this.allReqTable.getSelectedRows();
+		final int[] selectedRows = this.allReqTable.getSelectedRows();
 
-		ArrayList<String> selectedNames = new ArrayList<String>();
+		final ArrayList<String> selectedNames = new ArrayList<String>();
 		for (int i = 0; i < selectedRows.length; i++) {
 			// Get the 0th column which should be the name
 			selectedNames.add(this.allReqTable.getValueAt(selectedRows[i], 0)
@@ -145,9 +145,9 @@ public class ViewSessionReqPanel extends JPanel {
 	 *         right requriements panel
 	 */
 	public ArrayList<String> getRightSelectedRequirements() {
-		int[] selectedRows = this.sessionReqTable.getSelectedRows();
+		final int[] selectedRows = this.sessionReqTable.getSelectedRows();
 
-		ArrayList<String> selectedNames = new ArrayList<String>();
+		final ArrayList<String> selectedNames = new ArrayList<String>();
 		for (int i = 0; i < selectedRows.length; i++) {
 			// Get the 0th column which should be the name
 			selectedNames.add(this.sessionReqTable.getValueAt(selectedRows[i],
@@ -206,11 +206,11 @@ public class ViewSessionReqPanel extends JPanel {
 		validateActivateSession();
 
 		// setup panels
-		Panel namePanel = new Panel();
-		Panel leftPanel = new Panel();
-		Panel rightPanel = new Panel();
-		Panel centerPanel = new Panel();
-		Panel bottomPanel = new Panel();
+		final Panel namePanel = new Panel();
+		final Panel leftPanel = new Panel();
+		final Panel rightPanel = new Panel();
+		final Panel centerPanel = new Panel();
+		final Panel bottomPanel = new Panel();
 
 		// setup tables
 		// Left Table
@@ -232,9 +232,9 @@ public class ViewSessionReqPanel extends JPanel {
 				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
 		// add table to rightPanel
-		JLabel leftLabel = new JLabel("All Requirements");
+		final JLabel leftLabel = new JLabel("All Requirements");
 		leftPanel.setLayout(new BorderLayout());
-		JScrollPane allReqSp = new JScrollPane(allReqTable);
+		final JScrollPane allReqSp = new JScrollPane(allReqTable);
 		leftPanel.add(leftLabel, BorderLayout.NORTH);
 		leftPanel.add(allReqSp);
 
@@ -260,9 +260,9 @@ public class ViewSessionReqPanel extends JPanel {
 		allReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
 		// rightPanel formatting
-		JLabel rightLabel = new JLabel("Current Session's Requirements");
+		final JLabel rightLabel = new JLabel("Current Session's Requirements");
 		rightPanel.setLayout(new BorderLayout());
-		JScrollPane sessionReqSp = new JScrollPane(sessionReqTable);
+		final JScrollPane sessionReqSp = new JScrollPane(sessionReqTable);
 		rightPanel.add(rightLabel, BorderLayout.NORTH);
 		rightPanel.add(sessionReqSp);
 
@@ -297,11 +297,11 @@ public class ViewSessionReqPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				refreshMoveButtons();
-				RequirementTableManager n = new RequirementTableManager();
+				final RequirementTableManager n = new RequirementTableManager();
 				n.fetch(session.getID());
 				sessionReqTable.updateUI();
-				JTable table = (JTable) e.getSource();
-				int row = table.getSelectedRow();
+				final JTable table = (JTable) e.getSource();
+				final int row = table.getSelectedRow();
 
 				if (row == -1) {
 					saveRequirement.setEnabled(false);
@@ -336,8 +336,8 @@ public class ViewSessionReqPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				refreshMoveButtons();
-				JTable table = (JTable) e.getSource();
-				int row = table.getSelectedRow();
+				final JTable table = (JTable) e.getSource();
+				final int row = table.getSelectedRow();
 
 				if (row == -1) {
 					saveRequirement.setEnabled(false);
@@ -395,20 +395,20 @@ public class ViewSessionReqPanel extends JPanel {
 		centerPanel.add(buttonsPanel);
 
 		// text field for name goes in the top of the panel
-		JLabel nameLabel = new JLabel("Name:");
+		final JLabel nameLabel = new JLabel("Name:");
 		namePanel.setLayout(new BorderLayout());
 		namePanel.add(nameLabel, BorderLayout.NORTH);
 		namePanel.add(name, BorderLayout.SOUTH);
 
 		// text field for description goes in the bottom of the panel
-		JLabel descriptionLabel = new JLabel("Description:");
-		JScrollPane descriptionSp = new JScrollPane(description);
+		final JLabel descriptionLabel = new JLabel("Description:");
+		final JScrollPane descriptionSp = new JScrollPane(description);
 		description.setLineWrap(true);
 		bottomPanel.setLayout(new BorderLayout());
 		bottomPanel.add(descriptionLabel, BorderLayout.NORTH);
 		bottomPanel.add(descriptionSp, BorderLayout.CENTER);
 
-		GridBagConstraints c = new GridBagConstraints();
+		final GridBagConstraints c = new GridBagConstraints();
 
 		// constraints for centerPanel
 		c.insets = new Insets(10, 10, 10, 10);

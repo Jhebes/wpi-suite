@@ -48,16 +48,16 @@ public class AddRequirementToSessionController implements ActionListener {
 	 * locally, posting it to the database and updating the local table model.
 	 */
 	public void addRequirement() {
-		int id = this.panel.getSession().getID();
+		final int id = this.panel.getSession().getID();
 
-		PlanningPokerSession session = SessionStash.getInstance()
+		final PlanningPokerSession session = SessionStash.getInstance()
 				.getSessionByID(id);
 		// Adds the model of requirements from the req manager, add a requirement to this model, will add and update 
 		// the req manager
-		RequirementModel addReqModel = RequirementModel.getInstance();
-		Requirement reqManagerRequirement = new Requirement();
+		final RequirementModel addReqModel = RequirementModel.getInstance();
+		final Requirement reqManagerRequirement = new Requirement();
 
-		PlanningPokerRequirement requirement = new PlanningPokerRequirement();
+		final PlanningPokerRequirement requirement = new PlanningPokerRequirement();
 		requirement.setName(this.panel.getNewReqName());
 		requirement.setDescription(this.panel.getNewReqDesc());
 		session.addRequirement(requirement);

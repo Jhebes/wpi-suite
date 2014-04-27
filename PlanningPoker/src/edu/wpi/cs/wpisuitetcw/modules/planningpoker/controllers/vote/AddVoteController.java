@@ -71,11 +71,11 @@ public class AddVoteController implements ActionListener {
 		}
 
 		// checking list of votes to see if user has already voted
-		ArrayList<PlanningPokerVote> toRemove = new ArrayList<PlanningPokerVote>();
+		final ArrayList<PlanningPokerVote> toRemove = new ArrayList<PlanningPokerVote>();
 
 		System.out.print("Requesting user is: ");
-		Configuration c = ConfigManager.getConfig();
-		String username = c.getUserName();
+		final Configuration c = ConfigManager.getConfig();
+		final String username = c.getUserName();
 		
 		for (PlanningPokerVote v : this.req.getVotes()) {
 			if (v.getUser().equals(username)) {
@@ -88,7 +88,7 @@ public class AddVoteController implements ActionListener {
 		}
 		
 		// Add vote to the requirement
-		PlanningPokerVote vote = new PlanningPokerVote(username, voteView.getVote());
+		final PlanningPokerVote vote = new PlanningPokerVote(username, voteView.getVote());
 		session.addVoteToRequirement(req, vote, username);
 
 		Logger.getLogger("PlanningPoker").log(Level.INFO, "Added vote to requirement " + req.getName());
@@ -106,7 +106,7 @@ public class AddVoteController implements ActionListener {
 					"Sleeping was interrupted.", e);
 		}
 		
-		GetRequirementsVotesController getVotes = new GetRequirementsVotesController(
+		final GetRequirementsVotesController getVotes = new GetRequirementsVotesController(
 				voteView, session);
 		getVotes.actionPerformed(new ActionEvent(getVotes, 0, req.getName()));	
 		
@@ -121,7 +121,7 @@ public class AddVoteController implements ActionListener {
 	 */
 	@SuppressWarnings("unchecked")
 	private void updateVoteIcon() {
-		int index = voteView.getRequirementList().getSelectedIndex();
+		final int index = voteView.getRequirementList().getSelectedIndex();
 		((DefaultListModel<PlanningPokerRequirement>) voteView
 														.getRequirementList()
 														.getModel())

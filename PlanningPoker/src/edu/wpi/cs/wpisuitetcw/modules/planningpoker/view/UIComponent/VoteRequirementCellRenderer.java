@@ -50,7 +50,7 @@ public class VoteRequirementCellRenderer extends JLabel implements ListCellRende
 						boolean isSelected, 
 						boolean cellHasFocus) {
 		// Set requirement name to the cell
-		String requirementName = value.getName();
+		final String requirementName = value.getName();
 		setText(requirementName);
 
 		// Set icon

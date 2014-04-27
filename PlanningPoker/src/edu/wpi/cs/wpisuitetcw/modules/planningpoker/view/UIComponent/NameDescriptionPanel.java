@@ -47,14 +47,14 @@ public class NameDescriptionPanel extends JPanel {
 		nameTextField	 = new JTextArea();
 		nameTextField.setLineWrap(true);
 		nameTextField.setWrapStyleWord(true);
-		JScrollPane nameFrame = new JScrollPane(nameTextField);
+		final JScrollPane nameFrame = new JScrollPane(nameTextField);
 
 		// Create text box and label for desription
 		descriptionLabel = new JLabel("Description *");
 		descriptionTextField 	= new JTextArea();
 		descriptionTextField.setLineWrap(true);
 		descriptionTextField.setWrapStyleWord(true);
-		JScrollPane descriptionFrame = new JScrollPane(descriptionTextField);
+		final JScrollPane descriptionFrame = new JScrollPane(descriptionTextField);
 
 
 		setLayout(new MigLayout("fill, inset 0", "", "0[][][][grow]0"));

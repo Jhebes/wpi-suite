@@ -214,7 +214,7 @@ public class PlanningPokerSession extends AbstractModel {
 	public void addVoteToRequirement(PlanningPokerRequirement req,
 			PlanningPokerVote v, String requestingUser) {
 		// Remove the corresponding requirement from this session
-		PlanningPokerRequirement r = requirements
+		final PlanningPokerRequirement r = requirements
 				.get(requirements.indexOf(req));
 		requirements.remove(r);
 		

@@ -46,7 +46,7 @@ public class GetAllRequirementsRequestObserver implements RequestObserver {
 		if (requirements == null) {
 			requirements = new Requirement[0];
 		}
-		ArrayList<Requirement> returnedReqs = new ArrayList<Requirement>();
+		final ArrayList<Requirement> returnedReqs = new ArrayList<Requirement>();
 		for(Requirement r : requirements){
 			if(r.getIteration().equals("Backlog")){
 				returnedReqs.add(r);

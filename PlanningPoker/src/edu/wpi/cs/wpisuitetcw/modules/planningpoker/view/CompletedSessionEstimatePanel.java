@@ -197,7 +197,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 					}
 				});
 
-		Component verticalStrut = Box.createVerticalStrut(50);
+		final Component verticalStrut = Box.createVerticalStrut(50);
 
 		btnFinalEstimate = new JButton("Submit Final Estimation");
 		btnFinalEstimate.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -280,7 +280,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		this.add(pnlStats);
 		this.add(pnlFinalEstimate);
 		this.createTable();
-		JScrollPane votesScrollPane = new JScrollPane(tblVotes);
+		final JScrollPane votesScrollPane = new JScrollPane(tblVotes);
 		tblVotes.setFillsViewportHeight(true);
 		pnlVotes.add(lblVotes);
 		pnlVotes.add(votesScrollPane);

@@ -60,7 +60,7 @@ public class SendNotificationController {
 						.format(deadline);
 			}
 
-			StringBuilder sb = new StringBuilder();
+			final StringBuilder sb = new StringBuilder();
 			sb.append("Advanced/planningpoker/session/" + command + "/");
 			sb.append(URLEncoder.encode(notificationType, "UTF-8"));
 			sb.append("/");

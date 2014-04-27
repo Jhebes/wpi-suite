@@ -137,7 +137,7 @@ public class VotePanel extends JPanel {
 		setupBottomPanel();
 
 		// Need to add both left and right to the JSplitpane
-		JSplitPane mainView = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
+		final JSplitPane mainView = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
 
 		// Add mainView and the bottom panel to the canvas
 		setLayout(new MigLayout());
@@ -156,7 +156,7 @@ public class VotePanel extends JPanel {
 		// TODO programmatically select the requirement and set reqName
 		// Prevent getting requirement from an empty array list
 		if (session.getRequirements().size() > 0) {
-			PlanningPokerRequirement firstReq = session.getRequirements().get(0);
+			final PlanningPokerRequirement firstReq = session.getRequirements().get(0);
 			requirementNameTextbox.setText(firstReq.getName());
 			descriptionTextbox.setText(firstReq.getDescription());
 			selectedRequirement = firstReq;
@@ -188,7 +188,7 @@ public class VotePanel extends JPanel {
 			private void endSession() {
 				session.close();
 				session.save();
-				ArrayList<PlanningPokerRequirement> reqList = session.getRequirements();
+				final ArrayList<PlanningPokerRequirement> reqList = session.getRequirements();
 				for (PlanningPokerRequirement ppr : reqList) {
 					int count = 0;
 					int total = 0;
@@ -225,7 +225,7 @@ public class VotePanel extends JPanel {
 			cancelSessionButton.setVisible(false);
 		}
 
-		String currentUserName = ConfigManager.getConfig().getUserName();
+		final String currentUserName = ConfigManager.getConfig().getUserName();
 		if (session.isClosed())
 			endSessionButton.setEnabled(false);
 		if (currentUserName.equals(session.getOwnerUserName()))
@@ -235,14 +235,14 @@ public class VotePanel extends JPanel {
 
 		// Extract the requirements from the table provided by
 		// ViewSessionTableManager and converts them to list
-		ArrayList<String> testReqs = new ArrayList<String>();
-		RequirementTableManager a = new RequirementTableManager();
-		RequirementTableModel v = a.get(this.session.getID());
-		Vector vector = v.getDataVector();
+		final ArrayList<String> testReqs = new ArrayList<String>();
+		final RequirementTableManager a = new RequirementTableManager();
+		final RequirementTableModel v = a.get(this.session.getID());
+		final Vector vector = v.getDataVector();
 		for (int i = 0; i < vector.size(); ++i) {
 			testReqs.add((String) (((Vector) vector.elementAt(i)).elementAt(1)));
 		}
-		String[] reqArr = new String[testReqs.size()];
+		final String[] reqArr = new String[testReqs.size()];
 		for (int i = 0; i < testReqs.size(); ++i) {
 			reqArr[i] = testReqs.get(i);
 		}
@@ -293,8 +293,8 @@ public class VotePanel extends JPanel {
 		leftPanelLabel = new JLabel(LEFT_PANEL_LABEL);
 
 		// TODO: sleep
-		ArrayList<PlanningPokerRequirement> reqs = session.getRequirements();
-		DefaultListModel<PlanningPokerRequirement> requirementModel = 
+		final ArrayList<PlanningPokerRequirement> reqs = session.getRequirements();
+		final DefaultListModel<PlanningPokerRequirement> requirementModel = 
 				new DefaultListModel<PlanningPokerRequirement>();
 		for (PlanningPokerRequirement ppr : reqs) {
 			requirementModel.addElement(ppr);
@@ -316,7 +316,7 @@ public class VotePanel extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				// Check to see if user double clicked
 				if (e.getClickCount() == 1) {
-					PlanningPokerRequirement requirement = reqList.getModel().getElementAt(reqList.getSelectedIndex());
+					final PlanningPokerRequirement requirement = reqList.getModel().getElementAt(reqList.getSelectedIndex());
 
 					if (requirement.getName() == null) {
 						requirementNameTextbox.setText(" ");
@@ -338,7 +338,7 @@ public class VotePanel extends JPanel {
 						finalEstimatePnl.updateEstimateTextField(requirement);
 						updateUI();
 					} else {
-						PlanningPokerVote vote = requirement.getVoteByUser(ConfigManager.getConfig().getUserName());
+						final PlanningPokerVote vote = requirement.getVoteByUser(ConfigManager.getConfig().getUserName());
 						if (vote != null) {
 							setVoteTextFieldWithValue(vote.getCardValue());
 							updateUI();
@@ -436,7 +436,7 @@ public class VotePanel extends JPanel {
 			if (cardFrame != null) {
 				rightPanel.add(cardFrame, "hmin 250px, grow, dock south");
 			} else {
-				JLabel messageLabel = new JLabel(NO_DECK_MSG);
+				final JLabel messageLabel = new JLabel(NO_DECK_MSG);
 				rightPanel.add(messageLabel, "gapleft 150px, hmin 250px, grow, dock south");
 			}
 			

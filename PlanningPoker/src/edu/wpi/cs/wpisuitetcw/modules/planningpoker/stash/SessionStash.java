@@ -91,7 +91,7 @@ public class SessionStash {
 	 * @return The default planning poker session with special ID 1.
 	 */
 	public PlanningPokerSession createDefaultSession() {
-		PlanningPokerSession defaultSession = new PlanningPokerSession();
+		final PlanningPokerSession defaultSession = new PlanningPokerSession();
 		defaultSession.setID(1);
 		defaultSession.create();
 		return defaultSession;

@@ -53,7 +53,7 @@ public class ViewEventManager {
 	 * Opens a new tab for the creation of a session
 	 */
 	public void createSession() {
-		CreateSessionPanel newSession = new CreateSessionPanel();
+		final CreateSessionPanel newSession = new CreateSessionPanel();
 		main.addTab("New Session", null, newSession, "New session.");
 		main.invalidate(); // force the tabbedpane to redraw
 		main.repaint();
@@ -71,7 +71,7 @@ public class ViewEventManager {
 	 * Opens a new tab for the editing of a session
 	 */
 	public void editSession(PlanningPokerSession session) {
-		CreateSessionPanel newSession = new CreateSessionPanel(session);
+		final CreateSessionPanel newSession = new CreateSessionPanel(session);
 		main.addTab("Edit: " + session.getName(), null, newSession,
 				"Edit session.");
 		main.invalidate(); // force the tabbedpane to redraw
@@ -95,7 +95,7 @@ public class ViewEventManager {
 			}
 
 			if (exist == null) {
-				VotePanel newPanel = new VotePanel(
+				final VotePanel newPanel = new VotePanel(
 						session);
 				inProgressSessionPanels.add(newPanel);
 				main.addTab(session.getName(), null, newPanel,
@@ -119,7 +119,7 @@ public class ViewEventManager {
 
 			if (exist == null) {
 				// check if the panel of the session is opened
-				AddRequirementPanel viewSession = new AddRequirementPanel(session);
+				final AddRequirementPanel viewSession = new AddRequirementPanel(session);
 				viewSessionPanels.add(viewSession);
 				main.addTab(session.getName(), null, viewSession,
 						"View Session.");

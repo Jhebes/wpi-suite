@@ -44,10 +44,10 @@ public class CreateNewDeckController {
 		// make sure all cards are validated
 		if (validateAllInputs()) {
 			// all inputs are good
-			String deckName = this.view.getTextboxName().getText();
-			List<Integer> cardValues = this.view.getAllCardsValue();
-			int maxSelection = view.getMaxSelectionCards();
-			PlanningPokerDeck deck = new PlanningPokerDeck(deckName, cardValues, maxSelection);
+			final String deckName = this.view.getTextboxName().getText();
+			final List<Integer> cardValues = this.view.getAllCardsValue();
+			final int maxSelection = view.getMaxSelectionCards();
+			final PlanningPokerDeck deck = new PlanningPokerDeck(deckName, cardValues, maxSelection);
 
 			// send a request
 			final Request request = Network.getInstance().makeRequest(
@@ -73,8 +73,8 @@ public class CreateNewDeckController {
 	 * @return true if valid; false otherwise
 	 */
 	private boolean validateAllInputs() {
-		boolean areCardsValid = validateCardValues();
-		boolean isNameEntered = this.view.isDeckNameEntered();
+		final boolean areCardsValid = validateCardValues();
+		final boolean isNameEntered = this.view.isDeckNameEntered();
 		return areCardsValid && isNameEntered;
 	}
 
@@ -86,7 +86,7 @@ public class CreateNewDeckController {
 	private boolean validateCardValues() {
 		boolean isAllInputValid = true;
 
-		Map<Integer, Card> cards = this.view.getCards();
+		final Map<Integer, Card> cards = this.view.getCards();
 		for (Card aCard : cards.values()) {
 			if (!aCard.validateCardValue()) {
 				aCard.setCardInvalid();

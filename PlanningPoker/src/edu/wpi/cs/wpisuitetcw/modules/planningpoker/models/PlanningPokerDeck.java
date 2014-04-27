@@ -40,7 +40,7 @@ public class PlanningPokerDeck extends AbstractModel {
 	 * the default deck should be a database entry
 	 */
 	public PlanningPokerDeck() {
-		int[] defaultDeck = { 0, 1, 1, 2, 3, 5, 8, 13 };
+		final int[] defaultDeck = { 0, 1, 1, 2, 3, 5, 8, 13 };
 		this.deckName = "Default Deck";
 		deck = new ArrayList<Integer>();
 		for (int i : defaultDeck) {

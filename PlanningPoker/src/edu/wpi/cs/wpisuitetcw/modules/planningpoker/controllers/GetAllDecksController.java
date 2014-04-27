@@ -64,7 +64,7 @@ public class GetAllDecksController {
 	 */
 	public ArrayList<String> getAllDeckNames() {
 		this.refreshDecks(); // set up the deck
-		ArrayList<String> deckNames = new ArrayList<String>();
+		final ArrayList<String> deckNames = new ArrayList<String>();
 
 		// delay the this process since the request fired in refreshDecks()
 		// might not be completed

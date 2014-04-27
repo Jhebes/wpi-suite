@@ -25,8 +25,8 @@ public class ViewSessionInfoPanel extends JPanel {
 		this.session = session;
 		
 		// create labels for data field;
-		JLabel labelName = new JLabel("Name ");
-		JLabel labelSessionName = new JLabel(this.session.getName());
+		final JLabel labelName = new JLabel("Name ");
+		final JLabel labelSessionName = new JLabel(this.session.getName());
 		
 		this.add(labelName);
 		this.add(labelSessionName);

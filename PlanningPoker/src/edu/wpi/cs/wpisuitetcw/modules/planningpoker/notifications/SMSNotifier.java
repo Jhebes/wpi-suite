@@ -39,7 +39,7 @@ public class SMSNotifier extends BaseNotifier {
 	 */
 	public static void sendMessage(String notificationType, String recipient,
 			String deadline) {
-		String message = BaseNotifier.createMessage(notificationType, deadline);
+		final String message = BaseNotifier.createMessage(notificationType, deadline);
 
 		String authId, authToken, src;
 		try {
@@ -53,17 +53,17 @@ public class SMSNotifier extends BaseNotifier {
 			return;
 		}
 
-		RestAPI api = new RestAPI(authId, authToken, "v1");
+		final RestAPI api = new RestAPI(authId, authToken, "v1");
 
-		LinkedHashMap<String, String> parameters = new LinkedHashMap<String, String>();
+		final LinkedHashMap<String, String> parameters = new LinkedHashMap<String, String>();
 		parameters.put("src", src);
 		parameters.put("dst", recipient);
 		parameters.put("text", message);
 		parameters.put("url", "http://server/message/notification/");
 
-		Logger logger = Logger.getLogger("PlanningPoker");
+		final Logger logger = Logger.getLogger("PlanningPoker");
 		try {
-			MessageResponse msgResponse = api.sendMessage(parameters);
+			final MessageResponse msgResponse = api.sendMessage(parameters);
 			logger.log(Level.INFO, msgResponse.apiId);
 			if (msgResponse.serverCode == 202) {
 				logger.log(Level.INFO, msgResponse.messageUuids.get(0).toString());

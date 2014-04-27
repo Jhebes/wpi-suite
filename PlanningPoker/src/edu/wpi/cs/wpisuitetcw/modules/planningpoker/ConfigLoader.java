@@ -49,7 +49,7 @@ public class ConfigLoader {
 	 */
 	public static void initialize(String filename) {
 		ConfigLoader.filename = filename;
-		Properties props = new Properties();
+		final Properties props = new Properties();
 		InputStream input = null;
 
 		try {
