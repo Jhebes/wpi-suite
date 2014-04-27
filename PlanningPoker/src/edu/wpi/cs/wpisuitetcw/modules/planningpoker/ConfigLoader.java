@@ -28,12 +28,12 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.exceptions.ConfigLoaderError
  */
 public class ConfigLoader {
 	private static boolean initialized = false;
-	private static String filename;
-	private static String emailUsername;
-	private static String emailPassword;
-	private static String plivoAuthId;
-	private static String plivoAuthToken;
-	private static String plivoPhoneNumber;
+	private static String filename = "";
+	private static String emailUsername = "";
+	private static String emailPassword = "";
+	private static String plivoAuthId = "";
+	private static String plivoAuthToken = "";
+	private static String plivoPhoneNumber = "";
 
 	public static void initialize() {
 		initialize(".planningpoker.properties");

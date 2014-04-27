@@ -31,7 +31,7 @@ public class InitNewDeckPanelController implements ActionListener {
 	private CreateDeckPanel deckPanel = null;
 	
 	/** An instance of this controller */
-	private static InitNewDeckPanelController instance;
+	private static InitNewDeckPanelController instance = null;
 
 	/*
 	 * Store the given CreateSessionPanel 

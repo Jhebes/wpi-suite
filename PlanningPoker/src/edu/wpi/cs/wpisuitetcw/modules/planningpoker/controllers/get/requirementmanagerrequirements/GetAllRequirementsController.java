@@ -30,7 +30,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class GetAllRequirementsController {
 
 	/** An instance of this controller */
-	private static GetAllRequirementsController instance;
+	private static GetAllRequirementsController instance = null;
 
 	/**
 	 * Instantiates a new controller

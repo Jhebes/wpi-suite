@@ -26,7 +26,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class GetAllUsersController {
 
-	private static GetAllUsersController instance;
+	private static GetAllUsersController instance = null;
 	
 	/**
 	 * Instantiates a new controller tied to the specified view.

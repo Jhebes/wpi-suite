@@ -28,7 +28,7 @@ public class GetAllDecksController {
 	private List<PlanningPokerDeck> decks = null;
 
 	/** An instance of this controller */
-	private static GetAllDecksController instance;
+	private static GetAllDecksController instance = null;
 
 	private GetAllDecksController() {
 	}

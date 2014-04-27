@@ -38,7 +38,7 @@ public class RetrievePlanningPokerRequirementsForSessionController {
 	public int target;
 	
 	/** An instance of this controller */
-	private static RetrievePlanningPokerRequirementsForSessionController instance;
+	private static RetrievePlanningPokerRequirementsForSessionController instance = null;
 	
 	/**
 	 * Return an instance of RetrievePlanningPokerRequirementsForSessionController
