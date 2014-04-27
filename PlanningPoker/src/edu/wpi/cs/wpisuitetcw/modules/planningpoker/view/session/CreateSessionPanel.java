@@ -280,17 +280,17 @@ public class CreateSessionPanel extends JPanel {
 	 * 
 	 * @return true if all values are valid
 	 */
-	public boolean validateAllInputs() {
+	public boolean hasAllValidInputs() {
 		// new deck is being created
 		if (this.mode.equals(CardDisplayMode.CREATE)) {
 			// validate session and deck input
-			final boolean isDeckValid = validateAllDeckInputs();
-			final boolean isSessionValide = validateAllSessionInputs();
+			final boolean isDeckValid = hasValidDeckInputs();
+			final boolean isSessionValide = hasValidSessionInputs();
 
 			return isDeckValid && isSessionValide;
 		} else {
 			// display mode
-			return validateAllSessionInputs();
+			return hasValidSessionInputs();
 		}
 
 	}
@@ -300,10 +300,10 @@ public class CreateSessionPanel extends JPanel {
 	 * 
 	 * @return true if anything is entered; false otherwise
 	 */
-	private boolean validateAllSessionInputs() {
+	private boolean hasValidSessionInputs() {
 		// this is to avoid short circuit evaluation
-		final boolean nameEntered = sessionNameEntered();
-		final boolean desEntered = sessionDescriptionEntered();
+		final boolean nameEntered = isSessionNameEntered();
+		final boolean desEntered = isSessionDescriptionEntered();
 		final boolean deadlineValid = isDeadlineValid();
 
 		return nameEntered && desEntered && deadlineValid;
@@ -315,8 +315,8 @@ public class CreateSessionPanel extends JPanel {
 	 * 
 	 * @return true if all inputs are valid
 	 */
-	private boolean validateAllDeckInputs() {
-		final boolean areCardsValid = validateCardValues();
+	private boolean hasValidDeckInputs() {
+		final boolean areCardsValid = hasValidCardValues();
 		final boolean isNameEntered = this.deckPanel.isDeckNameEntered();
 		return areCardsValid && isNameEntered;
 	}
@@ -326,7 +326,7 @@ public class CreateSessionPanel extends JPanel {
 	 * 
 	 * @return true if so; false otherwise
 	 */
-	private boolean validateCardValues() {
+	private boolean hasValidCardValues() {
 		boolean isAllInputValid = true;
 
 		final Map<Integer, Card> cards = this.deckPanel.getCards();
@@ -337,7 +337,7 @@ public class CreateSessionPanel extends JPanel {
 		}
 
 		for (Card aCard : cards.values()) {
-			if (!aCard.validateCardValue()) {
+			if (!aCard.hasValidCardValue()) {
 				// aCard.setCardInvalid();
 				isAllInputValid = false;
 			} else {
@@ -352,7 +352,7 @@ public class CreateSessionPanel extends JPanel {
 	 * 
 	 * @return true if so; false otherwise
 	 */
-	private boolean sessionNameEntered() {
+	private boolean isSessionNameEntered() {
 		// textbox for session name
 		if (this.nameTextField.getText().equals("")) {
 			return false;
@@ -366,7 +366,7 @@ public class CreateSessionPanel extends JPanel {
 	 * 
 	 * @return true if so; false otherwise
 	 */
-	private boolean sessionDescriptionEntered() {
+	private boolean isSessionDescriptionEntered() {
 		// textarea for session description
 		if (this.descriptionBox.getText().equals("")) {
 			return false;
@@ -660,7 +660,7 @@ public class CreateSessionPanel extends JPanel {
 	 * enable save button if a session is ready
 	 */
 	public void checkSessionValidation() {
-		if (validateAllInputs()) {
+		if (hasAllValidInputs()) {
 			btnSaveSession.setEnabled(true);
 		} else {
 			btnSaveSession.setEnabled(false);

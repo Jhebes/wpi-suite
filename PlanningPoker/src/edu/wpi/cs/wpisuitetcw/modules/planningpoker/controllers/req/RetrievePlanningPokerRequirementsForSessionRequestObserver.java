@@ -49,7 +49,7 @@ public class RetrievePlanningPokerRequirementsForSessionRequestObserver implemen
 		final ResponseModel response = request.getResponse();
 
 		if (response.getStatusCode() == 200) {
-			final PlanningPokerSession session[] = PlanningPokerSession.fromJSONArray(response.getBody());
+			final PlanningPokerSession[] session = PlanningPokerSession.fromJSONArray(response.getBody());
 
 			for(PlanningPokerSession s : session){
 				if(s.getID() == this.controller.getTarget()){

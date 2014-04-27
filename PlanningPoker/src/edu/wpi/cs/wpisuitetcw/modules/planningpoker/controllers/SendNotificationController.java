@@ -63,9 +63,9 @@ public class SendNotificationController {
 			final StringBuilder sb = new StringBuilder();
 			sb.append("Advanced/planningpoker/session/" + command + "/");
 			sb.append(URLEncoder.encode(notificationType, "UTF-8"));
-			sb.append("/");
+			sb.append('/');
 			sb.append(URLEncoder.encode(recipient, "UTF-8"));
-			sb.append("/");
+			sb.append('/');
 
 			sb.append(URLEncoder.encode(sDeadline, "UTF-8"));
 

@@ -311,7 +311,7 @@ public class ViewSessionReqPanel extends JPanel {
 					setReqInfo("", "");
 				}
 
-				for (int i = 0; i < 2; i = i + 1) {
+				for (int i = 0; i < 2; i++) {
 					if (i == 0) {
 						reqName = allReqTable.getModel().getValueAt(row, 0)
 								.toString();
@@ -346,7 +346,7 @@ public class ViewSessionReqPanel extends JPanel {
 					name.setEnabled(true);
 					setReqInfo("", "");
 				} else {
-					for (int i = 0; i < 2; i = i + 1) {
+					for (int i = 0; i < 2; i++) {
 						if (i == 0) {
 							reqName = sessionReqTable.getModel()
 									.getValueAt(row, 0).toString();

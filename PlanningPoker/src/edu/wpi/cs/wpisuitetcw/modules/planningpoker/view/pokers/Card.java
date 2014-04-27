@@ -215,7 +215,7 @@ public class Card extends JPanel {
 	 * 
 	 * @return true if so, else otherwise
 	 */
-	public boolean validateCardValue() {
+	public boolean hasValidCardValue() {
 		final String inputValue = this.txtboxValue.getText();
 
 		if (inputValue.equals("")) {
@@ -313,7 +313,7 @@ public class Card extends JPanel {
 	private void addListenerToValueTextBox(JTextField textbox, final Card aCard) {
 		textbox.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
-				if (aCard.validateCardValue()) {
+				if (aCard.hasValidCardValue()) {
 					aCard.setCardValid();
 				} else {
 					aCard.setCardInvalid();

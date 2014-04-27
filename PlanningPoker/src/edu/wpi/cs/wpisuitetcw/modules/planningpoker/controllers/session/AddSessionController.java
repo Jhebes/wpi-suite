@@ -86,7 +86,7 @@ public class AddSessionController implements ActionListener {
 	public synchronized void actionPerformed(ActionEvent event) {
 		// if a name was entered create the session
 		// otherwise the button will do nothing
-		if ((this.view.validateAllInputs() == true)
+		if ((this.view.hasAllValidInputs() == true)
 				&& (this.isEditMode == false)) {
 
 			// Get the inputs from user

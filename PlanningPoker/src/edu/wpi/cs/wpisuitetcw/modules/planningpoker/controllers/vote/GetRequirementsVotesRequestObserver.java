@@ -49,7 +49,7 @@ public class GetRequirementsVotesRequestObserver implements
 		final ResponseModel response = request.getResponse();
 
 		if (response.getStatusCode() == 200) {
-			final PlanningPokerSession session[] = PlanningPokerSession.fromJSONArray(response.getBody());
+			final PlanningPokerSession[] session = PlanningPokerSession.fromJSONArray(response.getBody());
 			controller.receivedData(session[0]);
 		} else {
 			controller.errorReceivingData("Received "

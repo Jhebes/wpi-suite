@@ -42,7 +42,7 @@ public class CreateNewDeckController {
 	 */
 	public void addDeckToDatabase() {
 		// make sure all cards are validated
-		if (validateAllInputs()) {
+		if (hasValidInputs()) {
 			// all inputs are good
 			final String deckName = this.view.getTextboxName().getText();
 			final List<Integer> cardValues = this.view.getAllCardsValue();
@@ -72,8 +72,8 @@ public class CreateNewDeckController {
 	 * 
 	 * @return true if valid; false otherwise
 	 */
-	private boolean validateAllInputs() {
-		final boolean areCardsValid = validateCardValues();
+	private boolean hasValidInputs() {
+		final boolean areCardsValid = hasValidCardValues();
 		final boolean isNameEntered = this.view.isDeckNameEntered();
 		return areCardsValid && isNameEntered;
 	}
@@ -83,12 +83,12 @@ public class CreateNewDeckController {
 	 * 
 	 * @return true if so; false otherwise
 	 */
-	private boolean validateCardValues() {
+	private boolean hasValidCardValues() {
 		boolean isAllInputValid = true;
 
 		final Map<Integer, Card> cards = this.view.getCards();
 		for (Card aCard : cards.values()) {
-			if (!aCard.validateCardValue()) {
+			if (!aCard.hasValidCardValue()) {
 				aCard.setCardInvalid();
 				isAllInputValid = false;
 			} else {

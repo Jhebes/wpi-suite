@@ -24,10 +24,10 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionCo
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 
 public class AddRequirementPanel extends JSplitPane {
-	final private ViewSessionBtnPanel buttonPanel;
-	final private ViewSessionInfoPanel infoPanel;
-	final private ViewSessionReqPanel pkgPanel;
-	final private PlanningPokerSession session;
+	private final ViewSessionBtnPanel buttonPanel;
+	private final ViewSessionInfoPanel infoPanel;
+	private final ViewSessionReqPanel pkgPanel;
+	private final PlanningPokerSession session;
 
 	/**
 	 * Create a view session panel
