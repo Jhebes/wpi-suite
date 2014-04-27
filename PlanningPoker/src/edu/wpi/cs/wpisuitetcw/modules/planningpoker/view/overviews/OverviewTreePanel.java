@@ -30,6 +30,9 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.CustomTreeCellRenderer;
 
+/**
+ * The tree panel that greets you on the left side of the overview.
+ */
 public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		TreeSelectionListener {
 

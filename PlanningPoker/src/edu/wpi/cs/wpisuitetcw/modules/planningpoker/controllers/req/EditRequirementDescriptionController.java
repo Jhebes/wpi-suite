@@ -49,8 +49,8 @@ public class EditRequirementDescriptionController implements ActionListener {
 	/*
 	 * This method is called when the user clicks the vote button
 	 * 
-	 * @see
-	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
+	 * {@see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent}
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {

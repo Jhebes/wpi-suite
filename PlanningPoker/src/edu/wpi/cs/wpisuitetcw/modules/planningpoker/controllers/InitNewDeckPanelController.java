@@ -64,7 +64,6 @@ public class InitNewDeckPanelController implements ActionListener {
 			ViewEventManager.getInstance().getMainview()
 					.setSelectedComponent(deckPanel);
 		} catch (IllegalArgumentException error) {
-			// this.deckPanel = new CreateNewDeckPanel();
 			ViewEventManager.getInstance().display(deckPanel,
 					CreateSessionPanel.DISPLAY_MSG);
 		}
