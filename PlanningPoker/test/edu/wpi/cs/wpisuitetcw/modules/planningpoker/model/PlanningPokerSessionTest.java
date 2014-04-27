@@ -82,6 +82,13 @@ public class PlanningPokerSessionTest extends PlanningPokerMockTest {
 	}
 	
 	@Test
+	public void testGetStatusClosedWithReqs() {
+		assertEquals("New", planningPokerSession.getStatus());
+		planningPokerSession.close();
+		assertEquals("Closed", planningPokerSession.getStatus());
+	}
+	
+	@Test
 	public void testCannotBeActivatedWithoutReqs() {
 		planningPokerSession.setRequirements(new ArrayList<PlanningPokerRequirement>());
 		assertFalse(planningPokerSession.canBeActivated());
