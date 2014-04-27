@@ -306,7 +306,7 @@ public class CreateDeckPanel extends JPanel {
 		ArrayList<Integer> cardValues = new ArrayList<Integer>();
 		
 		for (Card aCard : this.cards.values()) {
-			if (aCard.getTxtboxValue().getText() != null) {
+			if (!aCard.getTxtboxValue().getText().equals("")) {
 				cardValues.add(Integer.parseInt(aCard.getTxtboxValue().getText()));
 			} else if (aCard.getCardValue() >= 0) {
 				cardValues.add(aCard.getCardValue());
