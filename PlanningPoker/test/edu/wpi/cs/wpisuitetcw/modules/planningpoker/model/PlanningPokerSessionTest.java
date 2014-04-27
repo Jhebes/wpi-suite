@@ -82,7 +82,7 @@ public class PlanningPokerSessionTest extends PlanningPokerMockTest {
 	}
 	
 	@Test
-	public void testGetStatusClosedWithReqs() {
+	public void testGetStatusClosed() {
 		assertEquals("New", planningPokerSession.getStatus());
 		planningPokerSession.close();
 		assertEquals("Closed", planningPokerSession.getStatus());
@@ -112,10 +112,5 @@ public class PlanningPokerSessionTest extends PlanningPokerMockTest {
 		planningPokerSession.cancel();
 		assertFalse(planningPokerSession.canBeActivated());
 	}
-	
-//	@Test
-//	public void testGetStatusClose() {
-//		planningPokerSession.close();
-//		assertEquals("Closed", planningPokerSession.getStatus());
-//	}
+
 }
