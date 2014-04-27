@@ -10,14 +10,20 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.PlanningPokerMockTest;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 
-public class PlanningPokerSessionTest {
+public class PlanningPokerSessionTest extends PlanningPokerMockTest {
 	private PlanningPokerSession planningPokerSession;
 	
 	@Before
@@ -27,6 +33,9 @@ public class PlanningPokerSessionTest {
 	
 	@Test
 	public void testActivateNotCancelledSession() {
+		// Required for activation
+		planningPokerSession.addRequirement(new PlanningPokerRequirement());
+		
 		assertFalse(planningPokerSession.isActive());
 		planningPokerSession.activate();
 
@@ -59,7 +68,15 @@ public class PlanningPokerSessionTest {
 	}
 	
 	@Test
-	public void testGetStatusOpen() {
+	public void testGetStatusOpenNoReqs() {
+		planningPokerSession.setRequirements(new ArrayList<PlanningPokerRequirement>());
+		planningPokerSession.activate();
+		assertEquals("New", planningPokerSession.getStatus());
+	}
+	
+	@Test
+	public void testGetStatusOpenWithReqs() {
+		planningPokerSession.addRequirement(new PlanningPokerRequirement());
 		planningPokerSession.activate();
 		assertEquals("Open", planningPokerSession.getStatus());
 	}
