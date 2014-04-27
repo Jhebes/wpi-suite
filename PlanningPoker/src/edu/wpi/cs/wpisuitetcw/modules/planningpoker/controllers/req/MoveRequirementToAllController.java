@@ -39,8 +39,8 @@ public class MoveRequirementToAllController implements ActionListener {
 	 * @param v A ViewSessionReqPanel that would be stored
 	 */
 	public MoveRequirementToAllController(PlanningPokerSession s, ViewSessionReqPanel v) {
-		this.session = s;
-		this.view = v;
+		session = s;
+		view = v;
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class MoveRequirementToAllController implements ActionListener {
 	public void receivedData(PlanningPokerSession s){
 		PlanningPokerRequirement r;
 		
-		for(String a : this.view.getRightSelectedRequirements()){
+		for(String a : view.getRightSelectedRequirements()){
 				r = session.getReqByName(a);
 				List<PlanningPokerRequirement> d = new ArrayList<PlanningPokerRequirement>();
 				d.add(r);
@@ -66,11 +66,11 @@ public class MoveRequirementToAllController implements ActionListener {
 		a1.refreshRequirements(1, s.getRequirements());
 		final RequirementTableManager a2 = new RequirementTableManager();
 		a2.refreshRequirements(session.getID(), session.getRequirements());
-		this.view.getAllReqTable().repaint();
-		this.view.getSessionReqTable().repaint();
+		view.getAllReqTable().repaint();
+		view.getSessionReqTable().repaint();
 
 		view.validateActivateSession();
-		this.view.refreshMoveButtons();
+		view.refreshMoveButtons();
 	}
 	
 	/*

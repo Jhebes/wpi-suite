@@ -41,13 +41,13 @@ public class PlanningPokerDeck extends AbstractModel {
 	 */
 	public PlanningPokerDeck() {
 		final int[] defaultDeck = { 0, 1, 1, 2, 3, 5, 8, 13 };
-		this.deckName = "Default Deck";
+		deckName = "Default Deck";
 		deck = new ArrayList<Integer>();
 		for (int i : defaultDeck) {
-			this.deck.add(i);
+			deck.add(i);
 		}
 		// default deck should be single selection
-		this.maxSelection = 1;
+		maxSelection = 1;
 	}
 
 	/**
@@ -59,9 +59,9 @@ public class PlanningPokerDeck extends AbstractModel {
 	 *            the inputed deck
 	 */
 	public PlanningPokerDeck(String name_in, List<Integer> deck_in) {
-		this.deckName = name_in;
-		this.deck = deck_in;
-		this.maxSelection = deck.size();
+		deckName = name_in;
+		deck = deck_in;
+		maxSelection = deck.size();
 	}
 	
 	/**
@@ -73,7 +73,7 @@ public class PlanningPokerDeck extends AbstractModel {
 	 */
 	public PlanningPokerDeck(String deckName, List<Integer> cardValues, int maxSelection) {
 		this.deckName = deckName;
-		this.deck = cardValues;
+		deck = cardValues;
 		this.maxSelection = maxSelection;
 	}
 

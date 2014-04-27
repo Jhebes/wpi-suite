@@ -63,7 +63,7 @@ public class OverviewPanel extends JSplitPane {
 	public void showSessionTable() {
 		SessionStash.getInstance().synchronize();
 		UserStash.getInstance().synchronize();
-		this.rightPanel.remove(welcomePanel);
+		rightPanel.remove(welcomePanel);
 		updateUI();
 	}
 

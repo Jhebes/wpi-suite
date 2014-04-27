@@ -25,13 +25,13 @@ public class ViewSessionBtnPanel extends JPanel {
 		this.parentPanel = parentPanel;
 
 		// set up button
-		this.activateBtn = new JButton("Activate Session");
+		activateBtn = new JButton("Activate Session");
 
 		activateBtn.addActionListener(new ActivateSessionController(
 				parentPanel, parentPanel.getPPSession()));
 
 		// add button
-		this.add(this.activateBtn);
+		this.add(activateBtn);
 	}
 
 	public AddRequirementPanel getParentPanel() {
