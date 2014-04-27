@@ -60,7 +60,7 @@ public class GetRequirementsVotesController implements ActionListener{
 	 * @throws NotImplementedException
 	 */
 	public void receivedData(PlanningPokerSession session){
-		this.req = this.session.getReqByName(this.view.getSelectedRequirement());
+		this.req = this.view.getSelectedRequirement();
 		PlanningPokerRequirement r = session.getReqByName(this.req.getName());
 
 		Logger.getLogger("PlanningPoker").log(Level.INFO, "Votes for selected requirement:");

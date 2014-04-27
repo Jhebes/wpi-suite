@@ -123,7 +123,7 @@ public class VotePanel extends JPanel {
 	private JLabel cardSelectionModeLabel;
 
 	/** The name of the currently selected requirement */
-	private String reqName;
+	private PlanningPokerRequirement selectedRequirement;
 
 	/**
 	 * Construct a SessionInProgressPanel that displays the requirements needed
@@ -159,7 +159,7 @@ public class VotePanel extends JPanel {
 			PlanningPokerRequirement firstReq = session.getRequirements().get(0);
 			requirementNameTextbox.setText(firstReq.getName());
 			descriptionTextbox.setText(firstReq.getDescription());
-			this.reqName = firstReq.getName();
+			selectedRequirement = firstReq;
 			reqList.setSelectionInterval(0, 0);
 		}
 	}
@@ -316,8 +316,6 @@ public class VotePanel extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				// Check to see if user double clicked
 				if (e.getClickCount() == 1) {
-					reqName = (String) reqList.getModel().getElementAt(reqList.getSelectedIndex());
-
 					PlanningPokerRequirement requirement = reqList.getModel().getElementAt(reqList.getSelectedIndex());
 
 					if (requirement.getName() == null) {
@@ -480,10 +478,10 @@ public class VotePanel extends JPanel {
 
 	/**
 	 * 
-	 * @return Requirement Name selected in the list
+	 * @return Requirement selected in the list
 	 */
-	public String getSelectedRequirement() {
-		return reqName;
+	public PlanningPokerRequirement getSelectedRequirement() {
+		return selectedRequirement;
 	}
 
 	/**
@@ -529,7 +527,7 @@ public class VotePanel extends JPanel {
 	 * Return the GUI list of requirements
 	 * @return Return the GUI list of requirements
 	 */
-	public JList getRequirementList() {
+	public JList<PlanningPokerRequirement> getRequirementList() {
 		return reqList;
 	}
 }
