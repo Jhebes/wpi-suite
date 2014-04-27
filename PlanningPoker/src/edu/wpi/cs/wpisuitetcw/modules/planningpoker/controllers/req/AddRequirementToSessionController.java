@@ -84,6 +84,8 @@ public class AddRequirementToSessionController implements ActionListener {
 			// Clear the texts in name and description box
 			this.panel.clearNewReqName();
 			this.panel.clearNewReqDesc();
+		} else {
+			// 
 		}
 	}
 	

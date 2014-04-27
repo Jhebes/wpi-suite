@@ -50,6 +50,7 @@ public class ViewSessionReqPanel extends JPanel {
 	private final JPanel buttonsPanel;
 	private JTextArea description;
 	private JTextField name;
+	private JLabel errorMessage;
 	private final JButton moveRequirementToAll;
 	private final JButton moveAllRequirementsToAll;
 	private final JButton moveRequirementToSession;
@@ -163,6 +164,8 @@ public class ViewSessionReqPanel extends JPanel {
 		this.buttonsPanel = new JPanel();
 		this.description = new JTextArea("");
 		this.name = new JTextField("");
+		this.errorMessage = new JLabel();
+		errorMessage.setVisible(false);
 		this.moveRequirementToAll = new JButton(" < ");
 		this.moveAllRequirementsToAll = new JButton(" << ");
 		this.moveRequirementToSession = new JButton(" > ");
@@ -481,6 +484,27 @@ public class ViewSessionReqPanel extends JPanel {
 	 */
 	public PlanningPokerSession getEditRequirementsSession() {
 		return editRequirementsSession;
+	}
+	
+	/**
+	 * Assign the given string to the error message
+	 */
+	public void setErrorMessage(String message) {
+		errorMessage.setText(message);
+	}
+	
+	/**
+	 * Set the error message visible
+	 */
+	public void showErrorMessage() {
+		errorMessage.setVisible(true);
+	}
+	
+	/**
+	 * Hide the error message
+	 */
+	public void hideErrorMessage() {
+		errorMessage.setVisible(false);
 	}
 
 }
