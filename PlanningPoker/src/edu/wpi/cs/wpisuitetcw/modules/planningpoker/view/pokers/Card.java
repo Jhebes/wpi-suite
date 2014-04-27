@@ -117,10 +117,10 @@ public class Card extends JPanel {
 	 * @param mode A CardDisplayMode (Create/Display)
 	 */
 	public Card(CardDisplayMode mode) {
-		// display mode for the card
+		// Set the card's mode
 		this.mode = mode;
 
-		// load background image
+		// Set card's background image
 		try {
 			Image img = ImageIO.read(getClass().getResource("new_card.png"));
 			ImageIcon icon = new ImageIcon(img);
@@ -130,43 +130,39 @@ public class Card extends JPanel {
 					"Could not load the image for planning poker cards", e);
 		}
 
-		// textfield
+		// Create the text field
 		txtboxValue = new JTextField(3);
 
-		// labels
+		// Create error JLabel
 		labelError = new JLabel(ERROR_MSG);
 		labelError.setVisible(false);
 
-		// buttons
+		// Create close button
 		closeButton = new JButton(BUTTON_TEXT);
 		closeButton.setFont(closeButton.getFont().deriveFont((float) 8));
 		closeButton.setMargin(new Insets(0, 0, 0, 0));
 		closeButton.setVisible(false); // button is not visible until user
 										// mouseover it
 
-		// card initial status
+		// Set card initial statuses
 		isValueValid = true;
 		isMouseovered = false;
 		isSelected = false;
+		
+		// Set default value for newly created card to -1
+		cardValue = -1;
 
-		// setup the card panel
-		this.setLayout(new MigLayout());
-
+		// Create the container to hold the card's components
 		container = new JPanel();
-		container.setLayout(new MigLayout());
-		container.add(txtboxValue, "center, wrap");
-		container.add(labelError, "center");
-		container.setBackground(Color.WHITE);
-		container.setOpaque(false);
-
+		addComponentsToContainer();
+		
+		setLayout(new MigLayout());
 		this.add(closeButton, "right, wrap");
 		this.add(container, "center, wrap, span");
 		this.setPreferredSize(CARD_DIMENSION);
-
-		// set border
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
-		// add highlight feature to the card
+		// Add highlight feature to the card
 		this.addMouseoverHightlight(this, this);
 
 		// display selective elements based on the mode it's in
@@ -181,11 +177,22 @@ public class Card extends JPanel {
 			this.addMouseoverHightlight(closeButton, this);
 			this.addMouseoverHightlight(txtboxValue, this);
 			this.addMouseoverHightlight(labelError, this);
-
 		} else if (mode.equals(CardDisplayMode.NO_DECK)) {
 			// this should never be executed
 			disableEditableFields();
 		}
+	}
+
+	/*
+	 * Add text field and label error to the card container
+	 */
+	private void addComponentsToContainer() {
+		container.setLayout(new MigLayout());
+		container.add(txtboxValue, "center, wrap");
+		container.add(labelError, "center");
+		
+		container.setBackground(Color.WHITE);
+		container.setOpaque(false);
 	}
 
 	/**
@@ -220,7 +227,7 @@ public class Card extends JPanel {
 	}
 
 	/**
-	 * set the image as the background of the panel
+	 * Set the image as the background of the panel
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
