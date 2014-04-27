@@ -100,8 +100,10 @@ public class CreateDeckPanel extends JPanel {
 	/** Mode for the panel */
 	private final CardDisplayMode mode;
 
-	// subject to change
-	// private final JTextField textboxVal;
+	/**
+	 * Construct a CreateDeckPanel with the given mode
+	 * @param mode A value of CardDisplayMode
+	 */
 	public CreateDeckPanel(CardDisplayMode mode) {
 		// Assign mode for the panel
 		this.mode = mode;
@@ -303,10 +305,17 @@ public class CreateDeckPanel extends JPanel {
 	 */
 	public ArrayList<Integer> getNewDeckValues() {
 		ArrayList<Integer> cardValues = new ArrayList<Integer>();
-		Map<Integer, Card> map = this.cards;
-		for (Card aCard : map.values()) {
-			cardValues.add(Integer.parseInt(aCard.getTxtboxValue().getText()));
+		
+		for (Card aCard : this.cards.values()) {
+			if (!aCard.getTxtboxValue().getText().equals("")) {
+				cardValues.add(Integer.parseInt(aCard.getTxtboxValue().getText()));
+			} else if (aCard.getCardValue() >= 0) {
+				cardValues.add(aCard.getCardValue());
+			} else {
+				Logger.getLogger("PlanningPoker").log(Level.SEVERE, "Invalid card value");
+			}
 		}
+		
 		return cardValues;
 	}
 
@@ -358,16 +367,18 @@ public class CreateDeckPanel extends JPanel {
 	public void displayDeck(String deckName) throws WPISuiteException {
 		// clear the panel
 		removeAllCard();
-		// display default deck
 		
 		final PlanningPokerDeck deck = GetAllDecksController.getInstance().getDeckByName(deckName);
-		
 		final ArrayList<Integer> deckValues = deck.getDeck();
+		
+		cards.clear();
+		
 		for (int value : deckValues) {
 			Card aCard = new Card(mode, value);
 			int key = aCard.hashCode();
-			cards.put(key, aCard);
 			this.addRemoveCardListener(aCard, this);
+
+			cards.put(key, aCard);
 			cardPanel.add(aCard);
 			validateNumCards();
 			this.updateNumCard();
