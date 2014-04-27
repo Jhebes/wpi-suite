@@ -16,13 +16,6 @@ public class UserStash {
 	private ArrayList<User> users = new ArrayList<User>();
 
 	/**
-	 * Empty Constructor
-	 */
-	public UserStash() {
-
-	}
-
-	/**
 	 * This is a singleton
 	 * 
 	 * @return
