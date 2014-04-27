@@ -112,7 +112,7 @@ public class AddVoteController implements ActionListener {
 		
 		// Update the vote panel
 		updateVoteIcon();
-		this.voteView.setVoteTextFieldWithValue(vote.getCardValue());
+		this.voteView.setVoteTextFieldWithValue("" + vote.getCardValue());
 		this.voteView.updateUI();
 	}
 
