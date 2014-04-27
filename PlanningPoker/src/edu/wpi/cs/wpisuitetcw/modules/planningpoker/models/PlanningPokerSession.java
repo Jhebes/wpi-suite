@@ -208,7 +208,7 @@ public class PlanningPokerSession extends AbstractModel {
 		requirements.remove(r);
 		
 		// Add the vote of the user to the requirement
-		for(PlanningPokerVote vote : r.votes) {
+		for(PlanningPokerVote vote : r.getVotes()) {
 			if(vote.getUser().equals(v.getUser())) {
 				vote.setCardValue(v.getCardValue());
 				requirements.add(r);		// Add the requirement back

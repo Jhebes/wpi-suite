@@ -64,7 +64,7 @@ public class GetRequirementsVotesController implements ActionListener{
 		PlanningPokerRequirement r = session.getReqByName(this.req.getName());
 
 		Logger.getLogger("PlanningPoker").log(Level.INFO, "Votes for selected requirement:");
-		for(PlanningPokerVote v : r.votes){
+		for(PlanningPokerVote v : r.getVotes()){
 			System.out.print(v.getCardValue()+ " ");
 		}
 		//view.setVoteList(r.votes);

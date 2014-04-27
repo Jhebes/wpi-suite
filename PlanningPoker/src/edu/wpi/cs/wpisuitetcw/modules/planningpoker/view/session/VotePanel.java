@@ -184,7 +184,7 @@ public class VotePanel extends JPanel {
 				for (PlanningPokerRequirement ppr : reqList) {
 					int count = 0;
 					int total = 0;
-					for (PlanningPokerVote vote : ppr.votes) {
+					for (PlanningPokerVote vote : ppr.getVotes()) {
 						total += vote.getCardValue();
 						count++;
 					}
@@ -320,9 +320,9 @@ public class VotePanel extends JPanel {
 					
 					if (session.isClosed()) {
 						finalEstimatePnl.setFocusedRequirement(requirement);
-						finalEstimatePnl.setStatsMean(requirement.setMean());
-						finalEstimatePnl.setStatsMedian(requirement.setMedian());
-						finalEstimatePnl.setStatsMode(requirement.setMode());
+						finalEstimatePnl.setStatsMean(requirement.getMean());
+						finalEstimatePnl.setStatsMedian(requirement.getMedian());
+						finalEstimatePnl.setStatsMode(requirement.getMode());
 						finalEstimatePnl.fillTable(requirement);
 						finalEstimatePnl.updateEstimateTextField(requirement);
 						updateUI();
