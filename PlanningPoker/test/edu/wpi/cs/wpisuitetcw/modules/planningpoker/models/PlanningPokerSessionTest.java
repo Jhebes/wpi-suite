@@ -20,8 +20,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.PlanningPokerMockTest;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+
+
 
 public class PlanningPokerSessionTest extends PlanningPokerMockTest {
 	private PlanningPokerSession planningPokerSession;
