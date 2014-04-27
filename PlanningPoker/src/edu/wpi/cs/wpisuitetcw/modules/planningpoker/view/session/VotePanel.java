@@ -223,12 +223,14 @@ public class VotePanel extends JPanel {
 		}
 
 		final String currentUserName = ConfigManager.getConfig().getUserName();
-		if (session.isClosed())
-			endSessionButton.setEnabled(false);
-		if (currentUserName.equals(session.getOwnerUserName()))
+		if (session.isClosed()) {
+			endSessionButton.setEnabled(false);			
+		}
+		if (currentUserName.equals(session.getOwnerUserName())) {
 			endSessionButton.setVisible(true);
-		else
+		} else {
 			endSessionButton.setVisible(false);
+		}
 
 		// Extract the requirements from the table provided by
 		// ViewSessionTableManager and converts them to list
