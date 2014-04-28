@@ -129,7 +129,8 @@ public class VotePanel extends JPanel {
 		setupBottomPanel();
 
 		// Need to add both left and right to the JSplitpane
-		JSplitPane mainView = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
+		JSplitPane mainView = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+				leftPanel, rightPanel);
 
 		// Add mainView and the bottom panel to the canvas
 		setLayout(new MigLayout());
@@ -148,7 +149,8 @@ public class VotePanel extends JPanel {
 		// TODO programmatically select the requirement and set reqName
 		// Prevent getting requirement from an empty array list
 		if (session.getRequirements().size() > 0) {
-			PlanningPokerRequirement firstReq = session.getRequirements().get(0);
+			PlanningPokerRequirement firstReq = session.getRequirements()
+					.get(0);
 			requirementNameTextbox.setText(firstReq.getName());
 			descriptionTextbox.setText(firstReq.getDescription());
 			this.reqName = firstReq.getName();
@@ -160,10 +162,10 @@ public class VotePanel extends JPanel {
 	 * Construct the GUI components of the bottom panel
 	 */
 	private void setupBottomPanel() {
-		
+
 		// Create the container
 		bottomPanel = new JPanel();
-		
+
 		// Don't draw bottom buttons if we're in final estimation
 		if (session.isClosed()) {
 			return;
@@ -180,7 +182,8 @@ public class VotePanel extends JPanel {
 			private void endSession() {
 				session.close();
 				session.save();
-				ArrayList<PlanningPokerRequirement> reqList = session.getRequirements();
+				ArrayList<PlanningPokerRequirement> reqList = session
+						.getRequirements();
 				for (PlanningPokerRequirement ppr : reqList) {
 					int count = 0;
 					int total = 0;
@@ -210,11 +213,11 @@ public class VotePanel extends JPanel {
 
 		// enabling buttons by checking the ownership of the session
 		String currentUserName = ConfigManager.getConfig().getUserName();
-		
+
 		if (session.isClosed() || session.isCancelled()) {
 			cancelSessionButton.setEnabled(false);
 		}
-		
+
 		// only owner has the ability to cancel a session
 		if (currentUserName.equals(session.getOwnerUserName())) {
 			cancelSessionButton.setVisible(true);
@@ -248,18 +251,25 @@ public class VotePanel extends JPanel {
 
 		// Create an edit session button
 		btnEditSession = new JButton("Edit Session");
-		btnEditSession.addActionListener(new EditActivatedSessionController(session, this));
-		if (session.isHasVoted()) {
+		btnEditSession.addActionListener(new EditActivatedSessionController(
+				session, this));
+
+		// user can only edit the session if the session is not voted and user
+		// is the owner
+		if (session.isHasVoted()
+				|| !currentUserName.equals(session.getOwnerUserName())) {
 			btnEditSession.setEnabled(false);
 		}
 
 		// Create a submit vote button
 		submitVoteButton = new JButton(VOTE_BUTTON_LABEL);
-		submitVoteButton.addActionListener(new AddVoteController(this, this.session));
+		submitVoteButton.addActionListener(new AddVoteController(this,
+				this.session));
 
 		// Create a JLabel holding the card selection mode
 		cardSelectionModeLabel = new JLabel();
-		if (session.getDeck() != null && session.getDeck().getMaxSelection() == 1) {
+		if (session.getDeck() != null
+				&& session.getDeck().getMaxSelection() == 1) {
 			cardSelectionModeLabel.setText("Single selection deck");
 		} else {
 			cardSelectionModeLabel.setText("Multiple selection deck");
@@ -275,10 +285,14 @@ public class VotePanel extends JPanel {
 	 */
 	private void addGUIComponentsToBottomPanel() {
 		bottomPanel.setLayout(new MigLayout("fillx", "", "5[]5"));
-		bottomPanel.add(endSessionButton, "left, wmin " + MIN_BUTTON_WIDTH + "px, split3");
-		bottomPanel.add(btnEditSession, "left, wmin " + MIN_BUTTON_WIDTH + "px");
-		bottomPanel.add(cancelSessionButton, "left, wmin " + MIN_BUTTON_WIDTH + "px");
-		bottomPanel.add(cardSelectionModeLabel, "left, wmin " + MIN_BUTTON_WIDTH + "px");
+		bottomPanel.add(endSessionButton, "left, wmin " + MIN_BUTTON_WIDTH
+				+ "px, split3");
+		bottomPanel
+				.add(btnEditSession, "left, wmin " + MIN_BUTTON_WIDTH + "px");
+		bottomPanel.add(cancelSessionButton, "left, wmin " + MIN_BUTTON_WIDTH
+				+ "px");
+		bottomPanel.add(cardSelectionModeLabel, "left, wmin "
+				+ MIN_BUTTON_WIDTH + "px");
 		bottomPanel.add(submitVoteButton, "right");
 	}
 
@@ -308,9 +322,11 @@ public class VotePanel extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				// Check to see if user double clicked
 				if (e.getClickCount() == 1) {
-					reqName = (String) reqList.getModel().getElementAt(reqList.getSelectedIndex());
+					reqName = (String) reqList.getModel().getElementAt(
+							reqList.getSelectedIndex());
 
-					PlanningPokerRequirement requirement = session.getReqByName(reqName);
+					PlanningPokerRequirement requirement = session
+							.getReqByName(reqName);
 
 					if (requirement.getName() == null) {
 						requirementNameTextbox.setText(" ");
@@ -322,7 +338,7 @@ public class VotePanel extends JPanel {
 					} else {
 						descriptionTextbox.setText(requirement.getDescription());
 					}
-					
+
 					if (session.isClosed()) {
 						finalEstimatePnl.setFocusedRequirement(requirement);
 						finalEstimatePnl.setStatsMean(requirement.setMean());
@@ -332,7 +348,9 @@ public class VotePanel extends JPanel {
 						finalEstimatePnl.updateEstimateTextField(requirement);
 						updateUI();
 					} else {
-						PlanningPokerVote vote = requirement.getVoteByUser(ConfigManager.getConfig().getUserName());
+						PlanningPokerVote vote = requirement
+								.getVoteByUser(ConfigManager.getConfig()
+										.getUserName());
 						if (vote != null) {
 							setVoteTextFieldWithValue(vote.getCardValue());
 							updateUI();
@@ -405,20 +423,22 @@ public class VotePanel extends JPanel {
 	 */
 	private void addGUIComponentsOnRightPanel() {
 		// Add the padding around the right panel
-		rightPanel.setLayout(new MigLayout("insets " + PADDING_RIGHT_PANEL + " " + PADDING_RIGHT_PANEL + " "
-				+ PADDING_RIGHT_PANEL + " " + PADDING_RIGHT_PANEL + ", fill"));
+		rightPanel.setLayout(new MigLayout("insets " + PADDING_RIGHT_PANEL
+				+ " " + PADDING_RIGHT_PANEL + " " + PADDING_RIGHT_PANEL + " "
+				+ PADDING_RIGHT_PANEL + ", fill"));
 
 		// Add the label of the panel
 		rightPanel.add(rightPanelLabel, "center, span");
 
 		// Add the requirement name and its label
 		rightPanel.add(requirementNameLabel, "growx, left, wrap");
-		rightPanel.add(requirementNameTextbox, "growx, gapright " + GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX
-				+ "px, wrap");
+		rightPanel.add(requirementNameTextbox, "growx, gapright "
+				+ GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX + "px, wrap");
 
 		// Add the requirement description box and its label
 		rightPanel.add(descriptionLabel, "growx, left, wrap");
-		rightPanel.add(descriptionFrame, "hmin " + MIN_DESC_TEXTBOX_HEIGHT + "px, " + "growx, " + "gapright"
+		rightPanel.add(descriptionFrame, "hmin " + MIN_DESC_TEXTBOX_HEIGHT
+				+ "px, " + "growx, " + "gapright"
 				+ GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX + "px, " + "wrap");
 
 		// Add the card panel or final estimation GUI
@@ -431,14 +451,16 @@ public class VotePanel extends JPanel {
 				rightPanel.add(cardFrame, "hmin 250px, grow, dock south");
 			} else {
 				JLabel messageLabel = new JLabel(NO_DECK_MSG);
-				rightPanel.add(messageLabel, "gapleft 150px, hmin 250px, grow, dock south");
+				rightPanel.add(messageLabel,
+						"gapleft 150px, hmin 250px, grow, dock south");
 			}
-			
+
 			// Add the vote text field to the right side
-			rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH + "px, " + "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT
-					+ "px, " + "dock east, " + "gaptop " + PADDING_RIGHT_PANEL + "px, " + "gapright " + PADDING_RIGHT_PANEL
-					+ "px");
-		}		
+			rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH
+					+ "px, " + "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, "
+					+ "dock east, " + "gaptop " + PADDING_RIGHT_PANEL + "px, "
+					+ "gapright " + PADDING_RIGHT_PANEL + "px");
+		}
 
 	}
 
