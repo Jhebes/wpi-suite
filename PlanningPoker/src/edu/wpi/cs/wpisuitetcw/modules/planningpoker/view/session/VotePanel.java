@@ -451,10 +451,16 @@ public class VotePanel extends JPanel {
 
 	}
 
+	/**
+	 * Opens final estiamtion GUI for this requirement
+	 */
 	private void openFinalEstimation(){
 		ViewEventManager.getInstance().viewSession(this.session);
 	}
 	
+	/**
+	 * Closes this tab
+	 */
 	private void closeTab() {
 		ViewEventManager.getInstance().removeTab(this);
 	}
