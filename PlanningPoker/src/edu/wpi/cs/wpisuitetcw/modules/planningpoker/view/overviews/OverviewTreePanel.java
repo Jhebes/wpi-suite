@@ -13,7 +13,9 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -68,6 +70,9 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	private DefaultMutableTreeNode closedSessionNode;
 	private DefaultMutableTreeNode cancelledSessionNode;
 
+	/** hashmap to remember the states of nodes */
+	private HashMap<DefaultMutableTreeNode, Boolean> nodeStates;
+
 	/** planning poker sessions */
 	private PlanningPokerSession[] newSessions;
 	private PlanningPokerSession[] openSessions;
@@ -76,8 +81,20 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 
 	public OverviewTreePanel() {
 
+		// setup nodes
+		top = new DefaultMutableTreeNode("All Sessions");
+
+		// branches
+		newSessionNode = new DefaultMutableTreeNode();
+		openSessionNode = new DefaultMutableTreeNode();
+		closedSessionNode = new DefaultMutableTreeNode();
+		cancelledSessionNode = new DefaultMutableTreeNode();
+
+		// hashmap for saving states of the nodes
+		nodeStates = new HashMap<DefaultMutableTreeNode, Boolean>();
+
 		// setup the tree
-		model = new DefaultTreeModel(null);
+		model = new DefaultTreeModel(top);
 		tree = new JTree(model); // create the tree with the top created above
 
 		// tell it that it can only select one thing at a time
@@ -103,13 +120,9 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 * Refresh the tree with updates on planning poker session
 	 */
 	public void refresh() {
-		top = new DefaultMutableTreeNode("All Sessions");
 
-		// branches
-		newSessionNode = new DefaultMutableTreeNode();
-		openSessionNode = new DefaultMutableTreeNode();
-		closedSessionNode = new DefaultMutableTreeNode();
-		cancelledSessionNode = new DefaultMutableTreeNode();
+		// remove all children contents to prevent from duplication
+		clearAllNodes();
 
 		try {
 			// get a list of sessions
@@ -147,15 +160,68 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		model.setRoot(top);
 		tree.setModel(model);
 
-		// expand new session and open session branches
-		final TreePath newSessionPath = new TreePath(newSessionNode.getPath());
-		final TreePath openSessionPath = new TreePath(openSessionNode.getPath());
-
-		tree.expandPath(newSessionPath);
-		tree.expandPath(openSessionPath);
+		if (!initialized) {
+			// initialize the states
+			initTreeStates();
+		} else {
+			// restore the states for the tree
+			maintainTreeStates();
+		}
 
 		// update the ViewEventController so it contains the right tree
 		ViewEventManager.getInstance().setOverviewTree(this);
+	}
+
+	/**
+	 * remove all children for the branch
+	 */
+	private void clearAllNodes() {
+		newSessionNode.removeAllChildren();
+		openSessionNode.removeAllChildren();
+		closedSessionNode.removeAllChildren();
+		cancelledSessionNode.removeAllChildren();
+		top.removeAllChildren();
+	}
+
+	/**
+	 * initialize the states of the tree and set up the tree so that new session
+	 * and open session branches are initially expanded
+	 * 
+	 */
+	private void initTreeStates() {
+		// tree path to each node
+		final TreePath newSessionPath = new TreePath(newSessionNode.getPath());
+		final TreePath openSessionPath = new TreePath(openSessionNode.getPath());
+		final TreePath closedSessionPath = new TreePath(
+				closedSessionNode.getPath());
+		final TreePath cancelledSessionPath = new TreePath(
+				cancelledSessionNode.getPath());
+
+		// expand new session and open session
+		tree.expandPath(newSessionPath);
+		tree.expandPath(openSessionPath);
+
+		// saves all the states
+		nodeStates.put(newSessionNode, tree.isExpanded(newSessionPath));
+		nodeStates.put(openSessionNode, tree.isExpanded(openSessionPath));
+		nodeStates.put(closedSessionNode, tree.isExpanded(closedSessionPath));
+		nodeStates.put(cancelledSessionNode,
+				tree.isExpanded(cancelledSessionPath));
+	}
+
+	/**
+	 * maintains tree expansion based on the states remembered
+	 */
+	private void maintainTreeStates() {
+		for (Entry<DefaultMutableTreeNode, Boolean> e : nodeStates.entrySet()) {
+			boolean isExpanded = e.getValue();
+			TreePath path = new TreePath(e.getKey().getPath());
+
+			// restore expansion for the node
+			if (isExpanded) {
+				tree.expandPath(path);
+			}
+		}
 	}
 
 	/**
