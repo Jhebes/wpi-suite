@@ -192,21 +192,13 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		// tree path to each node
 		final TreePath newSessionPath = new TreePath(newSessionNode.getPath());
 		final TreePath openSessionPath = new TreePath(openSessionNode.getPath());
-		final TreePath closedSessionPath = new TreePath(
-				closedSessionNode.getPath());
-		final TreePath cancelledSessionPath = new TreePath(
-				cancelledSessionNode.getPath());
 
 		// expand new session and open session
 		tree.expandPath(newSessionPath);
 		tree.expandPath(openSessionPath);
 
 		// saves all the states
-		nodeStates.put(newSessionNode, tree.isExpanded(newSessionPath));
-		nodeStates.put(openSessionNode, tree.isExpanded(openSessionPath));
-		nodeStates.put(closedSessionNode, tree.isExpanded(closedSessionPath));
-		nodeStates.put(cancelledSessionNode,
-				tree.isExpanded(cancelledSessionPath));
+		updateTreeStates();
 	}
 
 	/**
@@ -222,6 +214,26 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 				tree.expandPath(path);
 			}
 		}
+	}
+
+	/**
+	 * update tree expansion states
+	 */
+	private void updateTreeStates() {
+		// tree path to each node
+		final TreePath newSessionPath = new TreePath(newSessionNode.getPath());
+		final TreePath openSessionPath = new TreePath(openSessionNode.getPath());
+		final TreePath closedSessionPath = new TreePath(
+				closedSessionNode.getPath());
+		final TreePath cancelledSessionPath = new TreePath(
+				cancelledSessionNode.getPath());
+
+		// saves all the states
+		nodeStates.put(newSessionNode, tree.isExpanded(newSessionPath));
+		nodeStates.put(openSessionNode, tree.isExpanded(openSessionPath));
+		nodeStates.put(closedSessionNode, tree.isExpanded(closedSessionPath));
+		nodeStates.put(cancelledSessionNode,
+				tree.isExpanded(cancelledSessionPath));
 	}
 
 	/**
@@ -390,6 +402,9 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 				}
 			}
 		}
+
+		// Update all state changes
+		updateTreeStates();
 	}
 
 	/**
