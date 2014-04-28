@@ -105,7 +105,7 @@ public class DisplayDeckPanel extends JPanel {
 
 		} else {
 			voteValue += aCard.getCardValue();
-			parentPanel.setVoteTextFieldWithValue(voteValue);
+			parentPanel.setVoteTextFieldWithValue("" + voteValue);
 		}
 		cards.add(aCard);
 	}

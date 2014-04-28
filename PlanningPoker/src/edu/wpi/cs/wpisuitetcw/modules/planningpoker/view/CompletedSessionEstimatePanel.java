@@ -139,17 +139,17 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		pnlFinalEstimate = new JPanel();
 		pnlFinalEstimate.setLayout(new BoxLayout(pnlFinalEstimate,
 				BoxLayout.Y_AXIS));
-		pnlFinalEstimate.setBorder(BorderFactory.createLineBorder(Color.black));
+		pnlFinalEstimate.setBorder(BorderFactory.createEmptyBorder());
 
 		// Statistical info of the PP Session
 		pnlStats = new JPanel();
 		pnlStats.setLayout(new BoxLayout(pnlStats, BoxLayout.Y_AXIS));
-		pnlStats.setBorder(BorderFactory.createLineBorder(Color.black));
+		pnlStats.setBorder(BorderFactory.createEmptyBorder());
 
 		// Table of votes for each req
 		pnlVotes = new JPanel();
 		pnlVotes.setLayout(new BoxLayout(pnlVotes, BoxLayout.Y_AXIS));
-		pnlVotes.setBorder(BorderFactory.createLineBorder(Color.black));
+		pnlVotes.setBorder(BorderFactory.createEmptyBorder());
 
 		// Initialize the default font for JLabel headers
 		headerFont = new Font("TimesRoman", Font.BOLD, 25);
