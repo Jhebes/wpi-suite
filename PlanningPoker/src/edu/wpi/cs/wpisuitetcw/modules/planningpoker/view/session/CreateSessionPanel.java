@@ -45,6 +45,7 @@ import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.swingx.JXDatePicker;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.PlanningPoker;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateSessionPanelController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.AddSessionController;
@@ -748,11 +749,12 @@ public class CreateSessionPanel extends JPanel {
 		btnSaveSession.addActionListener(new AddSessionController(this, false));
 		// save button is initially disable
 		btnSaveSession.setEnabled(false);
-
+		//Set the default button font
+		btnSaveSession.setFont(PlanningPoker.defaultButtonFont);
 		// Create Cancel create session button
 		btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new CancelCreateSessionController(this));
-
+		btnCancel.setFont(PlanningPoker.defaultButtonFont);
 		bottomPanel = new JPanel();
 		bottomPanel.setLayout(new MigLayout("inset 5 " 
 												+ DEFAULT_INSETS 

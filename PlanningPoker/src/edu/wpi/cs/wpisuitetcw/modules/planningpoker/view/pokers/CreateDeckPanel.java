@@ -37,6 +37,7 @@ import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.PlanningPoker;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddNewCardController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.InitNewDeckPanelController;
@@ -191,6 +192,7 @@ public class CreateDeckPanel extends JPanel {
 
 		// Create add card button and bind an action listener to it
 		btnAddCard = new JButton(ADD_CARD_LABEL);
+		btnAddCard.setFont(PlanningPoker.defaultButtonFont);
 		btnAddCard.addActionListener(new AddNewCardController(this));
 
 		// Create Error Panel

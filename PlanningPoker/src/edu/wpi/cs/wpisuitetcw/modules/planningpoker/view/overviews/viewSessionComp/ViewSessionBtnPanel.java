@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionC
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.PlanningPoker;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.ActivateSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementPanel;
 
@@ -26,6 +27,7 @@ public class ViewSessionBtnPanel extends JPanel {
 
 		// set up button
 		this.activateBtn = new JButton("Activate Session");
+		this.activateBtn.setFont(PlanningPoker.defaultButtonFont);
 
 		activateBtn.addActionListener(new ActivateSessionController(
 				parentPanel, parentPanel.getPPSession()));

@@ -22,6 +22,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.PlanningPoker;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 
@@ -40,7 +41,7 @@ public class SessionButtonsPanel extends ToolbarGroupView {
 
 	public SessionButtonsPanel() {
 		super("");
-
+		
 		// set up session panel
 		this.sessionPanel.setLayout(new BoxLayout(sessionPanel,
 				BoxLayout.X_AXIS));
@@ -48,6 +49,8 @@ public class SessionButtonsPanel extends ToolbarGroupView {
 		// create the buttons
 		this.createSession = new JButton("<html>Create<br />Session</html>");
 		this.tutorialPanel = new JButton("<html>Help<br /></html>");
+		createSession.setFont(PlanningPoker.defaultButtonFont);
+		tutorialPanel.setFont(PlanningPoker.defaultButtonFont);
 
 		// add image to buttons
 		try {

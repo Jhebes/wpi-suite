@@ -32,6 +32,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.PlanningPoker;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.EditActivatedSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
@@ -176,6 +177,7 @@ public class VotePanel extends JPanel {
 
 		// Create the end session button
 		endSessionButton = new JButton(END_SESSION_BUTTON_LABEL);
+		endSessionButton.setFont(PlanningPoker.defaultButtonFont);
 		endSessionButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -203,6 +205,7 @@ public class VotePanel extends JPanel {
 
 		// Create the cancel session button
 		cancelSessionButton = new JButton("Cancel Session");
+		cancelSessionButton.setFont(PlanningPoker.defaultButtonFont);
 		cancelSessionButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -248,6 +251,7 @@ public class VotePanel extends JPanel {
 
 		// Create an edit session button
 		btnEditSession = new JButton("Edit Session");
+		btnEditSession.setFont(PlanningPoker.defaultButtonFont);
 		btnEditSession.addActionListener(new EditActivatedSessionController(session, this));
 		if (session.isHasVoted()) {
 			btnEditSession.setEnabled(false);
@@ -255,6 +259,7 @@ public class VotePanel extends JPanel {
 
 		// Create a submit vote button
 		submitVoteButton = new JButton(VOTE_BUTTON_LABEL);
+		submitVoteButton.setFont(PlanningPoker.defaultButtonFont);
 		submitVoteButton.addActionListener(new AddVoteController(this, this.session));
 
 		// Create a JLabel holding the card selection mode

@@ -35,20 +35,7 @@ public class ViewEventManager {
 	private List<AddRequirementPanel> viewSessionPanels = new ArrayList<AddRequirementPanel>();
 	private List<VotePanel> inProgressSessionPanels = new ArrayList<VotePanel>();
 
-	
-	/**
-	 * Sets the font of the application to the global font
-	 */
-	public static void loadDefaultFont() {
-		Enumeration keys = UIManager.getDefaults().keys();
-		while (keys.hasMoreElements()) {
-			Object key = keys.nextElement();
-			Object value = UIManager.get(key);
-			if (value != null && value instanceof FontUIResource){
-				UIManager.put(key, PlanningPoker.defaultFont);
-			}
-		}
-	}
+
 
 	/**
 	 * Default constructor for ViewEventController. It is set to private to

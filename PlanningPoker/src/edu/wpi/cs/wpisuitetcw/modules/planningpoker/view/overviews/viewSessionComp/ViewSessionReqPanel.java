@@ -32,6 +32,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.PlanningPoker;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.AddRequirementToSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.EditRequirementDescriptionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveAllRequirementsToAllController;
@@ -202,7 +203,9 @@ public class ViewSessionReqPanel extends JPanel {
 		this.moveRequirementToSession = new JButton(" > ");
 		this.moveAllRequirementsToSession = new JButton(" >> ");
 		this.addRequirementToSession = new JButton("Add Requirement to Session");
+		this.addRequirementToSession.setFont(PlanningPoker.defaultButtonFont);
 		this.saveRequirement = new JButton("Save Requirement");
+		this.saveRequirement.setFont(PlanningPoker.defaultButtonFont);
 		saveRequirement.setEnabled(false);
 		validateActivateSession();
 

@@ -22,6 +22,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.PlanningPoker;
+
 /**
  * This provides a tab component with a close button to the left of the title.
  * This file is imported from RequirementManager module.
@@ -55,6 +57,7 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 		add(label);
 		
 		final JButton closeButton = new JButton("\u2716");
+		closeButton.setFont(PlanningPoker.defaultButtonFont);
 		closeButton.setFont(closeButton.getFont().deriveFont((float) 8));
 		closeButton.setMargin(new Insets(0, 0, 0, 0));
 		closeButton.addActionListener(this);
