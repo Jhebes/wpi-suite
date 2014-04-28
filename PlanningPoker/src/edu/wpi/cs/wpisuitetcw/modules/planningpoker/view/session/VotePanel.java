@@ -256,8 +256,9 @@ public class VotePanel extends JPanel {
 
 		// user can only edit the session if the session is not voted and user
 		// is the owner
-		if (session.isHasVoted()
-				|| !currentUserName.equals(session.getOwnerUserName())) {
+		if (!currentUserName.equals(session.getOwnerUserName())) {
+			btnEditSession.setVisible(false);
+		} else if (session.isHasVoted()) {
 			btnEditSession.setEnabled(false);
 		}
 
@@ -285,10 +286,10 @@ public class VotePanel extends JPanel {
 	 */
 	private void addGUIComponentsToBottomPanel() {
 		bottomPanel.setLayout(new MigLayout("fillx", "", "5[]5"));
-		bottomPanel.add(endSessionButton, "left, wmin " + MIN_BUTTON_WIDTH
+		bottomPanel.add(btnEditSession, "left, wmin " + MIN_BUTTON_WIDTH
 				+ "px, split3");
-		bottomPanel
-				.add(btnEditSession, "left, wmin " + MIN_BUTTON_WIDTH + "px");
+		bottomPanel.add(endSessionButton, "left, wmin " + MIN_BUTTON_WIDTH
+				+ "px");
 		bottomPanel.add(cancelSessionButton, "left, wmin " + MIN_BUTTON_WIDTH
 				+ "px");
 		bottomPanel.add(cardSelectionModeLabel, "left, wmin "
