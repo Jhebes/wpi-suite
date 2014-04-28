@@ -33,6 +33,8 @@ public class MainView extends JTabbedPane {
 		// Put all tabs in a scroll layout
 		setTabLayoutPolicy(SCROLL_TAB_LAYOUT);
 		
+		//Set the default font
+		ViewEventManager.loadDefaultFont();
 		overviewPanel = new OverviewPanel();
 		this.addTab("Session Overview", overviewPanel);
 	}

@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.plaf.FontUIResource;
+
+import com.lowagie.text.Font;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.MainView;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ToolbarView;
@@ -24,6 +27,9 @@ import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
 public class PlanningPoker implements IJanewayModule {
 	private List<JanewayTabModel> tabs;
 
+	//Define the standard font that will be enforced by default throughout the project
+	public static final FontUIResource defaultFont = new FontUIResource("Serif",Font.NORMAL,12);
+	
 	public PlanningPoker() {
 		tabs = new ArrayList<JanewayTabModel>();
 

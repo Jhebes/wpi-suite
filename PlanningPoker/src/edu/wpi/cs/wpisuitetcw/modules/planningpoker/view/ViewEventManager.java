@@ -11,9 +11,13 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Enumeration;
 
 import javax.swing.JComponent;
+import javax.swing.UIManager;
+import javax.swing.plaf.FontUIResource;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.PlanningPoker;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTreePanel;
@@ -30,6 +34,21 @@ public class ViewEventManager {
 	private boolean isWelcomePageOnDisplay = true;
 	private List<AddRequirementPanel> viewSessionPanels = new ArrayList<AddRequirementPanel>();
 	private List<VotePanel> inProgressSessionPanels = new ArrayList<VotePanel>();
+
+	
+	/**
+	 * Sets the font of the application to the global font
+	 */
+	public static void loadDefaultFont() {
+		Enumeration keys = UIManager.getDefaults().keys();
+		while (keys.hasMoreElements()) {
+			Object key = keys.nextElement();
+			Object value = UIManager.get(key);
+			if (value != null && value instanceof FontUIResource){
+				UIManager.put(key, PlanningPoker.defaultFont);
+			}
+		}
+	}
 
 	/**
 	 * Default constructor for ViewEventController. It is set to private to
