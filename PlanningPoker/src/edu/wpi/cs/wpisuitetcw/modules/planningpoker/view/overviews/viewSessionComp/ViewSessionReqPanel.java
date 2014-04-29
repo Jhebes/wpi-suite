@@ -297,9 +297,6 @@ public class ViewSessionReqPanel extends JPanel {
 		description.addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-			/*	if (getReqDescription().equals(description.getText())) {
-					saveRequirement.setEnabled(true);
-				}*/
 			}
 
 			@Override
@@ -314,12 +311,6 @@ public class ViewSessionReqPanel extends JPanel {
 
 			@Override
 			public void keyTyped(KeyEvent arg0) {
-				/*if
-						|| (getReqDescription().equals(description.getText()))) {
-					saveRequirement.setEnabled(false);
-				} else {
-					saveRequirement.setEnabled(true);
-				}*/
 			}
 
 		});
