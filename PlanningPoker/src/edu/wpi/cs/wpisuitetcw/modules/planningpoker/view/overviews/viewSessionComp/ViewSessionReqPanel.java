@@ -301,10 +301,10 @@ public class ViewSessionReqPanel extends JPanel {
 
 			@Override
 			public void keyReleased(KeyEvent arg0) {
-				if ((getReqDescription().equals(description.getText())) ||  ((description.getText().equals("")))) {
+				if ((getReqDescription().equals(description.getText()))
+						|| ((description.getText().equals("")))) {
 					saveRequirement.setEnabled(false);
-				}
-				else{
+				} else {
 					saveRequirement.setEnabled(true);
 				}
 			}
