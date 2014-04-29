@@ -1,42 +1,36 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import java.awt.Component;
-import java.awt.FontMetrics;
 
 import javax.swing.Icon;
 import javax.swing.JTabbedPane;
-import javax.swing.plaf.metal.MetalTabbedPaneUI;
 
 public class ClosableFixedLengthTab extends JTabbedPane {
 
 	/**
-	 * 
+	 * This long is required for class serialization
 	 */
 	private static final long serialVersionUID = 1L;
-	private final int MAX_TAB_WIDTH = 140;
-	private final int MAX_TITLE_LENGTH = 18;
+	
+	/**
+	 * The max length of text within a tab
+	 */
+	private final int MAX_TITLE_LENGTH = 15;
+	
+	/**
+	 * The symbol to use when a tab text is longer than MAX_TITLE_LENGTH
+	 */
 	private final String OVERFLOW_SYMBOL = "...";
-	private final String EMPTY_STRING = "                       ";
-
-	public ClosableFixedLengthTab() {
-		super();
-
-		this.setUI(new MetalTabbedPaneUI() {
-			@Override
-			protected int calculateTabWidth(int tabPlacement, int tabIndex,
-					FontMetrics metrics) {
-				return MAX_TAB_WIDTH;
-			}
-		});
-	}
-
+	
+	/**
+	 * Check length of text within a tab. It it is too long, cut it off
+	 * and add overflow symbol to the end.
+	 */
 	@Override
 	public void addTab(String title, Icon icon, Component component, String tip) {
-		if(title.length() > MAX_TITLE_LENGTH) {
+		
+		if (title.length() > MAX_TITLE_LENGTH) {
 			title = title.substring(0, MAX_TITLE_LENGTH - OVERFLOW_SYMBOL.length()) + OVERFLOW_SYMBOL;
-		} else {
-			title += EMPTY_STRING.substring(0,
-					MAX_TITLE_LENGTH - title.length());
 		}
 		super.addTab(title, icon, component, tip);
 
