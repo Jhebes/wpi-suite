@@ -55,7 +55,6 @@ public class EditRequirementDescriptionController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		final PlanningPokerSession session = view.getEditRequirementsSession();
-		
 		final PlanningPokerRequirement requirement;
 		final List<PlanningPokerRequirement> requirements = new ArrayList<PlanningPokerRequirement>();
 		final String requirementNames = view.getReqName();
@@ -71,6 +70,11 @@ public class EditRequirementDescriptionController implements ActionListener {
 
 		session.save();
 
+		view.getAddRequirementToSession().setEnabled(true);
+		view.getSaveRequirement().setEnabled(false);
+		view.clearNewReqDesc();
+		view.clearNewReqName();
+		view.enableName();
 		view.getAllReqTable().repaint();
 		view.getSessionReqTable().repaint();
 		
