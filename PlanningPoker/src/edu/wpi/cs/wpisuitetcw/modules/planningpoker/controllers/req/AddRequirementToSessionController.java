@@ -76,6 +76,7 @@ public class AddRequirementToSessionController implements ActionListener {
 		addReqModel.addRequirement(reqManagerRequirement);
 
 		(new RequirementTableManager()).fetch(id);
+		panel.getSaveRequirement().setEnabled(false);
 		panel.validateActivateSession();
 		panel.refreshMoveButtons();
 	}
