@@ -55,7 +55,7 @@ public class RetrievePlanningPokerRequirementsForSessionController {
 	 * Sends a request to get all of the requirements of a session
 	 */
 	public void refreshData(int t){
-		this.target = t;
+		target = t;
 		Logger.getLogger("PlanningPoker").log(Level.INFO, "Refreshing table for session " + t);
 		final Request request = Network.getInstance().makeRequest("planningpoker/session/", HttpMethod.GET);
 		request.addObserver(new RetrievePlanningPokerRequirementsForSessionRequestObserver(this));
@@ -73,7 +73,7 @@ public class RetrievePlanningPokerRequirementsForSessionController {
 	 */
 	public void receivedData(PlanningPokerSession session){
 		final RequirementTableManager a = new RequirementTableManager();
-		a.refreshRequirements(this.target, session.getRequirements());
+		a.refreshRequirements(target, session.getRequirements());
 	}
 
 	/**

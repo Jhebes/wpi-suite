@@ -33,7 +33,7 @@ public class MoveRequirementToAllRequestObserver implements RequestObserver {
 	 */
 	public MoveRequirementToAllRequestObserver(
 		MoveRequirementToAllController moveRequirementToAllController) {
-		this.controller = moveRequirementToAllController;
+		controller = moveRequirementToAllController;
 	}
 
 	/**

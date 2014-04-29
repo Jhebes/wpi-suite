@@ -42,12 +42,12 @@ public class SessionButtonsPanel extends ToolbarGroupView {
 		super("");
 
 		// set up session panel
-		this.sessionPanel.setLayout(new BoxLayout(sessionPanel,
+		sessionPanel.setLayout(new BoxLayout(sessionPanel,
 				BoxLayout.X_AXIS));
 
 		// create the buttons
-		this.createSession = new JButton("<html>Create<br />Session</html>");
-		this.tutorialPanel = new JButton("<html>Help<br /></html>");
+		createSession = new JButton("<html>Create<br />Session</html>");
+		tutorialPanel = new JButton("<html>Help<br /></html>");
 
 		// add image to buttons
 		try {
@@ -77,9 +77,9 @@ public class SessionButtonsPanel extends ToolbarGroupView {
 		});
 
 		// setup the toolbar
-		sessionPanel.add(this.createSession);
+		sessionPanel.add(createSession);
 		sessionPanel.add(Box.createHorizontalStrut(10));
-		sessionPanel.add(this.tutorialPanel);
+		sessionPanel.add(tutorialPanel);
 		sessionPanel.setOpaque(false);
 
 		this.add(sessionPanel);
@@ -91,7 +91,7 @@ public class SessionButtonsPanel extends ToolbarGroupView {
 	 * @return JButton
 	 */
 	public JButton getCreateSessionButton() {
-		return this.createSession;
+		return createSession;
 	}
 
 	/**
@@ -100,6 +100,6 @@ public class SessionButtonsPanel extends ToolbarGroupView {
 	 * @return JButton
 	 */
 	public JButton getTutorialPanelButton() {
-		return this.tutorialPanel;
+		return tutorialPanel;
 	}
 }

@@ -21,9 +21,15 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
 
+/**
+ * Module for Janeway.
+ */
 public class PlanningPoker implements IJanewayModule {
 	private List<JanewayTabModel> tabs;
 
+	/**
+	 * Constructor for the module.
+	 */
 	public PlanningPoker() {
 		tabs = new ArrayList<JanewayTabModel>();
 
@@ -45,11 +51,17 @@ public class PlanningPoker implements IJanewayModule {
 		tabs.add(tab1);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String getName() {
 		return "PlanningPoker";
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<JanewayTabModel> getTabs() {
 		return tabs;

@@ -22,6 +22,6 @@
 	<classpathentry kind="lib" path="/RequirementManager/src"/>
 	<classpathentry kind="lib" path="/WPISuite-Interfaces/src"/>
 	<classpathentry kind="lib" path="/PlanningPoker/src" sourcepath="/PlanningPoker/src"/>
-	<classpathentry kind="src" path="/PlanningPoker"/>
+	<classpathentry exported="true" kind="src" path="/PlanningPoker"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -86,18 +86,18 @@ public class AddSessionController implements ActionListener {
 	public synchronized void actionPerformed(ActionEvent event) {
 		// if a name was entered create the session
 		// otherwise the button will do nothing
-		if ((this.view.hasAllValidInputs() == true)
-				&& (this.isEditMode == false)) {
+		if ((view.hasAllValidInputs() == true)
+				&& (isEditMode == false)) {
 
 			// Get the inputs from user
-			final String name = this.view.getNameTextField().getText();
-			final Date d = this.view.getDeadline();
-			final String des = this.view.getDescriptionBox().getText();
-			final String deckName = (String) this.view.getDeckType()
+			final String name = view.getNameTextField().getText();
+			final Date d = view.getDeadline();
+			final String des = view.getDescriptionBox().getText();
+			final String deckName = (String) view.getDeckType()
 					.getSelectedItem();
 
 			// Store the new deck if user creates one
-			if (this.view.isInCreateMode()) {
+			if (view.isInCreateMode()) {
 				final CreateNewDeckController createDeckController = new CreateNewDeckController(
 						view.getDeckPanel());
 				createDeckController.addDeckToDatabase();
@@ -113,7 +113,7 @@ public class AddSessionController implements ActionListener {
 
 			// Associate a deck to the new session if the user does not choose
 			// 'No deck'
-			if (!this.view.isInNoDeckMode()) {
+			if (!view.isInNoDeckMode()) {
 				// 'Default' option, bind a new Fibonacci deck to the
 				// session
 				if (deckName.equals("Default")) {
@@ -132,12 +132,12 @@ public class AddSessionController implements ActionListener {
 
 			session.create();
 			GetAllSessionsController.getInstance().retrieveSessions();
-			ViewEventManager.getInstance().removeTab(this.view);
+			ViewEventManager.getInstance().removeTab(view);
 
 		} else {
 			// user has yet entered all required data
 			// TODO: maybe make the warning a pop-up
-			this.view.repaint();
+			view.repaint();
 		}
 
 	}

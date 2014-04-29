@@ -475,7 +475,7 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 * @param ID
 	 */
 	public void setCorrespondingReqManagerID(int ID){
-		this.correspondingReqManagerID = ID;
+		correspondingReqManagerID = ID;
 	}
 	
 	/**
@@ -483,6 +483,6 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 * @return The ID of the PPreq that corresponds with the requirement manager requirement.
 	 */
 	public int getCorrespondingReqManagerID(){
-		return this.correspondingReqManagerID;
+		return correspondingReqManagerID;
 	}
 }

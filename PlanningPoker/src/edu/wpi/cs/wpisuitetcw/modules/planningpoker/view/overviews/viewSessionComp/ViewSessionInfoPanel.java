@@ -16,6 +16,9 @@ import javax.swing.JPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementPanel;
 
+/**
+ * The panel for displaying info about the planning poker session.
+ */
 public class ViewSessionInfoPanel extends JPanel {
 	private final PlanningPokerSession session;
 	private final AddRequirementPanel parentPanel;

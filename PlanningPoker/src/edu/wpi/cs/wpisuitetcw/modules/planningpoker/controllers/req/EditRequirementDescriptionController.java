@@ -42,15 +42,15 @@ public class EditRequirementDescriptionController implements ActionListener {
 	 *            A ViewSessionReqPanel that would be stored
 	 */
 	public EditRequirementDescriptionController(PlanningPokerSession s, ViewSessionReqPanel v) {
-		this.session = s;
-		this.view = v;
+		session = s;
+		view = v;
 	}
 
 	/*
 	 * This method is called when the user clicks the vote button
 	 * 
-	 * @see
-	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
+	 * {@see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent}
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
@@ -71,8 +71,8 @@ public class EditRequirementDescriptionController implements ActionListener {
 
 		session.save();
 
-		this.view.getAllReqTable().repaint();
-		this.view.getSessionReqTable().repaint();
+		view.getAllReqTable().repaint();
+		view.getSessionReqTable().repaint();
 		
 		view.validateActivateSession();
 

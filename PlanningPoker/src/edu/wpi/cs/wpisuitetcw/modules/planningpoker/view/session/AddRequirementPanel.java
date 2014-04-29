@@ -23,22 +23,26 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionCo
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionReqPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 
+/**
+ * Panel for adding requirements to a planning poker session.
+ */
 public class AddRequirementPanel extends JSplitPane {
 	private final ViewSessionBtnPanel buttonPanel;
 	private final ViewSessionInfoPanel infoPanel;
 	private final ViewSessionReqPanel pkgPanel;
-	private final PlanningPokerSession session;
+	private final PlanningPokerSession pPSession;
 
 	/**
 	 * Create a view session panel
+	 * @param session The planning poker session for this panel.
 	 */
 	public AddRequirementPanel(PlanningPokerSession session) {
 		final RequirementTableManager manager = new RequirementTableManager();
 		manager.fetch(session.getID());
-		this.session = session;
-		this.infoPanel = new ViewSessionInfoPanel(this, session);
-		this.buttonPanel = new ViewSessionBtnPanel(this);
-		this.pkgPanel = new ViewSessionReqPanel(this, session);
+		pPSession = session;
+		infoPanel = new ViewSessionInfoPanel(this, session);
+		buttonPanel = new ViewSessionBtnPanel(this);
+		pkgPanel = new ViewSessionReqPanel(this, session);
 
 		// set sub panels
 		final JSplitPane contentPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
@@ -54,20 +58,32 @@ public class AddRequirementPanel extends JSplitPane {
 		SessionStash.getInstance().synchronize();
 	}
 
+	/**
+	 * @return The buttons panel at the bottom
+	 */
 	public ViewSessionBtnPanel getButtonPanel() {
 		return buttonPanel;
 	}
 
+	/**
+	 * @return The information panel on the left
+	 */
 	public ViewSessionInfoPanel getInfoPanel() {
 		return infoPanel;
 	}
 
+	/**
+	 * @return The main panel in the beginning
+	 */
 	public ViewSessionReqPanel getPkgPanel() {
 		return pkgPanel;
 	}
 
+	/**
+	 * @return The planning poker session for this panel.
+	 */
 	public PlanningPokerSession getPPSession() {
-		return session;
+		return pPSession;
 	}
 
 	

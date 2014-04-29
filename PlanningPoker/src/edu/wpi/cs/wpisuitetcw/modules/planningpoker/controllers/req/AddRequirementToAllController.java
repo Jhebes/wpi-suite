@@ -56,12 +56,12 @@ public class AddRequirementToAllController implements ActionListener {
 		final Requirement reqManagerRequirement = new Requirement();
 
 		final PlanningPokerRequirement requirement = new PlanningPokerRequirement();
-		requirement.setName(this.panel.getNewReqName());
-		requirement.setDescription(this.panel.getNewReqDesc());
+		requirement.setName(panel.getNewReqName());
+		requirement.setDescription(panel.getNewReqDesc());
 		defaultSession.addRequirement(requirement);
 		defaultSession.save();
-		this.panel.clearNewReqName();
-		this.panel.clearNewReqDesc();
+		panel.clearNewReqName();
+		panel.clearNewReqDesc();
 
 		// Fill in the information for the requirement being created
 		reqManagerRequirement.setId(addReqModel.getNextID());

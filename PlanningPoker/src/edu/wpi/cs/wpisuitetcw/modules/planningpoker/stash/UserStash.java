@@ -29,7 +29,7 @@ public class UserStash {
 	/**
 	 * This is a singleton
 	 * 
-	 * @return
+	 * @return The instance for the singleton
 	 */
 	public static UserStash getInstance() {
 		if (self == null) {
@@ -43,7 +43,7 @@ public class UserStash {
 	 * @return All users stored locally
 	 */
 	public List<User> getUsers() {
-		return this.users;
+		return users;
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class UserStash {
 	 *            The user to add to the local stash
 	 */
 	public void addUser(User u) {
-		this.users.add(u);
+		users.add(u);
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class UserStash {
 	 * Clear all users in the list (used by updater)
 	 */
 	public void clear() {
-		this.users.clear();
+		users.clear();
 	}
 
 	/**
@@ -83,8 +83,8 @@ public class UserStash {
 	 * @return The user instance
 	 */
 	public User getUserByName(String name) {
-		for (User u : this.users) {
-			if (u.getUsername() == name) {
+		for (User u : users) {
+			if (u.getUsername().equals(name)) {
 				return u;
 			}
 		}

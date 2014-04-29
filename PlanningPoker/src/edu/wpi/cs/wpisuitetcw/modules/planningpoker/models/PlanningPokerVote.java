@@ -15,8 +15,10 @@ import java.util.UUID;
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
+/**
+ * Represents by a user on a particular with a given value.
+ */
 public class PlanningPokerVote extends AbstractModel {
 
 	/** ID of the Vote */
@@ -37,7 +39,7 @@ public class PlanningPokerVote extends AbstractModel {
 	public PlanningPokerVote(String user, int cardValue) {
 		this.user = user;
 		this.cardValue = cardValue;
-		this.id = UUID.randomUUID();
+		id = UUID.randomUUID();
 	}
 
 	/* database interaction */
@@ -60,7 +62,7 @@ public class PlanningPokerVote extends AbstractModel {
 	 */
 	@Override
 	public Boolean identify(Object o) {
-		return ((Integer) o).equals(this.id);
+		return ((Integer) o).equals(id);
 	}
 	
 	/**
@@ -70,7 +72,7 @@ public class PlanningPokerVote extends AbstractModel {
 	 */
 	@Override
 	public String toString() {
-		return "ID: " + this.user + ", Value: " + this.cardValue;
+		return "ID: " + user + ", Value: " + cardValue;
 	}
 	
 	/**
