@@ -30,14 +30,14 @@ import javax.swing.JTabbedPane;
 @SuppressWarnings("serial")
 public class ClosableTabComponent extends JPanel implements ActionListener {
 	
-	private final JTabbedPane tabbedPane;
+	private final ClosableFixedLengthTab tabbedPane;
 	
 	/**
 	 * Create a closable tab component belonging to the given tabbedPane.
 	 * The title is extracted with {@link JTabbedPane#getTitleAt(int)}.
 	 * @param tabbedPane  The JTabbedPane this tab component belongs to
 	 */
-	public ClosableTabComponent(JTabbedPane tabbedPane) {
+	public ClosableTabComponent(ClosableFixedLengthTab tabbedPane) {
 		super(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		this.tabbedPane = tabbedPane;
 		setOpaque(false);
@@ -46,7 +46,7 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 			// display the title according to what's set on our JTabbedPane
 			@Override
 			public String getText() {
-				final JTabbedPane tabbedPane = ClosableTabComponent.this.tabbedPane;
+				final ClosableFixedLengthTab tabbedPane = ClosableTabComponent.this.tabbedPane;
 				final int index = tabbedPane.indexOfTabComponent(ClosableTabComponent.this);
 				return index > -1 ? tabbedPane.getTitleAt(index) : "";
 			}
