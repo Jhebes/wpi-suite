@@ -106,14 +106,15 @@ public class PlanningPokerSession extends AbstractModel {
 	public boolean isOpen() {
 		return isActive() && !isClosed();
 	}
-	
+
 	/**
-	 * A session can be activated if it meets the following conditions: 
+	 * A session can be activated if it meets the following conditions:
 	 * <ul>
-	 * 	<li>It isn't active currently</li> 
-	 * 	<li>It isn't canceled</li>
-	 *  <li>It must have at least one requirement</li>
+	 * <li>It isn't active currently</li>
+	 * <li>It isn't canceled</li>
+	 * <li>It must have at least one requirement</li>
 	 * </ul>
+	 * 
 	 * @return Whether the session can be activated
 	 */
 	public boolean canBeActivated() {
@@ -121,13 +122,13 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * Activate the sessions a session if it meets all the criteria 
-	 * specified in {@link #canBeActivated() canBeActivated} method.
+	 * Activate the sessions a session if it meets all the criteria specified in
+	 * {@link #canBeActivated() canBeActivated} method.
 	 */
 	public void activate() {
 		if (canBeActivated()) {
 			this.startTime = new Date();
-			
+
 			String command = "sendEmail";
 			// Send email to everyone in a session
 			if (this.getUsers() != null) {
@@ -162,16 +163,16 @@ public class PlanningPokerSession extends AbstractModel {
 					}
 				}
 			} else {
-				SendNotificationController.sendNotification("start", "15189662284",
-						this.getDeadline(), command);
+				SendNotificationController.sendNotification("start",
+						"15189662284", this.getDeadline(), command);
 			}
 		}
 	}
 
 	/**
-	 * Deactivates a session by basically undoing what activate would. 
-	 * If the session is already active, and not cancelled, 
-	 * then it would set the start time to null
+	 * Deactivates a session by basically undoing what activate would. If the
+	 * session is already active, and not cancelled, then it would set the start
+	 * time to null
 	 */
 	public void deactivate() {
 		if (!this.isCancelled && this.isActive()) {
@@ -205,24 +206,28 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * Add a PlanningPokerVote for a PlanningPokerRequirement from an user
-	 * to the PlanningPokerSession
-	 * @param req A PlanningPokerRequirement that is voted
-	 * @param v A PlanningPokerVote of the PlanningPokerRequirement
-	 * @param requestingUser A String represents the user
+	 * Add a PlanningPokerVote for a PlanningPokerRequirement from an user to
+	 * the PlanningPokerSession
+	 * 
+	 * @param req
+	 *            A PlanningPokerRequirement that is voted
+	 * @param v
+	 *            A PlanningPokerVote of the PlanningPokerRequirement
+	 * @param requestingUser
+	 *            A String represents the user
 	 */
 	public void addVoteToRequirement(PlanningPokerRequirement req,
 			PlanningPokerVote v, String requestingUser) {
 		// Remove the corresponding requirement from this session
-		final PlanningPokerRequirement r = requirements
-				.get(requirements.indexOf(req));
+		final PlanningPokerRequirement r = requirements.get(requirements
+				.indexOf(req));
 		requirements.remove(r);
-		
+
 		// Add the vote of the user to the requirement
-		for(PlanningPokerVote vote : r.getVotes()) {
-			if(vote.getUser().equals(v.getUser())) {
+		for (PlanningPokerVote vote : r.getVotes()) {
+			if (vote.getUser().equals(v.getUser())) {
 				vote.setCardValue(v.getCardValue());
-				requirements.add(r);		// Add the requirement back
+				requirements.add(r); // Add the requirement back
 				this.save();
 				return;
 			}
@@ -236,7 +241,9 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Return the PlanningPokerRequirement that has the given name
-	 * @param A String of the requirement that would be returned
+	 * 
+	 * @param A
+	 *            String of the requirement that would be returned
 	 * @return Return the PlanningPokerRequirement that has the given name
 	 */
 	public PlanningPokerRequirement getReqByName(String reqName) {
@@ -364,6 +371,7 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Assign a String to the session's name
+	 * 
 	 * @param name
 	 *            The new session name
 	 */
@@ -391,8 +399,9 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Assign an user name to the name of the session's owner
-	 * @param userName A string that would be assigned to
-	 * the session's username
+	 * 
+	 * @param userName
+	 *            A string that would be assigned to the session's username
 	 */
 	public void setOwnerUserName(String userName) {
 		this.ownerUserName = userName;
@@ -560,16 +569,14 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * This class does not provide implementation for this method
-	 * {@inheritDoc}
+	 * This class does not provide implementation for this method {@inheritDoc}
 	 */
 	@Override
 	public void delete() {
 	}
 
 	/**
-	 * This class does not provide implementation for this method
-	 * {@inheritDoc}
+	 * This class does not provide implementation for this method {@inheritDoc}
 	 */
 	@Override
 	public Boolean identify(Object o) {
@@ -597,12 +604,14 @@ public class PlanningPokerSession extends AbstractModel {
 	public void create() {
 		new PutSessionController(this);
 	}
-		
+
 	/**
-	 * Copy the data from the given PlanningPokerSession to
-	 * the calling PlanningPokerSession object
-	 * @param updatedRequirement A PlanningPokerSession whose
-	 * data would be copied to the calling PlanningPokerSession object
+	 * Copy the data from the given PlanningPokerSession to the calling
+	 * PlanningPokerSession object
+	 * 
+	 * @param updatedRequirement
+	 *            A PlanningPokerSession whose data would be copied to the
+	 *            calling PlanningPokerSession object
 	 */
 	public void copyFrom(PlanningPokerSession updatedSession) {
 		this.isCancelled = updatedSession.isCancelled;
@@ -616,6 +625,7 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Return the start time of the session
+	 * 
 	 * @return Return the start time of the session
 	 */
 	public Object getStartTime() {

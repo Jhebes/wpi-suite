@@ -42,7 +42,6 @@ public class PlanningPokerSessionEntityManager implements
 	/** The database */
 	Data db;
 
-
 	/**
 	 * Constructs the entity manager. This constructor is called by
 	 * {@link edu.wpi.cs.wpisuitetng.ManagerLayer#ManagerLayer()}. To make sure
@@ -54,7 +53,7 @@ public class PlanningPokerSessionEntityManager implements
 	 */
 	public PlanningPokerSessionEntityManager(Data db) {
 		this.db = db;
-		
+
 	}
 
 	/*
@@ -80,11 +79,11 @@ public class PlanningPokerSessionEntityManager implements
 			newID = mostRecent.getID() + 1;
 		}
 		newPlanningPokerSession.setID(newID);
-		
-		//Now make something so we can have sessions expire later
+
+		// Now make something so we can have sessions expire later
 		Timer end = new Timer();
-		end.schedule(new EndOnDeadlineController(newID), newPlanningPokerSession.getDeadline());
-		
+		end.schedule(new EndOnDeadlineController(newID),
+				newPlanningPokerSession.getDeadline());
 
 		// Save the message in the database if possible, otherwise throw an
 		// exception
@@ -129,14 +128,15 @@ public class PlanningPokerSessionEntityManager implements
 	public PlanningPokerSession[] getAll(Session s) throws WPISuiteException {
 		final List<Model> messages = db.retrieveAll(new PlanningPokerSession(),
 				s.getProject());
-		
+
 		if (messages.size() == 0) {
 			System.out.println("CREATED DEFAULT.");
 			final PlanningPokerSession defaultSession = new PlanningPokerSession();
 			defaultSession.setID(1);
 			defaultSession.setName("Default Session");
-			defaultSession.setDescription("This session is for requirements that have not been assigned");
-			
+			defaultSession
+					.setDescription("This session is for requirements that have not been assigned");
+
 			if (db.save(defaultSession, s.getProject())) {
 				final PlanningPokerSession[] created = new PlanningPokerSession[1];
 				created[0] = defaultSession;
@@ -161,12 +161,8 @@ public class PlanningPokerSessionEntityManager implements
 	public PlanningPokerSession update(Session s, String content)
 			throws WPISuiteException {
 
-<<<<<<< HEAD
-		
-		PlanningPokerSession updatedSession = PlanningPokerSession
-=======
+
 		final PlanningPokerSession updatedSession = PlanningPokerSession
->>>>>>> origin/dev
 				.fromJson(content);
 		
 		/*
@@ -285,7 +281,8 @@ public class PlanningPokerSessionEntityManager implements
 			}
 
 			try {
-				final String notificationType = URLDecoder.decode(args[3], "UTF-8");
+				final String notificationType = URLDecoder.decode(args[3],
+						"UTF-8");
 				final String email = URLDecoder.decode(args[4], "UTF-8");
 				String deadline;
 				if (args[5] == null) {
@@ -307,7 +304,8 @@ public class PlanningPokerSessionEntityManager implements
 			}
 
 			try {
-				final String notificationType = URLDecoder.decode(args[3], "UTF-8");
+				final String notificationType = URLDecoder.decode(args[3],
+						"UTF-8");
 				final String buddy = URLDecoder.decode(args[4], "UTF-8");
 				String deadline;
 				if (args[5] == null) {
@@ -350,14 +348,14 @@ public class PlanningPokerSessionEntityManager implements
 	 * @param deadline
 	 *            String containing the deadline.
 	 */
-	private void sendEmailNotification(String notificationType, String toAddress,
-			String deadline) {
+	private void sendEmailNotification(String notificationType,
+			String toAddress, String deadline) {
 		EmailNotifier.sendMessage(notificationType, toAddress, deadline);
 	}
 
 	/**
-	 * Sends an SMS to a particular phone number notifying upon start or end
-	 * of a planning poker session.
+	 * Sends an SMS to a particular phone number notifying upon start or end of
+	 * a planning poker session.
 	 * 
 	 * @param notificationType
 	 *            'start' or 'end'
@@ -366,8 +364,8 @@ public class PlanningPokerSessionEntityManager implements
 	 * @param deadline
 	 *            String containing the deadline.
 	 */
-	public void sendSMSNotification(String notificationType, String phoneNumber,
-			String deadline) {
+	public void sendSMSNotification(String notificationType,
+			String phoneNumber, String deadline) {
 		SMSNotifier.sendMessage(notificationType, phoneNumber, deadline);
 	}
 }
