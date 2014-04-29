@@ -168,6 +168,9 @@ public class CreateSessionPanel extends JPanel {
 		nameTextField.setEnabled(false);
 		descriptionBox.setText(session.getDescription());
 		descriptionBox.setEnabled(false);
+		
+		// Check if the button is valid
+		checkSessionValidation();
 	}
 
 	/**
