@@ -23,6 +23,9 @@ import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 
+/**
+ * Manages the database interactions for a planning poker deck.
+ */
 public class PlanningPokerDeckEntityManager implements
 EntityManager<PlanningPokerDeck>{
 

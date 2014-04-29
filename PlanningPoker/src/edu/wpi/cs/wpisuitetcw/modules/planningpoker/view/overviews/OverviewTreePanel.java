@@ -30,6 +30,9 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.CustomTreeCellRenderer;
 
+/**
+ * The tree panel that greets you on the left side of the overview.
+ */
 public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		TreeSelectionListener {
 
@@ -41,11 +44,17 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	private boolean initialized = false;
 	private List<PlanningPokerSession> sessions = null;
 
+	/**
+	 * Constructs a tree panel.
+	 */
 	public OverviewTreePanel() {
 		this.setViewportView(tree);
 		this.refresh();
 	}
 
+	/**
+	 * Re-draws this tree panel.
+	 */
 	public void refresh() {
 		final DefaultMutableTreeNode top = new DefaultMutableTreeNode("All Sessions");
 		// DefaultMutableTreeNode draftSessionNode = new
@@ -59,12 +68,12 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		
 		try {
 			// get a list of sessions
-			this.sessions = SessionStash.getInstance().getSessions();
+			sessions = SessionStash.getInstance().getSessions();
 
-			if (this.sessions != null) {
-				final PlanningPokerSession[] newSessions = sortForNewSessions(this.sessions);
-				final PlanningPokerSession[] openSessions = sortForOpenSessions(this.sessions);
-				final PlanningPokerSession[] closedSessions = sortForClosedSessions(this.sessions);
+			if (sessions != null) {
+				final PlanningPokerSession[] newSessions = sortForNewSessions(sessions);
+				final PlanningPokerSession[] openSessions = sortForOpenSessions(sessions);
+				final PlanningPokerSession[] closedSessions = sortForClosedSessions(sessions);
 
 				// add new sessions to the node
 				for (PlanningPokerSession s : newSessions) {
@@ -193,7 +202,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 			// retrieve sessions and initialize the tree
 			SessionStash.getInstance().synchronize();
 
-			if (this.sessions.size() != 0) {
+			if (sessions.size() != 0) {
 				initialized = true;
 			}
 

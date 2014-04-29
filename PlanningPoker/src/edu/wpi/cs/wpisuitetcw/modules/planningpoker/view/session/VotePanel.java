@@ -218,18 +218,20 @@ public class VotePanel extends JPanel {
 		}
 
 		final String currentUserName = ConfigManager.getConfig().getUserName();
-		if (session.isClosed())
-			endSessionButton.setEnabled(false);
-		if (currentUserName.equals(session.getOwnerUserName()))
+		if (session.isClosed()) {
+			endSessionButton.setEnabled(false);			
+		}
+		if (currentUserName.equals(session.getOwnerUserName())) {
 			endSessionButton.setVisible(true);
-		else
+		} else {
 			endSessionButton.setVisible(false);
+		}
 
 		// Extract the requirements from the table provided by
 		// ViewSessionTableManager and converts them to list
 		final List<String> testReqs = new ArrayList<String>();
 		final RequirementTableManager a = new RequirementTableManager();
-		final RequirementTableModel v = a.get(this.session.getID());
+		final RequirementTableModel v = a.get(session.getID());
 		final Vector vector = v.getDataVector();
 		for (int i = 0; i < vector.size(); ++i) {
 			testReqs.add((String) (((Vector) vector.elementAt(i)).elementAt(1)));
@@ -238,8 +240,6 @@ public class VotePanel extends JPanel {
 		for (int i = 0; i < testReqs.size(); ++i) {
 			reqArr[i] = testReqs.get(i);
 		}
-		// reqsViewTable.getColumnModel().getColumn(1).setResizable(false);
-		this.getReqsViewTable();
 
 		// Create an edit session button
 		btnEditSession = new JButton("Edit Session");
@@ -250,7 +250,7 @@ public class VotePanel extends JPanel {
 
 		// Create a submit vote button
 		submitVoteButton = new JButton(VOTE_BUTTON_LABEL);
-		submitVoteButton.addActionListener(new AddVoteController(this, this.session));
+		submitVoteButton.addActionListener(new AddVoteController(this, session));
 
 		// Create a JLabel holding the card selection mode
 		cardSelectionModeLabel = new JLabel();
@@ -374,7 +374,7 @@ public class VotePanel extends JPanel {
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
-		voteTextField.setHorizontalAlignment(JTextField.CENTER);
+		voteTextField.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
 		// if the session has a deck, we can't let the user submit a vote
 		// manually
@@ -412,7 +412,7 @@ public class VotePanel extends JPanel {
 		// Add the card panel or final estimation GUI
 		finalEstimatePnl = new CompletedSessionEstimatePanel(this);
 		finalEstimatePnl.setAlignmentX(Component.CENTER_ALIGNMENT);
-		if (this.session.isClosed()) {
+		if (session.isClosed()) {
 			rightPanel.add(finalEstimatePnl);
 		} else {
 			if (cardFrame != null) {
@@ -474,18 +474,11 @@ public class VotePanel extends JPanel {
 	 * @return vote parsed as an integer
 	 */
 	public int getVote() {
-		if (this.session.getDeck() == null) {
+		if (session.getDeck() == null) {
 			return Integer.parseInt(voteTextField.getText());
 		} else {
 			return cardPanel.getVoteValue();
 		}
-	}
-
-	/**
-	 * sets the reqsViewTable with the appropriate information
-	 */
-
-	public void getReqsViewTable() {
 	}
 
 	public void disableEditSession() {
@@ -505,7 +498,7 @@ public class VotePanel extends JPanel {
 	 * @param voteTextField
 	 */
 	public void setVoteTextFieldWithValue(int value) {
-		this.voteTextField.setText(Integer.toString(value));
+		voteTextField.setText(Integer.toString(value));
 	}
 	
 	/**

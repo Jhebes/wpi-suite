@@ -35,6 +35,9 @@ public class ConfigLoader {
 	private static String plivoAuthToken = "";
 	private static String plivoPhoneNumber = "";
 
+	/**
+	 * Initializes the configuration loader with the default filename.
+	 */
 	public static void initialize() {
 		initialize(".planningpoker.properties");
 	}

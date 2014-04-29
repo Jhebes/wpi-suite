@@ -52,7 +52,7 @@ public class RetrievePlanningPokerRequirementsForSessionRequestObserver implemen
 			final PlanningPokerSession[] session = PlanningPokerSession.fromJSONArray(response.getBody());
 
 			for(PlanningPokerSession s : session){
-				if(s.getID() == this.controller.getTarget()){
+				if(s.getID() == controller.getTarget()){
 					controller.receivedData(s);
 				}
 			}

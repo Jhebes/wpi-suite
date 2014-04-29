@@ -38,6 +38,9 @@ public class GetAllRequirementsController {
 	 */
 	private GetAllRequirementsController() {}
 
+	/**
+	 * @return The instance of the controller.
+	 */
 	public static GetAllRequirementsController getInstance() {
 		if (instance == null) {
 			instance = new GetAllRequirementsController();
@@ -47,7 +50,7 @@ public class GetAllRequirementsController {
 	
 	/**
 	 * Add the given list of requirements to the SessionStash
-	 * @param sessions A list of Requirements that would be
+	 * @param requirements A list of Requirements that would be
 	 * added to SessionStash
 	 */
 	public void receivedRequirements(List<Requirement> requirements) {

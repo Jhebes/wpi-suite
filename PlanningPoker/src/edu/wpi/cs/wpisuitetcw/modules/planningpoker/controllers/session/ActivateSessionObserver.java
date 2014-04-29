@@ -25,7 +25,7 @@ public class ActivateSessionObserver implements RequestObserver {
 	 * @param a Tied controller
 	 */
 	public ActivateSessionObserver(ActivateSessionController a) {
-		this.controller = a;
+		controller = a;
 	}
 
 	/**

@@ -21,6 +21,9 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementP
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 
+/**
+ * Main class for controlling events that happen in our view.
+ */
 public class ViewEventManager {
 	private static ViewEventManager instance = null;
 	private MainView main;
@@ -70,6 +73,7 @@ public class ViewEventManager {
 
 	/**
 	 * Opens a new tab for the editing of a session
+	 * @param session The session to edit
 	 */
 	public void editSession(PlanningPokerSession session) {
 		final CreateSessionPanel newSession = new CreateSessionPanel(session);
@@ -82,6 +86,7 @@ public class ViewEventManager {
 
 	/**
 	 * Opens a new tab for viewing a session
+	 * @param session The session whose info to gather when building the panel.
 	 */
 	public void viewSession(PlanningPokerSession session) {
 		if (session.getStartTime() != null) {
@@ -135,6 +140,8 @@ public class ViewEventManager {
 
 	/**
 	 * displays a given panel with given msg
+	 * @param panel The panel to display
+	 * @param displayMsg The mouseover text for this tab
 	 */
 	public void display(JComponent panel, String displayMsg) {
 		main.addTab(displayMsg, null, panel, displayMsg);
@@ -146,7 +153,7 @@ public class ViewEventManager {
 	 * return the main view
 	 */
 	public MainView getMainview() {
-		return this.main;
+		return main;
 	}
 
 	/**
@@ -174,15 +181,15 @@ public class ViewEventManager {
 	/**
 	 * Removes the tab for the given JComponent
 	 * 
-	 * @param comp
+	 * @param component
 	 *            the component to remove
 	 */
 	public void removeTab(JComponent component) {
 		if (component instanceof AddRequirementPanel) {
-			this.viewSessionPanels.remove(component);
+			viewSessionPanels.remove(component);
 		}
 		if (component instanceof VotePanel) {
-			this.inProgressSessionPanels.remove(component);
+			inProgressSessionPanels.remove(component);
 		}
 		
 		main.remove(component);
@@ -195,14 +202,14 @@ public class ViewEventManager {
 	 * return whether a welcome page is on display
 	 */
 	public boolean isWelcomePageOnDisplay() {
-		return this.isWelcomePageOnDisplay;
+		return isWelcomePageOnDisplay;
 	}
 
 	/**
 	 * show table and remove the welcome page
 	 */
 	public void showSessionTable() {
-		this.overviewPanel.showSessionTable();
+		overviewPanel.showSessionTable();
 	}
 
 	/**
@@ -216,7 +223,7 @@ public class ViewEventManager {
 	 * update the contents on overview panel
 	 */
 	public void refreshOverviewPanel() {
-		this.overviewPanel.updateUI();
+		overviewPanel.updateUI();
 	}
 
 	/**
@@ -232,7 +239,7 @@ public class ViewEventManager {
 	 * @return tree panel
 	 */
 	public OverviewTreePanel getOverviewTreePanel() {
-		return this.overviewTreePanel;
+		return overviewTreePanel;
 	}
 
 }

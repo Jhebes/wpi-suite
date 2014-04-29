@@ -21,6 +21,9 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirem
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
+/**
+ * Cell renderer for a planning poker requirement.
+ */
 public class VoteRequirementCellRenderer extends JLabel implements ListCellRenderer<PlanningPokerRequirement> {
 
 	/** An icon for not-yet-voted requirement */

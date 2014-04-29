@@ -17,6 +17,9 @@ import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 
+/**
+ * Planning poker's main view.
+ */
 public class MainView extends JTabbedPane {
 
 	/**

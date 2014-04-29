@@ -156,7 +156,7 @@ public class CreateDeckPanel extends JPanel {
 		// determine what type of mode the panel is
 		if (mode.equals(CardDisplayMode.CREATE)) {
 			// create mode allows users to enter values
-			setInitialCard();
+			addInitialCard();
 		} else if (mode.equals(CardDisplayMode.DISPLAY)) {
 			// display mode should display the cards in a deck and disallow any
 			// modification
@@ -215,7 +215,7 @@ public class CreateDeckPanel extends JPanel {
 		msgPanel.setLayout(new MigLayout());
 
 		// No deck message
-		final JLabel msgLabel = new JLabel(NO_DECK_MSG, JLabel.CENTER);
+		final JLabel msgLabel = new JLabel(NO_DECK_MSG, javax.swing.SwingConstants.CENTER);
 
 		msgPanel.add(msgLabel, "center");
 		this.add(msgLabel, "dock center");
@@ -225,44 +225,45 @@ public class CreateDeckPanel extends JPanel {
 	/**
 	 * Add a initial card to the panel
 	 */
-	private void setInitialCard() {
+	private void addInitialCard() {
 		// cards
-		final Card starterCard = new Card(this.mode, this);
+		final Card starterCard = new Card(mode, this);
 		final int key = starterCard.hashCode();
 		cards.put(key, starterCard);
 		this.addRemoveCardListener(starterCard, this);
-		this.cardPanel.add(starterCard);
+		cardPanel.add(starterCard);
 	}
 
 	/**
 	 * Add a new card to both the storing hashmap and the view
 	 */
 	public void addNewCard() {
-		final Card aCard = new Card(this.mode, this);
+		final Card aCard = new Card(mode, this);
 		final int key = aCard.hashCode();
 		cards.put(key, aCard);
 		this.addRemoveCardListener(aCard, this);
 
-		this.cardPanel.add(aCard);
+		cardPanel.add(aCard);
 		validateNumCards();
 		this.updateNumCard();
 
 		// This yet moves to the rightmost position when a new card is added.
-		this.centerPanel.getHorizontalScrollBar().setValue(
-				(int) (this.cardPanel.getBounds().getWidth() + CARD_WIDTH));
+		centerPanel.getHorizontalScrollBar().setValue(
+				(int) (cardPanel.getBounds().getWidth() + CARD_WIDTH));
 	}
 
 	/**
 	 * Disables all input fields in the panel
 	 */
 	public void disableAllInputFields() {
-		this.textboxName.setEnabled(false);
-		this.deckOption.setEnabled(false);
-		this.btnAddCard.setEnabled(false);
+		textboxName.setEnabled(false);
+		deckOption.setEnabled(false);
+		btnAddCard.setEnabled(false);
 	}
 
 	/**
 	 * Remove a card from the view and the hashmap
+	 * @param key The card to remove
 	 */
 	public void removeCardWithKey(int key) {
 		cards.remove(key);
@@ -274,7 +275,7 @@ public class CreateDeckPanel extends JPanel {
 	 * Removes all card from the panel
 	 */
 	public void removeAllCard() {
-		final Map<Integer, Card> map = this.cards;
+		final Map<Integer, Card> map = cards;
 		for (Card aCard : map.values()) {
 			removeCardWithKey(aCard.hashCode());
 		}
@@ -286,7 +287,7 @@ public class CreateDeckPanel extends JPanel {
 	 * necessary
 	 */
 	private void validateNumCards() {
-		if (this.cards.size() == 0) {
+		if (cards.size() == 0) {
 			// display error message
 			errorPanel.setVisible(true);
 
@@ -300,7 +301,7 @@ public class CreateDeckPanel extends JPanel {
 	 * update the total number of cards
 	 */
 	private void updateNumCard() {
-		this.labelNumCards.setText(Integer.toString(this.cards.size()));
+		labelNumCards.setText(Integer.toString(cards.size()));
 	}
 
 	/**
@@ -325,7 +326,7 @@ public class CreateDeckPanel extends JPanel {
 	 */
 	public List<Integer> getNewDeckValues() {
 		final List<Integer> cardValues = new ArrayList<Integer>();
-		final Map<Integer, Card> map = this.cards;
+		final Map<Integer, Card> map = cards;
 		for (Card aCard : map.values()) {
 			cardValues.add(Integer.parseInt(aCard.getTxtboxValue().getText()));
 		}
@@ -367,7 +368,7 @@ public class CreateDeckPanel extends JPanel {
 			this.updateNumCard();
 		}
 
-		this.textboxName.setText(DEFAULT_DECK);
+		textboxName.setText(DEFAULT_DECK);
 		this.updateUI();
 	}
 
@@ -398,15 +399,15 @@ public class CreateDeckPanel extends JPanel {
 		}
 
 		// set other instance variables
-		this.textboxName.setText(deck.getDeckName());
+		textboxName.setText(deck.getDeckName());
 
-		this.deckOption.removeAllItems();
+		deckOption.removeAllItems();
 		final int selection = deck.getMaxSelection();
 
 		if (selection == 1) {
-			this.deckOption.addItem(SINGLE_SELECT);
+			deckOption.addItem(SINGLE_SELECT);
 		} else {
-			this.deckOption.addItem(MULTIPLE_SELECT);
+			deckOption.addItem(MULTIPLE_SELECT);
 		}
 
 		this.updateUI();
@@ -415,6 +416,8 @@ public class CreateDeckPanel extends JPanel {
 	/**
 	 * notify createNewDeckPanel when a Card is discarded, so that it removes
 	 * the card from the cards HashMap
+	 * @param aCard The card to discard
+	 * @param panel The create deck panel
 	 */
 	public void addRemoveCardListener(Card aCard, final CreateDeckPanel panel) {
 		// remove a card
@@ -459,7 +462,7 @@ public class CreateDeckPanel extends JPanel {
 	 */
 	public List<Integer> getAllCardsValue() {
 		final List<Integer> deckValues = new ArrayList<Integer>();
-		final Map<Integer, Card> map = this.cards;
+		final Map<Integer, Card> map = cards;
 		for (Card aCard : map.values()) {
 			deckValues.add(aCard.getValue());
 		}
@@ -472,7 +475,7 @@ public class CreateDeckPanel extends JPanel {
 	 * @return the center panel of this deck creation instance
 	 */
 	public JScrollPane getCenterPanel() {
-		return this.centerPanel;
+		return centerPanel;
 	}
 
 	/**

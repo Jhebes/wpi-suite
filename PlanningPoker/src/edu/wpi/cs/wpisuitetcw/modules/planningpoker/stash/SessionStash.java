@@ -20,14 +20,18 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session.GetA
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
+/**
+ * Centralized cache for storing and manipulating sessions.
+ */
 public class SessionStash {
 
 	private boolean initialized = false;
 	private static SessionStash self = null;
 	private List<PlanningPokerSession> sessions = new ArrayList<PlanningPokerSession>();
 
-	
-
+	/**
+	 * @return The instance for this singleton.
+	 */
 	public static SessionStash getInstance() {
 		if (self == null) {
 			self = new SessionStash();
@@ -35,26 +39,45 @@ public class SessionStash {
 		return self;
 	}
 
+	/**
+	 * @return The current list of planning poker sessions
+	 */
 	public List<PlanningPokerSession> getSessions() {
-		return this.sessions;
+		return sessions;
 	}
 
+	/**
+	 * Adds a new session to the stash.
+	 * @param p The new session
+	 */
 	public void addSession(PlanningPokerSession p) {
-		this.sessions.add(p);
+		sessions.add(p);
 	}
 
+	/**
+	 * Adds an iterable set of sessions to the stash.
+	 * @param p The set of sessions to add
+	 */
 	public void addSession(Iterable<PlanningPokerSession> p) {
 		for (PlanningPokerSession s : p) {
 			this.addSession(s);
 		}
 	}
 
+	/**
+	 * Clears the internal list of sessions.
+	 */
 	public void clear() {
-		this.sessions.clear();
+		sessions.clear();
 	}
 
+	/**
+	 * Gets a particular planning poker session by ID.
+	 * @param id The ID queried
+	 * @return The planning poker session if found, else null
+	 */
 	public PlanningPokerSession getSessionByID(int id) {
-		for (PlanningPokerSession p : this.sessions) {
+		for (PlanningPokerSession p : sessions) {
 			if (p.getID() == id) {
 				return p;
 			}
@@ -62,15 +85,19 @@ public class SessionStash {
 		return null;
 	}
 
+	/** 
+	 * Callback for synchronize. Updates the local cache with the server's changes.
+	 * @param incomingSessions The server's sessions
+	 */
 	public void mergeFromServer(List<PlanningPokerSession> incomingSessions) {	
-		for (PlanningPokerSession s : this.sessions) {
+		for (PlanningPokerSession s : sessions) {
 			s.save();
 		}
 		
 		for (PlanningPokerSession s : incomingSessions) {
 			if (this.getSessionByID(s.getID()) == null) {
-				this.sessions.add(s);
-				if(this.initialized && s.getID() != 1){
+				sessions.add(s);
+				if(initialized && s.getID() != 1){
 					ViewEventManager.getInstance().viewSession(s);
 				}
 			}
@@ -80,6 +107,9 @@ public class SessionStash {
 		initialized = true;
 	}
 
+	/**
+	 * Updates the local cache from the server
+	 */
 	public void synchronize() {
 		GetAllRequirementsController.getInstance().retrieveRequirements();
 		GetAllSessionsController.getInstance().retrieveSessions();

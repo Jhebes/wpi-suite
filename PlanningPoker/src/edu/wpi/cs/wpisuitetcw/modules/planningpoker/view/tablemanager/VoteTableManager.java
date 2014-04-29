@@ -21,15 +21,27 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.RetrievePlan
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.VoteTableModel;
 
+/**
+ * A vote table manager provides a mapping of integers to table models.
+ */
 public class VoteTableManager{
 	private static Map<UUID, VoteTableModel> t = new HashMap<UUID, VoteTableModel>();
 
+	/**
+	 * Gets the ith table model in the mapping
+	 * @param i The ID of the session table model to fetch
+	 * @return The matching session table model
+	 */
 	public VoteTableModel get(UUID i){
-		Logger.getLogger("PlanningPoker").log(Level.INFO, "Processing query for table for requirement " + i);
+		Logger.getLogger("PlanningPoker").log(Level.INFO, "Processing query for table for session " + i);
 		//this.fetch(i);
 		return VoteTableManager.t.get(i);
 	}
 	
+	/**
+	 * Initializes the ith table model
+	 * @param i The I of the session table model to initalize
+	 */
 	public void init(UUID i){
 		Logger.getLogger("PlanningPoker").log(Level.INFO, "Initializing session " + i.toString());
 		VoteTableModel a = VoteTableManager.t.get(i);
@@ -41,11 +53,11 @@ public class VoteTableManager{
 	}
 	
 	/**
-	 * Refreshed votes in the view
-	 * @param i
-	 * @param votes
+	 * Updates the session table models, refreshing them for a particular model
+	 * @param i The ID of the session table model to fetch
+	 * @param votes The sessions received from the server
 	 */
-	public void refreshRequirements(UUID i, List<PlanningPokerVote> votes) {
+	public void refreshSessions(UUID i, List<PlanningPokerVote> votes) {
 		
 		VoteTableModel a = VoteTableManager.t.get(i);
 		if(a == null){
@@ -57,11 +69,14 @@ public class VoteTableManager{
 		VoteTableManager.t.put(i, a);
 		Logger.getLogger("PlanningPoker").log(Level.INFO, "Done");
 	}
+	
+	/**
+	 * Fetches and updates new sessions from the server for the ith table model
+	 * @param i The ID of the session talbe model to fetch
+	 */
 	public void fetch(UUID i){
-		Logger.getLogger("PlanningPoker").log(Level.INFO, "Fetching session details for requirements " + i.toString());
+		Logger.getLogger("PlanningPoker").log(Level.INFO, "Fetching session details for sessions " + i.toString());
 		new RetrievePlanningPokerRequirementsForSessionController();
 		//a.refreshData(i);
 	}
-	
-	
 }

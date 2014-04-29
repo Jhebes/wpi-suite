@@ -48,8 +48,8 @@ public class ActivateSessionController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (this.session.getRequirements().size() > 0) {
-			this.session.activate();
+		if (session.getRequirements().size() > 0) {
+			session.activate();
 			session.save();
 			ViewEventManager.getInstance().removeTab(panel);
 			ViewEventManager.getInstance().viewSession(session);
@@ -65,8 +65,8 @@ public class ActivateSessionController implements ActionListener {
 
 		String command = "sendEmail";
 		// Send email to everyone in a session
-		if (this.session.getUsers() != null) {
-			for (User user : this.session.getUsers()) {
+		if (session.getUsers() != null) {
+			for (User user : session.getUsers()) {
 				String sendTo = user.getEmail();
 				if (!sendTo.equals("")) {
 					SendNotificationController.sendNotification("start",
@@ -85,8 +85,8 @@ public class ActivateSessionController implements ActionListener {
 
 		// Send SMS to everyone in a session
 		command = "sendSMS";
-		if (this.session.getUsers() != null) {
-			for (User user : this.session.getUsers()) {
+		if (session.getUsers() != null) {
+			for (User user : session.getUsers()) {
 				String sendTo = user.getSMS();
 				if (!sendTo.equals("")) {
 					SendNotificationController.sendNotification("start",

@@ -39,8 +39,8 @@ public class MoveRequirementToCurrentSessionController implements ActionListener
 	 * @param v A ViewSessionReqPanel that would be stored
 	 */
 	public MoveRequirementToCurrentSessionController(PlanningPokerSession s, ViewSessionReqPanel v) {
-		this.session = s;
-		this.view = v;
+		session = s;
+		view = v;
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class MoveRequirementToCurrentSessionController implements ActionListener
 	public void receivedData(PlanningPokerSession s){
 		PlanningPokerRequirement r;
 		
-		for(String a : this.view.getLeftSelectedRequirements()){
+		for(String a : view.getLeftSelectedRequirements()){
 				r = s.getReqByName(a);
 				List<PlanningPokerRequirement> d = new ArrayList<PlanningPokerRequirement>();
 				d.add(r);
@@ -65,11 +65,11 @@ public class MoveRequirementToCurrentSessionController implements ActionListener
 		a1.refreshRequirements(1, s.getRequirements());
 		final RequirementTableManager a2 = new RequirementTableManager();
 		a2.refreshRequirements(session.getID(), session.getRequirements());
-		this.view.getAllReqTable().repaint();
-		this.view.getSessionReqTable().repaint();
+		view.getAllReqTable().repaint();
+		view.getSessionReqTable().repaint();
 
 		view.validateActivateSession();
-		this.view.refreshMoveButtons();
+		view.refreshMoveButtons();
 	}
 	
 	/*

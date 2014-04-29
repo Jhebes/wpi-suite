@@ -24,13 +24,18 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  */
 public class GetAllSessionsRequestObserver implements RequestObserver {
 
+	/** The parent controller */
 	private GetAllSessionsController controller;
 
+	/**
+	 * Constructs a request observer for getting all sessions.
+	 * @param controller The parent controller
+	 */
 	public GetAllSessionsRequestObserver(GetAllSessionsController controller) {
 		this.controller = controller;
 	}
 
-	/*
+	/**
 	 * Parse the session out of the response body and pass them to the
 	 * controller
 	 * 
