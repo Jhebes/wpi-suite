@@ -188,11 +188,17 @@ public class VotePanel extends JPanel {
 						total += vote.getCardValue();
 						count++;
 					}
-					ppr.setFinalEstimate(total / count);
-					ppr.setTotalVotes(count);
+					if(count > 0){
+						ppr.setFinalEstimate(total / count);
+					}else{
+						ppr.setFinalEstimate(0);
+					}
+						ppr.setTotalVotes(count);
 				}
-				SessionTableModel.getInstance().update();
 				closeTab();
+				openFinalEstimation();
+				SessionTableModel.getInstance().update();
+				
 			}
 		});
 
@@ -433,6 +439,16 @@ public class VotePanel extends JPanel {
 
 	}
 
+	/**
+	 * Opens final estiamtion GUI for this requirement
+	 */
+	private void openFinalEstimation(){
+		ViewEventManager.getInstance().viewSession(this.session);
+	}
+	
+	/**
+	 * Closes this tab
+	 */
 	private void closeTab() {
 		ViewEventManager.getInstance().removeTab(this);
 	}
