@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 import com.google.gson.Gson;
 
@@ -60,8 +61,10 @@ public class PlanningPokerDeck extends AbstractModel {
 	 */
 	public PlanningPokerDeck(String name_in, List<Integer> deck_in) {
 		this.deckName = name_in;
-		this.deck = deck_in;
 		this.maxSelection = deck.size();
+		this.deck = deck_in;
+		Collections.sort(this.deck);
+
 	}
 	
 	/**
