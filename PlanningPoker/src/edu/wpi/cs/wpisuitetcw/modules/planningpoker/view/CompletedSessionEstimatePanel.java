@@ -144,6 +144,10 @@ public class CompletedSessionEstimatePanel extends JPanel {
 
 		Component verticalStrut = Box.createVerticalStrut(50);
 
+		final JLabel successMsg = new JLabel("Final Estimation Submitted.");
+		successMsg.setAlignmentY(Component.CENTER_ALIGNMENT);
+		successMsg.setVisible(false);
+
 		btnFinalEstimate = new JButton("Submit Final Estimation");
 		btnFinalEstimate.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnFinalEstimate.setEnabled(false);
@@ -157,6 +161,9 @@ public class CompletedSessionEstimatePanel extends JPanel {
 				int estimate = CompletedSessionEstimatePanel.this.getEstimate();
 				focusedRequirement.setFinalEstimate(estimate);
 				parentPanel.getSession().save();
+				successMsg.setVisible(true);
+				pnlFinalEstimate.add(successMsg);
+				repaint();
 			}
 
 		});
@@ -284,8 +291,13 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 *            The new focused requirement
 	 */
 	public void updateEstimateTextField(PlanningPokerRequirement requirement) {
-		finalEstimateField.setText(Integer.valueOf(
-				requirement.getFinalEstimate()).toString());
+		int end = requirement.getFinalEstimate();
+		if(end != 0){
+			finalEstimateField.setText(Integer.valueOf(requirement.getFinalEstimate()).toString());
+		}
+		else{
+			finalEstimateField.setText("");
+		}
 	}
 
 	/**
