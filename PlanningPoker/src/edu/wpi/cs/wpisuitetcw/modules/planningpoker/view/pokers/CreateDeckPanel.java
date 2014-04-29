@@ -368,7 +368,10 @@ public class CreateDeckPanel extends JPanel {
 			this.updateNumCard();
 		}
 
+		// set the text to default deck and dropdown to multiple selection
 		textboxName.setText(DEFAULT_DECK);
+		deckOption.setSelectedItem(MULTIPLE_SELECT);
+		
 		this.updateUI();
 	}
 
