@@ -148,11 +148,15 @@ public class VotePanel extends JPanel {
 	private void setupInitData() {
 		// TODO programmatically select the necessary cards and set current vote
 		if (session.getRequirements().size() > 0) {
-			final PlanningPokerRequirement firstReq = session.getRequirements().get(0);
+			final PlanningPokerRequirement firstReq = session.getRequirements().get(0);			
 			nameDescriptionPanel.setName(firstReq.getName());
 			nameDescriptionPanel.setDescription(firstReq.getDescription());
 			selectedRequirement = firstReq;
 			reqList.setSelectionInterval(0, 0);
+			
+			final PlanningPokerVote vote = firstReq.getVoteByUser(ConfigManager.getConfig().getUserName());
+			if (vote != null)
+				setVoteTextFieldWithValue(vote.getCardValue());
 		}
 	}
 
@@ -343,10 +347,16 @@ public class VotePanel extends JPanel {
 						updateUI();
 					} else {
 						final PlanningPokerVote vote = requirement.getVoteByUser(ConfigManager.getConfig().getUserName());
+
+						clearDeckPanel();
+						
 						if (vote != null) {
 							setVoteTextFieldWithValue(vote.getCardValue());
-							updateUI();
+						} else {
+							clearVoteTextField();
 						}
+
+						updateUI();
 					}
 				}
 			}
@@ -537,6 +547,15 @@ public class VotePanel extends JPanel {
 	}
 	
 	/**
+	 * clears voteTextField
+	 * 
+	 * @param voteTextField
+	 */
+	public void clearVoteTextField() {
+		voteTextField.setText("");
+	}
+	
+	/**
 	 * 
 	 * @param msg Error Message to be displayed
 	 */
@@ -549,5 +568,9 @@ public class VotePanel extends JPanel {
 	 */
 	public JList<PlanningPokerRequirement> getRequirementList() {
 		return reqList;
+	}
+	
+	public void clearDeckPanel() {
+		cardPanel.removeHighlight();
 	}
 }
