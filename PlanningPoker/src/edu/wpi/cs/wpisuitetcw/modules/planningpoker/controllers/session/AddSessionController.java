@@ -13,8 +13,10 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.util.Timer;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateNewDeckController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.EndOnDeadlineController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
@@ -111,6 +113,7 @@ public class AddSessionController implements ActionListener {
 			session.setDeadline(d);
 			session.setDescription(des);
 
+
 			// Associate a deck to the new session if the user does not choose
 			// 'No deck'
 			if (!this.view.isInNoDeckMode()) {
@@ -131,6 +134,7 @@ public class AddSessionController implements ActionListener {
 			}
 
 			session.create();
+
 			GetAllSessionsController.getInstance().retrieveSessions();
 			ViewEventManager.getInstance().removeTab(this.view);
 

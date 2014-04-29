@@ -12,10 +12,13 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Timer;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.EndOnDeadlineController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications.EmailNotifier;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications.SMSNotifier;
@@ -38,6 +41,7 @@ public class PlanningPokerSessionEntityManager implements
 
 	/** The database */
 	Data db;
+	HashMap<Integer,Timer> deadlineMap;
 
 	/**
 	 * Constructs the entity manager. This constructor is called by
@@ -50,6 +54,7 @@ public class PlanningPokerSessionEntityManager implements
 	 */
 	public PlanningPokerSessionEntityManager(Data db) {
 		this.db = db;
+		deadlineMap = new HashMap<Integer,Timer>();
 	}
 
 	/*
@@ -75,6 +80,11 @@ public class PlanningPokerSessionEntityManager implements
 			newID = mostRecent.getID() + 1;
 		}
 		newPlanningPokerSession.setID(newID);
+		
+		//Now make something so we can have sessions expire later
+		Timer end = new Timer();
+		end.schedule(new EndOnDeadlineController(newPlanningPokerSession), newPlanningPokerSession.getDeadline());
+		deadlineMap.put((Integer)newID, end);
 
 		// Save the message in the database if possible, otherwise throw an
 		// exception
@@ -151,8 +161,10 @@ public class PlanningPokerSessionEntityManager implements
 	public PlanningPokerSession update(Session s, String content)
 			throws WPISuiteException {
 
+		
 		PlanningPokerSession updatedSession = PlanningPokerSession
 				.fromJson(content);
+		
 		/*
 		 * Because of the disconnected objects problem in db4o, we can't just
 		 * save PlanningPokerSessions. We have to get the original defect from
