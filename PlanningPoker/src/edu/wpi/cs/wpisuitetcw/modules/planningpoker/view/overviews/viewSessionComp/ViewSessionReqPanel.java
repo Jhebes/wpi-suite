@@ -305,6 +305,7 @@ public class ViewSessionReqPanel extends JPanel {
 		allReqTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				sessionReqTable.clearSelection();
 				refreshMoveButtons();
 				final RequirementTableManager n = new RequirementTableManager();
 				n.fetch(session.getID());
@@ -344,6 +345,7 @@ public class ViewSessionReqPanel extends JPanel {
 		sessionReqTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				allReqTable.clearSelection();
 				refreshMoveButtons();
 				final JTable table = (JTable) e.getSource();
 				final int row = table.getSelectedRow();
@@ -371,6 +373,28 @@ public class ViewSessionReqPanel extends JPanel {
 					name.setEnabled(false);
 					editRequirementsSession = ViewSessionReqPanel.this.session;
 				}
+			}
+		});
+
+		/**
+		 * Takes care of highlighting by dragging for the sessionReqTable
+		 */
+		sessionReqTable.addMouseMotionListener(new MouseAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				refreshMoveButtons();
+				allReqTable.clearSelection();
+			}
+		});
+
+		/**
+		 * Takes care of highlighting by dragging for the allReqTable
+		 */
+		allReqTable.addMouseMotionListener(new MouseAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				refreshMoveButtons();
+				sessionReqTable.clearSelection();
 			}
 		});
 
