@@ -7,15 +7,14 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
 public class EndOnDeadlineController extends TimerTask {
 
-	private PlanningPokerSession session;
+	private int id;
 
-	public EndOnDeadlineController(PlanningPokerSession session) {
-		this.session = session;
+	public EndOnDeadlineController(int newID) {
+		this.id = newID;
 	}
 
 	public void run() {
-		session.close();
-		session.save();
+		
 	}
 
 }

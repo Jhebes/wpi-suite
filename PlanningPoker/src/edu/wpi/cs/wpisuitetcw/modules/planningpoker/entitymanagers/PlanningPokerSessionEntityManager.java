@@ -41,7 +41,7 @@ public class PlanningPokerSessionEntityManager implements
 
 	/** The database */
 	Data db;
-	HashMap<Integer,Timer> deadlineMap;
+
 
 	/**
 	 * Constructs the entity manager. This constructor is called by
@@ -54,7 +54,7 @@ public class PlanningPokerSessionEntityManager implements
 	 */
 	public PlanningPokerSessionEntityManager(Data db) {
 		this.db = db;
-		deadlineMap = new HashMap<Integer,Timer>();
+		
 	}
 
 	/*
@@ -83,8 +83,8 @@ public class PlanningPokerSessionEntityManager implements
 		
 		//Now make something so we can have sessions expire later
 		Timer end = new Timer();
-		end.schedule(new EndOnDeadlineController(newPlanningPokerSession), newPlanningPokerSession.getDeadline());
-		deadlineMap.put((Integer)newID, end);
+		end.schedule(new EndOnDeadlineController(newID), newPlanningPokerSession.getDeadline());
+		
 
 		// Save the message in the database if possible, otherwise throw an
 		// exception
