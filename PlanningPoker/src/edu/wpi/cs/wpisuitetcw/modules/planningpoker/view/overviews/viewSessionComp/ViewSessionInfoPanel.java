@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionC
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.PlanningPoker;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementPanel;
 
@@ -26,8 +27,9 @@ public class ViewSessionInfoPanel extends JPanel {
 		
 		// create labels for data field;
 		final JLabel labelName = new JLabel("Name ");
+		labelName.setFont(PlanningPoker.defaultLabelFont);
 		final JLabel labelSessionName = new JLabel(this.session.getName());
-		
+		labelSessionName.setFont(PlanningPoker.defaultLabelFont);
 		this.add(labelName);
 		this.add(labelSessionName);
 		

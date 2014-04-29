@@ -264,6 +264,7 @@ public class VotePanel extends JPanel {
 
 		// Create a JLabel holding the card selection mode
 		cardSelectionModeLabel = new JLabel();
+		cardSelectionModeLabel.setFont(PlanningPoker.defaultLabelFont);
 		if (session.getDeck() != null && session.getDeck().getMaxSelection() == 1) {
 			cardSelectionModeLabel.setText("Single selection deck");
 		} else {
@@ -293,6 +294,7 @@ public class VotePanel extends JPanel {
 	private void setupLeftPanel() {
 		leftPanel = new JPanel();
 		leftPanelLabel = new JLabel(LEFT_PANEL_LABEL);
+		leftPanelLabel.setFont(PlanningPoker.defaultLabelFont);
 
 		// TODO: sleep
 		final List<PlanningPokerRequirement> reqs = session.getRequirements();
@@ -372,15 +374,18 @@ public class VotePanel extends JPanel {
 
 		// Create a label for right panel
 		rightPanelLabel = new JLabel(RIGHT_PANEL_LABEL);
+		rightPanelLabel.setFont(PlanningPoker.defaultLabelFont);
 
 		// Create a requirement name text box
 		requirementNameLabel = new JLabel(REQ_NAME_LABEL);
+		requirementNameLabel.setFont(PlanningPoker.defaultLabelFont);
 		requirementNameTextbox = new JTextField();
 		requirementNameTextbox.setEditable(false);
 		requirementNameTextbox.setBackground(Color.WHITE);
 
 		// Create a requirement description text box
 		descriptionLabel = new JLabel(REQ_DESC_LABEL);
+		descriptionLabel.setFont(PlanningPoker.defaultLabelFont);
 		descriptionFrame = new JScrollPane();
 		descriptionTextbox = new JTextField();
 		descriptionTextbox.setEditable(false);
@@ -439,6 +444,7 @@ public class VotePanel extends JPanel {
 				rightPanel.add(cardFrame, "hmin 250px, grow, dock south");
 			} else {
 				final JLabel messageLabel = new JLabel(NO_DECK_MSG);
+				messageLabel.setFont(PlanningPoker.defaultLabelFont);
 				rightPanel.add(messageLabel, "gapleft 150px, hmin 250px, grow, dock south");
 			}
 			

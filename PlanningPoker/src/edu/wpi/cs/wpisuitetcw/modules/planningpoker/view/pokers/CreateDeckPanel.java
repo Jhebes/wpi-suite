@@ -177,18 +177,22 @@ public class CreateDeckPanel extends JPanel {
 
 		// Create text field for deck's name
 		labelName = new JLabel(DECK_NAME_LABEL);
+		labelName.setFont(PlanningPoker.defaultLabelFont);
 		textboxName = new JTextField(18);
 		textboxName.setText(TEXTBOX_PLACEHOLDER);
 
 		// Create card selection dropdown
 		labelCardSelection = new JLabel(CARD_SELECTION_LABEL);
+		labelCardSelection.setFont(PlanningPoker.defaultLabelFont);
 		deckOption = new JComboBox<String>();
 		deckOption.addItem(SINGLE_SELECT);
 		deckOption.addItem(MULTIPLE_SELECT);
 
 		// Create a label to keep track number of card
 		labelCount = new JLabel(CARD_COUNT_LABEL);
+		labelCount.setFont(PlanningPoker.defaultLabelFont);
 		labelNumCards = new JLabel("1");
+		labelNumCards.setFont(PlanningPoker.defaultLabelFont);
 
 		// Create add card button and bind an action listener to it
 		btnAddCard = new JButton(ADD_CARD_LABEL);

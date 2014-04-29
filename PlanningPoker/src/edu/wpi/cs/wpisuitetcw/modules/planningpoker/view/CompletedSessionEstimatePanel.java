@@ -153,7 +153,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		pnlVotes.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		// Initialize the default font for JLabel headers
-		headerFont = new Font("TimesRoman", Font.BOLD, 25);
+		headerFont = PlanningPoker.defaultHeaderFont;
 
 		// Initialize the Headers for the panels.
 		lblVotes = new JLabel("Votes");

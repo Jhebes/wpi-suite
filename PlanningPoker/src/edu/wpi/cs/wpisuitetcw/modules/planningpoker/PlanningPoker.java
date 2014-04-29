@@ -33,6 +33,10 @@ public class PlanningPoker implements IJanewayModule {
 	//Define the standard font that will be enforced by default throughout the project
 	public static final FontUIResource defaultButtonFont = new FontUIResource("Serif",Font.ITALIC,12);
 	
+	//Define the standard font that will be enforced by default throughout the project
+	public static final FontUIResource defaultHeaderFont = new FontUIResource("Serif",Font.ITALIC,25);
+	
+	
 	public PlanningPoker() {
 		tabs = new ArrayList<JanewayTabModel>();
 

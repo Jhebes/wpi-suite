@@ -237,6 +237,7 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// add table to rightPanel
 		final JLabel leftLabel = new JLabel("All Requirements");
+		leftLabel.setFont(PlanningPoker.defaultLabelFont);
 		leftPanel.setLayout(new BorderLayout());
 		final JScrollPane allReqSp = new JScrollPane(allReqTable);
 		leftPanel.add(leftLabel, BorderLayout.NORTH);
@@ -265,6 +266,7 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// rightPanel formatting
 		final JLabel rightLabel = new JLabel("Current Session's Requirements");
+		rightLabel.setFont(PlanningPoker.defaultLabelFont);
 		rightPanel.setLayout(new BorderLayout());
 		final JScrollPane sessionReqSp = new JScrollPane(sessionReqTable);
 		rightPanel.add(rightLabel, BorderLayout.NORTH);
@@ -400,12 +402,14 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// text field for name goes in the top of the panel
 		final JLabel nameLabel = new JLabel("Name:");
+		nameLabel.setFont(PlanningPoker.defaultLabelFont);
 		namePanel.setLayout(new BorderLayout());
 		namePanel.add(nameLabel, BorderLayout.NORTH);
 		namePanel.add(name, BorderLayout.SOUTH);
 
 		// text field for description goes in the bottom of the panel
 		final JLabel descriptionLabel = new JLabel("Description:");
+		descriptionLabel.setFont(PlanningPoker.defaultLabelFont);
 		final JScrollPane descriptionSp = new JScrollPane(description);
 		description.setLineWrap(true);
 		bottomPanel.setLayout(new BorderLayout());
