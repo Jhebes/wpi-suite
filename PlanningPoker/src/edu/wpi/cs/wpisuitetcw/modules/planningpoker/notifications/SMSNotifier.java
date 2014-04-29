@@ -11,6 +11,7 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,7 +20,7 @@ import com.plivo.helper.api.response.message.MessageResponse;
 import com.plivo.helper.exception.PlivoException;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.ConfigLoader;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.exceptions.ConfigLoaderError;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.exceptions.ConfigLoaderException;
 
 /**
  * Class for sending notifications to users via SMS.
@@ -39,37 +40,31 @@ public class SMSNotifier extends BaseNotifier {
 	 */
 	public static void sendMessage(String notificationType, String recipient,
 			String deadline) {
-		String message = BaseNotifier.createMessage(notificationType, deadline);
+		final String message = BaseNotifier.createMessage(notificationType, deadline);
 
 		String authId, authToken, src;
 		try {
 			authId = ConfigLoader.getPlivoAuthId();
 			authToken = ConfigLoader.getPlivoAuthToken();
 			src = ConfigLoader.getPlivoPhoneNumber();
-		} catch (ConfigLoaderError e) {
+		} catch (ConfigLoaderException e) {
 			Logger.getLogger("PlanningPoker").log(
 					Level.SEVERE,
 					"Could not load Plivo auth from coniguration file.", e);
 			return;
 		}
 
-		RestAPI api = new RestAPI(authId, authToken, "v1");
+		final RestAPI api = new RestAPI(authId, authToken, "v1");
 
-		LinkedHashMap<String, String> parameters = new LinkedHashMap<String, String>();
+		final Map<String, String> parameters = new LinkedHashMap<String, String>();
 		parameters.put("src", src);
 		parameters.put("dst", recipient);
 		parameters.put("text", message);
 		parameters.put("url", "http://server/message/notification/");
 
-		Logger logger = Logger.getLogger("PlanningPoker");
+		final Logger logger = Logger.getLogger("PlanningPoker");
 		try {
-			MessageResponse msgResponse = api.sendMessage(parameters);
-			logger.log(Level.INFO, msgResponse.apiId);
-			if (msgResponse.serverCode == 202) {
-				logger.log(Level.INFO, msgResponse.messageUuids.get(0).toString());
-			} else {
-				logger.log(Level.INFO, msgResponse.error);
-			}
+			api.sendMessage((LinkedHashMap<String, String>) parameters);
 		} catch (PlivoException e) {
 			logger.log(Level.INFO, e.getLocalizedMessage());
 		}

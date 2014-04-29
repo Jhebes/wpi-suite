@@ -30,7 +30,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class GetAllRequirementsController {
 
 	/** An instance of this controller */
-	private static GetAllRequirementsController instance;
+	private static GetAllRequirementsController instance = null;
 
 	/**
 	 * Instantiates a new controller
@@ -73,6 +73,7 @@ public class GetAllRequirementsController {
 				PlanningPokerRequirement newReq = new PlanningPokerRequirement();
 				newReq.setName(r.getName());
 				newReq.setDescription(r.getDescription());
+				newReq.setCorrespondingReqManagerID(r.getId());
 				SessionStash.getInstance().getSessionByID(1).addRequirement(newReq);
 			}
 		}

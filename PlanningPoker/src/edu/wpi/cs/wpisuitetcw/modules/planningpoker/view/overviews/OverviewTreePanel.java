@@ -39,7 +39,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	private static final long serialVersionUID = 1L;
 	private JTree tree;
 	private boolean initialized = false;
-	private ArrayList<PlanningPokerSession> sessions = null;
+	private List<PlanningPokerSession> sessions = null;
 
 	public OverviewTreePanel() {
 		this.setViewportView(tree);
@@ -47,14 +47,14 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	}
 
 	public void refresh() {
-		DefaultMutableTreeNode top = new DefaultMutableTreeNode("All Sessions");
+		final DefaultMutableTreeNode top = new DefaultMutableTreeNode("All Sessions");
 		// DefaultMutableTreeNode draftSessionNode = new
 		// DefaultMutableTreeNode("Draft Sessions");
-		DefaultMutableTreeNode newSessionNode = new DefaultMutableTreeNode(
+		final DefaultMutableTreeNode newSessionNode = new DefaultMutableTreeNode(
 				"New Sessions");
-		DefaultMutableTreeNode openSessionNode = new DefaultMutableTreeNode(
+		final DefaultMutableTreeNode openSessionNode = new DefaultMutableTreeNode(
 				"Open Sessions");
-		DefaultMutableTreeNode closedSessionNode = new DefaultMutableTreeNode(
+		final DefaultMutableTreeNode closedSessionNode = new DefaultMutableTreeNode(
 				"Closed Sessions");
 		
 		try {
@@ -62,9 +62,9 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 			this.sessions = SessionStash.getInstance().getSessions();
 
 			if (this.sessions != null) {
-				PlanningPokerSession[] newSessions = sortForNewSessions(this.sessions);
-				PlanningPokerSession[] openSessions = sortForOpenSessions(this.sessions);
-				PlanningPokerSession[] closedSessions = sortForClosedSessions(this.sessions);
+				final PlanningPokerSession[] newSessions = sortForNewSessions(this.sessions);
+				final PlanningPokerSession[] openSessions = sortForOpenSessions(this.sessions);
+				final PlanningPokerSession[] closedSessions = sortForClosedSessions(this.sessions);
 
 				// add new sessions to the node
 				for (PlanningPokerSession s : newSessions) {
@@ -121,7 +121,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 */
 	private PlanningPokerSession[] sortForNewSessions(
 			List<PlanningPokerSession> allSessions) {
-		ArrayList<PlanningPokerSession> tempNewSessions = new ArrayList<PlanningPokerSession>();
+		final ArrayList<PlanningPokerSession> tempNewSessions = new ArrayList<PlanningPokerSession>();
 		for (PlanningPokerSession pps : allSessions) {
 			// Do not display the "default" planning poker session
 			if (pps.isNew() && pps.getID() != 1) {
@@ -142,7 +142,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 */
 	private PlanningPokerSession[] sortForOpenSessions(
 			List<PlanningPokerSession> allSessions) {
-		ArrayList<PlanningPokerSession> tempOpenSessions = new ArrayList<PlanningPokerSession>();
+		final ArrayList<PlanningPokerSession> tempOpenSessions = new ArrayList<PlanningPokerSession>();
 		for (PlanningPokerSession pps : allSessions) {
 			if (pps.isOpen()) {
 				tempOpenSessions.add(pps);
@@ -162,7 +162,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 */
 	private PlanningPokerSession[] sortForClosedSessions(
 			List<PlanningPokerSession> allSessions) {
-		ArrayList<PlanningPokerSession> tempClosedSessions = new ArrayList<PlanningPokerSession>();
+		final ArrayList<PlanningPokerSession> tempClosedSessions = new ArrayList<PlanningPokerSession>();
 		for (PlanningPokerSession pps : allSessions) {
 			if (pps.isClosed()) {
 				tempClosedSessions.add(pps);
@@ -201,13 +201,13 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		}
 
 		// mouse position
-		int x = e.getX();
-		int y = e.getY();
+		final int x = e.getX();
+		final int y = e.getY();
 
 		if (e.getClickCount() == 2) {
-			TreePath path = tree.getPathForLocation(x, y);
+			final TreePath path = tree.getPathForLocation(x, y);
 			if (path != null) {
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
+				final DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
 						.getLastSelectedPathComponent();
 				if (node != null) {
 					// open a session

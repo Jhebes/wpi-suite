@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +22,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.VoteTableModel;
 
 public class VoteTableManager{
-	private static HashMap<UUID, VoteTableModel> t = new HashMap<UUID, VoteTableModel>();
+	private static Map<UUID, VoteTableModel> t = new HashMap<UUID, VoteTableModel>();
 
 	public VoteTableModel get(UUID i){
 		Logger.getLogger("PlanningPoker").log(Level.INFO, "Processing query for table for requirement " + i);

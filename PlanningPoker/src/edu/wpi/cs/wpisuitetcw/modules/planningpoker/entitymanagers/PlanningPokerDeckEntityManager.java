@@ -57,11 +57,11 @@ EntityManager<PlanningPokerDeck>{
 				.fromJson(content);
 
 		int newID;
-		PlanningPokerDeck[] allSessions = this.getAll(s);
+		final PlanningPokerDeck[] allSessions = this.getAll(s);
 		if (allSessions.length == 0) {
 			newID = 1;
 		} else {
-			PlanningPokerDeck mostRecent = allSessions[allSessions.length - 1];
+			final PlanningPokerDeck mostRecent = allSessions[allSessions.length - 1];
 			newID = mostRecent.getId() + 1;
 		}
 		newPlanningPokerDeck.setId(newID);
@@ -85,12 +85,12 @@ EntityManager<PlanningPokerDeck>{
 	@Override
 	public PlanningPokerDeck[] getEntity(Session s, String id)
 			throws NotFoundException, WPISuiteException {
-		List<Model> results = db.retrieve(
+		final List<Model> results = db.retrieve(
 				new PlanningPokerDeck().getClass(), "ID",
 				Integer.parseInt(id), s.getProject());
 		// If the default session does not exist, create it
 		if (id.equals("0") && results.size() == 0) {
-			PlanningPokerSession defaultSession = new PlanningPokerSession();
+			final PlanningPokerSession defaultSession = new PlanningPokerSession();
 			defaultSession.setName("No session");
 			if (makeEntity(s, defaultSession.toJSON()) != null) {
 				results.add(defaultSession);
@@ -112,7 +112,7 @@ EntityManager<PlanningPokerDeck>{
 		// PlanningPokerDeck. Passing a dummy PlanningPokerDeck
 		// lets the db know what type of object to retrieve. Passing the project
 		// makes it only get messages from that project.
-		List<Model> messages = db.retrieveAll(new PlanningPokerDeck(),
+		final List<Model> messages = db.retrieveAll(new PlanningPokerDeck(),
 				s.getProject());
 
 		// Return the list of messages as an array

@@ -16,11 +16,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +34,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.AddNewCardController;
@@ -38,6 +42,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksContr
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.InitNewDeckPanelController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.CreateSessionPanel;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 
 /**
@@ -48,29 +53,27 @@ public class CreateDeckPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	// ########################### CONSTANTS ##############################
-	private static final String NO_DECK_MSG = 
-			"<html><font color='red'>You will be entering a value when voting on a requirement.</font></html>";
+	private static final String NO_DECK_MSG = "<html><font color='red'>You will be entering a value when voting on a requirement.</font></html>";
 	private final String TEXTBOX_PLACEHOLDER = "Deck "
-			+ new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-	private final String NAME_ERR_MSG = 
-			"<html><font color='red'>REQUIRES</font></html>";
-	private final String NO_CARD_ERR_MSG = 
-			"<html><font color='red'>A deck must contain </br >at least one card. </font></html>";
-	private final String DECK_NAME_LABEL 		= "Name *";
-	private final String CARD_COUNT_LABEL 		= "# of Cards: ";
-	private final String ADD_CARD_LABEL 		= "[+] New Card";
-	private final String CARD_SELECTION_LABEL	= "Card selection *";
+			+ new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar
+					.getInstance().getTime());
+	private final String NO_CARD_ERR_MSG = "<html><font color='red'>A deck must contain </br >at least one card. </font></html>";
+	private final String DECK_NAME_LABEL = "Name *";
+	private final String CARD_COUNT_LABEL = "# of Cards: ";
+	private final String ADD_CARD_LABEL = "[+] New Card";
+	private final String CARD_SELECTION_LABEL = "Card selection *";
 	private static final String MULTIPLE_SELECT = "Multiple selection";
-	private static final String SINGLE_SELECT 	= "Single selection";
-	private static final String DEFAULT_DECK    = "Default";
-	private final int CARD_WIDTH = 146;
-	private static final int CENTER_PANEL_WIDTH  = 350;
+	private static final String SINGLE_SELECT = "Single selection";
+	private static final String DEFAULT_DECK = "Default";
+	private static final int CARD_WIDTH = 146;
+	private static final int CENTER_PANEL_WIDTH = 350;
 	private static final int CENTER_PANEL_HEIGHT = 250;
+	private static final int BUTTON_HEIGHT = 26;
 
 	// ########################### Top UI Components ######################
-	/** A container holding all the top UI components */ 
+	/** A container holding all the top UI components */
 	private JPanel topPanel;
-	
+
 	/** Text field to type deck's name in */
 	private JLabel labelName;
 	private JTextField textboxName;
@@ -83,8 +86,7 @@ public class CreateDeckPanel extends JPanel {
 	private JButton btnAddCard;
 	private JLabel labelCount;
 	private JLabel labelNumCards;
-	private JLabel labelNameErr;
-	
+
 	// ######################### Center UI Components #####################
 	/** A container holding all the center UI component */
 	private JScrollPane centerPanel;
@@ -92,19 +94,43 @@ public class CreateDeckPanel extends JPanel {
 	/** A scroll panel having all the cards */
 	private JPanel cardPanel;
 	private JPanel errorPanel;
-	
+
 	// ############################### DATA ###############################
 	private final HashMap<Integer, Card> cards;
-	
+
 	/** Mode for the panel */
 	private final CardDisplayMode mode;
 
+	/** Create session panel for error indication */
+	private CreateSessionPanel sessionPanel;
+
 	// subject to change
 	// private final JTextField textboxVal;
+
+	/**
+	 * This is the constructor for deck panel that allows creation of a new deck
+	 * of cards. The session panel is given for dynamic error validation and
+	 * indication
+	 * 
+	 * @param mode
+	 * @param sessionPanel
+	 */
+	public CreateDeckPanel(CardDisplayMode mode, CreateSessionPanel sessionPanel) {
+		this(mode);
+		this.sessionPanel = sessionPanel;
+	}
+
+	/**
+	 * This constructor for deck panel is the basic one for display a deck of
+	 * cards
+	 * 
+	 * @param mode
+	 *            DISPLAY or NO_DECK
+	 */
 	public CreateDeckPanel(CardDisplayMode mode) {
 		// Assign mode for the panel
 		this.mode = mode;
-		
+
 		cards = new HashMap<Integer, Card>();
 
 		setupTopPanel();
@@ -114,18 +140,19 @@ public class CreateDeckPanel extends JPanel {
 		cardPanel = new JPanel();
 		cardPanel.add(errorPanel);
 
-		JPanel container = new JPanel();
+		final JPanel container = new JPanel();
 		container.setLayout(new GridBagLayout());
 		container.add(cardPanel);
-		
+
 		centerPanel = new JScrollPane(container);
-		centerPanel.setMinimumSize(new Dimension(CENTER_PANEL_WIDTH, CENTER_PANEL_HEIGHT));		
+		centerPanel.setMinimumSize(new Dimension(CENTER_PANEL_WIDTH,
+				CENTER_PANEL_HEIGHT));
 
 		// setup the entire layout
 		this.setLayout(new MigLayout("insets 0", "", ""));
 		this.add(topPanel, "dock north");
-		this.add(centerPanel, "dock center");	
-		
+		this.add(centerPanel, "dock center");
+
 		// determine what type of mode the panel is
 		if (mode.equals(CardDisplayMode.CREATE)) {
 			// create mode allows users to enter values
@@ -140,44 +167,40 @@ public class CreateDeckPanel extends JPanel {
 	}
 
 	/*
-	 * Construct the UI components of the top panel:
-	 * text field of deck name, dropdown for card selection mode,
-	 * button to add new card, number of card labels, and JLabels
-	 * associated with each component above
+	 * Construct the UI components of the top panel: text field of deck name,
+	 * dropdown for card selection mode, button to add new card, number of card
+	 * labels, and JLabels associated with each component above
 	 */
 	private void setupTopPanel() {
 		topPanel = new JPanel();
 
 		// Create text field for deck's name
-		this.labelName = new JLabel(DECK_NAME_LABEL);
-		this.textboxName = new JTextField(18);
-		this.textboxName.setText(TEXTBOX_PLACEHOLDER);
-		
+		labelName = new JLabel(DECK_NAME_LABEL);
+		textboxName = new JTextField(18);
+		textboxName.setText(TEXTBOX_PLACEHOLDER);
+
 		// Create card selection dropdown
-		this.labelCardSelection = new JLabel(CARD_SELECTION_LABEL);
-		this.deckOption = new JComboBox<String>();
+		labelCardSelection = new JLabel(CARD_SELECTION_LABEL);
+		deckOption = new JComboBox<String>();
 		deckOption.addItem(SINGLE_SELECT);
 		deckOption.addItem(MULTIPLE_SELECT);
 
 		// Create a label to keep track number of card
-		this.labelCount = new JLabel(CARD_COUNT_LABEL);
-		this.labelNumCards = new JLabel("1");
-
-		// Create a label to inform invalid deck name
-		this.labelNameErr = new JLabel(NAME_ERR_MSG);
-		this.labelNameErr.setVisible(false);
+		labelCount = new JLabel(CARD_COUNT_LABEL);
+		labelNumCards = new JLabel("1");
 
 		// Create add card button and bind an action listener to it
-		this.btnAddCard = new JButton(ADD_CARD_LABEL);
+		btnAddCard = new JButton(ADD_CARD_LABEL);
 		btnAddCard.addActionListener(new AddNewCardController(this));
-		
+
 		// Create Error Panel
 		errorPanel = new JPanel();
 		errorPanel.add(new JLabel(NO_CARD_ERR_MSG));
 		errorPanel.setVisible(false);
 
 		// Add sets of buttons that modify the deck to a panel
-		addModifyDeckButtons(topPanel);		
+		addModifyDeckButtons(topPanel);
+		addTextInputValidation(textboxName);
 	}
 
 	/**
@@ -188,11 +211,11 @@ public class CreateDeckPanel extends JPanel {
 		this.removeAll();
 
 		// panel for display a message
-		JPanel msgPanel = new JPanel();
+		final JPanel msgPanel = new JPanel();
 		msgPanel.setLayout(new MigLayout());
 
 		// No deck message
-		JLabel msgLabel = new JLabel(NO_DECK_MSG, JLabel.CENTER);
+		final JLabel msgLabel = new JLabel(NO_DECK_MSG, JLabel.CENTER);
 
 		msgPanel.add(msgLabel, "center");
 		this.add(msgLabel, "dock center");
@@ -204,8 +227,8 @@ public class CreateDeckPanel extends JPanel {
 	 */
 	private void setInitialCard() {
 		// cards
-		Card starterCard = new Card(this.mode);
-		int key = starterCard.hashCode();
+		final Card starterCard = new Card(this.mode, this);
+		final int key = starterCard.hashCode();
 		cards.put(key, starterCard);
 		this.addRemoveCardListener(starterCard, this);
 		this.cardPanel.add(starterCard);
@@ -215,8 +238,8 @@ public class CreateDeckPanel extends JPanel {
 	 * Add a new card to both the storing hashmap and the view
 	 */
 	public void addNewCard() {
-		Card aCard = new Card(this.mode);
-		int key = aCard.hashCode();
+		final Card aCard = new Card(this.mode, this);
+		final int key = aCard.hashCode();
 		cards.put(key, aCard);
 		this.addRemoveCardListener(aCard, this);
 
@@ -251,7 +274,7 @@ public class CreateDeckPanel extends JPanel {
 	 * Removes all card from the panel
 	 */
 	public void removeAllCard() {
-		Map<Integer, Card> map = this.cards;
+		final Map<Integer, Card> map = this.cards;
 		for (Card aCard : map.values()) {
 			removeCardWithKey(aCard.hashCode());
 		}
@@ -300,9 +323,9 @@ public class CreateDeckPanel extends JPanel {
 	 * 
 	 * @return an array list with the card values user enters
 	 */
-	public ArrayList<Integer> getNewDeckValues() {
-		ArrayList<Integer> cardValues = new ArrayList<Integer>();
-		Map<Integer, Card> map = this.cards;
+	public List<Integer> getNewDeckValues() {
+		final List<Integer> cardValues = new ArrayList<Integer>();
+		final Map<Integer, Card> map = this.cards;
 		for (Card aCard : map.values()) {
 			cardValues.add(Integer.parseInt(aCard.getTxtboxValue().getText()));
 		}
@@ -317,12 +340,11 @@ public class CreateDeckPanel extends JPanel {
 	public boolean isDeckNameEntered() {
 		if (textboxName.getText().equals("")) {
 			// nothing is entered
-			Logger.getLogger("PlanningPoker").log(Level.INFO, "Name not entered");
-			labelNameErr.setVisible(true);
+			Logger.getLogger("PlanningPoker").log(Level.FINE,
+					"Name not entered");
 			return false;
 		} else {
-			Logger.getLogger("PlanningPoker").log(Level.INFO, "Name entered");
-			labelNameErr.setVisible(false);
+			Logger.getLogger("PlanningPoker").log(Level.FINE, "Name entered");
 			return true;
 		}
 	}
@@ -344,24 +366,27 @@ public class CreateDeckPanel extends JPanel {
 			validateNumCards();
 			this.updateNumCard();
 		}
-		
+
 		this.textboxName.setText(DEFAULT_DECK);
 		this.updateUI();
 	}
 
 	/**
 	 * Displays a selected deck
-	 * @param deckName Name of the deck to be shown
-	 * @throws WPISuiteException 
+	 * 
+	 * @param deckName
+	 *            Name of the deck to be shown
+	 * @throws WPISuiteException
 	 */
 	public void displayDeck(String deckName) throws WPISuiteException {
 		// clear the panel
 		removeAllCard();
 		// display default deck
-		
-		final PlanningPokerDeck deck = GetAllDecksController.getInstance().getDeckByName(deckName);
-		
-		final ArrayList<Integer> deckValues = deck.getDeck();
+
+		final PlanningPokerDeck deck = GetAllDecksController.getInstance()
+				.getDeckByName(deckName);
+
+		final List<Integer> deckValues = deck.getDeck();
 		for (int value : deckValues) {
 			Card aCard = new Card(mode, value);
 			int key = aCard.hashCode();
@@ -371,24 +396,22 @@ public class CreateDeckPanel extends JPanel {
 			validateNumCards();
 			this.updateNumCard();
 		}
-		
+
 		// set other instance variables
 		this.textboxName.setText(deck.getDeckName());
-		
+
 		this.deckOption.removeAllItems();
-		int selection = deck.getMaxSelection();
-			
-		if(selection == 1) {
+		final int selection = deck.getMaxSelection();
+
+		if (selection == 1) {
 			this.deckOption.addItem(SINGLE_SELECT);
 		} else {
 			this.deckOption.addItem(MULTIPLE_SELECT);
 		}
-		
+
 		this.updateUI();
 	}
-	
-	
-	
+
 	/**
 	 * notify createNewDeckPanel when a Card is discarded, so that it removes
 	 * the card from the cards HashMap
@@ -411,10 +434,13 @@ public class CreateDeckPanel extends JPanel {
 
 			@Override
 			public void componentHidden(ComponentEvent e) {
-				Card aCard = (Card) e.getComponent();
-				Logger.getLogger("PlanningPoker").log(Level.INFO, "Card removed");
+				final Card aCard = (Card) e.getComponent();
+				Logger.getLogger("PlanningPoker").log(Level.INFO,
+						"Card removed");
 				panel.removeCardWithKey(aCard.hashCode());
 				panel.updateUI();
+				// validate all inputs in the create session panel
+				sessionPanel.checkSessionValidation();
 			}
 		});
 	}
@@ -429,11 +455,11 @@ public class CreateDeckPanel extends JPanel {
 	/**
 	 * get a deck of cards with values
 	 * 
-	 * @return an arraylist of card values
+	 * @return a list of card values
 	 */
-	public ArrayList<Integer> getAllCardsValue() {
-		ArrayList<Integer> deckValues = new ArrayList<Integer>();
-		Map<Integer, Card> map = this.cards;
+	public List<Integer> getAllCardsValue() {
+		final List<Integer> deckValues = new ArrayList<Integer>();
+		final Map<Integer, Card> map = this.cards;
 		for (Card aCard : map.values()) {
 			deckValues.add(aCard.getValue());
 		}
@@ -452,7 +478,7 @@ public class CreateDeckPanel extends JPanel {
 	/**
 	 * @return a hashmap of cards
 	 */
-	public HashMap<Integer, Card> getCards() {
+	public Map<Integer, Card> getCards() {
 		return cards;
 	}
 
@@ -465,33 +491,64 @@ public class CreateDeckPanel extends JPanel {
 	 */
 	private void addModifyDeckButtons(JPanel centerTopPanel) {
 		// Set the layout for given panel
-		centerTopPanel.setLayout(new MigLayout("", "push[]push[]push[]push", ""));
+		centerTopPanel.setLayout(new MigLayout("inset 20 20 20 20, fill",
+											   "push[]push[]push[]push", ""));
 
 		// 1ST ROW
-		centerTopPanel.add(labelName, "left, split2");
-		centerTopPanel.add(labelNameErr, "center");
-		centerTopPanel.add(labelCardSelection, "left");
-		centerTopPanel.add(labelCount, "split2, center");
+		centerTopPanel.add(labelName, "gapleft 5, left");
+		centerTopPanel.add(labelCardSelection, "gapleft 5, left");
+		centerTopPanel.add(labelCount, "gapleft 5, split2, center");
 		centerTopPanel.add(labelNumCards, "wrap");
-		
+
 		// 2ND ROW
-		centerTopPanel.add(textboxName, "left");
-		centerTopPanel.add(deckOption, "left");
-		centerTopPanel.add(btnAddCard, "center");
-		
+		centerTopPanel.add(textboxName, "gapleft 5, left, height " + BUTTON_HEIGHT + "px!");
+		centerTopPanel.add(deckOption, "gapleft 5, left, height " + BUTTON_HEIGHT + "px!");
+		centerTopPanel.add(btnAddCard, "gapleft 5, center, height " + BUTTON_HEIGHT + "px!");
 	}
-	
+
 	/**
 	 * Return the number of cards that can be selected
+	 * 
 	 * @return Return the number of cards that can be selected
 	 */
 	public int getMaxSelectionCards() {
 		if (deckOption.getSelectedItem().equals(SINGLE_SELECT)) {
 			return 1;
-		} else if (deckOption.getSelectedItem().equals(MULTIPLE_SELECT)) { 
+		} else if (deckOption.getSelectedItem().equals(MULTIPLE_SELECT)) {
 			return cards.values().size();
 		} else {
 			return 0;
 		}
 	}
+	
+	/**
+	 * Trigger dynamic input validation when the given input is entered in the
+	 * given textfield
+	 */
+	private void addTextInputValidation(JTextComponent element) {
+		element.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				sessionPanel.checkSessionValidation();
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+			}
+		});
+	}
+	
+
+	/**
+	 * @return create session panel
+	 */
+	public CreateSessionPanel getSessionPanel() {
+		return sessionPanel;
+	}
+
 }

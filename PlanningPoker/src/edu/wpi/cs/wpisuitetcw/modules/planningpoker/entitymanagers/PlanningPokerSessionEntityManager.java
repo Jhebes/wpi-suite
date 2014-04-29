@@ -72,11 +72,11 @@ public class PlanningPokerSessionEntityManager implements
 				.fromJson(content);
 
 		int newID;
-		PlanningPokerSession[] allSessions = this.getAll(s);
+		final PlanningPokerSession[] allSessions = this.getAll(s);
 		if (allSessions.length == 0) {
 			newID = 1;
 		} else {
-			PlanningPokerSession mostRecent = allSessions[allSessions.length - 1];
+			final PlanningPokerSession mostRecent = allSessions[allSessions.length - 1];
 			newID = mostRecent.getID() + 1;
 		}
 		newPlanningPokerSession.setID(newID);
@@ -112,7 +112,7 @@ public class PlanningPokerSessionEntityManager implements
 		// retrieving specific PlanningPokerSessions.
 		// List<Model> results = db.retrieveAll(new PlanningPokerSession(),
 		// s.getProject());
-		List<Model> results = db.retrieve(
+		final List<Model> results = db.retrieve(
 				new PlanningPokerSession().getClass(), "ID",
 				Integer.parseInt(id), s.getProject());
 		return results.toArray(new PlanningPokerSession[0]);
@@ -127,18 +127,18 @@ public class PlanningPokerSessionEntityManager implements
 	 */
 	@Override
 	public PlanningPokerSession[] getAll(Session s) throws WPISuiteException {
-		List<Model> messages = db.retrieveAll(new PlanningPokerSession(),
+		final List<Model> messages = db.retrieveAll(new PlanningPokerSession(),
 				s.getProject());
 		
 		if (messages.size() == 0) {
 			System.out.println("CREATED DEFAULT.");
-			PlanningPokerSession defaultSession = new PlanningPokerSession();
+			final PlanningPokerSession defaultSession = new PlanningPokerSession();
 			defaultSession.setID(1);
 			defaultSession.setName("Default Session");
 			defaultSession.setDescription("This session is for requirements that have not been assigned");
 			
 			if (db.save(defaultSession, s.getProject())) {
-				PlanningPokerSession[] created = new PlanningPokerSession[1];
+				final PlanningPokerSession[] created = new PlanningPokerSession[1];
 				created[0] = defaultSession;
 				return created;
 			} else {
@@ -161,8 +161,12 @@ public class PlanningPokerSessionEntityManager implements
 	public PlanningPokerSession update(Session s, String content)
 			throws WPISuiteException {
 
+<<<<<<< HEAD
 		
 		PlanningPokerSession updatedSession = PlanningPokerSession
+=======
+		final PlanningPokerSession updatedSession = PlanningPokerSession
+>>>>>>> origin/dev
 				.fromJson(content);
 		
 		/*
@@ -171,7 +175,7 @@ public class PlanningPokerSessionEntityManager implements
 		 * db4o, copy properties from updatedPlanningPokerSession, then save the
 		 * original PlanningPokerSession again.
 		 */
-		List<Model> oldPlanningPokerSessions = db.retrieve(
+		final List<Model> oldPlanningPokerSessions = db.retrieve(
 				PlanningPokerSession.class, "id", updatedSession.getID(),
 				s.getProject());
 		if (oldPlanningPokerSessions.size() < 1
@@ -180,7 +184,7 @@ public class PlanningPokerSessionEntityManager implements
 					"PlanningPokerSession with ID does not exist.");
 		}
 
-		PlanningPokerSession existingSession = (PlanningPokerSession) oldPlanningPokerSessions
+		final PlanningPokerSession existingSession = (PlanningPokerSession) oldPlanningPokerSessions
 				.get(0);
 
 		// copy values to old PlanningPokerSession and fill in our changeset
@@ -273,7 +277,7 @@ public class PlanningPokerSessionEntityManager implements
 			throw new WPISuiteException("Not enough arguments.");
 		}
 
-		String command = args[2];
+		final String command = args[2];
 		if (command.equals("sendEmail")) {
 			if (args.length < 6) {
 				throw new WPISuiteException(
@@ -281,8 +285,8 @@ public class PlanningPokerSessionEntityManager implements
 			}
 
 			try {
-				String notificationType = URLDecoder.decode(args[3], "UTF-8");
-				String email = URLDecoder.decode(args[4], "UTF-8");
+				final String notificationType = URLDecoder.decode(args[3], "UTF-8");
+				final String email = URLDecoder.decode(args[4], "UTF-8");
 				String deadline;
 				if (args[5] == null) {
 					deadline = "";
@@ -303,8 +307,8 @@ public class PlanningPokerSessionEntityManager implements
 			}
 
 			try {
-				String notificationType = URLDecoder.decode(args[3], "UTF-8");
-				String buddy = URLDecoder.decode(args[4], "UTF-8");
+				final String notificationType = URLDecoder.decode(args[3], "UTF-8");
+				final String buddy = URLDecoder.decode(args[4], "UTF-8");
 				String deadline;
 				if (args[5] == null) {
 					deadline = "";

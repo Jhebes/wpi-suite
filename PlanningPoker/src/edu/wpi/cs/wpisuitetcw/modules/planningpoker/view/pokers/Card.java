@@ -69,14 +69,24 @@ public class Card extends JPanel {
 	/** card is selected or not */
 	private boolean isSelected;
 
+	/** Parent panel that is responsible for creating a deck of cards */
+	private CreateDeckPanel createDeckPanel;
+
 	/** Display a card and ability to notify parent panel */
 	public Card(CardDisplayMode mode, int value, DisplayDeckPanel deckPanel) {
 		this(mode, value);
 		this.parentPanel = deckPanel;
 		if (mode.equals(CardDisplayMode.DISPLAY)) {
-			// TODO add action listener for selecting the value of the card
 			this.addSelectionListener(this);
 		}
+	}
+
+	/**
+	 * Create a card with dynamic error validation
+	 */
+	public Card(CardDisplayMode mode, CreateDeckPanel createDeckPanel) {
+		this(mode);
+		this.createDeckPanel = createDeckPanel;
 	}
 
 	/** for displaying a card */
@@ -92,8 +102,8 @@ public class Card extends JPanel {
 
 		// load background image
 		try {
-			Image img = ImageIO.read(getClass().getResource("new_card.png"));
-			ImageIcon icon = new ImageIcon(img);
+			final Image img = ImageIO.read(getClass().getResource("new_card.png"));
+			final ImageIcon icon = new ImageIcon(img);
 			this.cardPicture = icon.getImage();
 		} catch (IOException e) {
 			Logger.getLogger("PlanningPoker").log(Level.INFO,
@@ -163,13 +173,13 @@ public class Card extends JPanel {
 	 */
 	private void displayCardValue() {
 		// containing panel
-		JPanel valuePanel = new JPanel();
+		final JPanel valuePanel = new JPanel();
 		valuePanel.setLayout(new MigLayout());
 		valuePanel.setBackground(Color.WHITE);
 		valuePanel.setOpaque(false);
 
 		// label for displaying value
-		JLabel valueLabel = new JLabel(Integer.toString(cardValue),
+		final JLabel valueLabel = new JLabel(Integer.toString(cardValue),
 				JLabel.CENTER);
 		valueLabel.setFont(new Font("Serif", Font.BOLD, 48));
 
@@ -205,8 +215,8 @@ public class Card extends JPanel {
 	 * 
 	 * @return true if so, else otherwise
 	 */
-	public boolean validateCardValue() {
-		String inputValue = this.txtboxValue.getText();
+	public boolean hasValidCardValue() {
+		final String inputValue = this.txtboxValue.getText();
 
 		if (inputValue.equals("")) {
 			this.isValueValid = false;
@@ -226,7 +236,7 @@ public class Card extends JPanel {
 	 */
 	private boolean isPositiveInteger(String s) {
 		try {
-			int value = Integer.parseInt(s);
+			final int value = Integer.parseInt(s);
 			if (value > 0) {
 				return true;
 			} else {
@@ -303,11 +313,13 @@ public class Card extends JPanel {
 	private void addListenerToValueTextBox(JTextField textbox, final Card aCard) {
 		textbox.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
-				if (aCard.validateCardValue()) {
+				if (aCard.hasValidCardValue()) {
 					aCard.setCardValid();
 				} else {
 					aCard.setCardInvalid();
 				}
+				// validate all inputs in the create session panel
+				createDeckPanel.getSessionPanel().checkSessionValidation();
 			}
 		});
 	}
@@ -465,16 +477,17 @@ public class Card extends JPanel {
 	public CardDisplayMode getMode() {
 		return this.mode;
 	}
-	
+
 	/**
 	 * setter for isSelected
+	 * 
 	 * @param isSelected
 	 */
 	public void setSelected(boolean isSelected) {
 		this.isSelected = isSelected;
 	}
 
-	/** 
+	/**
 	 * getter for cardValue
 	 */
 	public int getCardValue() {

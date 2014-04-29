@@ -11,6 +11,7 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.Gson;
 
@@ -23,7 +24,7 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
  */
 public class PlanningPokerDeck extends AbstractModel {
 	/** List of card values */
-	private ArrayList<Integer> deck;
+	private List<Integer> deck;
 
 	/** Name of the deck */
 	private String deckName;
@@ -39,7 +40,7 @@ public class PlanningPokerDeck extends AbstractModel {
 	 * the default deck should be a database entry
 	 */
 	public PlanningPokerDeck() {
-		int[] defaultDeck = { 0, 1, 1, 2, 3, 5, 8, 13 };
+		final int[] defaultDeck = { 0, 1, 1, 2, 3, 5, 8, 13 };
 		this.deckName = "Default Deck";
 		deck = new ArrayList<Integer>();
 		for (int i : defaultDeck) {
@@ -50,14 +51,14 @@ public class PlanningPokerDeck extends AbstractModel {
 	}
 
 	/**
-	 * This constructor creates the deck from the imported arrayList of values
+	 * This constructor creates the deck from the imported list of values
 	 *
 	 * @param name_in
 	 *            The name of the deck
 	 * @param deck_in
 	 *            the inputed deck
 	 */
-	public PlanningPokerDeck(String name_in, ArrayList<Integer> deck_in) {
+	public PlanningPokerDeck(String name_in, List<Integer> deck_in) {
 		this.deckName = name_in;
 		this.deck = deck_in;
 		this.maxSelection = deck.size();
@@ -70,7 +71,7 @@ public class PlanningPokerDeck extends AbstractModel {
 	 * @param cardValues A set of values that the new deck would have
 	 * @param maxSelections A number of cards that can be chosen
 	 */
-	public PlanningPokerDeck(String deckName, ArrayList<Integer> cardValues, int maxSelection) {
+	public PlanningPokerDeck(String deckName, List<Integer> cardValues, int maxSelection) {
 		this.deckName = deckName;
 		this.deck = cardValues;
 		this.maxSelection = maxSelection;
@@ -175,7 +176,7 @@ public class PlanningPokerDeck extends AbstractModel {
 	 * 
 	 * @return the deck list
 	 */
-	public ArrayList<Integer> getDeck() {
+	public List<Integer> getDeck() {
 		return deck;
 	}
 

@@ -17,7 +17,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.exceptions.ConfigLoaderError;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.exceptions.ConfigLoaderException;
 
 /**
  * A config loader loads planning poker-related configuration files from a file
@@ -28,12 +28,12 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.exceptions.ConfigLoaderError
  */
 public class ConfigLoader {
 	private static boolean initialized = false;
-	private static String filename;
-	private static String emailUsername;
-	private static String emailPassword;
-	private static String plivoAuthId;
-	private static String plivoAuthToken;
-	private static String plivoPhoneNumber;
+	private static String filename = "";
+	private static String emailUsername = "";
+	private static String emailPassword = "";
+	private static String plivoAuthId = "";
+	private static String plivoAuthToken = "";
+	private static String plivoPhoneNumber = "";
 
 	public static void initialize() {
 		initialize(".planningpoker.properties");
@@ -49,7 +49,7 @@ public class ConfigLoader {
 	 */
 	public static void initialize(String filename) {
 		ConfigLoader.filename = filename;
-		Properties props = new Properties();
+		final Properties props = new Properties();
 		InputStream input = null;
 
 		try {
@@ -84,13 +84,13 @@ public class ConfigLoader {
 	/**
 	 * Ensures that the config loader is initialized.
 	 * 
-	 * @throws ConfigLoaderError
+	 * @throws ConfigLoaderException
 	 */
-	public static void ensureInitialized() throws ConfigLoaderError {
+	public static void ensureInitialized() throws ConfigLoaderException {
 		if (!initialized) {
 			initialize();
 			if (!initialized) {
-				throw new ConfigLoaderError(
+				throw new ConfigLoaderException(
 						"Could not initialize the class loader. Do you have"
 								+ " a .planningpoker.properties file?");
 			}
@@ -101,9 +101,9 @@ public class ConfigLoader {
 	 * Attempts to get the email username for sending emails.
 	 * 
 	 * @return The email username
-	 * @throws ConfigLoaderError
+	 * @throws ConfigLoaderException
 	 */
-	public static String getEmailUsername() throws ConfigLoaderError {
+	public static String getEmailUsername() throws ConfigLoaderException {
 		ensureInitialized();
 		return emailUsername;
 	}
@@ -112,9 +112,9 @@ public class ConfigLoader {
 	 * Attempts to get the email password for sending emails.
 	 * 
 	 * @return The email password
-	 * @throws ConfigLoaderError
+	 * @throws ConfigLoaderException
 	 */
-	public static String getEmailPassword() throws ConfigLoaderError {
+	public static String getEmailPassword() throws ConfigLoaderException {
 		ensureInitialized();
 		return emailPassword;
 	}
@@ -123,9 +123,9 @@ public class ConfigLoader {
 	 * Attempts to get the auth ID for the user's Plivo account.
 	 * 
 	 * @return The Plivo auth ID
-	 * @throws ConfigLoaderError
+	 * @throws ConfigLoaderException
 	 */
-	public static String getPlivoAuthId() throws ConfigLoaderError {
+	public static String getPlivoAuthId() throws ConfigLoaderException {
 		ensureInitialized();
 		return plivoAuthId;
 	}
@@ -134,9 +134,9 @@ public class ConfigLoader {
 	 * Attempts to get the auth token for the user's Plivo account.
 	 * 
 	 * @return The Plivo auth token
-	 * @throws ConfigLoaderError
+	 * @throws ConfigLoaderException
 	 */
-	public static String getPlivoAuthToken() throws ConfigLoaderError {
+	public static String getPlivoAuthToken() throws ConfigLoaderException {
 		ensureInitialized();
 		return plivoAuthToken;
 	}
@@ -145,9 +145,9 @@ public class ConfigLoader {
 	 * Attempts to get the phone number for the user's Plivo account.
 	 * 
 	 * @return The Plivo phone number
-	 * @throws ConfigLoaderError
+	 * @throws ConfigLoaderException
 	 */
-	public static String getPlivoPhoneNumber() throws ConfigLoaderError {
+	public static String getPlivoPhoneNumber() throws ConfigLoaderException {
 		ensureInitialized();
 		return plivoPhoneNumber;
 	}

@@ -13,8 +13,11 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.DefaultListModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
@@ -30,7 +33,8 @@ public class AddVoteController implements ActionListener {
 	/** A PlanningPokerSession whose PlanningPokerRequirement has a new vote */
 	private PlanningPokerSession session = null;
 	
-	private VotePanel view;
+	/** A view that users vote requirements */
+	private VotePanel voteView;
 
 	/** A PlanningPokerRequirement that has a new vote */
 	private PlanningPokerRequirement req = null;
@@ -41,9 +45,9 @@ public class AddVoteController implements ActionListener {
 	 * @param session A PlanningPokerSession 
 	 * whose PlanningPokerRequirement has a new vote
 	 */
-	public AddVoteController(VotePanel view,
+	public AddVoteController(VotePanel voteView,
 			PlanningPokerSession session) {
-		this.view = view;
+		this.voteView = voteView;
 		this.session = session;
 	}
 
@@ -53,29 +57,27 @@ public class AddVoteController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		// FIXME: most of this could be moved into the model.
-		session = view.getSession();
+		session = voteView.getSession();
 
-		if (!session.isActive())
-			return;
-
-		System.out.print("Requesting user is: ");
-		Configuration c = ConfigManager.getConfig();
-		String username = c.getUserName();
-
-		PlanningPokerVote vote = new PlanningPokerVote(username, view.getVote());
-		String r = view.getSelectedRequirement();
-
+		// Terminate voting process if the session is not active
+		if (!session.isActive()) return;
+		
+		// Get the requirement that has been selected from VotePanel
 		try {
-			this.req = session.getReqByName(r);
+			this.req = voteView.getRequirementList().getSelectedValue();
 		} catch (NullPointerException e) {
 			Logger.getLogger("PlanningPoker").log(Level.WARNING,
 					"Could not find requirement by name", e);
 			return;
 		}
 
-		ArrayList<PlanningPokerVote> toRemove = new ArrayList<PlanningPokerVote>();
-
 		// checking list of votes to see if user has already voted
+		final List<PlanningPokerVote> toRemove = new ArrayList<PlanningPokerVote>();
+
+		System.out.print("Requesting user is: ");
+		final Configuration c = ConfigManager.getConfig();
+		final String username = c.getUserName();
+		
 		for (PlanningPokerVote v : this.req.getVotes()) {
 			if (v.getUser().equals(username)) {
 				toRemove.add(v);
@@ -85,12 +87,13 @@ public class AddVoteController implements ActionListener {
 		for (PlanningPokerVote v : toRemove) {
 			req.deleteVote(v);
 		}
-
+		
+		// Add vote to the requirement
+		final PlanningPokerVote vote = new PlanningPokerVote(username, voteView.getVote());
 		session.addVoteToRequirement(req, vote, username);
 
-		Logger.getLogger("PlanningPoker").log(Level.INFO, "Added vote to requirement " + req.getName());
 		session.setHasVoted(true);
-		view.disableEditSession();
+		voteView.disableEditSession();
 
 		// Update the session remotely
 		session.save();
@@ -102,12 +105,27 @@ public class AddVoteController implements ActionListener {
 			Logger.getLogger("PlanningPoker").log(Level.SEVERE,
 					"Sleeping was interrupted.", e);
 		}
-
-		this.view.setVoteTextFieldWithValue(vote.getCardValue());
-		this.view.updateUI();
 		
-		GetRequirementsVotesController getVotes = new GetRequirementsVotesController(
-				view, session);
-		getVotes.actionPerformed(new ActionEvent(getVotes, 0, r));	
+		final GetRequirementsVotesController getVotes = new GetRequirementsVotesController(
+				voteView, session);
+		getVotes.actionPerformed(new ActionEvent(getVotes, 0, req.getName()));	
+		
+		// Update the vote panel
+		updateVoteIcon();
+		this.voteView.setVoteTextFieldWithValue(vote.getCardValue());
+		this.voteView.updateUI();
+	}
+
+	/*
+	 * Change the vote icon by updating the list's model
+	 */
+	@SuppressWarnings("unchecked")
+	private void updateVoteIcon() {
+		final int index = voteView.getRequirementList().getSelectedIndex();
+		((DefaultListModel<PlanningPokerRequirement>) voteView
+														.getRequirementList()
+														.getModel())
+															.set(index, req);
+		voteView.getRequirementList().setSelectedIndex(index);		
 	}
 }

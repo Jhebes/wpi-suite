@@ -47,15 +47,15 @@ public class AddRequirementToAllController implements ActionListener {
 	 * local table model.
 	 */
 	public void addRequirement() {
-		PlanningPokerSession defaultSession = SessionStash.getInstance()
+		final PlanningPokerSession defaultSession = SessionStash.getInstance()
 				.getDefaultSession();
 		// Adds the model of requirements from the req manager, add a
 		// requirement to this model, will add to and update
 		// the req manager
-		RequirementModel addReqModel = RequirementModel.getInstance();
-		Requirement reqManagerRequirement = new Requirement();
+		final RequirementModel addReqModel = RequirementModel.getInstance();
+		final Requirement reqManagerRequirement = new Requirement();
 
-		PlanningPokerRequirement requirement = new PlanningPokerRequirement();
+		final PlanningPokerRequirement requirement = new PlanningPokerRequirement();
 		requirement.setName(this.panel.getNewReqName());
 		requirement.setDescription(this.panel.getNewReqDesc());
 		defaultSession.addRequirement(requirement);
@@ -65,6 +65,8 @@ public class AddRequirementToAllController implements ActionListener {
 
 		// Fill in the information for the requirement being created
 		reqManagerRequirement.setId(addReqModel.getNextID());
+		// sync up the ID's in the req manager requirement and our PPrequirement.
+		requirement.setCorrespondingReqManagerID(reqManagerRequirement.getId());
 		reqManagerRequirement.setName(requirement.getName());
 		reqManagerRequirement.setDescription(requirement.getDescription());
 		// Add the new Requirement to the requirement manager
