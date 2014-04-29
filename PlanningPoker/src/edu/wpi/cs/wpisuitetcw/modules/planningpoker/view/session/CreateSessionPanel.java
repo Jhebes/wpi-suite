@@ -67,10 +67,6 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 public class CreateSessionPanel extends JPanel {
 	private static final Date CURRENT_TIME = Calendar.getInstance().getTime();
 
-	private static final String NO_DECK = "No deck";
-
-	private static final String DEFAULT_DECK = "Default";
-
 	private static final long serialVersionUID = 8733539608651885877L;
 	
 	private static final int DEFAULT_INSETS = 20;
@@ -86,8 +82,6 @@ public class CreateSessionPanel extends JPanel {
 
 	// default data size for database entry
 	private final int DEFAULT_DATA_SIZE = 30;
-
-	public static final String DISPLAY_MSG = "New Deck";
 
 	private JSplitPane mainPanel;
 
@@ -105,6 +99,7 @@ public class CreateSessionPanel extends JPanel {
 	private JLabel labelRequireField;
 
 	// ################ UI Right Component #################
+	/** The panel that shows cards and creates deck */
 	private CreateDeckPanel deckPanel;
 
 	// ################ UI Left Component #################
