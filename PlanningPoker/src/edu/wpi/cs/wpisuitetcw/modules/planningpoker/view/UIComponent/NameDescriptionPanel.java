@@ -10,11 +10,13 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent;
 
+import java.awt.Component;
+import java.util.List;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -35,6 +37,12 @@ public class NameDescriptionPanel extends JPanel {
 	/** A text field for description */
 	private final JLabel descriptionLabel;
 	private final JTextArea descriptionTextField;
+	
+	/** A list of Components that lie to the right of name text box */
+	private List<Component> nextToNameTextboxComponents;
+	
+	/** A list of Components that lie below the name text box */
+	private List<Component> belowNameTextboxComponents;
 	
 	/**
 	 * Construct the NameDescriptionPanel by
@@ -93,6 +101,7 @@ public class NameDescriptionPanel extends JPanel {
 		}
 	}
 	
+	// VVVVVVVVVVVVVVVVVVVVVVVV CONTENT METHODS VVVVVVVVVVVVVVVVVVVVVVVV
 	/**
 	 * Put the given name in the name text box
 	 * @param A string that would be put 
@@ -124,4 +133,49 @@ public class NameDescriptionPanel extends JPanel {
 	public void clearDescription() {
 		descriptionTextField.setText("");
 	}
+	
+	// VVVVVVVVVVVVVVVVVVVVVV LAYOUT METHODS VVVVVVVVVVVVVVVVVVVVVVVV
+	/**
+	 * Remove the name text box and its label
+	 */
+	public void removeNameTextbox() {
+		
+	}
+	
+	/**
+	 * Add new component to the right side of the name text box
+	 * @param otherComponent The component that would be added to
+	 * the right side of the name text box
+	 */
+	public void addToRightSideNameTextbox(Component otherComponent) {
+		
+	}
+	
+	/**
+	 * Add a list of components to the right side of the name text box
+	 * @param otherComponents The list of components that would be added to
+	 * the right side of the name text box
+	 */
+	public void addToRightSideNameTextbox(List<Component> otherComponents) {
+		
+	}
+	
+	/**
+	 * Add a component below the name text box
+	 * @param otherComponent The component that would be added 
+	 * below name text box
+	 */
+	public void addBelowNameTextbox(Component otherComponent) {
+		
+	}
+	
+	/**
+	 * Add a list of components below the name text box
+	 * @param otherComponents The list of component that would be added
+	 * below the name text box
+	 */
+	public void addBelowNameTextbox(List<Component> otherComponents) {
+		
+	}
+	
 }
