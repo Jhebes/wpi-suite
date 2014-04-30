@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 import com.google.gson.Gson;
 
@@ -41,13 +42,13 @@ public class PlanningPokerDeck extends AbstractModel {
 	 */
 	public PlanningPokerDeck() {
 		final int[] defaultDeck = { 0, 1, 1, 2, 3, 5, 8, 13 };
-		this.deckName = "Default Deck";
+		deckName = "Default Deck";
 		deck = new ArrayList<Integer>();
 		for (int i : defaultDeck) {
-			this.deck.add(i);
+			deck.add(i);
 		}
-		// default deck should be single selection
-		this.maxSelection = 1;
+		// default deck should be multiple selection
+		maxSelection = defaultDeck.length;
 	}
 
 	/**
@@ -59,9 +60,11 @@ public class PlanningPokerDeck extends AbstractModel {
 	 *            the inputed deck
 	 */
 	public PlanningPokerDeck(String name_in, List<Integer> deck_in) {
-		this.deckName = name_in;
-		this.deck = deck_in;
-		this.maxSelection = deck.size();
+		deckName = name_in;
+		maxSelection = deck.size();
+		deck = deck_in;
+		Collections.sort(deck);
+
 	}
 	
 	/**
@@ -73,8 +76,9 @@ public class PlanningPokerDeck extends AbstractModel {
 	 */
 	public PlanningPokerDeck(String deckName, List<Integer> cardValues, int maxSelection) {
 		this.deckName = deckName;
-		this.deck = cardValues;
+		deck = cardValues;
 		this.maxSelection = maxSelection;
+		Collections.sort(deck);
 	}
 
 	/**

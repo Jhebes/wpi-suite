@@ -13,6 +13,8 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.SimpleDateFormat;
@@ -68,10 +70,6 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 public class CreateSessionPanel extends JPanel {
 	private static final Date CURRENT_TIME = Calendar.getInstance().getTime();
 
-	private static final String NO_DECK = "No deck";
-
-	private static final String DEFAULT_DECK = "Default";
-
 	private static final long serialVersionUID = 8733539608651885877L;
 	
 	private static final int DEFAULT_INSETS = 20;
@@ -84,11 +82,12 @@ public class CreateSessionPanel extends JPanel {
 	private static final String REQUIRED_LABEL = "<html><font color='red'>Required field *</font></html>";
 	private static final String DEADLINE_ERR_LABEL = "<html><font color='red'>Deadline cannot be in the past</font></html>";
 	private static final String CREATE_DECK = "Create new deck";
+    private static final String DEFAULT_DECK = "Default";
+    private static final String NO_DECK = "No deck";
+    public static final String DISPLAY_MSG = "New Deck";
 
 	// default data size for database entry
 	private final int DEFAULT_DATA_SIZE = 30;
-
-	public static final String DISPLAY_MSG = "New Deck";
 
 	private JSplitPane mainPanel;
 
@@ -106,6 +105,7 @@ public class CreateSessionPanel extends JPanel {
 	private JLabel labelRequireField;
 
 	// ################ UI Right Component #################
+	/** The panel that shows cards and creates deck */
 	private CreateDeckPanel deckPanel;
 
 	// ################ UI Left Component #################
@@ -165,10 +165,13 @@ public class CreateSessionPanel extends JPanel {
 		this();
 
 		// Display the name and description of a created session
-		this.nameTextField.setText(session.getName());
-		this.nameTextField.setEnabled(false);
-		this.descriptionBox.setText(session.getDescription());
-		this.descriptionBox.setEnabled(false);
+		nameTextField.setText(session.getName());
+		nameTextField.setEnabled(false);
+		descriptionBox.setText(session.getDescription());
+		descriptionBox.setEnabled(false);
+		
+		// Check if the button is valid
+		checkSessionValidation();
 	}
 
 	/**
@@ -215,7 +218,7 @@ public class CreateSessionPanel extends JPanel {
 	 * @return description label
 	 */
 	public JLabel getLabelDescriptionBox() {
-		return this.labelDescriptionBox;
+		return labelDescriptionBox;
 	}
 
 	/**
@@ -226,7 +229,7 @@ public class CreateSessionPanel extends JPanel {
 	public Date getDeadline() {
 		// checks to see if the deadline picker is enabled, if it is return a
 		// deadline.
-		if (this.deadlinePicker.isEnabled()) {
+		if (deadlinePicker.isEnabled()) {
 			final Date date = deadlinePicker.getDate();
 			final Date time = (Date) pickerDeadlineTime.getValue();
 			final Calendar calendar1 = new GregorianCalendar();
@@ -255,7 +258,7 @@ public class CreateSessionPanel extends JPanel {
 	 * determine what mode the deck panel is in
 	 */
 	public boolean isInCreateMode() {
-		return this.mode.equals(CardDisplayMode.CREATE);
+		return mode.equals(CardDisplayMode.CREATE);
 	}
 
 	/**
@@ -264,7 +267,7 @@ public class CreateSessionPanel extends JPanel {
 	 * @return Return true if the deck panel is in display mode
 	 */
 	public boolean isInDisplayMode() {
-		return this.mode.equals(CardDisplayMode.DISPLAY);
+		return mode.equals(CardDisplayMode.DISPLAY);
 	}
 
 	/**
@@ -273,7 +276,7 @@ public class CreateSessionPanel extends JPanel {
 	 * @return Return true if the deck panel is in no deck mode
 	 */
 	public boolean isInNoDeckMode() {
-		return this.mode.equals(CardDisplayMode.NO_DECK);
+		return mode.equals(CardDisplayMode.NO_DECK);
 	}
 
 	/**
@@ -283,7 +286,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	public boolean hasAllValidInputs() {
 		// new deck is being created
-		if (this.mode.equals(CardDisplayMode.CREATE)) {
+		if (mode.equals(CardDisplayMode.CREATE)) {
 			// validate session and deck input
 			final boolean isDeckValid = hasValidDeckInputs();
 			final boolean isSessionValide = hasValidSessionInputs();
@@ -318,7 +321,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private boolean hasValidDeckInputs() {
 		final boolean areCardsValid = hasValidCardValues();
-		final boolean isNameEntered = this.deckPanel.isDeckNameEntered();
+		final boolean isNameEntered = deckPanel.isDeckNameEntered();
 		return areCardsValid && isNameEntered;
 	}
 
@@ -330,7 +333,7 @@ public class CreateSessionPanel extends JPanel {
 	private boolean hasValidCardValues() {
 		boolean isAllInputValid = true;
 
-		final Map<Integer, Card> cards = this.deckPanel.getCards();
+		final Map<Integer, Card> cards = deckPanel.getCards();
 
 		// check if the deck contains any card
 		if (cards.size() == 0) {
@@ -355,11 +358,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private boolean isSessionNameEntered() {
 		// textbox for session name
-		if (this.nameTextField.getText().equals("")) {
-			return false;
-		} else {
-			return true;
-		}
+		return !nameTextField.getText().equals("");
 	}
 
 	/**
@@ -369,11 +368,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private boolean isSessionDescriptionEntered() {
 		// textarea for session description
-		if (this.descriptionBox.getText().equals("")) {
-			return false;
-		} else {
-			return true;
-		}
+		return !descriptionBox.getText().equals("");
 	}
 
 	/**
@@ -391,7 +386,7 @@ public class CreateSessionPanel extends JPanel {
 	 * @return the name JLabel
 	 */
 	public JLabel getLabelName() {
-		return this.labelName;
+		return labelName;
 	}
 
 	/**
@@ -469,8 +464,8 @@ public class CreateSessionPanel extends JPanel {
 	 * Enable the deadline picker and fill in the place holder
 	 */
 	public void enableDeadlineField() {
-		this.deadlinePicker.setEnabled(true);
-		this.pickerDeadlineTime.setEnabled(true);
+		deadlinePicker.setEnabled(true);
+		pickerDeadlineTime.setEnabled(true);
 		checkSessionValidation();
 	}
 
@@ -478,8 +473,8 @@ public class CreateSessionPanel extends JPanel {
 	 * Disable the deadline picker and remote the data
 	 */
 	public void disableDeadlineField() {
-		this.deadlinePicker.setEnabled(false);
-		this.pickerDeadlineTime.setEnabled(false);
+		deadlinePicker.setEnabled(false);
+		pickerDeadlineTime.setEnabled(false);
 		labelDeadlineErr.setVisible(false);
 	}
 
@@ -741,6 +736,21 @@ public class CreateSessionPanel extends JPanel {
 		labelName.setFont(PlanningPoker.defaultLabelFont);
 		labelRequireField = new JLabel(REQUIRED_LABEL);
 		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
+		
+		// Auto select all text when mouse clicks on
+		nameTextField.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				// Do nothing when user clicks somewhere else
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				nameTextField.selectAll();
+			}
+		});
+		
 		// add dynamic validation to session name
 		addTextInputValidation(nameTextField);
 	}
@@ -777,7 +787,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private void createNewDeck() {
 		// new deck panel for creating a deck of cards
-		this.deckPanel = new CreateDeckPanel(CardDisplayMode.CREATE, this);
+		deckPanel = new CreateDeckPanel(CardDisplayMode.CREATE, this);
 
 		setupEntirePanel();
 		updateUI();
@@ -791,8 +801,8 @@ public class CreateSessionPanel extends JPanel {
 	 * @throws WPISuiteException
 	 */
 	private void displayDeck(String deckName) throws WPISuiteException {
-		this.deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
-		this.deckPanel.displayDeck(deckName);
+		deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
+		deckPanel.displayDeck(deckName);
 
 		setupEntirePanel();
 		updateUI();
@@ -803,8 +813,8 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private void displayDefaultDeck() {
 		// Use display mode since the default deck is displayed by default
-		this.deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
-		this.deckPanel.displayDefaultDeck();
+		deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
+		deckPanel.displayDefaultDeck();
 
 		setupEntirePanel();
 		updateUI();
@@ -814,7 +824,7 @@ public class CreateSessionPanel extends JPanel {
 	 * display no card on the deck panel
 	 */
 	public void displayNoDeck() {
-		this.deckPanel = new CreateDeckPanel(CardDisplayMode.NO_DECK);
+		deckPanel = new CreateDeckPanel(CardDisplayMode.NO_DECK);
 
 		setupEntirePanel();
 		updateUI();
@@ -846,7 +856,7 @@ public class CreateSessionPanel extends JPanel {
 	 * @return deck panel
 	 */
 	public CreateDeckPanel getDeckPanel() {
-		return this.deckPanel;
+		return deckPanel;
 	}
 
 	/**

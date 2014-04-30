@@ -33,6 +33,6 @@ public class ToolbarView extends DefaultToolbarView {
 	 * @return SessionButtonsPanel
 	 */
 	public SessionButtonsPanel getSessionButtonsPanel() {
-		return this.sessionPanel;
+		return sessionPanel;
 	}
 }

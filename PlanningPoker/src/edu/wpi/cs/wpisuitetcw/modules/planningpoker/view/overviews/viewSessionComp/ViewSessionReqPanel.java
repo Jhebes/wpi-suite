@@ -45,6 +45,9 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementP
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
+/**
+ * The panel for adding requirements to a session.
+ */
 public class ViewSessionReqPanel extends JPanel {
 	private final AddRequirementPanel parentPanel;
 	private final ScrollablePanel sessionReqPanel;
@@ -52,6 +55,7 @@ public class ViewSessionReqPanel extends JPanel {
 	private final JPanel buttonsPanel;
 	private JTextArea description;
 	private JTextField name;
+	private JLabel errorMessage;
 	private final JButton moveRequirementToAll;
 	private final JButton moveAllRequirementsToAll;
 	private final JButton moveRequirementToSession;
@@ -73,7 +77,7 @@ public class ViewSessionReqPanel extends JPanel {
 	}
 
 	/**
-	 * @return this.name.setText("") Clear this requirement's name
+	 * Clears this requirement's name
 	 */
 	public void clearNewReqName() {
 		this.name.setText("");
@@ -193,19 +197,21 @@ public class ViewSessionReqPanel extends JPanel {
 		this.session = s;
 		this.setLayout(new GridBagLayout());
 		this.parentPanel = parentPanel;
-		this.sessionReqPanel = new ScrollablePanel();
-		this.allReqPanel = new ScrollablePanel();
-		this.buttonsPanel = new JPanel();
-		this.description = new JTextArea("");
-		this.name = new JTextField("");
-		this.moveRequirementToAll = new JButton(" < ");
-		this.moveAllRequirementsToAll = new JButton(" << ");
-		this.moveRequirementToSession = new JButton(" > ");
-		this.moveAllRequirementsToSession = new JButton(" >> ");
-		this.addRequirementToSession = new JButton("Add Requirement to Session");
+		sessionReqPanel = new ScrollablePanel();
+		allReqPanel = new ScrollablePanel();
+		buttonsPanel = new JPanel();
+		description = new JTextArea("");
+		name = new JTextField("");
+		errorMessage = new JLabel();
+		errorMessage.setVisible(false);
+		moveRequirementToAll = new JButton(" < ");
+		moveAllRequirementsToAll = new JButton(" << ");
+		moveRequirementToSession = new JButton(" > ");
+		moveAllRequirementsToSession = new JButton(" >> ");
 		this.addRequirementToSession.setFont(PlanningPoker.defaultButtonFont);
-		this.saveRequirement = new JButton("Save Requirement");
-		this.saveRequirement.setFont(PlanningPoker.defaultButtonFont);
+		addRequirementToSession = new JButton("Add Requirement to Session");
+		saveRequirement = new JButton("Save Requirement");
+		this.saveRequirement.setFont(PlanningPoker.defaultButtonFont);	
 		saveRequirement.setEnabled(false);
 		validateActivateSession();
 
@@ -232,8 +238,7 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// allows multiple reqs to be selected and unselected
 		allReqTable.setRowSelectionAllowed(true);
-		allReqTable
-				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		allReqTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
 		// add table to rightPanel
 		final JLabel leftLabel = new JLabel("All Requirements");
@@ -245,8 +250,7 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// table for left pane
 		// Right table
-		sessionReqTable = new JTable(
-				new RequirementTableManager().get(this.session.getID())) {
+		sessionReqTable = new JTable(new RequirementTableManager().get(session.getID())) {
 			private static final long serialVersionUID = 2L;
 
 			public boolean isCellEditable(int row, int colunm) {
@@ -260,8 +264,7 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// allows multiple reqs to be selected and unselected
 		sessionReqTable.setRowSelectionAllowed(true);
-		sessionReqTable
-				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		sessionReqTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		allReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
 		// rightPanel formatting
@@ -279,29 +282,30 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// Action Handlers
 		// need to change so it adds to the right side
-		this.addRequirementToSession
+		addRequirementToSession
 				.addActionListener(new AddRequirementToSessionController(this));
-		this.moveRequirementToSession
+		moveRequirementToSession
 				.addActionListener(new MoveRequirementToCurrentSessionController(
-						this.session, this));
-		this.moveRequirementToAll
+						session, this));
+		moveRequirementToAll
 				.addActionListener(new MoveRequirementToAllController(
-						this.session, this));
-		this.moveAllRequirementsToSession
+						session, this));
+		moveAllRequirementsToSession
 				.addActionListener(new MoveAllRequirementsToCurrentSessionController(
-						this.session, this));
-		this.moveAllRequirementsToAll
+						session, this));
+		moveAllRequirementsToAll
 				.addActionListener(new MoveAllRequirementsToAllController(
-						this.session, this));
-		this.saveRequirement
+						session, this));
+		saveRequirement
 				.addActionListener(new EditRequirementDescriptionController(
-						this.session, this));
+						session, this));
 
 		// this will populate the name and description field when clicking on a
 		// requirement in the all session table
 		allReqTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				sessionReqTable.clearSelection();
 				refreshMoveButtons();
 				final RequirementTableManager n = new RequirementTableManager();
 				n.fetch(session.getID());
@@ -341,6 +345,7 @@ public class ViewSessionReqPanel extends JPanel {
 		sessionReqTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				allReqTable.clearSelection();
 				refreshMoveButtons();
 				final JTable table = (JTable) e.getSource();
 				final int row = table.getSelectedRow();
@@ -368,6 +373,28 @@ public class ViewSessionReqPanel extends JPanel {
 					name.setEnabled(false);
 					editRequirementsSession = ViewSessionReqPanel.this.session;
 				}
+			}
+		});
+
+		/**
+		 * Takes care of highlighting by dragging for the sessionReqTable
+		 */
+		sessionReqTable.addMouseMotionListener(new MouseAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				refreshMoveButtons();
+				allReqTable.clearSelection();
+			}
+		});
+
+		/**
+		 * Takes care of highlighting by dragging for the allReqTable
+		 */
+		allReqTable.addMouseMotionListener(new MouseAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				refreshMoveButtons();
+				sessionReqTable.clearSelection();
 			}
 		});
 
@@ -403,8 +430,9 @@ public class ViewSessionReqPanel extends JPanel {
 		// text field for name goes in the top of the panel
 		final JLabel nameLabel = new JLabel("Name:");
 		nameLabel.setFont(PlanningPoker.defaultLabelFont);
-		namePanel.setLayout(new BorderLayout());
-		namePanel.add(nameLabel, BorderLayout.NORTH);
+		namePanel.setLayout(new BorderLayout(6, 2));
+		namePanel.add(nameLabel, BorderLayout.LINE_START);
+		namePanel.add(errorMessage, BorderLayout.CENTER);
 		namePanel.add(name, BorderLayout.SOUTH);
 
 		// text field for description goes in the bottom of the panel
@@ -539,6 +567,27 @@ public class ViewSessionReqPanel extends JPanel {
 	 */
 	public PlanningPokerSession getEditRequirementsSession() {
 		return editRequirementsSession;
+	}
+	
+	/**
+	 * Assign the given string to the error message
+	 */
+	public void setErrorMessage(String message) {
+		errorMessage.setText(message);
+	}
+	
+	/**
+	 * Set the error message visible
+	 */
+	public void showErrorMessage() {
+		errorMessage.setVisible(true);
+	}
+	
+	/**
+	 * Hide the error message
+	 */
+	public void hideErrorMessage() {
+		errorMessage.setVisible(false);
 	}
 
 }

@@ -41,7 +41,7 @@ public class AddVoteController implements ActionListener {
 
 	/**
 	 * Construct the controller
-	 * @param view The SessionInProgressPanel
+	 * @param voteView The SessionInProgressPanel
 	 * @param session A PlanningPokerSession 
 	 * whose PlanningPokerRequirement has a new vote
 	 */
@@ -64,7 +64,7 @@ public class AddVoteController implements ActionListener {
 		
 		// Get the requirement that has been selected from VotePanel
 		try {
-			this.req = voteView.getRequirementList().getSelectedValue();
+			req = voteView.getRequirementList().getSelectedValue();
 		} catch (NullPointerException e) {
 			Logger.getLogger("PlanningPoker").log(Level.WARNING,
 					"Could not find requirement by name", e);
@@ -78,7 +78,7 @@ public class AddVoteController implements ActionListener {
 		final Configuration c = ConfigManager.getConfig();
 		final String username = c.getUserName();
 		
-		for (PlanningPokerVote v : this.req.getVotes()) {
+		for (PlanningPokerVote v : req.getVotes()) {
 			if (v.getUser().equals(username)) {
 				toRemove.add(v);
 			}
@@ -112,8 +112,8 @@ public class AddVoteController implements ActionListener {
 		
 		// Update the vote panel
 		updateVoteIcon();
-		this.voteView.setVoteTextFieldWithValue(vote.getCardValue());
-		this.voteView.updateUI();
+		voteView.setVoteTextFieldWithValue(vote.getCardValue());
+		voteView.updateUI();
 	}
 
 	/*

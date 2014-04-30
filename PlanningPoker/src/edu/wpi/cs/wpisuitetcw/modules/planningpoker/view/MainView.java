@@ -13,11 +13,10 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 import java.awt.Component;
 
 import javax.swing.Icon;
-import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 
-public class MainView extends JTabbedPane {
+public class MainView extends ClosableFixedLengthTab {
 
 	/**
 	 * Serializable ID

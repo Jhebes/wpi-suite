@@ -22,6 +22,9 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 
+/**
+ * Panel for display a deck during create session.
+ */
 public class DisplayDeckPanel extends JPanel {
 	/**
 	 * 
@@ -48,10 +51,12 @@ public class DisplayDeckPanel extends JPanel {
 
 	/**
 	 * Constructor - creating a panel for displaying a deck of card
+	 * @param deck The deck to dpslay
+	 * @param progressPanel the parent panel
 	 */
 	public DisplayDeckPanel(PlanningPokerDeck deck,
 			VotePanel progressPanel) {
-		this.parentPanel = progressPanel;
+		parentPanel = progressPanel;
 		// setup panel
 		container = new JPanel();
 		cardPanel = new JPanel();
@@ -95,6 +100,7 @@ public class DisplayDeckPanel extends JPanel {
 
 	/**
 	 * update the vote by adding the given value
+	 * @param aCard The new card to add to the value
 	 */
 	public void addRequirementValue(Card aCard) {
 		if (isSingleSelection()) {
@@ -112,6 +118,7 @@ public class DisplayDeckPanel extends JPanel {
 
 	/**
 	 * update the vote by subtracting the given value
+	 * @param aCard The new card to subtract from the value
 	 */
 	public void subtractRequirementValue(Card aCard) {
 		if (isSingleSelection()) {
@@ -136,7 +143,7 @@ public class DisplayDeckPanel extends JPanel {
 			Card aCard = cards.get(i);
 			cards.remove(i);
 
-			aCard.setCardValid();
+			aCard.markCardValid();
 			aCard.setSelected(false);
 
 		}

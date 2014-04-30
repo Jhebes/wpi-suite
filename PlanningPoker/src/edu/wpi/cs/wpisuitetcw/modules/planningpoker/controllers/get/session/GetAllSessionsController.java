@@ -34,6 +34,9 @@ public class GetAllSessionsController {
 	 */
 	private GetAllSessionsController() {}
 
+	/**
+	 * @return The singleton instance for this controller.
+	 */
 	public static GetAllSessionsController getInstance() {
 		if (instance == null) {
 			instance = new GetAllSessionsController();

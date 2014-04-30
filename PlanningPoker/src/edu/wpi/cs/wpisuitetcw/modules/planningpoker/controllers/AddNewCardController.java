@@ -28,7 +28,7 @@ public class AddNewCardController implements ActionListener {
 	 * @param deckPanel A CreateNewDeckPanel that would be stored
 	 */
 	public AddNewCardController(CreateDeckPanel deckPanel) {
-		this.view = deckPanel;
+		view = deckPanel;
 	}
 
 	/**

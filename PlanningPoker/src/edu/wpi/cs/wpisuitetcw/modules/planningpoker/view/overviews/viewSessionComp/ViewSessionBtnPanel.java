@@ -17,11 +17,18 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.PlanningPoker;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.ActivateSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementPanel;
 
+/**
+ * The panel for the buttons at the bottom of the add requirements panel.
+ */
 public class ViewSessionBtnPanel extends JPanel {
 	private static final long serialVersionUID = -5483659811074321821L;
 	private final JButton activateBtn;
 	private final AddRequirementPanel parentPanel;
 
+	/**
+	 * Constructs the panel.
+	 * @param parentPanel The parent panel
+	 */
 	public ViewSessionBtnPanel(AddRequirementPanel parentPanel) {
 		this.parentPanel = parentPanel;
 
@@ -36,6 +43,9 @@ public class ViewSessionBtnPanel extends JPanel {
 		this.add(this.activateBtn);
 	}
 
+	/**
+	 * @return The parent panel
+	 */
 	public AddRequirementPanel getParentPanel() {
 		return parentPanel;
 	}	

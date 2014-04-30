@@ -13,14 +13,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTable;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.UserStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 
+/**
+ * Main panel for holding the overview.
+ */
 public class OverviewPanel extends JSplitPane {
 
 	private static final long serialVersionUID = 1L;
@@ -63,7 +64,7 @@ public class OverviewPanel extends JSplitPane {
 	public void showSessionTable() {
 		SessionStash.getInstance().synchronize();
 		UserStash.getInstance().synchronize();
-		this.rightPanel.remove(welcomePanel);
+		rightPanel.remove(welcomePanel);
 		updateUI();
 	}
 

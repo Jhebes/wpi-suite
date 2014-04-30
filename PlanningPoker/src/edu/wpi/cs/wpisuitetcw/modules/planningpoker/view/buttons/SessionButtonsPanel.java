@@ -41,9 +41,9 @@ public class SessionButtonsPanel extends ToolbarGroupView {
 
 	public SessionButtonsPanel() {
 		super("");
-		
+
 		// set up session panel
-		this.sessionPanel.setLayout(new BoxLayout(sessionPanel,
+		sessionPanel.setLayout(new BoxLayout(sessionPanel,
 				BoxLayout.X_AXIS));
 
 		// create the buttons

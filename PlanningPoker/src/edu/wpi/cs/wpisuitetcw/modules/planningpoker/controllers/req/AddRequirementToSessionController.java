@@ -12,8 +12,9 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put.GenericPUTRequestObserver;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
@@ -21,15 +22,15 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionCo
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
-import edu.wpi.cs.wpisuitetng.network.Network;
-import edu.wpi.cs.wpisuitetng.network.Request;
-import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
  * Adds a requirement directly to a particular session.
  */
 public class AddRequirementToSessionController implements ActionListener {
 
+	private static final String DUPLICATE_REQ_MESSAGE = 
+			"<html><font color='red'>This name has been used</font></html>";
+	
 	private ViewSessionReqPanel panel;
 
 	/**
@@ -48,38 +49,57 @@ public class AddRequirementToSessionController implements ActionListener {
 	 * locally, posting it to the database and updating the local table model.
 	 */
 	public void addRequirement() {
-		final int id = this.panel.getSession().getID();
+
+		final int id = panel.getSession().getID();
 
 		final PlanningPokerSession session = SessionStash.getInstance()
 				.getSessionByID(id);
-		// Adds the model of requirements from the req manager, add a requirement to this model, will add and update 
-		// the req manager
-		final RequirementModel addReqModel = RequirementModel.getInstance();
-		final Requirement reqManagerRequirement = new Requirement();
+		
 
+		// Create a PlanningPokerRequirement with the name and description
+		// that user provides from the ViewSessionReqPanel
 		final PlanningPokerRequirement requirement = new PlanningPokerRequirement();
 		requirement.setName(this.panel.getNewReqName());
 		requirement.setDescription(this.panel.getNewReqDesc());
-		session.addRequirement(requirement);
-		session.save();
-		this.panel.clearNewReqName();
-		this.panel.clearNewReqDesc();
-		
-		// Fill in the information for the requirement being created
-		reqManagerRequirement.setId(addReqModel.getNextID());
-		// sync up the ID's in the req manager requirement and our PPrequirement.
-		requirement.setCorrespondingReqManagerID(reqManagerRequirement.getId());
-		reqManagerRequirement.setName(requirement.getName());
-		reqManagerRequirement.setDescription(requirement.getDescription());
-		
-		// Add the requirement to the Requirement Manager
-		addReqModel.addRequirement(reqManagerRequirement);
 
-		(new RequirementTableManager()).fetch(id);
-		panel.validateActivateSession();
-		this.panel.refreshMoveButtons();
+		
+		// Create RequirementModel and Requirement to update the requirement
+		// list of the Requirement manager module
+		RequirementModel addReqModel = RequirementModel.getInstance();
+		Requirement reqManagerRequirement = new Requirement();
+		
+		// Only add a new requirement if the current session 
+		// AND the requirement module don't have it
+		if (!hasPlanningPokerRequirement(session.getRequirements(), requirement) && 
+			!hasRequirement(addReqModel, requirement.getInnerRequirement())) {
+			// Add new requirement to the session
+			session.addRequirement(requirement);
+			session.save();
+			
+			// Add the requirement to the Requirement Manager
+			reqManagerRequirement.setId(addReqModel.getNextID());
+			reqManagerRequirement.setName(requirement.getName());
+			reqManagerRequirement.setDescription(requirement.getDescription());
+			addReqModel.addRequirement(reqManagerRequirement);
+
+			// Validate session
+			(new RequirementTableManager()).fetch(id);
+			panel.validateActivateSession();
+			panel.refreshMoveButtons();
+			
+			// Clear the texts in name and description box
+			this.panel.clearNewReqName();
+			this.panel.clearNewReqDesc();
+			
+			// Hide error message if needed
+			panel.hideErrorMessage();
+		} else {
+			// Warn user about duplicate requirement
+			panel.setErrorMessage(DUPLICATE_REQ_MESSAGE);
+			panel.showErrorMessage();
+		}
 	}
-
+	
 	/*
 	 * {@inheritdoc}
 	 */
@@ -87,4 +107,35 @@ public class AddRequirementToSessionController implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		addRequirement(); // So we don't need to mock an action event to test
 	}
+	
+	/*
+	 * Return true if the List of planning poker requirement has
+	 * the given planning poker requirement
+	 */
+	private boolean hasPlanningPokerRequirement(
+			List<PlanningPokerRequirement> requirements,
+			PlanningPokerRequirement otherRequirement) {
+		for (PlanningPokerRequirement requirement : requirements) {
+			if (requirement.getName().equals(otherRequirement.getName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/*
+	 * Return true if the given requirement model has
+	 * the given requirement
+	 */
+	private boolean hasRequirement(RequirementModel addReqModel,
+			Requirement innerRequirement) {
+		List<Requirement> requirements = addReqModel.getRequirements();
+		for (Requirement requirement : requirements) {
+			if (requirement.getName().equals(innerRequirement.getName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

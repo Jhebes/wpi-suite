@@ -40,6 +40,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.CompletedSessionEstimatePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.NameDescriptionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.VoteRequirementCellRenderer;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.DisplayDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
@@ -58,12 +59,13 @@ public class VotePanel extends JPanel {
 	private static final String END_SESSION_BUTTON_LABEL = "End Session";
 	private static final String NO_DECK_MSG = "<html><font color='red'>No deck. Please enter your vote in the white box</font></html>";
 
-	private static final int MIN_DESC_TEXTBOX_HEIGHT = 80;
-	private static final int MIN_VOTE_TEXTFIELD_WIDTH = 120;
-	private static final int MIN_VOTE_TEXTFIELD_HEIGHT = 120;
+	private static final int DEFAULT_INSETS = 20;
+	private static final int DEFAULT_HEIGHT = 26;
+	private static final int MIN_VOTE_TEXTFIELD_WIDTH = 118;
+	private static final int MIN_VOTE_TEXTFIELD_HEIGHT = 118;
 	private static final int MIN_BUTTON_WIDTH = 50;
-	private static final int PADDING_RIGHT_PANEL = 10;
-	private static final int GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX = 20;
+	private static final int VERTICAL_PADDING_RIGHT_PANEL = 10;
+	private static final int HORIZONTAL_PADDING_RIGHT_PANEL = 20;
 
 	private final PlanningPokerSession session;
 	private PlanningPokerRequirement[] reqsList;
@@ -81,15 +83,9 @@ public class VotePanel extends JPanel {
 	/** The right container holding all the GUI components */
 	private JLabel rightPanelLabel;
 	private JPanel rightPanel;
-
-	/** Name of a requirement */
-	private JLabel requirementNameLabel;
-	private JTextField requirementNameTextbox;
-
-	/** Description of a requirement */
-	private JLabel descriptionLabel;
-	private JScrollPane descriptionFrame;
-	private JTextField descriptionTextbox;
+	
+	/** The name and description text box */
+	private NameDescriptionPanel nameDescriptionPanel;
 
 	/** A Panel exhibiting the cards */
 	private JScrollPane cardFrame;
@@ -140,7 +136,7 @@ public class VotePanel extends JPanel {
 		// Add mainView and the bottom panel to the canvas
 		setLayout(new MigLayout());
 		add(mainView, "dock center");
-		add(bottomPanel, "dock south");
+		add(bottomPanel, "dock south, height 45px!");
 
 		// Exhibit the information of the 1st requirement
 		setupInitData();
@@ -155,8 +151,8 @@ public class VotePanel extends JPanel {
 		// Prevent getting requirement from an empty array list
 		if (session.getRequirements().size() > 0) {
 			final PlanningPokerRequirement firstReq = session.getRequirements().get(0);
-			requirementNameTextbox.setText(firstReq.getName());
-			descriptionTextbox.setText(firstReq.getDescription());
+			nameDescriptionPanel.setName(firstReq.getName());
+			nameDescriptionPanel.setDescription(firstReq.getDescription());
 			selectedRequirement = firstReq;
 			reqList.setSelectionInterval(0, 0);
 		}
@@ -195,11 +191,16 @@ public class VotePanel extends JPanel {
 						total += vote.getCardValue();
 						count++;
 					}
-					ppr.setFinalEstimate(total / count);
-					ppr.setTotalVotes(count);
+					if(count > 0){
+						ppr.setFinalEstimate(total / count);
+					}else{
+						ppr.setFinalEstimate(0);
+					}
+						ppr.setTotalVotes(count);
 				}
-				SessionTableModel.getInstance().update();
 				closeTab();
+				openFinalEstimation();
+				SessionTableModel.getInstance().update();
 			}
 		});
 
@@ -226,12 +227,14 @@ public class VotePanel extends JPanel {
 		}
 
 		final String currentUserName = ConfigManager.getConfig().getUserName();
-		if (session.isClosed())
-			endSessionButton.setEnabled(false);
-		if (currentUserName.equals(session.getOwnerUserName()))
+		if (session.isClosed()) {
+			endSessionButton.setEnabled(false);			
+		}
+		if (currentUserName.equals(session.getOwnerUserName())) {
 			endSessionButton.setVisible(true);
-		else
+		} else {
 			endSessionButton.setVisible(false);
+		}
 
 		// Extract the requirements from the table provided by
 		// ViewSessionTableManager and converts them to list
@@ -264,7 +267,6 @@ public class VotePanel extends JPanel {
 
 		// Create a JLabel holding the card selection mode
 		cardSelectionModeLabel = new JLabel();
-		cardSelectionModeLabel.setFont(PlanningPoker.defaultLabelFont);
 		if (session.getDeck() != null && session.getDeck().getMaxSelection() == 1) {
 			cardSelectionModeLabel.setText("Single selection deck");
 		} else {
@@ -280,12 +282,24 @@ public class VotePanel extends JPanel {
 	 * the bottom panel
 	 */
 	private void addGUIComponentsToBottomPanel() {
-		bottomPanel.setLayout(new MigLayout("fillx", "", "5[]5"));
-		bottomPanel.add(endSessionButton, "left, wmin " + MIN_BUTTON_WIDTH + "px, split3");
-		bottomPanel.add(btnEditSession, "left, wmin " + MIN_BUTTON_WIDTH + "px");
-		bottomPanel.add(cancelSessionButton, "left, wmin " + MIN_BUTTON_WIDTH + "px");
+		bottomPanel.setLayout(new MigLayout("inset 5 "// + DEFAULT_INSETS / 2 + " "
+									  				 + DEFAULT_INSETS + " "
+													 + "5 " //DEFAULT_INSETS / 2 + " "
+													 + DEFAULT_INSETS + ", fill", 
+											"", "push[]push"));
+		bottomPanel.add(endSessionButton, "left, "
+										+ "wmin " + MIN_BUTTON_WIDTH + "px, "
+										+ "height " + DEFAULT_HEIGHT + "px!, "
+										+ "split3");
+		bottomPanel.add(btnEditSession, "left, "
+									  + "wmin " + MIN_BUTTON_WIDTH + "px, "
+									  + "height " + DEFAULT_HEIGHT + "px!");
+		bottomPanel.add(cancelSessionButton, "left, "
+										   + "wmin " + MIN_BUTTON_WIDTH + "px, "
+										   + "height " + DEFAULT_HEIGHT + "px!");
 		bottomPanel.add(cardSelectionModeLabel, "left, wmin " + MIN_BUTTON_WIDTH + "px");
-		bottomPanel.add(submitVoteButton, "right");
+		bottomPanel.add(submitVoteButton, "right, "
+										+ "height " + DEFAULT_HEIGHT + "px!");
 	}
 
 	/*
@@ -323,14 +337,14 @@ public class VotePanel extends JPanel {
 					final PlanningPokerRequirement requirement = reqList.getModel().getElementAt(reqList.getSelectedIndex());
 
 					if (requirement.getName() == null) {
-						requirementNameTextbox.setText(" ");
+						nameDescriptionPanel.setName(" ");
 					} else {
-						requirementNameTextbox.setText(requirement.getName());
+						nameDescriptionPanel.setName(requirement.getName());
 					}
 					if (requirement.getDescription() == null) {
-						descriptionTextbox.setText(" ");
+						nameDescriptionPanel.setDescription(" ");
 					} else {
-						descriptionTextbox.setText(requirement.getDescription());
+						nameDescriptionPanel.setDescription(requirement.getDescription());
 					}
 					
 					if (session.isClosed()) {
@@ -363,9 +377,8 @@ public class VotePanel extends JPanel {
 	 * Add the GUI component to the left panel
 	 */
 	private void addGUIComponentsOnLeftPanel() {
-		leftPanel.setLayout(new MigLayout("fill, center"));
-
-		leftPanel.add(leftPanelLabel, "gapleft 50px, dock north");
+		leftPanel.setLayout(new MigLayout("insets 0, fill", "", "10[]10[]0"));
+		leftPanel.add(leftPanelLabel, "center, wrap");
 		leftPanel.add(requirementFrame, "width 250::, growy, dock center");
 	}
 
@@ -374,23 +387,9 @@ public class VotePanel extends JPanel {
 
 		// Create a label for right panel
 		rightPanelLabel = new JLabel(RIGHT_PANEL_LABEL);
-		rightPanelLabel.setFont(PlanningPoker.defaultHeaderFont);
 
-		// Create a requirement name text box
-		requirementNameLabel = new JLabel(REQ_NAME_LABEL);
-		requirementNameLabel.setFont(PlanningPoker.defaultLabelFont);
-		requirementNameTextbox = new JTextField();
-		requirementNameTextbox.setEditable(false);
-		requirementNameTextbox.setBackground(Color.WHITE);
-
-		// Create a requirement description text box
-		descriptionLabel = new JLabel(REQ_DESC_LABEL);
-		descriptionLabel.setFont(PlanningPoker.defaultLabelFont);
-		descriptionFrame = new JScrollPane();
-		descriptionTextbox = new JTextField();
-		descriptionTextbox.setEditable(false);
-		descriptionTextbox.setBackground(Color.WHITE);
-		descriptionFrame.setViewportView(descriptionTextbox);
+		// Create a requirement name and description text box
+		nameDescriptionPanel = new NameDescriptionPanel(REQ_NAME_LABEL, REQ_DESC_LABEL, false);
 
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
@@ -418,44 +417,52 @@ public class VotePanel extends JPanel {
 	 */
 	private void addGUIComponentsOnRightPanel() {
 		// Add the padding around the right panel
-		rightPanel.setLayout(new MigLayout("insets " + PADDING_RIGHT_PANEL + " " + PADDING_RIGHT_PANEL + " "
-				+ PADDING_RIGHT_PANEL + " " + PADDING_RIGHT_PANEL + ", fill"));
+		rightPanel.setLayout(new MigLayout("insets " + VERTICAL_PADDING_RIGHT_PANEL   + " "
+													 + HORIZONTAL_PADDING_RIGHT_PANEL + " " 
+													 + VERTICAL_PADDING_RIGHT_PANEL   + " "
+													 + HORIZONTAL_PADDING_RIGHT_PANEL + ", fill",
+											"", "[][grow]"));
 
 		// Add the label of the panel
-		rightPanel.add(rightPanelLabel, "center, span");
+		rightPanel.add(rightPanelLabel, "center, wrap");
 
 		// Add the requirement name and its label
-		rightPanel.add(requirementNameLabel, "growx, left, wrap");
-		rightPanel.add(requirementNameTextbox, "growx, gapright " + GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX
-				+ "px, wrap");
-
-		// Add the requirement description box and its label
-		rightPanel.add(descriptionLabel, "growx, left, wrap");
-		rightPanel.add(descriptionFrame, "hmin " + MIN_DESC_TEXTBOX_HEIGHT + "px, " + "growx, " + "gapright"
-				+ GAP_BETWEEN_REQ_TEXTBOX_AND_VOTE_TEXTBOX + "px, " + "wrap");
-
+		rightPanel.add(nameDescriptionPanel, "grow");
+		
 		// Add the card panel or final estimation GUI
 		finalEstimatePnl = new CompletedSessionEstimatePanel(this);
 		finalEstimatePnl.setAlignmentX(Component.CENTER_ALIGNMENT);
-		if (this.session.isClosed()) {
+		if (session.isClosed()) {
 			rightPanel.add(finalEstimatePnl);
 		} else {
 			if (cardFrame != null) {
-				rightPanel.add(cardFrame, "hmin 250px, grow, dock south");
+				rightPanel.add(cardFrame, "height 235::, grow, dock south");
 			} else {
 				final JLabel messageLabel = new JLabel(NO_DECK_MSG);
-				messageLabel.setFont(PlanningPoker.defaultLabelFont);
-				rightPanel.add(messageLabel, "gapleft 150px, hmin 250px, grow, dock south");
+				rightPanel.add(messageLabel, "gapleft 150px, hmin 230px, grow, dock south");
 			}
 			
 			// Add the vote text field to the right side
-			rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH + "px, " + "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT
-					+ "px, " + "dock east, " + "gaptop " + PADDING_RIGHT_PANEL + "px, " + "gapright " + PADDING_RIGHT_PANEL
-					+ "px");
+			rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH  + "px, " 
+										+ "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, " 
+										+ "dock east, " 
+										+ "gaptop "   + VERTICAL_PADDING_RIGHT_PANEL   + "px, " 
+										+ "gapright " + HORIZONTAL_PADDING_RIGHT_PANEL + "px, "
+										+ "gapbottom" + VERTICAL_PADDING_RIGHT_PANEL   + "px");
 		}		
 
 	}
 
+	/**
+	 * Opens final estiamtion GUI for this requirement
+	 */
+	private void openFinalEstimation(){
+		ViewEventManager.getInstance().viewSession(this.session);
+	}
+	
+	/**
+	 * Closes this tab
+	 */
 	private void closeTab() {
 		ViewEventManager.getInstance().removeTab(this);
 	}
@@ -497,7 +504,7 @@ public class VotePanel extends JPanel {
 	 * @return vote parsed as an integer
 	 */
 	public int getVote() {
-		if (this.session.getDeck() == null) {
+		if (session.getDeck() == null) {
 			return Integer.parseInt(voteTextField.getText());
 		} else {
 			return cardPanel.getVoteValue();
@@ -528,7 +535,7 @@ public class VotePanel extends JPanel {
 	 * @param voteTextField
 	 */
 	public void setVoteTextFieldWithValue(int value) {
-		this.voteTextField.setText(Integer.toString(value));
+		voteTextField.setText(Integer.toString(value));
 	}
 	
 	/**

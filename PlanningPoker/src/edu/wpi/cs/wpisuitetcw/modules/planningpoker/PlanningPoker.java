@@ -24,19 +24,25 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
 
+/**
+ * Module for Janeway.
+ */
 public class PlanningPoker implements IJanewayModule {
 	private List<JanewayTabModel> tabs;
-
+	
 	//Define the standard font that will be enforced by default throughout the project
 	public static final FontUIResource defaultLabelFont = new FontUIResource("Serif",Font.NORMAL,12);
 	
 	//Define the standard font that will be enforced by default throughout the project
-	public static final FontUIResource defaultButtonFont = new FontUIResource("Serif",Font.ITALIC,12);
+	public static final FontUIResource defaultButtonFont = new FontUIResource("Serif",Font.NORMAL,12);
 	
 	//Define the standard font that will be enforced by default throughout the project
-	public static final FontUIResource defaultHeaderFont = new FontUIResource("Serif",Font.ITALIC,25);
-	
-	
+	public static final FontUIResource defaultHeaderFont = new FontUIResource("Serif",Font.NORMAL,25);
+		
+	/**
+	 * Constructor for the module.
+	 */
+
 	public PlanningPoker() {
 		tabs = new ArrayList<JanewayTabModel>();
 
@@ -58,11 +64,17 @@ public class PlanningPoker implements IJanewayModule {
 		tabs.add(tab1);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String getName() {
 		return "PlanningPoker";
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<JanewayTabModel> getTabs() {
 		return tabs;
