@@ -78,6 +78,9 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	// Label of the Mode text field.
 	private final JLabel lblMode;
 	
+	// Label of Standard Deviation;
+	private final JLabel lblStandardDeviation;
+	
 	// Holds the model to populate the Votes table.
 	private DefaultTableModel tableModel;
 	
@@ -92,6 +95,9 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	
 	// text field that displays the mode of a requirements votes.
 	private JTextField statsMode;
+	
+	// text field that displays the standard deviation of a requirment's votes.
+	private JTextField statsStandardDeviation;
 	
 	// text field that takes the final estimate given by the owner of a session.
 	private JTextField finalEstimateField;
@@ -264,6 +270,15 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		statsMode.setMaximumSize(statsMode.getPreferredSize());
 		statsMode.setAlignmentX(Component.CENTER_ALIGNMENT);
 		statsMode.setEditable(false);
+		
+		lblStandardDeviation =  new JLabel("Standard Deviation");
+		lblStandardDeviation.setFont(statNameFont);
+		lblStandardDeviation.setAlignmentX(Component.CENTER_ALIGNMENT);
+		statsStandardDeviation = new JTextField(10);
+		// Keeps the text box from filling the entire statBox
+		statsStandardDeviation.setMaximumSize(statsStandardDeviation.getPreferredSize());
+		statsStandardDeviation.setAlignmentX(Component.CENTER_ALIGNMENT);
+		statsStandardDeviation.setEditable(false);
 
 		pnlStats.add(lblStats);
 
@@ -275,6 +290,9 @@ public class CompletedSessionEstimatePanel extends JPanel {
 
 		pnlStats.add(lblMode);
 		pnlStats.add(statsMode);
+		
+		pnlStats.add(lblStandardDeviation);
+		pnlStats.add(statsStandardDeviation);
 
 		// put the completed Session panel together
 		this.add(pnlVotes);
