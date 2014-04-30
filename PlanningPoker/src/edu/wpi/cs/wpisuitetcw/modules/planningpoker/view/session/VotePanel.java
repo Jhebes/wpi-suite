@@ -607,7 +607,8 @@ public class VotePanel extends JPanel {
 		PlanningPokerRequirement nextReq = null;
 		PlanningPokerVote vote = null;
 		
-		for (int i = 0; i < session.getRequirements().size(); i++) {
+		int i;
+		for (i = 0; i < session.getRequirements().size(); i++) {
 			reqList.setSelectionInterval(i, i);
 			
 			nextReq = reqList.getSelectedValue();
@@ -615,6 +616,13 @@ public class VotePanel extends JPanel {
 			
 			if (vote == null)
 				break;
+		}
+		
+		if (i == session.getRequirements().size()) { // All Reqs voted on
+			reqList.setSelectionInterval(selectedReqIndex, selectedReqIndex);	
+			
+			vote = selectedRequirement.getVoteByUser(ConfigManager.getConfig().getUserName());
+		} else {		
 		}
 			
 		nameDescriptionPanel.setName(nextReq.getName());
