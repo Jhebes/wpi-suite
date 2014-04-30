@@ -12,7 +12,9 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import java.awt.Component;
 
+import javax.swing.Action;
 import javax.swing.Icon;
+import javax.swing.KeyStroke;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 
