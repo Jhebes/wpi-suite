@@ -394,7 +394,11 @@ public class ViewSessionReqPanel extends JPanel {
 				if (!description.getText().equals("")) {
 					if (!name.getText().equals("")) {
 						addRequirementToSession.setEnabled(true);
+					}else {
+						addRequirementToSession.setEnabled(false);
 					}
+				}else {
+					addRequirementToSession.setEnabled(false);
 				}
 			}
 
@@ -412,15 +416,17 @@ public class ViewSessionReqPanel extends JPanel {
 				keyTyped(e);
 
 			}
-			
-			// I messed with your computer
 
 			@Override
 			public void keyTyped(KeyEvent e) {
 				if (!name.getText().equals("")) {
 					if (!description.getText().equals("")) {
 						addRequirementToSession.setEnabled(true);
+					} else {
+						addRequirementToSession.setEnabled(false);
 					}
+				}else {
+					addRequirementToSession.setEnabled(false);
 				}
 			}
 
