@@ -58,35 +58,28 @@ public class PlanningPokerSessionEntityManager implements
 			public void run() {
 				// my favorite type of loop!
 				while (true) {
+				try {
+
+					// get the sessions
+					final List<PlanningPokerSession> sessions = PlanningPokerSessionEntityManager.this.db
+							.retrieveAll(new PlanningPokerSession());
+					for (PlanningPokerSession session : sessions) {
+
+					// check if they're closed
+					if (session.hasSessionEnded()) {
+					// update the session
+						session.close();
 					try {
+					PlanningPokerSessionEntityManager.this
+						.updateSession(session);
+					} catch (WPISuiteException e) {
+						e.printStackTrace();
+					}
+					}
+					}
 
-						// get the sessions
-						final List<PlanningPokerSession> sessions = PlanningPokerSessionEntityManager.this.db
-								.retrieveAll(new PlanningPokerSession());
-						for (PlanningPokerSession session : sessions) {
-
-							// check if they're closed
-							if (session.hasSessionEnded()) {
-								// update the session
-								session.close();
-								try {
-									PlanningPokerSessionEntityManager.this
-											.updateSession(session);
-									System.out.println("Session with ID: "
-											+ String.valueOf(session.getID())
-											+ " closed!");
-								} catch (WPISuiteException e) {
-
-									e.printStackTrace();
-									System.out.println("Session with ID: "
-											+ String.valueOf(session.getID())
-											+ " not properly closed");
-								}
-							}
-						}
-
-						// get ready to do it again
-						Thread.sleep(5000);
+					// get ready to do it again
+					Thread.sleep(5000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
