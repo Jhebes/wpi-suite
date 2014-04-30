@@ -184,22 +184,25 @@ public class NameDescriptionPanel extends JPanel {
 		}
 	}
 	
+
 	/**
 	 * Add new component to the right side of the name text box
 	 * @param otherComponent The component that would be added to
 	 * the right side of the name text box
 	 */
 	public void addToRightSideNameTextbox(Component otherComponent) {
-		
+		nextToNameTextboxComponents.add(otherComponent);
+		putAllComponentsOnPanel();
 	}
-	
+
 	/**
 	 * Add a list of components to the right side of the name text box
 	 * @param otherComponents The list of components that would be added to
 	 * the right side of the name text box
 	 */
 	public void addToRightSideNameTextbox(List<Component> otherComponents) {
-		
+		nextToNameTextboxComponents.addAll(otherComponents);
+		putAllComponentsOnPanel();
 	}
 	
 	/**
@@ -208,7 +211,8 @@ public class NameDescriptionPanel extends JPanel {
 	 * below name text box
 	 */
 	public void addBelowNameTextbox(Component otherComponent) {
-		
+		belowNameTextboxComponents.add(otherComponent);
+		putAllComponentsOnPanel();
 	}
 	
 	/**
@@ -217,8 +221,10 @@ public class NameDescriptionPanel extends JPanel {
 	 * below the name text box
 	 */
 	public void addBelowNameTextbox(List<Component> otherComponents) {
-		
+		belowNameTextboxComponents.addAll(otherComponents);
+		putAllComponentsOnPanel();
 	}
+	
 	
 	// VVVVVVVVVVVVVVVVVV PRIVATE IMPLMENTATIONS VVVVVVVVVVVVVVVVVVVVVV
 	/*
