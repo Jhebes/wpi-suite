@@ -11,6 +11,8 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent;
 
 import java.awt.Component;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,6 +70,8 @@ public class NameDescriptionPanel extends JPanel {
 		nameTextField.setWrapStyleWord(true);
 		nameFrame = new JScrollPane(nameTextField);
 		
+		setAutoHighlightWhenClicked();
+		
 		// Set the name text box to be required in the panel
 		isNameTextboxNeeded = true;
 
@@ -84,7 +88,7 @@ public class NameDescriptionPanel extends JPanel {
 
 		putAllComponentsOnPanel();
 	}
-	
+
 	/**
 	 * Construct the NameDescriptionPanel by
 	 * creating and adding the name and description
@@ -315,6 +319,25 @@ public class NameDescriptionPanel extends JPanel {
 		rowConstrain += "[][grow]0";
 		
 		return rowConstrain;
+	}
+	
+
+	/*
+	 *  Auto select all text when mouse clicks on the name text box
+	 */
+	private void setAutoHighlightWhenClicked() {
+		nameTextField.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				// Do nothing when user clicks somewhere else
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				nameTextField.selectAll();
+			}
+		});
 	}
 	
 }
