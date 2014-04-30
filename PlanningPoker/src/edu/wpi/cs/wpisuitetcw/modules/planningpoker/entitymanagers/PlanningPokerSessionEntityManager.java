@@ -368,4 +368,97 @@ public class PlanningPokerSessionEntityManager implements
 			String phoneNumber, String deadline) {
 		SMSNotifier.sendMessage(notificationType, phoneNumber, deadline);
 	}
+
+	/**
+	 * 
+	 * @param session
+	 *            the session to be updated in db4o
+	 * @throws WPISuiteException
+	 */
+	public void updateSession(PlanningPokerSession session)
+			throws WPISuiteException {
+
+		final List<Model> oldPlanningPokerSessions = db.retrieve(
+				PlanningPokerSession.class, "id", session.getID());
+		if (oldPlanningPokerSessions.size() < 1
+				|| oldPlanningPokerSessions.get(0) == null) {
+			throw new BadRequestException(
+					"PlanningPokerSession with ID does not exist.");
+		}
+
+		final PlanningPokerSession existingSession = (PlanningPokerSession) oldPlanningPokerSessions
+				.get(0);
+
+		// copy values to old PlanningPokerSession and fill in our changeset
+		// appropriately
+		existingSession.copyFrom(session);
+
+		if (!db.save(existingSession)) {
+			throw new WPISuiteException(
+					"Could not save when updating existing session.");
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param session
+	 *            the session to be updated in db4o
+	 * @throws WPISuiteException
+	 */
+	public void updateSession(PlanningPokerSession session)
+			throws WPISuiteException {
+
+		final List<Model> oldPlanningPokerSessions = db.retrieve(
+				PlanningPokerSession.class, "id", session.getID());
+		if (oldPlanningPokerSessions.size() < 1
+				|| oldPlanningPokerSessions.get(0) == null) {
+			throw new BadRequestException(
+					"PlanningPokerSession with ID does not exist.");
+		}
+
+		final PlanningPokerSession existingSession = (PlanningPokerSession) oldPlanningPokerSessions
+				.get(0);
+
+		// copy values to old PlanningPokerSession and fill in our changeset
+		// appropriately
+		existingSession.copyFrom(session);
+
+		if (!db.save(existingSession)) {
+			throw new WPISuiteException(
+					"Could not save when updating existing session.");
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param session
+	 *            the session to be updated in db4o
+	 * @throws WPISuiteException
+	 */
+	public void updateSession(PlanningPokerSession session)
+			throws WPISuiteException {
+
+		final List<Model> oldPlanningPokerSessions = db.retrieve(
+				PlanningPokerSession.class, "id", session.getID());
+		if (oldPlanningPokerSessions.size() < 1
+				|| oldPlanningPokerSessions.get(0) == null) {
+			throw new BadRequestException(
+					"PlanningPokerSession with ID does not exist.");
+		}
+
+		final PlanningPokerSession existingSession = (PlanningPokerSession) oldPlanningPokerSessions
+				.get(0);
+
+		// copy values to old PlanningPokerSession and fill in our changeset
+		// appropriately
+		existingSession.copyFrom(session);
+
+		if (!db.save(existingSession)) {
+			throw new WPISuiteException(
+					"Could not save when updating existing session.");
+		}
+
+	}
 }
