@@ -221,7 +221,7 @@ public class Card extends JPanel {
 		// label for displaying value
 		final JLabel valueLabel = new JLabel(Integer.toString(cardValue),
 				javax.swing.SwingConstants.CENTER);
-		valueLabel.setFont(new Font("Serif", Font.BOLD, 48));
+		valueLabel.setFont(new Font(valueLabel.getFont().getName(), Font.BOLD, 48));
 
 		// set up the main panel
 		valuePanel.add(valueLabel, "dock center");
