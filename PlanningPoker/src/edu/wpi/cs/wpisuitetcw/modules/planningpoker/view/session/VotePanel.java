@@ -578,23 +578,29 @@ public class VotePanel extends JPanel {
 	}
 	
 	public void advanceInList() {
-		if (selectedReqIndex + 1 < session.getRequirements().size()) { // Not last req
-			selectedReqIndex++;
-			reqList.setSelectionInterval(selectedReqIndex, selectedReqIndex);
+		PlanningPokerRequirement nextReq = null;
+		PlanningPokerVote vote = null;
+		
+		for (int i = 0; i < session.getRequirements().size(); i++) {
+			reqList.setSelectionInterval(i, i);
 			
-			final PlanningPokerRequirement nextReq = reqList.getSelectedValue();
-			nameDescriptionPanel.setName(nextReq.getName());
-			nameDescriptionPanel.setDescription(nextReq.getDescription());
-			selectedRequirement = nextReq;
+			nextReq = reqList.getSelectedValue();
+			vote = nextReq.getVoteByUser(ConfigManager.getConfig().getUserName());
 			
-			final PlanningPokerVote vote = nextReq.getVoteByUser(ConfigManager.getConfig().getUserName());
-			if (vote != null)
-				setVoteTextFieldWithValue(vote.getCardValue());
-			else {
-				clearVoteTextField();
-			}
-
-			clearDeckPanel();
+			if (vote == null)
+				break;
 		}
+			
+		nameDescriptionPanel.setName(nextReq.getName());
+		nameDescriptionPanel.setDescription(nextReq.getDescription());
+		selectedRequirement = nextReq;
+			
+		if (vote != null) {
+			setVoteTextFieldWithValue(vote.getCardValue());
+		} else {
+			clearVoteTextField();
+		}
+
+		clearDeckPanel();
 	}
 }
