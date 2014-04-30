@@ -104,16 +104,13 @@ public class CreateDeckPanel extends JPanel {
 	/** Create session panel for error indication */
 	private CreateSessionPanel sessionPanel;
 
-	// subject to change
-	// private final JTextField textboxVal;
-
 	/**
 	 * This is the constructor for deck panel that allows creation of a new deck
 	 * of cards. The session panel is given for dynamic error validation and
 	 * indication
 	 * 
-	 * @param mode
-	 * @param sessionPanel
+	 * @param mode DISPLAY or NO_DECK
+	 * @param sessionPanel the parent panel
 	 */
 	public CreateDeckPanel(CardDisplayMode mode, CreateSessionPanel sessionPanel) {
 		this(mode);
@@ -326,10 +323,17 @@ public class CreateDeckPanel extends JPanel {
 	 */
 	public List<Integer> getNewDeckValues() {
 		final List<Integer> cardValues = new ArrayList<Integer>();
-		final Map<Integer, Card> map = cards;
-		for (Card aCard : map.values()) {
-			cardValues.add(Integer.parseInt(aCard.getTxtboxValue().getText()));
+		
+		for (Card aCard : cards.values()) {
+			if (!aCard.getTxtboxValue().getText().equals("")) {
+				cardValues.add(Integer.parseInt(aCard.getTxtboxValue().getText()));
+			} else if (aCard.getCardValue() >= 0) {
+				cardValues.add(aCard.getCardValue());
+			} else {
+				Logger.getLogger("PlanningPoker").log(Level.SEVERE, "Invalid card value");
+			}
 		}
+		
 		return cardValues;
 	}
 
@@ -382,17 +386,20 @@ public class CreateDeckPanel extends JPanel {
 	public void displayDeck(String deckName) throws WPISuiteException {
 		// clear the panel
 		removeAllCard();
-		// display default deck
 
-		final PlanningPokerDeck deck = GetAllDecksController.getInstance()
-				.getDeckByName(deckName);
-
+		// display default deck		
+		final PlanningPokerDeck deck = GetAllDecksController.getInstance().getDeckByName(deckName);
 		final List<Integer> deckValues = deck.getDeck();
+		
+		// Remove existing cards before display deck
+		cards.clear();
+		
 		for (int value : deckValues) {
 			Card aCard = new Card(mode, value);
 			int key = aCard.hashCode();
-			cards.put(key, aCard);
 			this.addRemoveCardListener(aCard, this);
+
+			cards.put(key, aCard);
 			cardPanel.add(aCard);
 			validateNumCards();
 			this.updateNumCard();
@@ -409,7 +416,6 @@ public class CreateDeckPanel extends JPanel {
 		} else {
 			deckOption.addItem(MULTIPLE_SELECT);
 		}
-
 		this.updateUI();
 	}
 
