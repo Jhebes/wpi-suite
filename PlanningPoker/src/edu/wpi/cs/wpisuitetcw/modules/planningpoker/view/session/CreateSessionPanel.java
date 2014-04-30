@@ -47,6 +47,7 @@ import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.swingx.JXDatePicker;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.PlanningPoker;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateSessionPanelController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.AddSessionController;
@@ -125,7 +126,7 @@ public class CreateSessionPanel extends JPanel {
 	private JTextArea descriptionBox;
 
 	/** Dropdown menu to choose deck */
-	private JLabel labeDeck;
+	private JLabel labelDeck;
 	private JComboBox<String> deckType;
 
 	/** Check box for enabling date and time deadline. */
@@ -511,7 +512,7 @@ public class CreateSessionPanel extends JPanel {
 		// Add labels for the dropdowns of session type and deck to 1 row
 		leftPanel.add(labelDropdownType, "width " + DROPDOWN_WIDTH
 				+ "px!, left, split2");
-		leftPanel.add(labeDeck, "left, wrap");
+		leftPanel.add(labelDeck, "left, wrap");
 
 		// Add the dropdowns of session type and deck to 1 row
 		leftPanel.add(dropdownType, "width " + DROPDOWN_WIDTH
@@ -600,6 +601,7 @@ public class CreateSessionPanel extends JPanel {
 
 		// deadline error indicator
 		labelDeadlineErr = new JLabel(DEADLINE_ERR_LABEL);
+		labelDeadlineErr.setFont(PlanningPoker.defaultLabelFont);
 		labelDeadlineErr.setVisible(false);
 	}
 
@@ -608,6 +610,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private void createDeadlineCheckbox() {
 		labelDeadline = new JLabel("Deadline");
+		labelDeadline.setFont(PlanningPoker.defaultLabelFont);
 		cbDeadline = new JCheckBox();
 		cbDeadline.addItemListener(new CreateSessionPanelController(this));
 	}
@@ -617,6 +620,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private void createDescriptionTextbox() {
 		labelDescriptionBox = new JLabel("Description *");
+		labelDescriptionBox.setFont(PlanningPoker.defaultLabelFont);
 		descriptionBox = new JTextArea();
 		descriptionBox.setLineWrap(true);
 		descriptionBox.setWrapStyleWord(true);
@@ -666,7 +670,8 @@ public class CreateSessionPanel extends JPanel {
 	 * Create dropdown to select an existed deck
 	 */
 	private void createDeckSelectionDropdown() {
-		labeDeck = new JLabel("Deck *");
+		labelDeck = new JLabel("Deck *");
+		labelDeck.setFont(PlanningPoker.defaultLabelFont);
 		deckType = new JComboBox<String>();
 		this.setupDeckDropdown();
 		deckType.setEditable(false);
@@ -717,6 +722,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private void createSessionTypeDropdown() {
 		labelDropdownType = new JLabel("Type *");
+		labelDropdownType.setFont(PlanningPoker.defaultLabelFont);
 		dropdownType = new JComboBox<SessionLiveType>(SessionLiveType.values());
 		dropdownType.setEditable(false);
 		dropdownType.setBackground(Color.WHITE);
@@ -727,6 +733,7 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private void createSessionNameTextbox() {
 		labelName = new JLabel("Name *");
+		labelName.setFont(PlanningPoker.defaultLabelFont);
 		labelRequireField = new JLabel(REQUIRED_LABEL);
 		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
 		
@@ -758,11 +765,12 @@ public class CreateSessionPanel extends JPanel {
 		btnSaveSession.addActionListener(new AddSessionController(this, false));
 		// save button is initially disable
 		btnSaveSession.setEnabled(false);
-
+		//Set the default button font
+		btnSaveSession.setFont(PlanningPoker.defaultButtonFont);
 		// Create Cancel create session button
 		btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new CancelCreateSessionController(this));
-
+		btnCancel.setFont(PlanningPoker.defaultButtonFont);
 		bottomPanel = new JPanel();
 		bottomPanel.setLayout(new MigLayout("inset 5 " 
 												+ DEFAULT_INSETS 

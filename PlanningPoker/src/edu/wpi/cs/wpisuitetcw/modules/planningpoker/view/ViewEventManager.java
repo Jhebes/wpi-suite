@@ -11,9 +11,13 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Enumeration;
 
 import javax.swing.JComponent;
+import javax.swing.UIManager;
+import javax.swing.plaf.FontUIResource;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.PlanningPoker;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTreePanel;
@@ -33,6 +37,8 @@ public class ViewEventManager {
 	private boolean isWelcomePageOnDisplay = true;
 	private List<AddRequirementPanel> viewSessionPanels = new ArrayList<AddRequirementPanel>();
 	private List<VotePanel> inProgressSessionPanels = new ArrayList<VotePanel>();
+
+
 
 	/**
 	 * Default constructor for ViewEventController. It is set to private to

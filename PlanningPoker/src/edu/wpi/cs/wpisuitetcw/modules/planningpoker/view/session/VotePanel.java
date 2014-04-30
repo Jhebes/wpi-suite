@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -31,6 +32,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.PlanningPoker;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.EditActivatedSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
@@ -176,6 +178,7 @@ public class VotePanel extends JPanel {
 
 		// Create the end session button
 		endSessionButton = new JButton(END_SESSION_BUTTON_LABEL);
+		endSessionButton.setFont(PlanningPoker.defaultButtonFont);
 		endSessionButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -203,12 +206,12 @@ public class VotePanel extends JPanel {
 				closeTab();
 				openFinalEstimation();
 				SessionTableModel.getInstance().update();
-				
 			}
 		});
 
 		// Create the cancel session button
 		cancelSessionButton = new JButton("Cancel Session");
+		cancelSessionButton.setFont(PlanningPoker.defaultButtonFont);
 		cancelSessionButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -256,9 +259,11 @@ public class VotePanel extends JPanel {
 		for (int i = 0; i < testReqs.size(); ++i) {
 			reqArr[i] = testReqs.get(i);
 		}
+		this.getReqsViewTable();
 
 		// Create an edit session button
 		btnEditSession = new JButton("Edit Session");
+		btnEditSession.setFont(PlanningPoker.defaultButtonFont);
 		btnEditSession.addActionListener(new EditActivatedSessionController(
 				session, this));
 
@@ -272,7 +277,8 @@ public class VotePanel extends JPanel {
 
 		// Create a submit vote button
 		submitVoteButton = new JButton(VOTE_BUTTON_LABEL);
-		submitVoteButton.addActionListener(new AddVoteController(this, session));
+		submitVoteButton.setFont(PlanningPoker.defaultButtonFont);
+		submitVoteButton.addActionListener(new AddVoteController(this, this.session));
 
 		// Create a JLabel holding the card selection mode
 		cardSelectionModeLabel = new JLabel();
@@ -402,16 +408,14 @@ public class VotePanel extends JPanel {
 
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
-		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
+		voteTextField.setFont(PlanningPoker.defaultHeaderFont);
+		voteTextField.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-		voteTextField.setHorizontalAlignment(JTextField.CENTER);
-		
 		// Set up ErrorMsg Label
 		errorMsg = new JLabel("");
+		errorMsg.setFont(PlanningPoker.defaultLabelFont);
 		errorMsg.setForeground(Color.RED);
-		errorMsg.setHorizontalAlignment(JLabel.CENTER);
-
-		voteTextField.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		errorMsg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
 		// if the session has a deck, we can't let the user submit a vote
 		// manually
@@ -460,7 +464,6 @@ public class VotePanel extends JPanel {
 			}
 			
 			// Add the vote text field to the right side
-
 			rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH  + "px, " 
 										+ "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, " 
 										+ "dock east, " 
@@ -537,6 +540,13 @@ public class VotePanel extends JPanel {
 		} else {
 			return cardPanel.getVoteValue();
 		}
+	}
+
+	/**
+	 * sets the reqsViewTable with the appropriate information
+	 */
+
+	public void getReqsViewTable() {
 	}
 
 	public void disableEditSession() {
