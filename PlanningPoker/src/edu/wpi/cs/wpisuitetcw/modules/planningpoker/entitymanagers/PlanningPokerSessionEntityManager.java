@@ -12,12 +12,9 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.Timer;
-
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications.EmailNotifier;
@@ -414,6 +411,8 @@ public class PlanningPokerSessionEntityManager implements
 	 * @param session
 	 *            the session to be updated in db4o
 	 * @throws WPISuiteException
+	 * 
+	 * updates the planning poker session in the db, (doesn't use JSON)
 	 */
 	public void updateSession(PlanningPokerSession session)
 			throws WPISuiteException {
