@@ -156,6 +156,14 @@ public class DisplayDeckPanel extends JPanel {
 	
 	/**
 	 * 
+	 * @return estimate for requirement
+	 */
+	public void clearVoteValue() {
+		voteValue = 0;
+	}
+	
+	/**
+	 * 
 	 * @return list of cards in the deck
 	 */
 	public ArrayList<Card> getCards() {
