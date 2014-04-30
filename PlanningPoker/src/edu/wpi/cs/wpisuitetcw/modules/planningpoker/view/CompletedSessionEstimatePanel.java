@@ -30,6 +30,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
+import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
@@ -48,8 +49,8 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	//The panel that the final estimate panel is placed in.
 	private final VotePanel parentPanel;
 	
-	// The GridLayout that holds the stats panel, vote panel, and final estimate panel.
-	private final GridLayout panelLayout;
+/*	// The GridLayout that holds the stats panel, vote panel, and final estimate panel.
+	private final GridLayout panelLayout;*/
 	
 	// Panel that displays the final estimate text box and submission button
 	private final JPanel pnlFinalEstimate;
@@ -103,7 +104,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	private final Font statNameFont;
 	
 	// Button to submit the final estimation.
-	private final JButton btnFinalEstimate;
+	// private final JButton btnFinalEstimate;
 	
 	// The requirement that has been chosen for analysis and estimation
 	private PlanningPokerRequirement focusedRequirement = null;
@@ -125,7 +126,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		this.parentPanel = parentPanel;
 		
 		// Create a new grid layout that is 3 columns across.
-		panelLayout = new GridLayout(0, 3);
+		//panelLayout = new GridLayout(0, 3);
 		
 		// Set the reqManagerRequirementModel field equal to the Instance of the Requirement Model;
 		reqManagerRequirementModel = RequirementModel.getInstance();
@@ -136,21 +137,22 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		 * Panel
 		 */
 		// Used to make the final estimate
-		this.setLayout(panelLayout);
+		//this.setLayout(panelLayout);
+		this.setLayout(new MigLayout());
 		pnlFinalEstimate = new JPanel();
 		pnlFinalEstimate.setLayout(new BoxLayout(pnlFinalEstimate,
 				BoxLayout.Y_AXIS));
-		pnlFinalEstimate.setBorder(BorderFactory.createLineBorder(Color.black));
+		pnlFinalEstimate.setBorder(BorderFactory.createEmptyBorder());
 
 		// Statistical info of the PP Session
 		pnlStats = new JPanel();
-		pnlStats.setLayout(new BoxLayout(pnlStats, BoxLayout.Y_AXIS));
-		pnlStats.setBorder(BorderFactory.createLineBorder(Color.black));
+		pnlStats.setLayout(new MigLayout());
+		pnlStats.setBorder(BorderFactory.createEmptyBorder());
 
 		// Table of votes for each req
 		pnlVotes = new JPanel();
 		pnlVotes.setLayout(new BoxLayout(pnlVotes, BoxLayout.Y_AXIS));
-		pnlVotes.setBorder(BorderFactory.createLineBorder(Color.black));
+		pnlVotes.setBorder(BorderFactory.createEmptyBorder());
 
 		// Initialize the default font for JLabel headers
 		headerFont = new Font("TimesRoman", Font.BOLD, 25);
@@ -191,20 +193,24 @@ public class CompletedSessionEstimatePanel extends JPanel {
 					public void warn() {
 						try {
 							Integer.parseInt(finalEstimateField.getText());
-							btnFinalEstimate.setEnabled(true);
+							// MUST DO THIS FOR OTHER BUTTON ON THE BOTTOM PANEL
+							// btnFinalEstimate.setEnabled(true);
+							parentPanel.getSubmitFinalEstimationButton().setEnabled(true);
 						} catch (NumberFormatException n) {
-							btnFinalEstimate.setEnabled(false);
+							// MUST DO THIS FOR OTHER BUTTON ON THE BOTTOM PANEL
+							// btnFinalEstimate.setEnabled(false);
+							parentPanel.getSubmitFinalEstimationButton().setEnabled(false);
 						}
 					}
 				});
 
 		final Component verticalStrut = Box.createVerticalStrut(50);
 
-		btnFinalEstimate = new JButton("Submit Final Estimation");
-		btnFinalEstimate.setAlignmentX(Component.CENTER_ALIGNMENT);
+		// btnFinalEstimate = new JButton("Submit Final Estimation");
+		// btnFinalEstimate.setAlignmentX(Component.CENTER_ALIGNMENT);
 		// btnFinalEstimate.setEnabled(false);
 
-		btnFinalEstimate.addActionListener(new ActionListener() {
+		/*btnFinalEstimate.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -228,12 +234,11 @@ public class CompletedSessionEstimatePanel extends JPanel {
 				ViewEventController.getInstance().refreshTree();
 			}
 
-		});
+		});*/
 
 		pnlFinalEstimate.add(lblFinalEstimate);
 		pnlFinalEstimate.add(verticalStrut);
 		pnlFinalEstimate.add(finalEstimateField);
-		pnlFinalEstimate.add(btnFinalEstimate);
 
 		// Create the Stats Panel
 		statNameFont = new Font("TimesRoman", Font.BOLD, 15);
@@ -241,7 +246,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		lblMean = new JLabel("Mean");
 		lblMean.setFont(statNameFont);
 		lblMean.setAlignmentX(Component.CENTER_ALIGNMENT);
-		statsMean = new JTextField(10);
+		statsMean = new JTextField(5);
 		// Keeps the text box from filling the entire statBox
 		statsMean.setMaximumSize(statsMean.getPreferredSize());
 		statsMean.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -250,7 +255,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		lblMedian = new JLabel("Median");
 		lblMedian.setFont(statNameFont);
 		lblMedian.setAlignmentX(Component.CENTER_ALIGNMENT);
-		statsMedian = new JTextField(10);
+		statsMedian = new JTextField(5);
 		// Keeps the text box from filling the entire statBox
 		statsMedian.setMaximumSize(statsMedian.getPreferredSize());
 		statsMedian.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -259,33 +264,32 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		lblMode = new JLabel("Mode");
 		lblMode.setFont(statNameFont);
 		lblMode.setAlignmentX(Component.CENTER_ALIGNMENT);
-		statsMode = new JTextField(10);
+		statsMode = new JTextField(5);
 		// Keeps the text box from filling the entire statBox
 		statsMode.setMaximumSize(statsMode.getPreferredSize());
 		statsMode.setAlignmentX(Component.CENTER_ALIGNMENT);
 		statsMode.setEditable(false);
 
-		pnlStats.add(lblStats);
+		pnlStats.add(lblStats, "wrap");
 
 		pnlStats.add(lblMean);
-		pnlStats.add(statsMean);
+		pnlStats.add(statsMean, "wrap");
 
 		pnlStats.add(lblMedian);
-		pnlStats.add(statsMedian);
+		pnlStats.add(statsMedian, "wrap");
 
 		pnlStats.add(lblMode);
 		pnlStats.add(statsMode);
 
 		// put the completed Session panel together
-		this.add(pnlVotes);
+		this.add(pnlVotes, "growy , wrap");
+		this.add(pnlFinalEstimate, "");
 		this.add(pnlStats);
-		this.add(pnlFinalEstimate);
 		this.createTable();
 		final JScrollPane votesScrollPane = new JScrollPane(tblVotes);
 		tblVotes.setFillsViewportHeight(true);
 		pnlVotes.add(lblVotes);
 		pnlVotes.add(votesScrollPane);
-
 	}
 
 	public void createTable() {
