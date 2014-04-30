@@ -54,6 +54,7 @@ public class ViewSessionReqPanel extends JPanel {
 	private final JPanel buttonsPanel;
 	private JTextArea description;
 	private JTextField name;
+	private JLabel errorMessage;
 	private final JButton moveRequirementToAll;
 	private final JButton moveAllRequirementsToAll;
 	private final JButton moveRequirementToSession;
@@ -205,6 +206,8 @@ public class ViewSessionReqPanel extends JPanel {
 		buttonsPanel = new JPanel();
 		description = new JTextArea("");
 		name = new JTextField("");
+		errorMessage = new JLabel();
+		errorMessage.setVisible(false);
 		moveRequirementToAll = new JButton(" < ");
 		moveAllRequirementsToAll = new JButton(" << ");
 		moveRequirementToSession = new JButton(" > ");
@@ -237,8 +240,7 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// allows multiple reqs to be selected and unselected
 		allReqTable.setRowSelectionAllowed(true);
-		allReqTable
-				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		allReqTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
 		// add table to rightPanel
 		final JLabel leftLabel = new JLabel("All Requirements");
@@ -249,8 +251,7 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// table for left pane
 		// Right table
-		sessionReqTable = new JTable(
-				new RequirementTableManager().get(session.getID())) {
+		sessionReqTable = new JTable(new RequirementTableManager().get(session.getID())) {
 			private static final long serialVersionUID = 2L;
 
 			public boolean isCellEditable(int row, int colunm) {
@@ -264,8 +265,7 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// allows multiple reqs to be selected and unselected
 		sessionReqTable.setRowSelectionAllowed(true);
-		sessionReqTable
-				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		sessionReqTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		allReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
 		// rightPanel formatting
@@ -429,8 +429,9 @@ public class ViewSessionReqPanel extends JPanel {
 
 		// text field for name goes in the top of the panel
 		final JLabel nameLabel = new JLabel("Name:");
-		namePanel.setLayout(new BorderLayout());
-		namePanel.add(nameLabel, BorderLayout.NORTH);
+		namePanel.setLayout(new BorderLayout(6, 2));
+		namePanel.add(nameLabel, BorderLayout.LINE_START);
+		namePanel.add(errorMessage, BorderLayout.CENTER);
 		namePanel.add(name, BorderLayout.SOUTH);
 
 		// text field for description goes in the bottom of the panel
@@ -564,6 +565,27 @@ public class ViewSessionReqPanel extends JPanel {
 	 */
 	public PlanningPokerSession getEditRequirementsSession() {
 		return editRequirementsSession;
+	}
+	
+	/**
+	 * Assign the given string to the error message
+	 */
+	public void setErrorMessage(String message) {
+		errorMessage.setText(message);
+	}
+	
+	/**
+	 * Set the error message visible
+	 */
+	public void showErrorMessage() {
+		errorMessage.setVisible(true);
+	}
+	
+	/**
+	 * Hide the error message
+	 */
+	public void hideErrorMessage() {
+		errorMessage.setVisible(false);
 	}
 
 }
