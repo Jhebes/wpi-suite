@@ -631,13 +631,5 @@ public class PlanningPokerSession extends AbstractModel {
 	public Object getStartTime() {
 		return startTime;
 	}
-	
-	/**
-	 * 
-	 * @return whether or not the session has ended
-	 */
-	public boolean hasSessionEnded(){
-		return deadline.after(new Date());
-	}
 
 }

@@ -321,7 +321,7 @@ public class Project extends AbstractModel
 	
 	@Override
 	public Project getProject() {
-		return this;
+		return null;
 	}
 
 	@Override
