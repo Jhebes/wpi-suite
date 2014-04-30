@@ -12,13 +12,10 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.Timer;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.EndOnDeadlineController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications.EmailNotifier;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications.SMSNotifier;
@@ -54,7 +51,50 @@ public class PlanningPokerSessionEntityManager implements
 	public PlanningPokerSessionEntityManager(Data db) {
 		this.db = db;
 
-	}
+		// prepare a separate thread to check constantly if the database has
+		// closed sessions in it
+		Thread checkTime = new Thread() {
+			@Override
+			public void run() {
+				// my favorite type of loop!
+				while (true) {
+					try {
+
+						// get the sessions
+						final List<PlanningPokerSession> sessions = PlanningPokerSessionEntityManager.this.db
+								.retrieveAll(new PlanningPokerSession());
+						for (PlanningPokerSession session : sessions) {
+
+							// check if they're closed
+							if (session.hasSessionEnded()) {
+								// update the session
+								session.close();
+								try {
+									PlanningPokerSessionEntityManager.this
+											.updateSession(session);
+									System.out.println("Session with ID: "
+											+ String.valueOf(session.getID())
+											+ " closed!");
+								} catch (WPISuiteException e) {
+
+									e.printStackTrace();
+									System.out.println("Session with ID: "
+											+ String.valueOf(session.getID())
+											+ " not properly closed");
+								}
+							}
+						}
+
+						// get ready to do it again
+						Thread.sleep(5000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		};
+		checkTime.start();
+	};
 
 	/*
 	 * Saves a PlanningPokerSession when it is received from a client
@@ -79,11 +119,6 @@ public class PlanningPokerSessionEntityManager implements
 			newID = mostRecent.getID() + 1;
 		}
 		newPlanningPokerSession.setID(newID);
-
-		// Now make something so we can have sessions expire later
-		Timer end = new Timer();
-		end.schedule(new EndOnDeadlineController(newID),
-				newPlanningPokerSession.getDeadline());
 
 		// Save the message in the database if possible, otherwise throw an
 		// exception
@@ -161,10 +196,9 @@ public class PlanningPokerSessionEntityManager implements
 	public PlanningPokerSession update(Session s, String content)
 			throws WPISuiteException {
 
-
 		final PlanningPokerSession updatedSession = PlanningPokerSession
 				.fromJson(content);
-		
+
 		/*
 		 * Because of the disconnected objects problem in db4o, we can't just
 		 * save PlanningPokerSessions. We have to get the original defect from
@@ -367,5 +401,36 @@ public class PlanningPokerSessionEntityManager implements
 	public void sendSMSNotification(String notificationType,
 			String phoneNumber, String deadline) {
 		SMSNotifier.sendMessage(notificationType, phoneNumber, deadline);
+	}
+
+	/**
+	 * 
+	 * @param session
+	 *            the session to be updated in db4o
+	 * @throws WPISuiteException
+	 */
+	public void updateSession(PlanningPokerSession session)
+			throws WPISuiteException {
+
+		final List<Model> oldPlanningPokerSessions = db.retrieve(
+				PlanningPokerSession.class, "id", session.getID());
+		if (oldPlanningPokerSessions.size() < 1
+				|| oldPlanningPokerSessions.get(0) == null) {
+			throw new BadRequestException(
+					"PlanningPokerSession with ID does not exist.");
+		}
+
+		final PlanningPokerSession existingSession = (PlanningPokerSession) oldPlanningPokerSessions
+				.get(0);
+
+		// copy values to old PlanningPokerSession and fill in our changeset
+		// appropriately
+		existingSession.copyFrom(session);
+
+		if (!db.save(existingSession)) {
+			throw new WPISuiteException(
+					"Could not save when updating existing session.");
+		}
+
 	}
 }
