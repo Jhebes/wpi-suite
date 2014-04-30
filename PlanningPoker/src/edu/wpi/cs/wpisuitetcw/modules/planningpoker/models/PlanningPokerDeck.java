@@ -179,5 +179,13 @@ public class PlanningPokerDeck extends AbstractModel {
 	public List<Integer> getDeck() {
 		return deck;
 	}
+	
+	/**
+	 * Determine if the planning poker deck contains value 0
+	 * @return true if so; false otherwise
+	 */
+	public boolean isZeroLegalEstimate() {
+		return deck.contains(0);
+	}
 
 }

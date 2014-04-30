@@ -51,11 +51,13 @@ public class DisplayDeckPanel extends JPanel {
 
 	/**
 	 * Constructor - creating a panel for displaying a deck of card
-	 * @param deck The deck to dpslay
-	 * @param progressPanel the parent panel
+	 * 
+	 * @param deck
+	 *            The deck to dpslay
+	 * @param progressPanel
+	 *            the parent panel
 	 */
-	public DisplayDeckPanel(PlanningPokerDeck deck,
-			VotePanel progressPanel) {
+	public DisplayDeckPanel(PlanningPokerDeck deck, VotePanel progressPanel) {
 		parentPanel = progressPanel;
 		// setup panel
 		container = new JPanel();
@@ -100,7 +102,9 @@ public class DisplayDeckPanel extends JPanel {
 
 	/**
 	 * update the vote by adding the given value
-	 * @param aCard The new card to add to the value
+	 * 
+	 * @param aCard
+	 *            The new card to add to the value
 	 */
 	public void addRequirementValue(Card aCard) {
 		if (isSingleSelection()) {
@@ -114,13 +118,15 @@ public class DisplayDeckPanel extends JPanel {
 		}
 		cards.add(aCard);
 		// update the estimate
-		parentPanel.setVoteTextFieldWithValue(voteValue);
-		
+		parentPanel.setVoteTextFieldWithValue(Integer.toString(voteValue));
+
 	}
 
 	/**
 	 * update the vote by subtracting the given value
-	 * @param aCard The new card to subtract from the value
+	 * 
+	 * @param aCard
+	 *            The new card to subtract from the value
 	 */
 	public void subtractRequirementValue(Card aCard) {
 		if (isSingleSelection()) {
@@ -133,8 +139,14 @@ public class DisplayDeckPanel extends JPanel {
 			voteValue -= aCard.getCardValue();
 		}
 		cards.add(aCard);
-		// update the estimate
-		parentPanel.setVoteTextFieldWithValue(voteValue);
+
+		if (voteValue == 0 && !deck.isZeroLegalEstimate()) {
+			// update the estimate
+			parentPanel.setVoteTextFieldWithValue("");
+		} else {
+			parentPanel.setVoteTextFieldWithValue(Integer.toString(voteValue));
+		}
+
 	}
 
 	/**

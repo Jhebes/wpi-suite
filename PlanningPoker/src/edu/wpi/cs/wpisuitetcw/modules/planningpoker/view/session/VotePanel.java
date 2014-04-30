@@ -344,7 +344,7 @@ public class VotePanel extends JPanel {
 					} else {
 						final PlanningPokerVote vote = requirement.getVoteByUser(ConfigManager.getConfig().getUserName());
 						if (vote != null) {
-							setVoteTextFieldWithValue(vote.getCardValue());
+							setVoteTextFieldWithValue(Integer.toString(vote.getCardValue()));
 							updateUI();
 						}
 					}
@@ -513,8 +513,8 @@ public class VotePanel extends JPanel {
 	 * 
 	 * @param voteTextField
 	 */
-	public void setVoteTextFieldWithValue(int value) {
-		voteTextField.setText(Integer.toString(value));
+	public void setVoteTextFieldWithValue(String value) {
+		voteTextField.setText(value);
 	}
 	
 	/**
