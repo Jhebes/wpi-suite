@@ -13,7 +13,6 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
-import java.util.Timer;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateNewDeckController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session.GetAllSessionsController;
