@@ -26,9 +26,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
  * Panel for display a deck during create session.
  */
 public class DisplayDeckPanel extends JPanel {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	// constants
 	private static final int CENTER_PANEL_WIDTH = 350;
@@ -40,7 +37,7 @@ public class DisplayDeckPanel extends JPanel {
 	private final JScrollPane centerPanel;
 	private final JPanel container;
 
-	// partent panel
+	// parent panel
 	private VotePanel parentPanel;
 
 	/** cards that are highlighted */
@@ -155,5 +152,21 @@ public class DisplayDeckPanel extends JPanel {
 	 */
 	public int getVoteValue() {
 		return voteValue;
+	}
+	
+	/**
+	 * 
+	 * @return estimate for requirement
+	 */
+	public void clearVoteValue() {
+		voteValue = 0;
+	}
+	
+	/**
+	 * 
+	 * @return list of cards in the deck
+	 */
+	public ArrayList<Card> getCards() {
+		return (ArrayList<Card>) cards;
 	}
 }
