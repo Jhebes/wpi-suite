@@ -223,7 +223,7 @@ public class NameDescriptionPanel extends JPanel {
 	}
 	
 	
-	// VVVVVVVVVVVVVVVVVV PRIVATE IMPLMENTATIONS VVVVVVVVVVVVVVVVVVVVVV
+	// VVVVVVVVVVVVVVVVVV PRIVATE IMPLEMENTATIONS VVVVVVVVVVVVVVVVVVVVVV
 	/*
 	 * Put all the necessary components on the NameDescriptionPanel
 	 */
