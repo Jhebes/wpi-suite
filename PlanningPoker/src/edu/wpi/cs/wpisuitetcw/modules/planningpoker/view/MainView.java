@@ -31,7 +31,7 @@ public class MainView extends ClosableFixedLengthTab {
 	public MainView() {		
 		// Put all tabs in a scroll layout
 		setTabLayoutPolicy(SCROLL_TAB_LAYOUT);
-		
+
 		overviewPanel = new OverviewPanel();
 		this.addTab("Session Overview", overviewPanel);
 	}

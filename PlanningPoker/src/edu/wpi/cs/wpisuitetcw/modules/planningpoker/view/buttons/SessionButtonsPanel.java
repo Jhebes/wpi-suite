@@ -22,6 +22,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.PlanningPoker;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 
@@ -46,8 +47,10 @@ public class SessionButtonsPanel extends ToolbarGroupView {
 				BoxLayout.X_AXIS));
 
 		// create the buttons
-		createSession = new JButton("<html>Create<br />Session</html>");
-		tutorialPanel = new JButton("<html>Help<br /></html>");
+		this.createSession = new JButton("<html>Create<br />Session</html>");
+		this.tutorialPanel = new JButton("<html>Help<br /></html>");
+		createSession.setFont(PlanningPoker.defaultButtonFont);
+		tutorialPanel.setFont(PlanningPoker.defaultButtonFont);
 
 		// add image to buttons
 		try {
@@ -77,9 +80,9 @@ public class SessionButtonsPanel extends ToolbarGroupView {
 		});
 
 		// setup the toolbar
-		sessionPanel.add(createSession);
+		sessionPanel.add(this.createSession);
 		sessionPanel.add(Box.createHorizontalStrut(10));
-		sessionPanel.add(tutorialPanel);
+		sessionPanel.add(this.tutorialPanel);
 		sessionPanel.setOpaque(false);
 
 		this.add(sessionPanel);
@@ -91,7 +94,7 @@ public class SessionButtonsPanel extends ToolbarGroupView {
 	 * @return JButton
 	 */
 	public JButton getCreateSessionButton() {
-		return createSession;
+		return this.createSession;
 	}
 
 	/**
@@ -100,6 +103,6 @@ public class SessionButtonsPanel extends ToolbarGroupView {
 	 * @return JButton
 	 */
 	public JButton getTutorialPanelButton() {
-		return tutorialPanel;
+		return this.tutorialPanel;
 	}
 }

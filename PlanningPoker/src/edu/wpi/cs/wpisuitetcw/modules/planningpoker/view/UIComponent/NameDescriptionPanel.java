@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.PlanningPoker;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -74,7 +75,9 @@ public class NameDescriptionPanel extends JPanel {
 		
 		// Assign the given strings to the JLabel
 		nameLabel.setText(name);
+		nameLabel.setFont(PlanningPoker.defaultLabelFont);
 		descriptionLabel.setText(description);
+		descriptionLabel.setFont(PlanningPoker.defaultLabelFont);
 	}
 	
 	/**

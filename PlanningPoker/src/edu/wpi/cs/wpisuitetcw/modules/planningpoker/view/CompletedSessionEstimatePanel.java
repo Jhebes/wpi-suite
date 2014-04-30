@@ -30,6 +30,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.PlanningPoker;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
@@ -153,7 +154,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		pnlVotes.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		// Initialize the default font for JLabel headers
-		headerFont = new Font("TimesRoman", Font.BOLD, 25);
+		headerFont = PlanningPoker.defaultHeaderFont;
 
 		// Initialize the Headers for the panels.
 		lblVotes = new JLabel("Votes");
@@ -202,7 +203,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 
 		btnFinalEstimate = new JButton("Submit Final Estimation");
 		btnFinalEstimate.setAlignmentX(Component.CENTER_ALIGNMENT);
-		// btnFinalEstimate.setEnabled(false);
+		btnFinalEstimate.setFont(PlanningPoker.defaultButtonFont);
 
 		btnFinalEstimate.addActionListener(new ActionListener() {
 
