@@ -16,6 +16,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -353,7 +354,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * 
 	 * @param statsStandardDeviation
 	 */
-	public void setStatsStandardDeviation(int statsStandardDeviation){
+	public void setStatsStandardDeviation(double statsStandardDeviation){
 		this.statsStandardDeviation.setText("" + statsStandardDeviation + "  ");
 	}
 
