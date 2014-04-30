@@ -18,6 +18,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -93,6 +95,7 @@ public class ViewSessionReqPanel extends JPanel {
 		addRequirementToSession = new JButton("Add Requirement to Session");
 		saveRequirement = new JButton("Save Changes");
 		saveRequirement.setEnabled(false);
+		addRequirementToSession.setEnabled(false);
 		validateActivateSession();
 
 		// setup panels
@@ -216,8 +219,10 @@ public class ViewSessionReqPanel extends JPanel {
 			}
 		});
 
-		// this will populate the name and description field when clicking on a
-		// requirement in the current session table
+		/**
+		 * this will populate the name and description field when clicking on a
+		 * requirement
+		 */
 		sessionReqTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -276,7 +281,6 @@ public class ViewSessionReqPanel extends JPanel {
 		 * Clears the selections of the req panels when parent panel is clicked
 		 * on
 		 */
-
 		parentPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -318,7 +322,8 @@ public class ViewSessionReqPanel extends JPanel {
 		buttonsPanel.add(moveRequirementToAll);
 		buttonsPanel.add(moveAllRequirementsToAll);
 
-		// Rob said to do this but nobody knows what it does/means
+		// adds a scroll pane to the req table but not the panel, so it has no
+		// effect
 		// JScrollPane jsp1 = new JScrollPane();
 		// JScrollPane.add(sessionReqTable);
 
@@ -332,6 +337,62 @@ public class ViewSessionReqPanel extends JPanel {
 		namePanel.add(nameLabel, BorderLayout.LINE_START);
 		namePanel.add(errorMessage, BorderLayout.CENTER);
 		namePanel.add(name, BorderLayout.SOUTH);
+
+		description.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				keyTyped(e);
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				keyTyped(e);
+
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if (!description.getText().equals("")) {
+					if (!name.getText().equals("")) {
+						addRequirementToSession.setEnabled(true);
+					}else {
+						addRequirementToSession.setEnabled(false);
+					}
+				}else {
+					addRequirementToSession.setEnabled(false);
+				}
+			}
+
+		});
+
+		name.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				keyTyped(e);
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				keyTyped(e);
+
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if (!name.getText().equals("")) {
+					if (!description.getText().equals("")) {
+						addRequirementToSession.setEnabled(true);
+					} else {
+						addRequirementToSession.setEnabled(false);
+					}
+				}else {
+					addRequirementToSession.setEnabled(false);
+				}
+			}
+
+		});
 
 		// text field for description goes in the bottom of the panel
 		final JLabel descriptionLabel = new JLabel("Description:");

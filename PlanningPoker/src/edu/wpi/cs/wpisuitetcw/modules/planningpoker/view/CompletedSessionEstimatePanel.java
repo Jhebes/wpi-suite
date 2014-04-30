@@ -16,6 +16,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -26,8 +28,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
@@ -174,31 +174,35 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		finalEstimateField
 				.setMaximumSize(finalEstimateField.getPreferredSize());
 		finalEstimateField.setAlignmentX(Component.CENTER_ALIGNMENT);
-		finalEstimateField.getDocument().addDocumentListener(
-				new DocumentListener() {
-					public void changedUpdate(DocumentEvent e) {
-						warn();
-					}
+		finalEstimateField.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				keyTyped(e);
 
-					public void removeUpdate(DocumentEvent e) {
-						warn();
-					}
+			}
 
-					public void insertUpdate(DocumentEvent e) {
-						warn();
-					}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				keyTyped(e);
 
-					public void warn() {
-						try {
-							Integer.parseInt(finalEstimateField.getText());
-							btnFinalEstimate.setEnabled(true);
-						} catch (NumberFormatException n) {
-							btnFinalEstimate.setEnabled(false);
-						}
-					}
-				});
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				try {
+					Integer.parseInt(finalEstimateField.getText());
+					btnFinalEstimate.setEnabled(true);
+				} catch (NumberFormatException n) {
+					btnFinalEstimate.setEnabled(false);
+				}
+			}
+		});
 
 		final Component verticalStrut = Box.createVerticalStrut(50);
+
+		final JLabel successMsg = new JLabel("Final Estimation Submitted.");
+		successMsg.setAlignmentY(Component.CENTER_ALIGNMENT);
+		successMsg.setVisible(false);
 
 		btnFinalEstimate = new JButton("Submit Final Estimation");
 		btnFinalEstimate.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -226,6 +230,9 @@ public class CompletedSessionEstimatePanel extends JPanel {
 						focusedRequirementManagerRequirement);
 				ViewEventController.getInstance().refreshTable();
 				ViewEventController.getInstance().refreshTree();
+				successMsg.setVisible(true);
+				pnlFinalEstimate.add(successMsg);
+				repaint();
 			}
 
 		});
@@ -353,8 +360,12 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 *            The new focused requirement
 	 */
 	public void updateEstimateTextField(PlanningPokerRequirement requirement) {
-		finalEstimateField.setText(Integer.valueOf(
-				requirement.getFinalEstimate()).toString());
+		int end = requirement.getFinalEstimate();
+		if (end != 0) {
+			finalEstimateField.setText(Integer.valueOf(requirement.getFinalEstimate()).toString());
+		} else {
+			finalEstimateField.setText("");
+		}
 	}
 
 	/**
@@ -380,6 +391,4 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		final String estimateText = finalEstimateField.getText();
 		return Integer.parseInt(estimateText);
 	}
-	
-
 }

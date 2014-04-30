@@ -288,9 +288,9 @@ public class CreateSessionPanel extends JPanel {
 		if (mode.equals(CardDisplayMode.CREATE)) {
 			// validate session and deck input
 			final boolean isDeckValid = hasValidDeckInputs();
-			final boolean isSessionValide = hasValidSessionInputs();
+			final boolean isSessionValid = hasValidSessionInputs();
 
-			return isDeckValid && isSessionValide;
+			return isDeckValid && isSessionValid;
 		} else {
 			// display mode
 			return hasValidSessionInputs();
