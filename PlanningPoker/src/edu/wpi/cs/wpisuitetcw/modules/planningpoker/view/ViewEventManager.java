@@ -18,7 +18,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTreePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementPanel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.EditSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 
 /**
@@ -57,7 +57,7 @@ public class ViewEventManager {
 	 * Opens a new tab for the creation of a session
 	 */
 	public void createSession() {
-		final CreateSessionPanel newSession = new CreateSessionPanel();
+		final EditSessionPanel newSession = new EditSessionPanel();
 		main.addTab("New Session", null, newSession, "New session.");
 		main.invalidate(); // force the tabbedpane to redraw
 		main.repaint();
@@ -76,7 +76,7 @@ public class ViewEventManager {
 	 * @param session The session to edit
 	 */
 	public void editSession(PlanningPokerSession session) {
-		final CreateSessionPanel newSession = new CreateSessionPanel(session);
+		final EditSessionPanel newSession = new EditSessionPanel(session);
 		main.addTab("Edit: " + session.getName(), null, newSession,
 				"Edit session.");
 		main.invalidate(); // force the tabbedpane to redraw

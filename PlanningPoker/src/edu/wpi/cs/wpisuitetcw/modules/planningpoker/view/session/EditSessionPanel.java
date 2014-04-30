@@ -66,7 +66,7 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
  * 
  * This panel is used to create or edit a session's basic information
  */
-public class CreateSessionPanel extends JPanel {
+public class EditSessionPanel extends JPanel {
 	private static final Date CURRENT_TIME = Calendar.getInstance().getTime();
 
 	private static final long serialVersionUID = 8733539608651885877L;
@@ -159,7 +159,7 @@ public class CreateSessionPanel extends JPanel {
 	 * @param session
 	 *            A Planning poker session
 	 */
-	public CreateSessionPanel(PlanningPokerSession session) {
+	public EditSessionPanel(PlanningPokerSession session) {
 		// Construct a Session Panel without a planning poker session
 		this();
 
@@ -178,7 +178,7 @@ public class CreateSessionPanel extends JPanel {
 	 * constructor is used to create a session. It sets up all graphical
 	 * components
 	 */
-	public CreateSessionPanel() {
+	public EditSessionPanel() {
 		setupLeftPanel();
 
 		// Use display mode since the default deck is displayed by default
