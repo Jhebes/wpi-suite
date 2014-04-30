@@ -160,10 +160,10 @@ public class VotePanel extends JPanel {
 	 * Construct the GUI components of the bottom panel
 	 */
 	private void setupBottomPanel() {
-		
+
 		// Create the container
 		bottomPanel = new JPanel();
-		
+
 		// Don't draw bottom buttons if we're in final estimation
 		if (session.isClosed()) {
 			return;
@@ -214,15 +214,21 @@ public class VotePanel extends JPanel {
 			}
 		});
 
+		// enabling buttons by checking the ownership of the session
+		String currentUserName = ConfigManager.getConfig().getUserName();
+
 		if (session.isClosed() || session.isCancelled()) {
 			cancelSessionButton.setEnabled(false);
 		}
-		if (cancelSessionButton.equals(session.getOwnerUserName())) {
+
+		// only owner has the ability to cancel a session
+		if (currentUserName.equals(session.getOwnerUserName())) {
 			cancelSessionButton.setVisible(true);
 		} else {
 			cancelSessionButton.setVisible(false);
 		}
 
+		// only owner has the ability to close a session
 		final String currentUserName = ConfigManager.getConfig().getUserName();
 		if (session.isClosed()) {
 			endSessionButton.setEnabled(false);			
@@ -249,8 +255,14 @@ public class VotePanel extends JPanel {
 
 		// Create an edit session button
 		btnEditSession = new JButton("Edit Session");
-		btnEditSession.addActionListener(new EditActivatedSessionController(session, this));
-		if (session.isHasVoted()) {
+		btnEditSession.addActionListener(new EditActivatedSessionController(
+				session, this));
+
+		// user can only edit the session if the session is not voted and user
+		// is the owner
+		if (!currentUserName.equals(session.getOwnerUserName())) {
+			btnEditSession.setVisible(false);
+		} else if (session.isHasVoted()) {
 			btnEditSession.setEnabled(false);
 		}
 
@@ -332,7 +344,7 @@ public class VotePanel extends JPanel {
 					} else {
 						nameDescriptionPanel.setDescription(requirement.getDescription());
 					}
-					
+
 					if (session.isClosed()) {
 						finalEstimatePnl.setFocusedRequirement(requirement);
 						finalEstimatePnl.setStatsMean(requirement.getMean());
