@@ -11,6 +11,7 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent;
 
 import java.awt.Component;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -33,10 +34,12 @@ public class NameDescriptionPanel extends JPanel {
 	/** A text field for name */
 	private final JLabel nameLabel;
 	private final JTextArea nameTextField;
+	private final JScrollPane nameFrame;
 	
 	/** A text field for description */
 	private final JLabel descriptionLabel;
 	private final JTextArea descriptionTextField;
+	final JScrollPane descriptionFrame;
 	
 	/** A list of Components that lie to the right of name text box */
 	private List<Component> nextToNameTextboxComponents;
@@ -55,14 +58,18 @@ public class NameDescriptionPanel extends JPanel {
 		nameTextField	 = new JTextArea();
 		nameTextField.setLineWrap(true);
 		nameTextField.setWrapStyleWord(true);
-		final JScrollPane nameFrame = new JScrollPane(nameTextField);
+		nameFrame = new JScrollPane(nameTextField);
 
 		// Create text box and label for desription
 		descriptionLabel = new JLabel("Description *");
 		descriptionTextField 	= new JTextArea();
 		descriptionTextField.setLineWrap(true);
 		descriptionTextField.setWrapStyleWord(true);
-		final JScrollPane descriptionFrame = new JScrollPane(descriptionTextField);
+		descriptionFrame = new JScrollPane(descriptionTextField);
+		
+		// Initialize the list of extra components
+		nextToNameTextboxComponents = new ArrayList<>();
+		belowNameTextboxComponents  = new ArrayList<>();
 
 
 		setLayout(new MigLayout("fill, inset 0", "", "0[][][][grow]0"));
@@ -139,7 +146,39 @@ public class NameDescriptionPanel extends JPanel {
 	 * Remove the name text box and its label
 	 */
 	public void removeNameTextbox() {
+		// Remove the name text box
+		remove(nameLabel);
+		remove(nameFrame);
 		
+		// Modify the layout so the description fills up
+		if (nextToNameTextboxComponents.isEmpty() &&
+				belowNameTextboxComponents.isEmpty()) {
+			// Only description box remains
+			setLayout(new MigLayout("fill, inset 0", "", "0[][grow]0"));
+			add(descriptionLabel, "left, growx, span");
+			add(descriptionFrame, "grow");
+		} else if (!nextToNameTextboxComponents.isEmpty() && 
+				belowNameTextboxComponents.isEmpty()) {
+			// Description box and the right elements remain
+			setLayout(new MigLayout("fill, inset 0", "", "0[][][grow]0"));
+			
+			// TODO Add right elements to the first row
+			
+			add(descriptionLabel, "left, growx, span");
+			add(descriptionFrame, "grow");
+		} else if (nextToNameTextboxComponents.isEmpty() &&
+				!belowNameTextboxComponents.isEmpty()) {
+			// Description box and the above elements left
+			setLayout(new MigLayout("fill, inset 0", "", "0[][][grow]0"));
+			
+			// TODO add the above element to the first row
+			add(descriptionLabel, "left, growx, span");
+			add(descriptionFrame, "grow");
+		} else {
+			// Description box, the right elements, and
+			// the above elements remain
+			
+		}
 	}
 	
 	/**
