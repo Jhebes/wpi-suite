@@ -13,6 +13,8 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.SimpleDateFormat;
@@ -727,6 +729,21 @@ public class CreateSessionPanel extends JPanel {
 		labelName = new JLabel("Name *");
 		labelRequireField = new JLabel(REQUIRED_LABEL);
 		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
+		
+		// Auto select all text when mouse clicks on
+		nameTextField.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				// Do nothing when user clicks somewhere else
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				nameTextField.selectAll();
+			}
+		});
+		
 		// add dynamic validation to session name
 		addTextInputValidation(nameTextField);
 	}
