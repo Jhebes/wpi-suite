@@ -91,6 +91,7 @@ public class VotePanel extends JPanel {
 
 	/** A text field holding the final result */
 	private JTextField voteTextField;
+	private JLabel errorMsg;
 
 	/** Button submit the vote to the database */
 	private JButton submitVoteButton;
@@ -116,6 +117,7 @@ public class VotePanel extends JPanel {
 
 	/** The name of the currently selected requirement */
 	private PlanningPokerRequirement selectedRequirement;
+	private int selectedReqIndex;
 
 	/**
 	 * Construct a SessionInProgressPanel that displays the requirements needed
@@ -145,14 +147,17 @@ public class VotePanel extends JPanel {
 	 * description text field
 	 */
 	private void setupInitData() {
-		// TODO programmatically select the requirement and set reqName
-		// Prevent getting requirement from an empty array list
 		if (session.getRequirements().size() > 0) {
-			final PlanningPokerRequirement firstReq = session.getRequirements().get(0);
+			final PlanningPokerRequirement firstReq = session.getRequirements().get(0);			
 			nameDescriptionPanel.setName(firstReq.getName());
 			nameDescriptionPanel.setDescription(firstReq.getDescription());
 			selectedRequirement = firstReq;
+			selectedReqIndex = 0;
 			reqList.setSelectionInterval(0, 0);
+			
+			final PlanningPokerVote vote = firstReq.getVoteByUser(ConfigManager.getConfig().getUserName());
+			if (vote != null)
+				setVoteTextFieldWithValue(vote.getCardValue());
 		}
 	}
 
@@ -331,33 +336,40 @@ public class VotePanel extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				// Check to see if user double clicked
 				if (e.getClickCount() == 1) {
-					final PlanningPokerRequirement requirement = reqList.getModel().getElementAt(reqList.getSelectedIndex());
-
-					if (requirement.getName() == null) {
+					selectedRequirement = reqList.getModel().getElementAt(reqList.getSelectedIndex());
+					selectedReqIndex = reqList.getSelectedIndex();
+					
+					if (selectedRequirement.getName() == null) {
 						nameDescriptionPanel.setName(" ");
 					} else {
-						nameDescriptionPanel.setName(requirement.getName());
+						nameDescriptionPanel.setName(selectedRequirement.getName());
 					}
-					if (requirement.getDescription() == null) {
+					if (selectedRequirement.getDescription() == null) {
 						nameDescriptionPanel.setDescription(" ");
 					} else {
-						nameDescriptionPanel.setDescription(requirement.getDescription());
+						nameDescriptionPanel.setDescription(selectedRequirement.getDescription());
 					}
 
 					if (session.isClosed()) {
-						finalEstimatePnl.setFocusedRequirement(requirement);
-						finalEstimatePnl.setStatsMean(requirement.getMean());
-						finalEstimatePnl.setStatsMedian(requirement.getMedian());
-						finalEstimatePnl.setStatsMode(requirement.getMode());
-						finalEstimatePnl.fillTable(requirement);
-						finalEstimatePnl.updateEstimateTextField(requirement);
+						finalEstimatePnl.setFocusedRequirement(selectedRequirement);
+						finalEstimatePnl.setStatsMean(selectedRequirement.getMean());
+						finalEstimatePnl.setStatsMedian(selectedRequirement.getMedian());
+						finalEstimatePnl.setStatsMode(selectedRequirement.getMode());
+						finalEstimatePnl.fillTable(selectedRequirement);
+						finalEstimatePnl.updateEstimateTextField(selectedRequirement);
 						updateUI();
 					} else {
-						final PlanningPokerVote vote = requirement.getVoteByUser(ConfigManager.getConfig().getUserName());
+						final PlanningPokerVote vote = selectedRequirement.getVoteByUser(ConfigManager.getConfig().getUserName());
+
+						clearDeckPanel();
+						
 						if (vote != null) {
 							setVoteTextFieldWithValue(vote.getCardValue());
-							updateUI();
+						} else {
+							clearVoteTextField();
 						}
+
+						updateUI();
 					}
 				}
 			}
@@ -391,6 +403,14 @@ public class VotePanel extends JPanel {
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
+
+		voteTextField.setHorizontalAlignment(JTextField.CENTER);
+		
+		// Set up ErrorMsg Label
+		errorMsg = new JLabel("");
+		errorMsg.setForeground(Color.RED);
+		errorMsg.setHorizontalAlignment(JLabel.CENTER);
+
 		voteTextField.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
 		// if the session has a deck, we can't let the user submit a vote
@@ -440,12 +460,16 @@ public class VotePanel extends JPanel {
 			}
 			
 			// Add the vote text field to the right side
+
 			rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH  + "px, " 
 										+ "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, " 
 										+ "dock east, " 
 										+ "gaptop "   + VERTICAL_PADDING_RIGHT_PANEL   + "px, " 
 										+ "gapright " + HORIZONTAL_PADDING_RIGHT_PANEL + "px, "
 										+ "gapbottom" + VERTICAL_PADDING_RIGHT_PANEL   + "px");
+
+			// Add the error message to the right side
+			rightPanel.add(errorMsg, "dock east");
 		}		
 
 	}
@@ -501,8 +525,15 @@ public class VotePanel extends JPanel {
 	 * @return vote parsed as an integer
 	 */
 	public int getVote() {
-		if (session.getDeck() == null) {
-			return Integer.parseInt(voteTextField.getText());
+		if (this.session.getDeck() == null) {
+			try {
+				setErrorMsg(""); // Clear Error Message
+				return Integer.parseInt(voteTextField.getText());
+			} catch (NumberFormatException e) {
+				setErrorMsg("Must enter an integer");
+				
+				return 0;
+			}
 		} else {
 			return cardPanel.getVoteValue();
 		}
@@ -529,10 +560,58 @@ public class VotePanel extends JPanel {
 	}
 	
 	/**
-	 * Return the GUI list of requirements
+	 * clears voteTextField
+	 * 
+	 * @param voteTextField
+	 */
+	public void clearVoteTextField() {
+		voteTextField.setText("");
+	}
+	
+	/**
+	 * 
+	 * @param msg Error Message to be displayed
+	 */
+	private void setErrorMsg(String msg) {
+		errorMsg.setText(msg);
+	}
+	
+	/** Return the GUI list of requirements
 	 * @return Return the GUI list of requirements
 	 */
 	public JList<PlanningPokerRequirement> getRequirementList() {
 		return reqList;
+	}
+	
+	public void clearDeckPanel() {
+		cardPanel.removeHighlight();
+		cardPanel.clearVoteValue();
+	}
+	
+	public void advanceInList() {
+		PlanningPokerRequirement nextReq = null;
+		PlanningPokerVote vote = null;
+		
+		for (int i = 0; i < session.getRequirements().size(); i++) {
+			reqList.setSelectionInterval(i, i);
+			
+			nextReq = reqList.getSelectedValue();
+			vote = nextReq.getVoteByUser(ConfigManager.getConfig().getUserName());
+			
+			if (vote == null)
+				break;
+		}
+			
+		nameDescriptionPanel.setName(nextReq.getName());
+		nameDescriptionPanel.setDescription(nextReq.getDescription());
+		selectedRequirement = nextReq;
+			
+		if (vote != null) {
+			setVoteTextFieldWithValue(vote.getCardValue());
+		} else {
+			clearVoteTextField();
+		}
+
+		clearDeckPanel();
 	}
 }
