@@ -111,9 +111,11 @@ public class DisplayDeckPanel extends JPanel {
 
 		} else {
 			voteValue += aCard.getCardValue();
-			parentPanel.setVoteTextFieldWithValue(voteValue);
 		}
 		cards.add(aCard);
+		// update the estimate
+		parentPanel.setVoteTextFieldWithValue(voteValue);
+		
 	}
 
 	/**
@@ -131,7 +133,8 @@ public class DisplayDeckPanel extends JPanel {
 			voteValue -= aCard.getCardValue();
 		}
 		cards.add(aCard);
-		// parentPanel.setVoteTextFieldWithValue(voteValue);
+		// update the estimate
+		parentPanel.setVoteTextFieldWithValue(voteValue);
 	}
 
 	/**
