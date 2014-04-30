@@ -350,7 +350,8 @@ public class VotePanel extends JPanel {
 					} else {
 						final PlanningPokerVote vote = selectedRequirement.getVoteByUser(ConfigManager.getConfig().getUserName());
 
-						clearDeckPanel();
+						if (usesDeck())
+							clearDeckPanel();
 						
 						if (vote != null) {
 							setVoteTextFieldWithValue(vote.getCardValue());
@@ -572,11 +573,25 @@ public class VotePanel extends JPanel {
 		return reqList;
 	}
 	
+	/**
+	 * Clears the deck highlighting
+	 */
 	public void clearDeckPanel() {
 		cardPanel.removeHighlight();
 		cardPanel.clearVoteValue();
 	}
 	
+	/**
+	 * 
+	 * @return true if the session uses a deck
+	 */
+	public boolean usesDeck() {
+		return this.cardFrame != null;
+	}
+	
+	/**
+	 * Go to the next "un-voted" requirement in the list
+	 */
 	public void advanceInList() {
 		PlanningPokerRequirement nextReq = null;
 		PlanningPokerVote vote = null;
@@ -600,7 +615,8 @@ public class VotePanel extends JPanel {
 		} else {
 			clearVoteTextField();
 		}
-
-		clearDeckPanel();
+		
+		if (usesDeck())
+			clearDeckPanel();
 	}
 }
