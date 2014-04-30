@@ -26,6 +26,9 @@ import net.miginfocom.swing.MigLayout;
  * 
  * This panel should be used when clients needs a name
  * and a description box as an integrated unit
+ * 
+ * Warning: Only anyone who is familiar with MigLayout 
+ * should modify the implementation of this file.
  */
 public class NameDescriptionPanel extends JPanel {
 	
