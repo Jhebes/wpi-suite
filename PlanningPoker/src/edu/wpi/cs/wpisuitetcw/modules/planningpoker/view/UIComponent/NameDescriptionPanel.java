@@ -149,39 +149,11 @@ public class NameDescriptionPanel extends JPanel {
 	 * Remove the name text box and its label
 	 */
 	public void removeNameTextbox() {
-		// Remove the name text box
-		remove(nameLabel);
-		remove(nameFrame);
+		// Set the flag to false so the text box
+		// is excluded when the panel is re-constructed
+		isNameTextboxNeeded = false;
 		
-		// Modify the layout so the description fills up
-		if (nextToNameTextboxComponents.isEmpty() &&
-				belowNameTextboxComponents.isEmpty()) {
-			// Only description box remains
-			setLayout(new MigLayout("fill, inset 0", "", "0[][grow]0"));
-			add(descriptionLabel, "left, growx, span");
-			add(descriptionFrame, "grow");
-		} else if (!nextToNameTextboxComponents.isEmpty() && 
-				belowNameTextboxComponents.isEmpty()) {
-			// Description box and the right elements remain
-			setLayout(new MigLayout("fill, inset 0", "", "0[][][grow]0"));
-			
-			// TODO Add right elements to the first row
-			
-			add(descriptionLabel, "left, growx, span");
-			add(descriptionFrame, "grow");
-		} else if (nextToNameTextboxComponents.isEmpty() &&
-				!belowNameTextboxComponents.isEmpty()) {
-			// Description box and the above elements left
-			setLayout(new MigLayout("fill, inset 0", "", "0[][][grow]0"));
-			
-			// TODO add the above element to the first row
-			add(descriptionLabel, "left, growx, span");
-			add(descriptionFrame, "grow");
-		} else {
-			// Description box, the right elements, and
-			// the above elements remain
-			
-		}
+		putAllComponentsOnPanel();
 	}
 	
 
