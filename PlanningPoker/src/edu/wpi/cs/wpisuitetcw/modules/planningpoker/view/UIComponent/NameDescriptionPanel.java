@@ -36,6 +36,11 @@ public class NameDescriptionPanel extends JPanel {
 	private final JTextArea nameTextField;
 	private final JScrollPane nameFrame;
 	
+	/* A flag that determines whether the name text box is required or not */
+	// If this flag is true, the name text box and its label will be put
+	// on the NameDescriptionPanel
+	private boolean isNameTextboxNeeded;
+	
 	/** A text field for description */
 	private final JLabel descriptionLabel;
 	private final JTextArea descriptionTextField;
@@ -59,6 +64,9 @@ public class NameDescriptionPanel extends JPanel {
 		nameTextField.setLineWrap(true);
 		nameTextField.setWrapStyleWord(true);
 		nameFrame = new JScrollPane(nameTextField);
+		
+		// Set the name text box to be required in the panel
+		isNameTextboxNeeded = true;
 
 		// Create text box and label for desription
 		descriptionLabel = new JLabel("Description *");
@@ -71,12 +79,7 @@ public class NameDescriptionPanel extends JPanel {
 		nextToNameTextboxComponents = new ArrayList<>();
 		belowNameTextboxComponents  = new ArrayList<>();
 
-
-		setLayout(new MigLayout("fill, inset 0", "", "0[][][][grow]0"));
-		add(nameLabel, "left, growx, wrap");
-		add(nameFrame, "growx, wrap, height " + TEXTBOX_HEIGHT + "px!");
-		add(descriptionLabel, "left, growx, span");
-		add(descriptionFrame, "grow");
+		putAllComponentsOnPanel();
 	}
 	
 	/**
@@ -215,6 +218,122 @@ public class NameDescriptionPanel extends JPanel {
 	 */
 	public void addBelowNameTextbox(List<Component> otherComponents) {
 		
+	}
+	
+	// VVVVVVVVVVVVVVVVVV PRIVATE IMPLMENTATIONS VVVVVVVVVVVVVVVVVVVVVV
+	/*
+	 * Put all the necessary components on the NameDescriptionPanel
+	 */
+	private void putAllComponentsOnPanel() {
+		removeAll();
+		
+		String rowConstrain = generateRowConstrain();
+		setLayout(new MigLayout("fill, inset 0", "", rowConstrain));
+		
+		if (isNameTextboxNeeded) {
+			add(nameLabel, "left, growx, wrap");
+			add(nameFrame, "growx, height " + TEXTBOX_HEIGHT + "px!"
+							+ generateNumSplit());
+		}
+		addElementsNextToNameTextbox();
+		addElementsBelowNameTextbox();
+		add(descriptionLabel, "left, growx, span");
+		add(descriptionFrame, "grow");
+	}
+
+	/*
+	 * Add elements below the name text box
+	 * to a row below it
+	 */
+	private void addElementsBelowNameTextbox() {
+		// Add the component and create a new row if
+		// there is only one element below name text box
+		if (!belowNameTextboxComponents.isEmpty() &&
+				belowNameTextboxComponents.size() == 1) {
+			
+			add(belowNameTextboxComponents.get(0), 
+				"split " + belowNameTextboxComponents.size() + ", growx, center, wrap");
+		} else if (!belowNameTextboxComponents.isEmpty()) {
+			// Add the first component with split cell constrain
+			add(belowNameTextboxComponents.get(0), 
+				"split " + belowNameTextboxComponents.size() + ", growx, center");
+			
+			// Add the elements after the first and before the last
+			if (belowNameTextboxComponents.size() >= 3) {
+				for (int i = 1; i < belowNameTextboxComponents.size() - 1; i++) {
+					add(belowNameTextboxComponents.get(i), "growx, center");
+				}
+			}
+			
+			// Add a new row after the last component
+			if (!belowNameTextboxComponents.isEmpty()) {
+				add(belowNameTextboxComponents
+						.get(belowNameTextboxComponents.size() - 1), 
+					"growx, center, wrap");
+			}
+		}
+	}
+
+	/*
+	 * Add element next to the name box
+	 */
+	private void addElementsNextToNameTextbox() {
+		if (isNameTextboxNeeded) {
+			for (int i = 0; i < nextToNameTextboxComponents.size() - 1; i++) {
+				add(nextToNameTextboxComponents.get(i), "left, height " + TEXTBOX_HEIGHT + "px!");
+			}
+			if (!nextToNameTextboxComponents.isEmpty()) {
+				add(nextToNameTextboxComponents.
+						get(nextToNameTextboxComponents.size() - 1), 
+					"left, wrap");
+			}
+		}
+	}
+
+	/*
+	 * Return the constrain for split cell
+	 * This method returns number of subcells to
+	 * hold the elements next to name text box
+	 */
+	private String generateNumSplit() {
+		String splitConstrain = "";
+		
+		// Add split constrain only if there is elements next to
+		// the name text box
+		if (!nextToNameTextboxComponents.isEmpty()) {
+			// + 1 because the name box is counted as 1 column
+			splitConstrain += ", split " + nextToNameTextboxComponents.size() + 1;
+		} else {
+			splitConstrain += ", wrap";
+		}
+		
+		return splitConstrain;
+	}
+
+	/*
+	 * Return a column constain for MigLayout
+	 */
+	private String generateRowConstrain() {
+		// Initialize and set up the row constrain for name text box
+		// and its label
+		String rowConstrain = "0";
+		
+		// Create row constrain for name text box and its label
+		// if they are existed
+		if (isNameTextboxNeeded) {
+			rowConstrain += "[][]";
+		}
+		
+		// Add another row if there is an element below the name text box
+		if (!belowNameTextboxComponents.isEmpty()) {
+			rowConstrain += "[]";
+		}
+		
+		// Create row constrain for the description box and its label AND 
+		// Set the description box to fill up the available space
+		rowConstrain += "[][grow]0";
+		
+		return rowConstrain;
 	}
 	
 }
