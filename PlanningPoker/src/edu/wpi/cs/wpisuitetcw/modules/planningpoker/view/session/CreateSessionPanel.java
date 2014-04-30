@@ -696,7 +696,6 @@ public class CreateSessionPanel extends JPanel {
 	private void setupBottomPanel() {
 		// Create Save session button
 		btnSaveSession = new JButton("Save");
-		//btnSaveSession.setEnabled(false);
 		btnSaveSession.addActionListener(new AddSessionController(this, false));
 
 		// Create Cancel create session button
