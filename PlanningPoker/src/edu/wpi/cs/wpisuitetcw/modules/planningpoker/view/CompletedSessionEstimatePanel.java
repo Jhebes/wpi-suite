@@ -347,6 +347,15 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	public void setStatsMode(int statsMode) {
 		this.statsMode.setText("" + statsMode + "  ");
 	}
+	
+	/**
+	 * sets the text field for standard Deviation in the completed session view
+	 * 
+	 * @param statsStandardDeviation
+	 */
+	public void setStatsStandardDeviation(int statsStandardDeviation){
+		this.statsStandardDeviation.setText("" + statsStandardDeviation + "  ");
+	}
 
 	/**
 	 * Populates the vote table with the votes from a requirement
