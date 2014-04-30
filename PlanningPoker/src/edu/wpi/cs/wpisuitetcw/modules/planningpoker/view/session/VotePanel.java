@@ -374,7 +374,7 @@ public class VotePanel extends JPanel {
 
 		// Create a label for right panel
 		rightPanelLabel = new JLabel(RIGHT_PANEL_LABEL);
-		rightPanelLabel.setFont(PlanningPoker.defaultLabelFont);
+		rightPanelLabel.setFont(PlanningPoker.defaultHeaderFont);
 
 		// Create a requirement name text box
 		requirementNameLabel = new JLabel(REQ_NAME_LABEL);
@@ -394,7 +394,7 @@ public class VotePanel extends JPanel {
 
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
-		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
+		voteTextField.setFont(PlanningPoker.defaultHeaderFont);
 		voteTextField.setHorizontalAlignment(JTextField.CENTER);
 
 		// if the session has a deck, we can't let the user submit a vote
