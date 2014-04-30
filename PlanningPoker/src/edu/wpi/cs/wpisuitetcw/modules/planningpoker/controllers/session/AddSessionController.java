@@ -16,7 +16,6 @@ import java.util.Date;
 import java.util.Timer;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateNewDeckController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.EndOnDeadlineController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
