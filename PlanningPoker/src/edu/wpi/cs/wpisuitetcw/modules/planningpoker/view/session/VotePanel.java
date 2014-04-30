@@ -229,7 +229,6 @@ public class VotePanel extends JPanel {
 		}
 
 		// only owner has the ability to close a session
-		final String currentUserName = ConfigManager.getConfig().getUserName();
 		if (session.isClosed()) {
 			endSessionButton.setEnabled(false);			
 		}
