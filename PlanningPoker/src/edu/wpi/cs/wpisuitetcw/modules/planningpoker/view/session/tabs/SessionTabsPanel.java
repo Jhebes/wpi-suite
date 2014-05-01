@@ -1,11 +1,16 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs;
 
-import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
 
-public class SessionTabsPanel extends JPanel {
+public class SessionTabsPanel extends JTabbedPane {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/* Deck panel */
 	private SessionDeckPanel deckPanel;
@@ -19,8 +24,13 @@ public class SessionTabsPanel extends JPanel {
 	 * 
 	 */
 	public SessionTabsPanel(PlanningPokerSession session) {
+		// set up panels
 		this.deckPanel = new SessionDeckPanel(CardDisplayMode.DISPLAY);
 		this.requirementPanel = new SessionRequirementPanel(session);
+
+		// set up tabs
+		this.addTab("Deck", null, deckPanel);
+		this.addTab("Requirement", null, requirementPanel);
 	}
 
 	/**
