@@ -1,8 +1,19 @@
+/*******************************************************************************
+ * Copyright (c) 2014 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team Combat Wombat
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs;
 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
 
 public class SessionTabsPanel extends JTabbedPane {
@@ -23,14 +34,15 @@ public class SessionTabsPanel extends JTabbedPane {
 	 * panel and requirement panel
 	 * 
 	 */
-	public SessionTabsPanel(PlanningPokerSession session) {
+	public SessionTabsPanel() {
 		// set up panels
-		this.deckPanel = new SessionDeckPanel(CardDisplayMode.DISPLAY);
-		this.requirementPanel = new SessionRequirementPanel(session);
+		deckPanel = new SessionDeckPanel(CardDisplayMode.DISPLAY);
+		// requirementPanel = new SessionRequirementPanel(session);
 
 		// set up tabs
 		this.addTab("Deck", null, deckPanel);
-		this.addTab("Requirement", null, requirementPanel);
+		this.addTab("dummy", new JPanel());
+		// this.addTab("Requirement", null, requirementPanel);
 	}
 
 	/**
@@ -39,6 +51,20 @@ public class SessionTabsPanel extends JTabbedPane {
 	 */
 	public SessionDeckPanel getDeckPanel() {
 		return deckPanel;
+	}
+
+	/**
+	 * @param deck
+	 *            panel
+	 * @return
+	 */
+	public void setDeckPanel(SessionDeckPanel deckPanel) {
+		// this.remove(this.deckPanel);
+
+		this.deckPanel = deckPanel;
+		// int position = this.getTabPlacement();
+		this.setComponentAt(0, deckPanel);
+		updateUI();
 	}
 
 	/*
