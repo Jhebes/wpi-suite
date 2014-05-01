@@ -63,14 +63,23 @@ public class AddRequirementToSessionController implements ActionListener {
 		requirement.setDescription(this.panel.getNewReqDesc());
 
 		
-		// Create RequirementModel and Requirement to update the requirement
+		// Create RequirementModel and Requirement to UPDATE the requirement
 		// list of the Requirement manager module
 		RequirementModel addReqModel = RequirementModel.getInstance();
 		Requirement reqManagerRequirement = new Requirement();
 		
+		// Get the list of all PlanningPokerRequirements to check if
+		// the user's requirement name is already existed or not
+		List<PlanningPokerRequirement> requirements = new ArrayList<>();
+		for (PlanningPokerSession planningPokerSession : SessionStash.getInstance().getSessions()) {
+			for (PlanningPokerRequirement planningPokerRequirement : planningPokerSession.getRequirements()) {
+				requirements.add(planningPokerRequirement);
+			}
+		}
+		
 		// Only add a new requirement if the current session 
 		// AND the requirement module don't have it
-		if (!hasPlanningPokerRequirement(session.getRequirements(), requirement) && 
+		if (!hasPlanningPokerRequirement(requirements, requirement) && 
 			!hasRequirement(addReqModel, requirement.getInnerRequirement())) {
 			// Add new requirement to the session
 			session.addRequirement(requirement);
