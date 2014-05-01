@@ -394,6 +394,8 @@ public class Card extends JPanel {
 					isSelected = false;
 					unselectCard();
 				}
+				
+				parentPanel.enableSubmitBtn();
 			}
 		});
 	}

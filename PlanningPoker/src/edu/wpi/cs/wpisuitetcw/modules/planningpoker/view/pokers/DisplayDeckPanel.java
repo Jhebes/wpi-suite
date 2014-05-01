@@ -166,4 +166,18 @@ public class DisplayDeckPanel extends JPanel {
 	public ArrayList<Card> getCards() {
 		return (ArrayList<Card>) cards;
 	}
+	
+	/**
+	 * Disable the submit button (pass the call along)
+	 */
+	public void disableSubmitBtn() {
+		parentPanel.disableSubmitBtn();
+	}
+	
+	/**
+	 * Enable the submit button (pass the call along)
+	 */
+	public void enableSubmitBtn() {
+		parentPanel.enableSubmitBtn();
+	}
 }

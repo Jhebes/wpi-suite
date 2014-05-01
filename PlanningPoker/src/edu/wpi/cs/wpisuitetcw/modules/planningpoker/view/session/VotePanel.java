@@ -156,8 +156,10 @@ public class VotePanel extends JPanel {
 			reqList.setSelectionInterval(0, 0);
 			
 			final PlanningPokerVote vote = firstReq.getVoteByUser(ConfigManager.getConfig().getUserName());
-			if (vote != null)
+			if (vote != null) {
 				setVoteTextFieldWithValue(vote.getCardValue());
+				disableSubmitBtn();
+			}
 		}
 	}
 
@@ -366,8 +368,10 @@ public class VotePanel extends JPanel {
 						
 						if (vote != null) {
 							setVoteTextFieldWithValue(vote.getCardValue());
+							disableSubmitBtn();
 						} else {
 							clearVoteTextField();
+							enableSubmitBtn();
 						}
 
 						updateUI();
@@ -620,6 +624,7 @@ public class VotePanel extends JPanel {
 		
 		if (i == session.getRequirements().size()) { // All Reqs voted on
 			reqList.setSelectionInterval(selectedReqIndex, selectedReqIndex);
+			disableSubmitBtn();
 		} else {
 			selectedRequirement = nextReq;
 			nameDescriptionPanel.setName(nextReq.getName());
@@ -630,5 +635,19 @@ public class VotePanel extends JPanel {
 			if (usesDeck())
 				clearDeckPanel();
 		}
+	}
+	
+	/**
+	 * Disable the submit button
+	 */
+	public void disableSubmitBtn() {
+		submitVoteButton.setEnabled(false);
+	}
+	
+	/**
+	 * Enable the submit button
+	 */
+	public void enableSubmitBtn() {
+		submitVoteButton.setEnabled(true);
 	}
 }
