@@ -135,15 +135,12 @@ public class DisplayDeckPanel extends JPanel {
 	 * removes the highlight for the card
 	 */
 	public void removeHighlight() {
-
-		for (int i = 0; i < cards.size(); i++) {
-			Card aCard = cards.get(i);
-			cards.remove(i);
-
-			aCard.markCardValid();
-			aCard.setSelected(false);
-
+		for (Card card : cards) {
+			card.markCardValid();
+			card.setSelected(false);
 		}
+		
+		cards.clear();
 	}
 
 	/**

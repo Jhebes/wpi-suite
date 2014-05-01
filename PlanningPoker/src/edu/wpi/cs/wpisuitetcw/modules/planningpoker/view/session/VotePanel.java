@@ -619,23 +619,16 @@ public class VotePanel extends JPanel {
 		}
 		
 		if (i == session.getRequirements().size()) { // All Reqs voted on
-			reqList.setSelectionInterval(selectedReqIndex, selectedReqIndex);	
-			
-			vote = selectedRequirement.getVoteByUser(ConfigManager.getConfig().getUserName());
-		} else {		
-		}
-			
-		nameDescriptionPanel.setName(nextReq.getName());
-		nameDescriptionPanel.setDescription(nextReq.getDescription());
-		selectedRequirement = nextReq;
-			
-		if (vote != null) {
-			setVoteTextFieldWithValue(vote.getCardValue());
+			reqList.setSelectionInterval(selectedReqIndex, selectedReqIndex);
 		} else {
+			selectedRequirement = nextReq;
+			nameDescriptionPanel.setName(nextReq.getName());
+			nameDescriptionPanel.setDescription(nextReq.getDescription());
+			
 			clearVoteTextField();
-		}
 		
-		if (usesDeck())
-			clearDeckPanel();
+			if (usesDeck())
+				clearDeckPanel();
+		}
 	}
 }
