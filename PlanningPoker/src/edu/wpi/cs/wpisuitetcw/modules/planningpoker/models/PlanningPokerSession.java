@@ -106,7 +106,7 @@ public class PlanningPokerSession extends AbstractModel {
 	public boolean isOpen() {
 		return isActive() && !isClosed() && !isCancelled;
 	}
-	
+
 	/**
 	 * A session can be activated if it meets the following conditions: 
 	 * <ul>
@@ -162,16 +162,16 @@ public class PlanningPokerSession extends AbstractModel {
 					}
 				}
 			} else {
-				SendNotificationController.sendNotification("start", "15189662284",
-						this.getDeadline(), command);
+				SendNotificationController.sendNotification("start",
+						"15189662284", this.getDeadline(), command);
 			}
 		}
 	}
 
 	/**
-	 * Deactivates a session by basically undoing what activate would. 
-	 * If the session is already active, and not cancelled, 
-	 * then it would set the start time to null
+	 * Deactivates a session by basically undoing what activate would. If the
+	 * session is already active, and not cancelled, then it would set the start
+	 * time to null
 	 */
 	public void deactivate() {
 		if (!isCancelled && this.isActive()) {
@@ -205,24 +205,28 @@ public class PlanningPokerSession extends AbstractModel {
 	}
 
 	/**
-	 * Add a PlanningPokerVote for a PlanningPokerRequirement from an user
-	 * to the PlanningPokerSession
-	 * @param req A PlanningPokerRequirement that is voted
-	 * @param v A PlanningPokerVote of the PlanningPokerRequirement
-	 * @param requestingUser A String represents the user
+	 * Add a PlanningPokerVote for a PlanningPokerRequirement from an user to
+	 * the PlanningPokerSession
+	 * 
+	 * @param req
+	 *            A PlanningPokerRequirement that is voted
+	 * @param v
+	 *            A PlanningPokerVote of the PlanningPokerRequirement
+	 * @param requestingUser
+	 *            A String represents the user
 	 */
 	public void addVoteToRequirement(PlanningPokerRequirement req,
 			PlanningPokerVote v, String requestingUser) {
 		// Remove the corresponding requirement from this session
-		final PlanningPokerRequirement r = requirements
-				.get(requirements.indexOf(req));
+		final PlanningPokerRequirement r = requirements.get(requirements
+				.indexOf(req));
 		requirements.remove(r);
-		
+
 		// Add the vote of the user to the requirement
-		for(PlanningPokerVote vote : r.getVotes()) {
-			if(vote.getUser().equals(v.getUser())) {
+		for (PlanningPokerVote vote : r.getVotes()) {
+			if (vote.getUser().equals(v.getUser())) {
 				vote.setCardValue(v.getCardValue());
-				requirements.add(r);		// Add the requirement back
+				requirements.add(r); // Add the requirement back
 				this.save();
 				return;
 			}
@@ -364,6 +368,7 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Assign a String to the session's name
+	 * 
 	 * @param name
 	 *            The new session name
 	 */
@@ -391,8 +396,9 @@ public class PlanningPokerSession extends AbstractModel {
 
 	/**
 	 * Assign an user name to the name of the session's owner
-	 * @param userName A string that would be assigned to
-	 * the session's username
+	 * 
+	 * @param userName
+	 *            A string that would be assigned to the session's username
 	 */
 	public void setOwnerUserName(String userName) {
 		ownerUserName = userName;
@@ -602,7 +608,7 @@ public class PlanningPokerSession extends AbstractModel {
 	public void create() {
 		new PutSessionController(this);
 	}
-		
+
 	/**
 	 * Copy the data from the given PlanningPokerSession to
 	 * the calling PlanningPokerSession object
