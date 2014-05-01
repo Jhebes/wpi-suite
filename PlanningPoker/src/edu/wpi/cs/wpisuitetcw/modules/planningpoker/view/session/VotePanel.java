@@ -195,7 +195,6 @@ public class VotePanel extends JPanel {
 						focusedRequirementManagerRequirement);
 				ViewEventController.getInstance().refreshTable();
 				ViewEventController.getInstance().refreshTree();
-			
 			}
 		});
 

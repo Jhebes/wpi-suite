@@ -10,10 +10,10 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
@@ -207,8 +207,18 @@ public class CompletedSessionEstimatePanel extends JPanel {
 					}
 				});
 
-		final Component verticalStrut = Box.createVerticalStrut(97);
-		pnlFinalEstimate.add(finalEstimateField);
+		finalEstimateField.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					parentPanel.getSubmitFinalEstimationButton().doClick();
+				}
+			}
+		});
+
+		final Component verticalStrut = Box.createVerticalStrut(60);
+		
+		pnlFinalEstimate.add(verticalStrut,  "wrap");
+		pnlFinalEstimate.add(finalEstimateField, "gapleft 30, align center");
 
 		// Create the Stats Panel
 		statNameFont = new Font("SansSerif", Font.BOLD, 15);
