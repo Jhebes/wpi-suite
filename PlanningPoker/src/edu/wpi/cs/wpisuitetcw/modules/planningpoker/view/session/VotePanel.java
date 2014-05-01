@@ -176,7 +176,7 @@ public class VotePanel extends JPanel {
 		// Create the container
 		bottomPanel = new JPanel();
 		
-		this.submitFinalEstimationButton = new JButton("Sumbit");
+		this.submitFinalEstimationButton = new JButton("Submit");
 		this.submitFinalEstimationButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {

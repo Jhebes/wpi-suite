@@ -110,9 +110,6 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	// the font used for statistical labels
 	private final Font statNameFont;
 	
-	// Button to submit the final estimation.
-	// private final JButton btnFinalEstimate;
-	
 	// The requirement that has been chosen for analysis and estimation
 	private PlanningPokerRequirement focusedRequirement = null;
 	
@@ -162,7 +159,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		pnlVotes.setBorder(BorderFactory.createEmptyBorder());
 
 		// Initialize the default font for JLabel headers
-		headerFont = new Font("TimesRoman", Font.BOLD, 25);
+		headerFont = new Font("SansSerif", Font.BOLD, 25);
 
 		// Initialize the Headers for the panels.
 		lblVotes = new JLabel("Votes");
@@ -175,7 +172,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 
 		// Create the Final Estimate Panel
 		finalEstimateField = new JTextField(3);
-		finalEstimateField.setFont(new Font("TimeRoman", Font.BOLD, 30));
+		finalEstimateField.setFont(new Font("SansSerif", Font.BOLD, 30));
 		finalEstimateField
 				.setMaximumSize(finalEstimateField.getPreferredSize());
 		finalEstimateField.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -210,7 +207,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		pnlFinalEstimate.add(finalEstimateField);
 
 		// Create the Stats Panel
-		statNameFont = new Font("TimesRoman", Font.BOLD, 15);
+		statNameFont = new Font("SansSerif", Font.BOLD, 15);
 		
 		lblMeanValue = new JLabel("");
 		lblMean = new JLabel("Mean");
