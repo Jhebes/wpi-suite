@@ -66,7 +66,7 @@ public class PlanningPokerSessionEntityManager implements
 					for (PlanningPokerSession session : sessions) {
 
 					// check if they're closed
-					if (session.hasSessionEnded()) {
+					if (session.hasPassedDeadline()) {
 					// update the session
 						session.close();
 					try {
