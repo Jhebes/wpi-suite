@@ -12,14 +12,23 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -53,13 +62,16 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	private final GridLayout panelLayout;*/
 	
 	// Panel that displays the final estimate text box and submission button
-	private final JPanel pnlFinalEstimate;
+	private final ImagePanel pnlFinalEstimate;
 	
 	// Panel that displays the stats of a requirement.
 	private final JPanel pnlStats;
 	
 	// Panel that displays a table of users and their votes for a requirement.
 	private final JPanel pnlVotes;
+	
+	/*// Label to hold the card picture for final estimate
+	private final JLabel card;*/
 	
 	// Header for the votes panel.
 	private final JLabel lblVotes;
@@ -92,15 +104,6 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	// Table that displays users and their votes for a requirement.
 	private JTable tblVotes;
 	
-	// text field that displays the mean for a requirements votes.
-	private JTextField statsMean;
-	
-	// text field that displays the median of a requirements votes.
-	private JTextField statsMedian;
-	
-	// text field that displays the mode of a requirements votes.
-	private JTextField statsMode;
-	
 	// text field that takes the final estimate given by the owner of a session.
 	private JTextField finalEstimateField;
 	
@@ -125,28 +128,26 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * @param parentPanel
 	 *            The parent panel containing this panel.
 	 */
+	@SuppressWarnings("serial")
 	public CompletedSessionEstimatePanel(
 			final VotePanel parentPanel) {
 		this.parentPanel = parentPanel;
 		
-		// Create a new grid layout that is 3 columns across.
-		//panelLayout = new GridLayout(0, 3);
-		
 		// Set the reqManagerRequirementModel field equal to the Instance of the Requirement Model;
 		reqManagerRequirementModel = RequirementModel.getInstance();
 		
+		pnlFinalEstimate = new ImagePanel("new_card.png");
 
 		/*
 		 * Create and set up the 3 panels used to create the CompletedSession
 		 * Panel
 		 */
-		// Used to make the final estimate
-		//this.setLayout(panelLayout);
 		this.setLayout(new MigLayout());
-		pnlFinalEstimate = new JPanel();
+		
+		/*pnlFinalEstimate = new JPanel();
 		pnlFinalEstimate.setLayout(new BoxLayout(pnlFinalEstimate,
 				BoxLayout.Y_AXIS));
-		pnlFinalEstimate.setBorder(BorderFactory.createEmptyBorder());
+		pnlFinalEstimate.setBorder(BorderFactory.createEmptyBorder());*/
 
 		// Statistical info of the PP Session
 		pnlStats = new JPanel();
@@ -201,7 +202,6 @@ public class CompletedSessionEstimatePanel extends JPanel {
 				});
 
 		final Component verticalStrut = Box.createVerticalStrut(50);
-
 		pnlFinalEstimate.add(lblFinalEstimate);
 		pnlFinalEstimate.add(verticalStrut);
 		pnlFinalEstimate.add(finalEstimateField);
@@ -235,7 +235,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 
 		// put the completed Session panel together
 		this.add(pnlVotes, "growy , wrap");
-		this.add(pnlFinalEstimate, "");
+		this.add(pnlFinalEstimate);
 		this.add(pnlStats);
 		this.createTable();
 		final JScrollPane votesScrollPane = new JScrollPane(tblVotes);
