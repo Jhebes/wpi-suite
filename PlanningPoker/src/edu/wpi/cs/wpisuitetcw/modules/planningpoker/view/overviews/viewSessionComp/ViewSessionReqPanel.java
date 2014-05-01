@@ -42,7 +42,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveRequirem
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveRequirementToCurrentSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionRequirementPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
@@ -50,7 +50,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Scrol
  * The panel for adding requirements to a session.
  */
 public class ViewSessionReqPanel extends JPanel {
-	private final AddRequirementPanel parentPanel;
+	private final SessionRequirementPanel parentPanel;
 	private final ScrollablePanel sessionReqPanel;
 	private final ScrollablePanel allReqPanel;
 	private final JPanel buttonsPanel;
@@ -75,7 +75,7 @@ public class ViewSessionReqPanel extends JPanel {
 	 * @param parentPanel The parent panel
 	 * @param s The session for this panel
 	 */
-	public ViewSessionReqPanel(AddRequirementPanel parentPanel,
+	public ViewSessionReqPanel(SessionRequirementPanel parentPanel,
 			PlanningPokerSession s) {
 		session = s;
 		this.setLayout(new GridBagLayout());

@@ -14,7 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.ActivateSessionController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionRequirementPanel;
 
 /**
  * The panel for the buttons at the bottom of the add requirements panel.
@@ -22,13 +22,13 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementP
 public class ViewSessionBtnPanel extends JPanel {
 	private static final long serialVersionUID = -5483659811074321821L;
 	private final JButton activateBtn;
-	private final AddRequirementPanel parentPanel;
+	private final SessionRequirementPanel parentPanel;
 
 	/**
 	 * Constructs the panel.
 	 * @param parentPanel The parent panel
 	 */
-	public ViewSessionBtnPanel(AddRequirementPanel parentPanel) {
+	public ViewSessionBtnPanel(SessionRequirementPanel parentPanel) {
 		this.parentPanel = parentPanel;
 
 		// set up button
@@ -44,7 +44,7 @@ public class ViewSessionBtnPanel extends JPanel {
 	/**
 	 * @return The parent panel
 	 */
-	public AddRequirementPanel getParentPanel() {
+	public SessionRequirementPanel getParentPanel() {
 		return parentPanel;
 	}	
 	

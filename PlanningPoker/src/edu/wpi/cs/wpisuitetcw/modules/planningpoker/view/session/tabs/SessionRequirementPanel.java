@@ -8,7 +8,7 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs;
 
 import java.awt.BorderLayout;
 import java.util.logging.Level;
@@ -26,7 +26,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.Requiremen
 /**
  * Panel for adding requirements to a planning poker session.
  */
-public class AddRequirementPanel extends JSplitPane {
+public class SessionRequirementPanel extends JSplitPane {
 	private final ViewSessionBtnPanel buttonPanel;
 	private final ViewSessionInfoPanel infoPanel;
 	private final ViewSessionReqPanel pkgPanel;
@@ -36,7 +36,7 @@ public class AddRequirementPanel extends JSplitPane {
 	 * Create a view session panel
 	 * @param session The planning poker session for this panel.
 	 */
-	public AddRequirementPanel(PlanningPokerSession session) {
+	public SessionRequirementPanel(PlanningPokerSession session) {
 		final RequirementTableManager manager = new RequirementTableManager();
 		manager.fetch(session.getID());
 		pPSession = session;

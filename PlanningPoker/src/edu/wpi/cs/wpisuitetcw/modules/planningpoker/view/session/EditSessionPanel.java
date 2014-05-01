@@ -56,7 +56,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.CreateDeckPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionDeckPanel;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
@@ -105,7 +105,7 @@ public class EditSessionPanel extends JPanel {
 
 	// ################ UI Right Component #################
 	/** The panel that shows cards and creates deck */
-	private CreateDeckPanel deckPanel;
+	private SessionDeckPanel deckPanel;
 
 	// ################ UI Left Component #################
 	/** The left panel holds components to see the deck */
@@ -182,7 +182,7 @@ public class EditSessionPanel extends JPanel {
 		setupLeftPanel();
 
 		// Use display mode since the default deck is displayed by default
-		deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
+		deckPanel = new SessionDeckPanel(CardDisplayMode.DISPLAY);
 		deckPanel.displayDefaultDeck();
 
 		setupBottomPanel();
@@ -779,7 +779,7 @@ public class EditSessionPanel extends JPanel {
 	 */
 	private void createNewDeck() {
 		// new deck panel for creating a deck of cards
-		deckPanel = new CreateDeckPanel(CardDisplayMode.CREATE, this);
+		deckPanel = new SessionDeckPanel(CardDisplayMode.CREATE, this);
 
 		setupEntirePanel();
 		updateUI();
@@ -793,7 +793,7 @@ public class EditSessionPanel extends JPanel {
 	 * @throws WPISuiteException
 	 */
 	private void displayDeck(String deckName) throws WPISuiteException {
-		deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
+		deckPanel = new SessionDeckPanel(CardDisplayMode.DISPLAY);
 		deckPanel.displayDeck(deckName);
 
 		setupEntirePanel();
@@ -805,7 +805,7 @@ public class EditSessionPanel extends JPanel {
 	 */
 	private void displayDefaultDeck() {
 		// Use display mode since the default deck is displayed by default
-		deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
+		deckPanel = new SessionDeckPanel(CardDisplayMode.DISPLAY);
 		deckPanel.displayDefaultDeck();
 
 		setupEntirePanel();
@@ -816,7 +816,7 @@ public class EditSessionPanel extends JPanel {
 	 * display no card on the deck panel
 	 */
 	public void displayNoDeck() {
-		deckPanel = new CreateDeckPanel(CardDisplayMode.NO_DECK);
+		deckPanel = new SessionDeckPanel(CardDisplayMode.NO_DECK);
 
 		setupEntirePanel();
 		updateUI();
@@ -847,7 +847,7 @@ public class EditSessionPanel extends JPanel {
 	 * 
 	 * @return deck panel
 	 */
-	public CreateDeckPanel getDeckPanel() {
+	public SessionDeckPanel getDeckPanel() {
 		return deckPanel;
 	}
 
