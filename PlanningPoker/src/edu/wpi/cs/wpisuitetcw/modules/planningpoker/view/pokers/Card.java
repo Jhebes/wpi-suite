@@ -143,6 +143,7 @@ public class Card extends JPanel {
 
 		// Create the text field
 		txtboxValue = new JTextField(3);
+		txtboxValue.setFont(new Font("sansserif", Font.BOLD, 20));
 
 		// Create error JLabel
 		labelError = new JLabel(ERROR_MSG);

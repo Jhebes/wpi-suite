@@ -111,6 +111,7 @@ public class AddSessionController implements ActionListener {
 			session.setDeadline(d);
 			session.setDescription(des);
 
+
 			// Associate a deck to the new session if the user does not choose
 			// 'No deck'
 			if (!view.isInNoDeckMode()) {
@@ -131,6 +132,7 @@ public class AddSessionController implements ActionListener {
 			}
 
 			session.create();
+
 			GetAllSessionsController.getInstance().retrieveSessions();
 			ViewEventManager.getInstance().removeTab(view);
 

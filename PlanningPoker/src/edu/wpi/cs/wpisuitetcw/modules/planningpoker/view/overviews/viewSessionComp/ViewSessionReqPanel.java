@@ -69,8 +69,8 @@ public class ViewSessionReqPanel extends JPanel {
 	private final JTable sessionReqTable;
 	private final PlanningPokerSession session;
 	private PlanningPokerSession editRequirementsSession;
-	private String reqName;
-	private String reqDescription;
+	private String selectedReqName;
+	private String selectedReqDescription;
 
 	/**
 	 * Constructs the panel for adding requirements.
@@ -96,6 +96,8 @@ public class ViewSessionReqPanel extends JPanel {
 		saveRequirement = new JButton("Save Changes");
 		saveRequirement.setEnabled(false);
 		addRequirementToSession.setEnabled(false);
+		selectedReqName = "";
+		selectedReqDescription = "";
 		validateActivateSession();
 
 		// setup panels
@@ -194,28 +196,30 @@ public class ViewSessionReqPanel extends JPanel {
 				final JTable table = (JTable) e.getSource();
 				final int row = table.getSelectedRow();
 				saveRequirement.setEnabled(false);
+				addRequirementToSession.setEnabled(false);
+
 				if (row == -1) {
-					addRequirementToSession.setEnabled(true);
 					name.setEnabled(true);
 					setReqInfo("", "");
-				}
-
-				for (int i = 0; i < 2; i++) {
-					if (i == 0) {
-						reqName = allReqTable.getModel().getValueAt(row, 0)
-								.toString();
+					selectedReqName = "";
+					selectedReqDescription = "";
+				} else {
+					for (int i = 0; i < 2; i++) {
+						if (i == 0) {
+							selectedReqName = allReqTable.getModel().getValueAt(row, 0)
+									.toString();
+						}
+						if (i == 1) {
+							selectedReqDescription = allReqTable.getModel()
+									.getValueAt(row, 1).toString();
+						}
 					}
-					if (i == 1) {
-						reqDescription = allReqTable.getModel()
-								.getValueAt(row, 1).toString();
-					}
-				}
 
-				setReqInfo(reqName, reqDescription);
-				addRequirementToSession.setEnabled(false);
-				name.setEnabled(false);
-				editRequirementsSession = SessionStash.getInstance()
-						.getDefaultSession();
+					setReqInfo(selectedReqName, selectedReqDescription);
+					name.setEnabled(false);
+					editRequirementsSession = SessionStash.getInstance()
+							.getDefaultSession();
+				}
 			}
 		});
 
@@ -231,24 +235,25 @@ public class ViewSessionReqPanel extends JPanel {
 				final JTable table = (JTable) e.getSource();
 				final int row = table.getSelectedRow();
 				saveRequirement.setEnabled(false);
+				addRequirementToSession.setEnabled(false);
 				if (row == -1) {
-					addRequirementToSession.setEnabled(true);
 					name.setEnabled(true);
 					setReqInfo("", "");
+					selectedReqName = "";
+					selectedReqDescription = "";
 				} else {
 					for (int i = 0; i < 2; i++) {
 						if (i == 0) {
-							reqName = sessionReqTable.getModel()
+							selectedReqName = sessionReqTable.getModel()
 									.getValueAt(row, 0).toString();
 						}
 						if (i == 1) {
-							reqDescription = sessionReqTable.getModel()
+							selectedReqDescription = sessionReqTable.getModel()
 									.getValueAt(row, 1).toString();
 						}
 					}
 
-					setReqInfo(reqName, reqDescription);
-					addRequirementToSession.setEnabled(false);
+					setReqInfo(selectedReqName, selectedReqDescription);
 					name.setEnabled(false);
 					editRequirementsSession = ViewSessionReqPanel.this.session;
 				}
@@ -290,31 +295,6 @@ public class ViewSessionReqPanel extends JPanel {
 
 		});
 
-		/**
-		 * Checks for a change in a requirements description so that the change
-		 * can be saved
-		 */
-		description.addKeyListener(new KeyListener() {
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-			}
-
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-				if ((getReqDescription().equals(description.getText()))
-						|| ((description.getText().equals("")))) {
-					saveRequirement.setEnabled(false);
-				} else {
-					saveRequirement.setEnabled(true);
-				}
-			}
-
-			@Override
-			public void keyTyped(KeyEvent arg0) {
-			}
-
-		});
-
 		// setup buttons panel
 		buttonsPanel.setLayout(new GridLayout(0, 1, 0, 20));
 		buttonsPanel.add(moveAllRequirementsToSession);
@@ -338,7 +318,7 @@ public class ViewSessionReqPanel extends JPanel {
 		namePanel.add(errorMessage, BorderLayout.CENTER);
 		namePanel.add(name, BorderLayout.SOUTH);
 
-		description.addKeyListener(new KeyListener() {
+		KeyListener nameDescriptionValidationListener = new KeyListener() {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -353,46 +333,11 @@ public class ViewSessionReqPanel extends JPanel {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
-				if (!description.getText().equals("")) {
-					if (!name.getText().equals("")) {
-						addRequirementToSession.setEnabled(true);
-					}else {
-						addRequirementToSession.setEnabled(false);
-					}
-				}else {
-					addRequirementToSession.setEnabled(false);
-				}
+				ViewSessionReqPanel.this.validateNameAndDescription();
 			}
-
-		});
-
-		name.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				keyTyped(e);
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				keyTyped(e);
-
-			}
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-				if (!name.getText().equals("")) {
-					if (!description.getText().equals("")) {
-						addRequirementToSession.setEnabled(true);
-					} else {
-						addRequirementToSession.setEnabled(false);
-					}
-				}else {
-					addRequirementToSession.setEnabled(false);
-				}
-			}
-
-		});
+		};
+		description.addKeyListener(nameDescriptionValidationListener);
+		name.addKeyListener(nameDescriptionValidationListener);
 
 		// text field for description goes in the bottom of the panel
 		final JLabel descriptionLabel = new JLabel("Description:");
@@ -639,6 +584,35 @@ public class ViewSessionReqPanel extends JPanel {
 			parentPanel.getButtonPanel().getActivateBtn().setEnabled(true);
 		}
 	}
+	
+	/**
+	 * Enables and disables the Add to Session and Save Changes buttons 
+	 * depending on the conditions of the view, namely the name and 
+	 * description views.
+	 */
+	public void validateNameAndDescription() {
+		addRequirementToSession.setEnabled(false);
+		saveRequirement.setEnabled(false);
+		
+		// If there is no selected requirement,
+		if (selectedReqDescription.isEmpty()) {
+			if (!description.getText().isEmpty() 
+					&& !name.getText().isEmpty()) {
+				addRequirementToSession.setEnabled(true);
+			}
+		} else {
+			if (!description.getText().isEmpty() && hasDescriptionChanged()) {
+				saveRequirement.setEnabled(true);
+			}
+		}
+	}
+	
+	/**
+	 * @return Whether the has changed
+	 */
+	public boolean hasDescriptionChanged() {
+		return !selectedReqDescription.equals(description.getText());
+	}
 
 	public JButton getUpdateDescription() {
 		return saveRequirement;
@@ -656,20 +630,20 @@ public class ViewSessionReqPanel extends JPanel {
 		return session;
 	}
 
-	public String getReqName() {
-		return reqName;
+	public String getSelectedReqName() {
+		return selectedReqName;
 	}
 
-	public void setReqName(String reqName) {
-		this.reqName = reqName;
+	public void setSelectedReqName(String reqName) {
+		this.selectedReqName = reqName;
 	}
 
-	public String getReqDescription() {
-		return reqDescription;
+	public String getSelectedReqDescription() {
+		return selectedReqDescription;
 	}
 
-	public void setReqDescription(String reqDescription) {
-		this.reqDescription = reqDescription;
+	public void setSelectedReqDescription(String reqDescription) {
+		this.selectedReqDescription = reqDescription;
 	}
 
 	/**
