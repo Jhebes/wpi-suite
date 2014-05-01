@@ -98,8 +98,12 @@ public class AddRequirementToSessionController implements ActionListener {
 			panel.refreshMoveButtons();
 			
 			// Clear the texts in name and description box
-			this.panel.clearNewReqName();
-			this.panel.clearNewReqDesc();
+			panel.clearNewReqName();
+			panel.clearNewReqDesc();
+			
+			// Clears the internal list used to determine whether we're editing a requirement
+			panel.setSelectedReqName("");
+			panel.setSelectedReqDescription("");
 			
 			// Hide error message if needed
 			panel.hideErrorMessage();
@@ -108,6 +112,8 @@ public class AddRequirementToSessionController implements ActionListener {
 			panel.setErrorMessage(DUPLICATE_REQ_MESSAGE);
 			panel.showErrorMessage();
 		}
+		
+		panel.validateNameAndDescription();
 	}
 	
 	/*
