@@ -10,6 +10,7 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -164,8 +165,13 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 */
 	public double calculateStandardDeviation(int mean){
 		double variance, stndDev;
+		DecimalFormat df = new DecimalFormat("#.#");
+		
 		variance  = calculateVariance(mean);
 		stndDev = Math.sqrt(variance);
+		
+		stndDev = Double.parseDouble(df.format(stndDev));
+		
 		return stndDev;
 		
 	}
