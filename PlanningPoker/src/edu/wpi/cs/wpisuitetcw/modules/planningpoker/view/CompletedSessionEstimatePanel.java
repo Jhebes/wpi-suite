@@ -11,26 +11,14 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -44,10 +32,7 @@ import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 /**
  * Panel for final estimation.
@@ -55,74 +40,77 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
 public class CompletedSessionEstimatePanel extends JPanel {
 
 	// private final JPanel pnlCompletedSession;
-	
-	//The panel that the final estimate panel is placed in.
+
+	// The panel that the final estimate panel is placed in.
 	private final VotePanel parentPanel;
-	
-/*	// The GridLayout that holds the stats panel, vote panel, and final estimate panel.
-	private final GridLayout panelLayout;*/
-	
+
+	/*
+	 * // The GridLayout that holds the stats panel, vote panel, and final
+	 * estimate panel. private final GridLayout panelLayout;
+	 */
+
 	// Panel that contains stats and final estimate
 	private JPanel pnlFinishedReq;
-	
+
 	// Panel that displays the final estimate text box and submission button
 	private ImagePanel pnlFinalEstimate;
-	
+
 	// Panel that displays the stats of a requirement.
 	private final JPanel pnlStats;
-	
+
 	// Panel that displays a table of users and their votes for a requirement.
 	private final JPanel pnlVotes;
-	
-	/*// Label to hold the card picture for final estimate
-	private final JLabel card;*/
-	
+
+	/*
+	 * // Label to hold the card picture for final estimate private final JLabel
+	 * card;
+	 */
+
 	// Header for the votes panel.
 	private final JLabel lblVotes;
-	
+
 	// Header for the final estimate panel.
 	private final JLabel lblFinalEstimate;
-	
-	// Label of the Mean 
+
+	// Label of the Mean
 	private final JLabel lblMean;
-	
-	// Label of the Median 
+
+	// Label of the Median
 	private final JLabel lblMedian;
-	
+
 	// Label of the Mode itself
 	private final JLabel lblMode;
-	
+
 	// Label of the Mean itself
 	private JLabel lblMeanValue;
-	
+
 	// Label of the Median itself
 	private JLabel lblMedianValue;
-	
+
 	// Label of the Mode text field.
 	private JLabel lblModeValue;
-	
-	
+
 	// Holds the model to populate the Votes table.
 	private DefaultTableModel tableModel;
-	
+
 	// Table that displays users and their votes for a requirement.
 	private JTable tblVotes;
-	
+
 	// text field that takes the final estimate given by the owner of a session.
 	private JTextField finalEstimateField;
-	
+
 	// The font to be used for headers in this panel.
 	private final Font headerFont;
-	
+
 	// the font used for statistical labels
 	private final Font statNameFont;
-	
+
 	// The requirement that has been chosen for analysis and estimation
 	private PlanningPokerRequirement focusedRequirement = null;
-	
+
 	// Headers for the tblVotes JTable.
 	private static final Object[] voteTableColHeaders = { "User", "Vote" };
-	
+
 	// The Requirement Manager requirement Model.
 	private RequirementModel reqManagerRequirementModel;
 
@@ -131,40 +119,39 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * 
 	 * @param parentPanel
 	 *            The parent panel containing this panel.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@SuppressWarnings("serial")
-	public CompletedSessionEstimatePanel(
-			final VotePanel parentPanel){
+	public CompletedSessionEstimatePanel(final VotePanel parentPanel) {
 		this.parentPanel = parentPanel;
-		
-		// Set the reqManagerRequirementModel field equal to the Instance of the Requirement Model;
+
+		// Set the reqManagerRequirementModel field equal to the Instance of the
+		// Requirement Model;
 		reqManagerRequirementModel = RequirementModel.getInstance();
-		
+
 		pnlFinishedReq = new JPanel();
 		pnlFinishedReq.setLayout(new MigLayout());
-		
+
 		pnlFinalEstimate = new ImagePanel();
 		try {
 			pnlFinalEstimate = new ImagePanel("new_card.png");
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
 		pnlFinalEstimate.setLayout(new MigLayout());
-		
-		
+
 		/*
 		 * Create and set up the 3 panels used to create the CompletedSession
 		 * Panel
 		 */
 		this.setLayout(new MigLayout());
-		
-		/*pnlFinalEstimate = new JPanel();
-		pnlFinalEstimate.setLayout(new BoxLayout(pnlFinalEstimate,
-				BoxLayout.Y_AXIS));
-		pnlFinalEstimate.setBorder(BorderFactory.createEmptyBorder());*/
+
+		/*
+		 * pnlFinalEstimate = new JPanel(); pnlFinalEstimate.setLayout(new
+		 * BoxLayout(pnlFinalEstimate, BoxLayout.Y_AXIS));
+		 * pnlFinalEstimate.setBorder(BorderFactory.createEmptyBorder());
+		 */
 
 		// Statistical info of the PP Session
 		pnlStats = new JPanel();
@@ -211,22 +198,21 @@ public class CompletedSessionEstimatePanel extends JPanel {
 					public void warn() {
 						try {
 							Integer.parseInt(finalEstimateField.getText());
-							parentPanel.getSubmitFinalEstimationButton().setEnabled(true);
+							parentPanel.getSubmitFinalEstimationButton()
+									.setEnabled(true);
 						} catch (NumberFormatException n) {
-							parentPanel.getSubmitFinalEstimationButton().setEnabled(false);
+							parentPanel.getSubmitFinalEstimationButton()
+									.setEnabled(false);
 						}
 					}
 				});
 
 		final Component verticalStrut = Box.createVerticalStrut(97);
-		//pnlFinalEstimate.add(lblFinalEstimate, "center, wrap");
-		pnlFinalEstimate.add(verticalStrut, "wrap");
-		pnlFinalEstimate.add(finalEstimateField, "wrap");
-		
-		
+		pnlFinalEstimate.add(finalEstimateField);
+
 		// Create the Stats Panel
 		statNameFont = new Font("SansSerif", Font.BOLD, 15);
-		
+
 		lblMeanValue = new JLabel("");
 		lblMean = new JLabel("Mean");
 		lblMean.setFont(statNameFont);
@@ -251,12 +237,12 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		pnlStats.add(lblMode, "gapright 20px");
 		pnlStats.add(lblModeValue);
 
-		
+		pnlFinishedReq.add(lblFinalEstimate, "wrap");
 		pnlFinishedReq.add(pnlFinalEstimate, "height 194!, width 146!");
 		pnlFinishedReq.add(pnlStats);
-		
+
 		// put the completed Session panel together
-		//this.add(pnlVotes, "growy , wrap");
+		this.add(pnlVotes, "growy, wrap");
 		this.add(pnlFinishedReq);
 		this.createTable();
 		final JScrollPane votesScrollPane = new JScrollPane(tblVotes);
@@ -357,6 +343,5 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		final String estimateText = finalEstimateField.getText();
 		return Integer.parseInt(estimateText);
 	}
-	
 
 }
