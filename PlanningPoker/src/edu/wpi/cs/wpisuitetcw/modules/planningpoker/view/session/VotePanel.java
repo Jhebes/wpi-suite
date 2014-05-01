@@ -351,7 +351,7 @@ public class VotePanel extends JPanel {
 					}
 
 					if (session.isClosed()) {
-						int mean = selectedRequirement.getMean();
+						double mean = selectedRequirement.getMean();
 						finalEstimatePnl.setFocusedRequirement(selectedRequirement);
 						finalEstimatePnl.setStatsMean(mean);
 						finalEstimatePnl.setStatsMedian(selectedRequirement.getMedian());

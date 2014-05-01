@@ -334,7 +334,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * 
 	 * @param statsMean
 	 */
-	public void setStatsMean(int statsMean) {
+	public void setStatsMean(double statsMean) {
 		this.statsMean.setText("" + statsMean + "  ");
 	}
 
