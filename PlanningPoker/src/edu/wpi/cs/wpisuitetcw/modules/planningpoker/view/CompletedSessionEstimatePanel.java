@@ -70,14 +70,24 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	// Header for the final estimate panel.
 	private final JLabel lblFinalEstimate;
 	
-	// Label of the Mean text field.
+	// Label of the Mean 
 	private final JLabel lblMean;
 	
-	// Label of the Median text field.
+	// Label of the Median 
 	private final JLabel lblMedian;
 	
-	// Label of the Mode text field.
+	// Label of the Mode itself
 	private final JLabel lblMode;
+	
+	// Label of the Mean itself
+	private JLabel lblMeanValue;
+	
+	// Label of the Median itself
+	private JLabel lblMedianValue;
+	
+	// Label of the Mode text field.
+	private JLabel lblModeValue;
+	
 	
 	// Holds the model to populate the Votes table.
 	private DefaultTableModel tableModel;
@@ -206,71 +216,45 @@ public class CompletedSessionEstimatePanel extends JPanel {
 
 		final Component verticalStrut = Box.createVerticalStrut(50);
 
-		// btnFinalEstimate = new JButton("Submit Final Estimation");
-		// btnFinalEstimate.setAlignmentX(Component.CENTER_ALIGNMENT);
-		// btnFinalEstimate.setEnabled(false);
-
-		/*btnFinalEstimate.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				final PlanningPokerRequirement focusedReq = CompletedSessionEstimatePanel.this
-						.getFocusedRequirement();
-				final int estimate = CompletedSessionEstimatePanel.this
-						.getEstimate();
-				final int correspondingReqID = focusedReq
-						.getCorrespondingReqManagerID();
-				focusedReq.setFinalEstimate(estimate);
-
-				// Update the Requirement manager requirement estimate.
-				final Requirement focusedRequirementManagerRequirement = reqManagerRequirementModel
-						.getRequirement(correspondingReqID);
-				focusedRequirementManagerRequirement.setEstimate(estimate);
-
-				parentPanel.getSession().save();
-				UpdateRequirementController.getInstance().updateRequirement(
-						focusedRequirementManagerRequirement);
-				ViewEventController.getInstance().refreshTable();
-				ViewEventController.getInstance().refreshTree();
-			}
-
-		});*/
-
 		pnlFinalEstimate.add(lblFinalEstimate);
 		pnlFinalEstimate.add(verticalStrut);
 		pnlFinalEstimate.add(finalEstimateField);
 
 		// Create the Stats Panel
 		statNameFont = new Font("TimesRoman", Font.BOLD, 15);
-
+		
+		lblMeanValue = new JLabel("");
 		lblMean = new JLabel("Mean");
 		lblMean.setFont(statNameFont);
 		lblMean.setAlignmentX(Component.CENTER_ALIGNMENT);
-		statsMean = new JTextField(5);
+		
+		/*statsMean = new JTextField(5);
 		// Keeps the text box from filling the entire statBox
 		statsMean.setMaximumSize(statsMean.getPreferredSize());
 		statsMean.setAlignmentX(Component.CENTER_ALIGNMENT);
-		statsMean.setEditable(false);
+		statsMean.setEditable(false);*/
 
+		lblMedianValue = new JLabel("");
 		lblMedian = new JLabel("Median");
 		lblMedian.setFont(statNameFont);
 		lblMedian.setAlignmentX(Component.CENTER_ALIGNMENT);
-		statsMedian = new JTextField(5);
+		
+		/*statsMedian = new JTextField(5);
 		// Keeps the text box from filling the entire statBox
 		statsMedian.setMaximumSize(statsMedian.getPreferredSize());
 		statsMedian.setAlignmentX(Component.CENTER_ALIGNMENT);
-		statsMedian.setEditable(false);
+		statsMedian.setEditable(false);*/
 
+		lblModeValue = new JLabel("");
 		lblMode = new JLabel("Mode");
 		lblMode.setFont(statNameFont);
 		lblMode.setAlignmentX(Component.CENTER_ALIGNMENT);
-		statsMode = new JTextField(5);
+		
+		/*statsMode = new JTextField(5);
 		// Keeps the text box from filling the entire statBox
 		statsMode.setMaximumSize(statsMode.getPreferredSize());
 		statsMode.setAlignmentX(Component.CENTER_ALIGNMENT);
-		statsMode.setEditable(false);
-
-		pnlStats.add(lblStats, "wrap");
+		statsMode.setEditable(false);*/
 
 		pnlStats.add(lblMean);
 		pnlStats.add(statsMean, "wrap");
@@ -308,30 +292,30 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	}
 
 	/**
-	 * sets the text field for Mean in the completed session view.
+	 * sets the JLabel for Mean in the completed session view.
 	 * 
 	 * @param statsMean
 	 */
 	public void setStatsMean(int statsMean) {
-		this.statsMean.setText("" + statsMean + "  ");
+		lblMeanValue = new JLabel("" + statsMean);
 	}
 
 	/**
-	 * sets the text field for Median in the completed session view.
+	 * sets the JLabel for Median in the completed session view.
 	 * 
 	 * @param statsMedian
 	 */
 	public void setStatsMedian(int statsMedian) {
-		this.statsMedian.setText("" + statsMedian + "  ");
+		this.statsMedian.setText("" + statsMedian);
 	}
 
 	/**
-	 * sets the text field for Mode in the completed session view.
+	 * sets the JLabel for Mode in the completed session view.
 	 * 
 	 * @param statsMode
 	 */
 	public void setStatsMode(int statsMode) {
-		this.statsMode.setText("" + statsMode + "  ");
+		this.statsMode.setText("" + statsMode);
 	}
 
 	/**
