@@ -24,6 +24,11 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * from the database
  */
 public class GetAllDecksController {
+	/** constans */
+	private static final String CREATE_DECK = "Create deck";
+	private static final String DEFAULT_DECK = "Default";
+	private static final String NO_DECK = "No deck";
+	
 	/** A list of PlanningPokerDeck */
 	private List<PlanningPokerDeck> decks = null;
 
@@ -77,9 +82,9 @@ public class GetAllDecksController {
 		}
 		
 		// Default options
-		deckNames.add("Default");
-		deckNames.add("Create new deck");
-		deckNames.add("No deck");
+		deckNames.add(DEFAULT_DECK);
+		deckNames.add(CREATE_DECK);
+		deckNames.add(NO_DECK);
 
 		// make sure the decks is not null
 		if (decks != null) {

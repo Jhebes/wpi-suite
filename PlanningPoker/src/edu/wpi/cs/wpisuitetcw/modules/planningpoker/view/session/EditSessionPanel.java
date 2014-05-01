@@ -81,7 +81,7 @@ public class EditSessionPanel extends JPanel {
 	private static final int GAP_LENGTH_DEADLINE_TO_BOTTOM = 0;
 	private static final String REQUIRED_LABEL = "<html><font color='red'>Required field *</font></html>";
 	private static final String DEADLINE_ERR_LABEL = "<html><font color='red'>Deadline cannot be in the past</font></html>";
-	private static final String CREATE_DECK = "Create new deck";
+	private static final String CREATE_DECK = "Create deck";
 	private static final String DEFAULT_DECK = "Default";
 	private static final String NO_DECK = "No deck";
 	public static final String DISPLAY_MSG = "New Deck";
