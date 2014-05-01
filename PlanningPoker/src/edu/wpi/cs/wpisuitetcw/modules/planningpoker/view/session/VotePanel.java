@@ -351,10 +351,12 @@ public class VotePanel extends JPanel {
 					}
 
 					if (session.isClosed()) {
+						int mean = selectedRequirement.getMean();
 						finalEstimatePnl.setFocusedRequirement(selectedRequirement);
-						finalEstimatePnl.setStatsMean(selectedRequirement.getMean());
+						finalEstimatePnl.setStatsMean(mean);
 						finalEstimatePnl.setStatsMedian(selectedRequirement.getMedian());
 						finalEstimatePnl.setStatsMode(selectedRequirement.getMode());
+						finalEstimatePnl.setStatsStandardDeviation(selectedRequirement.calculateStandardDeviation(mean));
 						finalEstimatePnl.fillTable(selectedRequirement);
 						finalEstimatePnl.updateEstimateTextField(selectedRequirement);
 						updateUI();
