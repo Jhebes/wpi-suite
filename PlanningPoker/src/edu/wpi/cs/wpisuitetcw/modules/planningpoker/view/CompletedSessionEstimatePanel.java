@@ -196,12 +196,8 @@ public class CompletedSessionEstimatePanel extends JPanel {
 					public void warn() {
 						try {
 							Integer.parseInt(finalEstimateField.getText());
-							// MUST DO THIS FOR OTHER BUTTON ON THE BOTTOM PANEL
-							// btnFinalEstimate.setEnabled(true);
 							parentPanel.getSubmitFinalEstimationButton().setEnabled(true);
 						} catch (NumberFormatException n) {
-							// MUST DO THIS FOR OTHER BUTTON ON THE BOTTOM PANEL
-							// btnFinalEstimate.setEnabled(false);
 							parentPanel.getSubmitFinalEstimationButton().setEnabled(false);
 						}
 					}
@@ -220,43 +216,25 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		lblMean = new JLabel("Mean");
 		lblMean.setFont(statNameFont);
 		lblMean.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-		/*statsMean = new JTextField(5);
-		// Keeps the text box from filling the entire statBox
-		statsMean.setMaximumSize(statsMean.getPreferredSize());
-		statsMean.setAlignmentX(Component.CENTER_ALIGNMENT);
-		statsMean.setEditable(false);*/
 
 		lblMedianValue = new JLabel("");
 		lblMedian = new JLabel("Median");
 		lblMedian.setFont(statNameFont);
 		lblMedian.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-		/*statsMedian = new JTextField(5);
-		// Keeps the text box from filling the entire statBox
-		statsMedian.setMaximumSize(statsMedian.getPreferredSize());
-		statsMedian.setAlignmentX(Component.CENTER_ALIGNMENT);
-		statsMedian.setEditable(false);*/
 
 		lblModeValue = new JLabel("");
 		lblMode = new JLabel("Mode");
 		lblMode.setFont(statNameFont);
 		lblMode.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-		/*statsMode = new JTextField(5);
-		// Keeps the text box from filling the entire statBox
-		statsMode.setMaximumSize(statsMode.getPreferredSize());
-		statsMode.setAlignmentX(Component.CENTER_ALIGNMENT);
-		statsMode.setEditable(false);*/
 
-		pnlStats.add(lblMean);
-		pnlStats.add(statsMean, "wrap");
+		pnlStats.add(lblMean, "gapright 20px");
+		pnlStats.add(lblMeanValue, "wrap");
 
-		pnlStats.add(lblMedian);
-		pnlStats.add(statsMedian, "wrap");
+		pnlStats.add(lblMedian, "gapright 20px");
+		pnlStats.add(lblMedianValue, "wrap");
 
-		pnlStats.add(lblMode);
-		pnlStats.add(statsMode);
+		pnlStats.add(lblMode, "gapright 20px");
+		pnlStats.add(lblModeValue);
 
 		// put the completed Session panel together
 		this.add(pnlVotes, "growy , wrap");
@@ -290,7 +268,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * @param statsMean
 	 */
 	public void setStatsMean(int statsMean) {
-		lblMeanValue = new JLabel("" + statsMean);
+		lblMeanValue.setText("" + statsMean);
 	}
 
 	/**
@@ -299,7 +277,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * @param statsMedian
 	 */
 	public void setStatsMedian(int statsMedian) {
-		lblMedianValue = new JLabel("" + statsMedian);
+		lblMedianValue.setText("" + statsMedian);
 	}
 
 	/**
@@ -308,7 +286,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * @param statsMode
 	 */
 	public void setStatsMode(int statsMode) {
-		lblModeValue = new JLabel("" + statsMode);
+		lblModeValue.setText("" + statsMode);
 	}
 
 	/**

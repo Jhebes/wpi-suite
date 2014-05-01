@@ -507,7 +507,7 @@ public class VotePanel extends JPanel {
 	}
 
 	/**
-	 * Opens final estiamtion GUI for this requirement
+	 * Opens final estimation GUI for this requirement
 	 */
 	private void openFinalEstimation(){
 		ViewEventManager.getInstance().viewSession(this.session);
