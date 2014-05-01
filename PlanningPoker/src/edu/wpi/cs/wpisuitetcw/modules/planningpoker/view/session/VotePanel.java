@@ -43,6 +43,10 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.VoteRequire
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.DisplayDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 /**
  * Panel for voting.
@@ -114,6 +118,9 @@ public class VotePanel extends JPanel {
 
 	/** A JLabel informing the card selection mode (single/multiple selection) */
 	private JLabel cardSelectionModeLabel;
+	
+	/** A button to submit the final estimation */
+	private JButton submitFinalEstimationButton;
 
 	/** The name of the currently selected requirement */
 	private PlanningPokerRequirement selectedRequirement;
@@ -168,11 +175,29 @@ public class VotePanel extends JPanel {
 
 		// Create the container
 		bottomPanel = new JPanel();
+		
+		this.submitFinalEstimationButton = new JButton("Sumbit");
+		this.submitFinalEstimationButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				final PlanningPokerRequirement focusedReq = reqList.getSelectedValue();
+				final int estimate = finalEstimatePnl.getEstimate();
+				final int correspondingReqID = focusedReq
+						.getCorrespondingReqManagerID();
+				focusedReq.setFinalEstimate(estimate);
 
-		// Don't draw bottom buttons if we're in final estimation
-		if (session.isClosed()) {
-			return;
-		}
+				// Update the Requirement manager requirement estimate.
+				final Requirement focusedRequirementManagerRequirement = RequirementModel.getInstance().getRequirement(correspondingReqID);
+				focusedRequirementManagerRequirement.setEstimate(estimate);
+
+				getSession().save();
+				UpdateRequirementController.getInstance().updateRequirement(
+						focusedRequirementManagerRequirement);
+				ViewEventController.getInstance().refreshTable();
+				ViewEventController.getInstance().refreshTree();
+			
+			}
+		});
 
 		// Create the end session button
 		endSessionButton = new JButton(END_SESSION_BUTTON_LABEL);
@@ -292,10 +317,16 @@ public class VotePanel extends JPanel {
 	 */
 	private void addGUIComponentsToBottomPanel() {
 		bottomPanel.setLayout(new MigLayout("inset 5 "// + DEFAULT_INSETS / 2 + " "
-									  				 + DEFAULT_INSETS + " "
-													 + "5 " //DEFAULT_INSETS / 2 + " "
-													 + DEFAULT_INSETS + ", fill", 
-											"", "push[]push"));
+ 				 + DEFAULT_INSETS + " "
+				 + "5 " //DEFAULT_INSETS / 2 + " "
+				 + DEFAULT_INSETS + ", fill", 
+		"", "push[]push"));
+		
+		if(session.isClosed()){
+			bottomPanel.add(submitFinalEstimationButton, "");
+		}
+		
+		else{
 		bottomPanel.add(endSessionButton, "left, "
 										+ "wmin " + MIN_BUTTON_WIDTH + "px, "
 										+ "height " + DEFAULT_HEIGHT + "px!, "
@@ -309,6 +340,7 @@ public class VotePanel extends JPanel {
 		bottomPanel.add(cardSelectionModeLabel, "left, wmin " + MIN_BUTTON_WIDTH + "px");
 		bottomPanel.add(submitVoteButton, "right, "
 										+ "height " + DEFAULT_HEIGHT + "px!");
+		}
 	}
 
 	/*
@@ -614,4 +646,21 @@ public class VotePanel extends JPanel {
 
 		clearDeckPanel();
 	}
+
+	/**
+	 * @return the submitFinalEstimationButton
+	 */
+	public JButton getSubmitFinalEstimationButton() {
+		return submitFinalEstimationButton;
+	}
+
+	/**
+	 * @param submitFinalEstimationButton the submitFinalEstimationButton to set
+	 */
+	public void setSubmitFinalEstimationButton(JButton submitFinalEstimationButton) {
+		this.submitFinalEstimationButton = submitFinalEstimationButton;
+	}
+	
+	
+	
 }
