@@ -6,11 +6,13 @@ import java.awt.Image;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 class ImagePanel extends JPanel {
 	private Image img;
+
+	public ImagePanel() {
+	}
 
 	public ImagePanel(String img) throws IOException {
 		// this.img = new ImageIcon(img).getImage();
@@ -28,6 +30,7 @@ class ImagePanel extends JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
+		// g.drawImage(img, 0, 0, null);
 		g.drawImage(img, 0, 0, null);
 	}
 }

@@ -10,6 +10,7 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -61,8 +62,11 @@ public class CompletedSessionEstimatePanel extends JPanel {
 /*	// The GridLayout that holds the stats panel, vote panel, and final estimate panel.
 	private final GridLayout panelLayout;*/
 	
+	// Panel that contains stats and final estimate
+	private JPanel pnlFinishedReq;
+	
 	// Panel that displays the final estimate text box and submission button
-	private final ImagePanel pnlFinalEstimate;
+	private ImagePanel pnlFinalEstimate;
 	
 	// Panel that displays the stats of a requirement.
 	private final JPanel pnlStats;
@@ -127,17 +131,30 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * 
 	 * @param parentPanel
 	 *            The parent panel containing this panel.
+	 * @throws IOException 
 	 */
 	@SuppressWarnings("serial")
 	public CompletedSessionEstimatePanel(
-			final VotePanel parentPanel) {
+			final VotePanel parentPanel){
 		this.parentPanel = parentPanel;
 		
 		// Set the reqManagerRequirementModel field equal to the Instance of the Requirement Model;
 		reqManagerRequirementModel = RequirementModel.getInstance();
 		
-		pnlFinalEstimate = new ImagePanel("new_card.png");
+		pnlFinishedReq = new JPanel();
+		pnlFinishedReq.setLayout(new MigLayout());
+		
+		pnlFinalEstimate = new ImagePanel();
+		try {
+			pnlFinalEstimate = new ImagePanel("new_card.png");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
+		pnlFinalEstimate.setLayout(new MigLayout());
+		
+		
 		/*
 		 * Create and set up the 3 panels used to create the CompletedSession
 		 * Panel
@@ -201,11 +218,12 @@ public class CompletedSessionEstimatePanel extends JPanel {
 					}
 				});
 
-		final Component verticalStrut = Box.createVerticalStrut(50);
-		pnlFinalEstimate.add(lblFinalEstimate);
-		pnlFinalEstimate.add(verticalStrut);
-		pnlFinalEstimate.add(finalEstimateField);
-
+		final Component verticalStrut = Box.createVerticalStrut(97);
+		//pnlFinalEstimate.add(lblFinalEstimate, "center, wrap");
+		pnlFinalEstimate.add(verticalStrut, "wrap");
+		pnlFinalEstimate.add(finalEstimateField, "wrap");
+		
+		
 		// Create the Stats Panel
 		statNameFont = new Font("SansSerif", Font.BOLD, 15);
 		
@@ -233,10 +251,13 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		pnlStats.add(lblMode, "gapright 20px");
 		pnlStats.add(lblModeValue);
 
+		
+		pnlFinishedReq.add(pnlFinalEstimate, "height 194!, width 146!");
+		pnlFinishedReq.add(pnlStats);
+		
 		// put the completed Session panel together
-		this.add(pnlVotes, "growy , wrap");
-		this.add(pnlFinalEstimate);
-		this.add(pnlStats);
+		//this.add(pnlVotes, "growy , wrap");
+		this.add(pnlFinishedReq);
 		this.createTable();
 		final JScrollPane votesScrollPane = new JScrollPane(tblVotes);
 		tblVotes.setFillsViewportHeight(true);
