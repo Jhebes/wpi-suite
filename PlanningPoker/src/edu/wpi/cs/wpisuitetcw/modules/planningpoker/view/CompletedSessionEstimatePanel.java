@@ -64,9 +64,6 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	// Header for the votes panel.
 	private final JLabel lblVotes;
 	
-	// Header for the stats panel.
-	private final JLabel lblStats;
-	
 	// Header for the final estimate panel.
 	private final JLabel lblFinalEstimate;
 	
@@ -171,10 +168,6 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		lblVotes = new JLabel("Votes");
 		lblVotes.setFont(headerFont);
 		lblVotes.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-		lblStats = new JLabel("Stats");
-		lblStats.setFont(headerFont);
-		lblStats.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		lblFinalEstimate = new JLabel("Final Estimate");
 		lblFinalEstimate.setFont(headerFont);
@@ -306,7 +299,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * @param statsMedian
 	 */
 	public void setStatsMedian(int statsMedian) {
-		this.statsMedian.setText("" + statsMedian);
+		lblMedianValue = new JLabel("" + statsMedian);
 	}
 
 	/**
@@ -315,7 +308,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * @param statsMode
 	 */
 	public void setStatsMode(int statsMode) {
-		this.statsMode.setText("" + statsMode);
+		lblModeValue = new JLabel("" + statsMode);
 	}
 
 	/**
