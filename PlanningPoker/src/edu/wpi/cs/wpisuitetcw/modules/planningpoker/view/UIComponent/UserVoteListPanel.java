@@ -9,7 +9,7 @@
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent;
-
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -23,8 +23,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.plivo.helper.xml.elements.User;
+
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.UserStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 
 public class UserVoteListPanel extends JPanel {
@@ -98,10 +101,16 @@ public class UserVoteListPanel extends JPanel {
 	public void fillTable(PlanningPokerRequirement requirement) {
 		// Clear the table model.
 		tableModel.setRowCount(0);
-
-		for (PlanningPokerVote vote : requirement.getVotes()) {
-			Object[] row = { vote.getUser(), vote.getCardValue() };
-			tableModel.addRow(row);
+		for(User user : UserStash.getInstance().getUsers()) {
+			for (PlanningPokerVote vote : requirement.getVotes()) {
+				Object[] row = { vote.getUser(), vote.getCardValue() };
+				tableModel.addRow(row);
+				if(user.getUsername().equals(vote.getUser())) {
+					setBackground(new Color(0x22, 0xff, 0x33));
+				} else {
+					setBackground(new Color(0xff, 0x88, 0x99));
+				}
+			}
 		}
 	}
 }
