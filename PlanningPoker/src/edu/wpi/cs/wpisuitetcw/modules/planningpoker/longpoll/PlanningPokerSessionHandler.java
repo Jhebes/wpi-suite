@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 
 /**
  * Handles push events from new planning poker session.
@@ -28,6 +29,8 @@ public class PlanningPokerSessionHandler extends LongPollingHandler<PlanningPoke
 		Gson gson = new Gson();
 		PlanningPokerSession receivedSession = gson.fromJson(json, PlanningPokerSession.class); 
 		SessionStash.getInstance().update(receivedSession);
+		new RequirementTableManager().refreshRequirements(
+				receivedSession.getID(), receivedSession.getRequirements());
 	}
 
 }
