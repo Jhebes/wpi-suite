@@ -113,19 +113,19 @@ public class DefaultHomePanel extends JPanel {
 
 		final String[] leftPaneText = {
 				"What is Planning Poker?", // large
-				"\n\n   Planning Poker is a software development tool for estimating "
-						+ "requirements in software development projects. In Planning Poker, "
-						+ "each group member has a deck of cards to rank the requirements "
-						+ "of a project according to how important they think that task "
-						+ "ranks among the others. The project administrators can then "
-						+ "use this data to create a final priority list for the project."
+				"\n\nPlanning Poker is a software development tool \nfor estimating "
+						+ "requirements in software development \nprojects. In Planning Poker, "
+						+ "each group member has \na deck of cards to rank the requirements "
+						+ "of a project\naccording to how important they think that task "
+						+ "ranks\namong the others. The project administrators can then "
+						+ "use\nthis data to create a final priority list for the project. \n"
 						+ "\n", // small
 				"\nHow To Get Started", // large
-				"\n   To start a planning poker session, click create a session and "
-						+ "assign a type of deck to the session. You can either use the "
-						+ "default deck, or create your own deck. Once a session has been created, "
-						+ "you can select what requirements you would like to add to the session "
-						+ "or create a requirement of your own. Now it's time to start the voting!\n", // small
+				"\n\nTo start a planning poker session, click create a session and \n"
+						+ "assign a type of deck to the session. You can either use the \n"
+						+ "default deck, or create your own deck. Once a session has\nbeen created,"
+						+ "you can select what requirements you would \nlike to add to the session"
+						+ "or create a requirement of your \nown. Now it's time to start the voting!\n", // small
 		};
 
 		final String[] initStyles = { "large", "small", "large", "small" };
@@ -150,12 +150,12 @@ public class DefaultHomePanel extends JPanel {
 		final String[] rightPaneText = {
 				"Frequently Asked Questions", // large
 				"\n\nWho can view my vote?", // medium
-				"\n Once your vote is submitted, your vote remains anonymous and is only"
-						+ " used for the calculation of the final estimation of a requirement.", // small
-				"\n\nWhat is the difference between cancelling and ending a session?", // medium
-				"\n   When a session ends due to the deadline being reached or the administrator"
-						+ " manually ending a session, a final estimation is calculated, while cancelling "
-						+ "a session does not generate a final estimation.", // small
+				"\n\nOnce your vote is submitted, your vote remains\nanonymous and is only"
+						+ " used for the calculation\nof the final estimation of a requirement.\n", // small
+				"\n\nWhat is the difference between\ncancelling and ending a session?\n", // medium
+				"\nWhen a session ends due to the deadline being\nreached or the administrator"
+						+ " manually ending\na session, a final estimation is calculated, while\ncancelling"
+						+ "a session does not generate a final\nestimation.", // small
 				"", // medium
 				"" // small
 		};
