@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.help.HelpPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTreePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementPanel;
@@ -26,10 +27,13 @@ public class ViewEventManager {
 	private OverviewPanel overviewPanel;
 	private OverviewTreePanel overviewTreePanel;
 	private ToolbarView toolbarView;
-	private boolean isWelcomePageOnDisplay = true;
+
 	private ArrayList<AddRequirementPanel> viewSessionPanels = new ArrayList<AddRequirementPanel>();
 	private ArrayList<VotePanel> inProgressSessionPanels = new ArrayList<VotePanel>();
 
+	/** Panel for display contents about the software */
+	private HelpPanel helpPanel;
+	
 	/**
 	 * Default constructor for ViewEventController. It is set to private to
 	 * prevent instantiation.
@@ -64,7 +68,19 @@ public class ViewEventManager {
 	 * Display the tutorial panel
 	 */
 	public void showTutorial() {
-		main.setSelectedComponent(overviewPanel);
+
+		// check if the tutorial tab is open
+		if (helpPanel == null) {
+			helpPanel = new HelpPanel();
+
+			// create a new tab
+			main.addTab("Help", null, helpPanel, "Help");
+			main.invalidate();
+			main.repaint();
+		}
+
+		// display the tab
+		main.setSelectedComponent(helpPanel);
 	}
 
 	/**
@@ -182,19 +198,13 @@ public class ViewEventManager {
 		}
 		if (component instanceof VotePanel) {
 			this.inProgressSessionPanels.remove(component);
+		} 
+		if (component instanceof HelpPanel) {
+			helpPanel = null;
 		}
 		
 		main.remove(component);
 
-	}
-
-
-
-	/**
-	 * return whether a welcome page is on display
-	 */
-	public boolean isWelcomePageOnDisplay() {
-		return this.isWelcomePageOnDisplay;
 	}
 
 	/**
