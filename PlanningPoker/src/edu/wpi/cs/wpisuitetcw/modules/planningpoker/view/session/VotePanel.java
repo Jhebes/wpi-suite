@@ -156,8 +156,10 @@ public class VotePanel extends JPanel {
 			reqList.setSelectionInterval(0, 0);
 			
 			final PlanningPokerVote vote = firstReq.getVoteByUser(ConfigManager.getConfig().getUserName());
-			if (vote != null)
+			if (vote != null) {
 				setVoteTextFieldWithValue(vote.getCardValue());
+				disableSubmitBtn();
+			}
 		}
 	}
 
@@ -363,12 +365,15 @@ public class VotePanel extends JPanel {
 					} else {
 						final PlanningPokerVote vote = selectedRequirement.getVoteByUser(ConfigManager.getConfig().getUserName());
 
-						clearDeckPanel();
+						if (usesDeck())
+							clearDeckPanel();
 						
 						if (vote != null) {
 							setVoteTextFieldWithValue(vote.getCardValue());
+							disableSubmitBtn();
 						} else {
 							clearVoteTextField();
+							enableSubmitBtn();
 						}
 
 						updateUI();
@@ -585,16 +590,31 @@ public class VotePanel extends JPanel {
 		return reqList;
 	}
 	
+	/**
+	 * Clears the deck highlighting
+	 */
 	public void clearDeckPanel() {
 		cardPanel.removeHighlight();
 		cardPanel.clearVoteValue();
 	}
 	
+	/**
+	 * 
+	 * @return true if the session uses a deck
+	 */
+	public boolean usesDeck() {
+		return this.cardFrame != null;
+	}
+	
+	/**
+	 * Go to the next "un-voted" requirement in the list
+	 */
 	public void advanceInList() {
 		PlanningPokerRequirement nextReq = null;
 		PlanningPokerVote vote = null;
 		
-		for (int i = 0; i < session.getRequirements().size(); i++) {
+		int i;
+		for (i = 0; i < session.getRequirements().size(); i++) {
 			reqList.setSelectionInterval(i, i);
 			
 			nextReq = reqList.getSelectedValue();
@@ -603,17 +623,33 @@ public class VotePanel extends JPanel {
 			if (vote == null)
 				break;
 		}
-			
-		nameDescriptionPanel.setName(nextReq.getName());
-		nameDescriptionPanel.setDescription(nextReq.getDescription());
-		selectedRequirement = nextReq;
-			
-		if (vote != null) {
-			setVoteTextFieldWithValue(vote.getCardValue());
+		
+		if (i == session.getRequirements().size()) { // All Reqs voted on
+			reqList.setSelectionInterval(selectedReqIndex, selectedReqIndex);
+			disableSubmitBtn();
 		} else {
+			selectedRequirement = nextReq;
+			nameDescriptionPanel.setName(nextReq.getName());
+			nameDescriptionPanel.setDescription(nextReq.getDescription());
+			
 			clearVoteTextField();
+		
+			if (usesDeck())
+				clearDeckPanel();
 		}
-
-		clearDeckPanel();
+	}
+	
+	/**
+	 * Disable the submit button
+	 */
+	public void disableSubmitBtn() {
+		submitVoteButton.setEnabled(false);
+	}
+	
+	/**
+	 * Enable the submit button
+	 */
+	public void enableSubmitBtn() {
+		submitVoteButton.setEnabled(true);
 	}
 }
