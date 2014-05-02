@@ -85,6 +85,7 @@ public class LongPollingClient {
 				}
 			}
 		}, "LongPollingClient");
+		thread.setDaemon(true);
 		thread.start();
 	}
 
