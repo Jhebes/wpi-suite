@@ -15,19 +15,16 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.CustomTreeCellRenderer;
 
 /**
  * @author Jenny12593
  * 
  */
-public class HelpTreePanel extends JScrollPane implements TreeSelectionListener, MouseListener{
+public class HelpTreePanel extends JScrollPane implements
+		TreeSelectionListener, MouseListener {
 
 	private static final long serialVersionUID = 1L;
-	private boolean initialized = false;
 	private JTree tree;
 
 	public HelpTreePanel() {
@@ -49,15 +46,15 @@ public class HelpTreePanel extends JScrollPane implements TreeSelectionListener,
 		tree.getSelectionModel().setSelectionMode(
 				TreeSelectionModel.SINGLE_TREE_SELECTION);
 		tree.setCellRenderer(new CustomTreeCellRenderer());
-//		tree.addMouseListener(this); // add a listener to check for clicking
-//		tree.addTreeSelectionListener(this);
+		// tree.addMouseListener(this); // add a listener to check for clicking
+		// tree.addTreeSelectionListener(this);
 
 		JScrollPane treeView = new JScrollPane(tree);
 		this.add(treeView);
 		this.setViewportView(tree);
 
 		// update the ViewEventController so it contains the right tree
-		ViewEventManager.getInstance().setHelpTree(this);
+		// ViewEventManager.getInstance().setHelpTree(this);
 	}
 
 	private void createTreeNodes(DefaultMutableTreeNode top) {
@@ -75,13 +72,12 @@ public class HelpTreePanel extends JScrollPane implements TreeSelectionListener,
 		Level1HelpNode.add(Level2HelpNode);
 	}
 
-	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 
 		// we no longer want to show the session table. we only want to show the
 		// tree and to keep the welcome page up when interacting with the tree
-	
+
 		// mouse position
 		int x = e.getX();
 		int y = e.getY();
@@ -94,16 +90,13 @@ public class HelpTreePanel extends JScrollPane implements TreeSelectionListener,
 				if (node != null) {
 					// open a session
 					if (node.getUserObject() instanceof HelpDescriptionPanel) {
-						ViewEventManager.getInstance().createHelp();
+						// ViewEventManager.getInstance().createHelp();
 					}
 				}
 			}
 		}
 	}
 
-	
-
-            
 	/**
 	 * {@inheritDoc}
 	 */
@@ -111,7 +104,7 @@ public class HelpTreePanel extends JScrollPane implements TreeSelectionListener,
 	public void valueChanged(TreeSelectionEvent e) {
 	}
 
-		/**
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
