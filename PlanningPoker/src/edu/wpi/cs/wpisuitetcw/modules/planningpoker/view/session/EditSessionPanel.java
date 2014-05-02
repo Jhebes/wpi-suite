@@ -546,10 +546,15 @@ public class EditSessionPanel extends JPanel {
 	 * Set up the initial text in the session's name text field
 	 */
 	private void setupDefaultInitialData() {
-		final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-		final String defaultNameDate = sdf.format(new Date());
-		final String projectName = ConfigManager.getConfig().getProjectName();
-		nameTextField.setText(projectName + " - " + defaultNameDate);
+		//final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+		//final String defaultNameDate = sdf.format(new Date());
+		//final String projectName = ConfigManager.getConfig().getProjectName();
+		nameTextField.setText(session.getName());
+		
+		if(session.getDescription() != null){
+			descriptionBox.setText(session.getDescription());
+		}
+		
 	}
 
 	/*

@@ -76,8 +76,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * Constructs a PlanningPokerSession.
 	 */
 	public PlanningPokerSession() {
-		
-		
+
 		
 		requirements = new ArrayList<PlanningPokerRequirement>();
 	}

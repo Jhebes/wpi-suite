@@ -9,7 +9,9 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -20,6 +22,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTreeP
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.EditSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionRequirementPanel;
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 /**
  * Main class for controlling events that happen in our view.
@@ -60,6 +63,11 @@ public class ViewEventManager {
 	//call createBlankSessionController here
 	public void createSession() {
 		PlanningPokerSession blankSession = new PlanningPokerSession();
+		final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+		final String defaultNameDate = sdf.format(new Date());
+		final String projectName = ConfigManager.getConfig().getProjectName();
+		blankSession.setName(projectName + " - " + defaultNameDate);
+		
 		final EditSessionPanel newSession = new EditSessionPanel(blankSession);
 		main.addTab("New Session", null, newSession, "New session.");
 		main.invalidate(); // force the tabbedpane to redraw
