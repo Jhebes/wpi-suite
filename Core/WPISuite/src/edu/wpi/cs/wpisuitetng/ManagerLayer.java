@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import javax.servlet.http.Cookie;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.PlanningPokerDeckEntityManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.LongPollingResponseEntityManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.PlanningPokerSessionEntityManager;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.database.DataStore;
@@ -79,7 +80,8 @@ public class ManagerLayer {
 		map.put("requirementmanager" + "iteration", new IterationEntityManager(data));
 		map.put("planningpoker" + "session", new PlanningPokerSessionEntityManager(data));	
 		map.put("planningpoker" + "deck", new PlanningPokerDeckEntityManager(data));
-		
+		map.put("planningpoker" + "longpoll", new LongPollingResponseEntityManager(data));
+
 		//add just your module to this list
 		String[] fullModuleList = {"core","defecttracker","postboard","requirementmanager","planningpoker"};
 		((ProjectManager)map.get("coreproject")).setAllModules(fullModuleList);

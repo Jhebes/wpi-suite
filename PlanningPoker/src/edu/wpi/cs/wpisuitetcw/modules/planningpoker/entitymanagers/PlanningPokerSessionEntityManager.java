@@ -190,10 +190,8 @@ public class PlanningPokerSessionEntityManager implements
 	public PlanningPokerSession update(Session s, String content)
 			throws WPISuiteException {
 
-
 		final PlanningPokerSession updatedSession = PlanningPokerSession
 				.fromJson(content);
-		
 		/*
 		 * Because of the disconnected objects problem in db4o, we can't just
 		 * save PlanningPokerSessions. We have to get the original defect from
@@ -216,6 +214,8 @@ public class PlanningPokerSessionEntityManager implements
 		// appropriately
 		existingSession.copyFrom(updatedSession);
 
+		LongPollingResponseEntityManager.pushToClients(existingSession.getClass(), existingSession);
+		
 		if (!db.save(existingSession, s.getProject())) {
 			throw new WPISuiteException(
 					"Could not save when updating existing session.");
@@ -397,38 +397,23 @@ public class PlanningPokerSessionEntityManager implements
 			String phoneNumber, String deadline) {
 		SMSNotifier.sendMessage(notificationType, phoneNumber, deadline);
 	}
-
 	
-	/**
-	 * 
-	 * @param session
-	 *            the session to be updated in db4o
-	 * @throws WPISuiteException
-	 * 
-	 * updates the planning poker session in the db, (doesn't use JSON)
-	 */
-	public void updateSession(PlanningPokerSession session)
-			throws WPISuiteException {
+	public void updateSession(PlanningPokerSession session) throws WPISuiteException {
 
-		final List<Model> oldPlanningPokerSessions = db.retrieve(
-				PlanningPokerSession.class, "id", session.getID());
-		if (oldPlanningPokerSessions.size() < 1
-				|| oldPlanningPokerSessions.get(0) == null) {
-			throw new BadRequestException(
-					"PlanningPokerSession with ID does not exist.");
+		final List<Model> oldPlanningPokerSessions = db.retrieve(PlanningPokerSession.class, "id", session.getID());
+		if (oldPlanningPokerSessions.size() < 1 || oldPlanningPokerSessions.get(0) == null) {
+			throw new BadRequestException("PlanningPokerSession with ID does not exist.");
 		}
 
-		final PlanningPokerSession existingSession = (PlanningPokerSession) oldPlanningPokerSessions
-				.get(0);
+		final PlanningPokerSession existingSession = (PlanningPokerSession) oldPlanningPokerSessions.get(0);
 
-		// copy values to old PlanningPokerSession and fill in our changeset
-		// appropriately
+		// copy values to old PlanningPokerSession and fill in our changeset appropriately
 		existingSession.copyFrom(session);
 
 		if (!db.save(existingSession)) {
-			throw new WPISuiteException(
-					"Could not save when updating existing session.");
+			throw new WPISuiteException("Could not save when updating existing session.");
 		}
 
 	}
+
 }
