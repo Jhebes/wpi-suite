@@ -530,4 +530,11 @@ public class Card extends JPanel {
 	public int getCardValue() {
 		return cardValue;
 	}
+	/**
+	 * setter for cardValue
+	 * @param value
+	 */
+	public void setCardValue(int value) {
+		this.cardValue = value;
+	}
 }
