@@ -31,6 +31,7 @@ import javax.swing.table.DefaultTableModel;
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.UserVoteListPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 
@@ -60,6 +61,8 @@ public class CompletedSessionEstimatePanel extends JPanel {
 
 	// Panel that displays a table of users and their votes for a requirement.
 	private final JPanel pnlVotes;
+	//private final UserVoteListPanel pnlVotes;
+	
 
 	/*
 	 * // Label to hold the card picture for final estimate private final JLabel
@@ -160,6 +163,8 @@ public class CompletedSessionEstimatePanel extends JPanel {
 
 		// Table of votes for each req
 		pnlVotes = new JPanel();
+		//pnlVotes = new UserVoteListPanel(parentPanel);
+		
 		pnlVotes.setLayout(new BoxLayout(pnlVotes, BoxLayout.Y_AXIS));
 		pnlVotes.setBorder(BorderFactory.createEmptyBorder());
 
@@ -310,6 +315,8 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 *            The requirement whose votes to use for this table
 	 */
 	public void fillTable(PlanningPokerRequirement requirement) {
+		//pnlVotes.fillTable(requirement);
+			
 		// Clear the table model.
 		tableModel.setRowCount(0);
 

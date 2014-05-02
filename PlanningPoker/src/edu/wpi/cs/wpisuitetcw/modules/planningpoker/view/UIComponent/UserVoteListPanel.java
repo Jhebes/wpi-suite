@@ -9,7 +9,7 @@
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -27,52 +27,54 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirem
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.UserStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 public class UserVoteListPanel extends JPanel {
-	
+
 	// Header for the votes panel.
 	private final JLabel lblVotes;
-	
-	//The panel that the final estimate panel is placed in.
+
+	// The panel that the final estimate panel is placed in.
 	private final VotePanel parentPanel;
-	
+
 	// The font to be used for headers in this panel.
 	private final Font headerFont;
-	
+
 	// Headers for the tblVotes JTable.
 	private static final Object[] voteTableColHeaders = { "User", "Vote" };
-	
+
 	// Holds the model to populate the Votes table.
 	private DefaultTableModel tableModel;
-	
+
 	// Table that displays users and their votes for a requirement.
 	private JTable tblVotes;
-	
+
 	// Panel that displays a table of users and their votes for a requirement.
 	private final JPanel pnlVotes;
-	
-	// The GridLayout that holds the stats panel, vote panel, and final estimate panel.
+
+	// The GridLayout that holds the stats panel, vote panel, and final estimate
+	// panel.
 	private final GridLayout panelLayout;
-	
-	public UserVoteListPanel(final VotePanel parentPanel, PlanningPokerRequirement focusedRequirement) {
+
+	public UserVoteListPanel(final VotePanel parentPanel) {
 		this.parentPanel = parentPanel;
-		
+
 		// Create a new grid layout that is 3 columns across.
 		panelLayout = new GridLayout(1, 1);
-		
+
 		// Initialize the default font for JLabel headers
 		headerFont = new Font("TimesRoman", Font.BOLD, 25);
-		
+
 		// Table of votes for each req
 		pnlVotes = new JPanel();
 		pnlVotes.setLayout(new BoxLayout(pnlVotes, BoxLayout.Y_AXIS));
 		pnlVotes.setBorder(BorderFactory.createLineBorder(Color.black));
-				
+
 		// Initialize the Headers for the panels.
 		lblVotes = new JLabel("Votes");
 		lblVotes.setFont(headerFont);
 		lblVotes.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+
 		this.add(pnlVotes);
 		this.createTable();
 		final JScrollPane votesScrollPane = new JScrollPane(tblVotes);
@@ -80,7 +82,7 @@ public class UserVoteListPanel extends JPanel {
 		pnlVotes.add(lblVotes);
 		pnlVotes.add(votesScrollPane);
 	}
-	
+
 	public void createTable() {
 		tableModel = new DefaultTableModel(new Object[0][0],
 				voteTableColHeaders);
@@ -95,15 +97,16 @@ public class UserVoteListPanel extends JPanel {
 			}
 		};
 	}
-	
+
 	public void fillTable(PlanningPokerRequirement requirement) {
 		// Clear the table model.
 		tableModel.setRowCount(0);
-		for(User user : UserStash.getInstance().getUsers()) {
+		System.out.println(UserStash.getInstance().getUsers().size());
+		for (User user : UserStash.getInstance().getUsers()) {
 			for (PlanningPokerVote vote : requirement.getVotes()) {
 				Object[] row = { vote.getUser(), vote.getCardValue() };
 				tableModel.addRow(row);
-				if(user.getUsername().equals(vote.getUser())) {
+				if (requirement.hasUserVoted(user.getUsername())) {
 					setBackground(new Color(0x22, 0xff, 0x33));
 				} else {
 					setBackground(new Color(0xff, 0x88, 0x99));

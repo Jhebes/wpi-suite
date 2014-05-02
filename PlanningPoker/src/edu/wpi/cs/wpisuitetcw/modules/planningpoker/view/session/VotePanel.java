@@ -322,7 +322,7 @@ public class VotePanel extends JPanel {
 		"", "push[]push"));
 		
 		if(session.isClosed()){
-			bottomPanel.add(submitFinalEstimationButton, "");
+			bottomPanel.add(submitFinalEstimationButton, "align center");
 		}
 		
 		else{
