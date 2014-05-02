@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendNotificationController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionRequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
@@ -25,7 +25,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  */
 public class ActivateSessionController implements ActionListener {
 
-	private AddRequirementPanel panel;
+	private SessionRequirementPanel panel;
 	private PlanningPokerSession session;
 
 	/**
@@ -37,7 +37,7 @@ public class ActivateSessionController implements ActionListener {
 	 * @param session
 	 *            A PlanningPokerSession that would be activated
 	 */
-	public ActivateSessionController(AddRequirementPanel panel,
+	public ActivateSessionController(SessionRequirementPanel panel,
 			PlanningPokerSession session) {
 		this.panel = panel;
 		this.session = session;

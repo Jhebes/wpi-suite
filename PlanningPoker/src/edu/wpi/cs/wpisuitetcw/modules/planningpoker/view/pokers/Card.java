@@ -36,6 +36,7 @@ import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionDeckPanel;
 
 /**
  * A card is a GUI component that imitates a real card.
@@ -85,7 +86,7 @@ public class Card extends JPanel {
 	private DisplayDeckPanel parentPanel;
 
 	/** Parent panel that is responsible for creating a deck of cards */
-	private CreateDeckPanel createDeckPanel;
+	private SessionDeckPanel createDeckPanel;
 
 	/** 
 	 * Construct a card 
@@ -105,7 +106,7 @@ public class Card extends JPanel {
 	/**
 	 * Create a card with dynamic error validation
 	 */
-	public Card(CardDisplayMode mode, CreateDeckPanel createDeckPanel) {
+	public Card(CardDisplayMode mode, SessionDeckPanel createDeckPanel) {
 		this(mode);
 		this.createDeckPanel = createDeckPanel;
 	}

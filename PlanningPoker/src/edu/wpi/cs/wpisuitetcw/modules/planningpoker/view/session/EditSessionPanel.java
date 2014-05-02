@@ -56,7 +56,8 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.CreateDeckPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionDeckPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionTabsPanel;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
@@ -66,11 +67,11 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
  * 
  * This panel is used to create or edit a session's basic information
  */
-public class CreateSessionPanel extends JPanel {
+public class EditSessionPanel extends JPanel {
 	private static final Date CURRENT_TIME = Calendar.getInstance().getTime();
 
 	private static final long serialVersionUID = 8733539608651885877L;
-	
+
 	private static final int DEFAULT_INSETS = 20;
 	private static final int DEFAULT_HEIGHT = 26;
 	private static final int DEADLINE_DATEPICKER_WIDTH = 170;
@@ -81,9 +82,9 @@ public class CreateSessionPanel extends JPanel {
 	private static final String REQUIRED_LABEL = "<html><font color='red'>Required field *</font></html>";
 	private static final String DEADLINE_ERR_LABEL = "<html><font color='red'>Deadline cannot be in the past</font></html>";
 	private static final String CREATE_DECK = "Create new deck";
-    private static final String DEFAULT_DECK = "Default";
-    private static final String NO_DECK = "No deck";
-    public static final String DISPLAY_MSG = "New Deck";
+	private static final String DEFAULT_DECK = "Default";
+	private static final String NO_DECK = "No deck";
+	public static final String DISPLAY_MSG = "New Deck";
 
 	// default data size for database entry
 	private final int DEFAULT_DATA_SIZE = 30;
@@ -105,7 +106,10 @@ public class CreateSessionPanel extends JPanel {
 
 	// ################ UI Right Component #################
 	/** The panel that shows cards and creates deck */
-	private CreateDeckPanel deckPanel;
+	private SessionDeckPanel deckPanel;
+	
+	/** The tabs panel which contains deck and Requirement panel */
+	private SessionTabsPanel tabsPanel;
 
 	// ################ UI Left Component #################
 	/** The left panel holds components to see the deck */
@@ -159,7 +163,7 @@ public class CreateSessionPanel extends JPanel {
 	 * @param session
 	 *            A Planning poker session
 	 */
-	public CreateSessionPanel(PlanningPokerSession session) {
+	public EditSessionPanel(PlanningPokerSession session) {
 		// Construct a Session Panel without a planning poker session
 		this();
 
@@ -168,7 +172,7 @@ public class CreateSessionPanel extends JPanel {
 		nameTextField.setEnabled(false);
 		descriptionBox.setText(session.getDescription());
 		descriptionBox.setEnabled(false);
-		
+
 		// Check if the button is valid
 		checkSessionValidation();
 	}
@@ -178,11 +182,14 @@ public class CreateSessionPanel extends JPanel {
 	 * constructor is used to create a session. It sets up all graphical
 	 * components
 	 */
-	public CreateSessionPanel() {
+	public EditSessionPanel() {
 		setupLeftPanel();
 
 		// Use display mode since the default deck is displayed by default
-		deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
+		// deckPanel = new SessionDeckPanel(CardDisplayMode.DISPLAY);
+		tabsPanel = new SessionTabsPanel();
+		
+		deckPanel = tabsPanel.getDeckPanel();
 		deckPanel.displayDefaultDeck();
 
 		setupBottomPanel();
@@ -501,12 +508,14 @@ public class CreateSessionPanel extends JPanel {
 	 * layout with Swing
 	 */
 	private void addUIComponentsToLeftPanel() {
-		leftPanel.setLayout(new MigLayout("inset " + DEFAULT_INSETS, "", "[]5[]"));
+		leftPanel.setLayout(new MigLayout("inset " + DEFAULT_INSETS, "",
+				"[]5[]"));
 		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
 
 		// Add session name text field and its label
 		leftPanel.add(labelName, "span");
-		leftPanel.add(nameTextField, "growx, span, height " + DEFAULT_HEIGHT + "px!");
+		leftPanel.add(nameTextField, "growx, span, height " + DEFAULT_HEIGHT
+				+ "px!");
 
 		// Add labels for the dropdowns of session type and deck to 1 row
 		leftPanel.add(labelDropdownType, "width " + DROPDOWN_WIDTH
@@ -530,13 +539,13 @@ public class CreateSessionPanel extends JPanel {
 		leftPanel.add(labelDeadlineErr, "wrap");
 
 		// Add deadline date picker and time picker
-		leftPanel.add(deadlinePicker, "split2, "
-				+ "width " + DEADLINE_DATEPICKER_WIDTH + "px!, " 
-				+ "gapbottom " + GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, " 
-				+ "height " + DEFAULT_HEIGHT + "px!");
-		leftPanel.add(pickerDeadlineTime, "growx, " 
-				+ "gapbottom " + GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, "
-				+ "height " + DEFAULT_HEIGHT + "px!, wrap");
+		leftPanel.add(deadlinePicker, "split2, " + "width "
+				+ DEADLINE_DATEPICKER_WIDTH + "px!, " + "gapbottom "
+				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, " + "height "
+				+ DEFAULT_HEIGHT + "px!");
+		leftPanel.add(pickerDeadlineTime, "growx, " + "gapbottom "
+				+ GAP_LENGTH_DEADLINE_TO_BOTTOM + "px, " + "height "
+				+ DEFAULT_HEIGHT + "px!, wrap");
 	}
 
 	/*
@@ -678,7 +687,8 @@ public class CreateSessionPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				final String deckName = String.valueOf(deckType.getSelectedItem());
+				final String deckName = String.valueOf(deckType
+						.getSelectedItem());
 				if (deckName.equals(CREATE_DECK)) {
 					// create mode
 					mode = CardDisplayMode.CREATE;
@@ -729,21 +739,21 @@ public class CreateSessionPanel extends JPanel {
 		labelName = new JLabel("Name *");
 		labelRequireField = new JLabel(REQUIRED_LABEL);
 		nameTextField = new JTextField(DEFAULT_DATA_SIZE);
-		
+
 		// Auto select all text when mouse clicks on
 		nameTextField.addFocusListener(new FocusListener() {
-			
+
 			@Override
 			public void focusLost(FocusEvent e) {
 				// Do nothing when user clicks somewhere else
 			}
-			
+
 			@Override
 			public void focusGained(FocusEvent e) {
 				nameTextField.selectAll();
 			}
 		});
-		
+
 		// add dynamic validation to session name
 		addTextInputValidation(nameTextField);
 	}
@@ -764,14 +774,14 @@ public class CreateSessionPanel extends JPanel {
 		btnCancel.addActionListener(new CancelCreateSessionController(this));
 
 		bottomPanel = new JPanel();
-		bottomPanel.setLayout(new MigLayout("inset 5 " 
-												+ DEFAULT_INSETS 
-												+ " 5 " 
-												+ DEFAULT_INSETS, 
-											"", "push[]push"));
-		bottomPanel.add(btnSaveSession, "left, width 120px, height " + DEFAULT_HEIGHT + "px!");
-		bottomPanel.add(btnCancel, "width 120px, height " + DEFAULT_HEIGHT + "px!");
-		bottomPanel.add(labelRequireField, "gapleft 10px, height " + DEFAULT_HEIGHT + "px!");
+		bottomPanel.setLayout(new MigLayout("inset 5 " + DEFAULT_INSETS + " 5 "
+				+ DEFAULT_INSETS, "", "push[]push"));
+		bottomPanel.add(btnSaveSession, "left, width 120px, height "
+				+ DEFAULT_HEIGHT + "px!");
+		bottomPanel.add(btnCancel, "width 120px, height " + DEFAULT_HEIGHT
+				+ "px!");
+		bottomPanel.add(labelRequireField, "gapleft 10px, height "
+				+ DEFAULT_HEIGHT + "px!");
 	}
 
 	/**
@@ -779,8 +789,9 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private void createNewDeck() {
 		// new deck panel for creating a deck of cards
-		deckPanel = new CreateDeckPanel(CardDisplayMode.CREATE, this);
-
+		deckPanel = new SessionDeckPanel(CardDisplayMode.CREATE, this);
+		tabsPanel.setDeckPanel(deckPanel);
+		
 		setupEntirePanel();
 		updateUI();
 	}
@@ -793,7 +804,9 @@ public class CreateSessionPanel extends JPanel {
 	 * @throws WPISuiteException
 	 */
 	private void displayDeck(String deckName) throws WPISuiteException {
-		deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
+		deckPanel = new SessionDeckPanel(CardDisplayMode.DISPLAY);
+		tabsPanel.setDeckPanel(deckPanel);
+		
 		deckPanel.displayDeck(deckName);
 
 		setupEntirePanel();
@@ -805,7 +818,9 @@ public class CreateSessionPanel extends JPanel {
 	 */
 	private void displayDefaultDeck() {
 		// Use display mode since the default deck is displayed by default
-		deckPanel = new CreateDeckPanel(CardDisplayMode.DISPLAY);
+		deckPanel = new SessionDeckPanel(CardDisplayMode.DISPLAY);
+		tabsPanel.setDeckPanel(deckPanel);
+		
 		deckPanel.displayDefaultDeck();
 
 		setupEntirePanel();
@@ -816,7 +831,8 @@ public class CreateSessionPanel extends JPanel {
 	 * display no card on the deck panel
 	 */
 	public void displayNoDeck() {
-		deckPanel = new CreateDeckPanel(CardDisplayMode.NO_DECK);
+		deckPanel = new SessionDeckPanel(CardDisplayMode.NO_DECK);
+		tabsPanel.setDeckPanel(deckPanel);
 
 		setupEntirePanel();
 		updateUI();
@@ -832,7 +848,7 @@ public class CreateSessionPanel extends JPanel {
 
 		// Put the left and card panel into a JSplitpane
 		mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel,
-				deckPanel);
+				tabsPanel);
 		// Prevent users resize left panel
 		mainPanel.setEnabled(false);
 
@@ -847,7 +863,7 @@ public class CreateSessionPanel extends JPanel {
 	 * 
 	 * @return deck panel
 	 */
-	public CreateDeckPanel getDeckPanel() {
+	public SessionDeckPanel getDeckPanel() {
 		return deckPanel;
 	}
 

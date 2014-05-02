@@ -17,9 +17,9 @@ import javax.swing.JComponent;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTreePanel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementPanel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.EditSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionRequirementPanel;
 
 /**
  * Main class for controlling events that happen in our view.
@@ -31,7 +31,7 @@ public class ViewEventManager {
 	private OverviewTreePanel overviewTreePanel;
 	private ToolbarView toolbarView;
 	private boolean isWelcomePageOnDisplay = true;
-	private List<AddRequirementPanel> viewSessionPanels = new ArrayList<AddRequirementPanel>();
+	private List<SessionRequirementPanel> viewSessionPanels = new ArrayList<SessionRequirementPanel>();
 	private List<VotePanel> inProgressSessionPanels = new ArrayList<VotePanel>();
 
 	/**
@@ -57,7 +57,7 @@ public class ViewEventManager {
 	 * Opens a new tab for the creation of a session
 	 */
 	public void createSession() {
-		final CreateSessionPanel newSession = new CreateSessionPanel();
+		final EditSessionPanel newSession = new EditSessionPanel();
 		main.addTab("New Session", null, newSession, "New session.");
 		main.invalidate(); // force the tabbedpane to redraw
 		main.repaint();
@@ -76,7 +76,7 @@ public class ViewEventManager {
 	 * @param session The session to edit
 	 */
 	public void editSession(PlanningPokerSession session) {
-		final CreateSessionPanel newSession = new CreateSessionPanel(session);
+		final EditSessionPanel newSession = new EditSessionPanel(session);
 		main.addTab("Edit: " + session.getName(), null, newSession,
 				"Edit session.");
 		main.invalidate(); // force the tabbedpane to redraw
@@ -114,9 +114,9 @@ public class ViewEventManager {
 			}
 
 		} else {
-			AddRequirementPanel exist = null;
+			SessionRequirementPanel exist = null;
 
-			for (AddRequirementPanel panel : viewSessionPanels) {
+			for (SessionRequirementPanel panel : viewSessionPanels) {
 				if (panel.getPPSession() == session) {
 					exist = panel;
 					break;
@@ -125,7 +125,7 @@ public class ViewEventManager {
 
 			if (exist == null) {
 				// check if the panel of the session is opened
-				final AddRequirementPanel viewSession = new AddRequirementPanel(session);
+				final SessionRequirementPanel viewSession = new SessionRequirementPanel(session);
 				viewSessionPanels.add(viewSession);
 				main.addTab(session.getName(), null, viewSession,
 						"View Session.");
@@ -185,7 +185,7 @@ public class ViewEventManager {
 	 *            the component to remove
 	 */
 	public void removeTab(JComponent component) {
-		if (component instanceof AddRequirementPanel) {
+		if (component instanceof SessionRequirementPanel) {
 			viewSessionPanels.remove(component);
 		}
 		if (component instanceof VotePanel) {
