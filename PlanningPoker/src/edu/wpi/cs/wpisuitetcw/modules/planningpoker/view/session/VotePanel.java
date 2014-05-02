@@ -170,7 +170,7 @@ public class VotePanel extends JPanel {
 			
 			final PlanningPokerVote vote = firstReq.getVoteByUser(ConfigManager.getConfig().getUserName());
 			if (vote != null)
-				setVoteTextFieldWithValue(vote.getCardValue());
+				setVoteDisplayCard(vote.getCardValue());
 		}
 	}
 
@@ -379,7 +379,7 @@ public class VotePanel extends JPanel {
 						clearDeckPanel();
 						
 						if (vote != null) {
-							setVoteTextFieldWithValue(vote.getCardValue());
+							setVoteDisplayCard(vote.getCardValue());
 						} else {
 							clearVoteTextField();
 						}
@@ -575,8 +575,19 @@ public class VotePanel extends JPanel {
 	 * 
 	 * @param voteTextField
 	 */
-	public void setVoteTextFieldWithValue(int value) {
-		voteTextField.setText(Integer.toString(value));
+	public void setVoteDisplayCard(int value) {
+		rightPanel.remove(voteDisplayCard);
+		this.voteDisplayCard = new Card(CardDisplayMode.DISPLAY, value);
+		voteDisplayCard.setMaximumSize(voteDisplayCard.getPreferredSize());
+		voteDisplayCard.setEnabled(false);
+		rightPanel.add(voteDisplayCard, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH  + "px, " 
+				+ "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, " 
+				+ "dock east, " 
+				+ "gaptop "   + VERTICAL_PADDING_RIGHT_PANEL   + "px, " 
+				+ "gapright " + HORIZONTAL_PADDING_RIGHT_PANEL + "px, "
+				+ "gapbottom" + VERTICAL_PADDING_RIGHT_PANEL   + "px");
+		this.updateUI();
+		
 	}
 	
 	/**
@@ -627,7 +638,7 @@ public class VotePanel extends JPanel {
 		selectedRequirement = nextReq;
 			
 		if (vote != null) {
-			setVoteTextFieldWithValue(vote.getCardValue());
+			setVoteDisplayCard(vote.getCardValue());
 		} else {
 			clearVoteTextField();
 		}
@@ -636,14 +647,5 @@ public class VotePanel extends JPanel {
 		
 		
 	}
-	/**
-	 * Set the image as the background of the panel
-	 */
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		if (cardPicture != null) {
-			g.drawImage(cardPicture, -3, 0, this);
-		}
-	}
+
 }
