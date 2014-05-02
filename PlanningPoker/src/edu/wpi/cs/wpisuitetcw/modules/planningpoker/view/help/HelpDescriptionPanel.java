@@ -12,40 +12,41 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
 /**
- * @author Jenny12593
- *
+ * Contents to be display for the help panel. Content would be instantly updated
+ * once a user selects a help item from the tree.
+ * 
  */
-public class HelpDescriptionPanel extends JPanel{
-	
+public class HelpDescriptionPanel extends JPanel {
+
 	private static final long serialVersionUID = 1L;
-		
-	public HelpDescriptionPanel(){
-		
+
+	public HelpDescriptionPanel() {
+
 		JTextPane textPane = createTextPane();
-		
+
 		this.add(textPane);
 		textPane.setEditable(false);
 		this.setEnabled(true);
 	}
-	
+
 	private JTextPane createTextPane() {
 
 		String[] homeTextPane = {
 				"Frequently Asked Questions", // large
 				"\n\nWho can view my vote?", // medium
 				"\n Once your vote is submitted, your vote remains anonymous and is only"
-				+ " used for the calculation of the final estimation of a requirement.", //small
+						+ " used for the calculation of the final estimation of a requirement.", // small
 				"\n\nWhat is the difference between cancelling and ending a session?", // medium
 				"\n   When a session ends due to the deadline being reached or the administrator"
-				+ " manually ending a session, a final estimation is calculated, while cancelling "
-				+ "a session does not generate a final estimation.", //small
-				"", //medium
-				"" //small
-				
+						+ " manually ending a session, a final estimation is calculated, while cancelling "
+						+ "a session does not generate a final estimation.", // small
+				"", // medium
+				"" // small
+
 		};
 
-		String[] initStyles = {"large", "medium", "small", "medium", "small",
-								"medium", "small"};
+		String[] initStyles = { "large", "medium", "small", "medium", "small",
+				"medium", "small" };
 
 		JTextPane textPane = new JTextPane();
 		StyledDocument doc = textPane.getStyledDocument();
@@ -85,8 +86,8 @@ public class HelpDescriptionPanel extends JPanel{
 
 		s = doc.addStyle("medium", regular);
 		StyleConstants.setFontSize(s, 20);
-		StyleConstants.setBold(s,true);
-		
+		StyleConstants.setBold(s, true);
+
 		s = doc.addStyle("large", Georgia);
 		StyleConstants.setFontSize(s, 24);
 		StyleConstants.setBold(s, true);

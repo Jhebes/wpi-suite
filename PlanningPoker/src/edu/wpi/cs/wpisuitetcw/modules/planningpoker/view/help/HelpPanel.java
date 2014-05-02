@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 /**
- * @author Jenny12593
+ * Help panel that display the index tree and contents
  * 
  */
 public class HelpPanel extends JSplitPane {

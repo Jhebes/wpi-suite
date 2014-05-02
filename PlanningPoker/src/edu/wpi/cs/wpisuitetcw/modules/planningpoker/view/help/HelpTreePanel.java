@@ -18,7 +18,8 @@ import javax.swing.tree.TreeSelectionModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.CustomTreeCellRenderer;
 
 /**
- * @author Jenny12593
+ * 
+ * Tree structure which contains the indices for the help contents
  * 
  */
 public class HelpTreePanel extends JScrollPane implements
