@@ -13,15 +13,22 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -36,10 +43,12 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteCont
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.CompletedSessionEstimatePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.NameDescriptionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.VoteRequirementCellRenderer;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.DisplayDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
@@ -81,6 +90,8 @@ public class VotePanel extends JPanel {
 	/** The right container holding all the GUI components */
 	private JLabel rightPanelLabel;
 	private JPanel rightPanel;
+	private JPanel cardDisplayPanel;
+	private Card voteDisplayCard;
 	
 	/** The name and description text box */
 	private NameDescriptionPanel nameDescriptionPanel;
@@ -98,6 +109,8 @@ public class VotePanel extends JPanel {
 
 	/** Final estimation panel */
 	private CompletedSessionEstimatePanel finalEstimatePnl;
+	
+	private Image cardPicture;
 
 	// ################# GUI bottom components ####################
 	/** A bottom container holding the buttons below this */
@@ -403,10 +416,15 @@ public class VotePanel extends JPanel {
 		nameDescriptionPanel = new NameDescriptionPanel(REQ_NAME_LABEL, REQ_DESC_LABEL, false);
 
 		// Create a text field to store the final vote result
+		voteDisplayCard = new Card(CardDisplayMode.DISPLAY, 0);
+		voteDisplayCard.setMaximumSize(voteDisplayCard.getPreferredSize());
+		voteDisplayCard.setEnabled(false);
+	
 		voteTextField = new JTextField(3);
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
 
 		voteTextField.setHorizontalAlignment(JTextField.CENTER);
+		voteTextField.setMaximumSize(voteTextField.getPreferredSize());
 		
 		// Set up ErrorMsg Label
 		errorMsg = new JLabel("");
@@ -463,7 +481,7 @@ public class VotePanel extends JPanel {
 			
 			// Add the vote text field to the right side
 
-			rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH  + "px, " 
+			rightPanel.add(voteDisplayCard, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH  + "px, " 
 										+ "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, " 
 										+ "dock east, " 
 										+ "gaptop "   + VERTICAL_PADDING_RIGHT_PANEL   + "px, " 
@@ -615,5 +633,17 @@ public class VotePanel extends JPanel {
 		}
 
 		clearDeckPanel();
+		
+		
+	}
+	/**
+	 * Set the image as the background of the panel
+	 */
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		if (cardPicture != null) {
+			g.drawImage(cardPicture, -3, 0, this);
+		}
 	}
 }
