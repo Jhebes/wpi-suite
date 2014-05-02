@@ -108,9 +108,9 @@ public class DisplayDeckPanel extends JPanel {
 
 		} else {
 			voteValue += aCard.getCardValue();
-			parentPanel.setVoteTextFieldWithValue(voteValue);
 		}
 		cards.add(aCard);
+		parentPanel.setVoteTextFieldWithValue(voteValue);
 	}
 
 	/**
@@ -128,22 +128,19 @@ public class DisplayDeckPanel extends JPanel {
 			voteValue -= aCard.getCardValue();
 		}
 		cards.add(aCard);
-		// parentPanel.setVoteTextFieldWithValue(voteValue);
+		parentPanel.setVoteTextFieldWithValue(voteValue);
 	}
 
 	/**
 	 * removes the highlight for the card
 	 */
 	public void removeHighlight() {
-
-		for (int i = 0; i < cards.size(); i++) {
-			Card aCard = cards.get(i);
-			cards.remove(i);
-
-			aCard.markCardValid();
-			aCard.setSelected(false);
-
+		for (Card card : cards) {
+			card.markCardValid();
+			card.setSelected(false);
 		}
+		
+		cards.clear();
 	}
 
 	/**
@@ -168,5 +165,19 @@ public class DisplayDeckPanel extends JPanel {
 	 */
 	public ArrayList<Card> getCards() {
 		return (ArrayList<Card>) cards;
+	}
+	
+	/**
+	 * Disable the submit button (pass the call along)
+	 */
+	public void disableSubmitBtn() {
+		parentPanel.disableSubmitBtn();
+	}
+	
+	/**
+	 * Enable the submit button (pass the call along)
+	 */
+	public void enableSubmitBtn() {
+		parentPanel.enableSubmitBtn();
 	}
 }
