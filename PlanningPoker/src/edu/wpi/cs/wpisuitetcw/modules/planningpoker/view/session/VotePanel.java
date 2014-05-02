@@ -39,6 +39,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.CompletedSessionEstimatePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.NameDescriptionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.UserVoteListPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.VoteRequirementCellRenderer;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.DisplayDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
@@ -102,6 +103,9 @@ public class VotePanel extends JPanel {
 
 	/** Final estimation panel */
 	private CompletedSessionEstimatePanel finalEstimatePnl;
+	
+	/** Vote Panel */
+	private UserVoteListPanel userVotePanel;
 
 	// ################# GUI bottom components ####################
 	/** A bottom container holding the buttons below this */
@@ -382,6 +386,8 @@ public class VotePanel extends JPanel {
 					}
 
 					if (session.isClosed()) {
+						userVotePanel.setFocusedRequirement(selectedRequirement);
+						userVotePanel.fillTable();
 						finalEstimatePnl.setFocusedRequirement(selectedRequirement);
 						finalEstimatePnl.setStatsMean(selectedRequirement.getMean());
 						finalEstimatePnl.setStatsMedian(selectedRequirement.getMedian());
@@ -431,6 +437,9 @@ public class VotePanel extends JPanel {
 		// Create a requirement name and description text box
 		nameDescriptionPanel = new NameDescriptionPanel(REQ_NAME_LABEL, REQ_DESC_LABEL, false);
 
+		if(session.isClosed()){
+			nameDescriptionPanel = new NameDescriptionPanel(false);
+		}
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
@@ -464,45 +473,52 @@ public class VotePanel extends JPanel {
 	 * vote text field, and their labels on the right panel
 	 */
 	private void addGUIComponentsOnRightPanel() {
-		// Add the padding around the right panel
-		rightPanel.setLayout(new MigLayout("insets " + VERTICAL_PADDING_RIGHT_PANEL   + " "
-													 + HORIZONTAL_PADDING_RIGHT_PANEL + " " 
-													 + VERTICAL_PADDING_RIGHT_PANEL   + " "
-													 + HORIZONTAL_PADDING_RIGHT_PANEL + ", fill",
-											"", "[][grow]"));
-
-		// Add the label of the panel
-		rightPanel.add(rightPanelLabel, "center, wrap");
-
-		// Add the requirement name and its label
-		rightPanel.add(nameDescriptionPanel, "grow");
-		
-		// Add the card panel or final estimation GUI
-		finalEstimatePnl = new CompletedSessionEstimatePanel(this);
-		finalEstimatePnl.setAlignmentX(Component.CENTER_ALIGNMENT);
-		if (session.isClosed()) {
-			rightPanel.add(finalEstimatePnl);
-		} else {
-			if (cardFrame != null) {
-				rightPanel.add(cardFrame, "height 235::, grow, dock south");
-			} else {
-				final JLabel messageLabel = new JLabel(NO_DECK_MSG);
-				rightPanel.add(messageLabel, "gapleft 150px, hmin 230px, grow, dock south");
+			// Add the padding around the right panel
+			rightPanel.setLayout(new MigLayout("insets " + VERTICAL_PADDING_RIGHT_PANEL   + " "
+														 + HORIZONTAL_PADDING_RIGHT_PANEL + " " 
+														 + VERTICAL_PADDING_RIGHT_PANEL   + " "
+														 + HORIZONTAL_PADDING_RIGHT_PANEL + ", fill",
+												"", "[][grow]"));
+	
+	
+			// Add the requirement name and its label
+			userVotePanel = new UserVoteListPanel(this);
+			if(session.isClosed()){
+			rightPanel.add(nameDescriptionPanel, "grow");
+			rightPanel.add(userVotePanel, "growy, wrap");
 			}
 			
-			// Add the vote text field to the right side
-
-			rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH  + "px, " 
-										+ "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, " 
-										+ "dock east, " 
-										+ "gaptop "   + VERTICAL_PADDING_RIGHT_PANEL   + "px, " 
-										+ "gapright " + HORIZONTAL_PADDING_RIGHT_PANEL + "px, "
-										+ "gapbottom" + VERTICAL_PADDING_RIGHT_PANEL   + "px");
-
-			// Add the error message to the right side
-			rightPanel.add(errorMsg, "dock east");
-		}		
-
+			else{
+				// Add the label of the panel
+				rightPanel.add(rightPanelLabel, "center, wrap");
+				rightPanel.add(nameDescriptionPanel, "grow");
+			}
+			
+			// Add the card panel or final estimation GUI
+			finalEstimatePnl = new CompletedSessionEstimatePanel(this);
+			finalEstimatePnl.setAlignmentX(Component.CENTER_ALIGNMENT);
+			if (session.isClosed()) {
+				rightPanel.add(finalEstimatePnl, "growx, growy");
+			} else {
+				if (cardFrame != null) {
+					rightPanel.add(cardFrame, "height 235::, grow, dock south");
+				} else {
+					final JLabel messageLabel = new JLabel(NO_DECK_MSG);
+					rightPanel.add(messageLabel, "gapleft 150px, hmin 230px, grow, dock south");
+				}
+				
+				// Add the vote text field to the right side
+	
+				rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH  + "px, " 
+											+ "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, " 
+											+ "dock east, " 
+											+ "gaptop "   + VERTICAL_PADDING_RIGHT_PANEL   + "px, " 
+											+ "gapright " + HORIZONTAL_PADDING_RIGHT_PANEL + "px, "
+											+ "gapbottom" + VERTICAL_PADDING_RIGHT_PANEL   + "px");
+	
+				// Add the error message to the right side
+				rightPanel.add(errorMsg, "dock east");
+			}		
 	}
 
 	/**

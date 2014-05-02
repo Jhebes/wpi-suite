@@ -243,21 +243,21 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		lblMode.setFont(statNameFont);
 		lblMode.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		pnlStats.add(lblMean, "gapright 20px");
+		pnlStats.add(lblMean, "gapright 40px");
 		pnlStats.add(lblMeanValue, "wrap");
 
-		pnlStats.add(lblMedian, "gapright 20px");
+		pnlStats.add(lblMedian, "gapright 40px");
 		pnlStats.add(lblMedianValue, "wrap");
 
-		pnlStats.add(lblMode, "gapright 20px");
+		pnlStats.add(lblMode, "gapright 40px");
 		pnlStats.add(lblModeValue);
 
 		pnlFinishedReq.add(lblFinalEstimate, "wrap");
-		pnlFinishedReq.add(pnlFinalEstimate, "height 194!, width 146!");
+		pnlFinishedReq.add(pnlFinalEstimate, "height 194!, width 146!, gapright 100px");
 		pnlFinishedReq.add(pnlStats);
 
 		// put the completed Session panel together
-		this.add(pnlVotes, "growy, wrap");
+		//this.add(pnlVotes, "growy, wrap");
 		this.add(pnlFinishedReq);
 		this.createTable();
 		final JScrollPane votesScrollPane = new JScrollPane(tblVotes);
@@ -360,5 +360,5 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		final String estimateText = finalEstimateField.getText();
 		return Integer.parseInt(estimateText);
 	}
-
+	
 }

@@ -64,6 +64,22 @@ public class NameDescriptionPanel extends JPanel {
 		add(descriptionFrame, "grow");
 	}
 	
+	public NameDescriptionPanel(boolean hasName) {
+		nameLabel =  new JLabel("Name *");
+		nameTextField	 = new JTextArea();
+		// Create text box and label for desription
+		descriptionLabel = new JLabel("Description *");
+		descriptionTextField 	= new JTextArea();
+		descriptionTextField.setLineWrap(true);
+		descriptionTextField.setWrapStyleWord(true);
+		final JScrollPane descriptionFrame = new JScrollPane(descriptionTextField);
+
+		setLayout(new MigLayout("fill, inset 0", "", "0[][][][grow]0"));
+		add(descriptionLabel, "left, growx, span");
+		add(descriptionFrame, "grow");
+	}
+	
+	
 	/**
 	 * Construct the NameDescriptionPanel by
 	 * creating and adding the name and description

@@ -34,6 +34,9 @@ public class UserVoteListPanel extends JPanel {
 	// Header for the votes panel.
 	private final JLabel lblVotes;
 
+	// focused requirement
+	private PlanningPokerRequirement focusedRequirement;
+	
 	// The panel that the final estimate panel is placed in.
 	private final VotePanel parentPanel;
 
@@ -59,6 +62,8 @@ public class UserVoteListPanel extends JPanel {
 	public UserVoteListPanel(final VotePanel parentPanel) {
 		this.parentPanel = parentPanel;
 
+		focusedRequirement = null;
+		
 		// Create a new grid layout that is 3 columns across.
 		panelLayout = new GridLayout(1, 1);
 
@@ -68,7 +73,7 @@ public class UserVoteListPanel extends JPanel {
 		// Table of votes for each req
 		pnlVotes = new JPanel();
 		pnlVotes.setLayout(new BoxLayout(pnlVotes, BoxLayout.Y_AXIS));
-		pnlVotes.setBorder(BorderFactory.createLineBorder(Color.black));
+		pnlVotes.setBorder(BorderFactory.createEmptyBorder());
 
 		// Initialize the Headers for the panels.
 		lblVotes = new JLabel("Votes");
@@ -98,20 +103,37 @@ public class UserVoteListPanel extends JPanel {
 		};
 	}
 
-	public void fillTable(PlanningPokerRequirement requirement) {
+	public void fillTable() {
 		// Clear the table model.
 		tableModel.setRowCount(0);
-		System.out.println(UserStash.getInstance().getUsers().size());
-		for (User user : UserStash.getInstance().getUsers()) {
-			for (PlanningPokerVote vote : requirement.getVotes()) {
+		//System.out.println(UserStash.getInstance().getUsers().size());
+		//for (User user : UserStash.getInstance().getUsers()) {
+			for (PlanningPokerVote vote : focusedRequirement.getVotes()) {
 				Object[] row = { vote.getUser(), vote.getCardValue() };
 				tableModel.addRow(row);
-				if (requirement.hasUserVoted(user.getUsername())) {
+		/*		if (requirement.hasUserVoted(user.getUsername())) {
 					setBackground(new Color(0x22, 0xff, 0x33));
 				} else {
 					setBackground(new Color(0xff, 0x88, 0x99));
-				}
+				}*/
 			}
-		}
+		//}
 	}
+
+	/**
+	 * @return the focusedRequirement
+	 */
+	public PlanningPokerRequirement getFocusedRequirement() {
+		return focusedRequirement;
+	}
+
+	/**
+	 * @param focusedRequirement the focusedRequirement to set
+	 */
+	public void setFocusedRequirement(PlanningPokerRequirement focusedRequirement) {
+		this.focusedRequirement = focusedRequirement;
+	}
+	
+	
+	
 }
