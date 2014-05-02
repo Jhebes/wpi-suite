@@ -643,7 +643,7 @@ public class VotePanel extends JPanel {
 	 * Disable the submit button
 	 */
 	public void disableSubmitBtn() {
-		if (!(submitVoteButton != null)) {
+		if (submitVoteButton != null) {
 			submitVoteButton.setEnabled(false);
 		}
 	}
@@ -652,7 +652,7 @@ public class VotePanel extends JPanel {
 	 * Enable the submit button
 	 */
 	public void enableSubmitBtn() {
-		if (!(submitVoteButton != null)) {
+		if (submitVoteButton != null) {
 			submitVoteButton.setEnabled(true);
 		}
 	}
