@@ -11,8 +11,10 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
@@ -39,12 +41,17 @@ public class OverviewPanel extends JSplitPane {
 
 		// welcome page
 		welcomePanel = new DefaultHomePanel();
+		
+		// Add JScrollPane around the welcome panel to make it scrollable
+		JScrollPane jsp = new JScrollPane(welcomePanel);
+		
+		
 
 		// Set layout for right panel;
 		rightPanel.setLayout(new BorderLayout());
 
 		// Add the JSP to the rightPanel
-		rightPanel.add(welcomePanel);
+		rightPanel.add(jsp);
 
 		// Set panels background to white (matching table)
 		rightPanel.setBackground(Color.WHITE);
