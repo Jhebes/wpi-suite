@@ -10,6 +10,7 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -77,6 +78,7 @@ public class SessionDeckPanel extends JPanel {
 
 	/** Text field to type deck's name in */
 	private JLabel labelName;
+	private JLabel labelError;
 	private JTextField textboxName;
 
 	/** Dropdown to choose single OR multiple card selection */
@@ -174,6 +176,8 @@ public class SessionDeckPanel extends JPanel {
 
 		// Create text field for deck's name
 		labelName = new JLabel(DECK_NAME_LABEL);
+		labelError = new JLabel();
+		labelError.setForeground(Color.RED);
 		textboxName = new JTextField(18);
 		textboxName.setText(TEXTBOX_PLACEHOLDER);
 
@@ -508,7 +512,8 @@ public class SessionDeckPanel extends JPanel {
 											   "push[]push[]push[]push", ""));
 
 		// 1ST ROW
-		centerTopPanel.add(labelName, "gapleft 5, left");
+		centerTopPanel.add(labelName, "gapleft 5, split2, left");
+		centerTopPanel.add(labelError, "left");
 		centerTopPanel.add(labelCardSelection, "gapleft 5, left");
 		centerTopPanel.add(labelCount, "gapleft 5, split2, center");
 		centerTopPanel.add(labelNumCards, "wrap");
@@ -547,7 +552,15 @@ public class SessionDeckPanel extends JPanel {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				sessionPanel.checkSessionValidation();
+				sessionPanel.getBtnSaveSession().setEnabled(true);
+				labelError.setText("");
+				boolean duplicateNames = hasDuplicateName();
+				if (sessionPanel.hasAllValidInputs() || duplicateNames) {
+					sessionPanel.getBtnSaveSession().setEnabled(false);
+				}
+				if (duplicateNames) {
+					labelError.setText("Name is already taken.");
+				}
 			}
 
 			@Override
@@ -562,6 +575,13 @@ public class SessionDeckPanel extends JPanel {
 	 */
 	public EditSessionPanel getSessionPanel() {
 		return sessionPanel;
+	}
+	
+	/**
+	 * @eturn whether the current value of the deck's name is a duplicate
+	 */
+	public boolean hasDuplicateName() {
+		return sessionPanel.getDeckNames().contains(textboxName.getText());
 	}
 
 }

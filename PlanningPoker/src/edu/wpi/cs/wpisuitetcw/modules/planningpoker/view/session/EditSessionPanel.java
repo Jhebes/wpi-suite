@@ -155,6 +155,9 @@ public class EditSessionPanel extends JPanel {
 
 	/** mode for the create new deck panel */
 	private CardDisplayMode mode = CardDisplayMode.DISPLAY;
+	
+	/** list of deck names */
+	private List<String> deckNames = new ArrayList<String>();
 
 	/**
 	 * Constructor to create a Create Session Panel This constructor is used to
@@ -202,7 +205,7 @@ public class EditSessionPanel extends JPanel {
 	 */
 	public void setupDeckDropdown() {
 		deckType.removeAllItems();
-		final List<String> deckNames = GetAllDecksController.getInstance()
+		deckNames = GetAllDecksController.getInstance()
 				.getAllDeckNames();
 		for (String name : deckNames) {
 			deckType.addItem(name);
@@ -873,6 +876,13 @@ public class EditSessionPanel extends JPanel {
 	 */
 	public JCheckBox getCbDeadline() {
 		return cbDeadline;
+	}
+	
+	/**
+	 * @return The internal list of deck names
+	 */
+	public List<String> getDeckNames() {
+		return deckNames;
 	}
 
 	/**
