@@ -39,15 +39,29 @@ public class HelpDescriptionPanel extends JPanel {
 			"" // small
 	};
 
-	private HashMap<String, String[]> helpEntries;
+	private HashMap<HelpEntry, String[]> helpEntries;
 
 	public HelpDescriptionPanel() {
+
+		// create help entries
+		helpEntries = new HashMap<HelpEntry, String[]>();
+		storeHelpEntries();
 
 		JTextPane textPane = createTextPane();
 
 		this.add(textPane);
 		textPane.setEditable(false);
 		this.setEnabled(true);
+	}
+
+	/**
+	 * stores the entries into the hash map
+	 */
+	private void storeHelpEntries() {
+		System.out.println(HelpEntry.DEFAULT);
+		System.out.println(HelpEntry.DEFAULT.toString());
+
+		helpEntries.put(HelpEntry.DEFAULT, DEFAULT_TEXT_PANE);
 	}
 
 	private JTextPane createTextPane() {
