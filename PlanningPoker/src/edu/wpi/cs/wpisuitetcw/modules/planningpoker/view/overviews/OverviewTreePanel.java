@@ -169,6 +169,8 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 
 		// update the ViewEventController so it contains the right tree
 		ViewEventManager.getInstance().setOverviewTree(this);
+		
+		updateUI();
 	}
 
 	/**
@@ -382,8 +384,6 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 			if (sessions.size() != 0) {
 				initialized = true;
 			}
-
-			this.refresh();
 		}
 
 		if (e.getClickCount() == 2) {

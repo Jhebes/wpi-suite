@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 
 /**
@@ -31,6 +32,7 @@ public class PlanningPokerSessionHandler extends LongPollingHandler<PlanningPoke
 		SessionStash.getInstance().update(receivedSession);
 		new RequirementTableManager().refreshRequirements(
 				receivedSession.getID(), receivedSession.getRequirements());
+		ViewEventManager.getInstance().getOverviewTreePanel().refresh();
 	}
 
 }

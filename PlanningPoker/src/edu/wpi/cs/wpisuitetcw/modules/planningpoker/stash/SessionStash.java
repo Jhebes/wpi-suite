@@ -89,11 +89,7 @@ public class SessionStash {
 	 * Callback for synchronize. Updates the local cache with the server's changes.
 	 * @param incomingSessions The server's sessions
 	 */
-	public void mergeFromServer(List<PlanningPokerSession> incomingSessions) {	
-		for (PlanningPokerSession s : sessions) {
-			s.save();
-		}
-		
+	public void mergeFromServer(List<PlanningPokerSession> incomingSessions) {
 		for (PlanningPokerSession s : incomingSessions) {
 			if (this.getSessionByID(s.getID()) == null) {
 				sessions.add(s);
@@ -102,7 +98,6 @@ public class SessionStash {
 				}
 			}
 		}
-//		SessionTableModel.getInstance().getSessions();
 		
 		initialized = true;
 	}
