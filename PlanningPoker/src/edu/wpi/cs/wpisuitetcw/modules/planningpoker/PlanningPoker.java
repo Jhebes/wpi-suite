@@ -18,6 +18,7 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.longpoll.LongPollingClient;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.MainView;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ToolbarView;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
@@ -30,6 +31,7 @@ import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
  */
 public class PlanningPoker implements IJanewayModule {
 	private List<JanewayTabModel> tabs;
+	private final LongPollingClient longPollingClient;
 
 	/**
 	 * Constructor for the module.
@@ -56,6 +58,9 @@ public class PlanningPoker implements IJanewayModule {
 		
 		// add keyboard shortcuts to planning poker tab
 		registerKeyboardShortcuts(tab1);
+
+		longPollingClient = new LongPollingClient();
+		longPollingClient.startThread();
 	}
 
 	/**
