@@ -56,8 +56,11 @@ public class ViewEventManager {
 	/**
 	 * Opens a new tab for the creation of a session
 	 */
+	
+	//call createBlankSessionController here
 	public void createSession() {
-		final EditSessionPanel newSession = new EditSessionPanel();
+		PlanningPokerSession blankSession = new PlanningPokerSession();
+		final EditSessionPanel newSession = new EditSessionPanel(blankSession);
 		main.addTab("New Session", null, newSession, "New session.");
 		main.invalidate(); // force the tabbedpane to redraw
 		main.repaint();

@@ -45,16 +45,17 @@ public class AddSessionController implements ActionListener {
 	 *            the value representing if the panel contains an already
 	 *            created session or not
 	 */
-	public AddSessionController(EditSessionPanel view, boolean isEditMode) {
+	//public AddSessionController(EditSessionPanel view, boolean isEditMode) {
 		/*
 		 * TODO: This should also have a manager for the CreateSessionPanel, so
 		 * that errors can be fed back to the panel rather than thrown as
 		 * exceptions
 		 */
-
+/*
 		this.view = view;
 		this.isEditMode = isEditMode;
 	}
+	*/
 
 	/**
 	 * Construct an AddSessionController for the given view
@@ -104,7 +105,7 @@ public class AddSessionController implements ActionListener {
 			}
 
 			// Create a new session and populate its data
-			final PlanningPokerSession session = new PlanningPokerSession();
+			//final PlanningPokerSession session = new PlanningPokerSession();
 			session.setOwnerUserName(ConfigManager.getConfig().getUserName());
 			session.setName(name);
 			session.setID(0);

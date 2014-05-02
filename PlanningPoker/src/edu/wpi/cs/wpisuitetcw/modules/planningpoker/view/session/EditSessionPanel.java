@@ -156,6 +156,7 @@ public class EditSessionPanel extends JPanel {
 	/** mode for the create new deck panel */
 	private CardDisplayMode mode = CardDisplayMode.DISPLAY;
 
+	PlanningPokerSession session;
 	/**
 	 * Constructor to create a Create Session Panel This constructor is used to
 	 * edit an existing session.
@@ -163,26 +164,17 @@ public class EditSessionPanel extends JPanel {
 	 * @param session
 	 *            A Planning poker session
 	 */
-	public EditSessionPanel(PlanningPokerSession session) {
-		// Construct a Session Panel without a planning poker session
-		this();
-
-		// Display the name and description of a created session
-		nameTextField.setText(session.getName());
-		nameTextField.setEnabled(false);
-		descriptionBox.setText(session.getDescription());
-		descriptionBox.setEnabled(false);
-
-		// Check if the button is valid
-		checkSessionValidation();
-	}
 
 	/**
 	 * Constructor to create a Create Session Panel without a session. This
 	 * constructor is used to create a session. It sets up all graphical
 	 * components
 	 */
-	public EditSessionPanel() {
+	public EditSessionPanel(PlanningPokerSession session) {
+		// initialize session
+		this.session = session;
+		
+		// set up UI
 		setupLeftPanel();
 
 		// Use display mode since the default deck is displayed by default
@@ -193,8 +185,10 @@ public class EditSessionPanel extends JPanel {
 		deckPanel.displayDefaultDeck();
 
 		setupBottomPanel();
-
 		setupEntirePanel();
+		
+		// Check if the button is valid
+		checkSessionValidation();
 	}
 
 	/**
@@ -552,7 +546,7 @@ public class EditSessionPanel extends JPanel {
 	 * Set up the initial text in the session's name text field
 	 */
 	private void setupDefaultInitialData() {
-		final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		final String defaultNameDate = sdf.format(new Date());
 		final String projectName = ConfigManager.getConfig().getProjectName();
 		nameTextField.setText(projectName + " - " + defaultNameDate);
@@ -765,7 +759,7 @@ public class EditSessionPanel extends JPanel {
 	private void setupBottomPanel() {
 		// Create Save session button
 		btnSaveSession = new JButton("Save");
-		btnSaveSession.addActionListener(new AddSessionController(this, false));
+		btnSaveSession.addActionListener(new AddSessionController(this, false, session));
 		// save button is initially disable
 		btnSaveSession.setEnabled(false);
 
