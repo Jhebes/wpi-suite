@@ -13,7 +13,9 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,6 +24,7 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
@@ -30,62 +33,112 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.CustomTreeCellRenderer;
 
+/**
+ * The tree panel that greets you on the left side of the overview.
+ */
 public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		TreeSelectionListener {
+
+	/** constant strings */
+	private static final String CANCELLED_SESSIONS = "Cancelled Sessions";
+	private static final String CLOSED_SESSIONS = "Closed Sessions";
+	private static final String OPEN_SESSIONS = "Open Sessions";
+	private static final String NEW_SESSIONS = "New Sessions";
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTree tree;
+
+	/** Tree for displaying sessions */
+	private final JTree tree;
+	private final DefaultTreeModel model;
+
+	/** Parent node for the tree */
+	private DefaultMutableTreeNode top;
+
+	/** is the tree initialized */
 	private boolean initialized = false;
-	private ArrayList<PlanningPokerSession> sessions = null;
+
+	/** all planning poker sessions */
+	private List<PlanningPokerSession> sessions = null;
+
+	/** branches */
+	private DefaultMutableTreeNode newSessionNode;
+	private DefaultMutableTreeNode openSessionNode;
+	private DefaultMutableTreeNode closedSessionNode;
+	private DefaultMutableTreeNode cancelledSessionNode;
+
+	/** hashmap to remember the states of nodes */
+	private HashMap<DefaultMutableTreeNode, Boolean> nodeStates;
+
+	/** planning poker sessions */
+	private PlanningPokerSession[] newSessions;
+	private PlanningPokerSession[] openSessions;
+	private PlanningPokerSession[] closedSessions;
+	private PlanningPokerSession[] cancelledSessions;
 
 	public OverviewTreePanel() {
+
+		// setup nodes
+		top = new DefaultMutableTreeNode("All Sessions");
+
+		// branches
+		newSessionNode = new DefaultMutableTreeNode();
+		openSessionNode = new DefaultMutableTreeNode();
+		closedSessionNode = new DefaultMutableTreeNode();
+		cancelledSessionNode = new DefaultMutableTreeNode();
+
+		// hashmap for saving states of the nodes
+		nodeStates = new HashMap<DefaultMutableTreeNode, Boolean>();
+
+		// setup the tree
+		model = new DefaultTreeModel(top);
+		tree = new JTree(model); // create the tree with the top created above
+
+		// tell it that it can only select one thing at a time
+		tree.getSelectionModel().setSelectionMode(
+				TreeSelectionModel.SINGLE_TREE_SELECTION);
+		tree.setToggleClickCount(0);
+
+		tree.setCellRenderer(new CustomTreeCellRenderer());
+
+		// add a listener to check for clicking
+		tree.addMouseListener(this);
+		tree.addTreeSelectionListener(this);
+
+		// setup viewport
 		this.setViewportView(tree);
-		this.refresh();
+
+		// refresh the session to start
+		refresh();
+
 	}
 
+	/**
+	 * Refresh the tree with updates on planning poker session
+	 */
 	public void refresh() {
-		DefaultMutableTreeNode top = new DefaultMutableTreeNode("All Sessions");
-		// DefaultMutableTreeNode draftSessionNode = new
-		// DefaultMutableTreeNode("Draft Sessions");
-		DefaultMutableTreeNode newSessionNode = new DefaultMutableTreeNode(
-				"New Sessions");
-		DefaultMutableTreeNode openSessionNode = new DefaultMutableTreeNode(
-				"Open Sessions");
-		DefaultMutableTreeNode closedSessionNode = new DefaultMutableTreeNode(
-				"Closed Sessions");
-		
+
+		// remove all children contents to prevent from duplication
+		clearAllNodes();
+
 		try {
 			// get a list of sessions
-			this.sessions = SessionStash.getInstance().getSessions();
+			sessions = SessionStash.getInstance().getSessions();
 
-			if (this.sessions != null) {
-				PlanningPokerSession[] newSessions = sortForNewSessions(this.sessions);
-				PlanningPokerSession[] openSessions = sortForOpenSessions(this.sessions);
-				PlanningPokerSession[] closedSessions = sortForClosedSessions(this.sessions);
+			if (sessions != null) {
+				newSessions = sortForNewSessions();
+				openSessions = sortForOpenSessions();
+				closedSessions = sortForClosedSessions();
+				cancelledSessions = sortForCancelledSessions();
 
-				// add new sessions to the node
-				for (PlanningPokerSession s : newSessions) {
-					DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(
-							s);
-					newSessionNode.add(newNode);
-				}
+				// add sessions to respective nodes
+				addSessionsToNode(newSessions, newSessionNode);
+				addSessionsToNode(openSessions, openSessionNode);
+				addSessionsToNode(closedSessions, closedSessionNode);
+				addSessionsToNode(cancelledSessions, cancelledSessionNode);
 
-				// add open sessions to the node
-				for (PlanningPokerSession s : openSessions) {
-					DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(
-							s);
-					openSessionNode.add(newNode);
-				}
-
-				// add closed sessions to the node
-				for (PlanningPokerSession s : closedSessions) {
-					DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(
-							s);
-					closedSessionNode.add(newNode);
-				}
 			}
 
 		} catch (NullPointerException e) {
@@ -93,36 +146,151 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 					"Network configuration error", e);
 		}
 
+		// setup name for all branches
+		setupBranchNames();
+
+		// adds nodes to the tree
 		top.add(newSessionNode);
 		top.add(openSessionNode);
 		top.add(closedSessionNode);
+		top.add(cancelledSessionNode);
 
-		tree = new JTree(top); // create the tree with the top created above
-		// tell it that it can only select one thing at a time
-		tree.getSelectionModel().setSelectionMode(
-				TreeSelectionModel.SINGLE_TREE_SELECTION);
-		tree.setToggleClickCount(0);
+		// set up the tree
+		model.setRoot(top);
+		tree.setModel(model);
 
-		tree.setCellRenderer(new CustomTreeCellRenderer());
-		tree.addMouseListener(this); // add a listener to check for clicking
-		tree.addTreeSelectionListener(this);
-
-		this.setViewportView(tree);
+		if (!initialized) {
+			// initialize the states
+			initTreeStates();
+		} else {
+			// restore the states for the tree
+			maintainTreeStates();
+		}
 
 		// update the ViewEventController so it contains the right tree
 		ViewEventManager.getInstance().setOverviewTree(this);
 	}
 
 	/**
+	 * remove all children for the branch
+	 */
+	private void clearAllNodes() {
+		newSessionNode.removeAllChildren();
+		openSessionNode.removeAllChildren();
+		closedSessionNode.removeAllChildren();
+		cancelledSessionNode.removeAllChildren();
+		top.removeAllChildren();
+	}
+
+	/**
+	 * initialize the states of the tree and set up the tree so that new session
+	 * and open session branches are initially expanded
+	 * 
+	 */
+	private void initTreeStates() {
+		// tree path to each node
+		final TreePath newSessionPath = new TreePath(newSessionNode.getPath());
+		final TreePath openSessionPath = new TreePath(openSessionNode.getPath());
+
+		// expand new session and open session
+		tree.expandPath(newSessionPath);
+		tree.expandPath(openSessionPath);
+
+		// saves all the states
+		updateTreeStates();
+	}
+
+	/**
+	 * maintains tree expansion based on the states remembered
+	 */
+	private void maintainTreeStates() {
+		for (Entry<DefaultMutableTreeNode, Boolean> e : nodeStates.entrySet()) {
+			boolean isExpanded = e.getValue();
+			TreePath path = new TreePath(e.getKey().getPath());
+
+			// restore expansion for the node
+			if (isExpanded) {
+				tree.expandPath(path);
+			}
+		}
+	}
+
+	/**
+	 * update tree expansion states
+	 */
+	private void updateTreeStates() {
+		// tree path to each node
+		final TreePath newSessionPath = new TreePath(newSessionNode.getPath());
+		final TreePath openSessionPath = new TreePath(openSessionNode.getPath());
+		final TreePath closedSessionPath = new TreePath(
+				closedSessionNode.getPath());
+		final TreePath cancelledSessionPath = new TreePath(
+				cancelledSessionNode.getPath());
+
+		// saves all the states
+		nodeStates.put(newSessionNode, tree.isExpanded(newSessionPath));
+		nodeStates.put(openSessionNode, tree.isExpanded(openSessionPath));
+		nodeStates.put(closedSessionNode, tree.isExpanded(closedSessionPath));
+		nodeStates.put(cancelledSessionNode,
+				tree.isExpanded(cancelledSessionPath));
+	}
+
+	/**
+	 * Adds given sessions to the given tree
+	 * 
+	 * @param sessions
+	 * @param node
+	 */
+	private void addSessionsToNode(PlanningPokerSession[] sessions,
+			DefaultMutableTreeNode node) {
+		for (PlanningPokerSession s : sessions) {
+			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(s);
+			node.add(newNode);
+		}
+	}
+
+	/**
+	 * Setup the name for all branches in the tree
+	 */
+	private void setupBranchNames() {
+		// set names for nodes
+		if (newSessions.length != 0) {
+			newSessionNode.setUserObject(NEW_SESSIONS + " ("
+					+ newSessions.length + ")");
+		} else {
+			newSessionNode.setUserObject(NEW_SESSIONS);
+		}
+
+		if (openSessions.length != 0) {
+			openSessionNode.setUserObject(OPEN_SESSIONS + " ("
+					+ openSessions.length + ")");
+		} else {
+			openSessionNode.setUserObject(OPEN_SESSIONS);
+		}
+
+		if (closedSessions.length != 0) {
+			closedSessionNode.setUserObject(CLOSED_SESSIONS + " ("
+					+ closedSessions.length + ")");
+		} else {
+			closedSessionNode.setUserObject(CLOSED_SESSIONS);
+		}
+
+		if (cancelledSessions.length != 0) {
+			cancelledSessionNode.setUserObject(CANCELLED_SESSIONS + " ("
+					+ cancelledSessions.length + ")");
+		} else {
+			cancelledSessionNode.setUserObject(CANCELLED_SESSIONS);
+		}
+	}
+
+	/**
 	 * sort for open sessions from a given array of sessions
 	 * 
-	 * @param allSessions
 	 * @return open sessions
 	 */
-	private PlanningPokerSession[] sortForNewSessions(
-			List<PlanningPokerSession> allSessions) {
-		ArrayList<PlanningPokerSession> tempNewSessions = new ArrayList<PlanningPokerSession>();
-		for (PlanningPokerSession pps : allSessions) {
+	private PlanningPokerSession[] sortForNewSessions() {
+		final List<PlanningPokerSession> tempNewSessions = new ArrayList<PlanningPokerSession>();
+		for (PlanningPokerSession pps : sessions) {
 			// Do not display the "default" planning poker session
 			if (pps.isNew() && pps.getID() != 1) {
 				tempNewSessions.add(pps);
@@ -140,10 +308,9 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 * @param allSessions
 	 * @return open sessions
 	 */
-	private PlanningPokerSession[] sortForOpenSessions(
-			List<PlanningPokerSession> allSessions) {
-		ArrayList<PlanningPokerSession> tempOpenSessions = new ArrayList<PlanningPokerSession>();
-		for (PlanningPokerSession pps : allSessions) {
+	private PlanningPokerSession[] sortForOpenSessions() {
+		final List<PlanningPokerSession> tempOpenSessions = new ArrayList<PlanningPokerSession>();
+		for (PlanningPokerSession pps : sessions) {
 			if (pps.isOpen()) {
 				tempOpenSessions.add(pps);
 			}
@@ -160,10 +327,9 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 * @param allSessions
 	 * @return closed sessions
 	 */
-	private PlanningPokerSession[] sortForClosedSessions(
-			List<PlanningPokerSession> allSessions) {
-		ArrayList<PlanningPokerSession> tempClosedSessions = new ArrayList<PlanningPokerSession>();
-		for (PlanningPokerSession pps : allSessions) {
+	private PlanningPokerSession[] sortForClosedSessions() {
+		final List<PlanningPokerSession> tempClosedSessions = new ArrayList<PlanningPokerSession>();
+		for (PlanningPokerSession pps : sessions) {
 			if (pps.isClosed()) {
 				tempClosedSessions.add(pps);
 			}
@@ -172,6 +338,26 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 				.size()];
 		closedSessions = tempClosedSessions.toArray(closedSessions);
 		return closedSessions;
+	}
+
+	/**
+	 * 
+	 * sort for cancelled sessions from a given array of sessions
+	 * 
+	 * @param allSessions
+	 * @return cancelled sessions
+	 */
+	private PlanningPokerSession[] sortForCancelledSessions() {
+		final ArrayList<PlanningPokerSession> tempCancelledSessions = new ArrayList<PlanningPokerSession>();
+		for (PlanningPokerSession pps : sessions) {
+			if (pps.isCancelled()) {
+				tempCancelledSessions.add(pps);
+			}
+		}
+		PlanningPokerSession[] cancelledSessions = new PlanningPokerSession[tempCancelledSessions
+				.size()];
+		cancelledSessions = tempCancelledSessions.toArray(cancelledSessions);
+		return cancelledSessions;
 	}
 
 	/**
@@ -193,21 +379,17 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 			// retrieve sessions and initialize the tree
 			SessionStash.getInstance().synchronize();
 
-			if (this.sessions.size() != 0) {
+			if (sessions.size() != 0) {
 				initialized = true;
 			}
 
 			this.refresh();
 		}
 
-		// mouse position
-		int x = e.getX();
-		int y = e.getY();
-
 		if (e.getClickCount() == 2) {
-			TreePath path = tree.getPathForLocation(x, y);
+			final TreePath path = tree.getPathForLocation(e.getX(), e.getY());
 			if (path != null) {
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
+				final DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
 						.getLastSelectedPathComponent();
 				if (node != null) {
 					// open a session
@@ -218,6 +400,9 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 				}
 			}
 		}
+
+		// Update all state changes
+		updateTreeStates();
 	}
 
 	/**

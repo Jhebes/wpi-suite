@@ -28,8 +28,11 @@ public class GetAllDecksController {
 	private List<PlanningPokerDeck> decks = null;
 
 	/** An instance of this controller */
-	private static GetAllDecksController instance;
+	private static GetAllDecksController instance = null;
 
+	/**
+	 * Constructs a controller to get all decks. Private because it's a singleton.
+	 */
 	private GetAllDecksController() {
 	}
 
@@ -62,9 +65,9 @@ public class GetAllDecksController {
 	 * of the available decks in the database
 	 * @throws InterruptedException
 	 */
-	public ArrayList<String> getAllDeckNames() {
+	public List<String> getAllDeckNames() {
 		this.refreshDecks(); // set up the deck
-		ArrayList<String> deckNames = new ArrayList<String>();
+		final List<String> deckNames = new ArrayList<String>();
 
 		// delay the this process since the request fired in refreshDecks()
 		// might not be completed
@@ -80,7 +83,7 @@ public class GetAllDecksController {
 
 		// make sure the decks is not null
 		if (decks != null) {
-			for (PlanningPokerDeck deck : this.decks) {
+			for (PlanningPokerDeck deck : decks) {
 				deckNames.add(deck.getDeckName());
 			}
 		}
@@ -106,7 +109,7 @@ public class GetAllDecksController {
 	public PlanningPokerDeck getDeckByName(String deckName)
 			throws WPISuiteException {
 		for (PlanningPokerDeck d : decks) {
-			if (d.getDeckName() == deckName) {
+			if (d.getDeckName().equals(deckName)) {
 				return d;
 			}
 		}

@@ -86,41 +86,42 @@ public class AddSessionController implements ActionListener {
 	public synchronized void actionPerformed(ActionEvent event) {
 		// if a name was entered create the session
 		// otherwise the button will do nothing
-		if ((this.view.validateAllInputs() == true)
-				&& (this.isEditMode == false)) {
+		if ((view.hasAllValidInputs() == true)
+				&& (isEditMode == false)) {
 
 			// Get the inputs from user
-			String name = this.view.getNameTextField().getText();
-			Date d = this.view.getDeadline();
-			String des = this.view.getDescriptionBox().getText();
-			String deckName = (String) this.view.getDeckType()
+			final String name = view.getNameTextField().getText();
+			final Date d = view.getDeadline();
+			final String des = view.getDescriptionBox().getText();
+			final String deckName = (String) view.getDeckType()
 					.getSelectedItem();
 
 			// Store the new deck if user creates one
-			if (this.view.isInCreateMode()) {
-				CreateNewDeckController createDeckController = new CreateNewDeckController(
+			if (view.isInCreateMode()) {
+				final CreateNewDeckController createDeckController = new CreateNewDeckController(
 						view.getDeckPanel());
 				createDeckController.addDeckToDatabase();
 			}
 
 			// Create a new session and populate its data
-			PlanningPokerSession session = new PlanningPokerSession();
+			final PlanningPokerSession session = new PlanningPokerSession();
 			session.setOwnerUserName(ConfigManager.getConfig().getUserName());
 			session.setName(name);
 			session.setID(0);
 			session.setDeadline(d);
 			session.setDescription(des);
 
+
 			// Associate a deck to the new session if the user does not choose
 			// 'No deck'
-			if (!this.view.isInNoDeckMode()) {
+			if (!view.isInNoDeckMode()) {
 				// 'Default' option, bind a new Fibonacci deck to the
 				// session
 				if (deckName.equals("Default")) {
 					session.setDeck(new PlanningPokerDeck());
 				} else {
 
-					CreateDeckPanel deckPanel = view.getDeckPanel();
+					final CreateDeckPanel deckPanel = view.getDeckPanel();
 					session.setDeck(new PlanningPokerDeck(deckPanel.getName(),
 							deckPanel.getNewDeckValues(), deckPanel
 									.getMaxSelectionCards()));
@@ -131,13 +132,14 @@ public class AddSessionController implements ActionListener {
 			}
 
 			session.create();
+
 			GetAllSessionsController.getInstance().retrieveSessions();
-			ViewEventManager.getInstance().removeTab(this.view);
+			ViewEventManager.getInstance().removeTab(view);
 
 		} else {
 			// user has yet entered all required data
 			// TODO: maybe make the warning a pop-up
-			this.view.repaint();
+			view.repaint();
 		}
 
 	}

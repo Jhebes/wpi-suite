@@ -42,7 +42,7 @@ public class CancelCreateSessionController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ViewEventManager.getInstance().removeTab(this.view);
+		ViewEventManager.getInstance().removeTab(view);
 	}
 
 }

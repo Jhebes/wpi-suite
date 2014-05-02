@@ -10,48 +10,77 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker;
 
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
+import javax.swing.KeyStroke;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.MainView;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ToolbarView;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetng.janeway.gui.widgets.KeyboardShortcut;
 import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
 
+/**
+ * Module for Janeway.
+ */
 public class PlanningPoker implements IJanewayModule {
-	private ArrayList<JanewayTabModel> tabs;
+	private List<JanewayTabModel> tabs;
 
+	/**
+	 * Constructor for the module.
+	 */
 	public PlanningPoker() {
 		tabs = new ArrayList<JanewayTabModel>();
 
 		// toolbar panel
-		ToolbarView toolbarPanel = new ToolbarView();
+		final ToolbarView toolbarPanel = new ToolbarView();
 
 		// main view
-		MainView mainview = new MainView();
+		final MainView mainview = new MainView();
 
 		// add toolbar and mainview to the ViewEventController instance
 		ViewEventManager.getInstance().setToolBar(toolbarPanel);
 		ViewEventManager.getInstance().setMainView(mainview);
 
 		// add this to tab
-		JanewayTabModel tab1 = new JanewayTabModel(getName(), new ImageIcon(),
+		final JanewayTabModel tab1 = new JanewayTabModel(getName(), new ImageIcon(),
 				toolbarPanel, mainview);
 
 		// add the tab
 		tabs.add(tab1);
+		
+		// add keyboard shortcuts to planning poker tab
+		registerKeyboardShortcuts(tab1);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String getName() {
 		return "PlanningPoker";
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<JanewayTabModel> getTabs() {
 		return tabs;
+	}
+	@SuppressWarnings("serial")
+	private void registerKeyboardShortcuts(JanewayTabModel tab) {
+		// control + tab: switch to right tab
+		tab.addKeyboardShortcut(new KeyboardShortcut(KeyStroke.getKeyStroke("F1"), new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ViewEventManager.getInstance().showTutorial();
+			}
+		}));
 	}
 }

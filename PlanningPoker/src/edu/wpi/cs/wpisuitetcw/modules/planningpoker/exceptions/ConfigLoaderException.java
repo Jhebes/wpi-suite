@@ -14,19 +14,13 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.exceptions;
  * This error indicates that there was some problem loading the configuration
  * file for planning poker.
  */
-public class ConfigLoaderError extends Exception {
+public class ConfigLoaderException extends Exception {
 
 	/**
 	 * Constructs a config loader error with an error message.
 	 * @param string The error message
 	 */
-	public ConfigLoaderError(String string) {
+	public ConfigLoaderException(String string) {
 		super(string);
 	}
-
-	/**
-	 * Version UID for serializing.
-	 */
-	private static final long serialVersionUID = -8160649805099358043L;
-
 }

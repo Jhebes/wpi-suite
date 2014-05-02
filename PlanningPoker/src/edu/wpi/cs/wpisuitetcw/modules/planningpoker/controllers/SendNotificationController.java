@@ -50,22 +50,22 @@ public class SendNotificationController {
 			String sDeadline = "";
 
 			// Append date for start notifications if there was a date given
-			if (deadline != null && notificationType == "start") {
+			if (deadline != null && notificationType.equals("start")) {
 				sDeadline += (new SimpleDateFormat("yyyy-MM-dd hh:mm"))
 						.format(deadline);
 			}
 			// Append date for end notifications if there was a date given
-			else if (deadline != null && notificationType == "end") {
+			else if (deadline != null && notificationType.equals("end")) {
 				sDeadline += (new SimpleDateFormat("yyyy-MM-dd hh:mm"))
 						.format(deadline);
 			}
 
-			StringBuilder sb = new StringBuilder();
+			final StringBuilder sb = new StringBuilder();
 			sb.append("Advanced/planningpoker/session/" + command + "/");
 			sb.append(URLEncoder.encode(notificationType, "UTF-8"));
-			sb.append("/");
+			sb.append('/');
 			sb.append(URLEncoder.encode(recipient, "UTF-8"));
-			sb.append("/");
+			sb.append('/');
 
 			sb.append(URLEncoder.encode(sDeadline, "UTF-8"));
 

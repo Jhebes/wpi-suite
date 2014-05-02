@@ -42,23 +42,22 @@ public class EditRequirementDescriptionController implements ActionListener {
 	 *            A ViewSessionReqPanel that would be stored
 	 */
 	public EditRequirementDescriptionController(PlanningPokerSession s, ViewSessionReqPanel v) {
-		this.session = s;
-		this.view = v;
+		session = s;
+		view = v;
 	}
 
 	/*
 	 * This method is called when the user clicks the vote button
 	 * 
-	 * @see
-	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
+	 * {@see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent}
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		PlanningPokerSession session = view.getEditRequirementsSession();
-		
+		final PlanningPokerSession session = view.getEditRequirementsSession();
 		final PlanningPokerRequirement requirement;
 		final List<PlanningPokerRequirement> requirements = new ArrayList<PlanningPokerRequirement>();
-		final String requirementNames = view.getReqName();
+		final String requirementNames = view.getSelectedReqName();
 		requirement = session.getReqByName(requirementNames);
 		requirements.add(requirement);
 		session.deleteRequirements(requirements);
@@ -66,13 +65,19 @@ public class EditRequirementDescriptionController implements ActionListener {
 		requirement.setDescription(view.getNewReqDesc());
 		requirements.add(requirement);
 		session.addRequirements(requirements);
-		RequirementTableManager tableManager = new RequirementTableManager();
+		final RequirementTableManager tableManager = new RequirementTableManager();
 		tableManager.refreshRequirements(session.getID(), session.getRequirements());
 
 		session.save();
 
-		this.view.getAllReqTable().repaint();
-		this.view.getSessionReqTable().repaint();
+		view.getSaveRequirement().setEnabled(false);
+		view.clearNewReqDesc();
+		view.clearNewReqName();
+		view.setSelectedReqName("");
+		view.setSelectedReqDescription("");
+		view.enableName();
+		view.getAllReqTable().repaint();
+		view.getSessionReqTable().repaint();
 		
 		view.validateActivateSession();
 

@@ -10,9 +10,13 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 import java.util.HashSet;
 
 import org.junit.Before;
+import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
@@ -42,10 +46,22 @@ public class PlanningPokerMockTest {
 		defaultSession = new Session(testUser, testProject, mockSsid);
 
 		Network.initNetwork(new MockNetwork());
-		Network.getInstance().setDefaultNetworkConfiguration(
-				new NetworkConfiguration("http://wpisuitetng"));
+		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://wpisuitetng"));
 
 		db = new MockData(new HashSet<Object>());
 		db.save(testUser);
+	}
+
+	/**
+	 * This test exists solely to make it pass in 'ant test'. For some reason,
+	 * when 'ant test' is run, it assumes that this base class is a test suite,
+	 * and attempts to run some tests. Inevitably, it fails because there are
+	 * none. This fixes that. It also has the amusing effect of increasing the
+	 * number of tests we have because it is run in every subclass.
+	 */
+	@Test
+	public void testEnvironmentSetup() {
+		assertEquals("abc123", mockSsid);
+		assertFalse(null == Network.getInstance());
 	}
 }

@@ -33,7 +33,7 @@ public class MoveRequirementToCurrentSessionRequestObserver implements RequestOb
 	 */
 	public MoveRequirementToCurrentSessionRequestObserver(
 		MoveRequirementToCurrentSessionController addRequirementController) {
-		this.controller = addRequirementController;
+		controller = addRequirementController;
 	}
 
 	/**
@@ -42,10 +42,10 @@ public class MoveRequirementToCurrentSessionRequestObserver implements RequestOb
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		// cast observable to request
-		Request request = (Request) iReq;
+		final Request request = (Request) iReq;
 		// get the response from the request
-		ResponseModel response = request.getResponse();
-		PlanningPokerSession[] session = PlanningPokerSession.fromJSONArray(response.getBody());
+		final ResponseModel response = request.getResponse();
+		final PlanningPokerSession[] session = PlanningPokerSession.fromJSONArray(response.getBody());
 		controller.receivedData(session[0]);	
 	}
 
