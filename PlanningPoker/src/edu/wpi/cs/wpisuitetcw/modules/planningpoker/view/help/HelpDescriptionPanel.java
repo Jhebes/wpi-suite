@@ -58,9 +58,6 @@ public class HelpDescriptionPanel extends JPanel {
 	 * stores the entries into the hash map
 	 */
 	private void storeHelpEntries() {
-		System.out.println(HelpEntry.DEFAULT);
-		System.out.println(HelpEntry.DEFAULT.toString());
-
 		helpEntries.put(HelpEntry.DEFAULT, DEFAULT_TEXT_PANE);
 	}
 

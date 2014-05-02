@@ -6,7 +6,6 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.help;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
@@ -25,29 +24,35 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.CustomTre
 public class HelpTreePanel extends JScrollPane implements
 		TreeSelectionListener, MouseListener {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 	private JTree tree;
 
 	public HelpTreePanel() {
-
+		// set up tree
 		this.setViewportView(tree);
-		this.refresh();
+
+		createTree();
 	}
 
-	public void refresh() {
-		JLabel test = new JLabel();
-		this.add(test);
-
+	/**
+	 * Create the tree with all help entries
+	 */
+	public void createTree() {
 		DefaultMutableTreeNode top = new DefaultMutableTreeNode("General Help");
 
 		createTreeNodes(top);
 		tree = new JTree(top);
 
-		// Where the tree is initialized:
+		// tree should be single selection
 		tree.getSelectionModel().setSelectionMode(
 				TreeSelectionModel.SINGLE_TREE_SELECTION);
 		tree.setCellRenderer(new CustomTreeCellRenderer());
-		// tree.addMouseListener(this); // add a listener to check for clicking
+
+		// add a listener to check for clicking
+		tree.addMouseListener(this);
 		// tree.addTreeSelectionListener(this);
 
 		JScrollPane treeView = new JScrollPane(tree);
@@ -75,16 +80,8 @@ public class HelpTreePanel extends JScrollPane implements
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
-		// we no longer want to show the session table. we only want to show the
-		// tree and to keep the welcome page up when interacting with the tree
-
-		// mouse position
-		int x = e.getX();
-		int y = e.getY();
-
 		if (e.getClickCount() == 1) {
-			TreePath path = tree.getPathForLocation(x, y);
+			TreePath path = tree.getPathForLocation(e.getX(), e.getY());
 			if (path != null) {
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
 						.getLastSelectedPathComponent();
