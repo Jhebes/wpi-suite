@@ -8,7 +8,7 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package typeadapters;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.typeadapters;
 
 import java.io.IOException;
 
