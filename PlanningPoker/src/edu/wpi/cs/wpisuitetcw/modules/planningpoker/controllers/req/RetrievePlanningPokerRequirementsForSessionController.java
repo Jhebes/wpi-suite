@@ -13,8 +13,6 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JOptionPane;
-
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.EditSessionPanel;
@@ -82,10 +80,7 @@ public class RetrievePlanningPokerRequirementsForSessionController {
 	 * error occurs retrieving the requirements from the server.
 	 */
 	public void errorReceivingData(String error) {
-		JOptionPane.showMessageDialog(panel,
-				"An error occurred retrieving requirements from the server. "
-						+ error, "Error Communicating with Server",
-				JOptionPane.ERROR_MESSAGE);
+		
 	}
 
 	/**

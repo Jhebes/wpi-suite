@@ -17,7 +17,6 @@ import java.util.List;
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendNotificationController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put.PutSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
@@ -606,7 +605,13 @@ public class PlanningPokerSession extends AbstractModel {
 	 * Synchronizes the new session with the server
 	 */
 	public void create() {
-		new PutSessionController(this);
+		SessionStash.getInstance().update(this);
+		final Request request = Network.getInstance().makeRequest(
+				"planningpoker/session", HttpMethod.PUT);
+		request.setBody(this.toJSON());
+		request.send();
+
+		ViewEventManager.getInstance().getOverviewTreePanel().refresh();
 	}
 
 	/**

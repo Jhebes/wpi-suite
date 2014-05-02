@@ -58,14 +58,4 @@ public class OverviewPanel extends JSplitPane {
 		ViewEventManager.getInstance().setOverviewPanel(this);
 	}
 
-	/**
-	 * relaces the welcome page with the session table
-	 */
-	public void showSessionTable() {
-		SessionStash.getInstance().synchronize();
-		UserStash.getInstance().synchronize();
-		rightPanel.remove(welcomePanel);
-		updateUI();
-	}
-
 }
