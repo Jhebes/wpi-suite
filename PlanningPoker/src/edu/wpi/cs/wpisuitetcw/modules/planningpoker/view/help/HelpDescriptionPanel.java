@@ -3,6 +3,8 @@
  */
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.help;
 
+import java.util.HashMap;
+
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
@@ -18,7 +20,26 @@ import javax.swing.text.StyledDocument;
  */
 public class HelpDescriptionPanel extends JPanel {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
+
+	/** constants */
+	private final String[] DEFAULT_TEXT_PANE = {
+			"Frequently Asked Questions", // large
+			"\n\nWho can view my vote?", // medium
+			"\n Once your vote is submitted, your vote remains anonymous and is only"
+					+ " used for the calculation of the final estimation of a requirement.", // small
+			"\n\nWhat is the difference between cancelling and ending a session?", // medium
+			"\n   When a session ends due to the deadline being reached or the administrator"
+					+ " manually ending a session, a final estimation is calculated, while cancelling "
+					+ "a session does not generate a final estimation.", // small
+			"", // medium
+			"" // small
+	};
+
+	private HashMap<String, String[]> helpEntries;
 
 	public HelpDescriptionPanel() {
 
@@ -31,20 +52,6 @@ public class HelpDescriptionPanel extends JPanel {
 
 	private JTextPane createTextPane() {
 
-		String[] homeTextPane = {
-				"Frequently Asked Questions", // large
-				"\n\nWho can view my vote?", // medium
-				"\n Once your vote is submitted, your vote remains anonymous and is only"
-						+ " used for the calculation of the final estimation of a requirement.", // small
-				"\n\nWhat is the difference between cancelling and ending a session?", // medium
-				"\n   When a session ends due to the deadline being reached or the administrator"
-						+ " manually ending a session, a final estimation is calculated, while cancelling "
-						+ "a session does not generate a final estimation.", // small
-				"", // medium
-				"" // small
-
-		};
-
 		String[] initStyles = { "large", "medium", "small", "medium", "small",
 				"medium", "small" };
 
@@ -53,8 +60,8 @@ public class HelpDescriptionPanel extends JPanel {
 		addStylesToDocument(doc);
 
 		try {
-			for (int i = 0; i < homeTextPane.length; i++) {
-				doc.insertString(doc.getLength(), homeTextPane[i],
+			for (int i = 0; i < DEFAULT_TEXT_PANE.length; i++) {
+				doc.insertString(doc.getLength(), DEFAULT_TEXT_PANE[i],
 						doc.getStyle(initStyles[i]));
 			}
 		} catch (BadLocationException ble) {
