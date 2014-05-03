@@ -18,6 +18,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -42,7 +44,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveRequirem
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req.MoveRequirementToCurrentSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionRequirementPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.ScrollablePanel;
 
@@ -50,7 +52,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements.Scrol
  * The panel for adding requirements to a session.
  */
 public class ViewSessionReqPanel extends JPanel {
-	private final AddRequirementPanel parentPanel;
+	private final SessionRequirementPanel parentPanel;
 	private final ScrollablePanel sessionReqPanel;
 	private final ScrollablePanel allReqPanel;
 	private final JPanel buttonsPanel;
@@ -67,15 +69,15 @@ public class ViewSessionReqPanel extends JPanel {
 	private final JTable sessionReqTable;
 	private final PlanningPokerSession session;
 	private PlanningPokerSession editRequirementsSession;
-	private String reqName;
-	private String reqDescription;
+	private String selectedReqName;
+	private String selectedReqDescription;
 
 	/**
 	 * Constructs the panel for adding requirements.
 	 * @param parentPanel The parent panel
 	 * @param s The session for this panel
 	 */
-	public ViewSessionReqPanel(AddRequirementPanel parentPanel,
+	public ViewSessionReqPanel(SessionRequirementPanel parentPanel,
 			PlanningPokerSession s) {
 		session = s;
 		this.setLayout(new GridBagLayout());
@@ -93,6 +95,9 @@ public class ViewSessionReqPanel extends JPanel {
 		addRequirementToSession = new JButton("Add Requirement to Session");
 		saveRequirement = new JButton("Save Changes");
 		saveRequirement.setEnabled(false);
+		addRequirementToSession.setEnabled(false);
+		selectedReqName = "";
+		selectedReqDescription = "";
 		validateActivateSession();
 
 		// setup panels
@@ -191,33 +196,37 @@ public class ViewSessionReqPanel extends JPanel {
 				final JTable table = (JTable) e.getSource();
 				final int row = table.getSelectedRow();
 				saveRequirement.setEnabled(false);
+				addRequirementToSession.setEnabled(false);
+
 				if (row == -1) {
-					addRequirementToSession.setEnabled(true);
 					name.setEnabled(true);
 					setReqInfo("", "");
-				}
-
-				for (int i = 0; i < 2; i++) {
-					if (i == 0) {
-						reqName = allReqTable.getModel().getValueAt(row, 0)
-								.toString();
+					selectedReqName = "";
+					selectedReqDescription = "";
+				} else {
+					for (int i = 0; i < 2; i++) {
+						if (i == 0) {
+							selectedReqName = allReqTable.getModel().getValueAt(row, 0)
+									.toString();
+						}
+						if (i == 1) {
+							selectedReqDescription = allReqTable.getModel()
+									.getValueAt(row, 1).toString();
+						}
 					}
-					if (i == 1) {
-						reqDescription = allReqTable.getModel()
-								.getValueAt(row, 1).toString();
-					}
-				}
 
-				setReqInfo(reqName, reqDescription);
-				addRequirementToSession.setEnabled(false);
-				name.setEnabled(false);
-				editRequirementsSession = SessionStash.getInstance()
-						.getDefaultSession();
+					setReqInfo(selectedReqName, selectedReqDescription);
+					name.setEnabled(false);
+					editRequirementsSession = SessionStash.getInstance()
+							.getDefaultSession();
+				}
 			}
 		});
 
-		// this will populate the name and description field when clicking on a
-		// requirement in the current session table
+		/**
+		 * this will populate the name and description field when clicking on a
+		 * requirement
+		 */
 		sessionReqTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -226,24 +235,25 @@ public class ViewSessionReqPanel extends JPanel {
 				final JTable table = (JTable) e.getSource();
 				final int row = table.getSelectedRow();
 				saveRequirement.setEnabled(false);
+				addRequirementToSession.setEnabled(false);
 				if (row == -1) {
-					addRequirementToSession.setEnabled(true);
 					name.setEnabled(true);
 					setReqInfo("", "");
+					selectedReqName = "";
+					selectedReqDescription = "";
 				} else {
 					for (int i = 0; i < 2; i++) {
 						if (i == 0) {
-							reqName = sessionReqTable.getModel()
+							selectedReqName = sessionReqTable.getModel()
 									.getValueAt(row, 0).toString();
 						}
 						if (i == 1) {
-							reqDescription = sessionReqTable.getModel()
+							selectedReqDescription = sessionReqTable.getModel()
 									.getValueAt(row, 1).toString();
 						}
 					}
 
-					setReqInfo(reqName, reqDescription);
-					addRequirementToSession.setEnabled(false);
+					setReqInfo(selectedReqName, selectedReqDescription);
 					name.setEnabled(false);
 					editRequirementsSession = ViewSessionReqPanel.this.session;
 				}
@@ -276,37 +286,11 @@ public class ViewSessionReqPanel extends JPanel {
 		 * Clears the selections of the req panels when parent panel is clicked
 		 * on
 		 */
-
 		parentPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				allReqTable.clearSelection();
 				sessionReqTable.clearSelection();
-			}
-
-		});
-
-		/**
-		 * Checks for a change in a requirements description so that the change
-		 * can be saved
-		 */
-		description.addKeyListener(new KeyListener() {
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-			}
-
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-				if ((getReqDescription().equals(description.getText()))
-						|| ((description.getText().equals("")))) {
-					saveRequirement.setEnabled(false);
-				} else {
-					saveRequirement.setEnabled(true);
-				}
-			}
-
-			@Override
-			public void keyTyped(KeyEvent arg0) {
 			}
 
 		});
@@ -318,7 +302,8 @@ public class ViewSessionReqPanel extends JPanel {
 		buttonsPanel.add(moveRequirementToAll);
 		buttonsPanel.add(moveAllRequirementsToAll);
 
-		// Rob said to do this but nobody knows what it does/means
+		// adds a scroll pane to the req table but not the panel, so it has no
+		// effect
 		// JScrollPane jsp1 = new JScrollPane();
 		// JScrollPane.add(sessionReqTable);
 
@@ -332,6 +317,27 @@ public class ViewSessionReqPanel extends JPanel {
 		namePanel.add(nameLabel, BorderLayout.LINE_START);
 		namePanel.add(errorMessage, BorderLayout.CENTER);
 		namePanel.add(name, BorderLayout.SOUTH);
+
+		KeyListener nameDescriptionValidationListener = new KeyListener() {
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				keyTyped(e);
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				keyTyped(e);
+
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				ViewSessionReqPanel.this.validateNameAndDescription();
+			}
+		};
+		description.addKeyListener(nameDescriptionValidationListener);
+		name.addKeyListener(nameDescriptionValidationListener);
 
 		// text field for description goes in the bottom of the panel
 		final JLabel descriptionLabel = new JLabel("Description:");
@@ -578,6 +584,35 @@ public class ViewSessionReqPanel extends JPanel {
 			parentPanel.getButtonPanel().getActivateBtn().setEnabled(true);
 		}
 	}
+	
+	/**
+	 * Enables and disables the Add to Session and Save Changes buttons 
+	 * depending on the conditions of the view, namely the name and 
+	 * description views.
+	 */
+	public void validateNameAndDescription() {
+		addRequirementToSession.setEnabled(false);
+		saveRequirement.setEnabled(false);
+		
+		// If there is no selected requirement,
+		if (selectedReqDescription.isEmpty()) {
+			if (!description.getText().isEmpty() 
+					&& !name.getText().isEmpty()) {
+				addRequirementToSession.setEnabled(true);
+			}
+		} else {
+			if (!description.getText().isEmpty() && hasDescriptionChanged()) {
+				saveRequirement.setEnabled(true);
+			}
+		}
+	}
+	
+	/**
+	 * @return Whether the has changed
+	 */
+	public boolean hasDescriptionChanged() {
+		return !selectedReqDescription.equals(description.getText());
+	}
 
 	public JButton getUpdateDescription() {
 		return saveRequirement;
@@ -595,20 +630,20 @@ public class ViewSessionReqPanel extends JPanel {
 		return session;
 	}
 
-	public String getReqName() {
-		return reqName;
+	public String getSelectedReqName() {
+		return selectedReqName;
 	}
 
-	public void setReqName(String reqName) {
-		this.reqName = reqName;
+	public void setSelectedReqName(String reqName) {
+		this.selectedReqName = reqName;
 	}
 
-	public String getReqDescription() {
-		return reqDescription;
+	public String getSelectedReqDescription() {
+		return selectedReqDescription;
 	}
 
-	public void setReqDescription(String reqDescription) {
-		this.reqDescription = reqDescription;
+	public void setSelectedReqDescription(String reqDescription) {
+		this.selectedReqDescription = reqDescription;
 	}
 
 	/**

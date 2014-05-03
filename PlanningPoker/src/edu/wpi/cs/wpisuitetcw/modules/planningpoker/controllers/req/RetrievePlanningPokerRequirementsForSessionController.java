@@ -13,11 +13,9 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JOptionPane;
-
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.EditSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -30,7 +28,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class RetrievePlanningPokerRequirementsForSessionController {
 	
 	/** The create session panel */
-	protected CreateSessionPanel panel;
+	protected EditSessionPanel panel;
 
 	/** The requirements retrieved from the server */
 	protected PlanningPokerRequirement[] data = null;
@@ -82,10 +80,7 @@ public class RetrievePlanningPokerRequirementsForSessionController {
 	 * error occurs retrieving the requirements from the server.
 	 */
 	public void errorReceivingData(String error) {
-		JOptionPane.showMessageDialog(panel,
-				"An error occurred retrieving requirements from the server. "
-						+ error, "Error Communicating with Server",
-				JOptionPane.ERROR_MESSAGE);
+		
 	}
 
 	/**

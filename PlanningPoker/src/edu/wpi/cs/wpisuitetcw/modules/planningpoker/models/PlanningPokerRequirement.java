@@ -157,6 +157,38 @@ public class PlanningPokerRequirement extends AbstractModel {
 		}
 		return mode;
 	}
+	/**
+	 * To calculate the standard deviation, find the sqrt of the variance of the data.
+	 * @param mean
+	 * @return Standard deviation of votes
+	 */
+	public double calculateStandardDeviation(int mean){
+		double variance, stndDev;
+		variance  = calculateVariance(mean);
+		stndDev = Math.sqrt(variance);
+		return stndDev;
+		
+	}
+	
+	/**
+	 * Calculates the variance of vote requirements. To calculate variance, find the average of each sample of data 
+	 * subtracted by the mean.
+	 * @param mean
+	 * @return the variance of all requirement votes for this session
+	 */
+	public double calculateVariance(int mean){
+		double variance;
+		int numOfVotes;
+		variance = numOfVotes = 0;
+		
+		for (PlanningPokerVote v : votes) {
+			variance += Math.pow((v.getCardValue() - mean), 2);
+			numOfVotes++;
+		}
+		variance = (variance / (numOfVotes));
+		return variance;
+		
+	}
 
 	/**
 	 * Returns an instance of PlanningPokerRequirement constructed using the

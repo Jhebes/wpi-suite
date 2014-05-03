@@ -50,7 +50,45 @@ public class PlanningPokerSessionEntityManager implements
 	 */
 	public PlanningPokerSessionEntityManager(Data db) {
 		this.db = db;
-	}
+		
+		// prepare a separate thread to check constantly if the database has
+		// closed sessions in it
+		Thread checkTime = new Thread() {
+			@Override
+			public void run() {
+				// my favorite type of loop!
+				while (true) {
+				try {
+
+					// get the sessions
+					final List<PlanningPokerSession> sessions = PlanningPokerSessionEntityManager.this.db
+							.retrieveAll(new PlanningPokerSession());
+					for (PlanningPokerSession session : sessions) {
+
+					// check if they're closed
+					if (session.hasPassedDeadline()) {
+					// update the session
+						session.close();
+					try {
+					PlanningPokerSessionEntityManager.this
+						.updateSession(session);
+					} catch (WPISuiteException e) {
+						e.printStackTrace();
+					}
+					}
+					}
+
+					// get ready to do it again
+					Thread.sleep(5000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		};
+		checkTime.start();
+	};
+
 
 	/*
 	 * Saves a PlanningPokerSession when it is received from a client
@@ -119,14 +157,15 @@ public class PlanningPokerSessionEntityManager implements
 	public PlanningPokerSession[] getAll(Session s) throws WPISuiteException {
 		final List<Model> messages = db.retrieveAll(new PlanningPokerSession(),
 				s.getProject());
-		
+
 		if (messages.size() == 0) {
 			System.out.println("CREATED DEFAULT.");
 			final PlanningPokerSession defaultSession = new PlanningPokerSession();
 			defaultSession.setID(1);
 			defaultSession.setName("Default Session");
-			defaultSession.setDescription("This session is for requirements that have not been assigned");
-			
+			defaultSession
+					.setDescription("This session is for requirements that have not been assigned");
+
 			if (db.save(defaultSession, s.getProject())) {
 				final PlanningPokerSession[] created = new PlanningPokerSession[1];
 				created[0] = defaultSession;
@@ -175,6 +214,8 @@ public class PlanningPokerSessionEntityManager implements
 		// appropriately
 		existingSession.copyFrom(updatedSession);
 
+		LongPollingResponseEntityManager.pushToClients(existingSession.getClass(), existingSession);
+		
 		if (!db.save(existingSession, s.getProject())) {
 			throw new WPISuiteException(
 					"Could not save when updating existing session.");
@@ -269,7 +310,8 @@ public class PlanningPokerSessionEntityManager implements
 			}
 
 			try {
-				final String notificationType = URLDecoder.decode(args[3], "UTF-8");
+				final String notificationType = URLDecoder.decode(args[3],
+						"UTF-8");
 				final String email = URLDecoder.decode(args[4], "UTF-8");
 				String deadline;
 				if (args[5] == null) {
@@ -291,7 +333,8 @@ public class PlanningPokerSessionEntityManager implements
 			}
 
 			try {
-				final String notificationType = URLDecoder.decode(args[3], "UTF-8");
+				final String notificationType = URLDecoder.decode(args[3],
+						"UTF-8");
 				final String buddy = URLDecoder.decode(args[4], "UTF-8");
 				String deadline;
 				if (args[5] == null) {
@@ -334,14 +377,14 @@ public class PlanningPokerSessionEntityManager implements
 	 * @param deadline
 	 *            String containing the deadline.
 	 */
-	private void sendEmailNotification(String notificationType, String toAddress,
-			String deadline) {
+	private void sendEmailNotification(String notificationType,
+			String toAddress, String deadline) {
 		EmailNotifier.sendMessage(notificationType, toAddress, deadline);
 	}
 
 	/**
-	 * Sends an SMS to a particular phone number notifying upon start or end
-	 * of a planning poker session.
+	 * Sends an SMS to a particular phone number notifying upon start or end of
+	 * a planning poker session.
 	 * 
 	 * @param notificationType
 	 *            'start' or 'end'
@@ -350,8 +393,27 @@ public class PlanningPokerSessionEntityManager implements
 	 * @param deadline
 	 *            String containing the deadline.
 	 */
-	public void sendSMSNotification(String notificationType, String phoneNumber,
-			String deadline) {
+	public void sendSMSNotification(String notificationType,
+			String phoneNumber, String deadline) {
 		SMSNotifier.sendMessage(notificationType, phoneNumber, deadline);
 	}
+	
+	public void updateSession(PlanningPokerSession session) throws WPISuiteException {
+
+		final List<Model> oldPlanningPokerSessions = db.retrieve(PlanningPokerSession.class, "id", session.getID());
+		if (oldPlanningPokerSessions.size() < 1 || oldPlanningPokerSessions.get(0) == null) {
+			throw new BadRequestException("PlanningPokerSession with ID does not exist.");
+		}
+
+		final PlanningPokerSession existingSession = (PlanningPokerSession) oldPlanningPokerSessions.get(0);
+
+		// copy values to old PlanningPokerSession and fill in our changeset appropriately
+		existingSession.copyFrom(session);
+
+		if (!db.save(existingSession)) {
+			throw new WPISuiteException("Could not save when updating existing session.");
+		}
+
+	}
+
 }

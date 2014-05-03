@@ -101,23 +101,27 @@ public class RequestActor extends Thread {
 				in = connection.getErrorStream();
 			}
 			
-			// read response body
-			BufferedReader reader = new BufferedReader(new InputStreamReader(in), 1);
-			String line;
-			try {
-				while((line = reader.readLine()) != null) {
-					responseBody += line + "\n";
+			if (in != null) {
+			
+				// read response body
+				BufferedReader reader = new BufferedReader(new InputStreamReader(in), 1);
+				String line;
+				try {
+					while((line = reader.readLine()) != null) {
+						responseBody += line + "\n";
+					}
+				} catch (SocketTimeoutException e) {	// if there is a timeout while reading the body
+					exceptionRecv = e;
+					responseBodyReadTimeout = true;
+				} catch (IOException e) {	// if readLine() fails
+					exceptionRecv = e;
 				}
-			} catch (SocketTimeoutException e) {	// if there is a timeout while reading the body
-				exceptionRecv = e;
-				responseBodyReadTimeout = true;
-			} catch (IOException e) {	// if readLine() fails
-				exceptionRecv = e;
-			}
-			finally {	// make sure that the BufferedReader is closed
-				if (reader != null) {
-					reader.close();
+				finally {	// make sure that the BufferedReader is closed
+					if (reader != null) {
+						reader.close();
+					}
 				}
+			
 			}
 			
 			// create Response

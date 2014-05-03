@@ -8,7 +8,7 @@
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers;
+package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs;
 
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -42,13 +42,14 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksContr
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.InitNewDeckPanelController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.EditSessionPanel;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 
 /**
  * A view to create a new deck
  */
-public class CreateDeckPanel extends JPanel {
+public class SessionDeckPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
@@ -102,7 +103,7 @@ public class CreateDeckPanel extends JPanel {
 	private final CardDisplayMode mode;
 
 	/** Create session panel for error indication */
-	private CreateSessionPanel sessionPanel;
+	private EditSessionPanel sessionPanel;
 
 	/**
 	 * This is the constructor for deck panel that allows creation of a new deck
@@ -112,7 +113,7 @@ public class CreateDeckPanel extends JPanel {
 	 * @param mode DISPLAY or NO_DECK
 	 * @param sessionPanel the parent panel
 	 */
-	public CreateDeckPanel(CardDisplayMode mode, CreateSessionPanel sessionPanel) {
+	public SessionDeckPanel(CardDisplayMode mode, EditSessionPanel sessionPanel) {
 		this(mode);
 		this.sessionPanel = sessionPanel;
 	}
@@ -124,7 +125,7 @@ public class CreateDeckPanel extends JPanel {
 	 * @param mode
 	 *            DISPLAY or NO_DECK
 	 */
-	public CreateDeckPanel(CardDisplayMode mode) {
+	public SessionDeckPanel(CardDisplayMode mode) {
 		// Assign mode for the panel
 		this.mode = mode;
 
@@ -307,7 +308,7 @@ public class CreateDeckPanel extends JPanel {
 	 * @param button
 	 * @param panel
 	 */
-	public void addAction(JButton button, final CreateDeckPanel panel) {
+	public void addAction(JButton button, final SessionDeckPanel panel) {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -428,7 +429,7 @@ public class CreateDeckPanel extends JPanel {
 	 * @param aCard The card to discard
 	 * @param panel The create deck panel
 	 */
-	public void addRemoveCardListener(Card aCard, final CreateDeckPanel panel) {
+	public void addRemoveCardListener(Card aCard, final SessionDeckPanel panel) {
 		// remove a card
 		aCard.addComponentListener(new ComponentListener() {
 
@@ -559,7 +560,7 @@ public class CreateDeckPanel extends JPanel {
 	/**
 	 * @return create session panel
 	 */
-	public CreateSessionPanel getSessionPanel() {
+	public EditSessionPanel getSessionPanel() {
 		return sessionPanel;
 	}
 

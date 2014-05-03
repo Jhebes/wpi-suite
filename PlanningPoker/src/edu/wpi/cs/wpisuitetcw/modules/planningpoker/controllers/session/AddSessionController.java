@@ -19,8 +19,8 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session.GetA
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.CreateDeckPanel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.EditSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionDeckPanel;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 /**
@@ -29,7 +29,7 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
  * database
  */
 public class AddSessionController implements ActionListener {
-	private final CreateSessionPanel view;
+	private final EditSessionPanel view;
 	private PlanningPokerSession session;
 
 	/** Allow users editing a session's content or not */
@@ -45,7 +45,7 @@ public class AddSessionController implements ActionListener {
 	 *            the value representing if the panel contains an already
 	 *            created session or not
 	 */
-	public AddSessionController(CreateSessionPanel view, boolean isEditMode) {
+	public AddSessionController(EditSessionPanel view, boolean isEditMode) {
 		/*
 		 * TODO: This should also have a manager for the CreateSessionPanel, so
 		 * that errors can be fed back to the panel rather than thrown as
@@ -68,7 +68,7 @@ public class AddSessionController implements ActionListener {
 	 * @param session
 	 *            the planning poker session being edited
 	 */
-	public AddSessionController(CreateSessionPanel view, boolean isEditMode,
+	public AddSessionController(EditSessionPanel view, boolean isEditMode,
 			PlanningPokerSession session) {
 
 		this.view = view;
@@ -111,6 +111,7 @@ public class AddSessionController implements ActionListener {
 			session.setDeadline(d);
 			session.setDescription(des);
 
+
 			// Associate a deck to the new session if the user does not choose
 			// 'No deck'
 			if (!view.isInNoDeckMode()) {
@@ -120,7 +121,7 @@ public class AddSessionController implements ActionListener {
 					session.setDeck(new PlanningPokerDeck());
 				} else {
 
-					final CreateDeckPanel deckPanel = view.getDeckPanel();
+					final SessionDeckPanel deckPanel = view.getDeckPanel();
 					session.setDeck(new PlanningPokerDeck(deckPanel.getName(),
 							deckPanel.getNewDeckValues(), deckPanel
 									.getMaxSelectionCards()));
@@ -131,6 +132,7 @@ public class AddSessionController implements ActionListener {
 			}
 
 			session.create();
+
 			GetAllSessionsController.getInstance().retrieveSessions();
 			ViewEventManager.getInstance().removeTab(view);
 

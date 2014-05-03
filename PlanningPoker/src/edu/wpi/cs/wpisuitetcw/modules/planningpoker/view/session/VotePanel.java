@@ -168,10 +168,11 @@ public class VotePanel extends JPanel {
 			reqList.setSelectionInterval(0, 0);
 			
 			final PlanningPokerVote vote = firstReq.getVoteByUser(ConfigManager.getConfig().getUserName());
-			if (vote != null)
+			if (vote != null) {
 				setVoteTextFieldWithValue(vote.getCardValue());
+			}
 			
-			if(session.isClosed()){
+			if(session.isClosed()) {
 				nameDescriptionPanel.setDescription(selectedRequirement.getDescription());
 				userVotePanel.setFocusedRequirement(selectedRequirement);
 				userVotePanel.fillTable();
@@ -180,6 +181,7 @@ public class VotePanel extends JPanel {
 				finalEstimatePnl.setStatsMedian(selectedRequirement.getMedian());
 				finalEstimatePnl.setStatsMode(selectedRequirement.getMode());
 				finalEstimatePnl.updateEstimateTextField(selectedRequirement);
+				disableSubmitBtn();
 			}
 		}
 	}
@@ -195,7 +197,7 @@ public class VotePanel extends JPanel {
 		this.submitFinalEstimationButton = new JButton("Submit");
 		this.submitFinalEstimationButton.addActionListener(new ActionListener(){
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {				
 				final PlanningPokerRequirement focusedReq = reqList.getSelectedValue();
 				final int estimate = finalEstimatePnl.getEstimate();
 				final int correspondingReqID = focusedReq
@@ -211,6 +213,10 @@ public class VotePanel extends JPanel {
 						focusedRequirementManagerRequirement);
 				ViewEventController.getInstance().refreshTable();
 				ViewEventController.getInstance().refreshTree();
+				
+//				successMsg.setVisible(true);
+//				pnlFinalEstimate.add(successMsg);
+//				repaint();
 			}
 		});
 
@@ -399,22 +405,35 @@ public class VotePanel extends JPanel {
 					if (session.isClosed()) {
 						userVotePanel.setFocusedRequirement(selectedRequirement);
 						userVotePanel.fillTable();
+						
+						// NEW on DEV
+						int mean = selectedRequirement.getMean();
+						
 						finalEstimatePnl.setFocusedRequirement(selectedRequirement);
-						finalEstimatePnl.setStatsMean(selectedRequirement.getMean());
+						finalEstimatePnl.setStatsMean(mean);
 						finalEstimatePnl.setStatsMedian(selectedRequirement.getMedian());
 						finalEstimatePnl.setStatsMode(selectedRequirement.getMode());
-					//	finalEstimatePnl.fillTable(selectedRequirement);
+
+						//	finalEstimatePnl.fillTable(selectedRequirement);
+
+						// ERROR PRONE
+						finalEstimatePnl.setStatsStandardDeviation(selectedRequirement.calculateStandardDeviation(mean));
+//						finalEstimatePnl.fillTable(selectedRequirement);
+
 						finalEstimatePnl.updateEstimateTextField(selectedRequirement);
 						updateUI();
 					} else {
 						final PlanningPokerVote vote = selectedRequirement.getVoteByUser(ConfigManager.getConfig().getUserName());
 
-						clearDeckPanel();
+						if (usesDeck())
+							clearDeckPanel();
 						
 						if (vote != null) {
 							setVoteTextFieldWithValue(vote.getCardValue());
+							disableSubmitBtn();
 						} else {
 							clearVoteTextField();
+							enableSubmitBtn();
 						}
 						updateUI();
 					}
@@ -492,7 +511,7 @@ public class VotePanel extends JPanel {
 													 + HORIZONTAL_PADDING_RIGHT_PANEL + " " 
 													 + VERTICAL_PADDING_RIGHT_PANEL   + " "
 													 + HORIZONTAL_PADDING_RIGHT_PANEL + ", fill",
-											"", "[grow][grow]"));
+											"", "[][grow]"));
 		
 		// TEST SET COLOR
 		nameDescriptionPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
@@ -504,7 +523,6 @@ public class VotePanel extends JPanel {
 		if (session.isClosed()) {
 			rightPanel.add(nameDescriptionPanel, "grow, wrap");
 			rightPanel.add(userVotePanel, "dock east");
-			rightPanel.add(userVotePanel, "height 400::, growy, wrap");
 		} else {
 			// Add the label of the panel
 			rightPanel.add(rightPanelLabel, "center, wrap");
@@ -643,16 +661,31 @@ public class VotePanel extends JPanel {
 		return reqList;
 	}
 	
+	/**
+	 * Clears the deck highlighting
+	 */
 	public void clearDeckPanel() {
 		cardPanel.removeHighlight();
 		cardPanel.clearVoteValue();
 	}
 	
+	/**
+	 * 
+	 * @return true if the session uses a deck
+	 */
+	public boolean usesDeck() {
+		return this.cardFrame != null;
+	}
+	
+	/**
+	 * Go to the next "un-voted" requirement in the list
+	 */
 	public void advanceInList() {
 		PlanningPokerRequirement nextReq = null;
 		PlanningPokerVote vote = null;
 		
-		for (int i = 0; i < session.getRequirements().size(); i++) {
+		int i;
+		for (i = 0; i < session.getRequirements().size(); i++) {
 			reqList.setSelectionInterval(i, i);
 			
 			nextReq = reqList.getSelectedValue();
@@ -661,18 +694,38 @@ public class VotePanel extends JPanel {
 			if (vote == null)
 				break;
 		}
-			
-		nameDescriptionPanel.setName(nextReq.getName());
-		nameDescriptionPanel.setDescription(nextReq.getDescription());
-		selectedRequirement = nextReq;
-			
-		if (vote != null) {
-			setVoteTextFieldWithValue(vote.getCardValue());
+		
+		if (i == session.getRequirements().size()) { // All Reqs voted on
+			reqList.setSelectionInterval(selectedReqIndex, selectedReqIndex);
+			disableSubmitBtn();
 		} else {
+			selectedRequirement = nextReq;
+			nameDescriptionPanel.setName(nextReq.getName());
+			nameDescriptionPanel.setDescription(nextReq.getDescription());
+			
 			clearVoteTextField();
+		
+			if (usesDeck())
+				clearDeckPanel();
 		}
-
-		clearDeckPanel();
+	}
+	
+	/**
+	 * Disable the submit button
+	 */
+	public void disableSubmitBtn() {
+		if (submitVoteButton != null) {
+			submitVoteButton.setEnabled(false);
+		}
+	}
+	
+	/**
+	 * Enable the submit button
+	 */
+	public void enableSubmitBtn() {
+		if (submitVoteButton != null) {
+			submitVoteButton.setEnabled(true);
+		}
 	}
 
 	/**
