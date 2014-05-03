@@ -10,6 +10,7 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
@@ -21,7 +22,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -32,68 +32,42 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 
 /**
- * Panel for final estimation.
+ * CompletedSessionEstimatePanel has a card for final estimation
+ * and a table exhibits the stats of a requirement 
+ * (mean, mode, median, and standard deviation)
  */
 public class CompletedSessionEstimatePanel extends JPanel {
 
 	// The panel that the final estimate panel is placed in.
 	private final VotePanel parentPanel;
 
-	// Panel that contains stats and final estimate
-	private JPanel pnlFinishedReq;
-
-	// Panel that displays the final estimate text box and submission button
-	private ImagePanel pnlFinalEstimate;
-
-	// Panel that displays the stats of a requirement.
-	private final JPanel pnlStats;
-
-	// Header for the final estimate panel.
-	private final JLabel lblFinalEstimate;
-
-	// Label of the Mean
-	private final JLabel lblMean;
-
-	// Label of the Median
-	private final JLabel lblMedian;
-
-	// Label of the Mode itself
-	private final JLabel lblMode;
-
-	// Label of the Mean itself
-	private JLabel lblMeanValue;
-
-	// Label of the Median itself
-	private JLabel lblMedianValue;
-
-	// Label of the Mode text field.
-	private JLabel lblModeValue;
-	
-	// Label of Standard Deviation;
-	private final JLabel lblStandardDeviation;
-	
-	// Holds the model to populate the Votes table.
-	// private DefaultTableModel tableModel;
-
-	// Table that displays users and their votes for a requirement.
-	// private JTable tblVotes;
-
-	//private JTable tblVotes;
-	
-	// text field that displays the mean for a requirements votes.
-	//private JTextField statsMean;
-	
-	// text field that displays the median of a requirements votes.
-	//private JTextField statsMedian;
-	
-	// text field that displays the mode of a requirements votes.
-	//private JTextField statsMode;
-	
-	// text field that displays the standard deviation of a requirment's votes.
-	private JTextField statsStandardDeviation;
+	/** A background for a card */
+	// TODO create GUi component for this
+	private ImagePanel finalEstimateCard;
 	
 	// text field that takes the final estimate given by the owner of a session.
+	// TODO create GUi component for this
 	private JTextField finalEstimateField;
+	
+	// Header for the final estimate panel.
+	// TODO move this into GUI component above
+	private final JLabel lblFinalEstimate;
+
+	/** Mean value and its label*/
+	private final JLabel meanLabel;
+	private JLabel lblMeanValue;
+
+	/** Median value and its label */
+	private final JLabel medianLabel;
+	private JLabel lblMedianValue;
+
+	/** Mode value and its label */
+	private final JLabel modeLabel;
+	private JLabel lblModeValue;
+	
+	/** Standard Deviation and its label */
+	private final JLabel standardDeviationLabel;
+	private final JLabel standardDeviation;
 
 	// The font to be used for headers in this panel.
 	private final Font headerFont;
@@ -122,28 +96,13 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		// Requirement Model;
 		reqManagerRequirementModel = RequirementModel.getInstance();
 
-		pnlFinishedReq = new JPanel();
-		pnlFinishedReq.setLayout(new MigLayout());
 
-		pnlFinalEstimate = new ImagePanel();
+		finalEstimateCard = new ImagePanel();
 		try {
-			pnlFinalEstimate = new ImagePanel("new_card.png");
+			finalEstimateCard = new ImagePanel("new_card.png");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-
-		pnlFinalEstimate.setLayout(new MigLayout());
-
-		/*
-		 * Create and set up the 3 panels used to create the CompletedSession
-		 * Panel
-		 */
-		this.setLayout(new MigLayout());
-
-		// Statistical info of the PP Session
-		pnlStats = new JPanel();
-		pnlStats.setLayout(new MigLayout());
-		pnlStats.setBorder(BorderFactory.createEmptyBorder());
 
 		// Initialize the default font for JLabel headers
 		headerFont = new Font("SansSerif", Font.BOLD, 25);
@@ -223,68 +182,64 @@ public class CompletedSessionEstimatePanel extends JPanel {
 //		final JLabel successMsg = new JLabel("Final Estimation Submitted.");
 //		successMsg.setAlignmentY(Component.CENTER_ALIGNMENT);
 //		successMsg.setVisible(false);
-//
-		final Component verticalStrut = Box.createVerticalStrut(60);
-
-		pnlFinalEstimate.add(verticalStrut, "wrap");
-		pnlFinalEstimate.add(finalEstimateField, "gapleft 30, align center");
 
 		// Create the Stats Panel
 		statNameFont = new Font("SansSerif", Font.BOLD, 15);
 
-		lblMeanValue = new JLabel("");
-		lblMean = new JLabel("Mean");
-		lblMean.setFont(statNameFont);
-		lblMean.setAlignmentX(Component.CENTER_ALIGNMENT);
+		// Create label for MEAN
+		lblMeanValue = new JLabel("TEST");
+		meanLabel = new JLabel("Mean");
+		meanLabel.setFont(statNameFont);
+		meanLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		lblMedianValue = new JLabel("");
-		lblMedian = new JLabel("Median");
-		lblMedian.setFont(statNameFont);
-		lblMedian.setAlignmentX(Component.CENTER_ALIGNMENT);
+		// Create label for MEDIAN
+		lblMedianValue = new JLabel("TEST");
+		medianLabel = new JLabel("Median");
+		medianLabel.setFont(statNameFont);
+		medianLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		lblModeValue = new JLabel("");
-		lblMode = new JLabel("Mode");
-		lblMode.setFont(statNameFont);
-		lblMode.setAlignmentX(Component.CENTER_ALIGNMENT);
+		// Create label for MODE
+		lblModeValue = new JLabel("TEST");
+		modeLabel = new JLabel("Mode");
+		modeLabel.setFont(statNameFont);
+		modeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		// TODO change this to fit the layout. Rob's code
-//		statsMode = new JTextField(10);
-//		// Keeps the text box from filling the entire statBox
-//		statsMode.setMaximumSize(statsMode.getPreferredSize());
-//		statsMode.setAlignmentX(Component.CENTER_ALIGNMENT);
-//		statsMode.setEditable(false);
-//		
-		lblStandardDeviation =  new JLabel("Standard Deviation");
-		lblStandardDeviation.setFont(statNameFont);
-		lblStandardDeviation.setAlignmentX(Component.CENTER_ALIGNMENT);
-		statsStandardDeviation = new JTextField(10);
-		// Keeps the text box from filling the entire statBox
-		statsStandardDeviation.setMaximumSize(statsStandardDeviation.getPreferredSize());
-		statsStandardDeviation.setAlignmentX(Component.CENTER_ALIGNMENT);
-		statsStandardDeviation.setEditable(false);
+		// Create label for STANDARD DEVIATION
+		standardDeviation = new JLabel("TEST");
+		standardDeviationLabel = new JLabel("Standard Deviation");
+		standardDeviationLabel.setFont(statNameFont);
+		standardDeviationLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		pnlStats.add(lblMean);
+		putGUIComponentsOnPanel();
+	}
 
-		pnlStats.add(lblMean, "gapright 40px");
-		pnlStats.add(lblMeanValue, "wrap");
+	private void putGUIComponentsOnPanel() {
+		setLayout(new MigLayout("insets 0, fill", "push[]push[][]push", "push[]0[]0[]0[]push"));
 
-		pnlStats.add(lblMedian, "gapright 40px");
-		pnlStats.add(lblMedianValue, "wrap");
+		add(finalEstimateCard, "height 194!, width 146!, spany 5");
+		
+		add(meanLabel);
+		add(lblMeanValue, "wrap");
+		add(medianLabel);
+		add(lblMedianValue, "wrap");
+		add(modeLabel);
+		add(lblModeValue, "wrap");
+		add(standardDeviationLabel);
+		add(standardDeviation, "wrap");
+		
 
-		// NEED TO LAYOUT THIS
-		//pnlStats.add(statsMode);
-		pnlStats.add(lblStandardDeviation);
-		pnlStats.add(statsStandardDeviation);
-
-		pnlStats.add(lblMode, "gapright 40px");
-		pnlStats.add(lblModeValue);
-
-		pnlFinishedReq.add(lblFinalEstimate, "gapbottom 10,wrap");
-		pnlFinishedReq.add(pnlFinalEstimate,
-				"height 194!, width 146!, gapright 80px");
-		pnlFinishedReq.add(pnlStats);
-
-		this.add(pnlFinishedReq);
+		// TEST SET COLOR
+		meanLabel.setBorder(BorderFactory.createLineBorder(Color.RED));
+		medianLabel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+		modeLabel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+		standardDeviationLabel.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
+		
+//		pnlFinishedReq.add(lblFinalEstimate, "gapbottom 10,wrap");
+//		pnlFinishedReq.add(finalEstimateCard,
+//				"height 194!, width 146!, gapright 80px");
+//		pnlFinishedReq.add(pnlStats);
+//
+//		this.add(pnlFinishedReq);
 	}
 
 	/**
@@ -322,7 +277,8 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * @param statsStandardDeviation
 	 */
 	public void setStatsStandardDeviation(double statsStandardDeviation) {
-		this.statsStandardDeviation.setText("" + statsStandardDeviation + "  ");
+		// TODO fix the method
+		//this.statsStandardDeviation.setText("" + statsStandardDeviation + "  ");
 	}
 
 	/**
