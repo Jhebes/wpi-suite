@@ -19,7 +19,6 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -170,7 +169,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 
 	private void putGUIComponentsOnPanel() {
 		setBorder(BorderFactory.createLineBorder(Color.GRAY));
-		setLayout(new MigLayout("insets 0, fill", "push[]push[]push", "push[]push"));
+		setLayout(new MigLayout("insets 0, fill", "push[]20[]push", "push[]push"));
 
 		add(finalEstimateCard, "height 194!, width 146!");
 		add(statsTable, "wrap");

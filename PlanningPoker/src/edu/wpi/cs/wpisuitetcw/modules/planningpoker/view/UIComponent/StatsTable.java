@@ -1,7 +1,5 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent;
 
-import java.awt.Component;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
