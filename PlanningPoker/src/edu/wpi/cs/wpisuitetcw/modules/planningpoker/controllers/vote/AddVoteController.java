@@ -89,7 +89,12 @@ public class AddVoteController implements ActionListener {
 		}
 		
 		// Add vote to the requirement
-		final PlanningPokerVote vote = new PlanningPokerVote(username, voteView.getVote());
+		int voteValue = voteView.getVote();
+		
+		if (voteValue == -1) // Garbage value
+			return;
+		
+		final PlanningPokerVote vote = new PlanningPokerVote(username, voteValue);
 		session.addVoteToRequirement(req, vote, username);
 
 		session.setHasVoted(true);
