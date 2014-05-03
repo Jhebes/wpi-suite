@@ -472,7 +472,7 @@ public class VotePanel extends JPanel {
 		rightPanel = new JPanel();
 
 		// Create a label for right panel
-		rightPanelLabel = new JLabel(RIGHT_PANEL_LABEL);
+		rightPanelLabel = new JLabel(session.isClosed() ? "" : RIGHT_PANEL_LABEL);
 
 		// Create a requirement name and description text box
 		nameDescriptionPanel = new NameDescriptionPanel(REQ_NAME_LABEL, REQ_DESC_LABEL, false);
@@ -525,7 +525,7 @@ public class VotePanel extends JPanel {
 													 + HORIZONTAL_PADDING_RIGHT_PANEL + " " 
 													 + VERTICAL_PADDING_RIGHT_PANEL   + " "
 													 + HORIZONTAL_PADDING_RIGHT_PANEL + ", fill",
-											"", "[][grow]"));
+											"", "[][grow][grow]"));
 		
 		// TEST SET COLOR
 		nameDescriptionPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
@@ -539,7 +539,7 @@ public class VotePanel extends JPanel {
 		rightPanel.add(nameDescriptionPanel, "grow, wrap");
 		
 		if (session.isClosed()) {
-			rightPanel.add(finalEstimatePnl, "growx");
+			rightPanel.add(finalEstimatePnl, "grow");
 			rightPanel.add(userVotePanel, ", gaptop " + VERTICAL_PADDING_RIGHT_PANEL + ", " 
 										+ "width 150:300:500, dock east");
 		} else {
