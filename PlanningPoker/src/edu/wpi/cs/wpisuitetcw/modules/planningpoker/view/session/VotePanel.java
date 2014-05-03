@@ -521,11 +521,14 @@ public class VotePanel extends JPanel {
 													 + HORIZONTAL_PADDING_RIGHT_PANEL + ", fill",
 											"", "[growprio 65, grow][growprio 35, grow]"));
 		
-		// Add the requirement name and its label
+		// Add the Name & Description text boxes
 		rightPanel.add(nameDescriptionPanel, "grow, wrap");
 		
 		if (session.isClosed()) {
+			// Add the stats and input for final estimation
 			rightPanel.add(finalEstimatePnl, "grow");
+			
+			// Add the user-vote panel
 			rightPanel.add(userVotePanel, "gaptop " + VERTICAL_PADDING_RIGHT_PANEL + ", "
 										+ "gapbottom " + VERTICAL_PADDING_RIGHT_PANEL + ", "
 										+ "gapright " + HORIZONTAL_PADDING_RIGHT_PANEL + ", "
