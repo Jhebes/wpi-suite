@@ -25,6 +25,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -185,6 +186,14 @@ public class VotePanel extends JPanel {
 			}
 
 			private void endSession() {
+				if (!allVoted()) // Unvoted Req's
+					// Warn the user and cancel if they change their mind
+					if (JOptionPane.showConfirmDialog((Component) null, 
+							"You have requirements without votes." +
+									"Are you sure you wish to end the session?",
+							"Are you sure?", JOptionPane.YES_NO_OPTION) != 0)
+						return;
+				
 				session.close();
 				session.save();
 				final List<PlanningPokerRequirement> reqList = session.getRequirements();
@@ -320,7 +329,6 @@ public class VotePanel extends JPanel {
 		leftPanel = new JPanel();
 		leftPanelLabel = new JLabel(LEFT_PANEL_LABEL);
 
-		// TODO: sleep
 		final List<PlanningPokerRequirement> reqs = session.getRequirements();
 		final DefaultListModel<PlanningPokerRequirement> requirementModel = 
 				new DefaultListModel<PlanningPokerRequirement>();
@@ -655,5 +663,19 @@ public class VotePanel extends JPanel {
 		if (submitVoteButton != null) {
 			submitVoteButton.setEnabled(true);
 		}
+	}
+	
+	/**
+	 * 
+	 * @return true if all the reqs have been voted on by the current user
+	 */
+	public boolean allVoted() {
+		String username = ConfigManager.getConfig().getUserName();
+		
+		for (PlanningPokerRequirement ppr : session.getRequirements())
+			if (ppr.getVoteByUser(username) == null)
+				return false;
+		
+		return true;
 	}
 }
