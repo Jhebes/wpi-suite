@@ -10,6 +10,8 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
+import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -104,14 +106,19 @@ public class PlanningPokerRequirement extends AbstractModel {
 	/**
 	 * @return The mean of the values of all the votes.
 	 */
-	public int getMean() {
+	public double getMean() {
 		int total = 0;
 		int num = 0;
+		double mean;
+		DecimalFormat df = new DecimalFormat("#.#");
 		for (PlanningPokerVote v : votes) {
 			total += v.getCardValue();
 			num++;
 		}
-		return (total / num);
+		mean = (total / num);
+		mean  = Double.parseDouble(df.format(mean));
+		
+		return mean;
 	}
 
 	/**
@@ -130,6 +137,7 @@ public class PlanningPokerRequirement extends AbstractModel {
 		} else {
 			median = (numList[size / 2] + numList[(size / 2) - 1]) / 2;
 		}
+		
 		return median;
 	}
 
@@ -162,10 +170,15 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 * @param mean
 	 * @return Standard deviation of votes
 	 */
-	public double calculateStandardDeviation(int mean){
+	public double calculateStandardDeviation(double mean){
 		double variance, stndDev;
+		DecimalFormat df = new DecimalFormat("#.#");
+		
 		variance  = calculateVariance(mean);
 		stndDev = Math.sqrt(variance);
+		
+		stndDev = Double.parseDouble(df.format(stndDev));
+		
 		return stndDev;
 		
 	}
@@ -176,7 +189,7 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 * @param mean
 	 * @return the variance of all requirement votes for this session
 	 */
-	public double calculateVariance(int mean){
+	public double calculateVariance(double mean){
 		double variance;
 		int numOfVotes;
 		variance = numOfVotes = 0;
