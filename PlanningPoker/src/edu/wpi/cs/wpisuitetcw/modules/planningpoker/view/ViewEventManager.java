@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
@@ -185,8 +186,13 @@ public class ViewEventManager {
 	 *            the component to remove
 	 */
 	public void removeTab(JComponent component) {
-		if (component instanceof SessionRequirementPanel) {
-			viewSessionPanels.remove(component);
+		if (component instanceof SessionRequirementPanel || component instanceof EditSessionPanel) {
+			if (JOptionPane.showConfirmDialog(null, "This session has not been created yet! \n "
+					+ "Are you sure you want to proceed?", "WARNING",
+			        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				viewSessionPanels.remove(component);
+			}
+			else return;
 		}
 		if (component instanceof VotePanel) {
 			inProgressSessionPanels.remove(component);
@@ -195,7 +201,6 @@ public class ViewEventManager {
 		main.remove(component);
 
 	}
-
 
 
 	/**
