@@ -10,10 +10,10 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
 
 public class SessionTabsPanel extends JTabbedPane {
@@ -34,15 +34,14 @@ public class SessionTabsPanel extends JTabbedPane {
 	 * panel and requirement panel
 	 * 
 	 */
-	public SessionTabsPanel() {
+	public SessionTabsPanel(PlanningPokerSession session) {
 		// set up panels
 		deckPanel = new SessionDeckPanel(CardDisplayMode.DISPLAY);
-		// requirementPanel = new SessionRequirementPanel(session);
+		requirementPanel = new SessionRequirementPanel(session);
 
 		// set up tabs
 		this.addTab("Deck", null, deckPanel);
-		this.addTab("dummy", new JPanel());
-		// this.addTab("Requirement", null, requirementPanel);
+		this.addTab("Requirement", null, requirementPanel);
 	}
 
 	/**

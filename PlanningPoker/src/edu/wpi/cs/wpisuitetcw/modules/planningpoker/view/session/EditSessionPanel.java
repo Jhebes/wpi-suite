@@ -179,7 +179,7 @@ public class EditSessionPanel extends JPanel {
 
 		// Use display mode since the default deck is displayed by default
 		// deckPanel = new SessionDeckPanel(CardDisplayMode.DISPLAY);
-		tabsPanel = new SessionTabsPanel();
+		tabsPanel = new SessionTabsPanel(session);
 		
 		deckPanel = tabsPanel.getDeckPanel();
 		deckPanel.displayDefaultDeck();
