@@ -57,7 +57,6 @@ public class VotePanel extends JPanel {
 	private static final String REQ_NAME_LABEL = "Requirement Name";
 	private static final String REQ_DESC_LABEL = "Description";
 	private static final String VOTE_BUTTON_LABEL = "Submit Vote";
-	private static final String RIGHT_PANEL_LABEL = "Requirements Detail:";
 	private static final String LEFT_PANEL_LABEL = "Session Requirements:";
 	private static final String END_SESSION_BUTTON_LABEL = "End Session";
 	private static final String NO_DECK_MSG = "<html><font color='red'>No deck. Please enter your vote in the white box</font></html>";
