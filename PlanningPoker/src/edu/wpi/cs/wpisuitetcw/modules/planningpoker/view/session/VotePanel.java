@@ -527,11 +527,6 @@ public class VotePanel extends JPanel {
 													 + HORIZONTAL_PADDING_RIGHT_PANEL + ", fill",
 											"", "[][growprio 65, grow][growprio 35, grow]"));
 		
-		// TEST SET COLOR
-		nameDescriptionPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
-		userVotePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-		finalEstimatePnl.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-
 		// Add the label of the panel
 		rightPanel.add(rightPanelLabel, "center, wrap");
 		
