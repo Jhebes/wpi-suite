@@ -49,16 +49,19 @@ public class PlanningPokerSessionHandler extends
 		 * If this session has expired, and a vote panel for it is open, close
 		 * it and open a final estimation panel
 		 */
-		if (receivedSession.hasPassedDeadline()) {
+		if (receivedSession.isClosed()) {
+			System.out.println("Checking if any vote panels for the received session are open...");
 			List<VotePanel> openPanels = ViewEventManager.getInstance()
 					.getVotePanels();
 			for (int i = 0; i < openPanels.size(); ++i) {
 				PlanningPokerSession s = openPanels.get(i).getSession();
 				if (s.getID() == receivedSession.getID()) {
+					System.out.println("Yes! Closing them and opening the correct view");
 					ViewEventManager.getInstance().removeTab(openPanels.get(i));
 					ViewEventManager.getInstance().viewSession(
 							SessionStash.getInstance().getSessionByID(
 									receivedSession.getID()));
+					break;
 				}
 			}
 		}
