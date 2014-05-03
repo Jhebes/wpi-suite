@@ -10,8 +10,8 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -42,23 +42,13 @@ public class RequirementTableModel extends DefaultTableModel{
 	 *            The new list of requirements
 	 */
 	public void refreshRequirements(List<PlanningPokerRequirement> requirements) {
-		int length = this.getRowCount();
-		
+		List<Object[]> newData = new ArrayList<Object[]>();
 		for (PlanningPokerRequirement requirement : requirements) {
 			Object[] row = {requirement.getName(), 
 							requirement.getDescription()};
-			boolean updated = false;
-			for (int i = 0; i < length; i++) {
-				String name = (String) this.getValueAt(i, 0);
-				if (name.equals(row[0])) {
-					this.setValueAt(row[1], i, 1);
-					updated = true;
-				}
-			}
-			if (!updated) {
-				this.addRow(row);
-			}
+			newData.add(row);
 		}
+		this.setDataVector(newData.toArray(new Object[0][0]), colNames);
 	}
 }
 
