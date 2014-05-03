@@ -54,7 +54,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventControlle
  */
 public class VotePanel extends JPanel {
 
-	private static final String REQ_NAME_LABEL = "Name";
+	private static final String REQ_NAME_LABEL = "Requirement Name";
 	private static final String REQ_DESC_LABEL = "Description";
 	private static final String VOTE_BUTTON_LABEL = "Submit Vote";
 	private static final String RIGHT_PANEL_LABEL = "Requirements Detail:";
