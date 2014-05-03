@@ -29,7 +29,7 @@ public class ToolbarView  extends DefaultToolbarView {
 	public EditButtonsPanel editButton = new EditButtonsPanel();
 	public RequirementButtonsPanel reqButton = new RequirementButtonsPanel();
 	public ImportExportButtonsPanel importButton = new ImportExportButtonsPanel();
-	
+
 	/**
 	 * Creates and positions option buttons in upper toolbar
 	 * @param visible boolean
@@ -65,5 +65,12 @@ public class ToolbarView  extends DefaultToolbarView {
 	 * @return RequirementButtonsPanel */
 	public RequirementButtonsPanel getReqButton() {
 		return reqButton;
+	}
+	
+	/**
+	 * @return ImportExportButtonsPanel
+	 */
+	public ImportExportButtonsPanel getImportButton() {
+		return importButton;
 	}
 }

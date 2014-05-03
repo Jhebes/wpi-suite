@@ -1,5 +1,5 @@
 /**
- *  * Copyright (c) 2013 -- WPI Suite
+ * Copyright (c) 2013 -- WPI Suite
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -10,6 +10,7 @@
  */
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.buttons;
 
+import java.awt.Component;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -54,7 +55,7 @@ public class ImportExportButtonsPanel extends ToolbarGroupView {
 	private final JPanel contentPanel = new JPanel();
 	private final JButton importButton = new JButton("<html>Import</html>");
 	private final JButton exportButton = new JButton("<html>Export</html>");
-	private static final JFileChooser fc = new JsonFileChooser(); 
+	private static final JFileChooser fc = new JsonFileChooser();
 
 	/**
 	 * Constructs the import requirements button panel.
@@ -158,10 +159,15 @@ public class ImportExportButtonsPanel extends ToolbarGroupView {
 
 		});
 
+		exportButton.setEnabled(false);
 		contentPanel.add(importButton);
 		contentPanel.add(exportButton);
 		contentPanel.setOpaque(false);
 
 		this.add(contentPanel);
+	}
+
+	public JButton getExportButton() {
+		return exportButton;
 	}
 }
