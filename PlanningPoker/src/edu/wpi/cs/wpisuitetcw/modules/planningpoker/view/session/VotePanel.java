@@ -541,7 +541,6 @@ public class VotePanel extends JPanel {
 		if (session.isClosed()) {
 			rightPanel.add(finalEstimatePnl, "grow");
 			rightPanel.add(userVotePanel, "gaptop " + VERTICAL_PADDING_RIGHT_PANEL + ", "
-										+ "gapleft " + HORIZONTAL_PADDING_RIGHT_PANEL + ", "
 										+ "gapbottom " + VERTICAL_PADDING_RIGHT_PANEL + ", "
 										+ "gapright " + HORIZONTAL_PADDING_RIGHT_PANEL + ", "
 										+ "width 150:300:500, dock east");
