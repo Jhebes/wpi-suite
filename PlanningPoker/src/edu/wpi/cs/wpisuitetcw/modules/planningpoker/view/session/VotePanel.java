@@ -162,13 +162,18 @@ public class VotePanel extends JPanel {
 	 */
 	private void setupInitData() {
 		if (session.getRequirements().size() > 0) {
-			// Auto select the first requirement and populate its data
 			final PlanningPokerRequirement firstReq = session.getRequirements().get(0);
-			nameDescriptionPanel.setName(firstReq.getName());
-			nameDescriptionPanel.setDescription(firstReq.getDescription());
+			String requirementName = firstReq.getName();
+			String requirementDescription = firstReq.getDescription();
+			
+			// Auto select the first requirement
 			selectedRequirement = firstReq;
 			selectedReqIndex = 0;
 			reqList.setSelectionInterval(0, 0);
+			
+			// Populate name and description of the first requirement
+			nameDescriptionPanel.setName(requirementName);
+			nameDescriptionPanel.setDescription(requirementDescription);
 			
 			// Show the vote of the first requirement if it has
 			final PlanningPokerVote vote = firstReq.getVoteByUser(ConfigManager.getConfig().getUserName());
@@ -176,8 +181,9 @@ public class VotePanel extends JPanel {
 				setVoteTextFieldWithValue(vote.getCardValue());
 			}
 			
+			// Populate the vote and stats of the first requirement when the session's closed
 			if (session.isClosed()) {
-				nameDescriptionPanel.setDescription(selectedRequirement.getDescription());
+				nameDescriptionPanel.setDescription(requirementDescription);
 				userVotePanel.setFocusedRequirement(selectedRequirement);
 				userVotePanel.fillTable();
 				finalEstimatePnl.setFocusedRequirement(selectedRequirement);
