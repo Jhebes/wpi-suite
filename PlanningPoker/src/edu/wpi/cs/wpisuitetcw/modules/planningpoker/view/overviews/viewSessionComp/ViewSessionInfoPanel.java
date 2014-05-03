@@ -20,6 +20,12 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionReq
  * The panel for displaying info about the planning poker session.
  */
 public class ViewSessionInfoPanel extends JPanel {
+	
+	/**
+	 * Field needed for class serialization
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private final PlanningPokerSession session;
 	private final SessionRequirementPanel parentPanel;
 	
@@ -36,4 +42,7 @@ public class ViewSessionInfoPanel extends JPanel {
 		
 	}
 	
+	public SessionRequirementPanel getParentPanel() {
+		return parentPanel;
+	}
 }
