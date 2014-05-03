@@ -10,7 +10,6 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs;
 
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
