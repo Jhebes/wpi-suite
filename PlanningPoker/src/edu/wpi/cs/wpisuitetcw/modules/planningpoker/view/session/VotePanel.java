@@ -169,6 +169,17 @@ public class VotePanel extends JPanel {
 			final PlanningPokerVote vote = firstReq.getVoteByUser(ConfigManager.getConfig().getUserName());
 			if (vote != null)
 				setVoteTextFieldWithValue(vote.getCardValue());
+			
+			if(session.isClosed()){
+				nameDescriptionPanel.setDescription(selectedRequirement.getDescription());
+				userVotePanel.setFocusedRequirement(selectedRequirement);
+				userVotePanel.fillTable();
+				finalEstimatePnl.setFocusedRequirement(selectedRequirement);
+				finalEstimatePnl.setStatsMean(selectedRequirement.getMean());
+				finalEstimatePnl.setStatsMedian(selectedRequirement.getMedian());
+				finalEstimatePnl.setStatsMode(selectedRequirement.getMode());
+				finalEstimatePnl.updateEstimateTextField(selectedRequirement);
+			}
 		}
 	}
 
@@ -355,12 +366,13 @@ public class VotePanel extends JPanel {
 
 		// TODO: sleep
 		final List<PlanningPokerRequirement> reqs = session.getRequirements();
+		
 		final DefaultListModel<PlanningPokerRequirement> requirementModel = 
 				new DefaultListModel<PlanningPokerRequirement>();
 		for (PlanningPokerRequirement ppr : reqs) {
 			requirementModel.addElement(ppr);
 		}
-
+		
 		reqList = new JList<PlanningPokerRequirement>(requirementModel);
 		reqList.setBackground(Color.WHITE);
 		reqList.setAlignmentX(LEFT_ALIGNMENT);
@@ -392,7 +404,7 @@ public class VotePanel extends JPanel {
 						finalEstimatePnl.setStatsMean(selectedRequirement.getMean());
 						finalEstimatePnl.setStatsMedian(selectedRequirement.getMedian());
 						finalEstimatePnl.setStatsMode(selectedRequirement.getMode());
-						finalEstimatePnl.fillTable(selectedRequirement);
+					//	finalEstimatePnl.fillTable(selectedRequirement);
 						finalEstimatePnl.updateEstimateTextField(selectedRequirement);
 						updateUI();
 					} else {
@@ -405,7 +417,6 @@ public class VotePanel extends JPanel {
 						} else {
 							clearVoteTextField();
 						}
-
 						updateUI();
 					}
 				}
@@ -440,6 +451,7 @@ public class VotePanel extends JPanel {
 		if(session.isClosed()){
 			nameDescriptionPanel = new NameDescriptionPanel(false);
 		}
+		
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
@@ -485,7 +497,7 @@ public class VotePanel extends JPanel {
 			userVotePanel = new UserVoteListPanel(this);
 			if(session.isClosed()){
 			rightPanel.add(nameDescriptionPanel, "grow");
-			rightPanel.add(userVotePanel, "growy, wrap");
+			rightPanel.add(userVotePanel, "height 400::, growy, wrap");
 			}
 			
 			else{
@@ -498,7 +510,7 @@ public class VotePanel extends JPanel {
 			finalEstimatePnl = new CompletedSessionEstimatePanel(this);
 			finalEstimatePnl.setAlignmentX(Component.CENTER_ALIGNMENT);
 			if (session.isClosed()) {
-				rightPanel.add(finalEstimatePnl, "growx, growy");
+				rightPanel.add(finalEstimatePnl, "growx, growy, gapleft 150, gapbottom 50");
 			} else {
 				if (cardFrame != null) {
 					rightPanel.add(cardFrame, "height 235::, grow, dock south");

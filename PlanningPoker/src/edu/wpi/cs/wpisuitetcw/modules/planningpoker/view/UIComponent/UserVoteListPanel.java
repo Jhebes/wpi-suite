@@ -10,7 +10,6 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -25,9 +24,7 @@ import javax.swing.table.DefaultTableModel;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.UserStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 public class UserVoteListPanel extends JPanel {
 
@@ -36,7 +33,7 @@ public class UserVoteListPanel extends JPanel {
 
 	// focused requirement
 	private PlanningPokerRequirement focusedRequirement;
-	
+
 	// The panel that the final estimate panel is placed in.
 	private final VotePanel parentPanel;
 
@@ -63,7 +60,7 @@ public class UserVoteListPanel extends JPanel {
 		this.parentPanel = parentPanel;
 
 		focusedRequirement = null;
-		
+
 		// Create a new grid layout that is 3 columns across.
 		panelLayout = new GridLayout(1, 1);
 
@@ -84,7 +81,7 @@ public class UserVoteListPanel extends JPanel {
 		this.createTable();
 		final JScrollPane votesScrollPane = new JScrollPane(tblVotes);
 		tblVotes.setFillsViewportHeight(true);
-		pnlVotes.add(lblVotes);
+		// pnlVotes.add(lblVotes);
 		pnlVotes.add(votesScrollPane);
 	}
 
@@ -101,23 +98,25 @@ public class UserVoteListPanel extends JPanel {
 				return false;
 			}
 		};
+		tblVotes.getColumnModel().getColumn(1).setWidth(2);
+		tblVotes.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 	}
 
 	public void fillTable() {
 		// Clear the table model.
 		tableModel.setRowCount(0);
-		//System.out.println(UserStash.getInstance().getUsers().size());
-		//for (User user : UserStash.getInstance().getUsers()) {
-			for (PlanningPokerVote vote : focusedRequirement.getVotes()) {
-				Object[] row = { vote.getUser(), vote.getCardValue() };
-				tableModel.addRow(row);
-		/*		if (requirement.hasUserVoted(user.getUsername())) {
-					setBackground(new Color(0x22, 0xff, 0x33));
-				} else {
-					setBackground(new Color(0xff, 0x88, 0x99));
-				}*/
-			}
-		//}
+		// System.out.println(UserStash.getInstance().getUsers().size());
+		// for (User user : UserStash.getInstance().getUsers()) {
+		for (PlanningPokerVote vote : focusedRequirement.getVotes()) {
+			Object[] row = { vote.getUser(), vote.getCardValue() };
+			tableModel.addRow(row);
+			/*
+			 * if (requirement.hasUserVoted(user.getUsername())) {
+			 * setBackground(new Color(0x22, 0xff, 0x33)); } else {
+			 * setBackground(new Color(0xff, 0x88, 0x99)); }
+			 */
+		}
+		// }
 	}
 
 	/**
@@ -128,12 +127,12 @@ public class UserVoteListPanel extends JPanel {
 	}
 
 	/**
-	 * @param focusedRequirement the focusedRequirement to set
+	 * @param focusedRequirement
+	 *            the focusedRequirement to set
 	 */
-	public void setFocusedRequirement(PlanningPokerRequirement focusedRequirement) {
+	public void setFocusedRequirement(
+			PlanningPokerRequirement focusedRequirement) {
 		this.focusedRequirement = focusedRequirement;
 	}
-	
-	
-	
+
 }
