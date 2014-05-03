@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
@@ -31,18 +32,19 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
  * their votes
  *
  */
-public class UserVoteListPanel extends JScrollPane {
+public class UserVoteListPanel extends JPanel {
 
 	private static final Object[] COLUMN_LABELS = { "User", "Vote" };
 	private static final int VOTE_COLUMN_MAX_WIDTH = 150;
 	
 	/** Header for the votes panel */
-	//private final JLabel lblVotes;
+	private final JLabel lblVotes;
 
 	// Holds the model to populate the Votes table.
 	private DefaultTableModel tableModel;
 
 	// Table that displays users and their votes for a requirement.
+	private JScrollPane tableScrollFrame;
 	private JTable tblVotes;
 	
 	// focused requirement
@@ -57,16 +59,15 @@ public class UserVoteListPanel extends JScrollPane {
 		// Initialize the default font for JLabel headers
 		headerFont = new Font("TimesRoman", Font.BOLD, 25);
 		
-		// Initialize the Headers for the panels.
-//		lblVotes = new JLabel("Votes");
-//		lblVotes.setFont(headerFont);
-//		lblVotes.setAlignmentX(Component.CENTER_ALIGNMENT);
-		// pnlVotes.add(lblVotes);
+		// Create title for the panel
+		lblVotes = new JLabel("Votes");
+		lblVotes.setFont(headerFont);
 
 		createTable();
 		
-		setViewportView(tblVotes);
-		tblVotes.setFillsViewportHeight(true);
+		setLayout(new MigLayout("insets 0, fill", "", "[][grow]"));
+		add(lblVotes, "left, wrap");
+		add(tableScrollFrame, "grow");
 	}
 
 	public void createTable() {
@@ -83,6 +84,9 @@ public class UserVoteListPanel extends JScrollPane {
 		};
 		tblVotes.getColumnModel().getColumn(1).setMaxWidth(VOTE_COLUMN_MAX_WIDTH);
 		tblVotes.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		tblVotes.setFillsViewportHeight(true);
+
+		tableScrollFrame = new JScrollPane(tblVotes);
 	}
 
 	public void fillTable() {

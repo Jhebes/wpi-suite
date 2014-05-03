@@ -540,7 +540,7 @@ public class VotePanel extends JPanel {
 		
 		if (session.isClosed()) {
 			rightPanel.add(finalEstimatePnl, "growx");
-			rightPanel.add(userVotePanel, "dock east");
+			rightPanel.add(userVotePanel, "width 150:300:500, dock east");
 		} else {
 			if (cardFrame != null) {
 				rightPanel.add(cardFrame, "height 235::, grow, dock south");
