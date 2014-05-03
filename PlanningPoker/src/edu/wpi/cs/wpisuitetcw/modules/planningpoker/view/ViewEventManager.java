@@ -211,13 +211,6 @@ public class ViewEventManager {
 	}
 
 	/**
-	 * show table and remove the welcome page
-	 */
-	public void showSessionTable() {
-		overviewPanel.showSessionTable();
-	}
-
-	/**
 	 * setter for overview panel
 	 */
 	public void setOverviewPanel(OverviewPanel overviewPanel) {

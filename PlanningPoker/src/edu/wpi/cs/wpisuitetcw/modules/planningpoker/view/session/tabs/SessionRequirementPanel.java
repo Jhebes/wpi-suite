@@ -54,8 +54,6 @@ public class SessionRequirementPanel extends JSplitPane {
 		// set up the viewSessionPanel
 		this.add(contentPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
-		
-		SessionStash.getInstance().synchronize();
 	}
 
 	/**

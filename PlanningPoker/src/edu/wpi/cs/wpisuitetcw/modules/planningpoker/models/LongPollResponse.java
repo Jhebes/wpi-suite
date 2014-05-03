@@ -12,12 +12,11 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
 import java.lang.reflect.Type;
 
-import typeadapters.ClassTypeAdapter;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers.LongPollingResponseEntityManager;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.typeadapters.ClassTypeAdapter;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 /**

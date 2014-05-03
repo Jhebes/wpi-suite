@@ -15,8 +15,6 @@ import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JOptionPane;
-
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
@@ -76,10 +74,7 @@ public class GetRequirementsVotesController implements ActionListener{
 	 * error occurs retrieving the requirements from the server.
 	 */
 	public void errorReceivingData(String error) {
-		JOptionPane.showMessageDialog(view,
-				"An error occurred retrieving requirements from the server. "
-						+ error, "Error Communicating with Server",
-				JOptionPane.ERROR_MESSAGE);
+		
 	}
 
 	/**
