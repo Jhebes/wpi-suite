@@ -67,18 +67,7 @@ public class LabelsWithTextField extends JPanel {
 	 * the middle text field can have
 	 */
 	public LabelsWithTextField(BufferedImage image, int columns) {
-		this.topLine = new TransparentTextArea();
-
-		// Set the max number of columns and center aligned
-		this.middleLine = new TransparentTextField();
-		middleLine.setColumns(columns);
-		middleLine.setHorizontalAlignment(JTextField.CENTER);
-
-		this.bottomLine = new TransparentTextArea();
-		
-		this.background = image;
-		
-		putGUIComponentsOnPanel();
+		this(image, columns, false, false);
 	}
 	
 	/**
