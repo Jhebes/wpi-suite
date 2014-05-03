@@ -1,6 +1,6 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.textfield;
 
-import java.awt.Font;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -23,6 +23,8 @@ import net.miginfocom.swing.MigLayout;
 public class LabelsWithTextField extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+
+	private static final int DEFAULT_NUM_COLUMNS = 3;
 
 	/** Top line */
 	private final TransparentTextArea topLine;
@@ -48,11 +50,28 @@ public class LabelsWithTextField extends JPanel {
 	/**
 	 * Construct a LabelsWithTextField with the
 	 * given image as the background
+	 * @param image An image that would be set as
+	 * background
 	 */
 	public LabelsWithTextField(BufferedImage image) {
+		this(image, DEFAULT_NUM_COLUMNS);
+	}
+	
+	/**
+	 * Construct a LabelsWithTextField with the
+	 * given image as a background and the given
+	 * number as the max length of the middle text field
+	 * @param image An image that would be set as
+	 * background
+	 * @param columns A maximum number of columns
+	 * the middle text field can have
+	 */
+	public LabelsWithTextField(BufferedImage image, int columns) {
 		this.topLine = new TransparentTextArea();
 
+		// Set the max number of columns and center aligned
 		this.middleLine = new TransparentTextField();
+		middleLine.setColumns(columns);
 		middleLine.setHorizontalAlignment(JTextField.CENTER);
 
 		this.bottomLine = new TransparentTextArea();
@@ -61,13 +80,53 @@ public class LabelsWithTextField extends JPanel {
 		
 		putGUIComponentsOnPanel();
 	}
+	
+	/**
+	 * Construct a LabelsWithTextField with the
+	 * given image as a background and the given
+	 * number as the max length of the middle text field
+	 * Additionally, set the mutability of top and bottom
+	 * text area
+	 * 
+	 * @param image An image that would be set as
+	 * background
+	 * @param columns A maximum number of columns
+	 * the middle text field can have
+	 * @param isTopEditable False to set the text
+	 * at the top immutable
+	 * @param isBottomEditable False to set the text
+	 * at the bottom immutable
+	 */
+	public LabelsWithTextField(BufferedImage image, 
+								int columns, 
+								boolean isTopEditable, 
+								boolean isBottomEditable) {
+		// Create the top line
+		this.topLine = new TransparentTextArea();
+		topLine.setEnabled(isTopEditable);
+		
+		// Set the max number of columns and center aligned
+		this.middleLine = new TransparentTextField();
+		middleLine.setColumns(columns);
+		middleLine.setHorizontalAlignment(JTextField.CENTER);
 
+		// Create the bottom line
+		this.bottomLine = new TransparentTextArea();
+		bottomLine.setEditable(isBottomEditable);
+		
+		// Store the background image. putGUIComponentsOnPanel
+		// handles the background setting
+		this.background = image;
+		
+		putGUIComponentsOnPanel();
+	} 
+	
 	/*
 	 * Put the top, middle, and bottom lines
 	 * on the panel
 	 */
 	private void putGUIComponentsOnPanel() {
-		setLayout(new MigLayout("insets 0, fill", "", "[][grow][]"));
+		setLayout(new MigLayout("insets 0, fill", "[center]", "[][grow][]"));
 		add(topLine, "wrap");
 		add(middleLine, "wrap");
 		add(bottomLine, "wrap");
@@ -112,6 +171,17 @@ public class LabelsWithTextField extends JPanel {
 		middleLine.setText(value);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Dimension getPreferredSize() {
+		return background == null ? super.getPreferredSize() : new Dimension(background.getWidth(), background.getHeight());
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
