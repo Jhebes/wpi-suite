@@ -1,9 +1,9 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.textfield;
 
-import java.awt.LayoutManager;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
@@ -23,37 +23,40 @@ public class LabelsWithTextField extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final int DEFAULT_TEXT_LENGTH = 3;
-
 	/** Top line */
 	private final TransparentTextArea topLine;
 	
 	/** Middle line */
-	private final JTextField middleLine;
+	private final TransparentTextField middleLine;
 	
 	/** Bottom line */
 	private final TransparentTextArea bottomLine;
 	
+	/** Background image */
+	private BufferedImage background;
+	
+	
 	/**
-	 * Construct a LabelsWithTextField with
-	 * 3 as the maximum text length
+	 * Construct a LabelsWithTextField with no
+	 * background image
 	 */
 	public LabelsWithTextField() {
-		this(DEFAULT_TEXT_LENGTH);
+		this(null);
 	}
 	
 	/**
 	 * Construct a LabelsWithTextField with the
-	 * given max text length of the middle JTextField
-	 * @param maxTextLength
+	 * given image as the background
 	 */
-	public LabelsWithTextField(int maxTextLength) {
+	public LabelsWithTextField(BufferedImage image) {
 		this.topLine = new TransparentTextArea();
 
-		this.middleLine = new JTextField(maxTextLength);
+		this.middleLine = new TransparentTextField();
 		middleLine.setHorizontalAlignment(JTextField.CENTER);
 
 		this.bottomLine = new TransparentTextArea();
+		
+		this.background = image;
 		
 		putGUIComponentsOnPanel();
 	}
@@ -96,5 +99,15 @@ public class LabelsWithTextField extends JPanel {
 	 */
 	public String getTextMiddle() {
 		return middleLine.getText();
+	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		if (background != null) {
+			int x = (getWidth() - background.getWidth()) / 2;
+			int y = (getHeight() - background.getHeight()) / 2;
+			g.drawImage(background, x, y, this);
+		}
 	}
 }
