@@ -10,8 +10,12 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp;
 
+import java.awt.Color;
+
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionRequirementPanel;
@@ -26,10 +30,16 @@ public class ViewSessionInfoPanel extends JPanel {
 	public ViewSessionInfoPanel(SessionRequirementPanel parentPanel, PlanningPokerSession session) {
 		this.parentPanel = parentPanel;
 		this.session = session;
-		
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		// create labels for data field;
 		final JLabel labelName = new JLabel("Name ");
-		final JLabel labelSessionName = new JLabel(this.session.getName());
+		final JTextArea labelSessionName = new JTextArea(this.session.getName());
+		labelSessionName.setLineWrap(true);
+		labelSessionName.setEditable(false);
+		labelSessionName.setWrapStyleWord(false);
+		labelSessionName.setBackground(Color.LIGHT_GRAY);
+		
+
 		
 		this.add(labelName);
 		this.add(labelSessionName);
