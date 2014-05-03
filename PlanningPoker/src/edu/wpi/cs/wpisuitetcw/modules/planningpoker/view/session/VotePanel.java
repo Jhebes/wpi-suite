@@ -477,7 +477,7 @@ public class VotePanel extends JPanel {
 		
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
-		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
+		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 12));
 		voteTextField.setHorizontalAlignment(JTextField.CENTER);
 
 		// Set up ErrorMsg Label

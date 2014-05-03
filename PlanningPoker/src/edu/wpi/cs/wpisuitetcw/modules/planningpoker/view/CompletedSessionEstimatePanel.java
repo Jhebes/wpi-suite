@@ -94,7 +94,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		
 		// Set default small text "Final estimation"
 		// Enlarge the font when user clicks in
-		setToggleFontSize(card);
+		//setToggleFontSize(card);
 		
 
 		card.getTextField().getDocument().addDocumentListener(
