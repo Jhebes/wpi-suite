@@ -21,7 +21,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.ConfigLoader;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.exceptions.ConfigLoaderError;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.exceptions.ConfigLoaderException;
 
 /**
  * Class for sending notifications to users via email.
@@ -41,11 +41,11 @@ public class EmailNotifier extends BaseNotifier {
 	 */
 	public static void sendMessage(String notificationType, String recipient,
 			String deadline) {
-		String message = BaseNotifier.createMessage(notificationType, deadline);
+		final String message = BaseNotifier.createMessage(notificationType, deadline);
 
-		String subject = "Planning Poker";
+		final String subject = "Planning Poker";
 
-		Properties props = new Properties();
+		final Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.debug", "true");
@@ -62,7 +62,7 @@ public class EmailNotifier extends BaseNotifier {
 							return new PasswordAuthentication(ConfigLoader
 									.getEmailUsername(), ConfigLoader
 									.getEmailPassword());
-						} catch (ConfigLoaderError e) {
+						} catch (ConfigLoaderException e) {
 							Logger.getLogger("PlanningPoker").log(
 									Level.SEVERE,
 									"Could not load email address or " + 
@@ -74,13 +74,13 @@ public class EmailNotifier extends BaseNotifier {
 
 		try {
 
-			Transport transport = mailSession.getTransport();
+			final Transport transport = mailSession.getTransport();
 
-			MimeMessage email = new MimeMessage(mailSession);
+			final MimeMessage email = new MimeMessage(mailSession);
 
 			email.setSubject(subject);
 			email.setFrom(new InternetAddress(ConfigLoader.getEmailUsername()));
-			String[] to = new String[] { recipient };
+			final String[] to = new String[] { recipient };
 			email.addRecipient(Message.RecipientType.TO, new InternetAddress(
 					to[0]));
 			email.setContent(message, "text/html");

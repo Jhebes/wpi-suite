@@ -16,8 +16,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.CreateDeckPanel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.EditSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionDeckPanel;
 
 /**
  * A singleton controller that sets the main view to CreateNewDeckPanel
@@ -25,19 +25,19 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.CreateSessionPa
  */
 public class InitNewDeckPanelController implements ActionListener {
 	/** A CreateSessionPanel */
-	private CreateSessionPanel view;
+	private EditSessionPanel view;
 	
 	/** A CreateNewDeckPanel */
-	private CreateDeckPanel deckPanel = null;
+	private SessionDeckPanel deckPanel = null;
 	
 	/** An instance of this controller */
-	private static InitNewDeckPanelController instance;
+	private static InitNewDeckPanelController instance = null;
 
 	/*
 	 * Store the given CreateSessionPanel 
 	 */
-	private InitNewDeckPanelController(CreateSessionPanel sessionPanel) {
-		this.view = sessionPanel;
+	private InitNewDeckPanelController(EditSessionPanel sessionPanel) {
+		view = sessionPanel;
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class InitNewDeckPanelController implements ActionListener {
 	 * @return Return an InitNewDeckPanelController instance
 	 */
 	public static InitNewDeckPanelController getInstance(
-											CreateSessionPanel sessionPanel) {
+											EditSessionPanel sessionPanel) {
 		if (instance == null) {
 			instance = new InitNewDeckPanelController(sessionPanel);
 		}
@@ -62,11 +62,10 @@ public class InitNewDeckPanelController implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		try {
 			ViewEventManager.getInstance().getMainview()
-					.setSelectedComponent(this.deckPanel);
+					.setSelectedComponent(deckPanel);
 		} catch (IllegalArgumentException error) {
-			// this.deckPanel = new CreateNewDeckPanel();
 			ViewEventManager.getInstance().display(deckPanel,
-					this.view.DISPLAY_MSG);
+					EditSessionPanel.DISPLAY_MSG);
 		}
 	}
 
@@ -75,10 +74,10 @@ public class InitNewDeckPanelController implements ActionListener {
 	 * go back to the create session panel
 	 */
 	public void removeDeckPanel() {
-		ViewEventManager.getInstance().removeTab(this.deckPanel);
-		this.deckPanel = null;
-		Logger.getLogger("PlanningPoker").log(Level.INFO, this.view.toString());
+		ViewEventManager.getInstance().removeTab(deckPanel);
+		deckPanel = null;
+		Logger.getLogger("PlanningPoker").log(Level.INFO, view.toString());
 		ViewEventManager.getInstance().getMainview()
-				.setSelectedComponent(this.view);
+				.setSelectedComponent(view);
 	}
 }

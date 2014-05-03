@@ -17,6 +17,7 @@ import java.util.List;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionReqPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -39,8 +40,8 @@ public class MoveRequirementToAllController implements ActionListener {
 	 * @param v A ViewSessionReqPanel that would be stored
 	 */
 	public MoveRequirementToAllController(PlanningPokerSession s, ViewSessionReqPanel v) {
-		this.session = s;
-		this.view = v;
+		session = s;
+		view = v;
 	}
 
 	/**
@@ -50,7 +51,7 @@ public class MoveRequirementToAllController implements ActionListener {
 	public void receivedData(PlanningPokerSession s){
 		PlanningPokerRequirement r;
 		
-		for(String a : this.view.getRightSelectedRequirements()){
+		for(String a : view.getRightSelectedRequirements()){
 				r = session.getReqByName(a);
 				List<PlanningPokerRequirement> d = new ArrayList<PlanningPokerRequirement>();
 				d.add(r);
@@ -62,14 +63,15 @@ public class MoveRequirementToAllController implements ActionListener {
 		s.save();
 		session.save();
 		
-		RequirementTableManager a1 = new RequirementTableManager();
+		final RequirementTableManager a1 = new RequirementTableManager();
 		a1.refreshRequirements(1, s.getRequirements());
-		RequirementTableManager a2 = new RequirementTableManager();
+		final RequirementTableManager a2 = new RequirementTableManager();
 		a2.refreshRequirements(session.getID(), session.getRequirements());
-		this.view.getAllReqTable().repaint();
-		this.view.getSessionReqTable().repaint();
+		view.getAllReqTable().repaint();
+		view.getSessionReqTable().repaint();
 
 		view.validateActivateSession();
+		view.refreshMoveButtons();
 	}
 	
 	/*
@@ -80,8 +82,6 @@ public class MoveRequirementToAllController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		final Request request = Network.getInstance().makeRequest("planningpoker/session/1", HttpMethod.GET);
-		request.addObserver(new MoveRequirementToAllRequestObserver(this));
-		request.send();
+		receivedData(SessionStash.getInstance().getDefaultSession());
 	}
 }

@@ -36,28 +36,47 @@ import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionDeckPanel;
 
 /**
- * 
+ * A card is a GUI component that imitates a real card.
  */
 public class Card extends JPanel {
 	private static final long serialVersionUID = 8830282477028926730L;
-	// constants
-	private final String ERROR_MSG = "<html><font color='red'>Positive integer only</font></html>";
+
+	// VVVVVVVVVVVVVVVVVVVVVVVV Constants VVVVVVVVVVVVVVVVVVVVVVVVVVVV
+	private final String ERROR_MSG = 
+			"<html><font color='red'>Positive integer only</font></html>";
 	private final String BUTTON_TEXT = "\u2716";
 	private final Dimension CARD_DIMENSION = new Dimension(146, 194);
-
-	private final JTextField txtboxValue;
-	private final JLabel labelError;
-	private final JButton closeButton;
-	private boolean isValueValid;
-	private boolean isMouseovered;
-
+	
+	// VVVVVVVVVVVVVVVVVVVVVV GUI components VVVVVVVVVVVVVVVVVVVVVVVVV
+	/** A container holding all the GUI components of the card */
 	private JPanel container;
-
+	
+	/** A picture of the card */
 	private Image cardPicture = null;
 
-	/** card value */
+	/** A text box to enter a value of a card in */
+	private final JTextField txtboxValue;
+	
+	/** An error label to inform invalid value */
+	private final JLabel labelError;
+	
+	/** A button to delete the card */
+	private final JButton closeButton;
+	
+	// VVVVVVVVVVVVVVVVVVVVVVVVVV DATA VVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+	/** A flag determining the validity of the value in text box*/
+	private boolean isValueValid;
+	
+	/** A flag determining if a mouse is hovering the card */
+	private boolean isMouseovered;
+
+	/** A flag determining if card is selected or not */
+	private boolean isSelected;
+	
+	/** Card value */
 	private int cardValue;
 
 	/** Display mode for the card */
@@ -66,69 +85,91 @@ public class Card extends JPanel {
 	/** Parent panel that contains the card */
 	private DisplayDeckPanel parentPanel;
 
-	/** card is selected or not */
-	private boolean isSelected;
+	/** Parent panel that is responsible for creating a deck of cards */
+	private SessionDeckPanel createDeckPanel;
 
-	/** Display a card and ability to notify parent panel */
+	/** 
+	 * Construct a card 
+	 * 
+	 * @param mode A CardDisplayMode (Create/Display)
+	 * @param value An integer representing value of the card
+	 * @param deckPanel A DisplayDeckPanel exhibits this card
+	 */
 	public Card(CardDisplayMode mode, int value, DisplayDeckPanel deckPanel) {
 		this(mode, value);
-		this.parentPanel = deckPanel;
+		parentPanel = deckPanel;
 		if (mode.equals(CardDisplayMode.DISPLAY)) {
-			// TODO add action listener for selecting the value of the card
 			this.addSelectionListener(this);
 		}
 	}
 
-	/** for displaying a card */
-	public Card(CardDisplayMode mode, int value) {
+	/**
+	 * Create a card with dynamic error validation
+	 */
+	public Card(CardDisplayMode mode, SessionDeckPanel createDeckPanel) {
 		this(mode);
-		this.cardValue = value;
-		this.displayCardValue();
+		this.createDeckPanel = createDeckPanel;
 	}
 
+	/**
+	 * Construct a card
+	 * 
+	 * @param mode A CardDisplayMode (Create/Display)
+	 * @param value An integer representing value of the card
+	 */
+	public Card(CardDisplayMode mode, int value) {
+		this(mode);
+		cardValue = value;
+		displayCardValue();
+	}
+	
+	/** 
+	 * Construct a card 
+	 * 
+	 * @param mode A CardDisplayMode (Create/Display)
+	 */
 	public Card(CardDisplayMode mode) {
-		// display mode for the card
+		// Set the card's mode
 		this.mode = mode;
 
-		// load background image
+		// Set card's background image
 		try {
-			Image img = ImageIO.read(getClass().getResource("new_card.png"));
-			ImageIcon icon = new ImageIcon(img);
-			this.cardPicture = icon.getImage();
+			final Image img = ImageIO.read(getClass().getResource("new_card.png"));
+			final ImageIcon icon = new ImageIcon(img);
+			cardPicture = icon.getImage();
 		} catch (IOException e) {
 			Logger.getLogger("PlanningPoker").log(Level.INFO,
 					"Could not load the image for planning poker cards", e);
 		}
 
-		// textfield
+		// Create the text field
 		txtboxValue = new JTextField(3);
+		txtboxValue.setFont(new Font("sansserif", Font.BOLD, 20));
 
-		// labels
+		// Create error JLabel
 		labelError = new JLabel(ERROR_MSG);
 		labelError.setVisible(false);
 
-		// buttons
+		// Create close button
 		closeButton = new JButton(BUTTON_TEXT);
 		closeButton.setFont(closeButton.getFont().deriveFont((float) 8));
 		closeButton.setMargin(new Insets(0, 0, 0, 0));
 		closeButton.setVisible(false); // button is not visible until user
 										// mouseover it
 
-		// card initial status
+		// Set card initial statuses
 		isValueValid = true;
 		isMouseovered = false;
 		isSelected = false;
+		
+		// Set default value for newly created card to -1
+		cardValue = -1;
 
-		// setup the card panel
-		this.setLayout(new MigLayout());
-
+		// Create the container to hold the card's components
 		container = new JPanel();
-		container.setLayout(new MigLayout());
-		container.add(txtboxValue, "center, wrap");
-		container.add(labelError, "center");
-		container.setBackground(Color.WHITE);
-		container.setOpaque(false);
-
+		addComponentsToContainer();
+		
+		setLayout(new MigLayout());
 		this.add(closeButton, "right, wrap");
 		this.add(container, "center, wrap, span");
 		this.setPreferredSize(CARD_DIMENSION);
@@ -136,7 +177,7 @@ public class Card extends JPanel {
 		// set border
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
-		// add highlight feature to the card
+		// Add highlight feature to the card
 		this.addMouseoverHightlight(this, this);
 
 		// display selective elements based on the mode it's in
@@ -151,11 +192,22 @@ public class Card extends JPanel {
 			this.addMouseoverHightlight(closeButton, this);
 			this.addMouseoverHightlight(txtboxValue, this);
 			this.addMouseoverHightlight(labelError, this);
-
 		} else if (mode.equals(CardDisplayMode.NO_DECK)) {
 			// this should never be executed
 			disableEditableFields();
 		}
+	}
+
+	/*
+	 * Add text field and label error to the card container
+	 */
+	private void addComponentsToContainer() {
+		container.setLayout(new MigLayout());
+		container.add(txtboxValue, "center, wrap");
+		container.add(labelError, "center");
+		
+		container.setBackground(Color.WHITE);
+		container.setOpaque(false);
 	}
 
 	/**
@@ -163,15 +215,15 @@ public class Card extends JPanel {
 	 */
 	private void displayCardValue() {
 		// containing panel
-		JPanel valuePanel = new JPanel();
+		final JPanel valuePanel = new JPanel();
 		valuePanel.setLayout(new MigLayout());
 		valuePanel.setBackground(Color.WHITE);
 		valuePanel.setOpaque(false);
 
 		// label for displaying value
-		JLabel valueLabel = new JLabel(Integer.toString(cardValue),
-				JLabel.CENTER);
-		valueLabel.setFont(new Font("Serif", Font.BOLD, 48));
+		final JLabel valueLabel = new JLabel(Integer.toString(cardValue),
+				javax.swing.SwingConstants.CENTER);
+		valueLabel.setFont(new Font(valueLabel.getFont().getName(), Font.BOLD, 48));
 
 		// set up the main panel
 		valuePanel.add(valueLabel, "dock center");
@@ -190,7 +242,7 @@ public class Card extends JPanel {
 	}
 
 	/**
-	 * set the image as the background of the panel
+	 * Set the image as the background of the panel
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
@@ -205,15 +257,15 @@ public class Card extends JPanel {
 	 * 
 	 * @return true if so, else otherwise
 	 */
-	public boolean validateCardValue() {
-		String inputValue = this.txtboxValue.getText();
+	public boolean hasValidCardValue() {
+		final String inputValue = txtboxValue.getText();
 
 		if (inputValue.equals("")) {
-			this.isValueValid = false;
+			isValueValid = false;
 			return false;
 		} else {
-			this.isValueValid = this.isPositiveInteger(inputValue);
-			return this.isValueValid;
+			isValueValid = this.isPositiveInteger(inputValue);
+			return isValueValid;
 		}
 	}
 
@@ -226,12 +278,8 @@ public class Card extends JPanel {
 	 */
 	private boolean isPositiveInteger(String s) {
 		try {
-			int value = Integer.parseInt(s);
-			if (value > 0) {
-				return true;
-			} else {
-				return false;
-			}
+			final int value = Integer.parseInt(s);
+			return value > 0;
 		} catch (NumberFormatException e) {
 			return false;
 		}
@@ -240,30 +288,30 @@ public class Card extends JPanel {
 	/**
 	 * highlights the card
 	 */
-	public void setCardHighlighted() {
+	public void markCardHighlighted() {
 		this.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
 	}
 
 	/**
 	 * makes the card invalid by changing the color
 	 */
-	public void setCardInvalid() {
+	public void markCardInvalid() {
 		this.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
-		this.labelError.setVisible(true);
+		labelError.setVisible(true);
 	}
 
 	/**
 	 * card is valid, set the border back to black
 	 */
-	public void setCardValid() {
+	public void markCardValid() {
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-		this.labelError.setVisible(false);
+		labelError.setVisible(false);
 	}
 
 	/**
 	 * card is selected, set the border to green
 	 */
-	public void setCardSelected() {
+	public void markCardSelected() {
 		this.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
 	}
 
@@ -272,25 +320,25 @@ public class Card extends JPanel {
 	 */
 	public void changeCardLayout() {
 		// toogle closebutton
-		closeButton.setVisible(this.isMouseovered);
+		closeButton.setVisible(isMouseovered);
 
 		// change the border of the card
 		if (isSelected) {
 			// card is selected
-			setCardSelected();
+			markCardSelected();
 		} else {
 			// card is not selected
-			if (this.isMouseovered) {
-				if (this.isValueValid) {
-					this.setCardHighlighted();
+			if (isMouseovered) {
+				if (isValueValid) {
+					this.markCardHighlighted();
 				} else {
-					this.setCardInvalid();
+					this.markCardInvalid();
 				}
 			} else {
-				if (this.isValueValid) {
-					this.setCardValid();
+				if (isValueValid) {
+					this.markCardValid();
 				} else {
-					this.setCardInvalid();
+					this.markCardInvalid();
 				}
 			}
 		}
@@ -303,11 +351,13 @@ public class Card extends JPanel {
 	private void addListenerToValueTextBox(JTextField textbox, final Card aCard) {
 		textbox.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
-				if (aCard.validateCardValue()) {
-					aCard.setCardValid();
+				if (aCard.hasValidCardValue()) {
+					aCard.markCardValid();
 				} else {
-					aCard.setCardInvalid();
+					aCard.markCardInvalid();
 				}
+				// validate all inputs in the create session panel
+				createDeckPanel.getSessionPanel().checkSessionValidation();
 			}
 		});
 	}
@@ -346,6 +396,8 @@ public class Card extends JPanel {
 					isSelected = false;
 					unselectCard();
 				}
+				
+				parentPanel.enableSubmitBtn();
 			}
 		});
 	}
@@ -355,7 +407,7 @@ public class Card extends JPanel {
 	 */
 	private void selectCard() {
 		// highlight the card
-		setCardSelected();
+		markCardSelected();
 		// update the vote
 		parentPanel.addRequirementValue(this);
 	}
@@ -365,7 +417,7 @@ public class Card extends JPanel {
 	 */
 	private void unselectCard() {
 		// remove the highlight
-		setCardValid();
+		markCardValid();
 		// update the vote
 		parentPanel.subtractRequirementValue(this);
 	}
@@ -450,7 +502,7 @@ public class Card extends JPanel {
 	public int getValue() {
 		int value;
 		try {
-			value = Integer.parseInt(this.txtboxValue.getText());
+			value = Integer.parseInt(txtboxValue.getText());
 		} catch (NumberFormatException e) {
 			value = 0;
 		}
@@ -463,11 +515,12 @@ public class Card extends JPanel {
 	 * @return mode the card is on
 	 */
 	public CardDisplayMode getMode() {
-		return this.mode;
+		return mode;
 	}
 	
 	/**
 	 * setter for isSelected
+	 * 
 	 * @param isSelected
 	 */
 	public void setSelected(boolean isSelected) {

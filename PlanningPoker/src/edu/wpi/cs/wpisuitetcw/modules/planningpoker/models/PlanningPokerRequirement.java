@@ -10,6 +10,8 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
+import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +41,7 @@ public class PlanningPokerRequirement extends AbstractModel {
 	private int sessionID;
 
 	/** A list of votes from users */
-	public List<PlanningPokerVote> votes = new ArrayList<PlanningPokerVote>();
+	private List<PlanningPokerVote> votes = new ArrayList<PlanningPokerVote>();
 
 	/** The final estimation of the requirement */
 	private int finalEstimate;
@@ -47,9 +49,8 @@ public class PlanningPokerRequirement extends AbstractModel {
 	/** Total number of votes for this requirement */
 	private int totalVotes;
 
-	private int mean;
-	private int median;
-	private int mode;
+	/** This is the ID the corresponds with the requirment manager ID */
+	private int correspondingReqManagerID;
 
 	/**
 	 * Construct a Planning poker requirement with no data
@@ -84,19 +85,124 @@ public class PlanningPokerRequirement extends AbstractModel {
 	}
 
 	/**
+	 * Gets the vote cast by a particular user, returning null if the user
+	 * hasn't voted yet.
 	 * 
-	 * @param id
-	 * @return PlanningPokerVote corresponding to the requirement (if it has been voted on by user)
+	 * @param user The username to check
+	 * @return PlanningPokerVote corresponding to the requirement (if it has
+	 *         been voted on by user)
 	 */
 	public PlanningPokerVote getVoteByUser(String user) {
-		for(PlanningPokerVote v : this.votes) {
-			if(v.getUser().equals(user)) {
-				return v;
+		PlanningPokerVote vote = null;
+		for (PlanningPokerVote v : votes) {
+			if (v.getUser().equals(user)) {
+				vote = v;
+				break;
 			}
 		}
-		return null;
+		return vote;
+	}
+
+	/**
+	 * @return The mean of the values of all the votes.
+	 */
+	public double getMean() {
+		int total = 0;
+		int num = 0;
+		double mean;
+		DecimalFormat df = new DecimalFormat("#.#");
+		for (PlanningPokerVote v : votes) {
+			total += v.getCardValue();
+			num++;
+		}
+		mean = (total / num);
+		mean  = Double.parseDouble(df.format(mean));
+		
+		return mean;
+	}
+
+	/**
+	 * @return The median of the values of all the votes.
+	 */
+	public int getMedian() {
+		final int size = votes.size();
+		final int[] numList = new int[votes.size()];
+		for (int i = 0; i < votes.size(); i++) {
+			numList[i] = votes.get(i).getCardValue();
+		}
+		Arrays.sort(numList);
+		int median;
+		if (size % 2 == 1) {
+			median = numList[(size / 2)];
+		} else {
+			median = (numList[size / 2] + numList[(size / 2) - 1]) / 2;
+		}
+		
+		return median;
+	}
+
+	/**
+	 * @return The mode of the values of all the votes.
+	 */
+	public int getMode() {
+		final int[] numList = new int[votes.size()];
+		int max, temp, mode;
+		for (int i = 0; i < votes.size(); i++) {
+			numList[i] = votes.get(i).getCardValue();
+		}
+		Arrays.sort(numList);
+		max = 1;
+		temp = 1;// temporary count of max
+		mode = numList[0];
+		for (int j = 0; j < numList.length; j++) {
+			if (numList[j] == mode) {
+				temp++;
+			}
+			if (temp > max) {
+				max = temp;
+				mode = numList[j];
+			}
+		}
+		return mode;
+	}
+	/**
+	 * To calculate the standard deviation, find the sqrt of the variance of the data.
+	 * @param mean
+	 * @return Standard deviation of votes
+	 */
+	public double calculateStandardDeviation(double mean){
+		double variance, stndDev;
+		DecimalFormat df = new DecimalFormat("#.#");
+		
+		variance  = calculateVariance(mean);
+		stndDev = Math.sqrt(variance);
+		
+		stndDev = Double.parseDouble(df.format(stndDev));
+		
+		return stndDev;
+		
 	}
 	
+	/**
+	 * Calculates the variance of vote requirements. To calculate variance, find the average of each sample of data 
+	 * subtracted by the mean.
+	 * @param mean
+	 * @return the variance of all requirement votes for this session
+	 */
+	public double calculateVariance(double mean){
+		double variance;
+		int numOfVotes;
+		variance = numOfVotes = 0;
+		
+		for (PlanningPokerVote v : votes) {
+			variance += Math.pow((v.getCardValue() - mean), 2);
+			numOfVotes++;
+		}
+		variance = (variance / (numOfVotes));
+		return variance;
+		
+	}
+
 	/**
 	 * Returns an instance of PlanningPokerRequirement constructed using the
 	 * given Requirement encoded as a JSON string.
@@ -142,9 +248,8 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 *            The requirement to import
 	 * @return The converted planning poker requirement
 	 */
-	public static PlanningPokerRequirement importRequirement(
-			Requirement requirement) {
-		PlanningPokerRequirement ppReq = new PlanningPokerRequirement();
+	public static PlanningPokerRequirement importRequirement(Requirement requirement) {
+		final PlanningPokerRequirement ppReq = new PlanningPokerRequirement();
 		ppReq.innerRequirement = requirement;
 		return ppReq;
 	}
@@ -154,7 +259,7 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 * this method
 	 */
 	public String toString() {
-		return this.innerRequirement.getName();
+		return innerRequirement.getName();
 	}
 
 	/**
@@ -226,7 +331,7 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 *         PlanningPokerRequirement
 	 */
 	public String getName() {
-		return this.getInnerRequirement().getName();
+		return innerRequirement.getName();
 	}
 
 	/**
@@ -237,7 +342,7 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 *            PlanningPokerRequirement's name
 	 */
 	public void setName(String name) {
-		this.getInnerRequirement().setName(name);
+		innerRequirement.setName(name);
 	}
 
 	/**
@@ -246,7 +351,7 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 * @return Return the Description of the PlanningPokerRequirement
 	 */
 	public String getDescription() {
-		return this.getInnerRequirement().getDescription();
+		return innerRequirement.getDescription();
 	}
 
 	/**
@@ -257,7 +362,7 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 *            PlanningPokerRequirement's description
 	 */
 	public void setDescription(String description) {
-		this.getInnerRequirement().setDescription(description);
+		innerRequirement.setDescription(description);
 	}
 
 	/**
@@ -279,9 +384,12 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 *            calling PlanningPokerRequirement object
 	 */
 	public void copyFrom(PlanningPokerRequirement updatedRequirement) {
-		this.innerRequirement = updatedRequirement.innerRequirement;
-		this.sessionID = updatedRequirement.sessionID;
-		this.votes = updatedRequirement.votes;
+		id = updatedRequirement.id;
+		innerRequirement = updatedRequirement.innerRequirement;
+		sessionID = updatedRequirement.sessionID;
+		votes = updatedRequirement.votes;
+		finalEstimate = updatedRequirement.finalEstimate;
+		totalVotes = updatedRequirement.totalVotes;
 	}
 
 	/**
@@ -320,8 +428,7 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 *            PlanningPokerRequirement's final estimate
 	 */
 	public void setFinalEstimate(int estimate) {
-		this.finalEstimate = estimate;
-
+		finalEstimate = estimate;
 	}
 
 	/**
@@ -353,12 +460,14 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 * @return Yes or no
 	 */
 	public boolean hasUserVoted(String user) {
-		for (PlanningPokerVote v : this.votes) {
+		boolean hasVoted = false;
+		for (PlanningPokerVote v : votes) {
 			if (v.getUser().equals(user)) {
-				return true;
+				hasVoted = true;
+				break;
 			}
 		}
-		return false;
+		return hasVoted;
 	}
 
 	/**
@@ -380,7 +489,7 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 */
 	@Override
 	public Boolean identify(Object o) {
-		return this.id.equals(((PlanningPokerRequirement) o).id);
+		return id.equals(((PlanningPokerRequirement) o).id);
 	}
 
 	/**
@@ -396,54 +505,29 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean equals(Object o) {
-		return this.id.equals(((PlanningPokerRequirement) o).id);
+	public boolean equals(Object arg) { // $codepro.audit.disable
+		if (this == arg) {
+			return true;
+		}
+		if (!(arg instanceof PlanningPokerRequirement)) {
+			return false;
+		}
+		return id.equals(((PlanningPokerRequirement) arg).id);
 	}
 
-	public int setMean() {
-		int total = 0;
-		int num = 0;
-		for (PlanningPokerVote v : this.getVotes()) {
-			total += v.getCardValue();
-			num++;
-		}
-		return (total / num);
+	/**
+	 * Set the ID the is given to this requirement in the requirement manager.
+	 * @param ID
+	 */
+	public void setCorrespondingReqManagerID(int ID){
+		correspondingReqManagerID = ID;
 	}
-
-	public int setMedian() {
-		int size = this.getVotes().size();
-		int numList[] = new int[votes.size()];
-		for (int i = 0; i < votes.size(); i++) {
-			numList[i] = this.getVotes().get(i).getCardValue();
-		}
-		Arrays.sort(numList);
-		if (size % 2 == 1) {
-			return numList[(size / 2)];
-		} else {
-			return (numList[size / 2] + numList[(size / 2) - 1]) / 2;
-		}
-	}
-
-	public int setMode() {
-		int numList[] = new int[votes.size()];
-		int max, temp;
-		int mode;
-		for (int i = 0; i < votes.size(); i++) {
-			numList[i] = this.getVotes().get(i).getCardValue();
-		}
-		Arrays.sort(numList);
-		max = 1;
-		temp = 1;// temporary count of max
-		mode = numList[0];
-		for (int j = 0; j < numList.length; j++) {
-			if (numList[j] == mode) {
-				temp++;
-			}
-			if (temp > max) {
-				max = temp;
-				mode = numList[j];
-			}
-		}
-		return mode;
+	
+	/**
+	 * 
+	 * @return The ID of the PPreq that corresponds with the requirement manager requirement.
+	 */
+	public int getCorrespondingReqManagerID(){
+		return correspondingReqManagerID;
 	}
 }

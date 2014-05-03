@@ -26,7 +26,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class GetAllSessionsController {
 
 	/** An instance of this controller */
-	private static GetAllSessionsController instance;
+	private static GetAllSessionsController instance = null;
 
 	/**
 	 * Instantiates a new controller tied to the specified view.
@@ -34,6 +34,9 @@ public class GetAllSessionsController {
 	 */
 	private GetAllSessionsController() {}
 
+	/**
+	 * @return The singleton instance for this controller.
+	 */
 	public static GetAllSessionsController getInstance() {
 		if (instance == null) {
 			instance = new GetAllSessionsController();

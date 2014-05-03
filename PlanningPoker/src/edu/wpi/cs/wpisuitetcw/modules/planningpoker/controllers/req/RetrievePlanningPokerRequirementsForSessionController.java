@@ -13,11 +13,9 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.req;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JOptionPane;
-
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.EditSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -30,15 +28,15 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class RetrievePlanningPokerRequirementsForSessionController {
 	
 	/** The create session panel */
-	protected CreateSessionPanel panel;
+	protected EditSessionPanel panel;
 
 	/** The requirements retrieved from the server */
 	protected PlanningPokerRequirement[] data = null;
 	
-	public int target;
+	private int target;
 	
 	/** An instance of this controller */
-	private static RetrievePlanningPokerRequirementsForSessionController instance;
+	private static RetrievePlanningPokerRequirementsForSessionController instance = null;
 	
 	/**
 	 * Return an instance of RetrievePlanningPokerRequirementsForSessionController
@@ -55,7 +53,7 @@ public class RetrievePlanningPokerRequirementsForSessionController {
 	 * Sends a request to get all of the requirements of a session
 	 */
 	public void refreshData(int t){
-		this.target = t;
+		target = t;
 		Logger.getLogger("PlanningPoker").log(Level.INFO, "Refreshing table for session " + t);
 		final Request request = Network.getInstance().makeRequest("planningpoker/session/", HttpMethod.GET);
 		request.addObserver(new RetrievePlanningPokerRequirementsForSessionRequestObserver(this));
@@ -72,8 +70,8 @@ public class RetrievePlanningPokerRequirementsForSessionController {
 	 * @throws NotImplementedException
 	 */
 	public void receivedData(PlanningPokerSession session){
-		RequirementTableManager a = new RequirementTableManager();
-		a.refreshRequirements(this.target, session.getRequirements());
+		final RequirementTableManager a = new RequirementTableManager();
+		a.refreshRequirements(target, session.getRequirements());
 	}
 
 	/**
@@ -82,10 +80,14 @@ public class RetrievePlanningPokerRequirementsForSessionController {
 	 * error occurs retrieving the requirements from the server.
 	 */
 	public void errorReceivingData(String error) {
-		JOptionPane.showMessageDialog(panel,
-				"An error occurred retrieving requirements from the server. "
-						+ error, "Error Communicating with Server",
-				JOptionPane.ERROR_MESSAGE);
+		
+	}
+
+	/**
+	 * @return The target ID
+	 */
+	public int getTarget() {
+		return target;
 	}
 
 }

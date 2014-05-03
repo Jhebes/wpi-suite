@@ -15,8 +15,6 @@ import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JOptionPane;
-
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
@@ -60,11 +58,11 @@ public class GetRequirementsVotesController implements ActionListener{
 	 * @throws NotImplementedException
 	 */
 	public void receivedData(PlanningPokerSession session){
-		this.req = this.session.getReqByName(this.view.getSelectedRequirement());
-		PlanningPokerRequirement r = session.getReqByName(this.req.getName());
+		req = view.getSelectedRequirement();
+		final PlanningPokerRequirement r = session.getReqByName(req.getName());
 
 		Logger.getLogger("PlanningPoker").log(Level.INFO, "Votes for selected requirement:");
-		for(PlanningPokerVote v : r.votes){
+		for(PlanningPokerVote v : r.getVotes()){
 			System.out.print(v.getCardValue()+ " ");
 		}
 		//view.setVoteList(r.votes);
@@ -76,10 +74,7 @@ public class GetRequirementsVotesController implements ActionListener{
 	 * error occurs retrieving the requirements from the server.
 	 */
 	public void errorReceivingData(String error) {
-		JOptionPane.showMessageDialog(view,
-				"An error occurred retrieving requirements from the server. "
-						+ error, "Error Communicating with Server",
-				JOptionPane.ERROR_MESSAGE);
+		
 	}
 
 	/**
@@ -89,7 +84,7 @@ public class GetRequirementsVotesController implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		final Request request = Network
 								.getInstance()
-								.makeRequest("planningpoker/session/" + this.session.getID(), 
+								.makeRequest("planningpoker/session/" + session.getID(), 
 											 HttpMethod.GET);
 		request.addObserver(new GetRequirementsVotesRequestObserver(this));
 		request.send();

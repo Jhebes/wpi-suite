@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.CreateSessionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.EditSessionPanel;
 
 /**
  * This controller responds when the user clicks the "Cancel" button by using
@@ -22,7 +22,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.CreateSessionPa
  * database
  */
 public class CancelCreateSessionController implements ActionListener {
-	private final CreateSessionPanel view;
+	private final EditSessionPanel view;
 
 	/**
 	 * Construct an AddSessionController for the given view
@@ -30,7 +30,7 @@ public class CancelCreateSessionController implements ActionListener {
 	 * @param view
 	 *            the view where the user enters data for the new session
 	 */
-	public CancelCreateSessionController(CreateSessionPanel view) {
+	public CancelCreateSessionController(EditSessionPanel view) {
 		this.view = view;
 	}
 
@@ -42,7 +42,7 @@ public class CancelCreateSessionController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ViewEventManager.getInstance().removeTab(this.view);
+		ViewEventManager.getInstance().removeTab(view);
 	}
 
 }

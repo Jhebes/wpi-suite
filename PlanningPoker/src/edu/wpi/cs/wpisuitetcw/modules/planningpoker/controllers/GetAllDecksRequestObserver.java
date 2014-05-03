@@ -17,10 +17,20 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
+/**
+ * Request observer for handling the request to get all decks.
+ */
 public class GetAllDecksRequestObserver implements RequestObserver {
 
-	public GetAllDecksController controller;
+	/**
+	 * The parent controller.
+	 */
+	private GetAllDecksController controller;
 
+	/**
+	 * Constructs a request observer for getting all request observers
+	 * @param controller The parent controller
+	 */
 	public GetAllDecksRequestObserver(GetAllDecksController controller) {
 		this.controller = controller;
 	}
@@ -35,7 +45,7 @@ public class GetAllDecksRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		PlanningPokerDeck[] decks = PlanningPokerDeck.fromJSONArray(iReq
+		final PlanningPokerDeck[] decks = PlanningPokerDeck.fromJSONArray(iReq
 				.getResponse().getBody());
 		controller.updateDecks(new ArrayList<PlanningPokerDeck>(Arrays
 				.asList(decks)));

@@ -36,112 +36,66 @@ public class DefaultHomePanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final Border compound, paneEdgeBorder, grayAndDarkGrayBorder;
-	private final String WHATISPPTITLE = "What is Planning Poker?";
-	private final String WHATISPPDESCRIPTION = "This will describe what planning poker is";
-	private final String TOGETSTARTEDTITLE = "To Get Started,";
-	private final String CREATESESSIONSTRING = "Create Session.";
-	private final String OPENSESSIONSTRING = "Open Sessions.";
-	private final String ALLSESSIONSSTRING = "All Sessions.";
-	private final String CLOSEDSESSIONSTRING = "Closed Sessions";
-	private final String WELCOMESTRING = "Welcome to Planning Poker!\n";
-
-	//
-	// + "To get started, click ".concat(CREATESESSIONSTRING)
-	// + "\nTo view all the sessions click on ".concat(ALLSESSIONSSTRING)
-	// + "\nTo view open sessions click on ".concat(OPENSESSIONSTRING)
-	// + "\nTo view closed sessions click on ".concat(CLOSEDSESSIONSTRING);
 
 	public DefaultHomePanel() {
 
-		// // Sets to flow layout
-		// this.setLayout(new FlowLayout());
+		// Default Home Panel's borders
+		paneEdgeBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+		grayAndDarkGrayBorder = BorderFactory.createEtchedBorder(
+				Color.lightGray, Color.darkGray);
 
-		JTextPane leftTextPane = createLeftTextPane();
-		JTextPane rightTextPane = createRightTextPane();
-		JTextPane topTextPane = createTopTextPane();
+		// Combines borders, grayAndDarkBorder within 10 pixels of padding
+		compound = BorderFactory.createCompoundBorder(paneEdgeBorder,
+				grayAndDarkGrayBorder);
 
+		// sets the panel border
+		this.setBorder(compound);
+
+		final JTextPane leftTextPane = createLeftTextPane();
+		final JTextPane rightTextPane = createRightTextPane();
+		final JTextPane topTextPane = createTopTextPane();
+
+		// Cannot edit text panes
 		leftTextPane.setEditable(false);
 		rightTextPane.setEditable(false);
 		topTextPane.setEditable(false);
-		
-		JPanel topContainer = new JPanel();
-		JSplitPane container = new JSplitPane();
-		
+
+		// Makes text panes opaque
+		leftTextPane.setOpaque(false);
+		rightTextPane.setOpaque(false);
+		topTextPane.setOpaque(false);
+
+		// Makes containers for top and bottom halves
+		final JPanel topContainer = new JPanel();
+		final JSplitPane container = new JSplitPane();
+
+		// Gets rid of SplitPane Border
 		container.setBorder(null);
-	
-		// setup the layout
-		
+
+		// setup the SplitPane layout
 		container.setLeftComponent(leftTextPane);
 		container.setRightComponent(rightTextPane);
 		container.setDividerSize(0);
 		container.setResizeWeight(.5);
 		container.setEnabled(true);
 
-		topContainer.add(topTextPane);		
-		
-		leftTextPane.setOpaque(false);
-		rightTextPane.setOpaque(false);
-		topTextPane.setOpaque(false);
+		// Add welcome message to top panel
+		topContainer.add(topTextPane);
 
-		// //set sizes of JTextPanes
-		// leftTextPane.setBounds( 100, 100, 50, 50 );
-		// rightTextPane.setBounds(10, 10, 200, 200);
-
-		//
-		// this.setPreferredSize(new Dimension( 600, 600 ));
-
-		 // Adds left and right Panes in Flow Layout
-		// this.add(leftTextPane);
-		// this.add(rightTextPane);
-
-		// A border that puts 10 extra pixels at the sides and a gray and blue
-		// border
-		paneEdgeBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-		grayAndDarkGrayBorder = BorderFactory.createEtchedBorder(
-				Color.lightGray, Color.darkGray);
-
-		// Combines borders
-		compound = BorderFactory.createCompoundBorder(paneEdgeBorder,
-				grayAndDarkGrayBorder);
-
-		// sets the panel border
-		this.setBorder(compound);
-		
+		// Set to make layout and adds welcome message to top and splitpane to
+		// bottom
 		this.setLayout(new MigLayout());
 		this.add(topContainer, "dock north");
 		this.add(container);
-
 	}
 
-	// Welcome text area
-	// JTextArea welcomeTextBox = new JTextArea(5, 30);
-
-	// Font plainFont = new Font("Serif", Font.PLAIN, 36);
-	// Font boldFont = new Font("Serif", Font.BOLD, 36);
-
-	// text color
-	// welcomeTextBox.setForeground(new Color(0x061692));
-
-	// welcomeTextBox.setFont(plainFont);
-	// welcomeTextBox.setText(WELCOMESTRING);
-	// welcomeTextBox.setWrapStyleWord(true);
-	// welcomeTextBox.setLineWrap(true);
-	// welcomeTextBox.setBorder(BorderFactory.createEmptyBorder());
-	// welcomeTextBox.setOpaque(false);
-	// welcomeTextBox.setFocusable(false);
-	// welcomeTextBox.setEditable(false);
-
-	// add the text area to the home panel
-	// this.add(welcomeTextBox);
-	
 	private JTextPane createTopTextPane() {
-		String[] TopPaneText = {"Welcome to Planning Poker!"			
-		                   };
-		
-		String[] initStyles = {"super huge"}; 
 
-		JTextPane textPane = new JTextPane();
-		StyledDocument doc = textPane.getStyledDocument();
+		final String[] TopPaneText = { "Welcome to Planning Poker!" };
+		final String[] initStyles = { "super huge" };
+
+		final JTextPane textPane = new JTextPane();
+		final StyledDocument doc = textPane.getStyledDocument();
 		addStylesToDocument(doc);
 
 		try {
@@ -152,35 +106,32 @@ public class DefaultHomePanel extends JPanel {
 		} catch (BadLocationException ble) {
 			System.err.println("Couldn't insert initial text into text pane.");
 		}
-
 		return textPane;
 	}
 
-
 	private JTextPane createLeftTextPane() {
 
-		String[] leftPaneText = {
+		final String[] leftPaneText = {
 				"What is Planning Poker?", // large
-				"\n\n   Planning Poker is a software development tool for estimating "
-						+ "requirements in software development projects. In Planning Poker, "
-						+ "each group member has a deck of cards to rank the requirements "
-						+ "of a project according to how important they think that task "
-						+ "ranks among the others. The project administrators can then "
-						+ "use this data to create a final priority list for the project."
+				"\n\nPlanning Poker is a software development tool \nfor estimating "
+						+ "requirements in software development \nprojects. In Planning Poker, "
+						+ "each group member has \na deck of cards to rank the requirements "
+						+ "of a project\naccording to how important they think that task "
+						+ "ranks\namong the others. The project administrators can then "
+						+ "use\nthis data to create a final priority list for the project. \n"
 						+ "\n", // small
 				"\nHow To Get Started", // large
-				"\n   To start a planning poker session, click create a session and "
-						+ "assign a type of deck to the session. You can either use the "
-						+ "default deck, or create your own deck. Once a session has been created, "
-						+ "you can select what requirements you would like to add to the session "
-						+ "or create a requirement of your own. Now it's time to start the voting!\n", // small
-				 };
+				"\n\nTo start a planning poker session, click create a session and \n"
+						+ "assign a type of deck to the session. You can either use the \n"
+						+ "default deck, or create your own deck. Once a session has\nbeen created,"
+						+ "you can select what requirements you would \nlike to add to the session"
+						+ "or create a requirement of your \nown. Now it's time to start the voting!\n", // small
+		};
 
-		String[] initStyles = {"large", "small", "large",
-				"small" };
+		final String[] initStyles = { "large", "small", "large", "small" };
 
-		JTextPane textPane = new JTextPane();
-		StyledDocument doc = textPane.getStyledDocument();
+		final JTextPane textPane = new JTextPane();
+		final StyledDocument doc = textPane.getStyledDocument();
 		addStylesToDocument(doc);
 
 		try {
@@ -191,31 +142,29 @@ public class DefaultHomePanel extends JPanel {
 		} catch (BadLocationException ble) {
 			System.err.println("Couldn't insert initial text into text pane.");
 		}
-
 		return textPane;
 	}
 
 	private JTextPane createRightTextPane() {
 
-		String[] rightPaneText = {
+		final String[] rightPaneText = {
 				"Frequently Asked Questions", // large
 				"\n\nWho can view my vote?", // medium
-				"\n Once your vote is submitted, your vote remains anonymous and is only"
-				+ " used for the calculation of the final estimation of a requirement.", //small
-				"\n\nWhat is the difference between cancelling and ending a session?", // medium
-				"\n   When a session ends due to the deadline being reached or the administrator"
-				+ " manually ending a session, a final estimation is calculated, while cancelling "
-				+ "a session does not generate a final estimation.", //small
-				"", //medium
-				"" //small
-				
+				"\n\nOnce your vote is submitted, your vote remains\nanonymous and is only"
+						+ " used for the calculation\nof the final estimation of a requirement.\n", // small
+				"\n\nWhat is the difference between\ncancelling and ending a session?\n", // medium
+				"\nWhen a session ends due to the deadline being\nreached or the administrator"
+						+ " manually ending\na session, a final estimation is calculated, while\ncancelling"
+						+ "a session does not generate a final\nestimation.", // small
+				"", // medium
+				"" // small
 		};
 
-		String[] initStyles = {"large", "medium", "small", "medium", "small",
-								"medium", "small"};
+		final String[] initStyles = { "large", "medium", "small", "medium", "small",
+				"medium", "small" };
 
-		JTextPane textPane = new JTextPane();
-		StyledDocument doc = textPane.getStyledDocument();
+		final JTextPane textPane = new JTextPane();
+		final StyledDocument doc = textPane.getStyledDocument();
 		addStylesToDocument(doc);
 
 		try {
@@ -226,19 +175,18 @@ public class DefaultHomePanel extends JPanel {
 		} catch (BadLocationException ble) {
 			System.err.println("Couldn't insert initial text into text pane.");
 		}
-
 		return textPane;
 	}
 
 	protected void addStylesToDocument(StyledDocument doc) {
 		// Initialize some styles.
-		Style def = StyleContext.getDefaultStyleContext().getStyle(
+		final Style def = StyleContext.getDefaultStyleContext().getStyle(
 				StyleContext.DEFAULT_STYLE);
 
-		Style regular = doc.addStyle("regular", def);
+		final Style regular = doc.addStyle("regular", def);
 		StyleConstants.setFontFamily(def, "SansSerif");
 
-		Style Georgia = doc.addStyle("georgia", def);
+		final Style Georgia = doc.addStyle("georgia", def);
 		StyleConstants.setFontFamily(def, "Georgia");
 
 		Style s = doc.addStyle("italic", regular);
@@ -252,8 +200,8 @@ public class DefaultHomePanel extends JPanel {
 
 		s = doc.addStyle("medium", regular);
 		StyleConstants.setFontSize(s, 20);
-		StyleConstants.setBold(s,true);
-		
+		StyleConstants.setBold(s, true);
+
 		s = doc.addStyle("large", Georgia);
 		StyleConstants.setFontSize(s, 24);
 		StyleConstants.setBold(s, true);
@@ -261,16 +209,5 @@ public class DefaultHomePanel extends JPanel {
 		s = doc.addStyle("super huge", Georgia);
 		StyleConstants.setFontSize(s, 34);
 		StyleConstants.setBold(s, true);
-
-
-		// s = doc.addStyle("icon", regular);
-		// StyleConstants.setAlignment(s, StyleConstants.ALIGN_CENTER);
-		// ImageIcon pigIcon = createImageIcon("images/Pig.gif",
-		// "a cute pig");
-		// if (pigIcon != null) {
-		// StyleConstants.setIcon(s, pigIcon);
-		// }
-		//
-
 	}
 }

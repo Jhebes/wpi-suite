@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendNotificationController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.AddRequirementPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionRequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
@@ -25,7 +25,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  */
 public class ActivateSessionController implements ActionListener {
 
-	private AddRequirementPanel panel;
+	private SessionRequirementPanel panel;
 	private PlanningPokerSession session;
 
 	/**
@@ -37,7 +37,7 @@ public class ActivateSessionController implements ActionListener {
 	 * @param session
 	 *            A PlanningPokerSession that would be activated
 	 */
-	public ActivateSessionController(AddRequirementPanel panel,
+	public ActivateSessionController(SessionRequirementPanel panel,
 			PlanningPokerSession session) {
 		this.panel = panel;
 		this.session = session;
@@ -48,8 +48,8 @@ public class ActivateSessionController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (this.session.getRequirements().size() > 0) {
-			this.session.activate();
+		if (session.getRequirements().size() > 0) {
+			session.activate();
 			session.save();
 			ViewEventManager.getInstance().removeTab(panel);
 			ViewEventManager.getInstance().viewSession(session);
@@ -65,8 +65,8 @@ public class ActivateSessionController implements ActionListener {
 
 		String command = "sendEmail";
 		// Send email to everyone in a session
-		if (this.session.getUsers() != null) {
-			for (User user : this.session.getUsers()) {
+		if (session.getUsers() != null) {
+			for (User user : session.getUsers()) {
 				String sendTo = user.getEmail();
 				if (!sendTo.equals("")) {
 					SendNotificationController.sendNotification("start",
@@ -85,8 +85,8 @@ public class ActivateSessionController implements ActionListener {
 
 		// Send SMS to everyone in a session
 		command = "sendSMS";
-		if (this.session.getUsers() != null) {
-			for (User user : this.session.getUsers()) {
+		if (session.getUsers() != null) {
+			for (User user : session.getUsers()) {
 				String sendTo = user.getSMS();
 				if (!sendTo.equals("")) {
 					SendNotificationController.sendNotification("start",

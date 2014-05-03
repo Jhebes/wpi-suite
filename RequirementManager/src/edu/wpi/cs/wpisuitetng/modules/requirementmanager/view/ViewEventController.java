@@ -19,7 +19,6 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequir
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationModel;
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.importexport.ExportPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationOverviewPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.iterations.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewPanel;
@@ -518,27 +517,5 @@ public class ViewEventController {
 	 */
 	public ArrayList<RequirementPanel> getListOfRequirementPanels() {
 		return listOfEditingPanels;
-	}
-
-	/**
-	 * Opens the tab for exporting a requirement.
-	 */
-	public void openExportTab() {
-		for(int i = 0; i < main.getTabCount(); i++){
-			if(main.getTitleAt(i).equals("Export")){ 
-					if(main.getTabComponentAt(i) instanceof ExportPanel){
-						main.setSelectedIndex(i);
-						return;
-					}
-					else{
-						main.remove(i);
-					}
-			}
-		}
-		ExportPanel newReq = new ExportPanel();
-		main.addTab("Export", null, newReq, "Export some requirements to a JSON file.");
-		main.invalidate(); //force the tabbedpane to redraw.
-		main.repaint();
-		main.setSelectedComponent(newReq);
 	}
 }

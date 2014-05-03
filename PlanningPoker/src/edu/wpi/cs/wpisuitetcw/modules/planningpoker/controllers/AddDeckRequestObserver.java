@@ -18,9 +18,18 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
+/**
+ * Request observer for adding a new deck to the database.
+ */
 public class AddDeckRequestObserver implements RequestObserver {
+	
+	/** Controller for adding a new deck. */
 	private final CreateNewDeckController controller;
 
+	/**
+	 * Constructs a new add deck request observer
+	 * @param controller The parent controller
+	 */
 	public AddDeckRequestObserver(CreateNewDeckController controller) {
 		this.controller = controller;
 	}

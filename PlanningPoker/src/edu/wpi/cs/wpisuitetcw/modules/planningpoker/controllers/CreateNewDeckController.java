@@ -10,12 +10,12 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.CreateDeckPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionDeckPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -26,14 +26,14 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class CreateNewDeckController {
 	/** A view that exhibits the deck */
-	private CreateDeckPanel view;
+	private SessionDeckPanel view;
 	
 	/**
 	 * Construct the controller by storing the given CreateNewDeckPanel
 	 * @param deckPanel A CreateNewDeckPanel that has the deck to be created
 	 */
-	public CreateNewDeckController(CreateDeckPanel deckPanel) {
-		this.view = deckPanel;
+	public CreateNewDeckController(SessionDeckPanel deckPanel) {
+		view = deckPanel;
 	}
 
 	/**
@@ -42,12 +42,12 @@ public class CreateNewDeckController {
 	 */
 	public void addDeckToDatabase() {
 		// make sure all cards are validated
-		if (validateAllInputs()) {
+		if (hasValidInputs()) {
 			// all inputs are good
-			String deckName = this.view.getTextboxName().getText();
-			ArrayList<Integer> cardValues = this.view.getAllCardsValue();
-			int maxSelection = view.getMaxSelectionCards();
-			PlanningPokerDeck deck = new PlanningPokerDeck(deckName, cardValues, maxSelection);
+			final String deckName = view.getTextboxName().getText();
+			final List<Integer> cardValues = view.getAllCardsValue();
+			final int maxSelection = view.getMaxSelectionCards();
+			final PlanningPokerDeck deck = new PlanningPokerDeck(deckName, cardValues, maxSelection);
 
 			// send a request
 			final Request request = Network.getInstance().makeRequest(
@@ -61,7 +61,7 @@ public class CreateNewDeckController {
 
 		} else {
 			// inputs are not valid
-			this.view.repaint();
+			view.repaint();
 		}
 
 	}
@@ -72,9 +72,9 @@ public class CreateNewDeckController {
 	 * 
 	 * @return true if valid; false otherwise
 	 */
-	private boolean validateAllInputs() {
-		boolean areCardsValid = validateCardValues();
-		boolean isNameEntered = this.view.isDeckNameEntered();
+	private boolean hasValidInputs() {
+		final boolean areCardsValid = hasValidCardValues();
+		final boolean isNameEntered = view.isDeckNameEntered();
 		return areCardsValid && isNameEntered;
 	}
 
@@ -83,16 +83,16 @@ public class CreateNewDeckController {
 	 * 
 	 * @return true if so; false otherwise
 	 */
-	private boolean validateCardValues() {
+	private boolean hasValidCardValues() {
 		boolean isAllInputValid = true;
 
-		Map<Integer, Card> cards = this.view.getCards();
+		final Map<Integer, Card> cards = view.getCards();
 		for (Card aCard : cards.values()) {
-			if (!aCard.validateCardValue()) {
-				aCard.setCardInvalid();
+			if (!aCard.hasValidCardValue()) {
+				aCard.markCardInvalid();
 				isAllInputValid = false;
 			} else {
-				aCard.setCardValid();
+				aCard.markCardValid();
 			}
 		}
 		return isAllInputValid;

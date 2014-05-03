@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -21,14 +22,14 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 
+/**
+ * Panel for display a deck during create session.
+ */
 public class DisplayDeckPanel extends JPanel {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	// constants
 	private static final int CENTER_PANEL_WIDTH = 350;
-	private static final int CENTER_PANEL_HEIGHT = 250;
+	private static final int CENTER_PANEL_HEIGHT = 200;
 
 	// panels for setting up the view
 	private PlanningPokerDeck deck;
@@ -36,21 +37,23 @@ public class DisplayDeckPanel extends JPanel {
 	private final JScrollPane centerPanel;
 	private final JPanel container;
 
-	// partent panel
+	// parent panel
 	private VotePanel parentPanel;
 
 	/** cards that are highlighted */
-	private ArrayList<Card> cards = new ArrayList<Card>();
+	private List<Card> cards = new ArrayList<Card>();
 
 	// vote value for the deck
 	private int voteValue = 0;
 
 	/**
 	 * Constructor - creating a panel for displaying a deck of card
+	 * @param deck The deck to dpslay
+	 * @param progressPanel the parent panel
 	 */
 	public DisplayDeckPanel(PlanningPokerDeck deck,
 			VotePanel progressPanel) {
-		this.parentPanel = progressPanel;
+		parentPanel = progressPanel;
 		// setup panel
 		container = new JPanel();
 		cardPanel = new JPanel();
@@ -94,6 +97,7 @@ public class DisplayDeckPanel extends JPanel {
 
 	/**
 	 * update the vote by adding the given value
+	 * @param aCard The new card to add to the value
 	 */
 	public void addRequirementValue(Card aCard) {
 		if (isSingleSelection()) {
@@ -106,11 +110,12 @@ public class DisplayDeckPanel extends JPanel {
 			voteValue += aCard.getCardValue();
 		}
 		cards.add(aCard);
-		// parentPanel.setVoteTextFieldWithValue(voteValue);
+		parentPanel.setVoteTextFieldWithValue(voteValue);
 	}
 
 	/**
 	 * update the vote by subtracting the given value
+	 * @param aCard The new card to subtract from the value
 	 */
 	public void subtractRequirementValue(Card aCard) {
 		if (isSingleSelection()) {
@@ -123,22 +128,19 @@ public class DisplayDeckPanel extends JPanel {
 			voteValue -= aCard.getCardValue();
 		}
 		cards.add(aCard);
-		// parentPanel.setVoteTextFieldWithValue(voteValue);
+		parentPanel.setVoteTextFieldWithValue(voteValue);
 	}
 
 	/**
 	 * removes the highlight for the card
 	 */
 	public void removeHighlight() {
-
-		for (int i = 0; i < cards.size(); i++) {
-			Card aCard = cards.get(i);
-			cards.remove(i);
-
-			aCard.setCardValid();
-			aCard.setSelected(false);
-
+		for (Card card : cards) {
+			card.markCardValid();
+			card.setSelected(false);
 		}
+		
+		cards.clear();
 	}
 
 	/**
@@ -147,5 +149,35 @@ public class DisplayDeckPanel extends JPanel {
 	 */
 	public int getVoteValue() {
 		return voteValue;
+	}
+	
+	/**
+	 * 
+	 * @return estimate for requirement
+	 */
+	public void clearVoteValue() {
+		voteValue = 0;
+	}
+	
+	/**
+	 * 
+	 * @return list of cards in the deck
+	 */
+	public ArrayList<Card> getCards() {
+		return (ArrayList<Card>) cards;
+	}
+	
+	/**
+	 * Disable the submit button (pass the call along)
+	 */
+	public void disableSubmitBtn() {
+		parentPanel.disableSubmitBtn();
+	}
+	
+	/**
+	 * Enable the submit button (pass the call along)
+	 */
+	public void enableSubmitBtn() {
+		parentPanel.enableSubmitBtn();
 	}
 }

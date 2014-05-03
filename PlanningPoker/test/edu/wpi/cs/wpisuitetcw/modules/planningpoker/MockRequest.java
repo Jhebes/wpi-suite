@@ -29,7 +29,7 @@ public class MockRequest extends Request {
 	public void send() throws IllegalStateException {
 		// don't actually send
 		sent = true;
-		ResponseModel response = new ResponseModel();
+		final ResponseModel response = new ResponseModel();
 		if (shouldError) {
 			response.setStatusCode(500);
 			response.setBody("");

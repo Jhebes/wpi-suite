@@ -26,7 +26,8 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class GetAllUsersController {
 
-	private static GetAllUsersController instance;
+	/** Instance field for this singleton controller. */
+	private static GetAllUsersController instance = null;
 	
 	/**
 	 * Instantiates a new controller tied to the specified view.
@@ -35,6 +36,9 @@ public class GetAllUsersController {
 	private GetAllUsersController() {
 	}
 	
+	/**
+	 * @return The instance for this controller.
+	 */
 	public static GetAllUsersController getInstance() {
 		if (instance == null) {
 			instance = new GetAllUsersController();
@@ -42,7 +46,10 @@ public class GetAllUsersController {
 		return instance;
 	}
 	
-
+	/**
+	 * Callback to handle receiving the users. Updates the user stash.
+	 * @param users The users received from the server.
+	 */
 	public void receivedUsers(List<User> users) {
 		UserStash.getInstance().clear();
 		UserStash.getInstance().addUser(users);

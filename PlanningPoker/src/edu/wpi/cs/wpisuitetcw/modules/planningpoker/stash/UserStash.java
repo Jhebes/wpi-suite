@@ -1,6 +1,17 @@
+/*******************************************************************************
+ * Copyright (c) 2014 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team Combat Wombat
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.user.GetAllUsersController;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -13,19 +24,12 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public class UserStash {
 
 	private static UserStash self = null;
-	private ArrayList<User> users = new ArrayList<User>();
-
-	/**
-	 * Empty Constructor
-	 */
-	public UserStash() {
-
-	}
+	private List<User> users = new ArrayList<User>();
 
 	/**
 	 * This is a singleton
 	 * 
-	 * @return
+	 * @return The instance for the singleton
 	 */
 	public static UserStash getInstance() {
 		if (self == null) {
@@ -38,8 +42,8 @@ public class UserStash {
 	 * 
 	 * @return All users stored locally
 	 */
-	public ArrayList<User> getUsers() {
-		return this.users;
+	public List<User> getUsers() {
+		return users;
 	}
 
 	/**
@@ -49,7 +53,7 @@ public class UserStash {
 	 *            The user to add to the local stash
 	 */
 	public void addUser(User u) {
-		this.users.add(u);
+		users.add(u);
 	}
 
 	/**
@@ -68,7 +72,7 @@ public class UserStash {
 	 * Clear all users in the list (used by updater)
 	 */
 	public void clear() {
-		this.users.clear();
+		users.clear();
 	}
 
 	/**
@@ -79,8 +83,8 @@ public class UserStash {
 	 * @return The user instance
 	 */
 	public User getUserByName(String name) {
-		for (User u : this.users) {
-			if (u.getUsername() == name) {
+		for (User u : users) {
+			if (u.getUsername().equals(name)) {
 				return u;
 			}
 		}

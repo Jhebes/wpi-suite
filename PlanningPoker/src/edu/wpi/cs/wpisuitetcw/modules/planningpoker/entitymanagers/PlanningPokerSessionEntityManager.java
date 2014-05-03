@@ -50,7 +50,45 @@ public class PlanningPokerSessionEntityManager implements
 	 */
 	public PlanningPokerSessionEntityManager(Data db) {
 		this.db = db;
-	}
+		
+		// prepare a separate thread to check constantly if the database has
+		// closed sessions in it
+		Thread checkTime = new Thread() {
+			@Override
+			public void run() {
+				// my favorite type of loop!
+				while (true) {
+				try {
+
+					// get the sessions
+					final List<PlanningPokerSession> sessions = PlanningPokerSessionEntityManager.this.db
+							.retrieveAll(new PlanningPokerSession());
+					for (PlanningPokerSession session : sessions) {
+
+					// check if they're closed
+					if (session.hasPassedDeadline()) {
+					// update the session
+						session.close();
+					try {
+					PlanningPokerSessionEntityManager.this
+						.updateSession(session);
+					} catch (WPISuiteException e) {
+						e.printStackTrace();
+					}
+					}
+					}
+
+					// get ready to do it again
+					Thread.sleep(5000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		};
+		checkTime.start();
+	};
+
 
 	/*
 	 * Saves a PlanningPokerSession when it is received from a client
@@ -67,11 +105,11 @@ public class PlanningPokerSessionEntityManager implements
 				.fromJson(content);
 
 		int newID;
-		PlanningPokerSession[] allSessions = this.getAll(s);
+		final PlanningPokerSession[] allSessions = this.getAll(s);
 		if (allSessions.length == 0) {
 			newID = 1;
 		} else {
-			PlanningPokerSession mostRecent = allSessions[allSessions.length - 1];
+			final PlanningPokerSession mostRecent = allSessions[allSessions.length - 1];
 			newID = mostRecent.getID() + 1;
 		}
 		newPlanningPokerSession.setID(newID);
@@ -102,7 +140,7 @@ public class PlanningPokerSessionEntityManager implements
 		// retrieving specific PlanningPokerSessions.
 		// List<Model> results = db.retrieveAll(new PlanningPokerSession(),
 		// s.getProject());
-		List<Model> results = db.retrieve(
+		final List<Model> results = db.retrieve(
 				new PlanningPokerSession().getClass(), "ID",
 				Integer.parseInt(id), s.getProject());
 		return results.toArray(new PlanningPokerSession[0]);
@@ -117,18 +155,19 @@ public class PlanningPokerSessionEntityManager implements
 	 */
 	@Override
 	public PlanningPokerSession[] getAll(Session s) throws WPISuiteException {
-		List<Model> messages = db.retrieveAll(new PlanningPokerSession(),
+		final List<Model> messages = db.retrieveAll(new PlanningPokerSession(),
 				s.getProject());
-		
+
 		if (messages.size() == 0) {
 			System.out.println("CREATED DEFAULT.");
-			PlanningPokerSession defaultSession = new PlanningPokerSession();
+			final PlanningPokerSession defaultSession = new PlanningPokerSession();
 			defaultSession.setID(1);
 			defaultSession.setName("Default Session");
-			defaultSession.setDescription("This session is for requirements that have not been assigned");
-			
+			defaultSession
+					.setDescription("This session is for requirements that have not been assigned");
+
 			if (db.save(defaultSession, s.getProject())) {
-				PlanningPokerSession[] created = new PlanningPokerSession[1];
+				final PlanningPokerSession[] created = new PlanningPokerSession[1];
 				created[0] = defaultSession;
 				return created;
 			} else {
@@ -151,7 +190,7 @@ public class PlanningPokerSessionEntityManager implements
 	public PlanningPokerSession update(Session s, String content)
 			throws WPISuiteException {
 
-		PlanningPokerSession updatedSession = PlanningPokerSession
+		final PlanningPokerSession updatedSession = PlanningPokerSession
 				.fromJson(content);
 		/*
 		 * Because of the disconnected objects problem in db4o, we can't just
@@ -159,7 +198,7 @@ public class PlanningPokerSessionEntityManager implements
 		 * db4o, copy properties from updatedPlanningPokerSession, then save the
 		 * original PlanningPokerSession again.
 		 */
-		List<Model> oldPlanningPokerSessions = db.retrieve(
+		final List<Model> oldPlanningPokerSessions = db.retrieve(
 				PlanningPokerSession.class, "id", updatedSession.getID(),
 				s.getProject());
 		if (oldPlanningPokerSessions.size() < 1
@@ -168,13 +207,15 @@ public class PlanningPokerSessionEntityManager implements
 					"PlanningPokerSession with ID does not exist.");
 		}
 
-		PlanningPokerSession existingSession = (PlanningPokerSession) oldPlanningPokerSessions
+		final PlanningPokerSession existingSession = (PlanningPokerSession) oldPlanningPokerSessions
 				.get(0);
 
 		// copy values to old PlanningPokerSession and fill in our changeset
 		// appropriately
 		existingSession.copyFrom(updatedSession);
 
+		LongPollingResponseEntityManager.pushToClients(existingSession.getClass(), existingSession);
+		
 		if (!db.save(existingSession, s.getProject())) {
 			throw new WPISuiteException(
 					"Could not save when updating existing session.");
@@ -261,7 +302,7 @@ public class PlanningPokerSessionEntityManager implements
 			throw new WPISuiteException("Not enough arguments.");
 		}
 
-		String command = args[2];
+		final String command = args[2];
 		if (command.equals("sendEmail")) {
 			if (args.length < 6) {
 				throw new WPISuiteException(
@@ -269,8 +310,9 @@ public class PlanningPokerSessionEntityManager implements
 			}
 
 			try {
-				String notificationType = URLDecoder.decode(args[3], "UTF-8");
-				String email = URLDecoder.decode(args[4], "UTF-8");
+				final String notificationType = URLDecoder.decode(args[3],
+						"UTF-8");
+				final String email = URLDecoder.decode(args[4], "UTF-8");
 				String deadline;
 				if (args[5] == null) {
 					deadline = "";
@@ -291,8 +333,9 @@ public class PlanningPokerSessionEntityManager implements
 			}
 
 			try {
-				String notificationType = URLDecoder.decode(args[3], "UTF-8");
-				String buddy = URLDecoder.decode(args[4], "UTF-8");
+				final String notificationType = URLDecoder.decode(args[3],
+						"UTF-8");
+				final String buddy = URLDecoder.decode(args[4], "UTF-8");
 				String deadline;
 				if (args[5] == null) {
 					deadline = "";
@@ -334,14 +377,14 @@ public class PlanningPokerSessionEntityManager implements
 	 * @param deadline
 	 *            String containing the deadline.
 	 */
-	private void sendEmailNotification(String notificationType, String toAddress,
-			String deadline) {
+	private void sendEmailNotification(String notificationType,
+			String toAddress, String deadline) {
 		EmailNotifier.sendMessage(notificationType, toAddress, deadline);
 	}
 
 	/**
-	 * Sends an SMS to a particular phone number notifying upon start or end
-	 * of a planning poker session.
+	 * Sends an SMS to a particular phone number notifying upon start or end of
+	 * a planning poker session.
 	 * 
 	 * @param notificationType
 	 *            'start' or 'end'
@@ -350,8 +393,27 @@ public class PlanningPokerSessionEntityManager implements
 	 * @param deadline
 	 *            String containing the deadline.
 	 */
-	public void sendSMSNotification(String notificationType, String phoneNumber,
-			String deadline) {
+	public void sendSMSNotification(String notificationType,
+			String phoneNumber, String deadline) {
 		SMSNotifier.sendMessage(notificationType, phoneNumber, deadline);
 	}
+	
+	public void updateSession(PlanningPokerSession session) throws WPISuiteException {
+
+		final List<Model> oldPlanningPokerSessions = db.retrieve(PlanningPokerSession.class, "id", session.getID());
+		if (oldPlanningPokerSessions.size() < 1 || oldPlanningPokerSessions.get(0) == null) {
+			throw new BadRequestException("PlanningPokerSession with ID does not exist.");
+		}
+
+		final PlanningPokerSession existingSession = (PlanningPokerSession) oldPlanningPokerSessions.get(0);
+
+		// copy values to old PlanningPokerSession and fill in our changeset appropriately
+		existingSession.copyFrom(session);
+
+		if (!db.save(existingSession)) {
+			throw new WPISuiteException("Could not save when updating existing session.");
+		}
+
+	}
+
 }

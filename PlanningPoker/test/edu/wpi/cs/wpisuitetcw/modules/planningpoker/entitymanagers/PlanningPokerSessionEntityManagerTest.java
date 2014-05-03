@@ -67,7 +67,7 @@ public class PlanningPokerSessionEntityManagerTest {
 
 	@Test
 	public void testMakeEntity() throws WPISuiteException {
-		PlanningPokerSession created = manager.makeEntity(defaultSession,
+		final PlanningPokerSession created = manager.makeEntity(defaultSession,
 				session.toJSON());
 		assertEquals(2, created.getID());
 		assertSame(testProject, created.getProject());
@@ -76,7 +76,7 @@ public class PlanningPokerSessionEntityManagerTest {
 
 	@Test
 	public void testGetEntity() throws WPISuiteException {
-		PlanningPokerSession[] sessions = manager
+		final PlanningPokerSession[] sessions = manager
 				.getEntity(defaultSession, "1");
 		assertEquals(1, sessions[0].getID());
 		assertSame(testProject, sessions[0].getProject());
