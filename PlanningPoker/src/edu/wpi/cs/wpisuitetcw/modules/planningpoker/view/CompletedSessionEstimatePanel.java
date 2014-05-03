@@ -239,7 +239,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * @param A value that would be assigned
 	 * to the mean of the stats table
 	 */
-	public void setMean(int mean) {
+	public void setMean(double mean) {
 		statsTable.setMean(mean + "");
 	}
 	

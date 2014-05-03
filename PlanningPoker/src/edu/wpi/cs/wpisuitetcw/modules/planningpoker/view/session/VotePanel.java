@@ -449,7 +449,6 @@ public class VotePanel extends JPanel {
 
 						// ERROR PRONE
 						finalEstimatePnl.setStatsStandardDeviation(selectedRequirement.calculateStandardDeviation(mean));
-						finalEstimatePnl.fillTable(selectedRequirement);
 						finalEstimatePnl.updateEstimateTextField(selectedRequirement);
 						updateUI();
 					} else {
