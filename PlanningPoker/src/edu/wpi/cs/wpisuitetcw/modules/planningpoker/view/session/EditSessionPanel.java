@@ -107,7 +107,7 @@ public class EditSessionPanel extends JPanel {
 	// ################ UI Right Component #################
 	/** The panel that shows cards and creates deck */
 	private SessionDeckPanel deckPanel;
-	
+
 	/** The tabs panel which contains deck and Requirement panel */
 	private SessionTabsPanel tabsPanel;
 
@@ -188,7 +188,7 @@ public class EditSessionPanel extends JPanel {
 		// Use display mode since the default deck is displayed by default
 		// deckPanel = new SessionDeckPanel(CardDisplayMode.DISPLAY);
 		tabsPanel = new SessionTabsPanel();
-		
+
 		deckPanel = tabsPanel.getDeckPanel();
 		deckPanel.displayDefaultDeck();
 
@@ -575,8 +575,16 @@ public class EditSessionPanel extends JPanel {
 		final JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(
 				pickerDeadlineTime, "HH:mm:ss");
 		pickerDeadlineTime.setEditor(timeEditor);
-		pickerDeadlineTime.setValue(new Date()); // will only show the current
-													// time
+
+		// add an hour to the deadline
+		Date startDate = new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(startDate);
+		cal.add(Calendar.HOUR_OF_DAY, 1);
+		startDate = cal.getTime();
+		pickerDeadlineTime.setValue(startDate); // will only show the current
+												// time + 1 hour
+
 		pickerDeadlineTime.setEnabled(false);
 
 		// action listener to validate the picker
@@ -791,7 +799,7 @@ public class EditSessionPanel extends JPanel {
 		// new deck panel for creating a deck of cards
 		deckPanel = new SessionDeckPanel(CardDisplayMode.CREATE, this);
 		tabsPanel.setDeckPanel(deckPanel);
-		
+
 		setupEntirePanel();
 		updateUI();
 	}
@@ -806,7 +814,7 @@ public class EditSessionPanel extends JPanel {
 	private void displayDeck(String deckName) throws WPISuiteException {
 		deckPanel = new SessionDeckPanel(CardDisplayMode.DISPLAY);
 		tabsPanel.setDeckPanel(deckPanel);
-		
+
 		deckPanel.displayDeck(deckName);
 
 		setupEntirePanel();
@@ -820,7 +828,7 @@ public class EditSessionPanel extends JPanel {
 		// Use display mode since the default deck is displayed by default
 		deckPanel = new SessionDeckPanel(CardDisplayMode.DISPLAY);
 		tabsPanel.setDeckPanel(deckPanel);
-		
+
 		deckPanel.displayDefaultDeck();
 
 		setupEntirePanel();
