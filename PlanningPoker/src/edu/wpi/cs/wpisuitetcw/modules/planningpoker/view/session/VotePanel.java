@@ -30,6 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
@@ -77,9 +78,9 @@ public class VotePanel extends JPanel {
 	/** The left container holding all the requirements' info */
 	private JLabel sessionLabel;
 	private JLabel sessionNameLabel;
-	private JLabel sessionNameValueLabel;
+	private JTextArea sessionNameValueLabel;
 	private JLabel sessionDescLabel;
-	private JLabel sessionDescValueLabel;
+	private JTextArea sessionDescValueLabel;
 	private JLabel leftPanelLabel;
 	private JSplitPane leftPanel;
 	private JPanel topLeftPanel;
@@ -343,10 +344,21 @@ public class VotePanel extends JPanel {
 		
 		leftPanelLabel = new JLabel(LEFT_PANEL_LABEL);
 		sessionLabel = new JLabel(SESSION_LABEL);
+		
 		sessionNameLabel = new JLabel(SESSION_NAME_LABEL);
-		sessionNameValueLabel = new JLabel(session.getName());
+		sessionNameValueLabel = new JTextArea(session.getName());
+		sessionNameValueLabel.setBackground(this.getBackground());
+		sessionNameValueLabel.setEditable(false);
+		sessionNameValueLabel.setLineWrap(true);
+		sessionNameValueLabel.setWrapStyleWord(false);
+		
 		sessionDescLabel = new JLabel(SESSION_DESC_LABEL);
-		sessionDescValueLabel = new JLabel(session.getDescription());
+		sessionDescValueLabel = new JTextArea(session.getDescription());
+		sessionDescValueLabel.setBackground(this.getBackground());
+		sessionDescValueLabel.setEditable(false);
+		sessionDescValueLabel.setLineWrap(true);
+		sessionDescValueLabel.setWrapStyleWord(false);
+		
 
 		final List<PlanningPokerRequirement> reqs = session.getRequirements();
 		final DefaultListModel<PlanningPokerRequirement> requirementModel = 
