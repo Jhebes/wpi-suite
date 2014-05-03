@@ -21,13 +21,13 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 public class AddSessionRequestObserver implements RequestObserver {
 	
 	/** The controller this is tied to */
-	private final AddSessionController controller;
+	private final SaveSessionController controller;
 	
 	/**
 	 * Creates a listener attached to the controller
 	 * @param a Tied controller
 	 */
-	public AddSessionRequestObserver(AddSessionController a) {
+	public AddSessionRequestObserver(SaveSessionController a) {
 		controller = a;
 	}
 

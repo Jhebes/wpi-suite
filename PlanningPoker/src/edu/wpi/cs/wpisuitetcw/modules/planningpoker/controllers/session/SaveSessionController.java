@@ -28,7 +28,7 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
  * all entered information to construct a new session and storing in the
  * database
  */
-public class AddSessionController implements ActionListener {
+public class SaveSessionController implements ActionListener {
 	private final EditSessionPanel view;
 	private PlanningPokerSession session;
 
@@ -69,7 +69,7 @@ public class AddSessionController implements ActionListener {
 	 * @param session
 	 *            the planning poker session being edited
 	 */
-	public AddSessionController(EditSessionPanel view, boolean isEditMode,
+	public SaveSessionController(EditSessionPanel view, boolean isEditMode,
 			PlanningPokerSession session) {
 
 		this.view = view;
@@ -107,7 +107,6 @@ public class AddSessionController implements ActionListener {
 			//final PlanningPokerSession session = new PlanningPokerSession();
 			session.setOwnerUserName(ConfigManager.getConfig().getUserName());
 			session.setName(name);
-			session.setID(0);
 			session.setDeadline(d);
 			session.setDescription(des);
 

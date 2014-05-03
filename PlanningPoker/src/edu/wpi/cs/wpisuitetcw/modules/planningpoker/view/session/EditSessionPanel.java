@@ -50,7 +50,7 @@ import org.jdesktop.swingx.JXDatePicker;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateSessionPanelController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.ActivateSessionController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.AddSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.SaveSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.CancelCreateSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
@@ -767,7 +767,7 @@ public class EditSessionPanel extends JPanel {
 	private void setupBottomPanel() {
 		// Create Save session button
 		btnSaveChanges = new JButton("Save changes");
-		btnSaveChanges.addActionListener(new AddSessionController(this, false, session));
+		btnSaveChanges.addActionListener(new SaveSessionController(this, false, session));
 		// save button is initially disable
 		btnSaveChanges.setEnabled(false);
 		
