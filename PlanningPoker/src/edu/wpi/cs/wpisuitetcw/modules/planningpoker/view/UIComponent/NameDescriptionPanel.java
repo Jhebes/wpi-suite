@@ -324,7 +324,7 @@ public class NameDescriptionPanel extends JPanel {
 		// Create row constrain for name text box and its label
 		// if they are existed
 		if (isNameTextboxNeeded) {
-			rowConstrain += "[][]";
+			rowConstrain += "[]10[]";
 		}
 		
 		// Add another row if there is an element below the name text box
@@ -334,7 +334,7 @@ public class NameDescriptionPanel extends JPanel {
 		
 		// Create row constrain for the description box and its label AND 
 		// Set the description box to fill up the available space
-		rowConstrain += "[][grow]0";
+		rowConstrain += "[]10[grow]0";
 		
 		return rowConstrain;
 	}
