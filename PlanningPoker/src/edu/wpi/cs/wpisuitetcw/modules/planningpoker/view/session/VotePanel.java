@@ -28,6 +28,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 
@@ -55,6 +56,9 @@ public class VotePanel extends JPanel {
 	private static final String VOTE_BUTTON_LABEL = "Submit Vote";
 	private static final String RIGHT_PANEL_LABEL = "Requirements Detail:";
 	private static final String LEFT_PANEL_LABEL = "Session Requirements:";
+	private static final String SESSION_LABEL = "Session:";
+	private static final String SESSION_NAME_LABEL = "Name:";
+	private static final String SESSION_DESC_LABEL = "Description:";
 	private static final String END_SESSION_BUTTON_LABEL = "End Session";
 	private static final String NO_DECK_MSG = "<html><font color='red'>No deck. Please enter your vote in the white box</font></html>";
 
@@ -71,8 +75,15 @@ public class VotePanel extends JPanel {
 
 	// #################### GUI left components ####################
 	/** The left container holding all the requirements' info */
+	private JLabel sessionLabel;
+	private JLabel sessionNameLabel;
+	private JLabel sessionNameValueLabel;
+	private JLabel sessionDescLabel;
+	private JLabel sessionDescValueLabel;
 	private JLabel leftPanelLabel;
-	private JPanel leftPanel;
+	private JSplitPane leftPanel;
+	private JPanel topLeftPanel;
+	private JPanel bottomLeftPanel;
 	
 	/** List of requirements */
 	private JScrollPane requirementFrame;
@@ -326,8 +337,16 @@ public class VotePanel extends JPanel {
 	 * Construct the left panel and its GUI component: a JLabel and a JList
 	 */
 	private void setupLeftPanel() {
-		leftPanel = new JPanel();
+		leftPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		topLeftPanel = new JPanel();
+		bottomLeftPanel = new JPanel();
+		
 		leftPanelLabel = new JLabel(LEFT_PANEL_LABEL);
+		sessionLabel = new JLabel(SESSION_LABEL);
+		sessionNameLabel = new JLabel(SESSION_NAME_LABEL);
+		sessionNameValueLabel = new JLabel(session.getName());
+		sessionDescLabel = new JLabel(SESSION_DESC_LABEL);
+		sessionDescValueLabel = new JLabel(session.getDescription());
 
 		final List<PlanningPokerRequirement> reqs = session.getRequirements();
 		final DefaultListModel<PlanningPokerRequirement> requirementModel = 
@@ -401,9 +420,18 @@ public class VotePanel extends JPanel {
 	 * Add the GUI component to the left panel
 	 */
 	private void addGUIComponentsOnLeftPanel() {
-		leftPanel.setLayout(new MigLayout("insets 0, fill", "", "10[]10[]0"));
-		leftPanel.add(leftPanelLabel, "center, wrap");
-		leftPanel.add(requirementFrame, "width 250::, growy, dock center");
+		topLeftPanel.setLayout(new MigLayout("insets 0, fill"));
+		bottomLeftPanel.setLayout(new MigLayout("insets 0, fill", "", "10[]10[]0"));
+		topLeftPanel.add(sessionLabel, "center, wrap");
+		topLeftPanel.add(sessionNameLabel, "wrap");
+		topLeftPanel.add(sessionNameValueLabel, "center, wrap");
+		topLeftPanel.add(sessionDescLabel, "wrap");
+		topLeftPanel.add(sessionDescValueLabel, "center, wrap");
+		bottomLeftPanel.add(leftPanelLabel, "center, wrap");
+		bottomLeftPanel.add(requirementFrame, "width 250::, growy, dock center");
+		
+		leftPanel.add(topLeftPanel);
+		leftPanel.add(bottomLeftPanel);
 	}
 
 	private void setupRightPanel() {
