@@ -448,8 +448,15 @@ public class VotePanel extends JPanel {
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
-
 		voteTextField.setHorizontalAlignment(JTextField.CENTER);
+		
+		voteTextField.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				enableSubmitBtn();
+			}
+		});
 		
 		// Set up ErrorMsg Label
 		errorMsg = new JLabel("");
