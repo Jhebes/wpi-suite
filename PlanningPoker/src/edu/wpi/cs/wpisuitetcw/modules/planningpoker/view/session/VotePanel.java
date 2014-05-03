@@ -187,9 +187,9 @@ public class VotePanel extends JPanel {
 				userVotePanel.setFocusedRequirement(selectedRequirement);
 				userVotePanel.fillTable();
 				finalEstimatePnl.setFocusedRequirement(selectedRequirement);
-				finalEstimatePnl.setStatsMean(selectedRequirement.getMean());
-				finalEstimatePnl.setStatsMedian(selectedRequirement.getMedian());
-				finalEstimatePnl.setStatsMode(selectedRequirement.getMode());
+				finalEstimatePnl.setMean(selectedRequirement.getMean());
+				finalEstimatePnl.setMedian(selectedRequirement.getMedian());
+				finalEstimatePnl.setMode(selectedRequirement.getMode());
 				finalEstimatePnl.updateEstimateTextField(selectedRequirement);
 				disableSubmitBtn();
 			}
@@ -421,9 +421,9 @@ public class VotePanel extends JPanel {
 						int mean = selectedRequirement.getMean();
 						
 						finalEstimatePnl.setFocusedRequirement(selectedRequirement);
-						finalEstimatePnl.setStatsMean(mean);
-						finalEstimatePnl.setStatsMedian(selectedRequirement.getMedian());
-						finalEstimatePnl.setStatsMode(selectedRequirement.getMode());
+						finalEstimatePnl.setMean(mean);
+						finalEstimatePnl.setMedian(selectedRequirement.getMedian());
+						finalEstimatePnl.setMode(selectedRequirement.getMode());
 
 						//	finalEstimatePnl.fillTable(selectedRequirement);
 

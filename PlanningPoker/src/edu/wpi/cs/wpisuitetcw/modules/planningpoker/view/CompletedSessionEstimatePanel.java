@@ -28,6 +28,7 @@ import javax.swing.event.DocumentListener;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.StatsTable;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 
@@ -53,28 +54,9 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	// TODO move this into GUI component above
 	private final JLabel lblFinalEstimate;
 
-	/** Mean value and its label*/
-	private final JLabel meanLabel;
-	private JLabel lblMeanValue;
-
-	/** Median value and its label */
-	private final JLabel medianLabel;
-	private JLabel lblMedianValue;
-
-	/** Mode value and its label */
-	private final JLabel modeLabel;
-	private JLabel lblModeValue;
+	/** Stats table */
+	private StatsTable statsTable;
 	
-	/** Standard Deviation and its label */
-	private final JLabel standardDeviationLabel;
-	private final JLabel standardDeviation;
-
-	// The font to be used for headers in this panel.
-	private final Font headerFont;
-
-	// the font used for statistical labels
-	private final Font statNameFont;
-
 	// The requirement that has been chosen for analysis and estimation
 	private PlanningPokerRequirement focusedRequirement = null;
 
@@ -104,11 +86,8 @@ public class CompletedSessionEstimatePanel extends JPanel {
 			e1.printStackTrace();
 		}
 
-		// Initialize the default font for JLabel headers
-		headerFont = new Font("SansSerif", Font.BOLD, 25);
 
 		lblFinalEstimate = new JLabel("Final Estimate");
-		lblFinalEstimate.setFont(headerFont);
 		lblFinalEstimate.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		// Create the Final Estimate Panel
@@ -182,58 +161,19 @@ public class CompletedSessionEstimatePanel extends JPanel {
 //		final JLabel successMsg = new JLabel("Final Estimation Submitted.");
 //		successMsg.setAlignmentY(Component.CENTER_ALIGNMENT);
 //		successMsg.setVisible(false);
-
-		// Create the Stats Panel
-		statNameFont = new Font("SansSerif", Font.BOLD, 15);
-
-		// Create label for MEAN
-		lblMeanValue = new JLabel("TEST");
-		meanLabel = new JLabel("Mean");
-		meanLabel.setFont(statNameFont);
-		meanLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-		// Create label for MEDIAN
-		lblMedianValue = new JLabel("TEST");
-		medianLabel = new JLabel("Median");
-		medianLabel.setFont(statNameFont);
-		medianLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-		// Create label for MODE
-		lblModeValue = new JLabel("TEST");
-		modeLabel = new JLabel("Mode");
-		modeLabel.setFont(statNameFont);
-		modeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-		// Create label for STANDARD DEVIATION
-		standardDeviation = new JLabel("TEST");
-		standardDeviationLabel = new JLabel("Standard Deviation");
-		standardDeviationLabel.setFont(statNameFont);
-		standardDeviationLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+		
+		// Create a stats table
+		statsTable = new StatsTable();
+		
 		putGUIComponentsOnPanel();
 	}
 
 	private void putGUIComponentsOnPanel() {
 		setBorder(BorderFactory.createLineBorder(Color.GRAY));
-		setLayout(new MigLayout("insets 0, fill", "push[]push[][]push", "push[]0[]0[]0[]push"));
+		setLayout(new MigLayout("insets 0, fill", "push[]push[]push", "push[]push"));
 
-		add(finalEstimateCard, "height 194!, width 146!, spany 5");
-		
-		add(meanLabel);
-		add(lblMeanValue, "wrap");
-		add(medianLabel);
-		add(lblMedianValue, "wrap");
-		add(modeLabel);
-		add(lblModeValue, "wrap");
-		add(standardDeviationLabel);
-		add(standardDeviation, "wrap");
-		
-
-		// TEST SET COLOR
-		meanLabel.setBorder(BorderFactory.createLineBorder(Color.RED));
-		medianLabel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-		modeLabel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-		standardDeviationLabel.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
+		add(finalEstimateCard, "height 194!, width 146!");
+		add(statsTable, "wrap");
 		
 //		pnlFinishedReq.add(lblFinalEstimate, "gapbottom 10,wrap");
 //		pnlFinishedReq.add(finalEstimateCard,
@@ -241,35 +181,6 @@ public class CompletedSessionEstimatePanel extends JPanel {
 //		pnlFinishedReq.add(pnlStats);
 //
 //		this.add(pnlFinishedReq);
-	}
-
-	/**
-	 * sets the JLabel for Mean in the completed session view.
-	 * 
-	 * @param statsMean
-	 */
-	public void setStatsMean(int statsMean) {
-		lblMeanValue.setText("" + statsMean);
-	}
-
-	/**
-	 * sets the JLabel for Median in the completed session view.
-	 * 
-	 * @param statsMedian
-	 */
-	public void setStatsMedian(int statsMedian) {
-		lblMedianValue.setText("" + statsMedian);
-	}
-
-	/**
-	 * sets the JLabel for Mode in the completed session view.
-	 * 
-	 * @param statsMode
-	 */
-	public void setStatsMode(int statsMode) {
-		lblModeValue.setText("" + statsMode);
-		// Rob's code TODO change this
-		//this.statsMode.setText("" + statsMode + "  ");
 	}
 	
 	/**
@@ -336,4 +247,41 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		final String estimateText = finalEstimateField.getText();
 		return Integer.parseInt(estimateText);
 	}
+	
+	/**
+	 * Assign a value to the mean
+	 * @param A value that would be assigned
+	 * to the mean of the stats table
+	 */
+	public void setMean(int mean) {
+		statsTable.setMean(mean + "");
+	}
+	
+	/**
+	 * Assign a value to the median
+	 * @param A value that would be assigned
+	 * to the median of the stats table
+	 */
+	public void setMedian(int median) {
+		statsTable.setMedian(median + "");
+	}
+	
+	/**
+	 * Assign a value to the mode
+	 * @param A value that would be assigned
+	 * to the mode of the stats table
+	 */
+	public void setMode(int mode) {
+		statsTable.setMean(mode + "");
+	}
+	
+	/**
+	 * Assign a value to the standard deviation
+	 * @param A value that would be assigned
+	 * to the standard deviation of the stats table
+	 */
+	public void setStandardDeviation(int sd) {
+		statsTable.setMean(sd + "");
+	}
+	
 }
