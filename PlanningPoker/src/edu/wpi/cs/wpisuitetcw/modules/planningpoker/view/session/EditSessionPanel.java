@@ -909,4 +909,11 @@ public class EditSessionPanel extends JPanel {
 			return false;
 		}
 	}
+	
+	/**
+	 * Disable the save button
+	 */
+	public void disableSaveChangesBtn() {
+		btnSaveChanges.setEnabled(false);
+	}
 }

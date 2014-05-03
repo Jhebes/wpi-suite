@@ -104,7 +104,6 @@ public class AddSessionController implements ActionListener {
 				createDeckController.addDeckToDatabase();
 			}
 
-			// Create a new session and populate its data
 			//final PlanningPokerSession session = new PlanningPokerSession();
 			session.setOwnerUserName(ConfigManager.getConfig().getUserName());
 			session.setName(name);
@@ -131,9 +130,11 @@ public class AddSessionController implements ActionListener {
 				}
 			}
 
-			session.create();
-			GetAllSessionsController.getInstance().retrieveSessions();
-			ViewEventManager.getInstance().removeTab(view);
+			session.save();
+			// GetAllSessionsController.getInstance().retrieveSessions();
+			// ViewEventManager.getInstance().removeTab(view);
+			// changes are saved and the save changes button should be disabled
+			view.disableSaveChangesBtn();
 
 		} else {
 			// user has yet entered all required data
