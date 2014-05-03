@@ -11,12 +11,20 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
@@ -186,22 +194,6 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		// TODO fix the method
 		//this.statsStandardDeviation.setText("" + statsStandardDeviation + "  ");
 	}
-
-	/**
-	 * Populates the vote table with the votes from a requirement
-	 * 
-	 * @param requirement
-	 *            The requirement whose votes to use for this table
-	 */
-//	public void fillTable(PlanningPokerRequirement requirement) {
-//		// Clear the table model.
-//		tableModel.setRowCount(0);
-//
-//		for (PlanningPokerVote vote : requirement.getVotes()) {
-//			Object[] row = { vote.getUser(), vote.getCardValue() };
-//			tableModel.addRow(row);
-//		}
-//	}
 
 	/**
 	 * Updates the estimate text field for this newly focused requirement.
