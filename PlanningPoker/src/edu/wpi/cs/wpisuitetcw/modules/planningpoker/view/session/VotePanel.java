@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -434,22 +435,19 @@ public class VotePanel extends JPanel {
 
 		// Create a requirement name and description text box
 		nameDescriptionPanel = new NameDescriptionPanel(REQ_NAME_LABEL, REQ_DESC_LABEL, false);
-
-		if(session.isClosed()){
-			nameDescriptionPanel = new NameDescriptionPanel(false);
-		}
+		// TODO REPLACE THIS BY NEW NAMEDESCRPTION PANEL
+//		if(session.isClosed()) {
+//			nameDescriptionPanel = new NameDescriptionPanel(false);
+//		}
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
-
 		voteTextField.setHorizontalAlignment(JTextField.CENTER);
-		
+
 		// Set up ErrorMsg Label
 		errorMsg = new JLabel("");
 		errorMsg.setForeground(Color.RED);
 		errorMsg.setHorizontalAlignment(JLabel.CENTER);
-
-		voteTextField.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
 		// if the session has a deck, we can't let the user submit a vote
 		// manually
@@ -466,6 +464,10 @@ public class VotePanel extends JPanel {
 		// Create an user-vote subpanel
 		userVotePanel = new UserVoteListPanel(this);
 
+		// Create the card panel or final estimation GUI
+		finalEstimatePnl = new CompletedSessionEstimatePanel(this);
+		finalEstimatePnl.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		addGUIComponentsOnRightPanel();
 	}
 
@@ -479,24 +481,26 @@ public class VotePanel extends JPanel {
 													 + HORIZONTAL_PADDING_RIGHT_PANEL + " " 
 													 + VERTICAL_PADDING_RIGHT_PANEL   + " "
 													 + HORIZONTAL_PADDING_RIGHT_PANEL + ", fill",
-											"", "[][grow]"));
+											"", "[grow][grow]"));
+		
+		// TEST SET COLOR
+		nameDescriptionPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
+		userVotePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+		finalEstimatePnl.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 		
 		// Add the requirement name and its label
+		// TODO separate the layout of these 2 panels
 		if (session.isClosed()) {
-			rightPanel.add(nameDescriptionPanel, "grow");
-			rightPanel.add(userVotePanel, "growy, wrap");
+			rightPanel.add(nameDescriptionPanel, "grow, wrap");
+			rightPanel.add(userVotePanel, "dock east");
 		} else {
 			// Add the label of the panel
 			rightPanel.add(rightPanelLabel, "center, wrap");
 			rightPanel.add(nameDescriptionPanel, "grow");
 		}
 		
-		// Add the card panel or final estimation GUI
-		finalEstimatePnl = new CompletedSessionEstimatePanel(this);
-		finalEstimatePnl.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
 		if (session.isClosed()) {
-			rightPanel.add(finalEstimatePnl, "growx, growy");
+			rightPanel.add(finalEstimatePnl, "growx");
 		} else {
 			if (cardFrame != null) {
 				rightPanel.add(cardFrame, "height 235::, grow, dock south");
