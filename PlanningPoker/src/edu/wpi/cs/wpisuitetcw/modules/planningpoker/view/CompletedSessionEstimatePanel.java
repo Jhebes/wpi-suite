@@ -18,20 +18,14 @@ import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.UserVoteListPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 
@@ -40,15 +34,8 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel
  */
 public class CompletedSessionEstimatePanel extends JPanel {
 
-	// private final JPanel pnlCompletedSession;
-
 	// The panel that the final estimate panel is placed in.
 	private final VotePanel parentPanel;
-
-	/*
-	 * // The GridLayout that holds the stats panel, vote panel, and final
-	 * estimate panel. private final GridLayout panelLayout;
-	 */
 
 	// Panel that contains stats and final estimate
 	private JPanel pnlFinishedReq;
@@ -58,19 +45,6 @@ public class CompletedSessionEstimatePanel extends JPanel {
 
 	// Panel that displays the stats of a requirement.
 	private final JPanel pnlStats;
-
-	// Panel that displays a table of users and their votes for a requirement.
-	private final JPanel pnlVotes;
-	//private final UserVoteListPanel pnlVotes;
-	
-
-	/*
-	 * // Label to hold the card picture for final estimate private final JLabel
-	 * card;
-	 */
-
-	// Header for the votes panel.
-	private final JLabel lblVotes;
 
 	// Header for the final estimate panel.
 	private final JLabel lblFinalEstimate;
@@ -94,10 +68,10 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	private JLabel lblModeValue;
 
 	// Holds the model to populate the Votes table.
-	private DefaultTableModel tableModel;
+	// private DefaultTableModel tableModel;
 
 	// Table that displays users and their votes for a requirement.
-	private JTable tblVotes;
+	// private JTable tblVotes;
 
 	// text field that takes the final estimate given by the owner of a session.
 	private JTextField finalEstimateField;
@@ -110,9 +84,6 @@ public class CompletedSessionEstimatePanel extends JPanel {
 
 	// The requirement that has been chosen for analysis and estimation
 	private PlanningPokerRequirement focusedRequirement = null;
-
-	// Headers for the tblVotes JTable.
-	private static final Object[] voteTableColHeaders = { "User", "Vote" };
 
 	// The Requirement Manager requirement Model.
 	private RequirementModel reqManagerRequirementModel;
@@ -150,31 +121,13 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		 */
 		this.setLayout(new MigLayout());
 
-		/*
-		 * pnlFinalEstimate = new JPanel(); pnlFinalEstimate.setLayout(new
-		 * BoxLayout(pnlFinalEstimate, BoxLayout.Y_AXIS));
-		 * pnlFinalEstimate.setBorder(BorderFactory.createEmptyBorder());
-		 */
-
 		// Statistical info of the PP Session
 		pnlStats = new JPanel();
 		pnlStats.setLayout(new MigLayout());
 		pnlStats.setBorder(BorderFactory.createEmptyBorder());
 
-		// Table of votes for each req
-		pnlVotes = new JPanel();
-		//pnlVotes = new UserVoteListPanel(parentPanel);
-		
-		pnlVotes.setLayout(new BoxLayout(pnlVotes, BoxLayout.Y_AXIS));
-		pnlVotes.setBorder(BorderFactory.createEmptyBorder());
-
 		// Initialize the default font for JLabel headers
 		headerFont = new Font("SansSerif", Font.BOLD, 25);
-
-		// Initialize the Headers for the panels.
-		lblVotes = new JLabel("Votes");
-		lblVotes.setFont(headerFont);
-		lblVotes.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		lblFinalEstimate = new JLabel("Final Estimate");
 		lblFinalEstimate.setFont(headerFont);
@@ -221,8 +174,8 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		});
 
 		final Component verticalStrut = Box.createVerticalStrut(60);
-		
-		pnlFinalEstimate.add(verticalStrut,  "wrap");
+
+		pnlFinalEstimate.add(verticalStrut, "wrap");
 		pnlFinalEstimate.add(finalEstimateField, "gapleft 30, align center");
 
 		// Create the Stats Panel
@@ -252,33 +205,12 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		pnlStats.add(lblMode, "gapright 40px");
 		pnlStats.add(lblModeValue);
 
-		pnlFinishedReq.add(lblFinalEstimate, "wrap");
-		pnlFinishedReq.add(pnlFinalEstimate, "height 194!, width 146!, gapright 100px");
+		pnlFinishedReq.add(lblFinalEstimate, "gapbottom 10,wrap");
+		pnlFinishedReq.add(pnlFinalEstimate,
+				"height 194!, width 146!, gapright 80px");
 		pnlFinishedReq.add(pnlStats);
 
-		// put the completed Session panel together
-		//this.add(pnlVotes, "growy, wrap");
 		this.add(pnlFinishedReq);
-		this.createTable();
-		final JScrollPane votesScrollPane = new JScrollPane(tblVotes);
-		tblVotes.setFillsViewportHeight(true);
-		pnlVotes.add(lblVotes);
-		pnlVotes.add(votesScrollPane);
-	}
-
-	public void createTable() {
-		tableModel = new DefaultTableModel(new Object[0][0],
-				voteTableColHeaders);
-		tblVotes = new JTable(tableModel) {
-			private static final long serialVersionUID = -1948465013583690161L;
-
-			@Override
-			// disables the ability to edit cells
-			public boolean isCellEditable(int row, int column) {
-				// all cells false
-				return false;
-			}
-		};
 	}
 
 	/**
@@ -306,24 +238,6 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 */
 	public void setStatsMode(int statsMode) {
 		lblModeValue.setText("" + statsMode);
-	}
-
-	/**
-	 * Populates the vote table with the votes from a requirement
-	 * 
-	 * @param requirement
-	 *            The requirement whose votes to use for this table
-	 */
-	public void fillTable(PlanningPokerRequirement requirement) {
-		//pnlVotes.fillTable(requirement);
-			
-		// Clear the table model.
-		tableModel.setRowCount(0);
-
-		for (PlanningPokerVote vote : requirement.getVotes()) {
-			Object[] row = { vote.getUser(), vote.getCardValue() };
-			tableModel.addRow(row);
-		}
 	}
 
 	/**
@@ -360,5 +274,5 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		final String estimateText = finalEstimateField.getText();
 		return Integer.parseInt(estimateText);
 	}
-	
+
 }

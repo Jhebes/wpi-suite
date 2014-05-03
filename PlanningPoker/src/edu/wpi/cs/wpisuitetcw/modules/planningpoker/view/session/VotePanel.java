@@ -170,6 +170,17 @@ public class VotePanel extends JPanel {
 			final PlanningPokerVote vote = firstReq.getVoteByUser(ConfigManager.getConfig().getUserName());
 			if (vote != null)
 				setVoteTextFieldWithValue(vote.getCardValue());
+			
+			if(session.isClosed()){
+				nameDescriptionPanel.setDescription(selectedRequirement.getDescription());
+				userVotePanel.setFocusedRequirement(selectedRequirement);
+				userVotePanel.fillTable();
+				finalEstimatePnl.setFocusedRequirement(selectedRequirement);
+				finalEstimatePnl.setStatsMean(selectedRequirement.getMean());
+				finalEstimatePnl.setStatsMedian(selectedRequirement.getMedian());
+				finalEstimatePnl.setStatsMode(selectedRequirement.getMode());
+				finalEstimatePnl.updateEstimateTextField(selectedRequirement);
+			}
 		}
 	}
 
@@ -354,12 +365,13 @@ public class VotePanel extends JPanel {
 
 		// TODO: sleep
 		final List<PlanningPokerRequirement> reqs = session.getRequirements();
+		
 		final DefaultListModel<PlanningPokerRequirement> requirementModel = 
 				new DefaultListModel<PlanningPokerRequirement>();
 		for (PlanningPokerRequirement ppr : reqs) {
 			requirementModel.addElement(ppr);
 		}
-
+		
 		reqList = new JList<PlanningPokerRequirement>(requirementModel);
 		reqList.setBackground(Color.WHITE);
 		reqList.setAlignmentX(LEFT_ALIGNMENT);
@@ -391,7 +403,7 @@ public class VotePanel extends JPanel {
 						finalEstimatePnl.setStatsMean(selectedRequirement.getMean());
 						finalEstimatePnl.setStatsMedian(selectedRequirement.getMedian());
 						finalEstimatePnl.setStatsMode(selectedRequirement.getMode());
-						finalEstimatePnl.fillTable(selectedRequirement);
+					//	finalEstimatePnl.fillTable(selectedRequirement);
 						finalEstimatePnl.updateEstimateTextField(selectedRequirement);
 						updateUI();
 					} else {
@@ -404,7 +416,6 @@ public class VotePanel extends JPanel {
 						} else {
 							clearVoteTextField();
 						}
-
 						updateUI();
 					}
 				}
@@ -493,6 +504,7 @@ public class VotePanel extends JPanel {
 		if (session.isClosed()) {
 			rightPanel.add(nameDescriptionPanel, "grow, wrap");
 			rightPanel.add(userVotePanel, "dock east");
+			rightPanel.add(userVotePanel, "height 400::, growy, wrap");
 		} else {
 			// Add the label of the panel
 			rightPanel.add(rightPanelLabel, "center, wrap");
