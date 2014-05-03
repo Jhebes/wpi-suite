@@ -32,7 +32,7 @@ public class PutSessionController {
 		final Request request = Network.getInstance().makeRequest(
 				"planningpoker/session", HttpMethod.PUT);
 		request.setBody(session.toJSON());
-		request.addObserver(new GenericPUTRequestObserver());
+		request.addObserver(new SessionPUTRequestObserver());
 		request.send();
 	}
 

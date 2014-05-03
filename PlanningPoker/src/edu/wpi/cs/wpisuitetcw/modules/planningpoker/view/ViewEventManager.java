@@ -69,14 +69,7 @@ public class ViewEventManager {
 		final String defaultNameDate = sdf.format(new Date());
 		final String projectName = ConfigManager.getConfig().getProjectName();
 		blankSession.setName(projectName + " - " + defaultNameDate);
-		blankSession.save();
-
-		// display the edit session panel
-		final EditSessionPanel newSession = new EditSessionPanel(blankSession);
-		main.addTab("New Session", null, newSession, "New session.");
-		main.invalidate(); // force the tabbedpane to redraw
-		main.repaint();
-		main.setSelectedComponent(newSession);
+		blankSession.create();
 	}
 
 	/**
@@ -92,8 +85,7 @@ public class ViewEventManager {
 	 */
 	public void editSession(PlanningPokerSession session) {
 		final EditSessionPanel newSession = new EditSessionPanel(session);
-		main.addTab("Edit: " + session.getName(), null, newSession,
-				"Edit session.");
+		main.addTab(session.getName(), null, newSession, "Session.");
 		main.invalidate(); // force the tabbedpane to redraw
 		main.repaint();
 		main.setSelectedComponent(newSession);
