@@ -492,8 +492,7 @@ public class VotePanel extends JPanel {
 		errorMsg.setForeground(Color.RED);
 		errorMsg.setHorizontalAlignment(JLabel.CENTER);
 
-		// if the session has a deck, we can't let the user submit a vote
-		// manually
+		// Create a list of cards OR a card for voting
 		if (session.getDeck() != null) {
 			voteTextField.setEnabled(false);
 			// Create a deck panel
@@ -501,6 +500,7 @@ public class VotePanel extends JPanel {
 			cardFrame = new JScrollPane();
 			cardFrame.setViewportView(cardPanel);
 		} else {
+			// TODO change this
 			voteTextField.setEnabled(true);
 		}
 		
@@ -509,6 +509,7 @@ public class VotePanel extends JPanel {
 
 		// Create the card panel or final estimation GUI
 		finalEstimatePnl = new CompletedSessionEstimatePanel(this);
+		// TODO change this migLayout later
 		finalEstimatePnl.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		addGUIComponentsOnRightPanel();
@@ -530,24 +531,21 @@ public class VotePanel extends JPanel {
 		nameDescriptionPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
 		userVotePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
 		finalEstimatePnl.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+
+		// Add the label of the panel
+		rightPanel.add(rightPanelLabel, "center, wrap");
 		
 		// Add the requirement name and its label
-		// TODO separate the layout of these 2 panels
-		if (session.isClosed()) {
-			rightPanel.add(nameDescriptionPanel, "grow, wrap");
-			rightPanel.add(userVotePanel, "dock east");
-		} else {
-			// Add the label of the panel
-			rightPanel.add(rightPanelLabel, "center, wrap");
-			rightPanel.add(nameDescriptionPanel, "grow");
-		}
+		rightPanel.add(nameDescriptionPanel, "grow, wrap");
 		
 		if (session.isClosed()) {
 			rightPanel.add(finalEstimatePnl, "growx");
+			rightPanel.add(userVotePanel, "dock east");
 		} else {
 			if (cardFrame != null) {
 				rightPanel.add(cardFrame, "height 235::, grow, dock south");
 			} else {
+				// TODO remove the message
 				final JLabel messageLabel = new JLabel(NO_DECK_MSG);
 				rightPanel.add(messageLabel, "gapleft 150px, hmin 230px, grow, dock south");
 			}
@@ -561,6 +559,7 @@ public class VotePanel extends JPanel {
 										+ "gapbottom" + VERTICAL_PADDING_RIGHT_PANEL   + "px");
 
 			// Add the error message to the right side
+			// Modify this to GUI component. Ben's request
 			rightPanel.add(errorMsg, "dock east");
 		}		
 	}
