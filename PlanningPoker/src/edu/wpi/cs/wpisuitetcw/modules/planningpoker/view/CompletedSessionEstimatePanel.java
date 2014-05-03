@@ -11,23 +11,17 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.StatsTable;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.textfield.LabelsWithTextField;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 
@@ -41,18 +35,21 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	// The panel that the final estimate panel is placed in.
 	private final VotePanel parentPanel;
 
-	/** A background for a card */
-	// TODO create GUi component for this
-	private ImagePanel finalEstimateCard;
+//	/** A background for a card */
+//	// TODO create GUi component for this
+//	private ImagePanel finalEstimateCard;
+//	
+//	// text field that takes the final estimate given by the owner of a session.
+//	// TODO create GUi component for this
+//	private JTextField finalEstimateField;
+//	
+//	// Header for the final estimate panel.
+//	// TODO move this into GUI component above
+//	private final JLabel lblFinalEstimate;
 	
-	// text field that takes the final estimate given by the owner of a session.
-	// TODO create GUi component for this
-	private JTextField finalEstimateField;
+	/** Card for final estimation */
+	private LabelsWithTextField card;
 	
-	// Header for the final estimate panel.
-	// TODO move this into GUI component above
-	private final JLabel lblFinalEstimate;
-
 	/** Stats table */
 	private StatsTable statsTable;
 	
@@ -77,81 +74,89 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		// Requirement Model;
 		reqManagerRequirementModel = RequirementModel.getInstance();
 
-
-		finalEstimateCard = new ImagePanel();
+		// Create a card
+		BufferedImage background;
 		try {
-			finalEstimateCard = new ImagePanel("new_card.png");
-		} catch (IOException e1) {
-			e1.printStackTrace();
+			background = ImageIO.read(getClass().getResource("new_card.png"));
+		} catch (IOException e) {
+			throw new RuntimeException("Cannot read the background image new_card.png");
 		}
+		card = new LabelsWithTextField(background != null ? background : null);
+		card.setTextTop("Final estimation");
+//		finalEstimateCard = new ImagePanel();
+//		try {
+//			finalEstimateCard = new ImagePanel("new_card.png");
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
 
-
-		lblFinalEstimate = new JLabel("Final Estimate");
-		lblFinalEstimate.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-		// Create the Final Estimate Panel
-		finalEstimateField = new JTextField(3);
-		finalEstimateField.setFont(new Font("SansSerif", Font.BOLD, 30));
-		finalEstimateField
-				.setMaximumSize(finalEstimateField.getPreferredSize());
-		finalEstimateField.setAlignmentX(Component.CENTER_ALIGNMENT);
-		finalEstimateField.getDocument().addDocumentListener(
-				new DocumentListener() {
-					public void changedUpdate(DocumentEvent e) {
-						warn();
-					}
-
-					public void removeUpdate(DocumentEvent e) {
-						warn();
-					}
-
-					public void insertUpdate(DocumentEvent e) {
-						warn();
-					}
-
-					public void warn() {
-						try {
-							Integer.parseInt(finalEstimateField.getText());
-							parentPanel.getSubmitFinalEstimationButton()
-									.setEnabled(true);
-						} catch (NumberFormatException n) {
-							parentPanel.getSubmitFinalEstimationButton()
-									.setEnabled(false);
-						}
-					}
-				});
-
-		finalEstimateField.addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					parentPanel.getSubmitFinalEstimationButton().doClick();
-				}
-			}
-		});
-		
-		finalEstimateField.addKeyListener(new KeyListener() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				keyTyped(e);
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				keyTyped(e);
-
-			}
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-				try {
-					Integer.parseInt(finalEstimateField.getText());
-					parentPanel.getSubmitFinalEstimationButton().setEnabled(true);
-				} catch (NumberFormatException n) {
-					parentPanel.getSubmitFinalEstimationButton().setEnabled(false);
-				}
-			}
-		});
+//
+//		lblFinalEstimate = new JLabel("Final Estimate");
+//		lblFinalEstimate.setAlignmentX(Component.CENTER_ALIGNMENT);
+//
+//		// Create the Final Estimate Panel
+//		finalEstimateField = new JTextField(3);
+//		finalEstimateField.setFont(new Font("SansSerif", Font.BOLD, 30));
+//		finalEstimateField
+//				.setMaximumSize(finalEstimateField.getPreferredSize());
+//		finalEstimateField.setAlignmentX(Component.CENTER_ALIGNMENT);
+//		finalEstimateField.getDocument().addDocumentListener(
+//				new DocumentListener() {
+//					public void changedUpdate(DocumentEvent e) {
+//						warn();
+//					}
+//
+//					public void removeUpdate(DocumentEvent e) {
+//						warn();
+//					}
+//
+//					public void insertUpdate(DocumentEvent e) {
+//						warn();
+//					}
+//
+//					public void warn() {
+//						try {
+//							Integer.parseInt(finalEstimateField.getText());
+//							parentPanel.getSubmitFinalEstimationButton()
+//									.setEnabled(true);
+//						} catch (NumberFormatException n) {
+//							parentPanel.getSubmitFinalEstimationButton()
+//									.setEnabled(false);
+//						}
+//					}
+//				});
+//
+//		finalEstimateField.addKeyListener(new KeyAdapter() {
+//			public void keyPressed(KeyEvent e) {
+//				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+//					parentPanel.getSubmitFinalEstimationButton().doClick();
+//				}
+//			}
+//		});
+//		
+//		finalEstimateField.addKeyListener(new KeyListener() {
+//			@Override
+//			public void keyPressed(KeyEvent e) {
+//				keyTyped(e);
+//
+//			}
+//
+//			@Override
+//			public void keyReleased(KeyEvent e) {
+//				keyTyped(e);
+//
+//			}
+//
+//			@Override
+//			public void keyTyped(KeyEvent e) {
+//				try {
+//					Integer.parseInt(finalEstimateField.getText());
+//					parentPanel.getSubmitFinalEstimationButton().setEnabled(true);
+//				} catch (NumberFormatException n) {
+//					parentPanel.getSubmitFinalEstimationButton().setEnabled(false);
+//				}
+//			}
+//		});
 		// TODO move this code to Vote panel
 //
 //		final Component verticalStrut = Box.createVerticalStrut(50);
@@ -171,7 +176,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		setLayout(new MigLayout("insets 0, fill", "push[]20[]push", "push[]push"));
 
-		add(finalEstimateCard, "height 194!, width 146!");
+		add(card, "height 194!, width 146!");
 		add(statsTable, "wrap");
 		
 //		pnlFinishedReq.add(lblFinalEstimate, "gapbottom 10,wrap");
@@ -217,9 +222,9 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	public void updateEstimateTextField(PlanningPokerRequirement requirement) {
 		int end = requirement.getFinalEstimate();
 		if (end != 0) {
-			finalEstimateField.setText(Integer.valueOf(requirement.getFinalEstimate()).toString());
+			card.setTextMiddle(Integer.valueOf(requirement.getFinalEstimate()).toString());
 		} else {
-			finalEstimateField.setText("");
+			card.setTextMiddle("");
 		}
 	}
 
@@ -243,7 +248,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * @return The estimate as parsed from the textbox
 	 */
 	public int getEstimate() {
-		final String estimateText = finalEstimateField.getText();
+		final String estimateText = card.getTextMiddle();
 		return Integer.parseInt(estimateText);
 	}
 	
