@@ -15,7 +15,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -51,9 +50,9 @@ import net.miginfocom.swing.MigLayout;
  * 		+ Underlying implementations
  */
 public class NameDescriptionPanel extends JPanel {
-	
+
 	private static final int TEXTBOX_HEIGHT = 26;
-	
+
 	/** A text field for name */
 	private final JLabel nameLabel;
 	private final JTextArea nameTextField;
@@ -76,14 +75,13 @@ public class NameDescriptionPanel extends JPanel {
 	private List<Component> belowNameTextboxComponents;
 	
 	/**
-	 * Construct the NameDescriptionPanel by
-	 * creating and adding the name and description
-	 * text boxes with their labels
+	 * Construct the NameDescriptionPanel by creating and adding the name and
+	 * description text boxes with their labels
 	 */
 	public NameDescriptionPanel() {
 		// Create text box and label for name
-		nameLabel =  new JLabel("Name *");
-		nameTextField	 = new JTextArea();
+		nameLabel = new JLabel("Name *");
+		nameTextField = new JTextArea();
 		nameTextField.setLineWrap(true);
 		nameTextField.setWrapStyleWord(true);
 		nameFrame = new JScrollPane(nameTextField);
@@ -95,7 +93,7 @@ public class NameDescriptionPanel extends JPanel {
 
 		// Create text box and label for desription
 		descriptionLabel = new JLabel("Description *");
-		descriptionTextField 	= new JTextArea();
+		descriptionTextField = new JTextArea();
 		descriptionTextField.setLineWrap(true);
 		descriptionTextField.setWrapStyleWord(true);
 		descriptionFrame = new JScrollPane(descriptionTextField);
@@ -108,27 +106,27 @@ public class NameDescriptionPanel extends JPanel {
 	}
 
 	/**
-	 * Construct the NameDescriptionPanel by
-	 * creating and adding the name and description
-	 * text boxes with the given Strings as their corresponding labels
+	 * Construct the NameDescriptionPanel by creating and adding the name and
+	 * description text boxes with the given Strings as their corresponding
+	 * labels
 	 */
 	public NameDescriptionPanel(String name, String description) {
 		this();
-		
+
 		// Assign the given strings to the JLabel
 		nameLabel.setText(name);
 		descriptionLabel.setText(description);
 	}
-	
+
 	/**
-	 * Construct the NameDescriptionPanel by
-	 * creating and adding the name and description
-	 * text boxes with the given Strings as their corresponding labels
-	 * The text boxes can only be editable when if isEditable is true
+	 * Construct the NameDescriptionPanel by creating and adding the name and
+	 * description text boxes with the given Strings as their corresponding
+	 * labels The text boxes can only be editable when if isEditable is true
 	 */
-	public NameDescriptionPanel(String name, String description, boolean isEditable) {
+	public NameDescriptionPanel(String name, String description,
+			boolean isEditable) {
 		this(name, description);
-		
+
 		// Disable the text boxes if isEditable is false
 		if (!isEditable) {
 			nameTextField.setEditable(false);
@@ -139,29 +137,31 @@ public class NameDescriptionPanel extends JPanel {
 	// VVVVVVVVVVVVVVVVVVVVVVVV CONTENT METHODS VVVVVVVVVVVVVVVVVVVVVVVV
 	/**
 	 * Put the given name in the name text box
-	 * @param A string that would be put 
-	 * in the name text box
+	 * 
+	 * @param A
+	 *            string that would be put in the name text box
 	 */
 	public void setName(String name) {
 		nameTextField.setText(name);
 	}
-	
+
 	/**
 	 * Remove the text inside the name text box
 	 */
 	public void clearName() {
 		nameTextField.setText("");
 	}
-	
+
 	/**
 	 * Put the given text in the description text box
-	 * @param text A string that would be put
-	 * in the description text box
+	 * 
+	 * @param text
+	 *            A string that would be put in the description text box
 	 */
 	public void setDescription(String text) {
 		descriptionTextField.setText(text);
 	}
-	
+
 	/**
 	 * Remove the text inside the description text box
 	 */
@@ -324,7 +324,7 @@ public class NameDescriptionPanel extends JPanel {
 		// Create row constrain for name text box and its label
 		// if they are existed
 		if (isNameTextboxNeeded) {
-			rowConstrain += "[][]";
+			rowConstrain += "[]10[]";
 		}
 		
 		// Add another row if there is an element below the name text box
@@ -334,7 +334,7 @@ public class NameDescriptionPanel extends JPanel {
 		
 		// Create row constrain for the description box and its label AND 
 		// Set the description box to fill up the available space
-		rowConstrain += "[][grow]0";
+		rowConstrain += "[]10[grow]0";
 		
 		return rowConstrain;
 	}
