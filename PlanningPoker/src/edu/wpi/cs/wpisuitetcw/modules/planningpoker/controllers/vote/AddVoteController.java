@@ -89,7 +89,9 @@ public class AddVoteController implements ActionListener {
 		}
 		
 		// Add vote to the requirement
-		final PlanningPokerVote vote = new PlanningPokerVote(username, voteView.getVote());
+		int voteValue = voteView.getVote();
+		
+		final PlanningPokerVote vote = new PlanningPokerVote(username, voteValue);
 		session.addVoteToRequirement(req, vote, username);
 
 		session.setHasVoted(true);
