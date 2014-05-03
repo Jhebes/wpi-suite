@@ -51,7 +51,7 @@ public class UserVoteListPanel extends JPanel {
 
 		createTable();
 		
-		setLayout(new MigLayout("insets 0, fill", "", "[][grow]"));
+		setLayout(new MigLayout("insets 0, fill", "", "[]10[grow]"));
 		add(lblVotes, "left, wrap");
 		add(tableScrollFrame, "grow");
 	}
