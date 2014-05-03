@@ -62,12 +62,16 @@ public class ViewEventManager {
 	
 	//call createBlankSessionController here
 	public void createSession() {
+
+		// create a blank session and save it to database
 		PlanningPokerSession blankSession = new PlanningPokerSession();
 		final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		final String defaultNameDate = sdf.format(new Date());
 		final String projectName = ConfigManager.getConfig().getProjectName();
 		blankSession.setName(projectName + " - " + defaultNameDate);
-		
+		blankSession.save();
+
+		// display the edit session panel
 		final EditSessionPanel newSession = new EditSessionPanel(blankSession);
 		main.addTab("New Session", null, newSession, "New session.");
 		main.invalidate(); // force the tabbedpane to redraw
