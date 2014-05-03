@@ -214,6 +214,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	}
 
 	private void putGUIComponentsOnPanel() {
+		setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		setLayout(new MigLayout("insets 0, fill", "push[]push[][]push", "push[]0[]0[]0[]push"));
 
 		add(finalEstimateCard, "height 194!, width 146!, spany 5");
