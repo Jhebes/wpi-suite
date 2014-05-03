@@ -26,68 +26,51 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirem
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 
-public class UserVoteListPanel extends JPanel {
+/**
+ * UserVoteListPanel exhibits the users and
+ * their votes
+ *
+ */
+public class UserVoteListPanel extends JScrollPane {
 
-	// Header for the votes panel.
-	private final JLabel lblVotes;
-
-	// focused requirement
-	private PlanningPokerRequirement focusedRequirement;
-
-	// The panel that the final estimate panel is placed in.
-	private final VotePanel parentPanel;
-
-	// The font to be used for headers in this panel.
-	private final Font headerFont;
-
-	// Headers for the tblVotes JTable.
-	private static final Object[] voteTableColHeaders = { "User", "Vote" };
+	private static final Object[] COLUMN_LABELS = { "User", "Vote" };
+	private static final int VOTE_COLUMN_MAX_WIDTH = 150;
+	
+	/** Header for the votes panel */
+	//private final JLabel lblVotes;
 
 	// Holds the model to populate the Votes table.
 	private DefaultTableModel tableModel;
 
 	// Table that displays users and their votes for a requirement.
 	private JTable tblVotes;
+	
+	// focused requirement
+	private PlanningPokerRequirement focusedRequirement;
 
-	// Panel that displays a table of users and their votes for a requirement.
-	private final JPanel pnlVotes;
+	// The font to be used for headers in this panel.
+	private final Font headerFont;
 
-	// The GridLayout that holds the stats panel, vote panel, and final estimate
-	// panel.
-	private final GridLayout panelLayout;
-
-	public UserVoteListPanel(final VotePanel parentPanel) {
-		this.parentPanel = parentPanel;
-
+	public UserVoteListPanel() {
 		focusedRequirement = null;
-
-		// Create a new grid layout that is 3 columns across.
-		panelLayout = new GridLayout(1, 1);
 
 		// Initialize the default font for JLabel headers
 		headerFont = new Font("TimesRoman", Font.BOLD, 25);
-
-		// Table of votes for each req
-		pnlVotes = new JPanel();
-		pnlVotes.setLayout(new BoxLayout(pnlVotes, BoxLayout.Y_AXIS));
-		pnlVotes.setBorder(BorderFactory.createEmptyBorder());
-
+		
 		// Initialize the Headers for the panels.
-		lblVotes = new JLabel("Votes");
-		lblVotes.setFont(headerFont);
-		lblVotes.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-		this.add(pnlVotes);
-		this.createTable();
-		final JScrollPane votesScrollPane = new JScrollPane(tblVotes);
-		tblVotes.setFillsViewportHeight(true);
+//		lblVotes = new JLabel("Votes");
+//		lblVotes.setFont(headerFont);
+//		lblVotes.setAlignmentX(Component.CENTER_ALIGNMENT);
 		// pnlVotes.add(lblVotes);
-		pnlVotes.add(votesScrollPane);
+
+		createTable();
+		
+		setViewportView(tblVotes);
+		tblVotes.setFillsViewportHeight(true);
 	}
 
 	public void createTable() {
-		tableModel = new DefaultTableModel(new Object[0][0],
-				voteTableColHeaders);
+		tableModel = new DefaultTableModel(new Object[0][0], COLUMN_LABELS);
 		tblVotes = new JTable(tableModel) {
 			private static final long serialVersionUID = -1948465013583690161L;
 
@@ -98,7 +81,7 @@ public class UserVoteListPanel extends JPanel {
 				return false;
 			}
 		};
-		tblVotes.getColumnModel().getColumn(1).setWidth(2);
+		tblVotes.getColumnModel().getColumn(1).setMaxWidth(VOTE_COLUMN_MAX_WIDTH);
 		tblVotes.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 	}
 

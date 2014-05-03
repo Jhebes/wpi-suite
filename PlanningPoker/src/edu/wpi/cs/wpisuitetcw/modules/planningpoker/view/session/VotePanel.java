@@ -505,7 +505,7 @@ public class VotePanel extends JPanel {
 		}
 		
 		// Create an user-vote subpanel
-		userVotePanel = new UserVoteListPanel(this);
+		userVotePanel = new UserVoteListPanel();
 
 		// Create the card panel or final estimation GUI
 		finalEstimatePnl = new CompletedSessionEstimatePanel(this);
