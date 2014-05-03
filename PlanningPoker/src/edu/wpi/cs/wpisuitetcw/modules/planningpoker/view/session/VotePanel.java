@@ -301,6 +301,7 @@ public class VotePanel extends JPanel {
 
 		// Extract the requirements from the table provided by
 		// ViewSessionTableManager and converts them to list
+		// TODO WHAT IS THIS?
 		final List<String> testReqs = new ArrayList<String>();
 		final RequirementTableManager a = new RequirementTableManager();
 		final RequirementTableModel v = a.get(session.getID());
@@ -356,19 +357,19 @@ public class VotePanel extends JPanel {
 		if (session.isClosed()) {
 			bottomPanel.add(submitFinalEstimationButton, "align center");
 		} else {
-		bottomPanel.add(endSessionButton, "left, "
-										+ "wmin " + MIN_BUTTON_WIDTH + "px, "
-										+ "height " + DEFAULT_HEIGHT + "px!, "
-										+ "split3");
-		bottomPanel.add(btnEditSession, "left, "
-									  + "wmin " + MIN_BUTTON_WIDTH + "px, "
-									  + "height " + DEFAULT_HEIGHT + "px!");
-		bottomPanel.add(cancelSessionButton, "left, "
-										   + "wmin " + MIN_BUTTON_WIDTH + "px, "
-										   + "height " + DEFAULT_HEIGHT + "px!");
-		bottomPanel.add(cardSelectionModeLabel, "left, wmin " + MIN_BUTTON_WIDTH + "px");
-		bottomPanel.add(submitVoteButton, "right, "
-										+ "height " + DEFAULT_HEIGHT + "px!");
+			bottomPanel.add(endSessionButton, "left, "
+											+ "wmin " + MIN_BUTTON_WIDTH + "px, "
+											+ "height " + DEFAULT_HEIGHT + "px!, "
+											+ "split3");
+			bottomPanel.add(btnEditSession, "left, "
+										  + "wmin " + MIN_BUTTON_WIDTH + "px, "
+										  + "height " + DEFAULT_HEIGHT + "px!");
+			bottomPanel.add(cancelSessionButton, "left, "
+											   + "wmin " + MIN_BUTTON_WIDTH + "px, "
+											   + "height " + DEFAULT_HEIGHT + "px!");
+			bottomPanel.add(cardSelectionModeLabel, "left, wmin " + MIN_BUTTON_WIDTH + "px");
+			bottomPanel.add(submitVoteButton, "right, "
+											+ "height " + DEFAULT_HEIGHT + "px!");
 		}
 	}
 
