@@ -102,6 +102,16 @@ public class LabelsWithTextField extends JPanel {
 		return middleLine.getText();
 	}
 	
+	/**
+	 * Assign the given String to the middle
+	 * text field
+	 * @param value A String that would be assigned
+	 * to the middle text field
+	 */
+	public void setTextMiddle(String value) {
+		middleLine.setText(value);
+	}
+	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);

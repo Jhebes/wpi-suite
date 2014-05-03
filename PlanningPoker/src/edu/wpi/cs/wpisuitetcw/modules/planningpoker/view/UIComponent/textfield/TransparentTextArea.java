@@ -26,7 +26,7 @@ public class TransparentTextArea extends JTextArea {
 		int width = getWidth() - (x + y);
 		int height = getHeight() - (x + y);
 		
-		g.fillRect(x, y, width, height);
+		g.fillRect(0, 0, width, height);
 		
 		super.paintComponent(g);
 	}
