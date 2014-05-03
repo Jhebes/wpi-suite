@@ -34,6 +34,8 @@ import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -450,10 +452,20 @@ public class VotePanel extends JPanel {
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
 		voteTextField.setHorizontalAlignment(JTextField.CENTER);
 		
-		voteTextField.addActionListener(new ActionListener() {
+		voteTextField.getDocument().addDocumentListener(new DocumentListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void removeUpdate(DocumentEvent e) {
+				enableSubmitBtn();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				enableSubmitBtn();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
 				enableSubmitBtn();
 			}
 		});
