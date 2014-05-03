@@ -96,10 +96,10 @@ public class EditSessionPanel extends JPanel {
 	private JPanel bottomPanel;
 
 	/** Button to save the session */
-	private JButton btnSaveSession;
+	private JButton btnSaveChanges;
 
 	/** Button to cancel making a session */
-	private JButton btnCancel;
+	private JButton btnDiscardChanges;
 	
 	/** Button to open a session */
 	private JButton btnOpenSession;
@@ -398,7 +398,7 @@ public class EditSessionPanel extends JPanel {
 	 * @return save button
 	 */
 	public JButton getBtnSaveSession() {
-		return btnSaveSession;
+		return btnSaveChanges;
 	}
 
 	/**
@@ -667,9 +667,9 @@ public class EditSessionPanel extends JPanel {
 	 */
 	public void checkSessionValidation() {
 		if (hasAllValidInputs()) {
-			btnSaveSession.setEnabled(true);
+			btnSaveChanges.setEnabled(true);
 		} else {
-			btnSaveSession.setEnabled(false);
+			btnSaveChanges.setEnabled(false);
 		}
 	}
 
@@ -766,10 +766,10 @@ public class EditSessionPanel extends JPanel {
 	 */
 	private void setupBottomPanel() {
 		// Create Save session button
-		btnSaveSession = new JButton("Save");
-		btnSaveSession.addActionListener(new AddSessionController(this, false, session));
+		btnSaveChanges = new JButton("Save changes");
+		btnSaveChanges.addActionListener(new AddSessionController(this, false, session));
 		// save button is initially disable
-		btnSaveSession.setEnabled(false);
+		btnSaveChanges.setEnabled(false);
 		
 		// Create Open session button
 		btnOpenSession = new JButton("Open Session");
@@ -779,17 +779,17 @@ public class EditSessionPanel extends JPanel {
 		btnOpenSession.setEnabled(false);
 
 		// Create Cancel create session button
-		btnCancel = new JButton("Cancel");
-		btnCancel.addActionListener(new CancelCreateSessionController(this));
+		btnDiscardChanges = new JButton("Discard Changes");
+		btnDiscardChanges.addActionListener(new CancelCreateSessionController(this));
 
 		bottomPanel = new JPanel();
 		bottomPanel.setLayout(new MigLayout("inset 5 " + DEFAULT_INSETS + " 5 "
 				+ DEFAULT_INSETS, "", "push[]push"));
-		bottomPanel.add(btnSaveSession, "left, width 120px, height "
+		bottomPanel.add(btnSaveChanges, "left, width 120px, height "
 				+ DEFAULT_HEIGHT + "px!");
 		bottomPanel.add(btnOpenSession, "width 120px, height " + DEFAULT_HEIGHT
 				+ "px!");
-		bottomPanel.add(btnCancel, "width 120px, height " + DEFAULT_HEIGHT
+		bottomPanel.add(btnDiscardChanges, "width 120px, height " + DEFAULT_HEIGHT
 				+ "px!");
 		bottomPanel.add(labelRequireField, "gapleft 10px, height "
 				+ DEFAULT_HEIGHT + "px!");
