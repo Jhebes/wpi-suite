@@ -206,7 +206,7 @@ public class VotePanel extends JPanel {
 					}
 					if(count > 0){
 						ppr.setFinalEstimate(total / count);
-					}else{
+					} else {
 						ppr.setFinalEstimate(0);
 					}
 						ppr.setTotalVotes(count);
@@ -667,13 +667,11 @@ public class VotePanel extends JPanel {
 	
 	/**
 	 * 
-	 * @return true if all the reqs have been voted on by the current user
+	 * @return true if all the reqs have been voted on
 	 */
 	public boolean allVoted() {
-		String username = ConfigManager.getConfig().getUserName();
-		
 		for (PlanningPokerRequirement ppr : session.getRequirements())
-			if (ppr.getVoteByUser(username) == null)
+			if (ppr.getVotes().size() == 0) // Req hasn't been votes on
 				return false;
 		
 		return true;
