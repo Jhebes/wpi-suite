@@ -10,6 +10,7 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ import javax.swing.tree.TreeSelectionModel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller.GetIterationController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.CustomTreeCellRenderer;
 
 /**
@@ -189,7 +192,7 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 * and open session branches are initially expanded
 	 * 
 	 */
-	private void initTreeStates() {
+	public void initTreeStates() {
 		// tree path to each node
 		final TreePath newSessionPath = new TreePath(newSessionNode.getPath());
 		final TreePath openSessionPath = new TreePath(openSessionNode.getPath());
@@ -374,18 +377,6 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
-		// we no longer want to show the session table. we only want to show the
-		// tree and to keep the welcome page up when interacting with the tree
-		if (!initialized) {
-			// retrieve sessions and initialize the tree
-			SessionStash.getInstance().synchronize();
-
-			if (sessions.size() != 0) {
-				initialized = true;
-			}
-		}
-
 		if (e.getClickCount() == 2) {
 			final TreePath path = tree.getPathForLocation(e.getX(), e.getY());
 			if (path != null) {
@@ -432,5 +423,24 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	@Override
 	public void mouseExited(MouseEvent e) {
 	}
+	
+	/**
+	 * Overrides the paintComponent method to retrieve the requirements on the first painting.
+	 * 
+	 * @param g	The component object to paint
+	 */
+	@Override
+	public void paintComponent(Graphics g)
+	{
+		if (!initialized) {
+			try {
+				SessionStash.getInstance().synchronize();
+				initialized = true;
+			} catch (Exception e) {
+				
+			}
+		}
+	}
+	
 
 }

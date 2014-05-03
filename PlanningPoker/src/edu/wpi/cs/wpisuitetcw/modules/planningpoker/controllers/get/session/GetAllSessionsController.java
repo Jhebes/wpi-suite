@@ -52,6 +52,7 @@ public class GetAllSessionsController {
 	public void receivedSessions(List<PlanningPokerSession> sessions) {
 		SessionStash.getInstance().mergeFromServer(sessions);
 		ViewEventManager.getInstance().getOverviewTreePanel().refresh();
+		ViewEventManager.getInstance().getOverviewTreePanel().initTreeStates();
 	}
 
 	/**
