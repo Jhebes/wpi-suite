@@ -476,16 +476,18 @@ public class VotePanel extends JPanel {
 
 		// Create a requirement name and description text box
 		nameDescriptionPanel = new NameDescriptionPanel(REQ_NAME_LABEL, REQ_DESC_LABEL, false);
-		// TODO REPLACE THIS BY NEW NAMEDESCRPTION PANEL
-//		if(session.isClosed()) {
-//			nameDescriptionPanel = new NameDescriptionPanel(false);
-//		}
+		if (session.isClosed()) {
+			// Remove the name text box in final estimation
+			nameDescriptionPanel.removeNameTextbox();
+		}
+		
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
 		voteTextField.setHorizontalAlignment(JTextField.CENTER);
 
 		// Set up ErrorMsg Label
+		// TODO: create new GUI component to store this and the vote
 		errorMsg = new JLabel("");
 		errorMsg.setForeground(Color.RED);
 		errorMsg.setHorizontalAlignment(JLabel.CENTER);
