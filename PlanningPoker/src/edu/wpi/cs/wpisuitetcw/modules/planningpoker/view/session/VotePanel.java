@@ -127,6 +127,8 @@ public class VotePanel extends JPanel {
 	/** A button to submit the final estimation */
 	private JButton submitFinalEstimationButton;
 
+	
+	// ##################### DATA #########################
 	/** The name of the currently selected requirement */
 	private PlanningPokerRequirement selectedRequirement;
 	private int selectedReqIndex;
@@ -160,19 +162,21 @@ public class VotePanel extends JPanel {
 	 */
 	private void setupInitData() {
 		if (session.getRequirements().size() > 0) {
-			final PlanningPokerRequirement firstReq = session.getRequirements().get(0);			
+			// Auto select the first requirement and populate its data
+			final PlanningPokerRequirement firstReq = session.getRequirements().get(0);
 			nameDescriptionPanel.setName(firstReq.getName());
 			nameDescriptionPanel.setDescription(firstReq.getDescription());
 			selectedRequirement = firstReq;
 			selectedReqIndex = 0;
 			reqList.setSelectionInterval(0, 0);
 			
+			// Show the vote of the first requirement if it has
 			final PlanningPokerVote vote = firstReq.getVoteByUser(ConfigManager.getConfig().getUserName());
 			if (vote != null) {
 				setVoteTextFieldWithValue(vote.getCardValue());
 			}
 			
-			if(session.isClosed()) {
+			if (session.isClosed()) {
 				nameDescriptionPanel.setDescription(selectedRequirement.getDescription());
 				userVotePanel.setFocusedRequirement(selectedRequirement);
 				userVotePanel.fillTable();
