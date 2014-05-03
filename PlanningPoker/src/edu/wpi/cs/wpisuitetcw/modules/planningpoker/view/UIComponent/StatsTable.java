@@ -30,20 +30,20 @@ public class StatsTable extends JPanel {
 	
 	public StatsTable() {
 		// Create label for MEAN
-		lblMeanValue = new JLabel("TEST");
+		lblMeanValue = new JLabel("0.0");
 		meanLabel = new JLabel("Mean");
 
 		// Create label for MEDIAN
-		lblMedianValue = new JLabel("TEST");
+		lblMedianValue = new JLabel("0");
 		medianLabel = new JLabel("Median");
 
 		// Create label for MODE
-		lblModeValue = new JLabel("TEST");
+		lblModeValue = new JLabel("0");
 		modeLabel = new JLabel("Mode");
 
 		// Create label for STANDARD DEVIATION
-		standardDeviation = new JLabel("TEST");
-		standardDeviationLabel = new JLabel("Standard Deviation");
+		standardDeviation = new JLabel("0.0");
+		standardDeviationLabel = new JLabel("<html>Standard<br>Deviation</html>");
 		
 		setGUIComponentsBorder();
 		putGUIComponentOnPanel();
