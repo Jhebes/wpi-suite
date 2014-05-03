@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionBtnPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionReqPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 
@@ -27,7 +26,6 @@ public class SessionRequirementPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private final ViewSessionBtnPanel buttonPanel;
 	private final ViewSessionReqPanel pkgPanel;
 	private final PlanningPokerSession pPSession;
 
@@ -39,7 +37,6 @@ public class SessionRequirementPanel extends JPanel {
 		final RequirementTableManager manager = new RequirementTableManager();
 		manager.fetch(session.getID());
 		pPSession = session;
-		buttonPanel = new ViewSessionBtnPanel(this);
 		pkgPanel = new ViewSessionReqPanel(this, session);
 		
 		this.setLayout(new MigLayout());
@@ -47,13 +44,6 @@ public class SessionRequirementPanel extends JPanel {
 		
 		
 		SessionStash.getInstance().synchronize();
-	}
-
-	/**
-	 * @return The buttons panel at the bottom
-	 */
-	public ViewSessionBtnPanel getButtonPanel() {
-		return buttonPanel;
 	}
 
 	/**

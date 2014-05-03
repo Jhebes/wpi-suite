@@ -49,6 +49,7 @@ import org.jdesktop.swingx.JXDatePicker;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateSessionPanelController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.ActivateSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.AddSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.CancelCreateSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
@@ -59,7 +60,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionTabsPanel;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
-import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 /**
  * A Panel that displays a session's basic information: name, type, description,
@@ -100,6 +100,9 @@ public class EditSessionPanel extends JPanel {
 
 	/** Button to cancel making a session */
 	private JButton btnCancel;
+	
+	/** Button to open a session */
+	private JButton btnOpenSession;
 
 	/** Require field label */
 	private JLabel labelRequireField;
@@ -767,6 +770,13 @@ public class EditSessionPanel extends JPanel {
 		btnSaveSession.addActionListener(new AddSessionController(this, false, session));
 		// save button is initially disable
 		btnSaveSession.setEnabled(false);
+		
+		// Create Open session button
+		btnOpenSession = new JButton("Open Session");
+		btnOpenSession.addActionListener(new ActivateSessionController(
+				tabsPanel.getRequirementPanel().getPPSession()));
+		// open button is initially disable
+		btnOpenSession.setEnabled(false);
 
 		// Create Cancel create session button
 		btnCancel = new JButton("Cancel");
@@ -777,6 +787,8 @@ public class EditSessionPanel extends JPanel {
 				+ DEFAULT_INSETS, "", "push[]push"));
 		bottomPanel.add(btnSaveSession, "left, width 120px, height "
 				+ DEFAULT_HEIGHT + "px!");
+		bottomPanel.add(btnOpenSession, "width 120px, height " + DEFAULT_HEIGHT
+				+ "px!");
 		bottomPanel.add(btnCancel, "width 120px, height " + DEFAULT_HEIGHT
 				+ "px!");
 		bottomPanel.add(labelRequireField, "gapleft 10px, height "
