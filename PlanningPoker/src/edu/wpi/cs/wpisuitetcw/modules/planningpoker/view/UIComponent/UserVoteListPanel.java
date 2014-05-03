@@ -50,18 +50,11 @@ public class UserVoteListPanel extends JPanel {
 	// focused requirement
 	private PlanningPokerRequirement focusedRequirement;
 
-	// The font to be used for headers in this panel.
-	private final Font headerFont;
-
 	public UserVoteListPanel() {
 		focusedRequirement = null;
 
-		// Initialize the default font for JLabel headers
-		headerFont = new Font("TimesRoman", Font.BOLD, 25);
-		
 		// Create title for the panel
 		lblVotes = new JLabel("Votes");
-		lblVotes.setFont(headerFont);
 
 		createTable();
 		
