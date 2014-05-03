@@ -525,7 +525,7 @@ public class VotePanel extends JPanel {
 													 + HORIZONTAL_PADDING_RIGHT_PANEL + " " 
 													 + VERTICAL_PADDING_RIGHT_PANEL   + " "
 													 + HORIZONTAL_PADDING_RIGHT_PANEL + ", fill",
-											"", "[][grow][grow]"));
+											"", "[][growprio 65, grow][growprio 35, grow]"));
 		
 		// TEST SET COLOR
 		nameDescriptionPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
