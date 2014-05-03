@@ -84,7 +84,6 @@ public class VotePanel extends JPanel {
 
 	// ################### GUI right components ####################
 	/** The right container holding all the GUI components */
-	private JLabel rightPanelLabel;
 	private JPanel rightPanel;
 	
 	/** The name and description text box */
@@ -470,9 +469,6 @@ public class VotePanel extends JPanel {
 	private void setupRightPanel() {
 		rightPanel = new JPanel();
 
-		// Create a label for right panel
-		rightPanelLabel = new JLabel(session.isClosed() ? "" : RIGHT_PANEL_LABEL);
-
 		// Create a requirement name and description text box
 		nameDescriptionPanel = new NameDescriptionPanel(REQ_NAME_LABEL, REQ_DESC_LABEL, false);
 		if (session.isClosed()) {
@@ -524,10 +520,7 @@ public class VotePanel extends JPanel {
 													 + HORIZONTAL_PADDING_RIGHT_PANEL + " " 
 													 + VERTICAL_PADDING_RIGHT_PANEL   + " "
 													 + HORIZONTAL_PADDING_RIGHT_PANEL + ", fill",
-											"", "[][growprio 65, grow][growprio 35, grow]"));
-		
-		// Add the label of the panel
-		rightPanel.add(rightPanelLabel, "center, wrap");
+											"", "[growprio 65, grow][growprio 35, grow]"));
 		
 		// Add the requirement name and its label
 		rightPanel.add(nameDescriptionPanel, "grow, wrap");
