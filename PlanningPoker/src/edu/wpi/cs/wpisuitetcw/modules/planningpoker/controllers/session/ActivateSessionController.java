@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendNotificationController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.UserStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionRequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -65,8 +66,8 @@ public class ActivateSessionController implements ActionListener {
 
 		String command = "sendEmail";
 		// Send email to everyone in a session
-		if (session.getUsers() != null) {
-			for (User user : session.getUsers()) {
+		if (UserStash.getInstance().getUsers() != null) {
+			for (User user : UserStash.getInstance().getUsers()) {
 				String sendTo = user.getEmail();
 				if (!sendTo.equals("")) {
 					SendNotificationController.sendNotification("start",
@@ -85,8 +86,8 @@ public class ActivateSessionController implements ActionListener {
 
 		// Send SMS to everyone in a session
 		command = "sendSMS";
-		if (session.getUsers() != null) {
-			for (User user : session.getUsers()) {
+		if (UserStash.getInstance().getUsers() != null) {
+			for (User user : UserStash.getInstance().getUsers()) {
 				String sendTo = user.getSMS();
 				if (!sendTo.equals("")) {
 					SendNotificationController.sendNotification("start",
