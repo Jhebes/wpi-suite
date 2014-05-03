@@ -172,6 +172,14 @@ public class LabelsWithTextField extends JPanel {
 	}
 	
 	/**
+	 * Return the middle TransparentTextField
+	 * @return Return the middle TransparentTextField
+	 */
+	public TransparentTextField getTextField() {
+		return middleLine;
+	}
+	
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
