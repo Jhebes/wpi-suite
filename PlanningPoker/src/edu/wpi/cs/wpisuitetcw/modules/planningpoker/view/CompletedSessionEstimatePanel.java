@@ -81,82 +81,72 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		} catch (IOException e) {
 			throw new RuntimeException("Cannot read the background image new_card.png");
 		}
-		card = new LabelsWithTextField(background != null ? background : null);
-		card.setTextTop("Final estimation");
-//		finalEstimateCard = new ImagePanel();
-//		try {
-//			finalEstimateCard = new ImagePanel("new_card.png");
-//		} catch (IOException e1) {
-//			e1.printStackTrace();
-//		}
+		card = new LabelsWithTextField(background);
+		card.setTextMiddle("Final estimation");
+		
+		// Set default small text "Final estimation"
+		// Enlarge the font when user clicks in
+		setToggleFontSize(card);
+		
 
-//
-//		lblFinalEstimate = new JLabel("Final Estimate");
-//		lblFinalEstimate.setAlignmentX(Component.CENTER_ALIGNMENT);
-//
-//		// Create the Final Estimate Panel
-//		finalEstimateField = new JTextField(3);
-//		finalEstimateField.setFont(new Font("SansSerif", Font.BOLD, 30));
-//		finalEstimateField
-//				.setMaximumSize(finalEstimateField.getPreferredSize());
-//		finalEstimateField.setAlignmentX(Component.CENTER_ALIGNMENT);
-//		finalEstimateField.getDocument().addDocumentListener(
-//				new DocumentListener() {
-//					public void changedUpdate(DocumentEvent e) {
-//						warn();
-//					}
-//
-//					public void removeUpdate(DocumentEvent e) {
-//						warn();
-//					}
-//
-//					public void insertUpdate(DocumentEvent e) {
-//						warn();
-//					}
-//
-//					public void warn() {
-//						try {
-//							Integer.parseInt(finalEstimateField.getText());
-//							parentPanel.getSubmitFinalEstimationButton()
-//									.setEnabled(true);
-//						} catch (NumberFormatException n) {
-//							parentPanel.getSubmitFinalEstimationButton()
-//									.setEnabled(false);
-//						}
-//					}
-//				});
-//
-//		finalEstimateField.addKeyListener(new KeyAdapter() {
-//			public void keyPressed(KeyEvent e) {
-//				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-//					parentPanel.getSubmitFinalEstimationButton().doClick();
-//				}
-//			}
-//		});
-//		
-//		finalEstimateField.addKeyListener(new KeyListener() {
-//			@Override
-//			public void keyPressed(KeyEvent e) {
-//				keyTyped(e);
-//
-//			}
-//
-//			@Override
-//			public void keyReleased(KeyEvent e) {
-//				keyTyped(e);
-//
-//			}
-//
-//			@Override
-//			public void keyTyped(KeyEvent e) {
-//				try {
-//					Integer.parseInt(finalEstimateField.getText());
-//					parentPanel.getSubmitFinalEstimationButton().setEnabled(true);
-//				} catch (NumberFormatException n) {
-//					parentPanel.getSubmitFinalEstimationButton().setEnabled(false);
-//				}
-//			}
-//		});
+		card.getTextField().getDocument().addDocumentListener(
+				new DocumentListener() {
+					public void changedUpdate(DocumentEvent e) {
+						warn();
+					}
+
+					public void removeUpdate(DocumentEvent e) {
+						warn();
+					}
+
+					public void insertUpdate(DocumentEvent e) {
+						warn();
+					}
+
+					public void warn() {
+						try {
+							Integer.parseInt(card.getTextField().getText());
+							parentPanel.getSubmitFinalEstimationButton()
+									.setEnabled(true);
+						} catch (NumberFormatException n) {
+							parentPanel.getSubmitFinalEstimationButton()
+									.setEnabled(false);
+						}
+					}
+				});
+
+		card.getTextField().addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					parentPanel.getSubmitFinalEstimationButton().doClick();
+				}
+			}
+		});
+		
+		// TODO is this duplicate?
+		card.getTextField().addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				keyTyped(e);
+
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				keyTyped(e);
+
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				try {
+					Integer.parseInt(card.getTextField().getText());
+					parentPanel.getSubmitFinalEstimationButton().setEnabled(true);
+				} catch (NumberFormatException n) {
+					parentPanel.getSubmitFinalEstimationButton().setEnabled(false);
+				}
+			}
+		});
 		// TODO move this code to Vote panel
 //
 //		final Component verticalStrut = Box.createVerticalStrut(50);
