@@ -13,12 +13,9 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendNotificationController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.UserStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionRequirementPanel;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * A controller that activates a session and sends SMS with email to the users
@@ -56,51 +53,4 @@ public class ActivateSessionController implements ActionListener {
 			ViewEventManager.getInstance().viewSession(session);
 		}
 	}
-
-	/**
-	 * Send email and SMS to users
-	 */
-	public void onSuccess() {
-		ViewEventManager.getInstance().removeTab(panel);
-		ViewEventManager.getInstance().viewSession(session);
-
-		String command = "sendEmail";
-		// Send email to everyone in a session
-		if (UserStash.getInstance().getUsers() != null) {
-			for (User user : UserStash.getInstance().getUsers()) {
-				String sendTo = user.getEmail();
-				if (!sendTo.equals("")) {
-					SendNotificationController.sendNotification("start",
-							sendTo, session.getDeadline(), command);
-				} else {
-					SendNotificationController.sendNotification("start",
-							"teamcombatwombat@gmail.com",
-							session.getDeadline(), command);
-				}
-			}
-		} else {
-			SendNotificationController.sendNotification("start",
-					"teamcombatwombat@gmail.com", session.getDeadline(),
-					command);
-		}
-
-		// Send SMS to everyone in a session
-		command = "sendSMS";
-		if (UserStash.getInstance().getUsers() != null) {
-			for (User user : UserStash.getInstance().getUsers()) {
-				String sendTo = user.getSMS();
-				if (!sendTo.equals("")) {
-					SendNotificationController.sendNotification("start",
-							sendTo, session.getDeadline(), command);
-				} else {
-					SendNotificationController.sendNotification("start",
-							"15189662284", session.getDeadline(), command);
-				}
-			}
-		} else {
-			SendNotificationController.sendNotification("start", "15189662284",
-					session.getDeadline(), command);
-		}
-	}
-
 }
