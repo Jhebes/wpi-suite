@@ -1,8 +1,12 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent;
 
+import java.awt.Color;
+
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -35,18 +39,33 @@ public class StatsTable extends JPanel {
 		standardDeviation = "0.0";
 		
 		// Create the stats table
-		Object[] header = {"Stats", "Value"};
+		Object[] header = {"Type", "Value"};
 		Object[][] data = {{"Mean", mean}, 
-						  {"Median", median},
-						  {"Median", mode},
-						  {"Standard deviation", standardDeviation}};
+						   {"Median", median},
+						   {"Median", mode},
+						   {"<html>Standard<br>deviation</html>", standardDeviation}};
 		statsTable = new JTable(data, header);
 		statsTable.setTableHeader(null);
 		
+
 		// Set columns size
-		statsTable.getColumnModel().getColumn(0).setMaxWidth(100);
-		statsTable.getColumnModel().getColumn(1).setMaxWidth(100);
+		statsTable.getColumnModel().getColumn(0).setMinWidth(150);
+		statsTable.getColumnModel().getColumn(0).setMaxWidth(150);
+		statsTable.getColumnModel().getColumn(1).setMinWidth(50);
+		statsTable.getColumnModel().getColumn(1).setMaxWidth(50);
+
+		// Center align the first column
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		statsTable.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+
+		statsTable.setRowHeight(40);
 		
+		statsTable.setShowGrid(true);
+		statsTable.setGridColor(Color.BLACK);
+		statsTable.setShowVerticalLines(false);
+		
+		statsTable.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		putGUIComponentOnPanel();
 	}
@@ -57,20 +76,6 @@ public class StatsTable extends JPanel {
 	private void putGUIComponentOnPanel() {
 		setLayout(new MigLayout("insets 0, fill"));
 		add(statsTable, "grow");
-		
-//		setLayout(new MigLayout("insets 0, fill", "[]20[]", ""));
-//		add(meanLabel, "left");
-//		add(lblMeanValue, "left, wrap");
-//		
-//		add(medianLabel, "left");
-//		add(lblMedianValue, "left, wrap");
-//		
-//		add(modeLabel, "left");
-//		add(lblModeValue, "left, wrap");
-//		
-//		add(standardDeviationLabel, "left");
-//		add(standardDeviation, "left, wrap");
-
 	}
 
 	/**
