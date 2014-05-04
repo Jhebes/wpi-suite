@@ -169,6 +169,13 @@ public class NameDescriptionPanel extends JPanel {
 		descriptionTextField.setText("");
 	}
 	
+	/**
+	 * Assign the given to the title of the description box
+	 */
+	public void setDescriptionTitle(String title) {
+		descriptionLabel.setText(title);
+	}
+	
 	// VVVVVVVVVVVVVVVVVVVVVV LAYOUT METHODS VVVVVVVVVVVVVVVVVVVVVVVV
 	/**
 	 * Remove the name text box and its label
