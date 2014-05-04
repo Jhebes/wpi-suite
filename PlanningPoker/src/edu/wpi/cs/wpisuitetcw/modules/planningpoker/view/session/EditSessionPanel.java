@@ -199,6 +199,30 @@ public class EditSessionPanel extends JPanel {
 		
 		// Check if the button is valid
 		checkSessionValidation();
+		
+		registerKeyboardShortcuts();
+	}
+
+	private void registerKeyboardShortcuts() {
+
+		this.addKeyListener(new KeyListener(){
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.isControlDown() && (e.getKeyCode() == KeyEvent.VK_W)){
+					ViewEventManager.getInstance().removeTab((EditSessionPanel)e.getSource());
+					System.out.println(e.getSource().toString());
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {}
+
+			@Override
+			public void keyTyped(KeyEvent e) {}
+			
+		});
+		
 	}
 
 	/**
