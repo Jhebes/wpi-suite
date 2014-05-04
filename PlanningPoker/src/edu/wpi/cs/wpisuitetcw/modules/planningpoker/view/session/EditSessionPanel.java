@@ -605,7 +605,7 @@ public class EditSessionPanel extends JPanel {
 	 * 
 	 * @return true if so, false otherwise
 	 */
-	private boolean isAnythingChanged() {
+	public boolean isAnythingChanged() {
 		// session info
 		final boolean isNameChanged = !nameTextField.getText().equals(
 				session.getName());
