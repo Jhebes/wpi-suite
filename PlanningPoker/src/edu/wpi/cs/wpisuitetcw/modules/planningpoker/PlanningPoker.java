@@ -10,12 +10,14 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker;
 
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.longpoll.LongPollingClient;
@@ -87,5 +89,13 @@ public class PlanningPoker implements IJanewayModule {
 				ViewEventManager.getInstance().showTutorial();
 			}
 		}));
+		tab.addKeyboardShortcut(new KeyboardShortcut(KeyStroke.getKeyStroke("control W"), new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				ViewEventManager.getInstance().removeTab((JComponent)KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner().getParent());
+			}
+		}));
 	}
+	
 }
