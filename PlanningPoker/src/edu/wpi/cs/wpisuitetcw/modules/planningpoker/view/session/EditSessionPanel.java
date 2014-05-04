@@ -195,6 +195,9 @@ public class EditSessionPanel extends JPanel {
 		
 		// Disable the save changes button on start up
 		btnSaveChanges.setEnabled(false);
+		if(session.isEditMode()){
+			nameTextField.setEnabled(false);
+		}
 	}
 
 	/**
