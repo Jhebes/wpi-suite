@@ -35,6 +35,8 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller.GetIterationController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.CustomTreeCellRenderer;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * The tree panel that greets you on the left side of the overview.
@@ -98,6 +100,23 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		// setup the tree
 		model = new DefaultTreeModel(top);
 		tree = new JTree(model); // create the tree with the top created above
+		tree.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				final TreePath path = tree.getSelectionPath();
+				if (path != null) {
+					final DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
+							.getLastSelectedPathComponent();
+					if (node != null) {
+						// open a session
+						if (node.getUserObject() instanceof PlanningPokerSession) {
+							ViewEventManager.getInstance().viewSession(
+									(PlanningPokerSession) node.getUserObject());
+						}
+					}
+				}
+			}
+		});
 
 		// tell it that it can only select one thing at a time
 		tree.getSelectionModel().setSelectionMode(
