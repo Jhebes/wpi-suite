@@ -18,7 +18,7 @@ public class TransparentTextArea extends JTextArea {
 	
 	@Override
 	protected void paintComponent(Graphics g) {
-		g.setColor(new Color(255, 255, 255, 255));
+		g.setColor(new Color(255, 255, 255, 0));
 		
 		Insets insets = getInsets();
 		int x = insets.left;

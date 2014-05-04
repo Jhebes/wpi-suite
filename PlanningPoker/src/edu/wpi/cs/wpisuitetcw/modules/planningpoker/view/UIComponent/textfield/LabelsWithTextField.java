@@ -1,6 +1,8 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.textfield;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -27,13 +29,16 @@ public class LabelsWithTextField extends JPanel {
 	private static final int DEFAULT_NUM_COLUMNS = 3;
 
 	/** Top line */
-	private final TransparentTextArea topLine;
+	private final TransparentTextPane topLine;
+	private boolean isTopLineNeeded;
 	
 	/** Middle line */
 	private final TransparentTextField middleLine;
+	private boolean isMiddleLineNeeded;
 	
 	/** Bottom line */
-	private final TransparentTextArea bottomLine;
+	private final TransparentTextPane bottomLine;
+	private boolean isBottomLineNeeded;
 	
 	/** Background image */
 	private BufferedImage background;
@@ -91,19 +96,29 @@ public class LabelsWithTextField extends JPanel {
 								boolean isTopEditable, 
 								boolean isBottomEditable) {
 		// Create the top line
-		this.topLine = new TransparentTextArea();
-		topLine.setEnabled(isTopEditable);
-		
+		this.topLine = new TransparentTextPane();
+		topLine.setEditable(isTopEditable);
+		topLine.setHighlighter(null);
+		isTopLineNeeded = true;
+
 		// Set the max number of columns and center aligned
 		this.middleLine = new TransparentTextField();
+		middleLine.setFont(new Font("SansSerif", Font.BOLD, 80));
+		middleLine.setHorizontalAlignment(JTextField.CENTER);
+		isMiddleLineNeeded = true;
 
 		// Create the bottom line
-		this.bottomLine = new TransparentTextArea();
+		this.bottomLine = new TransparentTextPane();
 		bottomLine.setEditable(isBottomEditable);
-		
+		bottomLine.setHighlighter(null);
+		isBottomLineNeeded = true;		
+
 		// Store the background image. putGUIComponentsOnPanel
 		// handles the background setting
 		this.background = image;
+		if (background == null) {
+			setBackground(new Color(255, 255, 255, 255));
+		}
 		
 		putGUIComponentsOnPanel();
 	} 
@@ -113,10 +128,42 @@ public class LabelsWithTextField extends JPanel {
 	 * on the panel
 	 */
 	private void putGUIComponentsOnPanel() {
-		setLayout(new MigLayout("insets 0, fill", "[center]", "[][grow][]"));
-		add(topLine, "wrap");
-		add(middleLine, "wrap");
-		add(bottomLine, "wrap");
+		removeAll();
+		
+		setLayout(new MigLayout("insets 0, fill", "[center]", generateRowConstrain()));
+		if (isTopLineNeeded) {
+			add(topLine, "growx, height 20px!, wrap");
+		}
+		if (isMiddleLineNeeded) {
+			add(middleLine, ", grow, wrap");
+		}
+		if (isBottomLineNeeded) {
+			add(bottomLine, "growx, height 20px!, wrap");
+		}
+	}
+	
+	/**
+	 * Generate the row constrain base on
+	 * the existence of the top, middle, bottom
+	 * line
+	 * @return A row constrain for MigLayout
+	 */
+	private String generateRowConstrain() {
+		String result = "";
+		
+		if (isTopLineNeeded) result += "[]0";
+		if (isMiddleLineNeeded) result += "[grow]0";
+		if (isBottomLineNeeded) result += "[]";
+		
+		return result;
+	}
+	
+	/**
+	 * Remove the top line
+	 */
+	public void removeTop() {
+		isTopLineNeeded = false;
+		putGUIComponentsOnPanel();
 	}
 	
 	/**
@@ -126,7 +173,7 @@ public class LabelsWithTextField extends JPanel {
 	 * to the top line
 	 */
 	public void setTextTop(String text) {
-		topLine.setText(text);
+		topLine.setTextCenter(text);
 	}
 	
 	/**
@@ -134,8 +181,27 @@ public class LabelsWithTextField extends JPanel {
 	 * @param text A string that would be assigned
 	 * to the bottom line
 	 */
+	public void setCenterTextBottom(String text) {
+		bottomLine.setTextCenter(text);
+	}
+	
+	/**
+	 * Assign the given String to the bottom line
+	 * @param text A string that would be assigned
+	 * to the bottom line
+	 * @param color Color of the text
+	 */
+	public void setTextBottom(Color color, String text) {
+		bottomLine.setColorTextCenter(color, text);
+	}
+	
+	/**
+	 * Assign the given HTML styled String to the bottom line
+	 * @param text A string that would be assigned
+	 * to the bottom line
+	 */
 	public void setTextBottom(String text) {
-		bottomLine.setText(text);
+		bottomLine.setHTMLStyleText(text);
 	}
 	
 	/**
