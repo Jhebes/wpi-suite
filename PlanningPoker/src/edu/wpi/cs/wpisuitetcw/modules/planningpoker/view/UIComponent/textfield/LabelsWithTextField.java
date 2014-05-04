@@ -1,11 +1,11 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.textfield;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -28,12 +28,15 @@ public class LabelsWithTextField extends JPanel {
 
 	/** Top line */
 	private final TransparentTextArea topLine;
+	private boolean isTopLineNeeded;
 	
 	/** Middle line */
 	private final TransparentTextField middleLine;
+	private boolean isMiddleLineNeeded;
 	
 	/** Bottom line */
 	private final TransparentTextArea bottomLine;
+	private boolean isBottomLineNeeded;
 	
 	/** Background image */
 	private BufferedImage background;
@@ -93,14 +96,18 @@ public class LabelsWithTextField extends JPanel {
 		// Create the top line
 		this.topLine = new TransparentTextArea();
 		topLine.setEnabled(isTopEditable);
-		
+		isTopLineNeeded = true;
+
 		// Set the max number of columns and center aligned
 		this.middleLine = new TransparentTextField();
+		middleLine.setFont(new Font("SansSerif", Font.BOLD, 80));
+		isMiddleLineNeeded = true;
 
 		// Create the bottom line
 		this.bottomLine = new TransparentTextArea();
-		bottomLine.setEditable(isBottomEditable);
-		
+		bottomLine.setEnabled(isBottomEditable);
+		isBottomLineNeeded = true;		
+
 		// Store the background image. putGUIComponentsOnPanel
 		// handles the background setting
 		this.background = image;
@@ -113,10 +120,34 @@ public class LabelsWithTextField extends JPanel {
 	 * on the panel
 	 */
 	private void putGUIComponentsOnPanel() {
-		setLayout(new MigLayout("insets 0, fill", "[center]", "[][grow][]"));
-		add(topLine, "wrap");
-		add(middleLine, "wrap");
-		add(bottomLine, "wrap");
+		removeAll();
+		
+		setLayout(new MigLayout("insets 0, fill", "[center]", generateRowConstrain()));
+		if (isTopLineNeeded) {
+			add(topLine, "growx, height 20px!, wrap");
+		}
+		if (isMiddleLineNeeded) {
+			add(middleLine, ", grow, wrap");
+		}
+		if (isBottomLineNeeded) {
+			add(bottomLine, "growx, height 20px!, wrap");
+		}
+	}
+	
+	/**
+	 * Generate the row constrain base on
+	 * the existence of the top, middle, bottom
+	 * line
+	 * @return A row constrain for MigLayout
+	 */
+	private String generateRowConstrain() {
+		String result = "";
+		
+		if (isTopLineNeeded) result += "[]0";
+		if (isMiddleLineNeeded) result += "[grow]0";
+		if (isBottomLineNeeded) result += "[]";
+		
+		return result;
 	}
 	
 	/**
