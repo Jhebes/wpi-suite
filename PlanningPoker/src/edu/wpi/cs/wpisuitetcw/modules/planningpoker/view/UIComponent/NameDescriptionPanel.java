@@ -241,7 +241,7 @@ public class NameDescriptionPanel extends JPanel {
 		addElementsNextToNameTextbox();
 		addElementsBelowNameTextbox();
 		add(descriptionLabel, "left, growx, span");
-		add(descriptionFrame, "grow");
+		add(descriptionFrame, "grow, hmin " + TEXTBOX_HEIGHT + "px");
 	}
 
 	/*
