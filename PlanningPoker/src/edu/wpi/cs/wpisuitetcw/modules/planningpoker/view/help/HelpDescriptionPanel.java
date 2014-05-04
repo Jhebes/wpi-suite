@@ -68,8 +68,8 @@ public class HelpDescriptionPanel extends JPanel {
 			"Sessions", //super huge
 			"\n\nCreate a Session", //large
 			"\nTo create a session click on the top button “Create a Session” which will "
-			+ "bring up a page where you can customize your session. You must name the "
-			+ "session, and create a description of the session in order to begin the "
+			+ "bring up a page where you can customize your session. You must name and "
+			+ "create a description of the session in order to begin the "
 			+ "session. You have the option of…", //medium
 			"\n\nEnding a Session", //large
 			"\nTo end a session..." //medium
@@ -102,7 +102,7 @@ public class HelpDescriptionPanel extends JPanel {
 			"Describe what voting is used for", //large
 			"How To Vote",//large
 			"Viewing Votes",//large
-			"Setting a Final Rank"//large
+			"Setting a Final Estimation"//large
 	};
 
 	private HashMap<HelpEntry, String[]> helpEntries;
