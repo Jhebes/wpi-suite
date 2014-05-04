@@ -254,6 +254,7 @@ public class PlanningPokerSession extends AbstractModel {
 				return requirement;
 			}
 		}
+		System.out.println(reqName);
 		throw new NullPointerException();
 	}
 

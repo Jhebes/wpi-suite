@@ -31,6 +31,7 @@ public class AddRequirementToSessionController implements ActionListener {
 	private static final String DUPLICATE_REQ_MESSAGE = 
 			"<html><font color='red'>This name has been used</font></html>";
 	
+	private PlanningPokerSession session;
 	private SessionRequirementPanel panel;
 
 	/**
@@ -40,7 +41,10 @@ public class AddRequirementToSessionController implements ActionListener {
 	 *            The panel containing the information about the new
 	 *            requirement.
 	 */
-	public AddRequirementToSessionController(SessionRequirementPanel panel) {
+	public AddRequirementToSessionController(
+			PlanningPokerSession session, 
+			SessionRequirementPanel panel) {
+		this.session = session;
 		this.panel = panel;
 	}
 
@@ -49,12 +53,6 @@ public class AddRequirementToSessionController implements ActionListener {
 	 * locally, posting it to the database and updating the local table model.
 	 */
 	public void addRequirement() {
-
-		final int id = panel.getSession().getID();
-
-		final PlanningPokerSession session = SessionStash.getInstance()
-				.getSessionByID(id);
-		
 
 		// Create a PlanningPokerRequirement with the name and description
 		// that user provides from the ViewSessionReqPanel
@@ -92,7 +90,7 @@ public class AddRequirementToSessionController implements ActionListener {
 			addReqModel.addRequirement(reqManagerRequirement);
 
 			// Validate session
-			(new RequirementTableManager()).fetch(id);
+			(new RequirementTableManager()).fetch(session.getID());
 			panel.getSaveRequirement().setEnabled(false);
 			panel.validateOpenSession();
 			panel.refreshMoveButtons();

@@ -169,7 +169,8 @@ public class SessionRequirementPanel extends JPanel {
 		// Action Handlers
 		// need to change so it adds to the right side
 		addRequirementToSession
-				.addActionListener(new AddRequirementToSessionController(this));
+				.addActionListener(new AddRequirementToSessionController(
+						session, this));
 		moveRequirementToSession
 				.addActionListener(new MoveRequirementToCurrentSessionController(
 						session, this));
