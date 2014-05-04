@@ -27,7 +27,7 @@ public class LabelsWithTextField extends JPanel {
 	private static final int DEFAULT_NUM_COLUMNS = 3;
 
 	/** Top line */
-	private final TransparentTextArea topLine;
+	private final TransparentTextPane topLine;
 	private boolean isTopLineNeeded;
 	
 	/** Middle line */
@@ -35,7 +35,7 @@ public class LabelsWithTextField extends JPanel {
 	private boolean isMiddleLineNeeded;
 	
 	/** Bottom line */
-	private final TransparentTextArea bottomLine;
+	private final TransparentTextPane bottomLine;
 	private boolean isBottomLineNeeded;
 	
 	/** Background image */
@@ -94,7 +94,7 @@ public class LabelsWithTextField extends JPanel {
 								boolean isTopEditable, 
 								boolean isBottomEditable) {
 		// Create the top line
-		this.topLine = new TransparentTextArea();
+		this.topLine = new TransparentTextPane();
 		topLine.setEnabled(isTopEditable);
 		isTopLineNeeded = true;
 
@@ -104,7 +104,7 @@ public class LabelsWithTextField extends JPanel {
 		isMiddleLineNeeded = true;
 
 		// Create the bottom line
-		this.bottomLine = new TransparentTextArea();
+		this.bottomLine = new TransparentTextPane();
 		bottomLine.setEnabled(isBottomEditable);
 		isBottomLineNeeded = true;		
 
@@ -157,7 +157,7 @@ public class LabelsWithTextField extends JPanel {
 	 * to the top line
 	 */
 	public void setTextTop(String text) {
-		topLine.setText(text);
+		topLine.setTextCenter(text);
 	}
 	
 	/**
@@ -166,7 +166,7 @@ public class LabelsWithTextField extends JPanel {
 	 * to the bottom line
 	 */
 	public void setTextBottom(String text) {
-		bottomLine.setText(text);
+		bottomLine.setTextCenter(text);
 	}
 	
 	/**
