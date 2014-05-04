@@ -1,6 +1,7 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.textfield;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -96,6 +97,8 @@ public class LabelsWithTextField extends JPanel {
 		
 		// Set the max number of columns and center aligned
 		this.middleLine = new TransparentTextField();
+		middleLine.setFont(new Font("SansSerif", Font.BOLD, 80));
+
 
 		// Create the bottom line
 		this.bottomLine = new TransparentTextArea();
