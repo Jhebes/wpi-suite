@@ -203,8 +203,7 @@ public class ViewEventManager {
 				if (JOptionPane
 						.showConfirmDialog(
 								(Component) null,
-								"You have changes that are not being saved. \n"
-										+ "Are you sure you wish to discard all the changes?",
+								"Discard unsaved changes and close tab?",
 								"Are you sure?", JOptionPane.YES_NO_OPTION) != 0)
 					return;
 			}
