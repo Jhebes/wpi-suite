@@ -104,15 +104,17 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 		tree.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				final TreePath path = tree.getSelectionPath();
-				if (path != null) {
-					final DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
-							.getLastSelectedPathComponent();
-					if (node != null) {
-						// open a session
-						if (node.getUserObject() instanceof PlanningPokerSession) {
-							ViewEventManager.getInstance().viewSession(
-									(PlanningPokerSession) node.getUserObject());
+				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					final TreePath path = tree.getSelectionPath();
+					if (path != null) {
+						final DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
+								.getLastSelectedPathComponent();
+						if (node != null) {
+							// open a session
+							if (node.getUserObject() instanceof PlanningPokerSession) {
+								ViewEventManager.getInstance().viewSession(
+										(PlanningPokerSession) node.getUserObject());
+							}
 						}
 					}
 				}
