@@ -34,6 +34,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.GetRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller.GetIterationController;
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.CustomTreeCellRenderer;
 
 /**
@@ -295,9 +296,10 @@ public class OverviewTreePanel extends JScrollPane implements MouseListener,
 	 */
 	private PlanningPokerSession[] sortForNewSessions() {
 		final List<PlanningPokerSession> tempNewSessions = new ArrayList<PlanningPokerSession>();
+		final String username = ConfigManager.getConfig().getUserName();
 		for (PlanningPokerSession pps : sessions) {
 			// Do not display the "default" planning poker session
-			if (pps.isNew() && pps.getID() != 1) {
+			if (pps.isNew() && pps.getID() != 1 && pps.getOwnerUserName().equals(username)) {
 				tempNewSessions.add(pps);
 			}
 		}
