@@ -12,7 +12,6 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -28,7 +27,6 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 
@@ -43,6 +41,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.NameDescriptionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.UserVoteListPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.VoteRequirementCellRenderer;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.textfield.LabelsWithTextField;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.DisplayDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
@@ -105,7 +104,7 @@ public class VotePanel extends JPanel {
 	private DisplayDeckPanel cardPanel;
 
 	/** A text field holding the final result */
-	private JTextField voteTextField;
+	private LabelsWithTextField voteTextField;
 	private JLabel errorMsg;
 
 	/** Button submit the vote to the database */
@@ -506,9 +505,9 @@ public class VotePanel extends JPanel {
 		}
 		
 		// Create a text field to store the final vote result
-		voteTextField = new JTextField(3);
-		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 12));
-		voteTextField.setHorizontalAlignment(JTextField.CENTER);
+		voteTextField = new LabelsWithTextField();
+		//voteTextField.setFont(new Font("SansSerif", Font.BOLD, 12));
+		//voteTextField.setHorizontalAlignment(JTextField.CENTER);
 
 		// Set up ErrorMsg Label
 		// TODO: create new GUI component to store this and the vote
@@ -639,10 +638,10 @@ public class VotePanel extends JPanel {
 	public int getVote() {
 		if (this.session.getDeck() == null) {
 			try {
-				setErrorMsg(""); // Clear Error Message
-				return Integer.parseInt(voteTextField.getText());
+				voteTextField.setTextBottom("");
+				return Integer.parseInt(voteTextField.getTextMiddle());
 			} catch (NumberFormatException e) {
-				setErrorMsg("Must enter an integer");
+				voteTextField.setTextBottom("<html><font face='sans-serif' color='red' size='9px'><center><b>Integer only!<b></center></font></html>");
 				
 				return 0;
 			}
@@ -658,7 +657,7 @@ public class VotePanel extends JPanel {
 	/**
 	 * @return the voteTextField
 	 */
-	public JTextField getVoteTextField() {
+	public LabelsWithTextField getVoteTextField() {
 		return voteTextField;
 	}
 
@@ -668,7 +667,7 @@ public class VotePanel extends JPanel {
 	 * @param voteTextField
 	 */
 	public void setVoteTextFieldWithValue(int value) {
-		voteTextField.setText(Integer.toString(value));
+		voteTextField.setTextMiddle(Integer.toString(value));
 	}
 	
 	/**
@@ -677,7 +676,7 @@ public class VotePanel extends JPanel {
 	 * @param voteTextField
 	 */
 	public void clearVoteTextField() {
-		voteTextField.setText("");
+		voteTextField.setTextMiddle("");
 	}
 	
 	/**
