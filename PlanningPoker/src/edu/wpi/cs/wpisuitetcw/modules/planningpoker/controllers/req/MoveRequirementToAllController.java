@@ -18,11 +18,8 @@ import java.util.List;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionReqPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionRequirementPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
-import edu.wpi.cs.wpisuitetng.network.Network;
-import edu.wpi.cs.wpisuitetng.network.Request;
-import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
  * This controller adds all the requirements from the specified session to the all pool
@@ -31,7 +28,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class MoveRequirementToAllController implements ActionListener {
 
 	private PlanningPokerSession session = null;
-	private ViewSessionReqPanel view;
+	private SessionRequirementPanel view;
 
 	/**
 	 * Construct the MoveAllRequirementsToAllController by storing the given
@@ -39,7 +36,7 @@ public class MoveRequirementToAllController implements ActionListener {
 	 * @param s A PlanningPokerSession that would be stored
 	 * @param v A ViewSessionReqPanel that would be stored
 	 */
-	public MoveRequirementToAllController(PlanningPokerSession s, ViewSessionReqPanel v) {
+	public MoveRequirementToAllController(PlanningPokerSession s, SessionRequirementPanel v) {
 		session = s;
 		view = v;
 	}
@@ -70,7 +67,7 @@ public class MoveRequirementToAllController implements ActionListener {
 		view.getAllReqTable().repaint();
 		view.getSessionReqTable().repaint();
 
-		view.validateActivateSession();
+		view.validateOpenSession();
 		view.refreshMoveButtons();
 	}
 	

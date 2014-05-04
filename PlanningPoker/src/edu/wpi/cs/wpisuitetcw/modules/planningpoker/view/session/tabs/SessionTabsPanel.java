@@ -14,6 +14,7 @@ import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.EditSessionPanel;
 
 public class SessionTabsPanel extends JTabbedPane {
 
@@ -22,6 +23,8 @@ public class SessionTabsPanel extends JTabbedPane {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private EditSessionPanel parentPanel;
+	
 	/* Deck panel */
 	private SessionDeckPanel deckPanel;
 
@@ -33,10 +36,12 @@ public class SessionTabsPanel extends JTabbedPane {
 	 * panel and requirement panel
 	 * 
 	 */
-	public SessionTabsPanel(PlanningPokerSession session) {
+	public SessionTabsPanel(EditSessionPanel parentPanel, PlanningPokerSession session) {
+		this.parentPanel = parentPanel;
+		
 		// set up panels
 		deckPanel = new SessionDeckPanel(CardDisplayMode.DISPLAY);
-		requirementPanel = new SessionRequirementPanel(session);
+		requirementPanel = new SessionRequirementPanel(this, session);
 
 		// set up tabs
 		this.addTab("Deck", null, deckPanel);
@@ -63,6 +68,13 @@ public class SessionTabsPanel extends JTabbedPane {
 		// int position = this.getTabPlacement();
 		this.setComponentAt(0, deckPanel);
 		updateUI();
+	}
+	
+	/**
+	 * @return Parent panel
+	 */
+	public EditSessionPanel getParentPanel() {
+		return parentPanel;
 	}
 
 	/*

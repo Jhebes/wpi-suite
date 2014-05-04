@@ -18,7 +18,7 @@ import java.util.List;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.viewSessionComp.ViewSessionReqPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionRequirementPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
@@ -31,7 +31,7 @@ public class AddRequirementToSessionController implements ActionListener {
 	private static final String DUPLICATE_REQ_MESSAGE = 
 			"<html><font color='red'>This name has been used</font></html>";
 	
-	private ViewSessionReqPanel panel;
+	private SessionRequirementPanel panel;
 
 	/**
 	 * Constructs the controller.
@@ -40,7 +40,7 @@ public class AddRequirementToSessionController implements ActionListener {
 	 *            The panel containing the information about the new
 	 *            requirement.
 	 */
-	public AddRequirementToSessionController(ViewSessionReqPanel panel) {
+	public AddRequirementToSessionController(SessionRequirementPanel panel) {
 		this.panel = panel;
 	}
 
@@ -94,7 +94,7 @@ public class AddRequirementToSessionController implements ActionListener {
 			// Validate session
 			(new RequirementTableManager()).fetch(id);
 			panel.getSaveRequirement().setEnabled(false);
-			panel.validateActivateSession();
+			panel.validateOpenSession();
 			panel.refreshMoveButtons();
 			
 			// Clear the texts in name and description box

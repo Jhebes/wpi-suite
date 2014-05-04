@@ -189,7 +189,7 @@ public class EditSessionPanel extends JPanel {
 
 		// Use display mode since the default deck is displayed by default
 		// deckPanel = new SessionDeckPanel(CardDisplayMode.DISPLAY);
-		tabsPanel = new SessionTabsPanel(session);
+		tabsPanel = new SessionTabsPanel(this, session);
 		
 		deckPanel = tabsPanel.getDeckPanel();
 		deckPanel.displayDefaultDeck();
@@ -683,6 +683,7 @@ public class EditSessionPanel extends JPanel {
 		} else {
 			btnSaveChanges.setEnabled(false);
 		}
+		tabsPanel.getRequirementPanel().validateOpenSession();
 	}
 
 	/*
@@ -786,9 +787,20 @@ public class EditSessionPanel extends JPanel {
 		// Create Open session button
 		btnOpenSession = new JButton("Open Session");
 		btnOpenSession.addActionListener(new ActivateSessionController(
-				tabsPanel.getRequirementPanel().getPPSession()));
+				tabsPanel.getRequirementPanel().getSession()));
 		// open button is initially disable
 		btnOpenSession.setEnabled(false);
+		
+		btnOpenSession.addActionListener(new SaveSessionController(this, false, session) {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				super.actionPerformed(e);
+				session.activate();
+				session.save();
+				SessionTableModel.getInstance().update();
+				closeTab();
+			}
+		});
 
 		// Create Discard changes session button
 		btnDiscardChanges = new JButton("Discard Changes");
@@ -956,6 +968,13 @@ public class EditSessionPanel extends JPanel {
 	 */
 	private void closeTab() {
 		ViewEventManager.getInstance().removeTab(this);
+	}
+	
+	/**
+	 * @return The open session button.
+	 */
+	public JButton getBtnOpenSession() {
+		return btnOpenSession;
 	}
 	
 }
