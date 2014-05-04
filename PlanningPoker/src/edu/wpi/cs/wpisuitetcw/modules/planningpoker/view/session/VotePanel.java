@@ -670,24 +670,51 @@ public class VotePanel extends JPanel {
 		PlanningPokerRequirement nextReq = null;
 		PlanningPokerVote vote = null;
 		
+		System.out.println("SELECTED_REQ_INDEX: " + selectedReqIndex);
+		
 		int i;
-		for (i = 0; i < session.getRequirements().size(); i++) {
-			reqList.setSelectionInterval(i, i);
-			
-			nextReq = reqList.getSelectedValue();
+		for (i = selectedReqIndex + 1; i < reqList.getModel().getSize(); i++) {
+			nextReq = reqList.getModel().getElementAt(i);
 			vote = nextReq.getVoteByUser(ConfigManager.getConfig().getUserName());
 			
-			if (vote == null)
-				break;
+			if (vote == null) {
+				moveTo(i);
+				
+				return;
+			}			
 		}
 		
-		if (i == session.getRequirements().size()) { // All Reqs voted on
-			reqList.setSelectionInterval(selectedReqIndex, selectedReqIndex);
+		for (i = 0; i <= selectedReqIndex; i++) {
+			nextReq = reqList.getModel().getElementAt(i);
+			vote = nextReq.getVoteByUser(ConfigManager.getConfig().getUserName());
+			
+			if (vote == null) {
+				moveTo(i);
+			
+				return;
+			}
+		}
+		
+		moveTo(selectedReqIndex);
+	}
+	
+	/**
+	 * Helper function for advanceInList
+	 * @param index Index in reqList to move to
+	 */
+	private void moveTo(int index) {
+		System.out.println("INDEX: " + index);
+		
+		reqList.setSelectionInterval(index, index);
+		
+		if (index == selectedReqIndex) { // All Reqs voted on
 			disableSubmitBtn();
 		} else {
-			selectedRequirement = nextReq;
-			nameDescriptionPanel.setName(nextReq.getName());
-			nameDescriptionPanel.setDescription(nextReq.getDescription());
+			selectedReqIndex = index;
+			
+			selectedRequirement = reqList.getSelectedValue();
+			nameDescriptionPanel.setName(selectedRequirement.getName());
+			nameDescriptionPanel.setDescription(selectedRequirement.getDescription());
 			
 			clearVoteTextField();
 		
