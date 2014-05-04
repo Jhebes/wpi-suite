@@ -56,7 +56,6 @@ public class PlanningPokerSessionHandler extends
 			for (int i = 0; i < openPanels.size(); ++i) {
 				PlanningPokerSession s = openPanels.get(i).getSession();
 				if (s.getID() == receivedSession.getID()) {
-					System.out.println("Yes! Closing them and opening the correct view");
 					ViewEventManager.getInstance().removeTab(openPanels.get(i));
 					ViewEventManager.getInstance().viewSession(
 							SessionStash.getInstance().getSessionByID(
