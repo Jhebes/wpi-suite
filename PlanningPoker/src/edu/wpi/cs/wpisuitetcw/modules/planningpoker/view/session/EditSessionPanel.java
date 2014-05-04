@@ -351,10 +351,7 @@ public class EditSessionPanel extends JPanel {
 
 		for (Card aCard : cards.values()) {
 			if (!aCard.hasValidCardValue()) {
-				// aCard.setCardInvalid();
 				isAllInputValid = false;
-			} else {
-				// aCard.setCardValid();
 			}
 		}
 		return isAllInputValid;
@@ -567,8 +564,7 @@ public class EditSessionPanel extends JPanel {
 		// display the deck, if any
 		if (session.getDeck() != null) {
 			final String deckName = session.getDeck().getDeckName();
-			
-			System.out.println(deckName);
+
 			// check what deck the session contains
 			if (deckName.equals(DEFAULT_DECK)) {
 				displayDefaultDeck();
