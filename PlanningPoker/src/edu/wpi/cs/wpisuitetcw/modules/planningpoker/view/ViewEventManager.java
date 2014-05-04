@@ -163,6 +163,10 @@ public class ViewEventManager {
 		return main;
 	}
 
+	public List<VotePanel> getVotePanels(){
+		return this.inProgressSessionPanels;
+	}
+	
 	/**
 	 * Sets the toolbarview to the given toolbar
 	 * 
