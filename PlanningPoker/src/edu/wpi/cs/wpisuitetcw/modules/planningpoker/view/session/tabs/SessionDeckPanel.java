@@ -454,6 +454,7 @@ public class SessionDeckPanel extends JPanel {
 				panel.updateUI();
 				// validate all inputs in the create session panel
 				sessionPanel.checkSessionValidation();
+				sessionPanel.checkSessionChanges();
 			}
 		});
 	}
@@ -548,6 +549,7 @@ public class SessionDeckPanel extends JPanel {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				sessionPanel.checkSessionValidation();
+				sessionPanel.checkSessionChanges();
 			}
 
 			@Override

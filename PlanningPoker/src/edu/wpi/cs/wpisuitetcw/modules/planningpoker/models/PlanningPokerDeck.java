@@ -42,7 +42,7 @@ public class PlanningPokerDeck extends AbstractModel {
 	 */
 	public PlanningPokerDeck() {
 		final int[] defaultDeck = { 0, 1, 1, 2, 3, 5, 8, 13 };
-		deckName = "Default Deck";
+		deckName = "Default";
 		deck = new ArrayList<Integer>();
 		for (int i : defaultDeck) {
 			deck.add(i);

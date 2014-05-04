@@ -10,7 +10,6 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +20,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendNotification
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put.PutSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
-import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -72,6 +70,9 @@ public class PlanningPokerSession extends AbstractModel {
 	/** Whether or not the voting on the requirements has begun */
 	private boolean hasVoted = false;
 
+	/** Whether or not the session is being edited or created */
+	private boolean isEditMode = false;
+	
 	/**
 	 * Constructs a PlanningPokerSession.
 	 */
@@ -627,6 +628,7 @@ public class PlanningPokerSession extends AbstractModel {
 		name = updatedSession.name;
 		description = updatedSession.description;
 		requirements = updatedSession.requirements;
+		deck = updatedSession.deck;
 	}
 
 	/**
@@ -644,4 +646,12 @@ public class PlanningPokerSession extends AbstractModel {
     public boolean hasPassedDeadline(){
         return deadline.after(new Date());
     }
+
+	public boolean isEditMode() {
+		return isEditMode;
+	}
+
+	public void setEditMode(boolean isEditMode) {
+		this.isEditMode = isEditMode;
+	}
 }

@@ -9,19 +9,20 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
+import java.awt.Component;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTreePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.EditSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionRequirementPanel;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 /**
@@ -86,6 +87,7 @@ public class ViewEventManager {
 	 */
 	public void editSession(PlanningPokerSession session) {
 		final EditSessionPanel newSession = new EditSessionPanel(session);
+		editSessionPanels.add(newSession);
 		main.addTab(session.getName(), null, newSession, "Session.");
 		main.invalidate(); // force the tabbedpane to redraw
 		main.repaint();
@@ -197,8 +199,21 @@ public class ViewEventManager {
 	 *            the component to remove
 	 */
 	public void removeTab(JComponent component) {
-		if (component instanceof SessionRequirementPanel) {
+		
+		if (component instanceof EditSessionPanel) {
+
+			// warn user if there's changes that had not been saved
+			final EditSessionPanel panel = (EditSessionPanel) component;
+			if (panel.isAnythingChanged()) {
+				if (JOptionPane
+						.showConfirmDialog(
+								(Component) null,
+								"Discard unsaved changes and close tab?",
+								"Are you sure?", JOptionPane.YES_NO_OPTION) != 0)
+					return;
+			}
 			editSessionPanels.remove(component);
+
 		}
 		if (component instanceof VotePanel) {
 			inProgressSessionPanels.remove(component);
