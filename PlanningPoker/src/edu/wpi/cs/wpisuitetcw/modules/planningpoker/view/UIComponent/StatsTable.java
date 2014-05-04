@@ -45,11 +45,7 @@ public class StatsTable extends JPanel {
 		standardDeviation = new JLabel("0.0");
 		standardDeviationLabel = new JLabel("<html>Standard<br>Deviation</html>");
 		
-		setGUIComponentsBorder();
 		putGUIComponentOnPanel();
-	}
-
-	private void setGUIComponentsBorder() {
 	}
 
 	/*
