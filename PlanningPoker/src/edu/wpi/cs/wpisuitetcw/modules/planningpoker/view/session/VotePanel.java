@@ -85,20 +85,18 @@ public class VotePanel extends JPanel {
 	/** The left container holding all the GUI component below */
 	private JPanel leftPanel;
 	
-	/** A container holding the Name & Desc and the toggle button */
-	private JPanel sessionInfoComponent;
-	
 	/** Name & Description for session */
 	private NameDescriptionPanel nameDescriptionSession;
 	private JXCollapsiblePane nameDescriptionCollapsibleFrame;
 	
 	/** Toggle Button that shows/hides session's name & description */
 	private JButton sessionInfoToggleButton;
-	
+		
 	/** List of requirements */
 	private JLabel requirementFrameTitle;
 	private JScrollPane requirementFrame;
 	private JList<PlanningPokerRequirement> reqList;
+	private JXCollapsiblePane requirementCollapsibleFrame;
 
 	// ################### GUI right components ####################
 	/** The right container holding all the GUI components below */
@@ -403,9 +401,17 @@ public class VotePanel extends JPanel {
 	private void setupLeftPanel() {
 		leftPanel = new JPanel();
 		
-		// Create the combination of session's name & description
-		// and the toggle button
-		setupSessionInfoComponent();
+		// Create name & description for session
+		nameDescriptionSession = new NameDescriptionPanel("Session Name", "Description", false);
+		nameDescriptionSession.setName(session.getName());
+		nameDescriptionSession.setDescription(session.getDescription());
+		
+		// Create the JXCollapsible frame for the name & description above
+		nameDescriptionCollapsibleFrame = new JXCollapsiblePane();
+		nameDescriptionCollapsibleFrame.setLayout(new MigLayout("insets 5, fill"));
+		nameDescriptionCollapsibleFrame.add(nameDescriptionSession, "grow");
+		// Set this frame hidden initially
+		nameDescriptionCollapsibleFrame.setCollapsed(true);
 		
 		// Create List of requirements
 		requirementFrameTitle = new JLabel(LEFT_PANEL_LABEL);
@@ -478,65 +484,70 @@ public class VotePanel extends JPanel {
 		// Put the list of requirement in a scroll pane
 		requirementFrame = new JScrollPane();
 		requirementFrame.setViewportView(reqList);
+		
+		// Put the scroll pane above in the JXCollapsible frame
+		requirementCollapsibleFrame = new JXCollapsiblePane();
+		requirementCollapsibleFrame.setLayout(new MigLayout("insets 0, fill"));
+		requirementCollapsibleFrame.add(requirementFrame, "grow");
 
+
+		// Create the toggle button that shows/hides session's
+		// name & description
+		sessionInfoToggleButton = new JButton();
+		sessionInfoToggleButton.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				sessionInfoToggleButton.setText("Session Requirements");
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				sessionInfoToggleButton.setText("Session details");
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {}
+		});
+		sessionInfoToggleButton.setAction(nameDescriptionCollapsibleFrame.getActionMap().get("toggle"));
+		sessionInfoToggleButton.setText("Session Requirements");
+		
+		
 		addGUIComponentsOnLeftPanel();
 	}
 
 	/*
-	 * Create Name & Description for session and
-	 * a toggle button to show/hide this info.
-	 * Then put them in sessionInfoComponent
-	 */
-	private void setupSessionInfoComponent() {
-		// Create name & description for session
-		nameDescriptionSession = new NameDescriptionPanel();
-		nameDescriptionSession.setName(session.getName());
-		nameDescriptionSession.setDescription(session.getDescription());
-		
-		// Create the JXCollapsible frame for the name & description above
-		nameDescriptionCollapsibleFrame = new JXCollapsiblePane();
-		nameDescriptionCollapsibleFrame.setLayout(new MigLayout("insets 0, fill"));
-		nameDescriptionCollapsibleFrame.add(nameDescriptionSession, "grow");
-		// Set this frame hidden initially
-		nameDescriptionCollapsibleFrame.setCollapsed(true);
-		
-		// Create the toggle button that shows/hides session's
-		// name & description
-		sessionInfoToggleButton = new JButton(nameDescriptionCollapsibleFrame
-												.getActionMap()
-												.get("toggle"));
-		sessionInfoToggleButton.setText("Session detail");
-		
-		// Create the container to hold these above component
-		sessionInfoComponent = new JPanel();
-		
-		arrangeSessionInfoComponents();
-	}
-
-	/*
-	 * Use MigLayout to create session info component
-	 * ------------------------------------------------
-	 * 				NameDescriptionPanel
-	 * 					ToggleButton
-	 */
-	private void arrangeSessionInfoComponents() {
-		sessionInfoComponent.setLayout(new MigLayout("insets 0, fill"));
-		sessionInfoComponent.add(nameDescriptionCollapsibleFrame, "grow, wrap");
-		sessionInfoComponent.add(sessionInfoToggleButton, "growx");
-	}
-
-	/*
-	 * Add the GUI component to the left panel
-	 * ----------------------------------------
-	 * 			  RequirementFrameTitle
-	 * 				RequirementFrame
-	 * 			  SessionInforComponent
+	 * Add the GUI components to the left panel
+	 * -------------------------------------------------
+	 * RequirementFrameTitle     sessionInfoToggleButton
+	 * 			RequirementCollapsibleFrame
+	 * 		  NameDescriptionCollapsibleFrame
 	 */
 	private void addGUIComponentsOnLeftPanel() {
-		leftPanel.setLayout(new MigLayout("insets 0, fill", "", "10[]10[]0"));	
-		leftPanel.add(requirementFrameTitle, "center, wrap");
-		leftPanel.add(requirementFrame, "width 250::, growy, dock center");
-		leftPanel.add(sessionInfoComponent, "grow, dock south");
+		removeAll();
+
+		leftPanel.setMinimumSize(new Dimension(250, 300));
+		leftPanel.setLayout(new BorderLayout());
+		
+		// Add the sessionInfoToggleButton at the top
+		JPanel northWrapper = new JPanel();
+		// Wrapper to fix the button's size
+		northWrapper.setLayout(new MigLayout("insets 0, fill"));
+		northWrapper.add(sessionInfoToggleButton, "width 250px!, height 32px!");
+		// Put wrapper back to the left panel
+		leftPanel.add(northWrapper, BorderLayout.NORTH);
+		
+		// Add the list of requirement
+		leftPanel.add(requirementCollapsibleFrame, BorderLayout.CENTER);
+		
+		// Add the name & description frame
+		leftPanel.add(nameDescriptionCollapsibleFrame, BorderLayout.SOUTH);
 	}
 
 	private void setupRightPanel() {
