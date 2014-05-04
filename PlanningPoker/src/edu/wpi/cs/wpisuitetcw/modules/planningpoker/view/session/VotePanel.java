@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors: Team Combat Wombat
  ******************************************************************************/
 
@@ -17,6 +17,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -37,6 +39,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.keys.PanelKeyShortcut;
@@ -95,7 +102,7 @@ public class VotePanel extends JPanel {
 	private JSplitPane leftPanel;
 	private JPanel topLeftPanel;
 	private JPanel bottomLeftPanel;
-	
+
 	/** List of requirements */
 	private JScrollPane requirementFrame;
 	private JList<PlanningPokerRequirement> reqList;
@@ -103,7 +110,7 @@ public class VotePanel extends JPanel {
 	// ################### GUI right components ####################
 	/** The right container holding all the GUI components */
 	private JPanel rightPanel;
-	
+
 	/** The name and description text box */
 	private NameDescriptionPanel nameDescriptionPanel;
 
@@ -120,7 +127,7 @@ public class VotePanel extends JPanel {
 
 	/** Final estimation panel */
 	private CompletedSessionEstimatePanel finalEstimatePnl;
-	
+
 	/** Vote Panel */
 	private UserVoteListPanel userVotePanel;
 
@@ -139,11 +146,11 @@ public class VotePanel extends JPanel {
 
 	/** A JLabel informing the card selection mode (single/multiple selection) */
 	private JLabel cardSelectionModeLabel;
-	
+
 	/** A button to submit the final estimation */
 	private JButton submitFinalEstimationButton;
 
-	
+
 	// ##################### DATA #########################
 	/** The name of the currently selected requirement */
 	private PlanningPokerRequirement selectedRequirement;
@@ -170,27 +177,27 @@ public class VotePanel extends JPanel {
 
 		// Exhibit the information of the 1st requirement
 		setupInitData();
-		
+
 		registerKeyboardShortcuts();
 	}
-	
+
 	/**
 	 * adds CTRL+W to be a keyboard shortcut to close this tab
 	 */
 	private void registerKeyboardShortcuts() {
-		
+
 		// Create KeyStroke that will be used to invoke the action.
 		final KeyStroke ctrlW = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK);
-		
+
 		InputMap inputMap = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         ActionMap actionMap = getActionMap();
-        
+
         // Now register KeyStroke used to fire the action.  I am registering this with the
      	// InputMap used when the component's parent window has focus.
      	inputMap.put(ctrlW, "close");
-		
+
 		final Action closeTab = new PanelKeyShortcut(VotePanel.this);
-		
+
 		// Register Action in component's ActionMap.
         actionMap.put("close", closeTab);
 
@@ -205,22 +212,22 @@ public class VotePanel extends JPanel {
 			final PlanningPokerRequirement firstReq = session.getRequirements().get(0);
 			String requirementName = firstReq.getName();
 			String requirementDescription = firstReq.getDescription();
-			
+
 			// Auto select the first requirement
 			selectedRequirement = firstReq;
 			selectedReqIndex = 0;
 			reqList.setSelectionInterval(0, 0);
-			
+
 			// Populate name and description of the first requirement
 			nameDescriptionPanel.setName(requirementName);
 			nameDescriptionPanel.setDescription(requirementDescription);
-			
+
 			// Show the vote of the first requirement if it has
 			final PlanningPokerVote vote = firstReq.getVoteByUser(ConfigManager.getConfig().getUserName());
 			if (vote != null) {
 				setVoteTextFieldWithValue(vote.getCardValue());
 			}
-			
+
 			// Populate the vote and stats of the first requirement when the session's closed
 			if (session.isClosed()) {
 				nameDescriptionPanel.setDescription(requirementDescription);
@@ -243,11 +250,11 @@ public class VotePanel extends JPanel {
 
 		// Create the container
 		bottomPanel = new JPanel();
-		
+
 		this.submitFinalEstimationButton = new JButton("Submit");
 		this.submitFinalEstimationButton.addActionListener(new ActionListener(){
 			@Override
-			public void actionPerformed(ActionEvent e) {				
+			public void actionPerformed(ActionEvent e) {
 				final PlanningPokerRequirement focusedReq = reqList.getSelectedValue();
 				final int estimate = finalEstimatePnl.getEstimate();
 				final int correspondingReqID = focusedReq
@@ -263,7 +270,7 @@ public class VotePanel extends JPanel {
 						focusedRequirementManagerRequirement);
 				ViewEventController.getInstance().refreshTable();
 				ViewEventController.getInstance().refreshTree();
-				
+
 //				successMsg.setVisible(true);
 //				pnlFinalEstimate.add(successMsg);
 //				repaint();
@@ -281,12 +288,12 @@ public class VotePanel extends JPanel {
 			private void endSession() {
 				if (!allVoted()) // Unvoted Req's
 					// Warn the user and cancel if they change their mind
-					if (JOptionPane.showConfirmDialog((Component) null, 
+					if (JOptionPane.showConfirmDialog((Component) null,
 							"You have requirements without votes." +
 									"Are you sure you wish to end the session?",
 							"Are you sure?", JOptionPane.YES_NO_OPTION) != 0)
 						return;
-				
+
 				session.close();
 				session.save();
 				final List<PlanningPokerRequirement> reqList = session.getRequirements();
@@ -307,7 +314,7 @@ public class VotePanel extends JPanel {
 				closeTab();
 				openFinalEstimation();
 				SessionTableModel.getInstance().update();
-				
+
 			}
 		});
 
@@ -339,7 +346,7 @@ public class VotePanel extends JPanel {
 
 		// only owner has the ability to close a session
 		if (session.isClosed()) {
-			endSessionButton.setEnabled(false);			
+			endSessionButton.setEnabled(false);
 		}
 		if (currentUserName.equals(session.getOwnerUserName())) {
 			endSessionButton.setVisible(true);
@@ -398,10 +405,10 @@ public class VotePanel extends JPanel {
 	private void addGUIComponentsToBottomPanel() {
 		bottomPanel.setLayout(new MigLayout("inset 5 "
 								 				 + DEFAULT_INSETS + " "
-												 + "5 " 
-												 + DEFAULT_INSETS + ", fill", 
+												 + "5 "
+												 + DEFAULT_INSETS + ", fill",
 											"", "push[]push"));
-		
+
 		if (session.isClosed()) {
 			bottomPanel.add(submitFinalEstimationButton, "align center");
 		} else {
@@ -428,7 +435,7 @@ public class VotePanel extends JPanel {
 		leftPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		topLeftPanel = new JPanel();
 		bottomLeftPanel = new JPanel();
-		
+
 		leftPanelLabel = new JLabel(LEFT_PANEL_LABEL);
 		sessionLabel = new JLabel(SESSION_LABEL);
 		sessionNameLabel = new JLabel(SESSION_NAME_LABEL);
@@ -437,66 +444,59 @@ public class VotePanel extends JPanel {
 		sessionDescValueLabel = new JLabel(session.getDescription());
 
 		final List<PlanningPokerRequirement> reqs = session.getRequirements();
-		
-		final DefaultListModel<PlanningPokerRequirement> requirementModel = 
+
+		final DefaultListModel<PlanningPokerRequirement> requirementModel =
 				new DefaultListModel<PlanningPokerRequirement>();
 		for (PlanningPokerRequirement ppr : reqs) {
 			requirementModel.addElement(ppr);
 		}
-		
+
 		reqList = new JList<PlanningPokerRequirement>(requirementModel);
 		reqList.setBackground(Color.WHITE);
 		reqList.setAlignmentX(LEFT_ALIGNMENT);
 		reqList.setCellRenderer(new VoteRequirementCellRenderer());
-		
-		reqList.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// Check to see if user double clicked
-				if (e.getClickCount() == 1) {
-					selectedRequirement = reqList.getModel().getElementAt(reqList.getSelectedIndex());
-					selectedReqIndex = reqList.getSelectedIndex();
-					
-					if (selectedRequirement.getName() == null) {
-						nameDescriptionPanel.setName(" ");
+		reqList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		reqList.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				selectedRequirement = reqList.getModel().getElementAt(reqList.getSelectedIndex());
+				selectedReqIndex = reqList.getSelectedIndex();
+
+				if (selectedRequirement.getName() == null) {
+					nameDescriptionPanel.setName(" ");
+				} else {
+					nameDescriptionPanel.setName(selectedRequirement.getName());
+				}
+				if (selectedRequirement.getDescription() == null) {
+					nameDescriptionPanel.setDescription(" ");
+				} else {
+					nameDescriptionPanel.setDescription(selectedRequirement.getDescription());
+				}
+
+				if (session.isClosed()) {
+					double mean = selectedRequirement.getMean();
+					finalEstimatePnl.setFocusedRequirement(selectedRequirement);
+					finalEstimatePnl.setMean(mean);
+					finalEstimatePnl.setMedian(selectedRequirement.getMedian());
+					finalEstimatePnl.setMode(selectedRequirement.getMode());
+					finalEstimatePnl.setStandardDeviation(selectedRequirement.calculateStandardDeviation(mean));
+					finalEstimatePnl.updateEstimateTextField(selectedRequirement);
+					updateUI();
+				} else {
+					final PlanningPokerVote vote = selectedRequirement.getVoteByUser(ConfigManager.getConfig().getUserName());
+
+					if (usesDeck())
+						clearDeckPanel();
+
+					if (vote != null) {
+						setVoteTextFieldWithValue(vote.getCardValue());
+						disableSubmitBtn();
 					} else {
-						nameDescriptionPanel.setName(selectedRequirement.getName());
-					}
-					if (selectedRequirement.getDescription() == null) {
-						nameDescriptionPanel.setDescription(" ");
-					} else {
-						nameDescriptionPanel.setDescription(selectedRequirement.getDescription());
+						clearVoteTextField();
+						enableSubmitBtn();
 					}
 
-					if (session.isClosed()) {
-						userVotePanel.setFocusedRequirement(selectedRequirement);
-						userVotePanel.fillTable();
-						double mean = selectedRequirement.getMean();
-						
-						finalEstimatePnl.setFocusedRequirement(selectedRequirement);
-						finalEstimatePnl.setMean(mean);
-						finalEstimatePnl.setMedian(selectedRequirement.getMedian());
-						finalEstimatePnl.setMode(selectedRequirement.getMode());
-
-						// ERROR PRONE
-						finalEstimatePnl.setStatsStandardDeviation(selectedRequirement.calculateStandardDeviation(mean));
-						finalEstimatePnl.updateEstimateTextField(selectedRequirement);
-						updateUI();
-					} else {
-						final PlanningPokerVote vote = selectedRequirement.getVoteByUser(ConfigManager.getConfig().getUserName());
-
-						if (usesDeck())
-							clearDeckPanel();
-						
-						if (vote != null) {
-							setVoteTextFieldWithValue(vote.getCardValue());
-							disableSubmitBtn();
-						} else {
-							clearVoteTextField();
-							enableSubmitBtn();
-						}
-						updateUI();
-					}
+					updateUI();
 				}
 			}
 		});
@@ -521,7 +521,7 @@ public class VotePanel extends JPanel {
 		topLeftPanel.add(sessionDescValueLabel, "center, wrap");
 		bottomLeftPanel.add(leftPanelLabel, "center, wrap");
 		bottomLeftPanel.add(requirementFrame, "width 250::, growy, dock center");
-		
+
 		leftPanel.add(topLeftPanel);
 		leftPanel.add(bottomLeftPanel);
 	}
@@ -535,11 +535,30 @@ public class VotePanel extends JPanel {
 			// Remove the name text box in final estimation
 			nameDescriptionPanel.removeNameTextbox();
 		}
-		
+
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
-		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 12));
+
+		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
 		voteTextField.setHorizontalAlignment(JTextField.CENTER);
+
+		voteTextField.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				enableSubmitBtn();
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				enableSubmitBtn();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				enableSubmitBtn();
+			}
+		});
 
 		// Set up ErrorMsg Label
 		// TODO: create new GUI component to store this and the vote
@@ -558,7 +577,7 @@ public class VotePanel extends JPanel {
 			// TODO change this
 			voteTextField.setEnabled(true);
 		}
-		
+
 		// Create an user-vote subpanel
 		userVotePanel = new UserVoteListPanel();
 
@@ -577,18 +596,18 @@ public class VotePanel extends JPanel {
 	private void addGUIComponentsOnRightPanel() {
 		// Add the padding around the right panel
 		rightPanel.setLayout(new MigLayout("insets " + VERTICAL_PADDING_RIGHT_PANEL   + " "
-													 + HORIZONTAL_PADDING_RIGHT_PANEL + " " 
+													 + HORIZONTAL_PADDING_RIGHT_PANEL + " "
 													 + VERTICAL_PADDING_RIGHT_PANEL   + " "
 													 + HORIZONTAL_PADDING_RIGHT_PANEL + ", fill",
 											"", "[growprio 65, grow][growprio 35, grow]"));
-		
+
 		// Add the Name & Description text boxes
 		rightPanel.add(nameDescriptionPanel, "grow, wrap");
-		
+
 		if (session.isClosed()) {
 			// Add the stats and input for final estimation
 			rightPanel.add(finalEstimatePnl, "grow");
-			
+
 			// Add the user-vote panel
 			rightPanel.add(userVotePanel, "gaptop " + VERTICAL_PADDING_RIGHT_PANEL + ", "
 										+ "gapbottom " + VERTICAL_PADDING_RIGHT_PANEL + ", "
@@ -602,19 +621,19 @@ public class VotePanel extends JPanel {
 				final JLabel messageLabel = new JLabel(NO_DECK_MSG);
 				rightPanel.add(messageLabel, "gapleft 150px, hmin 230px, grow, dock south");
 			}
-			
+
 			// Add the vote text field to the right side
-			rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH  + "px, " 
-										+ "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, " 
-										+ "dock east, " 
-										+ "gaptop "   + VERTICAL_PADDING_RIGHT_PANEL   + "px, " 
+			rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH  + "px, "
+										+ "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, "
+										+ "dock east, "
+										+ "gaptop "   + VERTICAL_PADDING_RIGHT_PANEL   + "px, "
 										+ "gapright " + HORIZONTAL_PADDING_RIGHT_PANEL + "px, "
 										+ "gapbottom" + VERTICAL_PADDING_RIGHT_PANEL   + "px");
 
 			// Add the error message to the right side
 			// Modify this to GUI component. Ben's request
 			rightPanel.add(errorMsg, "dock east");
-		}		
+		}
 	}
 
 	/**
@@ -623,7 +642,7 @@ public class VotePanel extends JPanel {
 	private void openFinalEstimation(){
 		ViewEventManager.getInstance().viewSession(this.session);
 	}
-	
+
 	/**
 	 * Closes this tab
 	 */
@@ -632,7 +651,7 @@ public class VotePanel extends JPanel {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return Session Model for this Panel
 	 */
 	public PlanningPokerSession getSession() {
@@ -640,7 +659,7 @@ public class VotePanel extends JPanel {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return List of Reqs for this session
 	 */
 	public PlanningPokerRequirement[] getReqsList() {
@@ -648,7 +667,7 @@ public class VotePanel extends JPanel {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param reqsList
 	 */
 	public void setReqsList(PlanningPokerRequirement[] reqsList) {
@@ -656,7 +675,7 @@ public class VotePanel extends JPanel {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return Requirement selected in the list
 	 */
 	public PlanningPokerRequirement getSelectedRequirement() {
@@ -664,7 +683,7 @@ public class VotePanel extends JPanel {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return vote parsed as an integer
 	 */
 	public int getVote() {
@@ -674,8 +693,8 @@ public class VotePanel extends JPanel {
 				return Integer.parseInt(voteTextField.getText());
 			} catch (NumberFormatException e) {
 				setErrorMsg("Must enter an integer");
-				
-				return 0;
+
+				return -1;
 			}
 		} else {
 			return cardPanel.getVoteValue();
@@ -695,37 +714,37 @@ public class VotePanel extends JPanel {
 
 	/**
 	 * setter for voteTextField
-	 * 
+	 *
 	 * @param voteTextField
 	 */
 	public void setVoteTextFieldWithValue(int value) {
 		voteTextField.setText(Integer.toString(value));
 	}
-	
+
 	/**
 	 * clears voteTextField
-	 * 
+	 *
 	 * @param voteTextField
 	 */
 	public void clearVoteTextField() {
 		voteTextField.setText("");
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param msg Error Message to be displayed
 	 */
 	private void setErrorMsg(String msg) {
 		errorMsg.setText(msg);
 	}
-	
+
 	/** Return the GUI list of requirements
 	 * @return Return the GUI list of requirements
 	 */
 	public JList<PlanningPokerRequirement> getRequirementList() {
 		return reqList;
 	}
-	
+
 	/**
 	 * Clears the deck highlighting
 	 */
@@ -733,48 +752,75 @@ public class VotePanel extends JPanel {
 		cardPanel.removeHighlight();
 		cardPanel.clearVoteValue();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return true if the session uses a deck
 	 */
 	public boolean usesDeck() {
 		return this.cardFrame != null;
 	}
-	
+
 	/**
 	 * Go to the next "un-voted" requirement in the list
 	 */
 	public void advanceInList() {
 		PlanningPokerRequirement nextReq = null;
 		PlanningPokerVote vote = null;
-		
+
+		System.out.println("SELECTED_REQ_INDEX: " + selectedReqIndex);
+
 		int i;
-		for (i = 0; i < session.getRequirements().size(); i++) {
-			reqList.setSelectionInterval(i, i);
-			
-			nextReq = reqList.getSelectedValue();
+		for (i = selectedReqIndex + 1; i < reqList.getModel().getSize(); i++) {
+			nextReq = reqList.getModel().getElementAt(i);
 			vote = nextReq.getVoteByUser(ConfigManager.getConfig().getUserName());
-			
-			if (vote == null)
-				break;
+
+			if (vote == null) {
+				moveTo(i);
+
+				return;
+			}
 		}
-		
-		if (i == session.getRequirements().size()) { // All Reqs voted on
-			reqList.setSelectionInterval(selectedReqIndex, selectedReqIndex);
+
+		for (i = 0; i <= selectedReqIndex; i++) {
+			nextReq = reqList.getModel().getElementAt(i);
+			vote = nextReq.getVoteByUser(ConfigManager.getConfig().getUserName());
+
+			if (vote == null) {
+				moveTo(i);
+
+				return;
+			}
+		}
+
+		moveTo(selectedReqIndex);
+	}
+
+	/**
+	 * Helper function for advanceInList
+	 * @param index Index in reqList to move to
+	 */
+	private void moveTo(int index) {
+		System.out.println("INDEX: " + index);
+
+		reqList.setSelectionInterval(index, index);
+
+		if (index == selectedReqIndex) { // All Reqs voted on
 			disableSubmitBtn();
 		} else {
-			selectedRequirement = nextReq;
-			nameDescriptionPanel.setName(nextReq.getName());
-			nameDescriptionPanel.setDescription(nextReq.getDescription());
-			
+			selectedReqIndex = index;
+
+			selectedRequirement = reqList.getSelectedValue();
+			nameDescriptionPanel.setName(selectedRequirement.getName());
+			nameDescriptionPanel.setDescription(selectedRequirement.getDescription());
+
 			clearVoteTextField();
-		
+
 			if (usesDeck())
 				clearDeckPanel();
 		}
 	}
-	
+
 	/**
 	 * Disable the submit button
 	 */
@@ -783,7 +829,7 @@ public class VotePanel extends JPanel {
 			submitVoteButton.setEnabled(false);
 		}
 	}
-	
+
 	/**
 	 * Enable the submit button
 	 */
@@ -792,16 +838,16 @@ public class VotePanel extends JPanel {
 			submitVoteButton.setEnabled(true);
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return true if all the reqs have been voted on
 	 */
 	public boolean allVoted() {
 		for (PlanningPokerRequirement ppr : session.getRequirements())
 			if (ppr.getVotes().size() == 0) // Req hasn't been votes on
 				return false;
-		
+
 		return true;
 	}
 

@@ -184,16 +184,6 @@ public class CompletedSessionEstimatePanel extends JPanel {
 //
 //		this.add(pnlFinishedReq);
 	}
-	
-	/**
-	 * sets the text field for standard Deviation in the completed session view
-	 * 
-	 * @param statsStandardDeviation
-	 */
-	public void setStatsStandardDeviation(double statsStandardDeviation) {
-		// TODO fix the method
-		//this.statsStandardDeviation.setText("" + statsStandardDeviation + "  ");
-	}
 
 	/**
 	 * Updates the estimate text field for this newly focused requirement.
@@ -258,7 +248,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * to the mode of the stats table
 	 */
 	public void setMode(int mode) {
-		statsTable.setMean(mode + "");
+		statsTable.setMode(mode + "");
 	}
 	
 	/**
@@ -266,8 +256,8 @@ public class CompletedSessionEstimatePanel extends JPanel {
 	 * @param A value that would be assigned
 	 * to the standard deviation of the stats table
 	 */
-	public void setStandardDeviation(int sd) {
-		statsTable.setMean(sd + "");
+	public void setStandardDeviation(double sd) {
+		statsTable.setStandardDeviation(sd + "");
 	}
 	
 }
