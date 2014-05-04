@@ -857,7 +857,7 @@ public class EditSessionPanel extends JPanel {
 	private void setupBottomPanel() {
 		// Create Save session button
 		btnSaveChanges = new JButton("Save changes");
-		btnSaveChanges.addActionListener(new SaveSessionController(this, false, session));
+		btnSaveChanges.addActionListener(new SaveSessionController(this, session));
 		// save button is initially disable
 		btnSaveChanges.setEnabled(false);
 		
@@ -868,7 +868,7 @@ public class EditSessionPanel extends JPanel {
 		// open button is initially disable
 		btnOpenSession.setEnabled(false);
 		
-		btnOpenSession.addActionListener(new SaveSessionController(this, false, session) {
+		btnOpenSession.addActionListener(new SaveSessionController(this, session) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				super.actionPerformed(e);
