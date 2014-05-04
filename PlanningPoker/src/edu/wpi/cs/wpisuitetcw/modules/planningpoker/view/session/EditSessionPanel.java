@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.SimpleDateFormat;
@@ -25,11 +26,15 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.Action;
+import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -38,6 +43,7 @@ import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SpinnerDateModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -49,14 +55,14 @@ import org.jdesktop.swingx.JXDatePicker;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateSessionPanelController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.keys.PanelKeyShortcut;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.ActivateSessionController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.SaveSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.CancelCreateSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.SaveSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionDeckPanel;
@@ -184,6 +190,8 @@ public class EditSessionPanel extends JPanel {
 		// initialize session
 		this.session = session;
 		
+		registerKeyboardShortcuts();
+		
 		// set up UI
 		setupLeftPanel();
 
@@ -199,6 +207,29 @@ public class EditSessionPanel extends JPanel {
 		
 		// Check if the button is valid
 		checkSessionValidation();
+		
+	}
+	
+	/**
+	 * adds CTRL+W to be a keyboard shortcut to close this tab
+	 */
+	private void registerKeyboardShortcuts() {
+		
+		// Create KeyStroke that will be used to invoke the action.
+		final KeyStroke ctrlW = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK);
+		
+		InputMap inputMap = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        ActionMap actionMap = getActionMap();
+        
+        // Now register KeyStroke used to fire the action.  I am registering this with the
+     	// InputMap used when the component's parent window has focus.
+     	inputMap.put(ctrlW, "close");
+		
+		final Action closeTab = new PanelKeyShortcut(EditSessionPanel.this);
+		
+		// Register Action in component's ActionMap.
+        actionMap.put("close", closeTab);
+
 	}
 
 	/**

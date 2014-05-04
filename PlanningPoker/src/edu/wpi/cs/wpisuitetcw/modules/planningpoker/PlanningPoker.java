@@ -78,6 +78,7 @@ public class PlanningPoker implements IJanewayModule {
 	public List<JanewayTabModel> getTabs() {
 		return tabs;
 	}
+	
 	@SuppressWarnings("serial")
 	private void registerKeyboardShortcuts(JanewayTabModel tab) {
 		// control + tab: switch to right tab

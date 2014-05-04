@@ -15,24 +15,31 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.Action;
+import javax.swing.ActionMap;
 import javax.swing.DefaultListModel;
+import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.keys.PanelKeyShortcut;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.EditActivatedSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
@@ -163,6 +170,30 @@ public class VotePanel extends JPanel {
 
 		// Exhibit the information of the 1st requirement
 		setupInitData();
+		
+		registerKeyboardShortcuts();
+	}
+	
+	/**
+	 * adds CTRL+W to be a keyboard shortcut to close this tab
+	 */
+	private void registerKeyboardShortcuts() {
+		
+		// Create KeyStroke that will be used to invoke the action.
+		final KeyStroke ctrlW = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK);
+		
+		InputMap inputMap = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        ActionMap actionMap = getActionMap();
+        
+        // Now register KeyStroke used to fire the action.  I am registering this with the
+     	// InputMap used when the component's parent window has focus.
+     	inputMap.put(ctrlW, "close");
+		
+		final Action closeTab = new PanelKeyShortcut(VotePanel.this);
+		
+		// Register Action in component's ActionMap.
+        actionMap.put("close", closeTab);
+
 	}
 
 	/**
