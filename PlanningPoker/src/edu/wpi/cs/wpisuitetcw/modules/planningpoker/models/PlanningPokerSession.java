@@ -70,6 +70,9 @@ public class PlanningPokerSession extends AbstractModel {
 	/** Whether or not the voting on the requirements has begun */
 	private boolean hasVoted = false;
 
+	/** Whether or not the session is being edited or created */
+	private boolean isEditMode = false;
+	
 	/**
 	 * Constructs a PlanningPokerSession.
 	 */
@@ -643,4 +646,12 @@ public class PlanningPokerSession extends AbstractModel {
     public boolean hasPassedDeadline(){
         return deadline.after(new Date());
     }
+
+	public boolean isEditMode() {
+		return isEditMode;
+	}
+
+	public void setEditMode(boolean isEditMode) {
+		this.isEditMode = isEditMode;
+	}
 }

@@ -35,6 +35,7 @@ public class EditActivatedSessionController implements ActionListener{
 										  VotePanel panel) {
 		this.panel = panel;
 		this.session = session;
+		session.setEditMode(true);
 	}
 
 	/**
