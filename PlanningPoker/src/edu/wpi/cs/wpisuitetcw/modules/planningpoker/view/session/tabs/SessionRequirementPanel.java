@@ -200,6 +200,7 @@ public class SessionRequirementPanel extends JPanel {
 				final int row = table.getSelectedRow();
 				saveRequirement.setEnabled(false);
 				addRequirementToSession.setEnabled(false);
+				hideErrorMessage();
 
 				if (row == -1) {
 					name.setEnabled(true);
@@ -239,6 +240,7 @@ public class SessionRequirementPanel extends JPanel {
 				final int row = table.getSelectedRow();
 				saveRequirement.setEnabled(false);
 				addRequirementToSession.setEnabled(false);
+				hideErrorMessage();
 				if (row == -1) {
 					name.setEnabled(true);
 					setReqInfo("", "");
@@ -271,6 +273,7 @@ public class SessionRequirementPanel extends JPanel {
 			public void mouseDragged(MouseEvent e) {
 				refreshMoveButtons();
 				allReqTable.clearSelection();
+				hideErrorMessage();
 			}
 		});
 
@@ -282,6 +285,7 @@ public class SessionRequirementPanel extends JPanel {
 			public void mouseDragged(MouseEvent e) {
 				refreshMoveButtons();
 				sessionReqTable.clearSelection();
+				hideErrorMessage();
 			}
 		});
 
