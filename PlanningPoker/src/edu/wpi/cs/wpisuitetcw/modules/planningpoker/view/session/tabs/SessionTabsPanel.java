@@ -45,7 +45,7 @@ public class SessionTabsPanel extends JTabbedPane {
 
 		// set up tabs
 		this.addTab("Deck", null, deckPanel);
-		this.addTab("Requirement", null, requirementPanel);
+		this.addTab("Requirements", null, requirementPanel);
 	}
 
 	/**
