@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -103,6 +104,7 @@ public class LabelsWithTextField extends JPanel {
 		// Set the max number of columns and center aligned
 		this.middleLine = new TransparentTextField();
 		middleLine.setFont(new Font("SansSerif", Font.BOLD, 80));
+		middleLine.setHorizontalAlignment(JTextField.CENTER);
 		isMiddleLineNeeded = true;
 
 		// Create the bottom line
@@ -154,6 +156,14 @@ public class LabelsWithTextField extends JPanel {
 		if (isBottomLineNeeded) result += "[]";
 		
 		return result;
+	}
+	
+	/**
+	 * Remove the top line
+	 */
+	public void removeTop() {
+		isTopLineNeeded = false;
+		putGUIComponentsOnPanel();
 	}
 	
 	/**

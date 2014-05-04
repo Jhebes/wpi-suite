@@ -90,6 +90,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 			throw new RuntimeException("Cannot read the background image new_card.png");
 		}
 		card = new LabelsWithTextField(background);
+		card.removeTop();
 		card.setTextBottom("Final estimation");
 		
 		// Set default small text "Final estimation"
