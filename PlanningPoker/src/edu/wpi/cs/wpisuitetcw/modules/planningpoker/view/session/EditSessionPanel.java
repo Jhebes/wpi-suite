@@ -572,7 +572,7 @@ public class EditSessionPanel extends JPanel {
 		} else {
 			// display the default deck since there is no deck associated with
 			// the session
-			tabsPanel.getDeckPanel().displayDefaultDeck();
+			displayDefaultDeck();
 		}
 
 		// display deadline, if any
@@ -590,6 +590,38 @@ public class EditSessionPanel extends JPanel {
 			pickerDeadlineTime.setEnabled(true);
 		}
 		
+	}
+	
+	/**
+	 * Determine if anything input field for the session has changed
+	 * 
+	 * @return true if so, false otherwise
+	 */
+	private boolean isAnythingEntered() {
+		// session info
+		boolean isNameChanged = !nameTextField.getText().equals(
+				session.getName());
+
+		boolean isDescriptionChanged = !descriptionBox.getText().equals(
+				session.getDescription());
+
+		boolean isDeckChanged = false;
+
+		boolean isDeadlineChanged = false;
+
+		// check if deadline is set for the session
+		if (session.getDeadline() != null) {
+			isDeadlineChanged = !session.getDeadline().equals(getDeadline());
+		}
+
+		// check if a deck is associated with the session
+		if (session.getDeck() != null) {
+			isDeckChanged = !deckType.getSelectedItem().equals(
+					session.getDeck().getDeckName());
+		}
+
+		return isNameChanged || isDescriptionChanged || isDeckChanged
+				|| isDeadlineChanged;
 	}
 
 	/*
@@ -706,10 +738,12 @@ public class EditSessionPanel extends JPanel {
 	 * enable save button if a session is ready
 	 */
 	public void checkSessionValidation() {
-		if (hasAllValidInputs()) {
+		if (hasAllValidInputs() && isAnythingEntered()) {
 			btnSaveChanges.setEnabled(true);
+			btnDiscardChanges.setEnabled(true);
 		} else {
 			btnSaveChanges.setEnabled(false);
+			btnDiscardChanges.setEnabled(false);
 		}
 		tabsPanel.getRequirementPanel().validateOpenSession();
 	}
@@ -832,7 +866,15 @@ public class EditSessionPanel extends JPanel {
 
 		// Create Discard changes session button
 		btnDiscardChanges = new JButton("Discard Changes");
-		btnDiscardChanges.addActionListener(new CancelCreateSessionController(this));
+		btnDiscardChanges.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setupDefaultInitialData();
+				disableChangesBtn();
+			}
+		});
+		// initially disabled the button
+		btnDiscardChanges.setEnabled(false);
 		
 		// Create Cancel session button that cancels the session
 		btnCancelSession = new JButton("Cancel Session");
@@ -978,10 +1020,11 @@ public class EditSessionPanel extends JPanel {
 	}
 	
 	/**
-	 * Disable the save button
+	 * Disable the save and discard changes button
 	 */
-	public void disableSaveChangesBtn() {
+	public void disableChangesBtn() {
 		btnSaveChanges.setEnabled(false);
+		btnDiscardChanges.setEnabled(false);
 	}
 	
 	/** 

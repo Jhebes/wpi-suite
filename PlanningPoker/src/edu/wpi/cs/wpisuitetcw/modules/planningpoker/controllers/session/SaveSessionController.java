@@ -110,7 +110,7 @@ public class SaveSessionController implements ActionListener {
 			// GetAllSessionsController.getInstance().retrieveSessions();
 			// ViewEventManager.getInstance().removeTab(view);
 			// changes are saved and the save changes button should be disabled
-			view.disableSaveChangesBtn();
+			view.disableChangesBtn();
 
 		} else {
 			// user has yet entered all required data
