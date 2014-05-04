@@ -578,11 +578,13 @@ public class ViewSessionReqPanel extends JPanel {
 	 * disables the "Activate" button if there are no requirements.
 	 */
 	public void validateActivateSession() {
-		if (session.getRequirements().size() == 0) {
-			parentPanel.getButtonPanel().getActivateBtn().setEnabled(false);
-		} else {
-			parentPanel.getButtonPanel().getActivateBtn().setEnabled(true);
-		}
+		// TODO implement this method if necessary 
+		
+		// if (session.getRequirements().size() == 0) {
+		// parentPanel.getButtonPanel().getActivateBtn().setEnabled(false);
+		// } else {
+		// parentPanel.getButtonPanel().getActivateBtn().setEnabled(true);
+		// }
 	}
 	
 	/**

@@ -25,7 +25,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  */
 public class ActivateSessionController implements ActionListener {
 
-	private SessionRequirementPanel panel;
+	// private SessionRequirementPanel panel;
 	private PlanningPokerSession session;
 
 	/**
@@ -37,9 +37,8 @@ public class ActivateSessionController implements ActionListener {
 	 * @param session
 	 *            A PlanningPokerSession that would be activated
 	 */
-	public ActivateSessionController(SessionRequirementPanel panel,
-			PlanningPokerSession session) {
-		this.panel = panel;
+	public ActivateSessionController(PlanningPokerSession session) {
+		// this.panel = panel;
 		this.session = session;
 	}
 
@@ -51,7 +50,7 @@ public class ActivateSessionController implements ActionListener {
 		if (session.getRequirements().size() > 0) {
 			session.activate();
 			session.save();
-			ViewEventManager.getInstance().removeTab(panel);
+			// ViewEventManager.getInstance().removeTab(panel);
 			ViewEventManager.getInstance().viewSession(session);
 		}
 	}
@@ -60,7 +59,7 @@ public class ActivateSessionController implements ActionListener {
 	 * Send email and SMS to users
 	 */
 	public void onSuccess() {
-		ViewEventManager.getInstance().removeTab(panel);
+		// ViewEventManager.getInstance().removeTab(panel);
 		ViewEventManager.getInstance().viewSession(session);
 
 		String command = "sendEmail";

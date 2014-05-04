@@ -28,7 +28,7 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
  * all entered information to construct a new session and storing in the
  * database
  */
-public class AddSessionController implements ActionListener {
+public class SaveSessionController implements ActionListener {
 	private final EditSessionPanel view;
 	private PlanningPokerSession session;
 
@@ -44,31 +44,10 @@ public class AddSessionController implements ActionListener {
 	 * @param isEditMode
 	 *            the value representing if the panel contains an already
 	 *            created session or not
-	 */
-	public AddSessionController(EditSessionPanel view, boolean isEditMode) {
-		/*
-		 * TODO: This should also have a manager for the CreateSessionPanel, so
-		 * that errors can be fed back to the panel rather than thrown as
-		 * exceptions
-		 */
-
-		this.view = view;
-		this.isEditMode = isEditMode;
-	}
-
-	/**
-	 * Construct an AddSessionController for the given view
-	 * 
-	 * @param view
-	 *            the view where the user enters data for the new session
-	 * 
-	 * @param isEditMode
-	 *            the value representing if the panel contains an already
-	 *            created session or not
 	 * @param session
 	 *            the planning poker session being edited
 	 */
-	public AddSessionController(EditSessionPanel view, boolean isEditMode,
+	public SaveSessionController(EditSessionPanel view, boolean isEditMode,
 			PlanningPokerSession session) {
 
 		this.view = view;
@@ -103,14 +82,10 @@ public class AddSessionController implements ActionListener {
 				createDeckController.addDeckToDatabase();
 			}
 
-			// Create a new session and populate its data
-			final PlanningPokerSession session = new PlanningPokerSession();
 			session.setOwnerUserName(ConfigManager.getConfig().getUserName());
 			session.setName(name);
-			session.setID(0);
 			session.setDeadline(d);
 			session.setDescription(des);
-
 
 			// Associate a deck to the new session if the user does not choose
 			// 'No deck'
@@ -131,10 +106,11 @@ public class AddSessionController implements ActionListener {
 				}
 			}
 
-			session.create();
-
-			GetAllSessionsController.getInstance().retrieveSessions();
-			ViewEventManager.getInstance().removeTab(view);
+			session.save();
+			// GetAllSessionsController.getInstance().retrieveSessions();
+			// ViewEventManager.getInstance().removeTab(view);
+			// changes are saved and the save changes button should be disabled
+			view.disableSaveChangesBtn();
 
 		} else {
 			// user has yet entered all required data

@@ -9,7 +9,9 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -20,6 +22,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTreeP
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.EditSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionRequirementPanel;
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 /**
  * Main class for controlling events that happen in our view.
@@ -31,7 +34,7 @@ public class ViewEventManager {
 	private OverviewTreePanel overviewTreePanel;
 	private ToolbarView toolbarView;
 	private boolean isWelcomePageOnDisplay = true;
-	private List<SessionRequirementPanel> viewSessionPanels = new ArrayList<SessionRequirementPanel>();
+	private List<EditSessionPanel> editSessionPanels = new ArrayList<EditSessionPanel>();
 	private List<VotePanel> inProgressSessionPanels = new ArrayList<VotePanel>();
 
 	/**
@@ -56,12 +59,17 @@ public class ViewEventManager {
 	/**
 	 * Opens a new tab for the creation of a session
 	 */
+	
+	//call createBlankSessionController here
 	public void createSession() {
-		final EditSessionPanel newSession = new EditSessionPanel();
-		main.addTab("New Session", null, newSession, "New session.");
-		main.invalidate(); // force the tabbedpane to redraw
-		main.repaint();
-		main.setSelectedComponent(newSession);
+
+		// create a blank session and save it to database
+		PlanningPokerSession blankSession = new PlanningPokerSession();
+		final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+		final String defaultNameDate = sdf.format(new Date());
+		final String projectName = ConfigManager.getConfig().getProjectName();
+		blankSession.setName(projectName + " - " + defaultNameDate);
+		blankSession.create();
 	}
 
 	/**
@@ -77,8 +85,7 @@ public class ViewEventManager {
 	 */
 	public void editSession(PlanningPokerSession session) {
 		final EditSessionPanel newSession = new EditSessionPanel(session);
-		main.addTab("Edit: " + session.getName(), null, newSession,
-				"Edit session.");
+		main.addTab(session.getName(), null, newSession, "Session.");
 		main.invalidate(); // force the tabbedpane to redraw
 		main.repaint();
 		main.setSelectedComponent(newSession);
@@ -114,10 +121,10 @@ public class ViewEventManager {
 			}
 
 		} else {
-			SessionRequirementPanel exist = null;
+			EditSessionPanel exist = null;
 
-			for (SessionRequirementPanel panel : viewSessionPanels) {
-				if (panel.getPPSession() == session) {
+			for (EditSessionPanel panel : editSessionPanels) {
+				if (panel.getSession() == session) {
 					exist = panel;
 					break;
 				}
@@ -125,12 +132,12 @@ public class ViewEventManager {
 
 			if (exist == null) {
 				// check if the panel of the session is opened
-				final SessionRequirementPanel viewSession = new SessionRequirementPanel(session);
-				viewSessionPanels.add(viewSession);
-				main.addTab(session.getName(), null, viewSession,
-						"View Session.");
+				final EditSessionPanel editSessionPanel = new EditSessionPanel(session);
+				editSessionPanels.add(editSessionPanel);
+				main.addTab(session.getName(), null, editSessionPanel,
+						"Edit Session.");
 				main.repaint();
-				main.setSelectedComponent(viewSession);
+				main.setSelectedComponent(editSessionPanel);
 			} else {
 				main.setSelectedComponent(exist);
 			}
@@ -186,7 +193,7 @@ public class ViewEventManager {
 	 */
 	public void removeTab(JComponent component) {
 		if (component instanceof SessionRequirementPanel) {
-			viewSessionPanels.remove(component);
+			editSessionPanels.remove(component);
 		}
 		if (component instanceof VotePanel) {
 			inProgressSessionPanels.remove(component);

@@ -93,9 +93,6 @@ public class SessionStash {
 		for (PlanningPokerSession s : incomingSessions) {
 			if (this.getSessionByID(s.getID()) == null) {
 				sessions.add(s);
-				if(initialized && s.getID() != 1){
-					ViewEventManager.getInstance().viewSession(s);
-				}
 			}
 		}
 		

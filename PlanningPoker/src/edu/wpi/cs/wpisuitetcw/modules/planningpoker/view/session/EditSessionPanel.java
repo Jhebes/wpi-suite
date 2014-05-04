@@ -49,17 +49,19 @@ import org.jdesktop.swingx.JXDatePicker;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateSessionPanelController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.AddSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.ActivateSessionController;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.SaveSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.CancelCreateSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionTabsPanel;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
-import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 /**
  * A Panel that displays a session's basic information: name, type, description,
@@ -81,7 +83,7 @@ public class EditSessionPanel extends JPanel {
 	private static final int GAP_LENGTH_DEADLINE_TO_BOTTOM = 0;
 	private static final String REQUIRED_LABEL = "<html><font color='red'>Required field *</font></html>";
 	private static final String DEADLINE_ERR_LABEL = "<html><font color='red'>Deadline cannot be in the past</font></html>";
-	private static final String CREATE_DECK = "Create new deck";
+	private static final String CREATE_DECK = "Create deck";
 	private static final String DEFAULT_DECK = "Default";
 	private static final String NO_DECK = "No deck";
 	public static final String DISPLAY_MSG = "New Deck";
@@ -96,10 +98,16 @@ public class EditSessionPanel extends JPanel {
 	private JPanel bottomPanel;
 
 	/** Button to save the session */
-	private JButton btnSaveSession;
+	private JButton btnSaveChanges;
 
 	/** Button to cancel making a session */
-	private JButton btnCancel;
+	private JButton btnDiscardChanges;
+	
+	/** Button to cancel a session */
+	private JButton btnCancelSession;
+	
+	/** Button to open a session */
+	private JButton btnOpenSession;
 
 	/** Require field label */
 	private JLabel labelRequireField;
@@ -156,6 +164,9 @@ public class EditSessionPanel extends JPanel {
 	/** mode for the create new deck panel */
 	private CardDisplayMode mode = CardDisplayMode.DISPLAY;
 
+	/** session being edited */
+	private PlanningPokerSession session;
+	
 	/**
 	 * Constructor to create a Create Session Panel This constructor is used to
 	 * edit an existing session.
@@ -163,38 +174,31 @@ public class EditSessionPanel extends JPanel {
 	 * @param session
 	 *            A Planning poker session
 	 */
-	public EditSessionPanel(PlanningPokerSession session) {
-		// Construct a Session Panel without a planning poker session
-		this();
-
-		// Display the name and description of a created session
-		nameTextField.setText(session.getName());
-		nameTextField.setEnabled(false);
-		descriptionBox.setText(session.getDescription());
-		descriptionBox.setEnabled(false);
-
-		// Check if the button is valid
-		checkSessionValidation();
-	}
 
 	/**
 	 * Constructor to create a Create Session Panel without a session. This
 	 * constructor is used to create a session. It sets up all graphical
 	 * components
 	 */
-	public EditSessionPanel() {
+	public EditSessionPanel(PlanningPokerSession session) {
+		// initialize session
+		this.session = session;
+		
+		// set up UI
 		setupLeftPanel();
 
 		// Use display mode since the default deck is displayed by default
 		// deckPanel = new SessionDeckPanel(CardDisplayMode.DISPLAY);
-		tabsPanel = new SessionTabsPanel();
-
+		tabsPanel = new SessionTabsPanel(session);
+		
 		deckPanel = tabsPanel.getDeckPanel();
 		deckPanel.displayDefaultDeck();
 
 		setupBottomPanel();
-
 		setupEntirePanel();
+		
+		// Check if the button is valid
+		checkSessionValidation();
 	}
 
 	/**
@@ -401,7 +405,7 @@ public class EditSessionPanel extends JPanel {
 	 * @return save button
 	 */
 	public JButton getBtnSaveSession() {
-		return btnSaveSession;
+		return btnSaveChanges;
 	}
 
 	/**
@@ -552,10 +556,12 @@ public class EditSessionPanel extends JPanel {
 	 * Set up the initial text in the session's name text field
 	 */
 	private void setupDefaultInitialData() {
-		final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-		final String defaultNameDate = sdf.format(new Date());
-		final String projectName = ConfigManager.getConfig().getProjectName();
-		nameTextField.setText(projectName + " - " + defaultNameDate);
+		nameTextField.setText(session.getName());
+		
+		if(session.getDescription() != null){
+			descriptionBox.setText(session.getDescription());
+		}
+		
 	}
 
 	/*
@@ -673,9 +679,9 @@ public class EditSessionPanel extends JPanel {
 	 */
 	public void checkSessionValidation() {
 		if (hasAllValidInputs()) {
-			btnSaveSession.setEnabled(true);
+			btnSaveChanges.setEnabled(true);
 		} else {
-			btnSaveSession.setEnabled(false);
+			btnSaveChanges.setEnabled(false);
 		}
 	}
 
@@ -772,22 +778,46 @@ public class EditSessionPanel extends JPanel {
 	 */
 	private void setupBottomPanel() {
 		// Create Save session button
-		btnSaveSession = new JButton("Save");
-		btnSaveSession.addActionListener(new AddSessionController(this, false));
+		btnSaveChanges = new JButton("Save changes");
+		btnSaveChanges.addActionListener(new SaveSessionController(this, false, session));
 		// save button is initially disable
-		btnSaveSession.setEnabled(false);
+		btnSaveChanges.setEnabled(false);
+		
+		// Create Open session button
+		btnOpenSession = new JButton("Open Session");
+		btnOpenSession.addActionListener(new ActivateSessionController(
+				tabsPanel.getRequirementPanel().getPPSession()));
+		// open button is initially disable
+		btnOpenSession.setEnabled(false);
 
-		// Create Cancel create session button
-		btnCancel = new JButton("Cancel");
-		btnCancel.addActionListener(new CancelCreateSessionController(this));
+		// Create Discard changes session button
+		btnDiscardChanges = new JButton("Discard Changes");
+		btnDiscardChanges.addActionListener(new CancelCreateSessionController(this));
+		
+		// Create Cancel session button that cancels the session
+		btnCancelSession = new JButton("Cancel Session");
+		btnCancelSession.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				session.cancel();
+				session.save();
+				SessionTableModel.getInstance().update();
+				closeTab();
+			}
+		});
 
 		bottomPanel = new JPanel();
 		bottomPanel.setLayout(new MigLayout("inset 5 " + DEFAULT_INSETS + " 5 "
 				+ DEFAULT_INSETS, "", "push[]push"));
-		bottomPanel.add(btnSaveSession, "left, width 120px, height "
+		bottomPanel.add(btnSaveChanges, "left, width 120px, height "
 				+ DEFAULT_HEIGHT + "px!");
-		bottomPanel.add(btnCancel, "width 120px, height " + DEFAULT_HEIGHT
+		bottomPanel.add(btnDiscardChanges, "width 120px, height " + DEFAULT_HEIGHT
 				+ "px!");
+		bottomPanel.add(btnOpenSession, "width 120px, height " + DEFAULT_HEIGHT
+				+ "px!");
+		bottomPanel.add(btnCancelSession, "width 120px, height " + DEFAULT_HEIGHT
+				+ "px!");
+		
 		bottomPanel.add(labelRequireField, "gapleft 10px, height "
 				+ DEFAULT_HEIGHT + "px!");
 	}
@@ -906,4 +936,26 @@ public class EditSessionPanel extends JPanel {
 			return false;
 		}
 	}
+	
+	/**
+	 * Disable the save button
+	 */
+	public void disableSaveChangesBtn() {
+		btnSaveChanges.setEnabled(false);
+	}
+	
+	/** 
+	 * @return the session being edited 	
+	 */
+	public PlanningPokerSession getSession() {
+		return session;
+	}
+	
+	/**
+	 * Closes this tab
+	 */
+	private void closeTab() {
+		ViewEventManager.getInstance().removeTab(this);
+	}
+	
 }
