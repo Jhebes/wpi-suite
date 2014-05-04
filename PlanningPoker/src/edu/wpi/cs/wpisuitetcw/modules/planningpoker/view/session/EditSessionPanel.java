@@ -70,7 +70,6 @@ import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
  * This panel is used to create or edit a session's basic information
  */
 public class EditSessionPanel extends JPanel {
-	private static final Date CURRENT_TIME = Calendar.getInstance().getTime();
 
 	private static final long serialVersionUID = 8733539608651885877L;
 
@@ -674,7 +673,7 @@ public class EditSessionPanel extends JPanel {
 	 */
 	private void createDatePicker() {
 		deadlinePicker = new JXDatePicker();
-		deadlinePicker.setDate(CURRENT_TIME);
+		deadlinePicker.setDate(Calendar.getInstance().getTime());
 		deadlinePicker.setFormats(new SimpleDateFormat("MM/dd/yyyy"));
 		deadlinePicker.setEnabled(false);
 
@@ -1026,7 +1025,7 @@ public class EditSessionPanel extends JPanel {
 			return true;
 		}
 
-		if (enteredDate.after(CURRENT_TIME)) {
+		if (enteredDate.after(Calendar.getInstance().getTime())) {
 			// valid
 			labelDeadlineErr.setVisible(false);
 			return true;
