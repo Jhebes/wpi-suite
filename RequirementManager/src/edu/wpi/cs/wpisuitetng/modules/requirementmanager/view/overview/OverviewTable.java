@@ -32,6 +32,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.iterationcontroller.Get
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ToolbarView;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.OverviewTableTransferHandler;
 /**
@@ -86,7 +87,7 @@ public class OverviewTable extends JTable
 		}
 		
 		initialized = false;
-
+		
 		/* Create double-click event listener */
 		this.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e){
@@ -103,7 +104,15 @@ public class OverviewTable extends JTable
 						repaint();
 					}
 				}
-				
+				final JTable table = (JTable) e.getSource();
+				final int row = table.getSelectedRow();
+				ToolbarView toolbar = ViewEventController.getInstance().getToolbar();
+				if (row > -1) {
+					toolbar.getImportButton().getExportButton().setEnabled(true);	
+				}
+				else{
+					toolbar.getImportButton().getExportButton().setEnabled(false);
+				}
 				// only allow edit requirement panel to pop up outside of Multiple Requirement Editing Mode
 				if ((e.getClickCount() == 2) && !isInEditMode)
 				{
@@ -298,11 +307,11 @@ public class OverviewTable extends JTable
 		this.refresh();
 	}
 
-	/**	
-	
-	 * @return true if there are unsaved, saveable changes in the Overview Table   */
+	/**
+	 * @return true if there are unsaved, saveable changes in the Overview Table
+	 * */
 	public boolean hasChanges() {
-				
+
 		// iterate through the rows of the overview table
 		for (int row = 0; row < this.tableModel.getRowCount(); row++) {
 
