@@ -183,21 +183,21 @@ public class EditSessionPanel extends JPanel {
 	public EditSessionPanel(PlanningPokerSession session) {
 		// initialize session
 		this.session = session;
-		
+
 		// set up UI
 		setupLeftPanel();
 
 		// Use display mode since the default deck is displayed by default
 		// deckPanel = new SessionDeckPanel(CardDisplayMode.DISPLAY);
 		tabsPanel = new SessionTabsPanel(this, session);
-		
+
 		deckPanel = tabsPanel.getDeckPanel();
-		deckPanel.displayDefaultDeck();
 
 		setupBottomPanel();
 		setupEntirePanel();
-		
+
 		// Check if the button is valid
+		setupDefaultInitialData();
 		checkSessionValidation();
 	}
 
@@ -499,10 +499,6 @@ public class EditSessionPanel extends JPanel {
 		createDeckSelectionDropdown();
 		createDescriptionTextbox();
 		createDeadlineButtonGroup();
-
-		// Set the default text to the date of creation and the project name
-		setupDefaultInitialData();
-
 		addUIComponentsToLeftPanel();
 	}
 
@@ -556,10 +552,42 @@ public class EditSessionPanel extends JPanel {
 	 * Set up the initial text in the session's name text field
 	 */
 	private void setupDefaultInitialData() {
+		// display the name of the session
 		nameTextField.setText(session.getName());
-		
-		if(session.getDescription() != null){
+
+		// TODO: This is not working. Figure out why later
+		// display description, if any
+		if (session.getDescription() != null) {
 			descriptionBox.setText(session.getDescription());
+		}
+
+		// display the deck, if any
+		if (session.getDeck() != null) {
+			final String deckName = session.getDeck().getDeckName();
+			try {
+				displayDeck(deckName);
+			} catch (WPISuiteException e) {
+				// TODO add logger
+			}
+		} else {
+			// display the default deck since there is no deck associated with
+			// the session
+			tabsPanel.getDeckPanel().displayDefaultDeck();
+		}
+
+		// display deadline, if any
+		if (session.getDeadline() != null) {
+			cbDeadline.setSelected(true);
+			Date deadline = session.getDeadline();
+
+			// set date
+			deadlinePicker.setDate(deadline);
+			deadlinePicker.setFormats(new SimpleDateFormat("MM/dd/yyyy"));
+			deadlinePicker.setEnabled(true);
+
+			// set time
+			pickerDeadlineTime.setValue(deadline);
+			pickerDeadlineTime.setEnabled(true);
 		}
 		
 	}
