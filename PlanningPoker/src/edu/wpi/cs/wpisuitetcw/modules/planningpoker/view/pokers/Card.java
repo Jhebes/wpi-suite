@@ -358,6 +358,7 @@ public class Card extends JPanel {
 				}
 				// validate all inputs in the create session panel
 				createDeckPanel.getSessionPanel().checkSessionValidation();
+				createDeckPanel.getSessionPanel().checkSessionChanges();
 			}
 		});
 	}

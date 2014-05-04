@@ -41,6 +41,7 @@ public class AddNewCardController implements ActionListener {
 		view.updateUI();
 		// check if all required inputs are entered
 		view.getSessionPanel().checkSessionValidation();
+		view.getSessionPanel().checkSessionChanges();
 	}
 
 }

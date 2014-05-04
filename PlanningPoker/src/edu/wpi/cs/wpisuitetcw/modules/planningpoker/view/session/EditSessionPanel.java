@@ -25,6 +25,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.Action;
 import javax.swing.ActionMap;
@@ -76,7 +78,6 @@ import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
  * This panel is used to create or edit a session's basic information
  */
 public class EditSessionPanel extends JPanel {
-	private static final Date CURRENT_TIME = Calendar.getInstance().getTime();
 
 	private static final long serialVersionUID = 8733539608651885877L;
 
@@ -123,7 +124,7 @@ public class EditSessionPanel extends JPanel {
 	private SessionDeckPanel deckPanel;
 
 	/** The tabs panel which contains deck and Requirement panel */
-	private SessionTabsPanel tabsPanel;
+	private final SessionTabsPanel tabsPanel;
 
 	// ################ UI Left Component #################
 	/** The left panel holds components to see the deck */
@@ -171,20 +172,14 @@ public class EditSessionPanel extends JPanel {
 	private CardDisplayMode mode = CardDisplayMode.DISPLAY;
 
 	/** session being edited */
-	private PlanningPokerSession session;
+	private final PlanningPokerSession session;
 	
 	/**
-	 * Constructor to create a Create Session Panel This constructor is used to
+	 * Constructor to create a Edit Session Panel This constructor is used to
 	 * edit an existing session.
 	 * 
 	 * @param session
 	 *            A Planning poker session
-	 */
-
-	/**
-	 * Constructor to create a Create Session Panel without a session. This
-	 * constructor is used to create a session. It sets up all graphical
-	 * components
 	 */
 	public EditSessionPanel(PlanningPokerSession session) {
 		// initialize session
@@ -196,18 +191,22 @@ public class EditSessionPanel extends JPanel {
 		setupLeftPanel();
 
 		// Use display mode since the default deck is displayed by default
-		// deckPanel = new SessionDeckPanel(CardDisplayMode.DISPLAY);
 		tabsPanel = new SessionTabsPanel(this, session);
-		
+
 		deckPanel = tabsPanel.getDeckPanel();
-		deckPanel.displayDefaultDeck();
 
 		setupBottomPanel();
 		setupEntirePanel();
-		
+
 		// Check if the button is valid
+		setupDefaultInitialData();
 		checkSessionValidation();
 		
+		// Disable the save changes button on start up
+		btnSaveChanges.setEnabled(false);
+		if(session.isEditMode()){
+			nameTextField.setEnabled(false);
+		}
 	}
 	
 	/**
@@ -383,10 +382,7 @@ public class EditSessionPanel extends JPanel {
 
 		for (Card aCard : cards.values()) {
 			if (!aCard.hasValidCardValue()) {
-				// aCard.setCardInvalid();
 				isAllInputValid = false;
-			} else {
-				// aCard.setCardValid();
 			}
 		}
 		return isAllInputValid;
@@ -507,7 +503,9 @@ public class EditSessionPanel extends JPanel {
 	public void enableDeadlineField() {
 		deadlinePicker.setEnabled(true);
 		pickerDeadlineTime.setEnabled(true);
+		// check for data validation and changes 
 		checkSessionValidation();
+		checkSessionChanges();
 	}
 
 	/**
@@ -517,6 +515,9 @@ public class EditSessionPanel extends JPanel {
 		deadlinePicker.setEnabled(false);
 		pickerDeadlineTime.setEnabled(false);
 		labelDeadlineErr.setVisible(false);
+		// check for data validation and changes
+		checkSessionValidation();
+		checkSessionChanges();
 	}
 
 	/*
@@ -530,10 +531,6 @@ public class EditSessionPanel extends JPanel {
 		createDeckSelectionDropdown();
 		createDescriptionTextbox();
 		createDeadlineButtonGroup();
-
-		// Set the default text to the date of creation and the project name
-		setupDefaultInitialData();
-
 		addUIComponentsToLeftPanel();
 	}
 
@@ -587,12 +584,84 @@ public class EditSessionPanel extends JPanel {
 	 * Set up the initial text in the session's name text field
 	 */
 	private void setupDefaultInitialData() {
+		// display the name of the session
 		nameTextField.setText(session.getName());
-		
-		if(session.getDescription() != null){
+
+		// display description, if any
+		if (session.getDescription() != null) {
 			descriptionBox.setText(session.getDescription());
 		}
+
+		// display the deck, if any
+		if (session.getDeck() != null) {
+			final String deckName = session.getDeck().getDeckName();
+
+			// check what deck the session contains
+			if (deckName.equals(DEFAULT_DECK)) {
+				displayDefaultDeck();
+			} else {
+				// display the created deck
+				try {
+					displayDeck(deckName);
+					deckType.setSelectedItem(deckName);
+				} catch (WPISuiteException e) {
+					Logger.getLogger("EditSessionPanel").log(Level.INFO,
+							"Could not load the deck with the given name", e);
+				}
+			}
+		} else {
+			// display the default deck since there is no deck associated with
+			// the session
+			displayDefaultDeck();
+		}
+
+		// display deadline, if any
+		if (session.getDeadline() != null) {
+			cbDeadline.setSelected(true);
+			final Date deadline = session.getDeadline();
+
+			// set date
+			deadlinePicker.setDate(deadline);
+			deadlinePicker.setFormats(new SimpleDateFormat("MM/dd/yyyy"));
+			deadlinePicker.setEnabled(true);
+
+			// set time
+			pickerDeadlineTime.setValue(deadline);
+			pickerDeadlineTime.setEnabled(true);
+		}
 		
+	}
+	
+	/**
+	 * Determine if anything input field for the session has changed
+	 * 
+	 * @return true if so, false otherwise
+	 */
+	public boolean isAnythingChanged() {
+		// session info
+		final boolean isNameChanged = !nameTextField.getText().equals(
+				session.getName());
+
+		final boolean isDescriptionChanged = !descriptionBox.getText().equals(
+				session.getDescription());
+
+		boolean isDeckChanged = false;
+
+		boolean isDeadlineChanged = false;
+
+		// check if deadline is set for the session
+		if (session.getDeadline() != null) {
+			isDeadlineChanged = !session.getDeadline().equals(getDeadline());
+		}
+
+		// check if a deck is associated with the session
+		if (session.getDeck() != null) {
+			isDeckChanged = !deckType.getSelectedItem().equals(
+					session.getDeck().getDeckName());
+		}
+
+		return isNameChanged || isDescriptionChanged || isDeckChanged
+				|| isDeadlineChanged;
 	}
 
 	/*
@@ -615,7 +684,7 @@ public class EditSessionPanel extends JPanel {
 
 		// add an hour to the deadline
 		Date startDate = new Date();
-		Calendar cal = Calendar.getInstance();
+		final Calendar cal = Calendar.getInstance();
 		cal.setTime(startDate);
 		cal.add(Calendar.HOUR_OF_DAY, 1);
 		startDate = cal.getTime();
@@ -630,6 +699,7 @@ public class EditSessionPanel extends JPanel {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				checkSessionValidation();
+				checkSessionChanges();
 			}
 		});
 	}
@@ -639,7 +709,7 @@ public class EditSessionPanel extends JPanel {
 	 */
 	private void createDatePicker() {
 		deadlinePicker = new JXDatePicker();
-		deadlinePicker.setDate(CURRENT_TIME);
+		deadlinePicker.setDate(Calendar.getInstance().getTime());
 		deadlinePicker.setFormats(new SimpleDateFormat("MM/dd/yyyy"));
 		deadlinePicker.setEnabled(false);
 
@@ -649,6 +719,7 @@ public class EditSessionPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				checkSessionValidation();
+				checkSessionChanges();
 			}
 		});
 
@@ -697,6 +768,7 @@ public class EditSessionPanel extends JPanel {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				checkSessionValidation();
+				checkSessionChanges();
 			}
 
 			@Override
@@ -715,6 +787,17 @@ public class EditSessionPanel extends JPanel {
 			btnSaveChanges.setEnabled(false);
 		}
 		tabsPanel.getRequirementPanel().validateOpenSession();
+	}
+	
+	/**
+	 *  enable discard button if anything is changed
+	 */
+	public void checkSessionChanges() {
+		if (isAnythingChanged()) {
+			btnDiscardChanges.setEnabled(true);
+		} else {
+			btnDiscardChanges.setEnabled(false);
+		}
 	}
 
 	/*
@@ -756,14 +839,15 @@ public class EditSessionPanel extends JPanel {
 					// display a selected deck of cards
 					try {
 						displayDeck(deckName);
+						setupEntirePanel();
+						updateUI();
 					} catch (WPISuiteException e1) {
 						e1.printStackTrace();
 					}
 				}
-
-				// dynamic validation when selection is changed
-				// TODO this is somehow not working properly
+				// validation and changes detection
 				checkSessionValidation();
+				checkSessionChanges();
 			}
 		});
 	}
@@ -811,7 +895,7 @@ public class EditSessionPanel extends JPanel {
 	private void setupBottomPanel() {
 		// Create Save session button
 		btnSaveChanges = new JButton("Save changes");
-		btnSaveChanges.addActionListener(new SaveSessionController(this, false, session));
+		btnSaveChanges.addActionListener(new SaveSessionController(this, session));
 		// save button is initially disable
 		btnSaveChanges.setEnabled(false);
 		
@@ -822,7 +906,7 @@ public class EditSessionPanel extends JPanel {
 		// open button is initially disable
 		btnOpenSession.setEnabled(false);
 		
-		btnOpenSession.addActionListener(new SaveSessionController(this, false, session) {
+		btnOpenSession.addActionListener(new SaveSessionController(this, session) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				super.actionPerformed(e);
@@ -835,7 +919,15 @@ public class EditSessionPanel extends JPanel {
 
 		// Create Discard changes session button
 		btnDiscardChanges = new JButton("Discard Changes");
-		btnDiscardChanges.addActionListener(new CancelCreateSessionController(this));
+		btnDiscardChanges.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setupDefaultInitialData();
+				disableChangesBtn();
+			}
+		});
+		// initially disabled the button
+		btnDiscardChanges.setEnabled(false);
 		
 		// Create Cancel session button that cancels the session
 		btnCancelSession = new JButton("Cancel Session");
@@ -889,9 +981,6 @@ public class EditSessionPanel extends JPanel {
 		tabsPanel.setDeckPanel(deckPanel);
 
 		deckPanel.displayDeck(deckName);
-
-		setupEntirePanel();
-		updateUI();
 	}
 
 	/**
@@ -903,6 +992,9 @@ public class EditSessionPanel extends JPanel {
 		tabsPanel.setDeckPanel(deckPanel);
 
 		deckPanel.displayDefaultDeck();
+
+		// set the dropdown back to default deck
+		deckType.setSelectedItem(DEFAULT_DECK);
 
 		setupEntirePanel();
 		updateUI();
@@ -969,7 +1061,7 @@ public class EditSessionPanel extends JPanel {
 			return true;
 		}
 
-		if (enteredDate.after(CURRENT_TIME)) {
+		if (enteredDate.after(Calendar.getInstance().getTime())) {
 			// valid
 			labelDeadlineErr.setVisible(false);
 			return true;
@@ -981,10 +1073,11 @@ public class EditSessionPanel extends JPanel {
 	}
 	
 	/**
-	 * Disable the save button
+	 * Disable the save and discard changes button
 	 */
-	public void disableSaveChangesBtn() {
+	public void disableChangesBtn() {
 		btnSaveChanges.setEnabled(false);
+		btnDiscardChanges.setEnabled(false);
 	}
 	
 	/** 

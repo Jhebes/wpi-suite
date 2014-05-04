@@ -12,6 +12,8 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
@@ -44,6 +46,7 @@ public class GetAllDecksController {
 	/**
 	 * Instantiates a new controller tied to the specified view. Private because
 	 * this is a singleton.
+	 * @return GetAllDecksController instance
 	 */
 	public static GetAllDecksController getInstance() {
 		if (instance == null) {
@@ -68,7 +71,6 @@ public class GetAllDecksController {
 	 * dropdown of the CreateNewSessionPanel
 	 * @return Returns an array list of all the names 
 	 * of the available decks in the database
-	 * @throws InterruptedException
 	 */
 	public List<String> getAllDeckNames() {
 		this.refreshDecks(); // set up the deck
@@ -79,6 +81,8 @@ public class GetAllDecksController {
 		try {
 			Thread.sleep(250);
 		} catch (InterruptedException e) {
+			Logger.getLogger("GetAllDecksController").log(Level.INFO,
+					"Could get the name for all decks", e);
 		}
 		
 		// Default options
