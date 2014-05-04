@@ -3,12 +3,15 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.textfield;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Insets;
+import java.io.IOException;
 
 import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
 
 /**
  * A customized JTextField whose background
@@ -57,10 +60,38 @@ public class TransparentTextPane extends JTextPane {
 	 * at the center
 	 * @param color Color of the text
 	 */
-	public void setColorText(Color color, String text) {
-		Style style = addStyle(text, null);
-		StyleConstants.setForeground(style, Color.red);
-
+	public void setColorTextCenter(Color color, String text) {
+		 StyledDocument document = getStyledDocument();
+	        
+        SimpleAttributeSet style = new SimpleAttributeSet();
+        StyleConstants.setForeground(style, color);
+        StyleConstants.setAlignment(style, StyleConstants.ALIGN_CENTER);
+		document.setParagraphAttributes(0, document.getLength(), style, false);
+		
+        try { 
+        	document.insertString(document.getLength(), text, style); 
+        	}
+        catch (BadLocationException e) {
+        	 System.err.println("Couldn't insert initial text into text pane.");
+        }
+	}
+	
+	/**
+	 * Set the given HTML styled text to this
+	 * text pane
+	 */
+	public void setHTMLStyleText(String text) {
+		setContentType("text/html");
+		setEditable(false);
+		HTMLDocument doc = (HTMLDocument)getDocument();
+		HTMLEditorKit editorKit = (HTMLEditorKit)getEditorKit();
+		try {
+			editorKit.insertHTML(doc, doc.getLength(), text, 0, 0, null);
+		} catch (BadLocationException e) {
+       	 	System.err.println("Couldn't insert initial text into text pane.");
+		} catch (IOException e) {
+			System.err.println("Couldn't insert invalid text into text pane.");
+		}
 	}
 	
 	@Override
