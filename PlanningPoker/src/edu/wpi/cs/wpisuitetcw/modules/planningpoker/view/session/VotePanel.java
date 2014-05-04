@@ -10,6 +10,7 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -28,11 +29,14 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
+
+import org.jdesktop.swingx.JXCollapsiblePane;
+import org.jdesktop.swingx.JXFrame;
+
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.EditActivatedSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
@@ -78,23 +82,26 @@ public class VotePanel extends JPanel {
 	private PlanningPokerRequirement[] reqsList;
 
 	// #################### GUI left components ####################
-	/** The left container holding all the requirements' info */
-	private JLabel sessionLabel;
-	private JLabel sessionNameLabel;
-	private JLabel sessionNameValueLabel;
-	private JLabel sessionDescLabel;
-	private JLabel sessionDescValueLabel;
-	private JLabel leftPanelLabel;
-	private JSplitPane leftPanel;
-	private JPanel topLeftPanel;
-	private JPanel bottomLeftPanel;
+	/** The left container holding all the GUI component below */
+	private JPanel leftPanel;
+	
+	/** A container holding the Name & Desc and the toggle button */
+	private JPanel sessionInfoComponent;
+	
+	/** Name & Description for session */
+	private NameDescriptionPanel nameDescriptionSession;
+	private JXCollapsiblePane nameDescriptionCollapsibleFrame;
+	
+	/** Toggle Button that shows/hides session's name & description */
+	private JButton sessionInfoToggleButton;
 	
 	/** List of requirements */
+	private JLabel requirementFrameTitle;
 	private JScrollPane requirementFrame;
 	private JList<PlanningPokerRequirement> reqList;
 
 	// ################### GUI right components ####################
-	/** The right container holding all the GUI components */
+	/** The right container holding all the GUI components below */
 	private JPanel rightPanel;
 	
 	/** The name and description text box */
@@ -394,17 +401,15 @@ public class VotePanel extends JPanel {
 	 * Construct the left panel and its GUI component: a JLabel and a JList
 	 */
 	private void setupLeftPanel() {
-		leftPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		topLeftPanel = new JPanel();
-		bottomLeftPanel = new JPanel();
+		leftPanel = new JPanel();
 		
-		leftPanelLabel = new JLabel(LEFT_PANEL_LABEL);
-		sessionLabel = new JLabel(SESSION_LABEL);
-		sessionNameLabel = new JLabel(SESSION_NAME_LABEL);
-		sessionNameValueLabel = new JLabel(session.getName());
-		sessionDescLabel = new JLabel(SESSION_DESC_LABEL);
-		sessionDescValueLabel = new JLabel(session.getDescription());
-
+		// Create the combination of session's name & description
+		// and the toggle button
+		setupSessionInfoComponent();
+		
+		// Create List of requirements
+		requirementFrameTitle = new JLabel(LEFT_PANEL_LABEL);
+		
 		final List<PlanningPokerRequirement> reqs = session.getRequirements();
 		
 		final DefaultListModel<PlanningPokerRequirement> requirementModel = 
@@ -478,21 +483,60 @@ public class VotePanel extends JPanel {
 	}
 
 	/*
+	 * Create Name & Description for session and
+	 * a toggle button to show/hide this info.
+	 * Then put them in sessionInfoComponent
+	 */
+	private void setupSessionInfoComponent() {
+		// Create name & description for session
+		nameDescriptionSession = new NameDescriptionPanel();
+		nameDescriptionSession.setName(session.getName());
+		nameDescriptionSession.setDescription(session.getDescription());
+		
+		// Create the JXCollapsible frame for the name & description above
+		nameDescriptionCollapsibleFrame = new JXCollapsiblePane();
+		nameDescriptionCollapsibleFrame.setLayout(new MigLayout("insets 0, fill"));
+		nameDescriptionCollapsibleFrame.add(nameDescriptionSession, "grow");
+		// Set this frame hidden initially
+		nameDescriptionCollapsibleFrame.setCollapsed(true);
+		
+		// Create the toggle button that shows/hides session's
+		// name & description
+		sessionInfoToggleButton = new JButton(nameDescriptionCollapsibleFrame
+												.getActionMap()
+												.get("toggle"));
+		sessionInfoToggleButton.setText("Session detail");
+		
+		// Create the container to hold these above component
+		sessionInfoComponent = new JPanel();
+		
+		arrangeSessionInfoComponents();
+	}
+
+	/*
+	 * Use MigLayout to create session info component
+	 * ------------------------------------------------
+	 * 				NameDescriptionPanel
+	 * 					ToggleButton
+	 */
+	private void arrangeSessionInfoComponents() {
+		sessionInfoComponent.setLayout(new MigLayout("insets 0, fill"));
+		sessionInfoComponent.add(nameDescriptionCollapsibleFrame, "grow, wrap");
+		sessionInfoComponent.add(sessionInfoToggleButton, "growx");
+	}
+
+	/*
 	 * Add the GUI component to the left panel
+	 * ----------------------------------------
+	 * 			  RequirementFrameTitle
+	 * 				RequirementFrame
+	 * 			  SessionInforComponent
 	 */
 	private void addGUIComponentsOnLeftPanel() {
-		topLeftPanel.setLayout(new MigLayout("insets 0, fill"));
-		bottomLeftPanel.setLayout(new MigLayout("insets 0, fill", "", "10[]10[]0"));
-		topLeftPanel.add(sessionLabel, "center, wrap");
-		topLeftPanel.add(sessionNameLabel, "wrap");
-		topLeftPanel.add(sessionNameValueLabel, "center, wrap");
-		topLeftPanel.add(sessionDescLabel, "wrap");
-		topLeftPanel.add(sessionDescValueLabel, "center, wrap");
-		bottomLeftPanel.add(leftPanelLabel, "center, wrap");
-		bottomLeftPanel.add(requirementFrame, "width 250::, growy, dock center");
-		
-		leftPanel.add(topLeftPanel);
-		leftPanel.add(bottomLeftPanel);
+		leftPanel.setLayout(new MigLayout("insets 0, fill", "", "10[]10[]0"));	
+		leftPanel.add(requirementFrameTitle, "center, wrap");
+		leftPanel.add(requirementFrame, "width 250::, growy, dock center");
+		leftPanel.add(sessionInfoComponent, "grow, dock south");
 	}
 
 	private void setupRightPanel() {
