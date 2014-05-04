@@ -41,20 +41,24 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.CompletedSessionEstimatePanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.NameDescriptionPanel;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.UserVoteListPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.VoteRequirementCellRenderer;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.DisplayDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.ViewEventController;
 
 /**
  * Panel for voting.
  */
 public class VotePanel extends JPanel {
 
-	private static final String REQ_NAME_LABEL = "Name";
+	private static final String REQ_NAME_LABEL = "Requirement Name";
 	private static final String REQ_DESC_LABEL = "Description";
 	private static final String VOTE_BUTTON_LABEL = "Submit Vote";
-	private static final String RIGHT_PANEL_LABEL = "Requirements Detail:";
 	private static final String LEFT_PANEL_LABEL = "Session Requirements:";
 	private static final String SESSION_LABEL = "Session:";
 	private static final String SESSION_NAME_LABEL = "Name:";
@@ -91,7 +95,6 @@ public class VotePanel extends JPanel {
 
 	// ################### GUI right components ####################
 	/** The right container holding all the GUI components */
-	private JLabel rightPanelLabel;
 	private JPanel rightPanel;
 	
 	/** The name and description text box */
@@ -110,6 +113,9 @@ public class VotePanel extends JPanel {
 
 	/** Final estimation panel */
 	private CompletedSessionEstimatePanel finalEstimatePnl;
+	
+	/** Vote Panel */
+	private UserVoteListPanel userVotePanel;
 
 	// ################# GUI bottom components ####################
 	/** A bottom container holding the buttons below this */
@@ -126,7 +132,12 @@ public class VotePanel extends JPanel {
 
 	/** A JLabel informing the card selection mode (single/multiple selection) */
 	private JLabel cardSelectionModeLabel;
+	
+	/** A button to submit the final estimation */
+	private JButton submitFinalEstimationButton;
 
+	
+	// ##################### DATA #########################
 	/** The name of the currently selected requirement */
 	private PlanningPokerRequirement selectedRequirement;
 	private int selectedReqIndex;
@@ -160,16 +171,35 @@ public class VotePanel extends JPanel {
 	 */
 	private void setupInitData() {
 		if (session.getRequirements().size() > 0) {
-			final PlanningPokerRequirement firstReq = session.getRequirements().get(0);			
-			nameDescriptionPanel.setName(firstReq.getName());
-			nameDescriptionPanel.setDescription(firstReq.getDescription());
+			final PlanningPokerRequirement firstReq = session.getRequirements().get(0);
+			String requirementName = firstReq.getName();
+			String requirementDescription = firstReq.getDescription();
+			
+			// Auto select the first requirement
 			selectedRequirement = firstReq;
 			selectedReqIndex = 0;
 			reqList.setSelectionInterval(0, 0);
 			
+			// Populate name and description of the first requirement
+			nameDescriptionPanel.setName(requirementName);
+			nameDescriptionPanel.setDescription(requirementDescription);
+			
+			// Show the vote of the first requirement if it has
 			final PlanningPokerVote vote = firstReq.getVoteByUser(ConfigManager.getConfig().getUserName());
 			if (vote != null) {
 				setVoteTextFieldWithValue(vote.getCardValue());
+			}
+			
+			// Populate the vote and stats of the first requirement when the session's closed
+			if (session.isClosed()) {
+				nameDescriptionPanel.setDescription(requirementDescription);
+				userVotePanel.setFocusedRequirement(selectedRequirement);
+				userVotePanel.fillTable();
+				finalEstimatePnl.setFocusedRequirement(selectedRequirement);
+				finalEstimatePnl.setMean(selectedRequirement.getMean());
+				finalEstimatePnl.setMedian(selectedRequirement.getMedian());
+				finalEstimatePnl.setMode(selectedRequirement.getMode());
+				finalEstimatePnl.updateEstimateTextField(selectedRequirement);
 				disableSubmitBtn();
 			}
 		}
@@ -182,11 +212,32 @@ public class VotePanel extends JPanel {
 
 		// Create the container
 		bottomPanel = new JPanel();
+		
+		this.submitFinalEstimationButton = new JButton("Submit");
+		this.submitFinalEstimationButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {				
+				final PlanningPokerRequirement focusedReq = reqList.getSelectedValue();
+				final int estimate = finalEstimatePnl.getEstimate();
+				final int correspondingReqID = focusedReq
+						.getCorrespondingReqManagerID();
+				focusedReq.setFinalEstimate(estimate);
 
-		// Don't draw bottom buttons if we're in final estimation
-		if (session.isClosed()) {
-			return;
-		}
+				// Update the Requirement manager requirement estimate.
+				final Requirement focusedRequirementManagerRequirement = RequirementModel.getInstance().getRequirement(correspondingReqID);
+				focusedRequirementManagerRequirement.setEstimate(estimate);
+
+				getSession().save();
+				UpdateRequirementController.getInstance().updateRequirement(
+						focusedRequirementManagerRequirement);
+				ViewEventController.getInstance().refreshTable();
+				ViewEventController.getInstance().refreshTree();
+				
+//				successMsg.setVisible(true);
+//				pnlFinalEstimate.add(successMsg);
+//				repaint();
+			}
+		});
 
 		// Create the end session button
 		endSessionButton = new JButton(END_SESSION_BUTTON_LABEL);
@@ -267,6 +318,7 @@ public class VotePanel extends JPanel {
 
 		// Extract the requirements from the table provided by
 		// ViewSessionTableManager and converts them to list
+		// TODO WHAT IS THIS?
 		final List<String> testReqs = new ArrayList<String>();
 		final RequirementTableManager a = new RequirementTableManager();
 		final RequirementTableModel v = a.get(session.getID());
@@ -313,24 +365,29 @@ public class VotePanel extends JPanel {
 	 * the bottom panel
 	 */
 	private void addGUIComponentsToBottomPanel() {
-		bottomPanel.setLayout(new MigLayout("inset 5 "// + DEFAULT_INSETS / 2 + " "
-									  				 + DEFAULT_INSETS + " "
-													 + "5 " //DEFAULT_INSETS / 2 + " "
-													 + DEFAULT_INSETS + ", fill", 
+		bottomPanel.setLayout(new MigLayout("inset 5 "
+								 				 + DEFAULT_INSETS + " "
+												 + "5 " 
+												 + DEFAULT_INSETS + ", fill", 
 											"", "push[]push"));
-		bottomPanel.add(endSessionButton, "left, "
-										+ "wmin " + MIN_BUTTON_WIDTH + "px, "
-										+ "height " + DEFAULT_HEIGHT + "px!, "
-										+ "split3");
-		bottomPanel.add(btnEditSession, "left, "
-									  + "wmin " + MIN_BUTTON_WIDTH + "px, "
-									  + "height " + DEFAULT_HEIGHT + "px!");
-		bottomPanel.add(cancelSessionButton, "left, "
-										   + "wmin " + MIN_BUTTON_WIDTH + "px, "
-										   + "height " + DEFAULT_HEIGHT + "px!");
-		bottomPanel.add(cardSelectionModeLabel, "left, wmin " + MIN_BUTTON_WIDTH + "px");
-		bottomPanel.add(submitVoteButton, "right, "
-										+ "height " + DEFAULT_HEIGHT + "px!");
+		
+		if (session.isClosed()) {
+			bottomPanel.add(submitFinalEstimationButton, "align center");
+		} else {
+			bottomPanel.add(endSessionButton, "left, "
+											+ "wmin " + MIN_BUTTON_WIDTH + "px, "
+											+ "height " + DEFAULT_HEIGHT + "px!, "
+											+ "split3");
+			bottomPanel.add(btnEditSession, "left, "
+										  + "wmin " + MIN_BUTTON_WIDTH + "px, "
+										  + "height " + DEFAULT_HEIGHT + "px!");
+			bottomPanel.add(cancelSessionButton, "left, "
+											   + "wmin " + MIN_BUTTON_WIDTH + "px, "
+											   + "height " + DEFAULT_HEIGHT + "px!");
+			bottomPanel.add(cardSelectionModeLabel, "left, wmin " + MIN_BUTTON_WIDTH + "px");
+			bottomPanel.add(submitVoteButton, "right, "
+											+ "height " + DEFAULT_HEIGHT + "px!");
+		}
 	}
 
 	/*
@@ -349,12 +406,13 @@ public class VotePanel extends JPanel {
 		sessionDescValueLabel = new JLabel(session.getDescription());
 
 		final List<PlanningPokerRequirement> reqs = session.getRequirements();
+		
 		final DefaultListModel<PlanningPokerRequirement> requirementModel = 
 				new DefaultListModel<PlanningPokerRequirement>();
 		for (PlanningPokerRequirement ppr : reqs) {
 			requirementModel.addElement(ppr);
 		}
-
+		
 		reqList = new JList<PlanningPokerRequirement>(requirementModel);
 		reqList.setBackground(Color.WHITE);
 		reqList.setAlignmentX(LEFT_ALIGNMENT);
@@ -380,13 +438,17 @@ public class VotePanel extends JPanel {
 					}
 
 					if (session.isClosed()) {
+						userVotePanel.setFocusedRequirement(selectedRequirement);
+						userVotePanel.fillTable();
 						double mean = selectedRequirement.getMean();
+						
 						finalEstimatePnl.setFocusedRequirement(selectedRequirement);
-						finalEstimatePnl.setStatsMean(mean);
-						finalEstimatePnl.setStatsMedian(selectedRequirement.getMedian());
-						finalEstimatePnl.setStatsMode(selectedRequirement.getMode());
+						finalEstimatePnl.setMean(mean);
+						finalEstimatePnl.setMedian(selectedRequirement.getMedian());
+						finalEstimatePnl.setMode(selectedRequirement.getMode());
+
+						// ERROR PRONE
 						finalEstimatePnl.setStatsStandardDeviation(selectedRequirement.calculateStandardDeviation(mean));
-						finalEstimatePnl.fillTable(selectedRequirement);
 						finalEstimatePnl.updateEstimateTextField(selectedRequirement);
 						updateUI();
 					} else {
@@ -402,7 +464,6 @@ public class VotePanel extends JPanel {
 							clearVoteTextField();
 							enableSubmitBtn();
 						}
-
 						updateUI();
 					}
 				}
@@ -437,27 +498,25 @@ public class VotePanel extends JPanel {
 	private void setupRightPanel() {
 		rightPanel = new JPanel();
 
-		// Create a label for right panel
-		rightPanelLabel = new JLabel(RIGHT_PANEL_LABEL);
-
 		// Create a requirement name and description text box
 		nameDescriptionPanel = new NameDescriptionPanel(REQ_NAME_LABEL, REQ_DESC_LABEL, false);
-
+		if (session.isClosed()) {
+			// Remove the name text box in final estimation
+			nameDescriptionPanel.removeNameTextbox();
+		}
+		
 		// Create a text field to store the final vote result
 		voteTextField = new JTextField(3);
-		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
-
+		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 12));
 		voteTextField.setHorizontalAlignment(JTextField.CENTER);
-		
+
 		// Set up ErrorMsg Label
+		// TODO: create new GUI component to store this and the vote
 		errorMsg = new JLabel("");
 		errorMsg.setForeground(Color.RED);
 		errorMsg.setHorizontalAlignment(JLabel.CENTER);
 
-		voteTextField.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
-		// if the session has a deck, we can't let the user submit a vote
-		// manually
+		// Create a list of cards OR a card for voting
 		if (session.getDeck() != null) {
 			voteTextField.setEnabled(false);
 			// Create a deck panel
@@ -465,8 +524,17 @@ public class VotePanel extends JPanel {
 			cardFrame = new JScrollPane();
 			cardFrame.setViewportView(cardPanel);
 		} else {
+			// TODO change this
 			voteTextField.setEnabled(true);
 		}
+		
+		// Create an user-vote subpanel
+		userVotePanel = new UserVoteListPanel();
+
+		// Create the card panel or final estimation GUI
+		finalEstimatePnl = new CompletedSessionEstimatePanel(this);
+		// TODO change this migLayout later
+		finalEstimatePnl.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		addGUIComponentsOnRightPanel();
 	}
@@ -481,29 +549,30 @@ public class VotePanel extends JPanel {
 													 + HORIZONTAL_PADDING_RIGHT_PANEL + " " 
 													 + VERTICAL_PADDING_RIGHT_PANEL   + " "
 													 + HORIZONTAL_PADDING_RIGHT_PANEL + ", fill",
-											"", "[][grow]"));
-
-		// Add the label of the panel
-		rightPanel.add(rightPanelLabel, "center, wrap");
-
-		// Add the requirement name and its label
-		rightPanel.add(nameDescriptionPanel, "grow");
+											"", "[growprio 65, grow][growprio 35, grow]"));
 		
-		// Add the card panel or final estimation GUI
-		finalEstimatePnl = new CompletedSessionEstimatePanel(this);
-		finalEstimatePnl.setAlignmentX(Component.CENTER_ALIGNMENT);
+		// Add the Name & Description text boxes
+		rightPanel.add(nameDescriptionPanel, "grow, wrap");
+		
 		if (session.isClosed()) {
-			rightPanel.add(finalEstimatePnl);
+			// Add the stats and input for final estimation
+			rightPanel.add(finalEstimatePnl, "grow");
+			
+			// Add the user-vote panel
+			rightPanel.add(userVotePanel, "gaptop " + VERTICAL_PADDING_RIGHT_PANEL + ", "
+										+ "gapbottom " + VERTICAL_PADDING_RIGHT_PANEL + ", "
+										+ "gapright " + HORIZONTAL_PADDING_RIGHT_PANEL + ", "
+										+ "width 150:300:500, dock east");
 		} else {
 			if (cardFrame != null) {
 				rightPanel.add(cardFrame, "height 235::, grow, dock south");
 			} else {
+				// TODO remove the message
 				final JLabel messageLabel = new JLabel(NO_DECK_MSG);
 				rightPanel.add(messageLabel, "gapleft 150px, hmin 230px, grow, dock south");
 			}
 			
 			// Add the vote text field to the right side
-
 			rightPanel.add(voteTextField, "wmin " + MIN_VOTE_TEXTFIELD_WIDTH  + "px, " 
 										+ "hmin " + MIN_VOTE_TEXTFIELD_HEIGHT + "px, " 
 										+ "dock east, " 
@@ -512,13 +581,13 @@ public class VotePanel extends JPanel {
 										+ "gapbottom" + VERTICAL_PADDING_RIGHT_PANEL   + "px");
 
 			// Add the error message to the right side
+			// Modify this to GUI component. Ben's request
 			rightPanel.add(errorMsg, "dock east");
 		}		
-
 	}
 
 	/**
-	 * Opens final estiamtion GUI for this requirement
+	 * Opens final estimation GUI for this requirement
 	 */
 	private void openFinalEstimation(){
 		ViewEventManager.getInstance().viewSession(this.session);
@@ -703,5 +772,19 @@ public class VotePanel extends JPanel {
 				return false;
 		
 		return true;
+	}
+
+	/**
+	 * @return the submitFinalEstimationButton
+	 */
+	public JButton getSubmitFinalEstimationButton() {
+		return submitFinalEstimationButton;
+	}
+
+	/**
+	 * @param submitFinalEstimationButton the submitFinalEstimationButton to set
+	 */
+	public void setSubmitFinalEstimationButton(JButton submitFinalEstimationButton) {
+		this.submitFinalEstimationButton = submitFinalEstimationButton;
 	}
 }
