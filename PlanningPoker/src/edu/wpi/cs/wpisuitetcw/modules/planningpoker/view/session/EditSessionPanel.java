@@ -955,6 +955,9 @@ public class EditSessionPanel extends JPanel {
 
 		deckPanel.displayDefaultDeck();
 
+		// set the dropdown back to default deck
+		deckType.setSelectedItem(DEFAULT_DECK);
+
 		setupEntirePanel();
 		updateUI();
 	}
