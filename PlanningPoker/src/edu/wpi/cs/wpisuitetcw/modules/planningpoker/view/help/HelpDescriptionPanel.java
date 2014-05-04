@@ -38,6 +38,72 @@ public class HelpDescriptionPanel extends JPanel {
 			"", // medium
 			"" // small
 	};
+	
+	private final String[] PLANNING_POKER_TEXT = {
+			"Planning Poker", //super huge
+			"\nWhat is Planning Poker?", //large
+			"\nPlanning Poker is a software development tool for estimating requirements "
+			+ "in software development projects. In Planning Poker, each group member "
+			+ "has a deck of cards to rank the requirements of a project according to "
+			+ "how important they think that task ranks among the others. The project "
+			+ "administrators can then use this data to create a final priority list "
+			+ "for the project.", //medium
+			"\n"
+			+ "\n"
+			+ "How Does Planning Poker Work?", //large
+			"\nIndividual stories and requirements are created by customers or programmers "
+			+ "are presented for estimation. After a period of time, each participant "
+			+ "chooses from his own deck the numbered card that represents his estimate "
+			+ "of how much work is involved in the story under discussion. All estimates "
+			+ "are kept private until each participant has chosen a card. At that time, "
+			+ "all estimates are revealed and discussion can begin again.", //medium
+			"\n"
+			+ "\n"
+			+ "Who Can Use Planning Poker?", //large
+			"\nAll developers of a team should use Planning Poker. Planning Poker will aid "
+			+ "the programming team in prioritizing requirements." // medium
+	};
+	
+	private final String[] SESSION_TEXT = {
+			"Sessions", //super huge
+			"\n\nCreate a Session", //large
+			"\nTo create a session click on the top button “Create a Session” which will "
+			+ "bring up a page where you can customize your session. You must name the "
+			+ "session, and create a description of the session in order to begin the "
+			+ "session. You have the option of…", //medium
+			"\n\nEnding a Session", //large
+			"\nTo end a session..." //medium
+	};
+	
+	
+	
+	private final String[] DECK_TEXT = {
+			"Planning Poker Deck", //super huge
+			"**Describe what a deck is used for**", //medium
+			"\n"
+			+ "\n"
+			+ "Creating a Deck", //large
+			"Describe how to create a Deck"		
+	};
+	
+	private final String[] REQUIREMENTS_TEXT = {
+			"Requirements", //super huge
+			"\n**Describe what a requirement is used for**", //medium
+			"\n\nImporting Requirements", //large
+			"\n**Describe the process of importing requirements",// medium
+			"\nAdding Requirements", //large
+			"\n**Describe how to add requirements", //medium
+			"\nCreating Requirements", //large
+			"**Describe how to create requirements**" //medium
+	};
+	
+	private final String[] VOTING_TEXT = {
+			"Voting", //super huge
+			"Describe what voting is used for", //large
+			"How To Vote",//large
+			"Viewing Votes",//large
+			"Setting a Final Rank"//large
+	};
 
 	private HashMap<HelpEntry, String[]> helpEntries;
 
