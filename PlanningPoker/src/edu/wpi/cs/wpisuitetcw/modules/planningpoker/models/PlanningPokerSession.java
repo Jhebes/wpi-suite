@@ -10,7 +10,6 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +20,6 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendNotification
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put.PutSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
-import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -627,6 +625,7 @@ public class PlanningPokerSession extends AbstractModel {
 		name = updatedSession.name;
 		description = updatedSession.description;
 		requirements = updatedSession.requirements;
+		deck = updatedSession.deck;
 	}
 
 	/**

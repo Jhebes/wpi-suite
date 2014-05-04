@@ -564,6 +564,7 @@ public class EditSessionPanel extends JPanel {
 			final String deckName = session.getDeck().getDeckName();
 			try {
 				displayDeck(deckName);
+				deckType.setSelectedItem(deckName);
 			} catch (WPISuiteException e) {
 				// TODO add logger
 			}
@@ -785,6 +786,8 @@ public class EditSessionPanel extends JPanel {
 					// display a selected deck of cards
 					try {
 						displayDeck(deckName);
+						setupEntirePanel();
+						updateUI();
 					} catch (WPISuiteException e1) {
 						e1.printStackTrace();
 					}
@@ -926,9 +929,6 @@ public class EditSessionPanel extends JPanel {
 		tabsPanel.setDeckPanel(deckPanel);
 
 		deckPanel.displayDeck(deckName);
-
-		setupEntirePanel();
-		updateUI();
 	}
 
 	/**

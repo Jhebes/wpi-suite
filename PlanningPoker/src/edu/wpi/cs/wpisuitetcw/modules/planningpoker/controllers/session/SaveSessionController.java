@@ -18,6 +18,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateNewDeckCon
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.get.session.GetAllSessionsController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.EditSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionDeckPanel;
@@ -97,9 +98,8 @@ public class SaveSessionController implements ActionListener {
 				} else {
 
 					final SessionDeckPanel deckPanel = view.getDeckPanel();
-					session.setDeck(new PlanningPokerDeck(deckPanel.getName(),
-							deckPanel.getNewDeckValues(), deckPanel
-									.getMaxSelectionCards()));
+					session.setDeck(new PlanningPokerDeck(deckName,
+							deckPanel.getNewDeckValues(), deckPanel.getMaxSelectionCards()));
 					// session.setDeck(GetAllDecksController
 					// .getInstance()
 					// .getDeckByName(deckName));
@@ -107,6 +107,7 @@ public class SaveSessionController implements ActionListener {
 			}
 
 			session.save();
+			SessionStash.getInstance().update(session);
 			// GetAllSessionsController.getInstance().retrieveSessions();
 			// ViewEventManager.getInstance().removeTab(view);
 			// changes are saved and the save changes button should be disabled
