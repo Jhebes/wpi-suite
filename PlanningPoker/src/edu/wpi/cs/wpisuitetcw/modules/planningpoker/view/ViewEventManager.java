@@ -36,6 +36,7 @@ public class ViewEventManager {
 	private boolean isWelcomePageOnDisplay = true;
 	private List<EditSessionPanel> editSessionPanels = new ArrayList<EditSessionPanel>();
 	private List<VotePanel> inProgressSessionPanels = new ArrayList<VotePanel>();
+	
 
 	/**
 	 * Default constructor for ViewEventController. It is set to private to
