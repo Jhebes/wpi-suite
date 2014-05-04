@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -339,6 +340,9 @@ public class VotePanel extends JPanel {
 	 */
 	private void setupLeftPanel() {
 		leftPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		leftPanel.setDividerLocation(0.5);
+
+		
 		topLeftPanel = new JPanel();
 		bottomLeftPanel = new JPanel();
 		
@@ -432,6 +436,10 @@ public class VotePanel extends JPanel {
 	 * Add the GUI component to the left panel
 	 */
 	private void addGUIComponentsOnLeftPanel() {
+		JScrollPane nameDescScrollPane = new JScrollPane();
+		Dimension scrollPaneDimension = new Dimension();
+		scrollPaneDimension.setSize(leftPanel.getSize().getWidth(), 350);
+		nameDescScrollPane.setPreferredSize(scrollPaneDimension);
 		topLeftPanel.setLayout(new MigLayout("insets 0, fill"));
 		bottomLeftPanel.setLayout(new MigLayout("insets 0, fill", "", "10[]10[]0"));
 		topLeftPanel.add(sessionLabel, "center, wrap");
@@ -442,8 +450,10 @@ public class VotePanel extends JPanel {
 		bottomLeftPanel.add(leftPanelLabel, "center, wrap");
 		bottomLeftPanel.add(requirementFrame, "width 250::, growy, dock center");
 		
-		leftPanel.add(topLeftPanel);
+		nameDescScrollPane.setViewportView(topLeftPanel);
+		leftPanel.add(nameDescScrollPane);
 		leftPanel.add(bottomLeftPanel);
+		
 	}
 
 	private void setupRightPanel() {
