@@ -88,7 +88,7 @@ public class AddSessionController implements ActionListener {
 		// otherwise the button will do nothing
 		if ((view.hasAllValidInputs() == true)
 				&& (isEditMode == false)) {
-
+			view.setSavePressed(true);
 			// Get the inputs from user
 			final String name = view.getNameTextField().getText();
 			final Date d = view.getDeadline();

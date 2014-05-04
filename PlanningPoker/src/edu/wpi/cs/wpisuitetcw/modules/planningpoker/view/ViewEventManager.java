@@ -186,13 +186,24 @@ public class ViewEventManager {
 	 *            the component to remove
 	 */
 	public void removeTab(JComponent component) {
-		if (component instanceof SessionRequirementPanel || component instanceof EditSessionPanel) {
+		if (component instanceof SessionRequirementPanel) {
 			if (JOptionPane.showConfirmDialog(null, "This session has not been created yet! \n "
 					+ "Are you sure you want to proceed?", "WARNING",
 			        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				viewSessionPanels.remove(component);
 			}
 			else return;
+		}
+		if (component instanceof EditSessionPanel){
+			EditSessionPanel view = (EditSessionPanel)component;
+			if (view.hasAllValidInputs() && !view.isSavePressed()){
+				if (JOptionPane.showConfirmDialog(null, "This session has not been created yet! \n "
+						+ "Are you sure you want to proceed?", "WARNING",
+				        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					viewSessionPanels.remove(component);
+				}
+				else return;
+			}	
 		}
 		if (component instanceof VotePanel) {
 			inProgressSessionPanels.remove(component);

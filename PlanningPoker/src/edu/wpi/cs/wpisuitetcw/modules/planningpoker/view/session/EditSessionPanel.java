@@ -155,6 +155,9 @@ public class EditSessionPanel extends JPanel {
 
 	/** mode for the create new deck panel */
 	private CardDisplayMode mode = CardDisplayMode.DISPLAY;
+	
+	/**save flag for notifying a user trying to cancel a session */
+	private boolean savePressed = false;
 
 	/**
 	 * Constructor to create a Create Session Panel This constructor is used to
@@ -898,4 +901,19 @@ public class EditSessionPanel extends JPanel {
 			return false;
 		}
 	}
+
+	/**
+	 * @return the savePressed
+	 */
+	public boolean isSavePressed() {
+		return savePressed;
+	}
+
+	/**
+	 * @param savePressed the savePressed to set
+	 */
+	public void setSavePressed(boolean savePressed) {
+		this.savePressed = savePressed;
+	}
+
 }
