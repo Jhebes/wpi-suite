@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.textfield;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -95,7 +96,8 @@ public class LabelsWithTextField extends JPanel {
 								boolean isBottomEditable) {
 		// Create the top line
 		this.topLine = new TransparentTextPane();
-		topLine.setEnabled(isTopEditable);
+		topLine.setEditable(isTopEditable);
+		topLine.setHighlighter(null);
 		isTopLineNeeded = true;
 
 		// Set the max number of columns and center aligned
@@ -105,12 +107,16 @@ public class LabelsWithTextField extends JPanel {
 
 		// Create the bottom line
 		this.bottomLine = new TransparentTextPane();
-		bottomLine.setEnabled(isBottomEditable);
+		bottomLine.setEditable(isBottomEditable);
+		bottomLine.setHighlighter(null);
 		isBottomLineNeeded = true;		
 
 		// Store the background image. putGUIComponentsOnPanel
 		// handles the background setting
 		this.background = image;
+		if (background == null) {
+			setBackground(new Color(255, 255, 255, 255));
+		}
 		
 		putGUIComponentsOnPanel();
 	} 
@@ -165,8 +171,27 @@ public class LabelsWithTextField extends JPanel {
 	 * @param text A string that would be assigned
 	 * to the bottom line
 	 */
-	public void setTextBottom(String text) {
+	public void setCenterTextBottom(String text) {
 		bottomLine.setTextCenter(text);
+	}
+	
+	/**
+	 * Assign the given String to the bottom line
+	 * @param text A string that would be assigned
+	 * to the bottom line
+	 * @param color Color of the text
+	 */
+	public void setTextBottom(Color color, String text) {
+		bottomLine.setColorTextCenter(color, text);
+	}
+	
+	/**
+	 * Assign the given HTML styled String to the bottom line
+	 * @param text A string that would be assigned
+	 * to the bottom line
+	 */
+	public void setTextBottom(String text) {
+		bottomLine.setHTMLStyleText(text);
 	}
 	
 	/**
