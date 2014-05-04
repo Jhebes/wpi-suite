@@ -117,7 +117,7 @@ public class EditSessionPanel extends JPanel {
 	private SessionDeckPanel deckPanel;
 
 	/** The tabs panel which contains deck and Requirement panel */
-	private SessionTabsPanel tabsPanel;
+	private final SessionTabsPanel tabsPanel;
 
 	// ################ UI Left Component #################
 	/** The left panel holds components to see the deck */
@@ -165,20 +165,14 @@ public class EditSessionPanel extends JPanel {
 	private CardDisplayMode mode = CardDisplayMode.DISPLAY;
 
 	/** session being edited */
-	private PlanningPokerSession session;
+	private final PlanningPokerSession session;
 	
 	/**
-	 * Constructor to create a Create Session Panel This constructor is used to
+	 * Constructor to create a Edit Session Panel This constructor is used to
 	 * edit an existing session.
 	 * 
 	 * @param session
 	 *            A Planning poker session
-	 */
-
-	/**
-	 * Constructor to create a Create Session Panel without a session. This
-	 * constructor is used to create a session. It sets up all graphical
-	 * components
 	 */
 	public EditSessionPanel(PlanningPokerSession session) {
 		// initialize session
@@ -188,7 +182,6 @@ public class EditSessionPanel extends JPanel {
 		setupLeftPanel();
 
 		// Use display mode since the default deck is displayed by default
-		// deckPanel = new SessionDeckPanel(CardDisplayMode.DISPLAY);
 		tabsPanel = new SessionTabsPanel(this, session);
 
 		deckPanel = tabsPanel.getDeckPanel();
@@ -563,7 +556,6 @@ public class EditSessionPanel extends JPanel {
 		// display the name of the session
 		nameTextField.setText(session.getName());
 
-		// TODO: This is not working. Figure out why later
 		// display description, if any
 		if (session.getDescription() != null) {
 			descriptionBox.setText(session.getDescription());
@@ -588,7 +580,7 @@ public class EditSessionPanel extends JPanel {
 		// display deadline, if any
 		if (session.getDeadline() != null) {
 			cbDeadline.setSelected(true);
-			Date deadline = session.getDeadline();
+			final Date deadline = session.getDeadline();
 
 			// set date
 			deadlinePicker.setDate(deadline);
@@ -609,10 +601,10 @@ public class EditSessionPanel extends JPanel {
 	 */
 	private boolean isAnythingChanged() {
 		// session info
-		boolean isNameChanged = !nameTextField.getText().equals(
+		final boolean isNameChanged = !nameTextField.getText().equals(
 				session.getName());
 
-		boolean isDescriptionChanged = !descriptionBox.getText().equals(
+		final boolean isDescriptionChanged = !descriptionBox.getText().equals(
 				session.getDescription());
 
 		boolean isDeckChanged = false;
@@ -754,7 +746,7 @@ public class EditSessionPanel extends JPanel {
 		if (hasAllValidInputs()) {
 			btnSaveChanges.setEnabled(true);
 		} else {
-			btnSaveChanges.setEnabled(false);	
+			btnSaveChanges.setEnabled(false);
 		}
 		tabsPanel.getRequirementPanel().validateOpenSession();
 	}
