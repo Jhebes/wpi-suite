@@ -63,7 +63,10 @@ public class VotePanel extends JPanel {
 	private static final String SESSION_NAME_LABEL = "Name:";
 	private static final String SESSION_DESC_LABEL = "Description:";
 	private static final String END_SESSION_BUTTON_LABEL = "End Session";
-	private static final String NO_DECK_MSG = "<html><font color='red'>No deck. Please enter your vote in the white box</font></html>";
+	private static final String NO_DECK_MSG = 
+			"<html><font color='red'>No deck. Please enter your vote in the white box</font></html>";
+	private static final String INVALID_VOTE_NUM_MSG = 
+			"<html><font face='sans-serif' color='red' size='9px'><center><b>Integer only!<b></center></font></html>";
 
 	private static final int DEFAULT_INSETS = 20;
 	private static final int DEFAULT_HEIGHT = 26;
@@ -72,7 +75,7 @@ public class VotePanel extends JPanel {
 	private static final int MIN_BUTTON_WIDTH = 50;
 	private static final int VERTICAL_PADDING_RIGHT_PANEL = 10;
 	private static final int HORIZONTAL_PADDING_RIGHT_PANEL = 20;
-
+	
 	private final PlanningPokerSession session;
 	private PlanningPokerRequirement[] reqsList;
 
@@ -639,7 +642,7 @@ public class VotePanel extends JPanel {
 				voteTextField.setTextBottom("");
 				return Integer.parseInt(voteTextField.getTextMiddle());
 			} catch (NumberFormatException e) {
-				voteTextField.setTextBottom("<html><font face='sans-serif' color='red' size='9px'><center><b>Integer only!<b></center></font></html>");
+				voteTextField.setTextBottom(INVALID_VOTE_NUM_MSG);
 				
 				return 0;
 			}
