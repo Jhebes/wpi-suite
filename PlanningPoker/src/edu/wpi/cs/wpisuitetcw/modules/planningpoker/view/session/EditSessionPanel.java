@@ -350,10 +350,7 @@ public class EditSessionPanel extends JPanel {
 
 		for (Card aCard : cards.values()) {
 			if (!aCard.hasValidCardValue()) {
-				// aCard.setCardInvalid();
 				isAllInputValid = false;
-			} else {
-				// aCard.setCardValid();
 			}
 		}
 		return isAllInputValid;
@@ -566,12 +563,19 @@ public class EditSessionPanel extends JPanel {
 		// display the deck, if any
 		if (session.getDeck() != null) {
 			final String deckName = session.getDeck().getDeckName();
-			try {
-				displayDeck(deckName);
-				deckType.setSelectedItem(deckName);
-			} catch (WPISuiteException e) {
-				Logger.getLogger("EditSessionPanel").log(Level.INFO,
-						"Could not load the deck with the given name", e);
+
+			// check what deck the session contains
+			if (deckName.equals(DEFAULT_DECK)) {
+				displayDefaultDeck();
+			} else {
+				// display the created deck
+				try {
+					displayDeck(deckName);
+					deckType.setSelectedItem(deckName);
+				} catch (WPISuiteException e) {
+					Logger.getLogger("EditSessionPanel").log(Level.INFO,
+							"Could not load the deck with the given name", e);
+				}
 			}
 		} else {
 			// display the default deck since there is no deck associated with

@@ -26,7 +26,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class CreateNewDeckController {
 	/** A view that exhibits the deck */
-	private SessionDeckPanel view;
+	private final SessionDeckPanel view;
 	
 	/**
 	 * Construct the controller by storing the given CreateNewDeckPanel
