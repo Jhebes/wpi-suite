@@ -352,8 +352,10 @@ public class VotePanel extends JPanel {
 		cardSelectionModeLabel = new JLabel();
 		if (session.getDeck() != null && session.getDeck().getMaxSelection() == 1) {
 			cardSelectionModeLabel.setText("Single selection deck");
-		} else {
+		} else if (session.getDeck() != null && session.getDeck().getMaxSelection() > 1) {
 			cardSelectionModeLabel.setText("Multiple selection deck");
+		} else {
+			cardSelectionModeLabel.setText("No deck");
 		}
 
 		addGUIComponentsToBottomPanel();
