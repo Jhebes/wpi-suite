@@ -28,24 +28,25 @@ public class HelpTreePanel extends JScrollPane implements
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTree tree;
+
+	/** Tree for the help entries */
+	private final JTree tree;
+
+	/** Enums for the HelpEntry */
+	private final HelpEntry[] entries = HelpEntry.values();
+	
+	/** Node of the tree */
+	private final DefaultMutableTreeNode top;
 
 	public HelpTreePanel() {
 		// set up tree
-		this.setViewportView(tree);
+		top = new DefaultMutableTreeNode("General Help");
 
-		createTree();
-	}
-
-	/**
-	 * Create the tree with all help entries
-	 */
-	public void createTree() {
-		DefaultMutableTreeNode top = new DefaultMutableTreeNode("General Help");
-
-		createTreeNodes(top);
 		tree = new JTree(top);
 
+		// adds the help entries to the tree
+		setupHelpEntries();
+		
 		// tree should be single selection
 		tree.getSelectionModel().setSelectionMode(
 				TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -53,29 +54,23 @@ public class HelpTreePanel extends JScrollPane implements
 
 		// add a listener to check for clicking
 		tree.addMouseListener(this);
-		// tree.addTreeSelectionListener(this);
 
+		// add the tree to the view
 		JScrollPane treeView = new JScrollPane(tree);
 		this.add(treeView);
 		this.setViewportView(tree);
+		this.setViewportView(tree);
 
-		// update the ViewEventController so it contains the right tree
-		// ViewEventManager.getInstance().setHelpTree(this);
 	}
-
-	private void createTreeNodes(DefaultMutableTreeNode top) {
-
-		DefaultMutableTreeNode Level1HelpNode = null;
-		DefaultMutableTreeNode Level2HelpNode = null;
-
-		Level1HelpNode = new DefaultMutableTreeNode("Some more help");
-		top.add(Level1HelpNode);
-
-		Level1HelpNode = new DefaultMutableTreeNode("I don't get it");
-		top.add(Level1HelpNode);
-
-		Level2HelpNode = new DefaultMutableTreeNode("I am desperately lost");
-		Level1HelpNode.add(Level2HelpNode);
+	
+	/**
+	 * Adds all help entries to the tree
+	 */
+	private void setupHelpEntries() {
+		for(HelpEntry entry : entries) {
+			DefaultMutableTreeNode node = new DefaultMutableTreeNode(entry);
+			top.add(node);
+		}
 	}
 
 	@Override

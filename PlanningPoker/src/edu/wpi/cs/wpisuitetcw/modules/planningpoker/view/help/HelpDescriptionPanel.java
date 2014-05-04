@@ -67,10 +67,10 @@ public class HelpDescriptionPanel extends JPanel {
 	private final String[] SESSION_TEXT = {
 			"Sessions", //super huge
 			"\n\nCreate a Session", //large
-			"\nTo create a session click on the top button “Create a Session” which will "
+			"\nTo create a session click on the top button \"Create a Session\" which will "
 			+ "bring up a page where you can customize your session. You must name and "
 			+ "create a description of the session in order to begin the "
-			+ "session. You have the option of…", //medium
+			+ "session. You have the option of", //medium
 			"\n\nEnding a Session", //large
 			"\nTo end a session..." //medium
 	};
@@ -125,6 +125,11 @@ public class HelpDescriptionPanel extends JPanel {
 	 */
 	private void storeHelpEntries() {
 		helpEntries.put(HelpEntry.DEFAULT, DEFAULT_TEXT_PANE);
+		helpEntries.put(HelpEntry.POKER, PLANNING_POKER_TEXT);
+		helpEntries.put(HelpEntry.SESSION, SESSION_TEXT);
+		helpEntries.put(HelpEntry.DECK, DECK_TEXT);
+		helpEntries.put(HelpEntry.REQUIREMENT, REQUIREMENTS_TEXT);
+		helpEntries.put(HelpEntry.VOTING, VOTING_TEXT);
 	}
 
 	private JTextPane createTextPane() {
@@ -147,7 +152,8 @@ public class HelpDescriptionPanel extends JPanel {
 
 		return textPane;
 	}
-
+	
+	
 	protected void addStylesToDocument(StyledDocument doc) {
 		// Initialize some styles.
 		Style def = StyleContext.getDefaultStyleContext().getStyle(
