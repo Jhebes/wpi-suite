@@ -69,6 +69,7 @@ public class ViewEventManager {
 		final String defaultNameDate = sdf.format(new Date());
 		final String projectName = ConfigManager.getConfig().getProjectName();
 		blankSession.setName(projectName + " - " + defaultNameDate);
+		blankSession.setOwnerUserName(ConfigManager.getConfig().getUserName());
 		blankSession.create();
 	}
 
