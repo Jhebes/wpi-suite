@@ -34,7 +34,7 @@ public class HelpTreePanel extends JScrollPane implements
 
 	/** Enums for the HelpEntry */
 	private final HelpEntry[] entries = HelpEntry.values();
-	
+
 	/** Node of the tree */
 	private final DefaultMutableTreeNode top;
 
@@ -46,7 +46,8 @@ public class HelpTreePanel extends JScrollPane implements
 
 		// adds the help entries to the tree
 		setupHelpEntries();
-		
+		expandTree();
+
 		// tree should be single selection
 		tree.getSelectionModel().setSelectionMode(
 				TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -62,15 +63,23 @@ public class HelpTreePanel extends JScrollPane implements
 		this.setViewportView(tree);
 
 	}
-	
+
 	/**
 	 * Adds all help entries to the tree
 	 */
 	private void setupHelpEntries() {
-		for(HelpEntry entry : entries) {
+		for (HelpEntry entry : entries) {
 			DefaultMutableTreeNode node = new DefaultMutableTreeNode(entry);
 			top.add(node);
 		}
+	}
+	
+	/**
+	 * Expand the tree
+	 */
+	private void expandTree() {
+		TreePath path = new TreePath(top.getPath());
+		tree.expandPath(path);
 	}
 
 	@Override
