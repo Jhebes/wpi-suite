@@ -56,6 +56,8 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirem
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.CardDisplayMode;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.characteristics.SessionLiveType;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.Card;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionTabsPanel;
@@ -100,6 +102,9 @@ public class EditSessionPanel extends JPanel {
 
 	/** Button to cancel making a session */
 	private JButton btnDiscardChanges;
+	
+	/** Button to cancel a session */
+	private JButton btnCancelSession;
 	
 	/** Button to open a session */
 	private JButton btnOpenSession;
@@ -780,19 +785,34 @@ public class EditSessionPanel extends JPanel {
 		// open button is initially disable
 		btnOpenSession.setEnabled(false);
 
-		// Create Cancel create session button
+		// Create Discard changes session button
 		btnDiscardChanges = new JButton("Discard Changes");
 		btnDiscardChanges.addActionListener(new CancelCreateSessionController(this));
+		
+		// Create Cancel session button that cancels the session
+		btnCancelSession = new JButton("Cancel Session");
+		btnCancelSession.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				session.cancel();
+				session.save();
+				SessionTableModel.getInstance().update();
+				closeTab();
+			}
+		});
 
 		bottomPanel = new JPanel();
 		bottomPanel.setLayout(new MigLayout("inset 5 " + DEFAULT_INSETS + " 5 "
 				+ DEFAULT_INSETS, "", "push[]push"));
 		bottomPanel.add(btnSaveChanges, "left, width 120px, height "
 				+ DEFAULT_HEIGHT + "px!");
-		bottomPanel.add(btnOpenSession, "width 120px, height " + DEFAULT_HEIGHT
-				+ "px!");
 		bottomPanel.add(btnDiscardChanges, "width 120px, height " + DEFAULT_HEIGHT
 				+ "px!");
+		bottomPanel.add(btnOpenSession, "width 120px, height " + DEFAULT_HEIGHT
+				+ "px!");
+		bottomPanel.add(btnCancelSession, "width 120px, height " + DEFAULT_HEIGHT
+				+ "px!");
+		
 		bottomPanel.add(labelRequireField, "gapleft 10px, height "
 				+ DEFAULT_HEIGHT + "px!");
 	}
@@ -926,5 +946,11 @@ public class EditSessionPanel extends JPanel {
 		return session;
 	}
 	
+	/**
+	 * Closes this tab
+	 */
+	private void closeTab() {
+		ViewEventManager.getInstance().removeTab(this);
+	}
 	
 }

@@ -89,7 +89,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 *         closed.
 	 */
 	public boolean isNew() {
-		return !isClosed() && !isOpen();
+		return !isClosed() && !isOpen() && !isCancelled;
 	}
 
 	/**
