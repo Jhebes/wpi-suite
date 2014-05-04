@@ -159,7 +159,9 @@ public class EditSessionPanel extends JPanel {
 	/** mode for the create new deck panel */
 	private CardDisplayMode mode = CardDisplayMode.DISPLAY;
 
-	PlanningPokerSession session;
+	/** session being edited */
+	private PlanningPokerSession session;
+	
 	/**
 	 * Constructor to create a Create Session Panel This constructor is used to
 	 * edit an existing session.
@@ -916,4 +918,13 @@ public class EditSessionPanel extends JPanel {
 	public void disableSaveChangesBtn() {
 		btnSaveChanges.setEnabled(false);
 	}
+	
+	/** 
+	 * @return the session being edited 	
+	 */
+	public PlanningPokerSession getSession() {
+		return session;
+	}
+	
+	
 }

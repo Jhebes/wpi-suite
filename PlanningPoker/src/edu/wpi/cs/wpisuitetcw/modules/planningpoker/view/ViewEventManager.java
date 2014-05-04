@@ -34,7 +34,7 @@ public class ViewEventManager {
 	private OverviewTreePanel overviewTreePanel;
 	private ToolbarView toolbarView;
 	private boolean isWelcomePageOnDisplay = true;
-	private List<SessionRequirementPanel> viewSessionPanels = new ArrayList<SessionRequirementPanel>();
+	private List<EditSessionPanel> editSessionPanels = new ArrayList<EditSessionPanel>();
 	private List<VotePanel> inProgressSessionPanels = new ArrayList<VotePanel>();
 
 	/**
@@ -121,10 +121,10 @@ public class ViewEventManager {
 			}
 
 		} else {
-			SessionRequirementPanel exist = null;
+			EditSessionPanel exist = null;
 
-			for (SessionRequirementPanel panel : viewSessionPanels) {
-				if (panel.getPPSession() == session) {
+			for (EditSessionPanel panel : editSessionPanels) {
+				if (panel.getSession() == session) {
 					exist = panel;
 					break;
 				}
@@ -132,12 +132,12 @@ public class ViewEventManager {
 
 			if (exist == null) {
 				// check if the panel of the session is opened
-				final SessionRequirementPanel viewSession = new SessionRequirementPanel(session);
-				viewSessionPanels.add(viewSession);
-				main.addTab(session.getName(), null, viewSession,
-						"View Session.");
+				final EditSessionPanel editSessionPanel = new EditSessionPanel(session);
+				editSessionPanels.add(editSessionPanel);
+				main.addTab(session.getName(), null, editSessionPanel,
+						"Edit Session.");
 				main.repaint();
-				main.setSelectedComponent(viewSession);
+				main.setSelectedComponent(editSessionPanel);
 			} else {
 				main.setSelectedComponent(exist);
 			}
@@ -193,7 +193,7 @@ public class ViewEventManager {
 	 */
 	public void removeTab(JComponent component) {
 		if (component instanceof SessionRequirementPanel) {
-			viewSessionPanels.remove(component);
+			editSessionPanels.remove(component);
 		}
 		if (component instanceof VotePanel) {
 			inProgressSessionPanels.remove(component);
