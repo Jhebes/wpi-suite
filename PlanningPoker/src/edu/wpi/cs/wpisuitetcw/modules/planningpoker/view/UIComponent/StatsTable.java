@@ -77,7 +77,7 @@ public class StatsTable extends JPanel {
 	 * be assigned to the mean
 	 */
 	public void setMean(String mean) {
-		this.lblMeanValue.setText(mean);;
+		this.lblMeanValue.setText(mean);
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class StatsTable extends JPanel {
 	 * be assigned to the median
 	 */
 	public void setMedian(String median) {
-		this.lblMedianValue.setText(median);;
+		this.lblMedianValue.setText(median);
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class StatsTable extends JPanel {
 	 * be assigned to the mode
 	 */
 	public void setMode(String mode) {
-		this.lblModeValue.setText(mode);;
+		this.lblModeValue.setText(mode);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class StatsTable extends JPanel {
 	 * be assigned to the standard deviation
 	 */
 	public void setStandardDeviation(String sd) {
-		this.standardDeviation.setText(sd);;
+		this.standardDeviation.setText(sd);
 	}
 	
 }
