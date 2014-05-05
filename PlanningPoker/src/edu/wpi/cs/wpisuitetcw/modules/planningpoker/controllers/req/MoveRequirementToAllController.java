@@ -80,6 +80,7 @@ public class MoveRequirementToAllController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		view.clearSelection();
 		receivedData(SessionStash.getInstance().getDefaultSession());
 	}
 }

@@ -668,13 +668,7 @@ public class EditSessionPanel extends JPanel {
 				pickerDeadlineTime, "HH:mm:ss");
 		pickerDeadlineTime.setEditor(timeEditor);
 
-		// add an hour to the deadline
-		Date startDate = new Date();
-		final Calendar cal = Calendar.getInstance();
-		cal.setTime(startDate);
-		cal.add(Calendar.HOUR_OF_DAY, 1);
-		startDate = cal.getTime();
-		pickerDeadlineTime.setValue(startDate); // will only show the current
+		pickerDeadlineTime.setValue(new Date()); // will only show the current
 												// time + 1 hour
 
 		pickerDeadlineTime.setEnabled(false);
