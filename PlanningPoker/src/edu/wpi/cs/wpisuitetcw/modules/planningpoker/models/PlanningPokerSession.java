@@ -628,14 +628,19 @@ public class PlanningPokerSession extends AbstractModel {
 	 * data would be copied to the calling PlanningPokerSession object
 	 */
 	public void copyFrom(PlanningPokerSession updatedSession) {
-		isCancelled = updatedSession.isCancelled;
-		startTime = updatedSession.startTime;
-		endTime = updatedSession.endTime;
-		deadline = updatedSession.deadline;
+		ownerUserName = updatedSession.ownerUserName;
 		name = updatedSession.name;
 		description = updatedSession.description;
+		deadline = updatedSession.deadline;
+		startTime = updatedSession.startTime;
+		endTime = updatedSession.endTime;
 		requirements = updatedSession.requirements;
+		users = updatedSession.users;
 		deck = updatedSession.deck;
+		isCancelled = updatedSession.isCancelled;
+		votingComplete = updatedSession.votingComplete;
+		hasVoted = updatedSession.hasVoted;
+		isEditMode = updatedSession.isEditMode;
 	}
 
 	/**
