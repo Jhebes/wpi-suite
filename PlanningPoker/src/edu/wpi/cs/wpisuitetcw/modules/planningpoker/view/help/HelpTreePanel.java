@@ -3,9 +3,6 @@
  */
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.help;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
@@ -22,7 +19,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview.CustomTre
  * 
  */
 public class HelpTreePanel extends JScrollPane implements
-		TreeSelectionListener, MouseListener {
+		TreeSelectionListener {
 
 	/**
 	 * 
