@@ -543,7 +543,12 @@ public class VotePanel extends JPanel {
 
 		// Create a text field to store the final vote result
 		voteTextField = new LabelsWithTextField();
-		voteTextField.clearBottomText();;
+		// Clear the error message
+		voteTextField.clearBottomText();
+		// Disable the text box if there is a deck
+		if (session.getDeck() != null) {
+			voteTextField.getTextField().setEnabled(false);
+		}
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
 
 		voteTextField.getTextField().getDocument().addDocumentListener(new DocumentListener() {
