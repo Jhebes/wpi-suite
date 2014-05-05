@@ -91,7 +91,6 @@ public class VotePanel extends JPanel {
 	private JButton sessionInfoToggleButton;
 		
 	/** List of requirements */
-	private JLabel requirementFrameTitle;
 	private JScrollPane requirementFrame;
 	private JList<PlanningPokerRequirement> reqList;
 	private JXCollapsiblePane requirementCollapsibleFrame;
@@ -480,15 +479,10 @@ public class VotePanel extends JPanel {
 		// Put the list of requirement in a scroll pane
 		requirementFrame = new JScrollPane();
 		requirementFrame.setViewportView(reqList);
-		
-		// Put the scroll pane above in the JXCollapsible frame
-		requirementCollapsibleFrame = new JXCollapsiblePane();
-		requirementCollapsibleFrame.setLayout(new MigLayout("insets 0, fill"));
-		requirementCollapsibleFrame.add(requirementFrame, "grow");
-
 
 		// Create the toggle button that shows/hides session's
-		// name & description
+		// name & description.
+		// This button is right above requirementCollapsibleFrame
 		sessionInfoToggleButton = new JButton();
 		sessionInfoToggleButton.addMouseListener(new MouseListener() {
 			
@@ -512,8 +506,13 @@ public class VotePanel extends JPanel {
 			public void mouseClicked(MouseEvent e) {}
 		});
 		sessionInfoToggleButton.setAction(nameDescriptionCollapsibleFrame.getActionMap().get("toggle"));
-		sessionInfoToggleButton.setText("Session Requirements");
-		
+		sessionInfoToggleButton.setText(REQ_LIST_TITLE);		
+
+		// Put the scroll pane above in the JXCollapsible frame
+		requirementCollapsibleFrame = new JXCollapsiblePane();
+		requirementCollapsibleFrame.setLayout(new MigLayout("insets 0, fill", "", "[][grow]"));
+		requirementCollapsibleFrame.add(sessionInfoToggleButton, "height 32px!, growx, wrap");
+		requirementCollapsibleFrame.add(requirementFrame, "grow");
 		
 		addGUIComponentsOnLeftPanel();
 	}
@@ -521,7 +520,7 @@ public class VotePanel extends JPanel {
 	/*
 	 * Add the GUI components to the left panel
 	 * -------------------------------------------------
-	 * RequirementFrameTitle     sessionInfoToggleButton
+	 * 			  sessionInfoToggleButton
 	 * 			RequirementCollapsibleFrame
 	 * 		  NameDescriptionCollapsibleFrame
 	 */
@@ -530,15 +529,7 @@ public class VotePanel extends JPanel {
 
 		leftPanel.setMinimumSize(new Dimension(250, 300));
 		leftPanel.setLayout(new BorderLayout());
-		
-		// Add the sessionInfoToggleButton at the top
-		JPanel northWrapper = new JPanel();
-		// Wrapper to fix the button's size
-		northWrapper.setLayout(new MigLayout("insets 0, fill"));
-		northWrapper.add(sessionInfoToggleButton, "width 250px!, height 32px!");
-		// Put wrapper back to the left panel
-		leftPanel.add(northWrapper, BorderLayout.NORTH);
-		
+
 		// Add the list of requirement
 		leftPanel.add(requirementCollapsibleFrame, BorderLayout.CENTER);
 		
