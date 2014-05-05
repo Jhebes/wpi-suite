@@ -3,6 +3,7 @@
  */
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.help;
 
+import java.awt.BorderLayout;
 import java.util.HashMap;
 
 import javax.swing.JPanel;
@@ -25,13 +26,12 @@ public class HelpDescriptionPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	
 	private final String[] HELP_GUIDE_TEXT = {
-			"How to Use this Guide", //super huge
-			"\n\nWelcome to the Planning Poker Guide. To browse topics, navigate using the" 
-			+ "panel to the left. Click on a topic to have it displayed." //large
+			"How to Use this Guide", // super huge
+			"\n\nWelcome to the Planning Poker Guide. To browse topics, navigate using the"
+					+ "panel to the left. Click on a topic to have it displayed." // large
 	};
-	
+
 	/** constants */
 	private final String[] FAQ_TEXT_PANE = {
 			"Frequently Asked Questions", // large
@@ -46,7 +46,7 @@ public class HelpDescriptionPanel extends JPanel {
 			"" // small
 	};
 
-	private final String[] DEFAULT_TEXT_PANE = {
+	private final String[] PLANNING_POKER_TEXT = {
 			"Planning Poker", // super huge
 			"\nWhat is Planning Poker?", // large
 			"\nPlanning Poker is a software development tool for estimating requirements "
@@ -145,16 +145,22 @@ public class HelpDescriptionPanel extends JPanel {
 
 	private final String[] SHORTCUTS_TEXT = {
 			"Keyboard Shortcuts", // super huge
-			"\n\nThe following list contains shortcuts that you can use in Planning Poker:"
-					+ "\nCTRL + W    Closes a Session"
-					+ "\nCTRL + N    Opens a Session"
-					+ "\nCTRL + S    Saves a Session"
-					+ "\nF1 		 Pull up the Help Page"
-					+ "\nEnter		 Select an item" };
+			"\n\nThe following list contains shortcuts that you can use in Planning Poker:", // large
+			"\nEnter		               Select an item"
+					+ "\nCTRL + W                  Closes a Session"
+					+ "\nCTRL + N                  Opens a Session"
+					+ "\nCTRL + S                  Saves a Session"
+					+ "\nCTRL + Shift              Move to the next tab"
+					+ "\nCTRL + Tab + Shift        Move to the previous tab"
+					+ "\nF1 		 Pull up the Help Page" // medium
+	};
 
 	/** styles for the help context */
-	String[] STYLES = { "large", "medium", "small", "medium", "small",
-			"medium", "small" };
+	String[] STYLES = { "super huge", "large", "medium", "large", "medium",
+			"large", "medium", "large", "medium", "large", "medium", "large",
+			"medium", "large", "medium", "large", "medium", "large", "medium",
+			"large", "medium", "large", "medium", "large", "medium", "large",
+			"medium", "large", "medium", "large", "medium" };
 
 	/** hashmap for storing help context */
 	private HashMap<HelpEntry, String[]> helpEntries;
@@ -190,27 +196,32 @@ public class HelpDescriptionPanel extends JPanel {
 	 * stores the entries into the hash map
 	 */
 	private void storeHelpEntries() {
-		helpEntries.put(HelpEntry.HELP, HELP_GUIDE_TEXT);
-		helpEntries.put(HelpEntry.DEFAULT, DEFAULT_TEXT_PANE);
-		helpEntries.put(HelpEntry.POKER, FAQ_TEXT_PANE);
+		helpEntries.put(HelpEntry.PLANNINGPOKER, PLANNING_POKER_TEXT);
+		helpEntries.put(HelpEntry.FAQ, FAQ_TEXT_PANE);
 		helpEntries.put(HelpEntry.SESSION, SESSION_TEXT);
 		helpEntries.put(HelpEntry.DECK, DECK_TEXT);
 		helpEntries.put(HelpEntry.REQUIREMENT, REQUIREMENTS_TEXT);
 		helpEntries.put(HelpEntry.VOTING, VOTING_TEXT);
+		helpEntries.put(HelpEntry.SHORTCUT, SHORTCUTS_TEXT);
 	}
 
 	/**
 	 * display the help entries
 	 */
 	private void displayHelp(String[] helpContext) {
+		
+		
 		// remove all context
 		this.removeAll();
 
+		this.setLayout(new BorderLayout());
+		
 		JTextPane textPane = generateHelpPane(helpContext);
-
+		
 		// add the text
-		this.add(textPane);
+		this.add(textPane, BorderLayout.CENTER);
 		textPane.setEditable(false);
+		textPane.setOpaque(true);
 		this.setEnabled(true);
 		this.validate();
 		this.updateUI();
