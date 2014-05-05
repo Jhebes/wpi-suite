@@ -17,6 +17,7 @@ import java.util.Date;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateNewDeckController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerDeck;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.EditSessionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.tabs.SessionDeckPanel;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
@@ -65,7 +66,8 @@ public class SaveSessionController implements ActionListener {
 			final String des = view.getDescriptionBox().getText();
 			final String deckName = (String) view.getDeckType()
 					.getSelectedItem();
-
+			
+			
 			// Store the new deck if user creates one
 			if (view.isInCreateMode()) {
 				final CreateNewDeckController createDeckController = new CreateNewDeckController(
@@ -95,6 +97,8 @@ public class SaveSessionController implements ActionListener {
 
 			// save changes to the session
 			session.save();
+			// update the title of the current tab
+			ViewEventManager.getInstance().updateTabTitle(name);
 			view.disableChangesBtn();
 
 		} else {
