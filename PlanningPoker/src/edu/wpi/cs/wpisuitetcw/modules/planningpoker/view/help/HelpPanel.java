@@ -9,7 +9,9 @@ import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTree;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.tree.TreePath;
 
 /**
  * Help panel that display the index tree and contents
@@ -64,6 +66,9 @@ public class HelpPanel extends JSplitPane {
 	 */
 	public void updateHelpContent(HelpEntry entry) {
 		descriptionPanel.updateHelp(entry);
+		JTree tree = treePanel.getTree();
+		TreePath path = tree.getNextMatch(entry.toString(), 0, null);
+		tree.setSelectionPath(path);
 	}
 
 }

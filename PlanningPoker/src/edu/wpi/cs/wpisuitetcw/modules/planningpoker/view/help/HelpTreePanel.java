@@ -137,4 +137,8 @@ public class HelpTreePanel extends JScrollPane implements
 	@Override
 	public void mouseExited(MouseEvent e) {
 	}
+	
+	public JTree getTree() {
+		return tree;
+	}
 }

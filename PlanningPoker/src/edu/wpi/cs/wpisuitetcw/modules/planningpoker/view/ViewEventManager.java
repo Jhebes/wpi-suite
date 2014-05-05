@@ -19,6 +19,7 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.help.HelpEntry;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.help.HelpPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews.OverviewTreePanel;
@@ -78,20 +79,35 @@ public class ViewEventManager {
 		blankSession.setOwnerUserName(ConfigManager.getConfig().getUserName());
 		blankSession.create();
 	}
+	
+	public void showTutorial() {
+		Component focused = main.getSelectedComponent();
+		if (focused instanceof VotePanel) {
+			showTutorial(HelpEntry.VOTING);
+		} else if (focused instanceof EditSessionPanel) {
+			showTutorial(HelpEntry.SESSION);
+		} else if (focused instanceof HelpPanel) {
+			
+		} else {
+			showTutorial(null);
+		}
+	}
 
 	/**
 	 * Display the tutorial panel
 	 */
-	public void showTutorial() {
+	public void showTutorial(HelpEntry entry) {
 
 		// check if the tutorial tab is open
 		if (helpPanel == null) {
 			helpPanel = new HelpPanel();
-
 			// create a new tab
 			main.addTab("Help", null, helpPanel, "Help");
 			main.invalidate();
 			main.repaint();
+		}
+		if (entry != null) {
+			helpPanel.updateHelpContent(entry);
 		}
 
 		// display the tab
