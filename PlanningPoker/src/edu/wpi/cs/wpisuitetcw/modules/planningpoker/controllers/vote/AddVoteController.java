@@ -117,6 +117,7 @@ public class AddVoteController implements ActionListener {
 		
 		// Update the vote panel
 		updateVoteIcon();
+		voteView.getVoteTextField().setTextBottom("");
 		voteView.setVoteTextFieldWithValue(vote.getCardValue());
 		voteView.advanceInList();
 		voteView.updateUI();

@@ -205,6 +205,13 @@ public class LabelsWithTextField extends JPanel {
 	}
 	
 	/**
+	 * Clear the text at the bottom
+	 */
+	public void clearBottomText() {
+		bottomLine.clearText();
+	}
+	
+	/**
 	 * Return the text user types in the middle 
 	 * text field
 	 * @return Return the text user types in the

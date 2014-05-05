@@ -502,6 +502,7 @@ public class VotePanel extends JPanel {
 
 					updateUI();
 				}
+				voteTextField.clearBottomText();;
 			}
 		});
 
@@ -542,7 +543,7 @@ public class VotePanel extends JPanel {
 
 		// Create a text field to store the final vote result
 		voteTextField = new LabelsWithTextField();
-		
+		voteTextField.clearBottomText();;
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
 
 		voteTextField.getTextField().getDocument().addDocumentListener(new DocumentListener() {
@@ -692,7 +693,7 @@ public class VotePanel extends JPanel {
 	public int getVote() {
 		if (this.session.getDeck() == null) {
 			try {
-				voteTextField.setTextBottom("");
+				voteTextField.clearBottomText();
 				return Integer.parseInt(voteTextField.getTextMiddle());
 			} catch (NumberFormatException e) {
 				voteTextField.setTextBottom(INVALID_VOTE_NUM_MSG);
