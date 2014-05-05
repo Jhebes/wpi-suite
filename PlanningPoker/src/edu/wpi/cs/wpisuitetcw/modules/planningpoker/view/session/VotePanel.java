@@ -46,7 +46,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.miginfocom.swing.MigLayout;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.keys.PanelKeyShortcut;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.keys.CTRLWPanelKeyShortcut;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.EditActivatedSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
@@ -201,7 +201,7 @@ public class VotePanel extends JPanel {
      	// InputMap used when the component's parent window has focus.
      	inputMap.put(ctrlW, "close");
 
-		final Action closeTab = new PanelKeyShortcut(VotePanel.this);
+		final Action closeTab = new CTRLWPanelKeyShortcut(VotePanel.this);
 
 		// Register Action in component's ActionMap.
         actionMap.put("close", closeTab);
