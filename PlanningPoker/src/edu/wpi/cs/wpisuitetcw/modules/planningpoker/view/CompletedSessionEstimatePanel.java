@@ -91,7 +91,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		}
 		card = new LabelsWithTextField(background);
 		card.removeTop();
-		card.setTextBottom("Final estimation");
+		card.setTextBottom("<html><font color='#3399FF'><b>&nbsp;&nbsp;Final estimation<b></html>");
 		
 		// Set default small text "Final estimation"
 		// Enlarge the font when user clicks in
