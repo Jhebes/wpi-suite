@@ -60,7 +60,8 @@ public class AddVoteController implements ActionListener {
 		session = voteView.getSession();
 
 		// Terminate voting process if the session is not active
-		if (!session.isActive()) return;
+		if (!session.isActive())
+			return;
 		
 		// Get the requirement that has been selected from VotePanel
 		try {
@@ -70,6 +71,9 @@ public class AddVoteController implements ActionListener {
 					"Could not find requirement by name", e);
 			return;
 		}
+		
+		if (voteView.getVote() == -1) // Garbage value
+			return;
 
 		// checking list of votes to see if user has already voted
 		final List<PlanningPokerVote> toRemove = new ArrayList<PlanningPokerVote>();
@@ -90,9 +94,6 @@ public class AddVoteController implements ActionListener {
 		
 		// Add vote to the requirement
 		int voteValue = voteView.getVote();
-		
-		if (voteValue == -1) // Garbage value
-			return;
 		
 		final PlanningPokerVote vote = new PlanningPokerVote(username, voteValue);
 		session.addVoteToRequirement(req, vote, username);
