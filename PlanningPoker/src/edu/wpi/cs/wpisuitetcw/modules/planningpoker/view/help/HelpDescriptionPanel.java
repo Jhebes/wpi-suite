@@ -190,8 +190,8 @@ public class HelpDescriptionPanel extends JPanel {
 			"\n\nThe following list contains shortcuts that you can use "
 			+ "\nin Planning Poker:", // large
 			"\n\nEnter		                      Select an item"
-					+ "\nCTRL + W                                Closes a Session"
-					+ "\nCTRL + N                                 Opens a Session"
+					+ "\nCTRL + W                                Closes a Session Tab"
+					+ "\nCTRL + N                                 Creates a new Session"
 					+ "\nCTRL + S                                  Saves a Session"
 					+ "\nCTRL + Shift                            Move to the next tab"
 					+ "\nCTRL + Tab + Shift                 Move to the previous tab"

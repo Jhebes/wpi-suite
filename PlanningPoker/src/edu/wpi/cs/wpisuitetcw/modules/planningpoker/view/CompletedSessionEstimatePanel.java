@@ -90,7 +90,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		}
 		card = new LabelsWithTextField(background);
 		card.removeTop();
-		card.setTextBottom("<html><font color='#3399FF'><b>&nbsp;&nbsp;Final estimation<b></html>");
+		card.setTextBottom("<html><font color='#3399FF'><b>&nbsp;&nbsp;Final Estimation<b></html>");
 		
 		String currentUserName = ConfigManager.getConfig().getUserName();
 		
@@ -198,7 +198,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		if (end != 0) {
 			card.setTextMiddle(Integer.valueOf(requirement.getFinalEstimate()).toString());
 		} else {
-			card.setTextMiddle("");
+			card.setTextMiddle("?");
 		}
 	}
 
