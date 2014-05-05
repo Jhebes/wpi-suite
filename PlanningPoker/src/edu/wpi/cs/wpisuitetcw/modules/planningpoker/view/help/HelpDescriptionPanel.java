@@ -137,19 +137,29 @@ public class HelpDescriptionPanel extends JPanel {
 	private final String[] REQUIREMENTS_TEXT = {
 			"Requirements", // super huge
 			"\n\nWhat is a Requirement?",
-			"\nA requirement is a description of the item that is to be voted upon.", // medium
+			"\nA requirement is a description of the item that is to be voted upon. Previously "
+			+ "\ncreated requirements can be imported into a session.", // medium
+			"\n\nExporting Requirements", //large
+			"\nTo export requirements, select the Requirement Manager tab to view all the requirements. "
+			+ "\nSelect multiple requirements by holding down the CTRL key. Once all desired "
+			+ "\nrequirements have been selected, click on the Export button and select a folder "
+			+ "\nto save the requirements in.", //medium
 			"\n\nImporting Requirements", // large
-			"\nPENDING...", // medium
+			"\nTo import requirements, select the Requirement Manager tab to view all the requirements. "
+			+ "\nClick on the Import button and select the folder in which the requirements are "
+			+ "\nsaved in. ", // medium
 			"\n\nAdding Requirements", // large
 			"\nAdding requirements to a session is done when creating the session. Click on the"
 					+ "\nRequirement tab on the right hand side of the page to open the list of imported "
 					+ "\nrequirements. You also have the option of manually entering requirements", // medium
 			"\n\nCreating Requirements", // large
-			"\nCreating requirements can be done when creating or editing a session." // medium
+			"\nCreating requirements can be done when creating or editing a session. To create a "
+			+ "\nrequirement, select the Requirements tab and enter a name and description. Click "
+			+ "\nAdd Requirement to Session and then Save Changes to update the requirements." // medium
 	};
 
 	private final String[] VOTING_TEXT = { "Voting", // super huge
-			"\n\nDescribe what voting is used for", // large
+			"\n\nWhen Does Voting Happen?", // large
 			"\nVoting happens when users anonymously set a rank to each requirement", // medium
 			"\n\nHow To Vote",// large
 			"\nWhen a session has become active, users are able to set a rank to each requirement. "
@@ -166,16 +176,26 @@ public class HelpDescriptionPanel extends JPanel {
 			+ "\nthen be reflected under the requirement manager section." // medium
 			};
 
+	private final String[] NOTIFICATIONS_TEXT ={
+		"Notifications", //super huge
+		"\n\nSMS and Email Notifications", //large
+		"\nAll Users are able to configure email and SMS notifications when creating their accounts on "
+		+ "\nWPI Suite.", // medium
+		"\n\nWhen Will Users Receive Notifications?", //large
+		"\nUsers receive notifications whenever sessions are opened and closed." //medium
+	};
+	
 	private final String[] SHORTCUTS_TEXT = {
 			"Keyboard Shortcuts", // super huge
-			"\n\nThe following list contains shortcuts that you can use in Planning Poker:", // large
-			"\nEnter		               Select an item"
-					+ "\nCTRL + W                  Closes a Session"
-					+ "\nCTRL + N                  Opens a Session"
-					+ "\nCTRL + S                  Saves a Session"
-					+ "\nCTRL + Shift              Move to the next tab"
-					+ "\nCTRL + Tab + Shift        Move to the previous tab"
-					+ "\nF1 		               Pull up the Help Page" // medium
+			"\n\nThe following list contains shortcuts that you can use "
+			+ "\nin Planning Poker:", // large
+			"\n\nEnter		                      Select an item"
+					+ "\nCTRL + W                                Closes a Session"
+					+ "\nCTRL + N                                 Opens a Session"
+					+ "\nCTRL + S                                  Saves a Session"
+					+ "\nCTRL + Shift                            Move to the next tab"
+					+ "\nCTRL + Tab + Shift                 Move to the previous tab"
+					+ "\nF1 		                       Pull up the Help Page" // medium
 	};
 
 	/** styles for the help context */
@@ -231,6 +251,7 @@ public class HelpDescriptionPanel extends JPanel {
 		helpEntries.put(HelpEntry.DECK, DECK_TEXT);
 		helpEntries.put(HelpEntry.REQUIREMENT, REQUIREMENTS_TEXT);
 		helpEntries.put(HelpEntry.VOTING, VOTING_TEXT);
+		helpEntries.put(HelpEntry.NOTIFICATIONS, NOTIFICATIONS_TEXT);
 		helpEntries.put(HelpEntry.SHORTCUT, SHORTCUTS_TEXT);
 	}
 

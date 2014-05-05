@@ -15,8 +15,8 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.help;
  */
 public enum HelpEntry {
 	PLANNINGPOKER("Planning Poker"), SESSION("Session"), DECK("Deck"), REQUIREMENT(
-			"Requirements"), VOTING("Voting"), SHORTCUT("Keyboard Shortcuts"), FAQ(
-			"FAQ");
+			"Requirements"), VOTING("Voting"), NOTIFICATIONS("Notifications"), SHORTCUT(
+			"Keyboard Shortcuts"), FAQ("FAQ");
 
 	private final String type;
 
