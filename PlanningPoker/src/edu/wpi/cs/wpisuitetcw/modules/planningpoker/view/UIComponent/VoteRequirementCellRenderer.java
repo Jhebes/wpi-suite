@@ -18,7 +18,9 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 /**
@@ -55,16 +57,25 @@ public class VoteRequirementCellRenderer extends JLabel implements ListCellRende
 		// Set requirement name to the cell
 		final String requirementName = value.getName();
 		setText(requirementName);
-
+		
 		// Set icon
 		boolean isVoted = false;
-		for (PlanningPokerVote vote : value.getVotes()) {
-			if (vote.getUser().equals(user)) {
-				isVoted = true;
+		
+		PlanningPokerSession session = SessionStash.getInstance().getSessionByID(value.getSessionID());
+		
+		if (session == null || session.isActive()) {
+			for (PlanningPokerVote vote : value.getVotes()) {
+				if (vote.getUser().equals(user)) {
+					isVoted = true;
+				}
 			}
+		} else {
+			isVoted = value.getFinalEstimate() > 0;
 		}
+		
 		setIcon(isVoted ? voteIcon : notVoteIcon);
-	
+		
+		
 		// Set background when a cell is selected and not selected
 		if (isSelected) {
 			setBackground(list.getSelectionBackground());
