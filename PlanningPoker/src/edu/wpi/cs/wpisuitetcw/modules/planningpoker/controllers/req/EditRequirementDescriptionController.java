@@ -55,6 +55,7 @@ public class EditRequirementDescriptionController implements ActionListener {
 		final PlanningPokerRequirement requirement;
 		final List<PlanningPokerRequirement> requirements = new ArrayList<PlanningPokerRequirement>();
 		final String requirementNames = view.getSelectedReqName();
+		view.clearSelection();
 		requirement = session.getReqByName(requirementNames);
 		requirements.add(requirement);
 		session.deleteRequirements(requirements);

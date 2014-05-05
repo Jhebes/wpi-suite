@@ -562,12 +562,6 @@ public class SessionRequirementPanel extends JPanel {
 		} else {
 			moveAllRequirementsToSession.setEnabled(true);
 		}
-		
-		// gets rid of selection
-		sessionReqPanel.setFocusable(false);
-		allReqPanel.setFocusable(false);
-		sessionReqPanel.setFocusable(true);
-		allReqPanel.setFocusable(true);
 	}
 
 	/**
@@ -648,6 +642,15 @@ public class SessionRequirementPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Clears selection of the two tables
+	 */
+	public void clearSelection(){
+		// gets rid of selection
+		allReqTable.clearSelection();
+		sessionReqTable.clearSelection();
+	}
+	
 	/**
 	 * @return Whether the has changed
 	 */
