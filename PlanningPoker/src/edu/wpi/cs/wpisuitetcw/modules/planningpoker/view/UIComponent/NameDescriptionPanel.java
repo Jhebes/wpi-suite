@@ -129,8 +129,8 @@ public class NameDescriptionPanel extends JPanel {
 
 		// Disable the text boxes if isEditable is false
 		if (!isEditable) {
-			nameTextField.setEditable(false);
-			descriptionTextField.setEditable(false);
+			nameTextField.setEnabled(false);
+			descriptionTextField.setEnabled(false);
 		}
 	}
 	
