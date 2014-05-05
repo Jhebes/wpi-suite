@@ -627,7 +627,7 @@ public class VotePanel extends JPanel {
 				rightPanel.add(cardFrame, "height 235::, grow, dock south");
 			} else {
 				// TODO remove the message
-				final JLabel messageLabel = new JLabel(NO_DECK_MSG);
+				final JLabel messageLabel = new JLabel();
 				rightPanel.add(messageLabel, "gapleft 150px, hmin 230px, grow, dock south");
 			}
 
