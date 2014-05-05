@@ -95,5 +95,21 @@ public class PlanningPoker implements IJanewayModule {
 				ViewEventManager.getInstance().createSession();
 			}
 		}));
+		
+		// control + tab: switch to right tab
+				tab.addKeyboardShortcut(new KeyboardShortcut(KeyStroke.getKeyStroke("control TAB"), new AbstractAction() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						ViewEventManager.getInstance().switchToRightTab();
+					}
+				}));
+				
+				// control + shift + tab: switch to left tab
+				tab.addKeyboardShortcut(new KeyboardShortcut(KeyStroke.getKeyStroke("control shift TAB"), new AbstractAction() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						ViewEventManager.getInstance().switchToLeftTab();
+					}
+				}));
 	}
 }
