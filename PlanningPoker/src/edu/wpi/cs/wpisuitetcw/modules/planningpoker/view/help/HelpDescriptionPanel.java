@@ -34,7 +34,7 @@ public class HelpDescriptionPanel extends JPanel {
 	
 	/** constants */
 	private final String[] FAQ_TEXT_PANE = {
-			"Frequently Asked Questions", // large
+			"Frequently Asked Questions", // Super huge
 			"\n\nWho can view my vote?", // medium
 			"\n Once your vote is submitted, your vote remains anonymous and is only"
 					+ " used for the calculation of the final estimation of a requirement.", // small
@@ -75,14 +75,14 @@ public class HelpDescriptionPanel extends JPanel {
 	};
 
 	private final String[] SESSION_TEXT = {
-			"Sessions", // large
+			"Sessions", // super huge
 			"\n\nTo begin using Planning Poker, an administrator creates a session that contains "
 					+ "the requirements that are to be voted upon. A session runs until a session deadline "
 					+ "has been reached or the administrator ends a session.", // medium
 			"\n\nViewing Sessions", // large
 			"\nTo view sessions...", // medium
 			"\n\nCreate a Session", // large
-			"\nTo create a session click on the “Create Session” button, which will bring up a "
+			"\nTo create a session click on the \"Create Session\" button, which will bring up a "
 					+ "page where it is possible to customize a session. A session must have a name, type "
 					+ "of deck, session description, and set of requirements. The administrator has the "
 					+ "option of using the default Fibonacci sequence deck, using a previously created deck, "
@@ -118,7 +118,7 @@ public class HelpDescriptionPanel extends JPanel {
 			"When creating a session, the administrator has four deck selections to "
 					+ "choose from. The first is to use the default Fibonacci deck which has "
 					+ "cards of value 0, 1, 1, 2, 3, 5, 8, and 13. The second is to create a "
-					+ "new deck by selecting “Create New Deck” from the deck dropdown menu. "
+					+ "new deck by selecting \"Create New Deck\" from the deck dropdown menu. "
 					+ "This gives the administrator the ability to assign numerical values to "
 					+ "a desired amount of cards." // medium
 	};
@@ -127,7 +127,7 @@ public class HelpDescriptionPanel extends JPanel {
 			"Requirements", // super huge
 			"A requirement is a description of the item that is to be voted upon.", // medium
 			"Importing Requirements", // large
-			"PENDING…", // medium
+			"PENDING...", // medium
 			"Adding Requirements", // large
 			"Adding requirements to a session is done when creating the session. Click on the"
 					+ "Requirement tab on the right hand side of the page to open the list of imported "
@@ -153,8 +153,9 @@ public class HelpDescriptionPanel extends JPanel {
 					+ "\nEnter		 Select an item" };
 
 	/** styles for the help context */
-	String[] STYLES = { "large", "medium", "small", "medium", "small",
-			"medium", "small" };
+	String[] STYLES = { "super huge", "large", "medium", "large", "medium",
+			"large", "medium", "large", "medium", "large", "medium", "large",
+			"medium", "large", "medium", "large", "medium" };
 
 	/** hashmap for storing help context */
 	private HashMap<HelpEntry, String[]> helpEntries;
