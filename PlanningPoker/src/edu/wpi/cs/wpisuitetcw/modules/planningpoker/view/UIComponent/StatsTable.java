@@ -44,6 +44,7 @@ public class StatsTable extends JPanel {
 						   {"Median", median},
 						   {"Median", mode},
 						   {"<html>Standard<br>deviation</html>", standardDeviation}};
+		
 		statsTable = new JTable(data, header);
 		statsTable.setTableHeader(null);
 		
@@ -59,13 +60,19 @@ public class StatsTable extends JPanel {
 		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 		statsTable.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
 
+		// Set row height
 		statsTable.setRowHeight(40);
 		
+		// Set the grid line to black
 		statsTable.setShowGrid(true);
 		statsTable.setGridColor(Color.BLACK);
 		statsTable.setShowVerticalLines(false);
 		
+		// Create border
 		statsTable.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		
+		// Set the table non-selectable
+		statsTable.setEnabled(false);
 		
 		putGUIComponentOnPanel();
 	}
