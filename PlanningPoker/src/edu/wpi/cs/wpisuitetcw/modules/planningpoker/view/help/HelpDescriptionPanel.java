@@ -26,13 +26,12 @@ public class HelpDescriptionPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	
 	private final String[] HELP_GUIDE_TEXT = {
-			"How to Use this Guide", //super huge
-			"\n\nWelcome to the Planning Poker Guide. To browse topics, navigate using the" 
-			+ "panel to the left. Click on a topic to have it displayed." //large
+			"How to Use this Guide", // super huge
+			"\n\nWelcome to the Planning Poker Guide. To browse topics, navigate using the"
+					+ "panel to the left. Click on a topic to have it displayed." // large
 	};
-	
+
 	/** constants */
 	private final String[] FAQ_TEXT_PANE = {
 			"Frequently Asked Questions", // Super huge
@@ -47,7 +46,7 @@ public class HelpDescriptionPanel extends JPanel {
 			"" // small
 	};
 
-	private final String[] DEFAULT_TEXT_PANE = {
+	private final String[] PLANNING_POKER_TEXT = {
 			"Planning Poker", // super huge
 			"\nWhat is Planning Poker?", // large
 			"\nPlanning Poker is a software development tool for estimating requirements "
@@ -210,19 +209,18 @@ public class HelpDescriptionPanel extends JPanel {
 	 * display the help entries
 	 */
 	private void displayHelp(String[] helpContext) {
-		
-		
+
 		// remove all context
 		this.removeAll();
 
 		this.setLayout(new BorderLayout());
-		
+
 		JTextPane textPane = generateHelpPane(helpContext);
-		
+
 		// add the text
 		this.add(textPane, BorderLayout.CENTER);
 		textPane.setEditable(false);
-		textPane.setOpaque(true);
+		textPane.setOpaque(false);
 		this.setEnabled(true);
 		this.validate();
 		this.updateUI();
