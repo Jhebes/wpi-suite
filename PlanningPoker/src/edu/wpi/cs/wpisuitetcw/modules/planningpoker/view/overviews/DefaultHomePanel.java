@@ -57,6 +57,8 @@ public class DefaultHomePanel extends JPanel {
 		final JPanel topContainer = new JPanel();
 		final JPanel centerPanel = new JPanel();
 		
+		final JPanel overallPanel = new JPanel();
+		
 		centerPanel.setLayout(new MigLayout());
 		centerPanel.add(leftTextPane);
 	
@@ -65,9 +67,11 @@ public class DefaultHomePanel extends JPanel {
 
 		// Set to make layout and adds welcome message to top and splitpane to
 		// bottom
-		this.setLayout(new MigLayout());
-		this.add(topContainer, "dock north");
-		this.add(centerPanel, "center");
+		overallPanel.setLayout(new MigLayout());
+		overallPanel.add(topContainer, "dock north");
+		overallPanel.add(centerPanel, "center");
+		
+		this.add(overallPanel);
 	}
 
 	private JTextPane createTopTextPane() {
@@ -149,7 +153,7 @@ public class DefaultHomePanel extends JPanel {
 		StyleConstants.setItalic(s, true);
 
 		s = doc.addStyle("super huge", Georgia);
-		StyleConstants.setFontSize(s, 34);
+		StyleConstants.setFontSize(s, 38);
 		StyleConstants.setBold(s, true);
 	}
 }
