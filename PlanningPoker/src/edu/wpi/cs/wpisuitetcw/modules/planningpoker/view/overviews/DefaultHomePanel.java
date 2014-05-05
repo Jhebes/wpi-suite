@@ -10,8 +10,6 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
-import java.awt.Color;
-
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
@@ -35,21 +33,15 @@ public class DefaultHomePanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private final Border compound, paneEdgeBorder, grayAndDarkGrayBorder;
 
 	public DefaultHomePanel() {
 
 		// Default Home Panel's borders
-		paneEdgeBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-		grayAndDarkGrayBorder = BorderFactory.createEtchedBorder(
-				Color.lightGray, Color.darkGray);
-
-		// Combines borders, grayAndDarkBorder within 10 pixels of padding
-		compound = BorderFactory.createCompoundBorder(paneEdgeBorder,
-				grayAndDarkGrayBorder);
+		final Border paneEdgeBorder = BorderFactory.createEmptyBorder(10, 10,
+				10, 10);
 
 		// sets the panel border
-		this.setBorder(compound);
+		this.setBorder(paneEdgeBorder);
 
 		final JTextPane leftTextPane = createLeftTextPane();
 		final JTextPane rightTextPane = createRightTextPane();
@@ -160,8 +152,9 @@ public class DefaultHomePanel extends JPanel {
 				"" // small
 		};
 
-		final String[] initStyles = { "large", "medium", "small", "medium", "small",
-				"medium", "small" };
+		final String[] initStyles = { "super huge", "large", "medium", "large",
+				"medium", "large", "medium", "large", "medium", "large",
+				"medium" };
 
 		final JTextPane textPane = new JTextPane();
 		final StyledDocument doc = textPane.getStyledDocument();
@@ -180,31 +173,24 @@ public class DefaultHomePanel extends JPanel {
 
 	protected void addStylesToDocument(StyledDocument doc) {
 		// Initialize some styles.
-		final Style def = StyleContext.getDefaultStyleContext().getStyle(
+		Style def = StyleContext.getDefaultStyleContext().getStyle(
 				StyleContext.DEFAULT_STYLE);
 
-		final Style regular = doc.addStyle("regular", def);
+		Style regular = doc.addStyle("regular", def);
 		StyleConstants.setFontFamily(def, "SansSerif");
 
-		final Style Georgia = doc.addStyle("georgia", def);
+		Style Georgia = doc.addStyle("georgia", def);
 		StyleConstants.setFontFamily(def, "Georgia");
 
-		Style s = doc.addStyle("italic", regular);
-		StyleConstants.setItalic(s, true);
-		//
-		s = doc.addStyle("bold", regular);
-		StyleConstants.setBold(s, true);
-
-		s = doc.addStyle("small", regular);
-		StyleConstants.setFontSize(s, 19);
+		Style s;
 
 		s = doc.addStyle("medium", regular);
 		StyleConstants.setFontSize(s, 20);
-		StyleConstants.setBold(s, true);
 
 		s = doc.addStyle("large", Georgia);
 		StyleConstants.setFontSize(s, 24);
 		StyleConstants.setBold(s, true);
+		StyleConstants.setItalic(s, true);
 
 		s = doc.addStyle("super huge", Georgia);
 		StyleConstants.setFontSize(s, 34);
