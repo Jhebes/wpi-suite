@@ -176,6 +176,14 @@ public class LabelsWithTextField extends JPanel {
 		topLine.setHTMLStyleText(text);
 	}
 	
+
+	/**
+	 * Set the text at the top line to ""
+	 */
+	public void clearTopText() {
+		topLine.clearText();
+	}
+	
 	/**
 	 * Assign the given String to the bottom line
 	 * @param text A string that would be assigned
@@ -259,4 +267,5 @@ public class LabelsWithTextField extends JPanel {
 			g.drawImage(background, x, y, this);
 		}
 	}
+
 }

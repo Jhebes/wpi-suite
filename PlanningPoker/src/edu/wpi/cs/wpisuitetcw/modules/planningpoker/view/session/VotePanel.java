@@ -555,9 +555,11 @@ public class VotePanel extends JPanel {
 		voteTextField.setTextTop(MANUAL_VOTE_MSG);
 		// Clear the error message at the bottom
 		voteTextField.clearBottomText();
-		// Disable the text box if there is a deck
+		// Disable the text box AND
+		// remove the text at the top if there is a deck
 		if (session.getDeck() != null) {
 			voteTextField.getTextField().setEnabled(false);
+			voteTextField.clearTopText();
 		}
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
 
