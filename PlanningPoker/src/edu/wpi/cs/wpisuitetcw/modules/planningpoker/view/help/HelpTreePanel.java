@@ -38,7 +38,12 @@ public class HelpTreePanel extends JScrollPane implements
 	/** Node of the tree */
 	private final DefaultMutableTreeNode top;
 
-	public HelpTreePanel() {
+	/** The containing panel */
+	private final HelpPanel parentPanel;
+
+	public HelpTreePanel(HelpPanel parentPanel) {
+		this.parentPanel = parentPanel;
+
 		// set up tree
 		top = new DefaultMutableTreeNode("General Help");
 
@@ -73,7 +78,7 @@ public class HelpTreePanel extends JScrollPane implements
 			top.add(node);
 		}
 	}
-	
+
 	/**
 	 * Expand the tree
 	 */
@@ -90,10 +95,9 @@ public class HelpTreePanel extends JScrollPane implements
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
 						.getLastSelectedPathComponent();
 				if (node != null) {
-					// open a session
-					if (node.getUserObject() instanceof HelpDescriptionPanel) {
-						// ViewEventManager.getInstance().createHelp();
-					}
+					// update the right panel with the selected help entry
+					parentPanel.updateHelpContent((HelpEntry) node
+							.getUserObject());
 				}
 			}
 		}
