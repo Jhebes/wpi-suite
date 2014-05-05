@@ -43,7 +43,7 @@ public class HelpPanel extends JSplitPane {
 	 * Update the right panel to show the help content
 	 */
 	public void updateHelpContent(HelpEntry entry) {
-		descriptionPanel.displayHelp(entry);
+		descriptionPanel.updateHelp(entry);
 	}
 	
 

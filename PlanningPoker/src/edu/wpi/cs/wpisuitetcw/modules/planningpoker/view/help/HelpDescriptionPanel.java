@@ -104,9 +104,17 @@ public class HelpDescriptionPanel extends JPanel {
 			"Viewing Votes",//large
 			"Setting a Final Estimation"//large
 	};
+	
+	/** styles for the help context */
+	String[] STYLES = { "large", "medium", "small", "medium", "small",
+					"medium", "small" };
 
+	/** hashmap for storing help context */
 	private HashMap<HelpEntry, String[]> helpEntries;
 
+	/** text pane for displaying the help context */
+	private JTextPane textPane;
+	
 	/**
 	 * Constructor to create a new help description panel for display help context
 	 */
@@ -116,18 +124,23 @@ public class HelpDescriptionPanel extends JPanel {
 		helpEntries = new HashMap<HelpEntry, String[]>();
 		storeHelpEntries();
 
-		JTextPane textPane = createTextPane();
-
+		// set up the textpane
+		textPane = new JTextPane();
+		displayHelp(DEFAULT_TEXT_PANE);
+		
+		// add the text
 		this.add(textPane);
 		textPane.setEditable(false);
 		this.setEnabled(true);
 	}
 	
 	/**
-	 * Display the given help entry
+	 * Update the panel with the given help entry
+	 * @param help entry
 	 */
-	public void displayHelp(HelpEntry entry) {
-		String[] helpContent = helpEntries.get(entry);
+	public void updateHelp(HelpEntry entry) {
+		String[] helpContext = helpEntries.get(entry);
+		displayHelp(helpContext);
 	}
 
 	/**
@@ -142,28 +155,29 @@ public class HelpDescriptionPanel extends JPanel {
 		helpEntries.put(HelpEntry.VOTING, VOTING_TEXT);
 	}
 
-	private JTextPane createTextPane() {
-
-		String[] initStyles = { "large", "medium", "small", "medium", "small",
-				"medium", "small" };
-
-		JTextPane textPane = new JTextPane();
+	
+	/**
+	 * display the given help entry
+	 * @param helpContext
+	 */
+	private void displayHelp(String[] helpContext) {
 		StyledDocument doc = textPane.getStyledDocument();
 		addStylesToDocument(doc);
 
 		try {
-			for (int i = 0; i < DEFAULT_TEXT_PANE.length; i++) {
-				doc.insertString(doc.getLength(), DEFAULT_TEXT_PANE[i],
-						doc.getStyle(initStyles[i]));
+			for (int i = 0; i < helpContext.length; i++) {
+				doc.insertString(doc.getLength(), helpContext[i],
+						doc.getStyle(STYLES[i]));
 			}
 		} catch (BadLocationException ble) {
 			System.err.println("Couldn't insert initial text into text pane.");
 		}
-
-		return textPane;
 	}
 	
-	
+	/**
+	 * Stylize the given document
+	 * @param doc
+	 */
 	protected void addStylesToDocument(StyledDocument doc) {
 		// Initialize some styles.
 		Style def = StyleContext.getDefaultStyleContext().getStyle(
