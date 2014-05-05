@@ -3,7 +3,6 @@
  */
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.help;
 
-import java.awt.BorderLayout;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
@@ -15,6 +14,8 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
+
+import net.miginfocom.swing.MigLayout;
 
 /**
  * Contents to be display for the help panel. Content would be instantly updated
@@ -225,14 +226,18 @@ public class HelpDescriptionPanel extends JPanel {
 		// remove all context
 		this.removeAll();
 
-		this.setLayout(new BorderLayout());
+		this.setLayout(new MigLayout());
 
+		// create and set up text pane
 		JTextPane textPane = generateHelpPane(helpContext);
-
-		// add the text
-		this.add(textPane, BorderLayout.CENTER);
 		textPane.setEditable(false);
 		textPane.setOpaque(false);
+		textPane.setCaretPosition(0);
+
+		// add the text
+		this.add(textPane, "center");
+		
+		// set up the panel
 		this.setEnabled(true);
 		this.validate();
 		this.updateUI();
