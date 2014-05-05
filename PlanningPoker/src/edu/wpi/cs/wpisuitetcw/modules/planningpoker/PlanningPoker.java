@@ -88,5 +88,12 @@ public class PlanningPoker implements IJanewayModule {
 				ViewEventManager.getInstance().showTutorial();
 			}
 		}));
+		//CTRL-N Should open a new pp session
+		tab.addKeyboardShortcut(new KeyboardShortcut(KeyStroke.getKeyStroke("control N"), new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ViewEventManager.getInstance().createSession();
+			}
+		}));
 	}
 }
