@@ -494,7 +494,7 @@ public class VotePanel extends JPanel {
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
-				sessionInfoToggleButton.setText("Session Requirements");
+				sessionInfoToggleButton.setText(REQ_LIST_TITLE);
 			}
 			
 			@Override
