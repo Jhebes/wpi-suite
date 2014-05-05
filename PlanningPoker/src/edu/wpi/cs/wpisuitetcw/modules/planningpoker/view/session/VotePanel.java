@@ -549,7 +549,7 @@ public class VotePanel extends JPanel {
 													 + HORIZONTAL_PADDING_RIGHT_PANEL + " " 
 													 + VERTICAL_PADDING_RIGHT_PANEL   + " "
 													 + HORIZONTAL_PADDING_RIGHT_PANEL + ", fill",
-											"", "[growprio 65, grow][growprio 35, grow]"));
+											"", "[growprio 55, grow][growprio 45, grow]"));
 		
 		// Add the Name & Description text boxes
 		rightPanel.add(nameDescriptionPanel, "grow, wrap");
