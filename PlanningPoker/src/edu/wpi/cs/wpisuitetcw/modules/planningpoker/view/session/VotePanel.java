@@ -20,13 +20,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import javax.swing.Action;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -40,7 +37,6 @@ import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.swingx.JXCollapsiblePane;
-import org.jdesktop.swingx.JXFrame;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.EditActivatedSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
@@ -68,10 +64,7 @@ public class VotePanel extends JPanel {
 	private static final String REQ_NAME_LABEL = "Requirement Name";
 	private static final String REQ_DESC_LABEL = "Description";
 	private static final String VOTE_BUTTON_LABEL = "Submit Vote";
-	private static final String LEFT_PANEL_LABEL = "Session Requirements:";
-	private static final String SESSION_LABEL = "Session:";
-	private static final String SESSION_NAME_LABEL = "Name:";
-	private static final String SESSION_DESC_LABEL = "Description:";
+	private static final String REQ_LIST_TITLE = "Session Requirements";
 	private static final String END_SESSION_BUTTON_LABEL = "End Session";
 	private static final String NO_DECK_MSG = "<html><font color='red'>No deck. Please enter your vote in the white box</font></html>";
 
@@ -418,9 +411,7 @@ public class VotePanel extends JPanel {
 		// Set this frame hidden initially
 		nameDescriptionCollapsibleFrame.setCollapsed(true);
 		
-		// Create List of requirements
-		requirementFrameTitle = new JLabel(LEFT_PANEL_LABEL);
-		
+		// Create List of requirements		
 		final List<PlanningPokerRequirement> reqs = session.getRequirements();
 		
 		final DefaultListModel<PlanningPokerRequirement> requirementModel = 
@@ -593,8 +584,6 @@ public class VotePanel extends JPanel {
 
 		// Create the card panel or final estimation GUI
 		finalEstimatePnl = new CompletedSessionEstimatePanel(this);
-		// TODO change this migLayout later
-		finalEstimatePnl.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		addGUIComponentsOnRightPanel();
 	}
