@@ -86,6 +86,7 @@ public class EditSessionPanel extends JPanel {
 	private static final int DEADLINE_DATEPICKER_WIDTH = 170;
 	private static final int DROPDOWN_WIDTH = 150;
 	private static final int DROPDOWN_DECK_WIDTH = 200;
+	private static final int DESCRIPTION_BOX_WIDTH = 300;
 	private static final int DESCRIPTION_BOX_HEIGHT = 110;
 	private static final int GAP_LENGTH_DEADLINE_TO_BOTTOM = 0;
 	private static final String REQUIRED_LABEL = "<html><font color='red'>Required field *</font></html>";
@@ -543,8 +544,10 @@ public class EditSessionPanel extends JPanel {
 
 		// Add the description text field and its label to 2 separate rows
 		leftPanel.add(labelDescriptionBox, "wrap");
-		leftPanel.add(descriptionFrame, "growx, hmin " + DESCRIPTION_BOX_HEIGHT
-				+ "px, span");
+		leftPanel.add(descriptionFrame, "growx, "
+									  + "hmin " + DESCRIPTION_BOX_HEIGHT + "px, "
+									  + "width " + DESCRIPTION_BOX_WIDTH + "::, " 
+									  + "span");
 
 		// Add labels for the dropdowns of session type and deck to 1 row
 		leftPanel.add(labeDeck, "left, wrap");
