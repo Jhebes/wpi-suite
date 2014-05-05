@@ -534,18 +534,16 @@ public class EditSessionPanel extends JPanel {
 		leftPanel.add(nameTextField, "growx, span, height " + DEFAULT_HEIGHT
 				+ "px!");
 
-		// Add labels for the dropdowns of session type and deck to 1 row
-		leftPanel.add(labeDeck, "left, wrap");
-
-		// Add the dropdowns of session type and deck to 1 row
-		leftPanel.add(deckType, "width " + DROPDOWN_DECK_WIDTH
-				+ "px!, left, wrap");
-
 		// Add the description text field and its label to 2 separate rows
 		leftPanel.add(labelDescriptionBox, "wrap");
 		leftPanel.add(descriptionFrame, "growx, hmin " + DESCRIPTION_BOX_HEIGHT
 				+ "px, span");
 
+		// Add labels for the dropdowns of session type and deck to 1 row
+		leftPanel.add(labeDeck, "left, wrap");
+
+		// Add the dropdowns of session type and deck to 1 row
+		leftPanel.add(deckType, "growx, left, wrap");
 		// Add the label for deadline and a check box next to it
 		leftPanel.add(labelDeadline, "split3");
 		leftPanel.add(cbDeadline);
