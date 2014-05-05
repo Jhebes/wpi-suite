@@ -89,6 +89,7 @@ public class NameDescriptionPanel extends JPanel {
 		nameTextField.setLineWrap(true);
 		nameTextField.setWrapStyleWord(true);
 		nameTextField.setDisabledTextColor(Color.BLACK);
+		nameTextField.setBorder(new EmptyBorder(4, 3, 2, 3));
 		nameFrame = new JScrollPane(nameTextField);
 		
 		setAutoHighlightWhenClicked();
