@@ -94,6 +94,14 @@ public class ViewEventManager {
 		main.repaint();
 		main.setSelectedComponent(newSession);
 	}
+	
+	
+	/**
+	 * @param component
+	 */
+	public void updateTabTitle(String title) {
+		main.setTitleAt(main.getSelectedIndex(), title);
+	}
 
 	/**
 	 * Opens a new tab for viewing a session
