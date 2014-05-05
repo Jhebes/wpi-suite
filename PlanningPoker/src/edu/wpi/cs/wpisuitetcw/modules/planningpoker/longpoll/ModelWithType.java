@@ -10,6 +10,7 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.longpoll;
 
+import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 /**
@@ -18,10 +19,12 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 public class ModelWithType {
 	private AbstractModel object;
 	private Class<?> type;
+	private Session session;
 	
-	public ModelWithType(Class<?> type, AbstractModel object) {
+	public ModelWithType(Class<?> type, AbstractModel object, Session session) {
 		this.type = type;
 		this.object = object;
+		this.session = session;
 	}
 	
 	public AbstractModel getObject() {
@@ -30,5 +33,9 @@ public class ModelWithType {
 	
 	public Class getType() {
 		return type;
+	}
+	
+	public Session getSession() {
+		return session;
 	}
 }

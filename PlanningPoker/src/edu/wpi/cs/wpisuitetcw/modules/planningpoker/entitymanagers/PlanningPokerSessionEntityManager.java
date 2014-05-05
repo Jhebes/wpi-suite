@@ -121,6 +121,8 @@ public class PlanningPokerSessionEntityManager implements
 		if (!db.save(newPlanningPokerSession, s.getProject())) {
 			throw new WPISuiteException();
 		}
+		
+		LongPollingResponseEntityManager.pushToClients(newPlanningPokerSession.getClass(), newPlanningPokerSession, s);
 
 		// Return the newly created message (this gets passed back to the
 		// client)
@@ -214,7 +216,7 @@ public class PlanningPokerSessionEntityManager implements
 		// appropriately
 		existingSession.copyFrom(updatedSession);
 
-		LongPollingResponseEntityManager.pushToClients(existingSession.getClass(), existingSession);
+		LongPollingResponseEntityManager.pushToClients(existingSession.getClass(), existingSession, s);
 		
 		if (!db.save(existingSession, s.getProject())) {
 			throw new WPISuiteException(

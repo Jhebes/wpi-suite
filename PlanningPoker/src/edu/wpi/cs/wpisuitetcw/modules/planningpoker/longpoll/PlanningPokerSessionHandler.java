@@ -12,8 +12,11 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.longpoll;
 
 import java.util.List;
 
+import javax.swing.DefaultListModel;
+
 import com.google.gson.Gson;
 
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerSession;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
@@ -54,11 +57,24 @@ public class PlanningPokerSessionHandler extends
 					.getVotePanels();
 			for (int i = 0; i < openPanels.size(); ++i) {
 				PlanningPokerSession s = openPanels.get(i).getSession();
+				if (s.getID() == receivedSession.getID()) {
+					if (!s.isClosed()) {
+						ViewEventManager.getInstance().removeTab(openPanels.get(i));
+						ViewEventManager.getInstance().viewSession(
+								SessionStash.getInstance().getSessionByID(
+										receivedSession.getID()));
+					}
+					break;
+				}
+			}
+		} else if (receivedSession.isOpen()) {
+			List<VotePanel> openPanels = ViewEventManager.getInstance()
+					.getVotePanels();
+			for (int i = 0; i < openPanels.size(); ++i) {
+				VotePanel panel = openPanels.get(i);
+				PlanningPokerSession s = panel.getSession();
 				if (s.getID() == receivedSession.getID() && !s.isClosed()) {
-					ViewEventManager.getInstance().removeTab(openPanels.get(i));
-					ViewEventManager.getInstance().viewSession(
-							SessionStash.getInstance().getSessionByID(
-									receivedSession.getID()));
+					panel.updateSession(receivedSession);
 					break;
 				}
 			}
@@ -67,3 +83,4 @@ public class PlanningPokerSessionHandler extends
 	}
 
 }
+

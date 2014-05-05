@@ -959,4 +959,17 @@ public class VotePanel extends JPanel {
 	public void setSubmitFinalEstimationButton(JButton submitFinalEstimationButton) {
 		this.submitFinalEstimationButton = submitFinalEstimationButton;
 	}
+	
+	public void updateSession(PlanningPokerSession newSession) {
+		for (PlanningPokerRequirement localReq : session.getRequirements()) {
+			PlanningPokerRequirement remoteReq = newSession.getReqByName(localReq.getName());
+			for (PlanningPokerVote remoteVote : remoteReq.getVotes()) {
+				PlanningPokerVote localVote = localReq.getVoteByUser(remoteVote.getUser());
+				if (localVote != null) {
+					localReq.deleteVote(localVote);
+				}
+				localReq.addVote(remoteVote);
+			}
+		}
+	}
 }

@@ -68,7 +68,6 @@ public class LongPollingResponseEntityManager implements EntityManager<LongPollR
 					if (currentTime.getTime() - startCheck.getTime() > 1000) {
 						Set<Session> sessions = new HashSet<Session>();
 
-						System.out.println("time expire");
 						// forget people who took too long
 						for (Session session : clientsToWaitFor.keySet()) {
 							if (!clientsToWaitFor.get(session)) {
@@ -80,7 +79,6 @@ public class LongPollingResponseEntityManager implements EntityManager<LongPollR
 					}
 				} while (clientsToWaitFor.containsValue(false));
 
-				System.out.println("deleting");
 				Iterator<Session> it = clientsToWaitFor.keySet().iterator();
 				
 				// Reset client list
@@ -93,15 +91,17 @@ public class LongPollingResponseEntityManager implements EntityManager<LongPollR
 			public void run() {
 				while (true) {
 					for (ModelWithType queuedThing : queuedData) {
-
-						System.out.println("pushing a thing...");
 						checkClientsHaveResent(); 
 						
 						Class<?> type = queuedThing.getType();
 						AbstractModel object = queuedThing.getObject();
-						for (LongPollingThread thread : threadsToUpdate.values()) {
+						Session session = queuedThing.getSession();
+
+						for (Entry<Session, LongPollingThread> entry : threadsToUpdate.entrySet()) {
 							LongPollResponse request = new LongPollResponse(type, object);
-							thread.pushData(request);
+							if (entry.getKey() != session) {
+								entry.getValue().pushData(request);
+							}
 						}
 					}
 					queuedData.clear();
@@ -132,14 +132,10 @@ public class LongPollingResponseEntityManager implements EntityManager<LongPollR
 	 * @param object
 	 *            The object to push
 	 */
-	public static void pushToClients(Class<?> type, AbstractModel object) {
+	public static void pushToClients(Class<?> type, AbstractModel object, Session session) {
 		Iterator<Entry<Session, LongPollingThread>> threads = threadsToUpdate.entrySet().iterator();
 
-		queuedData.add(new ModelWithType(type, object));
-		while (threads.hasNext()) {
-			Entry<Session, LongPollingThread> e = threads.next();
-			Session session = e.getKey();
-		}
+		queuedData.add(new ModelWithType(type, object, session));
 	}
 
 	/**
