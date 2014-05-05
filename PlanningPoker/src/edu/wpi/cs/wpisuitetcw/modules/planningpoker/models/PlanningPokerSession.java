@@ -69,7 +69,7 @@ public class PlanningPokerSession extends AbstractModel {
 	private boolean votingComplete = false;
 
 	/** Whether or not the voting on the requirements has begun */
-	private boolean hasVoted = false;
+	private boolean hasVoted;
 
 	/** Whether or not the session is being edited or created */
 	private boolean isEditMode = false;
@@ -529,7 +529,15 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 
 	public boolean isHasVoted() {
-		return hasVoted;
+		boolean hasVotes = false;
+		
+		for (PlanningPokerRequirement ppr : requirements) {
+			if (!ppr.getVotes().isEmpty()) {
+				hasVotes = true;
+			}
+		}
+		
+		return hasVotes;
 	}
 
 	/**
