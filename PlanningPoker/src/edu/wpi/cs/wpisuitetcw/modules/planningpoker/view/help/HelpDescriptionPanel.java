@@ -26,7 +26,7 @@ public class HelpDescriptionPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	/** constants */
-	private final String[] DEFAULT_TEXT_PANE = {
+	private final String[] FAQ_TEXT_PANE = {
 			"Frequently Asked Questions", // large
 			"\n\nWho can view my vote?", // medium
 			"\n Once your vote is submitted, your vote remains anonymous and is only"
@@ -39,9 +39,10 @@ public class HelpDescriptionPanel extends JPanel {
 			"" // small
 	};
 
-	private final String[] PLANNING_POKER_TEXT = {
-			"Planning Poker", // super huge
-			"\nWhat is Planning Poker?", // large
+	
+	private final String[] DEFAULT_TEXT_PANE = {
+			"Planning Poker", //super huge
+			"\nWhat is Planning Poker?", //large
 			"\nPlanning Poker is a software development tool for estimating requirements "
 					+ "in software development projects. In Planning Poker, each group member "
 					+ "has a deck of cards to rank the requirements of a project according to "
@@ -57,40 +58,97 @@ public class HelpDescriptionPanel extends JPanel {
 					+ "all estimates are revealed and discussion can begin again.", // medium
 			"\n" + "\n" + "Who Can Use Planning Poker?", // large
 			"\nAll developers of a team should use Planning Poker. Planning Poker will aid "
-					+ "the programming team in prioritizing requirements." // medium
+			+ "the programming team in prioritizing requirements.", // medium
+			"Roles", // large
+			"When a user creates a session, they become the administrator. The administrator "
+			+ "has the ability to add requirements to a session in addition to being able to "
+			+ "edit the session after it has been created. The administrator also sets the "
+			+ "final estimation for requirements. When a session has been created by the "
+			+ "administrator, all users, including the administrator, are able to anonymously "
+			+ "vote on requirements." //medium
 	};
 
 	private final String[] SESSION_TEXT = {
-			"Sessions", // super huge
-			"\n\nCreate a Session", // large
-			"\nTo create a session click on the top button \"Create a Session\" which will "
-					+ "bring up a page where you can customize your session. You must name and "
-					+ "create a description of the session in order to begin the "
-					+ "session. You have the option of", // medium
-			"\n\nEnding a Session", // large
-			"\nTo end a session..." // medium
+			"Sessions", // large
+			"\n\nTo begin using Planning Poker, an administrator creates a session that contains "
+			+ "the requirements that are to be voted upon. A session runs until a session deadline "
+			+ "has been reached or the administrator ends a session.", //medium 
+			"\n\nViewing Sessions", //large
+			"\nTo view sessions...", //medium 
+			"\n\nCreate a Session", //large
+			"\nTo create a session click on the “Create Session” button, which will bring up a "
+			+ "page where it is possible to customize a session. A session must have a name, type "
+			+ "of deck, session description, and set of requirements. The administrator has the "
+			+ "option of using the default Fibonacci sequence deck, using a previously created deck, "
+			+ "or creating a new one. It is possible to add a deadline for the voting process by "
+			+ "selecting the Deadline text box followed by setting an end date and time. Click "
+			+ "save to store the session.", //medium
+			"\n\nState of Sessions", //large
+			"\nOnce a session has been created, there are four possible states...", //medium  
+			"\n\nEditing a Session", //large
+			"\nSessions can be edited by the administrator before users begin voting. To edit a session," 
+			+ "first open the session by selecting the desired session from the Session Overview tree on" 
+			+ "the left hand side of the Home Page. Once the session is open, the administrator is able" 
+			+ "to make changes to the session and save them by clicking on save changes. The administrator" 
+			+ "also has the option of discarding the changes by selecting the discard changes button.", //medium  
+			"\n\nEnding a Session (Level 2 Node)", //large
+			"\nThere are two ways in which a session can end. The first occurs automatically when a session " 
+			+ "deadline has been reached. This option can be enabled when creating a session. The second "
+			+ "way is by manually selecting to end a session on the edit session panel. Upon session "
+			+ "completion, all the votes are calculated into mean, median, and mode and available for "
+			+ "final estimations.", //medium  
+			"\n\nCancelling a Session", //large 
+			"\nAfter a session has been created, the administrator has the ability to cancel the session by" 
+			+ "selecting Cancel on the edit session page. Once the session has been canceled, a final" 
+			+ "estimation will no longer be calculated." 
+			};
+	
+	
+	private final String[] DECK_TEXT = {
+			"Planning Poker Deck", //super huge
+			"\n\nWhen a session has been created, each user is given a deck of cards. Each "
+			+ "card has been previously created by the administrator to display one "
+			+ "of the valid estimates. Each voter may, for example, be given a deck of "
+			+ "cards that reads 0, 1, 1, 2, 3, 5, 8, and 13.", //medium 
+			"Selecting a Deck (Level 2 Node)", //large
+			"When creating a session, the administrator has four deck selections to "
+			+ "choose from. The first is to use the default Fibonacci deck which has "
+			+ "cards of value 0, 1, 1, 2, 3, 5, 8, and 13. The second is to create a "
+			+ "new deck by selecting “Create New Deck” from the deck dropdown menu. "
+			+ "This gives the administrator the ability to assign numerical values to "
+			+ "a desired amount of cards." //medium 
 	};
-
-	private final String[] DECK_TEXT = { "Planning Poker Deck", // super huge
-			"**Describe what a deck is used for**", // medium
-			"\n" + "\n" + "Creating a Deck", // large
-			"Describe how to create a Deck" };
-
-	private final String[] REQUIREMENTS_TEXT = { "Requirements", // super huge
-			"\n**Describe what a requirement is used for**", // medium
-			"\n\nImporting Requirements", // large
-			"\n**Describe the process of importing requirements",// medium
-			"\nAdding Requirements", // large
-			"\n**Describe how to add requirements", // medium
-			"\nCreating Requirements", // large
-			"**Describe how to create requirements**" // medium
+	
+	private final String[] REQUIREMENTS_TEXT = {
+			"Requirements", //super huge
+			"A requirement is a description of the item that is to be voted upon.", //medium 
+			"Importing Requirements", //large
+			"PENDING…", //medium
+			"Adding Requirements (Level 2 Node)", //large
+			"Adding requirements to a session is done when creating the session. Click on the"
+			+ "Requirement tab on the right hand side of the page to open the list of imported "
+			+ "requirements. You also have the option of manually entering requirements", // medium  
+			"Creating Requirements(Level 2 Node)", //large
+			"Creating requirements can be done when creating or editing a session." //medium
 	};
-
-	private final String[] VOTING_TEXT = { "Voting", // super huge
-			"Describe what voting is used for", // large
-			"How To Vote",// large
-			"Viewing Votes",// large
-			"Setting a Final Estimation"// large
+	
+	
+	
+	private final String[] VOTING_TEXT = {
+			"Voting", //super huge
+			"Describe what voting is used for", //large
+			"How To Vote",//large
+			"Viewing Votes",//large
+			"Setting a Final Estimation"//large
+	};
+	
+	private final String[] SHORTCUTS_TEXT = {
+			"Keyboard Shortcuts", //super huge
+			"\n\nThe following list contains shortcuts that you can use in Planning Poker:"
+			+ "\nCTRL + W    Closes a Session"
+			+ "\nCTRL + N    Opens a Session"
+			+ "\nF1 		 Pull up the Help Page"
+			+ "\nEnter		 Select an item"			
 	};
 
 	/** styles for the help context */
@@ -132,7 +190,7 @@ public class HelpDescriptionPanel extends JPanel {
 	 */
 	private void storeHelpEntries() {
 		helpEntries.put(HelpEntry.DEFAULT, DEFAULT_TEXT_PANE);
-		helpEntries.put(HelpEntry.POKER, PLANNING_POKER_TEXT);
+		helpEntries.put(HelpEntry.POKER, FAQ_TEXT_PANE);
 		helpEntries.put(HelpEntry.SESSION, SESSION_TEXT);
 		helpEntries.put(HelpEntry.DECK, DECK_TEXT);
 		helpEntries.put(HelpEntry.REQUIREMENT, REQUIREMENTS_TEXT);
