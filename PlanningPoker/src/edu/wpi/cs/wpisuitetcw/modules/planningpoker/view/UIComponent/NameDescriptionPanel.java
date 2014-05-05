@@ -10,15 +10,19 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -84,6 +88,7 @@ public class NameDescriptionPanel extends JPanel {
 		nameTextField = new JTextArea();
 		nameTextField.setLineWrap(true);
 		nameTextField.setWrapStyleWord(true);
+		nameTextField.setDisabledTextColor(Color.BLACK);
 		nameFrame = new JScrollPane(nameTextField);
 		
 		setAutoHighlightWhenClicked();
@@ -96,6 +101,8 @@ public class NameDescriptionPanel extends JPanel {
 		descriptionTextField = new JTextArea();
 		descriptionTextField.setLineWrap(true);
 		descriptionTextField.setWrapStyleWord(true);
+		descriptionTextField.setDisabledTextColor(Color.BLACK);
+		descriptionTextField.setBorder(new EmptyBorder(5, 5, 5, 5));
 		descriptionFrame = new JScrollPane(descriptionTextField);
 		
 		// Initialize the list of extra components

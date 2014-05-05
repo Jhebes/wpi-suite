@@ -138,14 +138,14 @@ public class PlanningPokerSession extends AbstractModel {
 			for (User user: users) {
 				// Send email to everyone in a session
 				String emailAddress = user.getEmail();
-				if (!emailAddress.equals("") && emailAddress != null) {
+				if (emailAddress != null && !emailAddress.equals("")) {
 					SendNotificationController.sendNotification("start",
 							emailAddress, this.getDeadline(), "sendEmail");
 				}
 				
 				// Send SMS to everyone in a session
 				String phoneNumber = user.getSMS();
-				if (!phoneNumber.equals("") && phoneNumber != null) {
+				if (phoneNumber != null && !phoneNumber.equals("")) {
 					SendNotificationController.sendNotification("start",
 							phoneNumber, this.getDeadline(), "sendSMS");
 				}
