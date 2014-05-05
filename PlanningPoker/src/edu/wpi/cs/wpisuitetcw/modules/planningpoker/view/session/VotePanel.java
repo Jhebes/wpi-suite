@@ -17,10 +17,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -709,8 +705,11 @@ public class VotePanel extends JPanel {
 				return Integer.parseInt(voteTextField.getTextMiddle());
 			} catch (NumberFormatException e) {
 				voteTextField.setTextBottom(INVALID_VOTE_NUM_MSG);
+				setVoteTextFieldWithValue(
+						selectedRequirement.getVoteByUser(
+								ConfigManager.getConfig().getUserName()).getCardValue());
 				
-				return 0;
+				return -1;
 			}
 		} else {
 			return cardPanel.getVoteValue();
@@ -744,14 +743,6 @@ public class VotePanel extends JPanel {
 	 */
 	public void clearVoteTextField() {
 		voteTextField.setTextMiddle("");
-	}
-
-	/**
-	 *
-	 * @param msg Error Message to be displayed
-	 */
-	private void setErrorMsg(String msg) {
-		errorMsg.setText(msg);
 	}
 
 	/** Return the GUI list of requirements
