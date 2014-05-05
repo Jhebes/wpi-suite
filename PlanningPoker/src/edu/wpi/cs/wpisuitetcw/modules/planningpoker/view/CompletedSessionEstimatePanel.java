@@ -11,9 +11,6 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view;
 
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -22,6 +19,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -124,15 +122,6 @@ public class CompletedSessionEstimatePanel extends JPanel {
 					}
 				});
 
-		card.getTextField().addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					parentPanel.getSubmitFinalEstimationButton().doClick();
-				}
-			}
-		});
-		
-		// TODO is this duplicate?
 		card.getTextField().addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -153,6 +142,11 @@ public class CompletedSessionEstimatePanel extends JPanel {
 					parentPanel.getSubmitFinalEstimationButton().setEnabled(true);
 				} catch (NumberFormatException n) {
 					parentPanel.getSubmitFinalEstimationButton().setEnabled(false);
+				}
+
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					JButton submitButton = parentPanel.getSubmitFinalEstimationButton();
+					submitButton.doClick();
 				}
 			}
 		});
