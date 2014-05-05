@@ -76,13 +76,15 @@ public class SessionRequirementPanel extends JPanel {
 
 	/**
 	 * Constructs the panel for adding requirements.
-	 * @param s The session for this panel
+	 * 
+	 * @param s
+	 *            The session for this panel
 	 */
-	public SessionRequirementPanel(final SessionTabsPanel parentPanel, 
+	public SessionRequirementPanel(final SessionTabsPanel parentPanel,
 			final PlanningPokerSession session) {
 		final RequirementTableManager manager = new RequirementTableManager();
 		manager.fetch(session.getID());
-		
+
 		this.parentPanel = parentPanel;
 		this.session = session;
 		this.setLayout(new GridBagLayout());
@@ -126,7 +128,8 @@ public class SessionRequirementPanel extends JPanel {
 
 		// allows multiple reqs to be selected and unselected
 		allReqTable.setRowSelectionAllowed(true);
-		allReqTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		allReqTable
+				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
 		// add table to rightPanel
 		final JLabel leftLabel = new JLabel("All Requirements");
@@ -137,7 +140,8 @@ public class SessionRequirementPanel extends JPanel {
 
 		// table for left pane
 		// Right table
-		sessionReqTable = new JTable(new RequirementTableManager().get(session.getID())) {
+		sessionReqTable = new JTable(new RequirementTableManager().get(session
+				.getID())) {
 			private static final long serialVersionUID = 2L;
 
 			public boolean isCellEditable(int row, int colunm) {
@@ -151,7 +155,8 @@ public class SessionRequirementPanel extends JPanel {
 
 		// allows multiple reqs to be selected and unselected
 		sessionReqTable.setRowSelectionAllowed(true);
-		sessionReqTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		sessionReqTable
+				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		allReqTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
 		// rightPanel formatting
@@ -174,8 +179,8 @@ public class SessionRequirementPanel extends JPanel {
 				.addActionListener(new MoveRequirementToCurrentSessionController(
 						session, this));
 		moveRequirementToAll
-				.addActionListener(new MoveRequirementToAllController(
-						session, this));
+				.addActionListener(new MoveRequirementToAllController(session,
+						this));
 		moveAllRequirementsToSession
 				.addActionListener(new MoveAllRequirementsToCurrentSessionController(
 						session, this));
@@ -210,8 +215,8 @@ public class SessionRequirementPanel extends JPanel {
 				} else {
 					for (int i = 0; i < 2; i++) {
 						if (i == 0) {
-							selectedReqName = allReqTable.getModel().getValueAt(row, 0)
-									.toString();
+							selectedReqName = allReqTable.getModel()
+									.getValueAt(row, 0).toString();
 						}
 						if (i == 1) {
 							selectedReqDescription = allReqTable.getModel()
@@ -557,7 +562,6 @@ public class SessionRequirementPanel extends JPanel {
 		} else {
 			moveAllRequirementsToSession.setEnabled(true);
 		}
-
 	}
 
 	/**
@@ -585,26 +589,50 @@ public class SessionRequirementPanel extends JPanel {
 	 * disables the "Activate" button if there are no requirements.
 	 */
 	public void validateOpenSession() {
-		boolean parentHasValidInputs = parentPanel.getParentPanel().hasAllValidInputs();
+		boolean parentHasValidInputs = parentPanel.getParentPanel()
+				.hasAllValidInputs();
 		parentPanel.getParentPanel().getBtnOpenSession().setEnabled(false);
 		if (!session.getRequirements().isEmpty() && parentHasValidInputs) {
 			parentPanel.getParentPanel().getBtnOpenSession().setEnabled(true);
 		}
 	}
-	
+
 	/**
-	 * Enables and disables the Add to Session and Save Changes buttons 
-	 * depending on the conditions of the view, namely the name and 
-	 * description views.
+	 * Enables and disables the Add to Session and Save Changes buttons
+	 * depending on the conditions of the view, namely the name and description
+	 * views.
 	 */
 	public void validateNameAndDescription() {
 		addRequirementToSession.setEnabled(false);
 		saveRequirement.setEnabled(false);
-		
+
+		// validates that no other req in the panel has the same name
+		boolean notUsed = true;
+		List<String> reqNames = getAllRightRequirements();
+		String nameField = name.getText();
+
+		for (int i = 0; i < reqNames.size(); i++) {
+			if (nameField.equals(reqNames.get(i))) {
+				notUsed = false;
+				break;
+			}
+		}
+
+		reqNames = getAllLeftRequirements();
+
+		if (notUsed == true) {
+			for (int i = 0; i < reqNames.size(); i++) {
+				if (nameField.equals(reqNames.get(i))) {
+					notUsed = false;
+					break;
+				}
+			}
+		}
+
 		// If there is no selected requirement,
 		if (selectedReqDescription.isEmpty()) {
-			if (!description.getText().isEmpty() 
-					&& !name.getText().isEmpty()) {
+			if (!description.getText().isEmpty() && !name.getText().isEmpty()
+					&& notUsed) {
 				addRequirementToSession.setEnabled(true);
 			}
 		} else {
@@ -612,6 +640,15 @@ public class SessionRequirementPanel extends JPanel {
 				saveRequirement.setEnabled(true);
 			}
 		}
+	}
+
+	/**
+	 * Clears selection of the two tables
+	 */
+	public void clearSelection(){
+		// gets rid of selection
+		allReqTable.clearSelection();
+		sessionReqTable.clearSelection();
 	}
 	
 	/**
@@ -659,26 +696,26 @@ public class SessionRequirementPanel extends JPanel {
 	public PlanningPokerSession getEditRequirementsSession() {
 		return editRequirementsSession;
 	}
-	
+
 	/**
 	 * Assign the given string to the error message
 	 */
 	public void setErrorMessage(String message) {
 		errorMessage.setText(message);
 	}
-	
+
 	/**
 	 * Set the error message visible
 	 */
 	public void showErrorMessage() {
 		errorMessage.setVisible(true);
 	}
-	
+
 	/**
 	 * Hide the error message
 	 */
 	public void hideErrorMessage() {
 		errorMessage.setVisible(false);
 	}
-	
+
 }

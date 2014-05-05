@@ -79,6 +79,7 @@ public class MoveAllRequirementsToCurrentSessionController implements ActionList
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		view.clearSelection();
 		receivedData(SessionStash.getInstance().getDefaultSession());
 	}
 }
