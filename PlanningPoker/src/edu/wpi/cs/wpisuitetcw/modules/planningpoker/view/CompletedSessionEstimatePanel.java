@@ -31,6 +31,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirem
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.StatsTable;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.textfield.LabelsWithTextField;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.VotePanel;
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 
 /**
@@ -92,6 +93,12 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		card = new LabelsWithTextField(background);
 		card.removeTop();
 		card.setTextBottom("Final estimation");
+		
+		String currentUserName = ConfigManager.getConfig().getUserName();
+		
+		if (!currentUserName.equals(parentPanel.getSession().getOwnerUserName())) // Not Owner
+			card.getTextField().setEditable(false);
+
 		
 		// Set default small text "Final estimation"
 		// Enlarge the font when user clicks in

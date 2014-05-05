@@ -416,6 +416,12 @@ public class VotePanel extends JPanel {
 
 		if (session.isClosed()) {
 			bottomPanel.add(submitFinalEstimationButton, "align center");
+			
+			String currentUserName = ConfigManager.getConfig().getUserName();
+			
+			if (!currentUserName.equals(session.getOwnerUserName()))
+				submitFinalEstimationButton.setVisible(false);
+			
 		} else if(session.isCancelled()){
 			//add no buttons to bottom panel
 		} else {
