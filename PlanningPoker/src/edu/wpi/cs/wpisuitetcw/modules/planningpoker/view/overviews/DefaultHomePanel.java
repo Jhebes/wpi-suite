@@ -57,6 +57,8 @@ public class DefaultHomePanel extends JPanel {
 		final JPanel topContainer = new JPanel();
 		final JPanel centerPanel = new JPanel();
 		
+		final JPanel overallPanel = new JPanel();
+		
 		centerPanel.setLayout(new MigLayout());
 		centerPanel.add(leftTextPane);
 	
@@ -65,9 +67,11 @@ public class DefaultHomePanel extends JPanel {
 
 		// Set to make layout and adds welcome message to top and splitpane to
 		// bottom
-		this.setLayout(new MigLayout());
-		this.add(topContainer, "dock north");
-		this.add(centerPanel, "center");
+		overallPanel.setLayout(new MigLayout());
+		overallPanel.add(topContainer, "dock north");
+		overallPanel.add(centerPanel, "center");
+		
+		this.add(overallPanel);
 	}
 
 	private JTextPane createTopTextPane() {
@@ -93,16 +97,15 @@ public class DefaultHomePanel extends JPanel {
 	private JTextPane createLeftTextPane() {
 
 		final String[] leftPaneText = {
-				"What is Planning Poker?", // large
-				"\n\nPlanning Poker is a software development tool \nfor estimating "
+				"\nWhat is Planning Poker?", // large
+				"\nPlanning Poker is a software development tool \nfor estimating "
 						+ "requirements in software development \nprojects. In Planning Poker, "
 						+ "each group member has \na deck of cards to rank the requirements "
 						+ "of a project\naccording to how important they think that task "
 						+ "ranks\namong the others. The project administrators can then "
-						+ "use\nthis data to create a final priority list for the project. \n"
-						+ "\n", // small
-				"\nHow To Get Started", // large
-				"\n\nTo start a planning poker session, click create a session and \n"
+						+ "use\nthis data to create a final priority list for the project. \n", // small
+				"\n\nHow To Get Started", // large
+				"\nTo start a planning poker session, click create a session and \n"
 						+ "assign a type of deck to the session. You can either use the \n"
 						+ "default deck, or create your own deck. Once a session has\nbeen created,"
 						+ "you can select what requirements you would \nlike to add to the session"
@@ -149,7 +152,7 @@ public class DefaultHomePanel extends JPanel {
 		StyleConstants.setItalic(s, true);
 
 		s = doc.addStyle("super huge", Georgia);
-		StyleConstants.setFontSize(s, 34);
+		StyleConstants.setFontSize(s, 38);
 		StyleConstants.setBold(s, true);
 	}
 }
