@@ -29,7 +29,7 @@ public class SendNotificationControllerTest extends PlanningPokerMockTest {
 	final String testRecipient = "test@test.com";
 	@SuppressWarnings("deprecation")
 	final Date testDeadline = new Date(2014, 4, 1, 12, 34);
-	final String testExpectedURL = "Advanced/planningpoker/session/sendEmail/start/test%40test.com/3914-05-01+12%3A34";
+	final String testExpectedURL = "Advanced/planningpoker/session/sendEmail/start/test%40test.com/3914-05-01+12%3A34PM";
 
 	@Test
 	public void testMakeURL() {

@@ -10,7 +10,6 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.notifications;
 
-
 /**
  * Base class for sending notifications to users on start or end of a planning
  * poker session.
@@ -31,16 +30,31 @@ public class BaseNotifier {
 	 */
 	public static String createMessage(String notificationType, String deadline) {
 		String message = "";
+
 		if (notificationType.equals("start")) {
 			message += START_MESSAGE;
 		} else if (notificationType.equals("end")) {
 			message += END_MESSAGE;
 		}
-		if (deadline.equals("") || deadline == null) {
+
+		// No deadline, start
+		if ((deadline.equals("") || deadline == null)
+				&& notificationType.equals("start")) {
 			message += " There is no deadline for this session.";
-		} else {
-			message += " Its deadline is " + deadline;
+			// No deadline, end
+		} else if ((deadline.equals("") || deadline == null)
+				&& notificationType.equals("end")) {
+			message += " There was no deadline for this session.";
+			// Deadline, start
+		} else if ((!deadline.equals("") && deadline != null)
+				&& notificationType.equals("start")) {
+			message += " It's deadline is " + deadline + ".";
+			// Deadline, end
+		} else if ((!deadline.equals("") && deadline != null)
+				&& notificationType.equals("end")) {
+			message += " It's deadline was " + deadline + ".";
 		}
+
 		return message;
 	}
 }

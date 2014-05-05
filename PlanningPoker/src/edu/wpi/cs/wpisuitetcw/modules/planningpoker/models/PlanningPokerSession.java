@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.SendNotificationController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.put.PutSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.SessionStash;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.stash.UserStash;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -133,42 +134,21 @@ public class PlanningPokerSession extends AbstractModel {
 		if (canBeActivated()) {
 			startTime = new Date();
 			
-			String command = "sendEmail";
-			// Send email to everyone in a session
-			if (this.getUsers() != null) {
-				for (User user : this.getUsers()) {
-					String sendTo = user.getEmail();
-					if (!sendTo.equals("")) {
-						SendNotificationController.sendNotification("start",
-								sendTo, this.getDeadline(), command);
-					} else {
-						SendNotificationController.sendNotification("start",
-								"teamcombatwombat@gmail.com",
-								this.getDeadline(), command);
-					}
+			List<User> users = UserStash.getInstance().getUsers();
+			for (User user: users) {
+				// Send email to everyone in a session
+				String emailAddress = user.getEmail();
+				if (!emailAddress.equals("") && emailAddress != null) {
+					SendNotificationController.sendNotification("start",
+							emailAddress, this.getDeadline(), "sendEmail");
 				}
-			} else {
-				SendNotificationController.sendNotification("start",
-						"teamcombatwombat@gmail.com", this.getDeadline(),
-						command);
-			}
-
-			// Send SMS to everyone in a session
-			command = "sendSMS";
-			if (this.getUsers() != null) {
-				for (User user : this.getUsers()) {
-					String sendTo = user.getSMS();
-					if (!sendTo.equals("")) {
-						SendNotificationController.sendNotification("start",
-								sendTo, this.getDeadline(), command);
-					} else {
-						SendNotificationController.sendNotification("start",
-								"15189662284", this.getDeadline(), command);
-					}
+				
+				// Send SMS to everyone in a session
+				String phoneNumber = user.getSMS();
+				if (!phoneNumber.equals("") && phoneNumber != null) {
+					SendNotificationController.sendNotification("start",
+							phoneNumber, this.getDeadline(), "sendSMS");
 				}
-			} else {
-				SendNotificationController.sendNotification("start",
-						"15189662284", this.getDeadline(), command);
 			}
 		}
 	}
@@ -178,7 +158,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 * session is already active, and not cancelled, then it would set the start
 	 * time to null
 	 */
-	public void deactivate() {
+	public void deactivate() {	
 		if (!isCancelled && this.isActive()) {
 			startTime = null;
 		}
@@ -189,6 +169,23 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public void close() {
 		endTime = new Date();
+		
+		List<User> users = UserStash.getInstance().getUsers();
+		for (User user: users) {
+			// Send email to everyone in a session
+			String emailAddress = user.getEmail();
+			if (emailAddress != null && !emailAddress.equals("")) {
+				SendNotificationController.sendNotification("end",
+						emailAddress, this.getDeadline(), "sendEmail");
+			}
+			
+			// Send SMS to everyone in a session
+			String phoneNumber = user.getSMS();
+			if (phoneNumber != null && !phoneNumber.equals("")) {
+				SendNotificationController.sendNotification("end",
+						phoneNumber, this.getDeadline(), "sendSMS");
+			}
+		}
 	}
 
 	/**
