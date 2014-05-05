@@ -103,7 +103,7 @@ public class LabelsWithTextField extends JPanel {
 
 		// Set the max number of columns and center aligned
 		this.middleLine = new TransparentTextField();
-		middleLine.setFont(new Font("SansSerif", Font.BOLD, 80));
+		middleLine.setFont(new Font("SansSerif", Font.BOLD, 70));
 		middleLine.setHorizontalAlignment(JTextField.CENTER);
 		isMiddleLineNeeded = true;
 
