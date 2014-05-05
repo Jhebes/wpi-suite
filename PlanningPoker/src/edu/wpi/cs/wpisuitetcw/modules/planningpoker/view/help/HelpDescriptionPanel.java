@@ -140,10 +140,17 @@ public class HelpDescriptionPanel extends JPanel {
 	};
 
 	private final String[] VOTING_TEXT = { "Voting", // super huge
-			"Describe what voting is used for", // large
-			"How To Vote",// large
-			"Viewing Votes",// large
-			"Setting a Final Estimation"// large
+			"Voting happens when users anonymously set a rank to each requirement. ", // large
+			"\n\nHow To Vote",// large
+			"\nWhen a session has become active, users are able to set a rank to each requirement. In order "
+			+ "to vote, click on the session under Open Sessions. The requirements that are to be voted upon "
+			+ "are displayed on the left hand side. Requirements will have a red light beside them if the user "
+			+ "has not voted on the requirement and a green light once the user has voted. To vote on a requirement,"
+			+ "", // medium
+			"\n\nViewing Votes",// large
+			"\n", //medium
+			"\n\nSetting a Final Estimation", // large
+			"\n" //medium
 	};
 
 	private final String[] SHORTCUTS_TEXT = {
