@@ -311,12 +311,9 @@ public class VotePanel extends JPanel {
 						total += vote.getCardValue();
 						count++;
 					}
-					if(count > 0){
-						ppr.setFinalEstimate(total / count);
-					} else {
-						ppr.setFinalEstimate(0);
-					}
-						ppr.setTotalVotes(count);
+					
+					ppr.setFinalEstimate(0);
+					ppr.setTotalVotes(count);
 				}
 				closeTab();
 				openFinalEstimation();
