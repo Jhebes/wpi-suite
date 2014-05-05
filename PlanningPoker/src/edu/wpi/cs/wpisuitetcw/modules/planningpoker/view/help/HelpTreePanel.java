@@ -58,15 +58,17 @@ public class HelpTreePanel extends JScrollPane implements
 				TreeSelectionModel.SINGLE_TREE_SELECTION);
 		tree.setCellRenderer(new CustomTreeCellRenderer());
 
-		// add a listener to check for clicking
-		tree.addMouseListener(this);
+		// Set selection
+		tree.setSelectionInterval(0, 0);
+		
+		// add a listener
+		tree.addTreeSelectionListener(this);
 
 		// add the tree to the view
 		JScrollPane treeView = new JScrollPane(tree);
 		this.add(treeView);
 		this.setViewportView(tree);
 		this.setViewportView(tree);
-
 	}
 
 	/**
@@ -88,26 +90,17 @@ public class HelpTreePanel extends JScrollPane implements
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		if (e.getClickCount() == 1) {
-			TreePath path = tree.getPathForLocation(e.getX(), e.getY());
-			if (path != null) {
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
-						.getLastSelectedPathComponent();
-				if (node != null) {
-					// update the right panel with the selected help entry
+	public void valueChanged(TreeSelectionEvent e) {
+		TreePath path = e.getPath();
+		if (path != null) {
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
+					.getLastSelectedPathComponent();
+			if (node != null) {
+				// update the right panel with the selected help entry
 					parentPanel.updateHelpContent((HelpEntry) node
-							.getUserObject());
-				}
+						.getUserObject());
 			}
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void valueChanged(TreeSelectionEvent e) {
 	}
 
 	/**
@@ -136,5 +129,11 @@ public class HelpTreePanel extends JScrollPane implements
 	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
