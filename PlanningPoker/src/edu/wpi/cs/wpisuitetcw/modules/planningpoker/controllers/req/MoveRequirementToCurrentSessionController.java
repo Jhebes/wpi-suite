@@ -56,13 +56,14 @@ public class MoveRequirementToCurrentSessionController implements ActionListener
 				session.addRequirement(r);	
 		}
 		
-		s.save();
-		session.save();
-		
 		final RequirementTableManager a1 = new RequirementTableManager();
 		a1.refreshRequirements(1, s.getRequirements());
 		final RequirementTableManager a2 = new RequirementTableManager();
 		a2.refreshRequirements(session.getID(), session.getRequirements());
+		
+		s.save();
+		session.save();
+		
 		view.getAllReqTable().repaint();
 		view.getSessionReqTable().repaint();
 

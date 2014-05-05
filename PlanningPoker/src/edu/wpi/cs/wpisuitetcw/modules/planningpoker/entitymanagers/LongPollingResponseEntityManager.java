@@ -10,15 +10,20 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.longpoll.LongPollingThread;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.longpoll.ModelWithType;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.LongPollResponse;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
@@ -48,11 +53,76 @@ public class LongPollingResponseEntityManager implements EntityManager<LongPollR
 	 */
 	public LongPollingResponseEntityManager(Data db) {
 		this.db = db;
+		
+		new Thread() {
+			/**
+			 * Blocks until all clients have responded to the push.
+			 */
+			private void checkClientsHaveResent() {
+				System.out.println("Checking...");
+				Date startCheck = new Date();
+				Date currentTime;
+				do {
+					currentTime = new Date();
+
+					if (currentTime.getTime() - startCheck.getTime() > 1000) {
+						Set<Session> sessions = new HashSet<Session>();
+
+						System.out.println("time expire");
+						// forget people who took too long
+						for (Session session : clientsToWaitFor.keySet()) {
+							if (!clientsToWaitFor.get(session)) {
+								sessions.add(session);
+							}
+						}
+						clientsToWaitFor.keySet().removeAll(sessions);
+						break;
+					}
+				} while (clientsToWaitFor.containsValue(false));
+
+				System.out.println("deleting");
+				Iterator<Session> it = clientsToWaitFor.keySet().iterator();
+				
+				// Reset client list
+				while (it.hasNext()) {
+					Session session = it.next();
+					clientsToWaitFor.put(session, false);
+				}
+			}
+			
+			public void run() {
+				while (true) {
+					for (ModelWithType queuedThing : queuedData) {
+
+						System.out.println("pushing a thing...");
+						checkClientsHaveResent(); 
+						
+						Class<?> type = queuedThing.getType();
+						AbstractModel object = queuedThing.getObject();
+						for (LongPollingThread thread : threadsToUpdate.values()) {
+							LongPollResponse request = new LongPollResponse(type, object);
+							thread.pushData(request);
+						}
+					}
+					queuedData.clear();
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						//e.printStackTrace();
+					}
+				}
+				
+			}
+		}.start();
 	}
 
-	
 	/** Set of all connected clients. */
-	private static final Set<LongPollingThread> threadsToUpdate = new HashSet<LongPollingThread>();
+	private static final Map<Session, LongPollingThread> threadsToUpdate = new HashMap<Session, LongPollingThread>();
+	
+	private static final Set<ModelWithType> queuedData = new HashSet<ModelWithType>();
+	
+	private static final Map<Session, Boolean> clientsToWaitFor = new HashMap<Session, Boolean>();
 	
 	/**
 	 * Pushes an object to all clients currently connected to the server.
@@ -62,12 +132,14 @@ public class LongPollingResponseEntityManager implements EntityManager<LongPollR
 	 * @param object
 	 *            The object to push
 	 */
-	public static void pushToClients(Class type, AbstractModel object) {
-		for (LongPollingThread thread : threadsToUpdate) {
-			LongPollResponse request = new LongPollResponse(type, object);
-			thread.pushData(request);
+	public static void pushToClients(Class<?> type, AbstractModel object) {
+		Iterator<Entry<Session, LongPollingThread>> threads = threadsToUpdate.entrySet().iterator();
+
+		queuedData.add(new ModelWithType(type, object));
+		while (threads.hasNext()) {
+			Entry<Session, LongPollingThread> e = threads.next();
+			Session session = e.getKey();
 		}
-		threadsToUpdate.clear();
 	}
 
 	/**
@@ -83,7 +155,8 @@ public class LongPollingResponseEntityManager implements EntityManager<LongPollR
 
 		final List<LongPollResponse> dataToPush = new ArrayList<LongPollResponse>();
 		final LongPollingThread requestBlocker = new LongPollingThread(dataToPush);
-		threadsToUpdate.add(requestBlocker);
+		threadsToUpdate.put(s, requestBlocker);
+		clientsToWaitFor.put(s, true);
 		try {
 			requestBlocker.start();
 			requestBlocker.join();

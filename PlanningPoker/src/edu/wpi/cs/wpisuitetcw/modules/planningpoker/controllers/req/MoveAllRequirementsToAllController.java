@@ -43,9 +43,9 @@ public class MoveAllRequirementsToAllController implements ActionListener {
 
 	/**
 	 * Processes the received session
-	 * @param s The pooll session that holds all unassigned reqs
+	 * @param defaultSession The pooll session that holds all unassigned reqs
 	 */
-	public void receivedData(PlanningPokerSession s){
+	public void receivedData(PlanningPokerSession defaultSession){
 		PlanningPokerRequirement r;
 		
 		//Move the requested reqs from session to all
@@ -54,17 +54,18 @@ public class MoveAllRequirementsToAllController implements ActionListener {
 				List<PlanningPokerRequirement> d = new ArrayList<PlanningPokerRequirement>();
 				d.add(r);
 				session.deleteRequirements(d);
-				s.addRequirement(r);
-				RequirementTableManager a1 = new RequirementTableManager();
-				a1.refreshRequirements(1, s.getRequirements());
-				
-
-				RequirementTableManager a2 = new RequirementTableManager();
-				a2.refreshRequirements(session.getID(), session.getRequirements());
+				defaultSession.addRequirement(r);
 		}
+
+		RequirementTableManager a1 = new RequirementTableManager();
+		a1.refreshRequirements(1, defaultSession.getRequirements());
+		
+
+		RequirementTableManager a2 = new RequirementTableManager();
+		a2.refreshRequirements(session.getID(), session.getRequirements());
 		
 		//Updates both
-		s.save();
+		defaultSession.save();
 		session.save();
 		
 		//Updates the view
