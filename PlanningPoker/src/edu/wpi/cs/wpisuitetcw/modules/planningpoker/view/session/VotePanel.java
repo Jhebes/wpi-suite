@@ -384,7 +384,7 @@ public class VotePanel extends JPanel {
 		if (!currentUserName.equals(session.getOwnerUserName())) {
 			btnEditSession.setVisible(false);
 		} else if (session.isHasVoted()) {
-			btnEditSession.setEnabled(false);
+			disableEditSession();
 		}
 
 		// Create a submit vote button
@@ -725,7 +725,9 @@ public class VotePanel extends JPanel {
 	}
 
 	public void disableEditSession() {
-		btnEditSession.setEnabled(false);
+		if (btnEditSession != null) {
+			btnEditSession.setEnabled(false);
+		}
 	}
 
 	/**
