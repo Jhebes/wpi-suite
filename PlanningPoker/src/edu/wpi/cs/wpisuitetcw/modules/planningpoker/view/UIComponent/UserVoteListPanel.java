@@ -82,6 +82,9 @@ public class UserVoteListPanel extends JPanel {
 	}
 
 	public void fillTable() {
+		if (focusedRequirement == null) {
+			return;
+		}
 		// Clear the table model.
 		tableModel.setRowCount(0);
 		// System.out.println(UserStash.getInstance().getUsers().size());

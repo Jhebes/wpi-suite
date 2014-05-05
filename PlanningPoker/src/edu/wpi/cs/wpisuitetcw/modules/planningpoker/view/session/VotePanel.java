@@ -497,6 +497,9 @@ public class VotePanel extends JPanel {
 					finalEstimatePnl.setMode(selectedRequirement.getMode());
 					finalEstimatePnl.setStandardDeviation(selectedRequirement.calculateStandardDeviation(mean));
 					finalEstimatePnl.updateEstimateTextField(selectedRequirement);
+
+					userVotePanel.setFocusedRequirement(selectedRequirement);
+					userVotePanel.fillTable();
 					updateUI();
 				} else {
 					final PlanningPokerVote vote = selectedRequirement.getVoteByUser(ConfigManager.getConfig().getUserName());
