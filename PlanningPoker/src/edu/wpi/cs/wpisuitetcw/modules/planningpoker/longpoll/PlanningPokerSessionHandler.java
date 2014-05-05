@@ -50,12 +50,11 @@ public class PlanningPokerSessionHandler extends
 		 * it and open a final estimation panel
 		 */
 		if (receivedSession.isClosed()) {
-			System.out.println("Checking if any vote panels for the received session are open...");
 			List<VotePanel> openPanels = ViewEventManager.getInstance()
 					.getVotePanels();
 			for (int i = 0; i < openPanels.size(); ++i) {
 				PlanningPokerSession s = openPanels.get(i).getSession();
-				if (s.getID() == receivedSession.getID()) {
+				if (s.getID() == receivedSession.getID() && !s.isClosed()) {
 					ViewEventManager.getInstance().removeTab(openPanels.get(i));
 					ViewEventManager.getInstance().viewSession(
 							SessionStash.getInstance().getSessionByID(

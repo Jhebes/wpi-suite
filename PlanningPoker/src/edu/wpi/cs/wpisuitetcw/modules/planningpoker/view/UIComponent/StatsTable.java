@@ -1,7 +1,13 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent;
 
+import java.awt.Color;
+
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -12,63 +18,72 @@ import net.miginfocom.swing.MigLayout;
  */
 public class StatsTable extends JPanel {
 	
-	/** Mean value and its label*/
-	private final JLabel meanLabel;
-	private JLabel lblMeanValue;
+	/** Mean value */
+	private String mean;
 
-	/** Median value and its label */
-	private final JLabel medianLabel;
-	private JLabel lblMedianValue;
+	/** Median value */
+	private String median; 
 
-	/** Mode value and its label */
-	private final JLabel modeLabel;
-	private JLabel lblModeValue;
+	/** Mode value */
+	private String mode;
 	
-	/** Standard Deviation and its label */
-	private final JLabel standardDeviationLabel;
-	private JLabel standardDeviation;
+	/** Standard Deviation */
+	private String standardDeviation;
+	
+	/** JTable exhibiting the stats */
+	private final JTable statsTable;
 	
 	public StatsTable() {
-		// Create label for MEAN
-		lblMeanValue = new JLabel("0.0");
-		meanLabel = new JLabel("Mean");
-
-		// Create label for MEDIAN
-		lblMedianValue = new JLabel("0");
-		medianLabel = new JLabel("Median");
-
-		// Create label for MODE
-		lblModeValue = new JLabel("0");
-		modeLabel = new JLabel("Mode");
-
-		// Create label for STANDARD DEVIATION
-		standardDeviation = new JLabel("0.0");
-		standardDeviationLabel = new JLabel("<html>Standard<br>Deviation</html>");
+		mean = "0.0";
+		median = "0";
+		mode = "0";
+		standardDeviation = "0.0";
 		
-		setGUIComponentsBorder();
-		putGUIComponentOnPanel();
-	}
+		// Create the stats table
+		Object[] header = {"Type", "Value"};
+		Object[][] data = {{"Mean", mean}, 
+						   {"Median", median},
+						   {"Median", mode},
+						   {"<html>Standard<br>deviation</html>", standardDeviation}};
+		
+		statsTable = new JTable(data, header);
+		statsTable.setTableHeader(null);
+		
 
-	private void setGUIComponentsBorder() {
+		// Set columns size
+		statsTable.getColumnModel().getColumn(0).setMinWidth(150);
+		statsTable.getColumnModel().getColumn(0).setMaxWidth(150);
+		statsTable.getColumnModel().getColumn(1).setMinWidth(50);
+		statsTable.getColumnModel().getColumn(1).setMaxWidth(50);
+
+		// Center align the first column
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		statsTable.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+
+		// Set row height
+		statsTable.setRowHeight(40);
+		
+		// Set the grid line to black
+		statsTable.setShowGrid(true);
+		statsTable.setGridColor(Color.BLACK);
+		statsTable.setShowVerticalLines(false);
+		
+		// Create border
+		statsTable.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		
+		// Set the table non-selectable
+		statsTable.setEnabled(false);
+		
+		putGUIComponentOnPanel();
 	}
 
 	/*
 	 * Put GUI components on the panel
 	 */
 	private void putGUIComponentOnPanel() {
-		setLayout(new MigLayout("insets 0, fill", "[]5[]", ""));
-		add(meanLabel, "left");
-		add(lblMeanValue, "left, wrap");
-		
-		add(medianLabel, "left");
-		add(lblMedianValue, "left, wrap");
-		
-		add(modeLabel, "left");
-		add(lblModeValue, "left, wrap");
-		
-		add(standardDeviationLabel, "left");
-		add(standardDeviation, "left, wrap");
-
+		setLayout(new MigLayout("insets 0, fill"));
+		add(statsTable, "grow");
 	}
 
 	/**
@@ -77,7 +92,7 @@ public class StatsTable extends JPanel {
 	 * be assigned to the mean
 	 */
 	public void setMean(String mean) {
-		this.lblMeanValue.setText(mean);
+		statsTable.getModel().setValueAt(mean, 0, 1);
 	}
 
 	/**
@@ -86,7 +101,7 @@ public class StatsTable extends JPanel {
 	 * be assigned to the median
 	 */
 	public void setMedian(String median) {
-		this.lblMedianValue.setText(median);
+		statsTable.getModel().setValueAt(median, 1, 1);
 	}
 
 	/**
@@ -95,7 +110,7 @@ public class StatsTable extends JPanel {
 	 * be assigned to the mode
 	 */
 	public void setMode(String mode) {
-		this.lblModeValue.setText(mode);
+		statsTable.getModel().setValueAt(mode, 2, 1);
 	}
 
 	/**
@@ -104,7 +119,7 @@ public class StatsTable extends JPanel {
 	 * be assigned to the standard deviation
 	 */
 	public void setStandardDeviation(String sd) {
-		this.standardDeviation.setText(sd);
+		statsTable.getModel().setValueAt(sd, 3, 1);
 	}
 	
 }
