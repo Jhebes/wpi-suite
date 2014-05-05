@@ -10,13 +10,17 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -33,7 +37,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.DocumentEvent;
@@ -42,6 +45,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.miginfocom.swing.MigLayout;
+
+import org.jdesktop.swingx.JXCollapsiblePane;
+
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.keys.CTRLWPanelKeyShortcut;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.EditActivatedSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.vote.AddVoteController;
@@ -70,10 +76,7 @@ public class VotePanel extends JPanel {
 	private static final String REQ_NAME_LABEL = "Requirement Name";
 	private static final String REQ_DESC_LABEL = "Description";
 	private static final String VOTE_BUTTON_LABEL = "Submit Vote";
-	private static final String LEFT_PANEL_LABEL = "Session Requirements:";
-	private static final String SESSION_LABEL = "Session:";
-	private static final String SESSION_NAME_LABEL = "Name:";
-	private static final String SESSION_DESC_LABEL = "Description:";
+	private static final String REQ_LIST_TITLE = "Session Requirements";
 	private static final String END_SESSION_BUTTON_LABEL = "End Session";
 	private static final String NO_DECK_MSG = 
 			"<html><font color='red'>No deck. Please enter your vote in the white box</font></html>";
@@ -95,23 +98,23 @@ public class VotePanel extends JPanel {
 	private PlanningPokerRequirement[] reqsList;
 
 	// #################### GUI left components ####################
-	/** The left container holding all the requirements' info */
-	private JLabel sessionLabel;
-	private JLabel sessionNameLabel;
-	private JLabel sessionNameValueLabel;
-	private JLabel sessionDescLabel;
-	private JLabel sessionDescValueLabel;
-	private JLabel leftPanelLabel;
-	private JSplitPane leftPanel;
-	private JPanel topLeftPanel;
-	private JPanel bottomLeftPanel;
-
+	/** The left container holding all the GUI component below */
+	private JPanel leftPanel;
+	
+	/** Name & Description for session */
+	private NameDescriptionPanel nameDescriptionSession;
+	private JXCollapsiblePane nameDescriptionCollapsibleFrame;
+	
+	/** Toggle Button that shows/hides session's name & description */
+	private JButton sessionInfoToggleButton;
+		
 	/** List of requirements */
 	private JScrollPane requirementFrame;
 	private JList<PlanningPokerRequirement> reqList;
+	private JXCollapsiblePane requirementCollapsibleFrame;
 
 	// ################### GUI right components ####################
-	/** The right container holding all the GUI components */
+	/** The right container holding all the GUI components below */
 	private JPanel rightPanel;
 
 	/** The name and description text box */
@@ -275,6 +278,8 @@ public class VotePanel extends JPanel {
 				ViewEventController.getInstance().refreshTree();
 				
 				submitFinalEstimationButton.setEnabled(false);
+				
+				advanceInList();
 
 //				successMsg.setVisible(true);
 //				pnlFinalEstimate.add(successMsg);
@@ -309,17 +314,15 @@ public class VotePanel extends JPanel {
 						total += vote.getCardValue();
 						count++;
 					}
-					if(count > 0){
-						ppr.setFinalEstimate(total / count);
-					} else {
-						ppr.setFinalEstimate(0);
-					}
-						ppr.setTotalVotes(count);
+					
+					ppr.setFinalEstimate(0);
+					ppr.setTotalVotes(count);
 				}
 				closeTab();
 				openFinalEstimation();
 				SessionTableModel.getInstance().update();
 
+				updateUI();
 			}
 		});
 
@@ -441,20 +444,24 @@ public class VotePanel extends JPanel {
 	 * Construct the left panel and its GUI component: a JLabel and a JList
 	 */
 	private void setupLeftPanel() {
-		leftPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		topLeftPanel = new JPanel();
-		bottomLeftPanel = new JPanel();
-
-		leftPanelLabel = new JLabel(LEFT_PANEL_LABEL);
-		sessionLabel = new JLabel(SESSION_LABEL);
-		sessionNameLabel = new JLabel(SESSION_NAME_LABEL);
-		sessionNameValueLabel = new JLabel(session.getName());
-		sessionDescLabel = new JLabel(SESSION_DESC_LABEL);
-		sessionDescValueLabel = new JLabel(session.getDescription());
-
+		leftPanel = new JPanel();
+		
+		// Create name & description for session
+		nameDescriptionSession = new NameDescriptionPanel("Session Name", "Description", false);
+		nameDescriptionSession.setName(session.getName());
+		nameDescriptionSession.setDescription(session.getDescription());
+		
+		// Create the JXCollapsible frame for the name & description above
+		nameDescriptionCollapsibleFrame = new JXCollapsiblePane();
+		nameDescriptionCollapsibleFrame.setLayout(new MigLayout("insets 5, fill"));
+		nameDescriptionCollapsibleFrame.add(nameDescriptionSession, "height 200px!, grow");
+		// Set this frame hidden initially
+		nameDescriptionCollapsibleFrame.setCollapsed(true);
+		
+		// Create List of requirements		
 		final List<PlanningPokerRequirement> reqs = session.getRequirements();
-
-		final DefaultListModel<PlanningPokerRequirement> requirementModel =
+		
+		final DefaultListModel<PlanningPokerRequirement> requirementModel = 
 				new DefaultListModel<PlanningPokerRequirement>();
 		for (PlanningPokerRequirement ppr : reqs) {
 			requirementModel.addElement(ppr);
@@ -515,25 +522,67 @@ public class VotePanel extends JPanel {
 		requirementFrame = new JScrollPane();
 		requirementFrame.setViewportView(reqList);
 
+		// Create the toggle button that shows/hides session's
+		// name & description.
+		// This button is right above requirementCollapsibleFrame
+		sessionInfoToggleButton = new JButton();
+		sessionInfoToggleButton.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if (sessionInfoToggleButton.getText().equals("Show Session Details")) {
+					sessionInfoToggleButton.setText("Hide Session Details");
+				} else {
+					sessionInfoToggleButton.setText("Show Session Details");
+				}
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {}
+		});
+		sessionInfoToggleButton.setAction(nameDescriptionCollapsibleFrame.getActionMap().get("toggle"));
+		sessionInfoToggleButton.setText("Show Session Details");		
+
+		// Put the scroll pane above in the JXCollapsible frame
+		requirementCollapsibleFrame = new JXCollapsiblePane();
+		requirementCollapsibleFrame.setLayout(new MigLayout("insets 0, fill", "", "[][grow][]"));
+		requirementCollapsibleFrame.add(new JLabel("Requirements"), "gaptop 10px, gapbottom 8px, center, span, wrap");
+		requirementCollapsibleFrame.add(requirementFrame, "grow, wrap");
+		requirementCollapsibleFrame.add(sessionInfoToggleButton, "height 32px!, growx, wrap");
+		
 		addGUIComponentsOnLeftPanel();
 	}
 
 	/*
-	 * Add the GUI component to the left panel
+	 * Add the GUI components to the left panel
+	 * -------------------------------------------------
+	 * 			  sessionInfoToggleButton
+	 * 			RequirementCollapsibleFrame
+	 * 		  NameDescriptionCollapsibleFrame
 	 */
 	private void addGUIComponentsOnLeftPanel() {
-		topLeftPanel.setLayout(new MigLayout("insets 0, fill"));
-		bottomLeftPanel.setLayout(new MigLayout("insets 0, fill", "", "10[]10[]0"));
-		topLeftPanel.add(sessionLabel, "center, wrap");
-		topLeftPanel.add(sessionNameLabel, "wrap");
-		topLeftPanel.add(sessionNameValueLabel, "center, wrap");
-		topLeftPanel.add(sessionDescLabel, "wrap");
-		topLeftPanel.add(sessionDescValueLabel, "center, wrap");
-		bottomLeftPanel.add(leftPanelLabel, "center, wrap");
-		bottomLeftPanel.add(requirementFrame, "width 250::, growy, dock center");
+		removeAll();
 
-		leftPanel.add(topLeftPanel);
-		leftPanel.add(bottomLeftPanel);
+		leftPanel.setMinimumSize(new Dimension(250, 300));
+		leftPanel.setLayout(new BorderLayout());
+
+		// Add the list of requirement
+		leftPanel.add(requirementCollapsibleFrame, BorderLayout.CENTER);
+		
+		// Add the name & description frame
+		leftPanel.add(nameDescriptionCollapsibleFrame, BorderLayout.SOUTH);
 	}
 
 	private void setupRightPanel() {
@@ -541,10 +590,11 @@ public class VotePanel extends JPanel {
 
 		// Create a requirement name and description text box
 		nameDescriptionPanel = new NameDescriptionPanel(REQ_NAME_LABEL, REQ_DESC_LABEL, false);
+
+		// Remove the name text box in final estimation
+		nameDescriptionPanel.removeNameTextbox();
+		
 		if (session.isClosed()) {
-			// Remove the name text box in final estimation
-			nameDescriptionPanel.removeNameTextbox();
-			
 			// Change the description title
 			nameDescriptionPanel.setDescriptionTitle("Requirement Description");
 		}
@@ -604,8 +654,6 @@ public class VotePanel extends JPanel {
 
 		// Create the card panel or final estimation GUI
 		finalEstimatePnl = new CompletedSessionEstimatePanel(this);
-		// TODO change this migLayout later
-		finalEstimatePnl.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		addGUIComponentsOnRightPanel();
 	}
@@ -790,12 +838,21 @@ public class VotePanel extends JPanel {
 		int i;
 		for (i = selectedReqIndex + 1; i < reqList.getModel().getSize(); i++) {
 			nextReq = reqList.getModel().getElementAt(i);
-			vote = nextReq.getVoteByUser(ConfigManager.getConfig().getUserName());
+				
+			if (!session.isClosed()) {
+				vote = nextReq.getVoteByUser(ConfigManager.getConfig().getUserName());
 
-			if (vote == null) {
-				moveTo(i);
+				if (vote == null) {
+					moveTo(i);
 
-				return;
+					return;
+				}
+			} else {
+				if (nextReq.getFinalEstimate() == 0) {
+					moveTo(i);
+
+					return;
+				}
 			}
 		}
 
@@ -803,10 +860,20 @@ public class VotePanel extends JPanel {
 			nextReq = reqList.getModel().getElementAt(i);
 			vote = nextReq.getVoteByUser(ConfigManager.getConfig().getUserName());
 
-			if (vote == null) {
-				moveTo(i);
+			if (!session.isClosed()) {
+				vote = nextReq.getVoteByUser(ConfigManager.getConfig().getUserName());
 
-				return;
+				if (vote == null) {
+					moveTo(i);
+
+					return;
+				}
+			} else {
+				if (nextReq.getFinalEstimate() == 0) {
+					moveTo(i);
+
+					return;
+				}
 			}
 		}
 
@@ -836,6 +903,8 @@ public class VotePanel extends JPanel {
 			if (usesDeck())
 				clearDeckPanel();
 		}
+		
+		updateUI();
 	}
 
 	/**

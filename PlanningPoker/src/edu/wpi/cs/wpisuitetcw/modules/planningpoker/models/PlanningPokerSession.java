@@ -204,6 +204,7 @@ public class PlanningPokerSession extends AbstractModel {
 	 */
 	public void addRequirement(PlanningPokerRequirement req) {
 		requirements.add(req);
+		req.setSessionID(id);
 	}
 
 	/**
