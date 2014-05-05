@@ -12,7 +12,6 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
 import javax.swing.JTextPane;
 import javax.swing.border.Border;
 import javax.swing.text.BadLocationException;
@@ -44,33 +43,23 @@ public class DefaultHomePanel extends JPanel {
 		this.setBorder(paneEdgeBorder);
 
 		final JTextPane leftTextPane = createLeftTextPane();
-		final JTextPane rightTextPane = createRightTextPane();
 		final JTextPane topTextPane = createTopTextPane();
 
 		// Cannot edit text panes
 		leftTextPane.setEditable(false);
-		rightTextPane.setEditable(false);
 		topTextPane.setEditable(false);
 
 		// Makes text panes opaque
 		leftTextPane.setOpaque(false);
-		rightTextPane.setOpaque(false);
 		topTextPane.setOpaque(false);
 
 		// Makes containers for top and bottom halves
 		final JPanel topContainer = new JPanel();
-		final JSplitPane container = new JSplitPane();
-
-		// Gets rid of SplitPane Border
-		container.setBorder(null);
-
-		// setup the SplitPane layout
-		container.setLeftComponent(leftTextPane);
-		container.setRightComponent(rightTextPane);
-		container.setDividerSize(0);
-		container.setResizeWeight(.5);
-		container.setEnabled(true);
-
+		final JPanel centerPanel = new JPanel();
+		
+		centerPanel.setLayout(new MigLayout());
+		centerPanel.add(leftTextPane);
+	
 		// Add welcome message to top panel
 		topContainer.add(topTextPane);
 
@@ -78,7 +67,7 @@ public class DefaultHomePanel extends JPanel {
 		// bottom
 		this.setLayout(new MigLayout());
 		this.add(topContainer, "dock north");
-		this.add(container);
+		this.add(centerPanel, "center");
 	}
 
 	private JTextPane createTopTextPane() {
@@ -120,7 +109,8 @@ public class DefaultHomePanel extends JPanel {
 						+ "or create a requirement of your \nown. Now it's time to start the voting!\n", // small
 		};
 
-		final String[] initStyles = { "large", "small", "large", "small" };
+		// set sytles for the text
+		final String[] initStyles = { "large", "medium", "large", "medium" };
 
 		final JTextPane textPane = new JTextPane();
 		final StyledDocument doc = textPane.getStyledDocument();
@@ -129,40 +119,6 @@ public class DefaultHomePanel extends JPanel {
 		try {
 			for (int i = 0; i < leftPaneText.length; i++) {
 				doc.insertString(doc.getLength(), leftPaneText[i],
-						doc.getStyle(initStyles[i]));
-			}
-		} catch (BadLocationException ble) {
-			System.err.println("Couldn't insert initial text into text pane.");
-		}
-		return textPane;
-	}
-
-	private JTextPane createRightTextPane() {
-
-		final String[] rightPaneText = {
-				"Frequently Asked Questions", // large
-				"\n\nWho can view my vote?", // medium
-				"\n\nOnce your vote is submitted, your vote remains\nanonymous and is only"
-						+ " used for the calculation\nof the final estimation of a requirement.\n", // small
-				"\n\nWhat is the difference between\ncancelling and ending a session?\n", // medium
-				"\nWhen a session ends due to the deadline being\nreached or the administrator"
-						+ " manually ending\na session, a final estimation is calculated, while\ncancelling"
-						+ "a session does not generate a final\nestimation.", // small
-				"", // medium
-				"" // small
-		};
-
-		final String[] initStyles = { "super huge", "large", "medium", "large",
-				"medium", "large", "medium", "large", "medium", "large",
-				"medium" };
-
-		final JTextPane textPane = new JTextPane();
-		final StyledDocument doc = textPane.getStyledDocument();
-		addStylesToDocument(doc);
-
-		try {
-			for (int i = 0; i < rightPaneText.length; i++) {
-				doc.insertString(doc.getLength(), rightPaneText[i],
 						doc.getStyle(initStyles[i]));
 			}
 		} catch (BadLocationException ble) {
