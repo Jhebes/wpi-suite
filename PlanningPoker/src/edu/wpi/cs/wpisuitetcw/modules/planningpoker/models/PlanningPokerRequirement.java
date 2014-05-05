@@ -82,6 +82,7 @@ public class PlanningPokerRequirement extends AbstractModel {
 		id = UUID.randomUUID();
 		innerRequirement = requirement;
 		this.sessionID = sessionID;
+		this.finalEstimate = 0;
 	}
 
 	/**
