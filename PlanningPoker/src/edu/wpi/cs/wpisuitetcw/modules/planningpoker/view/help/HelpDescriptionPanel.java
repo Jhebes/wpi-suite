@@ -193,7 +193,7 @@ public class HelpDescriptionPanel extends JPanel {
 					+ "\nCTRL + W                                Closes a Session"
 					+ "\nCTRL + N                                 Opens a Session"
 					+ "\nCTRL + S                                  Saves a Session"
-					+ "\nCTRL + Shift                            Move to the next tab"
+					+ "\nCTRL + Tab                            Move to the next tab"
 					+ "\nCTRL + Tab + Shift                 Move to the previous tab"
 					+ "\nF1 		                       Pull up the Help Page" // medium
 	};
