@@ -110,6 +110,9 @@ public class PlanningPokerRequirement extends AbstractModel {
 		int total = 0;
 		int num = 0;
 		double mean;
+		if(votes.isEmpty()){
+			return 0;
+		}
 		DecimalFormat df = new DecimalFormat("#.#");
 		for (PlanningPokerVote v : votes) {
 			total += v.getCardValue();
@@ -126,6 +129,9 @@ public class PlanningPokerRequirement extends AbstractModel {
 	 */
 	public int getMedian() {
 		final int size = votes.size();
+		if( size == 0){
+			return size;
+		}
 		final int[] numList = new int[votes.size()];
 		for (int i = 0; i < votes.size(); i++) {
 			numList[i] = votes.get(i).getCardValue();
@@ -147,6 +153,9 @@ public class PlanningPokerRequirement extends AbstractModel {
 	public int getMode() {
 		final int[] numList = new int[votes.size()];
 		int max, temp, mode;
+		if(votes.size() == 0){
+			return 0;
+		}
 		for (int i = 0; i < votes.size(); i++) {
 			numList[i] = votes.get(i).getCardValue();
 		}
@@ -173,6 +182,10 @@ public class PlanningPokerRequirement extends AbstractModel {
 	public double calculateStandardDeviation(double mean){
 		double variance, stndDev;
 		DecimalFormat df = new DecimalFormat("#.#");
+		
+		if(mean == 0){
+			return mean;
+		}
 		
 		variance  = calculateVariance(mean);
 		stndDev = Math.sqrt(variance);
