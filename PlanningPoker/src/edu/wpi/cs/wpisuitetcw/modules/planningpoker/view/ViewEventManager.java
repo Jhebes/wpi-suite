@@ -100,7 +100,7 @@ public class ViewEventManager {
 	 * @param session The session whose info to gather when building the panel.
 	 */
 	public void viewSession(PlanningPokerSession session) {
-		if (session.getStartTime() != null) {
+		if (session.getStartTime() != null || session.isCancelled()) {
 			// check if the panel of the session is opened
 			VotePanel exist = null;
 

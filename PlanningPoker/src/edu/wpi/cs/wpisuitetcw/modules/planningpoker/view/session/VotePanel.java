@@ -83,6 +83,7 @@ public class VotePanel extends JPanel {
 			"<html><font color='red'>No deck. Please enter your vote in the white box</font></html>";
 	private static final String INVALID_VOTE_NUM_MSG = 
 			"<html><font face='sans-serif' color='red' size='9px'><center><b>Integer only!<b></center></font></html>";
+	private static final String CANCELLED_SESSION = "This session has been cancelled.";
 
 	private static final int DEFAULT_INSETS = 20;
 	private static final int DEFAULT_HEIGHT = 26;
@@ -415,6 +416,8 @@ public class VotePanel extends JPanel {
 
 		if (session.isClosed()) {
 			bottomPanel.add(submitFinalEstimationButton, "align center");
+		} else if(session.isCancelled()){
+			//add no buttons to bottom panel
 		} else {
 			bottomPanel.add(endSessionButton, "left, "
 											+ "wmin " + MIN_BUTTON_WIDTH + "px, "
@@ -616,6 +619,9 @@ public class VotePanel extends JPanel {
 										+ "gapbottom " + VERTICAL_PADDING_RIGHT_PANEL + ", "
 										+ "gapright " + HORIZONTAL_PADDING_RIGHT_PANEL + ", "
 										+ "width 150:300:500, dock east");
+		} else if(session.isCancelled()){
+			final JLabel messageLabel = new JLabel(CANCELLED_SESSION);
+			rightPanel.add(messageLabel, "gapleft 150px, hmin 230px, grow, dock south");
 		} else {
 			if (cardFrame != null) {
 				rightPanel.add(cardFrame, "height 235::, grow, dock south");
