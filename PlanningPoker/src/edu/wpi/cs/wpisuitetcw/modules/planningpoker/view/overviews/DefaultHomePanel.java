@@ -10,11 +10,8 @@
 
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
-import java.awt.Color;
-
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
 import javax.swing.JTextPane;
 import javax.swing.border.Border;
 import javax.swing.text.BadLocationException;
@@ -35,58 +32,46 @@ public class DefaultHomePanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private final Border compound, paneEdgeBorder, grayAndDarkGrayBorder;
 
 	public DefaultHomePanel() {
 
 		// Default Home Panel's borders
-		paneEdgeBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-		grayAndDarkGrayBorder = BorderFactory.createEtchedBorder(
-				Color.lightGray, Color.darkGray);
-
-		// Combines borders, grayAndDarkBorder within 10 pixels of padding
-		compound = BorderFactory.createCompoundBorder(paneEdgeBorder,
-				grayAndDarkGrayBorder);
+		final Border paneEdgeBorder = BorderFactory.createEmptyBorder(10, 10,
+				10, 10);
 
 		// sets the panel border
-		this.setBorder(compound);
+		this.setBorder(paneEdgeBorder);
 
 		final JTextPane leftTextPane = createLeftTextPane();
-		final JTextPane rightTextPane = createRightTextPane();
 		final JTextPane topTextPane = createTopTextPane();
 
 		// Cannot edit text panes
 		leftTextPane.setEditable(false);
-		rightTextPane.setEditable(false);
 		topTextPane.setEditable(false);
 
 		// Makes text panes opaque
 		leftTextPane.setOpaque(false);
-		rightTextPane.setOpaque(false);
 		topTextPane.setOpaque(false);
 
 		// Makes containers for top and bottom halves
 		final JPanel topContainer = new JPanel();
-		final JSplitPane container = new JSplitPane();
-
-		// Gets rid of SplitPane Border
-		container.setBorder(null);
-
-		// setup the SplitPane layout
-		container.setLeftComponent(leftTextPane);
-		container.setRightComponent(rightTextPane);
-		container.setDividerSize(0);
-		container.setResizeWeight(.5);
-		container.setEnabled(true);
-
+		final JPanel centerPanel = new JPanel();
+		
+		final JPanel overallPanel = new JPanel();
+		
+		centerPanel.setLayout(new MigLayout());
+		centerPanel.add(leftTextPane);
+	
 		// Add welcome message to top panel
 		topContainer.add(topTextPane);
 
 		// Set to make layout and adds welcome message to top and splitpane to
 		// bottom
-		this.setLayout(new MigLayout());
-		this.add(topContainer, "dock north");
-		this.add(container);
+		overallPanel.setLayout(new MigLayout());
+		overallPanel.add(topContainer, "dock north");
+		overallPanel.add(centerPanel, "center");
+		
+		this.add(overallPanel);
 	}
 
 	private JTextPane createTopTextPane() {
@@ -112,23 +97,23 @@ public class DefaultHomePanel extends JPanel {
 	private JTextPane createLeftTextPane() {
 
 		final String[] leftPaneText = {
-				"What is Planning Poker?", // large
-				"\n\nPlanning Poker is a software development tool \nfor estimating "
+				"\nWhat is Planning Poker?", // large
+				"\nPlanning Poker is a software development tool \nfor estimating "
 						+ "requirements in software development \nprojects. In Planning Poker, "
 						+ "each group member has \na deck of cards to rank the requirements "
 						+ "of a project\naccording to how important they think that task "
 						+ "ranks\namong the others. The project administrators can then "
-						+ "use\nthis data to create a final priority list for the project. \n"
-						+ "\n", // small
-				"\nHow To Get Started", // large
-				"\n\nTo start a planning poker session, click create a session and \n"
+						+ "use\nthis data to create a final priority list for the project. \n", // small
+				"\n\nHow To Get Started", // large
+				"\nTo start a planning poker session, click create a session and \n"
 						+ "assign a type of deck to the session. You can either use the \n"
 						+ "default deck, or create your own deck. Once a session has\nbeen created,"
 						+ "you can select what requirements you would \nlike to add to the session"
 						+ "or create a requirement of your \nown. Now it's time to start the voting!\n", // small
 		};
 
-		final String[] initStyles = { "large", "small", "large", "small" };
+		// set sytles for the text
+		final String[] initStyles = { "large", "medium", "large", "medium" };
 
 		final JTextPane textPane = new JTextPane();
 		final StyledDocument doc = textPane.getStyledDocument();
@@ -145,69 +130,29 @@ public class DefaultHomePanel extends JPanel {
 		return textPane;
 	}
 
-	private JTextPane createRightTextPane() {
-
-		final String[] rightPaneText = {
-				"Frequently Asked Questions", // large
-				"\n\nWho can view my vote?", // medium
-				"\n\nOnce your vote is submitted, your vote remains\nanonymous and is only"
-						+ " used for the calculation\nof the final estimation of a requirement.\n", // small
-				"\n\nWhat is the difference between\ncancelling and ending a session?\n", // medium
-				"\nWhen a session ends due to the deadline being\nreached or the administrator"
-						+ " manually ending\na session, a final estimation is calculated, while\ncancelling"
-						+ "a session does not generate a final\nestimation.", // small
-				"", // medium
-				"" // small
-		};
-
-		final String[] initStyles = { "large", "medium", "small", "medium", "small",
-				"medium", "small" };
-
-		final JTextPane textPane = new JTextPane();
-		final StyledDocument doc = textPane.getStyledDocument();
-		addStylesToDocument(doc);
-
-		try {
-			for (int i = 0; i < rightPaneText.length; i++) {
-				doc.insertString(doc.getLength(), rightPaneText[i],
-						doc.getStyle(initStyles[i]));
-			}
-		} catch (BadLocationException ble) {
-			System.err.println("Couldn't insert initial text into text pane.");
-		}
-		return textPane;
-	}
-
 	protected void addStylesToDocument(StyledDocument doc) {
 		// Initialize some styles.
-		final Style def = StyleContext.getDefaultStyleContext().getStyle(
+		Style def = StyleContext.getDefaultStyleContext().getStyle(
 				StyleContext.DEFAULT_STYLE);
 
-		final Style regular = doc.addStyle("regular", def);
+		Style regular = doc.addStyle("regular", def);
 		StyleConstants.setFontFamily(def, "SansSerif");
 
-		final Style Georgia = doc.addStyle("georgia", def);
+		Style Georgia = doc.addStyle("georgia", def);
 		StyleConstants.setFontFamily(def, "Georgia");
 
-		Style s = doc.addStyle("italic", regular);
-		StyleConstants.setItalic(s, true);
-		//
-		s = doc.addStyle("bold", regular);
-		StyleConstants.setBold(s, true);
-
-		s = doc.addStyle("small", regular);
-		StyleConstants.setFontSize(s, 19);
+		Style s;
 
 		s = doc.addStyle("medium", regular);
 		StyleConstants.setFontSize(s, 20);
-		StyleConstants.setBold(s, true);
 
 		s = doc.addStyle("large", Georgia);
 		StyleConstants.setFontSize(s, 24);
 		StyleConstants.setBold(s, true);
+		StyleConstants.setItalic(s, true);
 
 		s = doc.addStyle("super huge", Georgia);
-		StyleConstants.setFontSize(s, 34);
+		StyleConstants.setFontSize(s, 38);
 		StyleConstants.setBold(s, true);
 	}
 }
