@@ -100,7 +100,10 @@ public class ViewEventManager {
 	 * @param component
 	 */
 	public void updateTabTitle(String title) {
-		main.setTitleAt(main.getSelectedIndex(), title);
+		main.setTitleAt(
+				main.getSelectedIndex(), 
+				ClosableFixedLengthTab.limitTitle(title));
+		main.updateUI();
 	}
 
 	/**
@@ -113,7 +116,7 @@ public class ViewEventManager {
 			VotePanel exist = null;
 
 			for (VotePanel panel : inProgressSessionPanels) {
-				if (panel.getSession() == session) {
+				if (panel.getSession().getID() == session.getID()) {
 					exist = panel;
 					break;
 				}
@@ -136,7 +139,7 @@ public class ViewEventManager {
 			EditSessionPanel exist = null;
 
 			for (EditSessionPanel panel : editSessionPanels) {
-				if (panel.getSession() == session) {
+				if (panel.getSession().getID() == session.getID()) {
 					exist = panel;
 					break;
 				}
