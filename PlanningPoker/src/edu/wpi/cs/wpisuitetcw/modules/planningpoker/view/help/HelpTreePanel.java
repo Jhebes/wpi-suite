@@ -45,7 +45,7 @@ public class HelpTreePanel extends JScrollPane implements
 		this.parentPanel = parentPanel;
 
 		// set up tree
-		top = new DefaultMutableTreeNode("General Help");
+		top = new DefaultMutableTreeNode("Help Guide");
 
 		tree = new JTree(top);
 

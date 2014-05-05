@@ -14,7 +14,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.help;
  * Names for all the help entries.
  */
 public enum HelpEntry {
-	DEFAULT("Default"), POKER("Planning poker"), SESSION("Session"), DECK(
+	HELP("Help Guide"),DEFAULT("Default"), POKER("Planning poker"), SESSION("Session"), DECK(
 			"Deck"), REQUIREMENT("Requirement"), VOTING("Voting");
 
 	private final String type;
