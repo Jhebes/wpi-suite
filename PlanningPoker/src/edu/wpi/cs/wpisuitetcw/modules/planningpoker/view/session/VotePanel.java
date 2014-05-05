@@ -83,6 +83,8 @@ public class VotePanel extends JPanel {
 			"<html><font color='red'>No deck. Please enter your vote in the white box</font></html>";
 	private static final String INVALID_VOTE_NUM_MSG = 
 			"<html><font face='sans-serif' color='red' size='9px'><center><b>Integer only!<b></center></font></html>";
+	private static final String MANUAL_VOTE_MSG = 
+			"<html><font color='red'><center><b>Vote here<b></center></font></html>";
 
 	private static final int DEFAULT_INSETS = 20;
 	private static final int DEFAULT_HEIGHT = 26;
@@ -543,7 +545,9 @@ public class VotePanel extends JPanel {
 
 		// Create a text field to store the final vote result
 		voteTextField = new LabelsWithTextField();
-		// Clear the error message
+		// Create a title "Vote here"
+		voteTextField.setTextTop(MANUAL_VOTE_MSG);
+		// Clear the error message at the bottom
 		voteTextField.clearBottomText();
 		// Disable the text box if there is a deck
 		if (session.getDeck() != null) {

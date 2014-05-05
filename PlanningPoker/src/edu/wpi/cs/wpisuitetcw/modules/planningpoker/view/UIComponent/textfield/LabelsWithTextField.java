@@ -173,7 +173,7 @@ public class LabelsWithTextField extends JPanel {
 	 * to the top line
 	 */
 	public void setTextTop(String text) {
-		topLine.setTextCenter(text);
+		topLine.setHTMLStyleText(text);
 	}
 	
 	/**
