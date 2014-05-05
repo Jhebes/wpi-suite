@@ -20,7 +20,7 @@ public class HelpPanel extends JSplitPane {
 	private final HelpTreePanel treePanel;
 
 	/** Panel for displaying a specific help message */
-	private final HelpDescriptionPanel helpDescription;
+	private final HelpDescriptionPanel descriptionPanel;
 
 	/**
 	 * Constructor to create a help panel
@@ -29,10 +29,10 @@ public class HelpPanel extends JSplitPane {
 
 		// set up panels
 		treePanel = new HelpTreePanel(this);
-		helpDescription = new HelpDescriptionPanel();
+		descriptionPanel = new HelpDescriptionPanel();
 
 		// set up the entire panel
-		this.setRightComponent(helpDescription);
+		this.setRightComponent(descriptionPanel);
 		this.setLeftComponent(treePanel);
 
 		// Set divider location between right and left panel
@@ -43,8 +43,7 @@ public class HelpPanel extends JSplitPane {
 	 * Update the right panel to show the help content
 	 */
 	public void updateHelpContent(HelpEntry entry) {
-		// TODO implement this later
-		System.out.println("Entry is: " + entry);
+		descriptionPanel.displayHelp(entry);
 	}
 	
 

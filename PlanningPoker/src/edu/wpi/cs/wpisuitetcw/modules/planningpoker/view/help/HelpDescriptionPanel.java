@@ -107,6 +107,9 @@ public class HelpDescriptionPanel extends JPanel {
 
 	private HashMap<HelpEntry, String[]> helpEntries;
 
+	/**
+	 * Constructor to create a new help description panel for display help context
+	 */
 	public HelpDescriptionPanel() {
 
 		// create help entries
@@ -118,6 +121,13 @@ public class HelpDescriptionPanel extends JPanel {
 		this.add(textPane);
 		textPane.setEditable(false);
 		this.setEnabled(true);
+	}
+	
+	/**
+	 * Display the given help entry
+	 */
+	public void displayHelp(HelpEntry entry) {
+		String[] helpContent = helpEntries.get(entry);
 	}
 
 	/**
