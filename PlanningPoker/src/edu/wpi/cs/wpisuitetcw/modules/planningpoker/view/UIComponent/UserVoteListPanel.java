@@ -77,7 +77,12 @@ public class UserVoteListPanel extends JPanel {
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 		tblVotes.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-
+		
+		// Prevent user moving the column
+		tblVotes.getTableHeader().setReorderingAllowed(false);
+		// Prevent user resizing the columns
+		tblVotes.getTableHeader().setEnabled(false);
+		
 		tableScrollFrame = new JScrollPane(tblVotes);
 	}
 
