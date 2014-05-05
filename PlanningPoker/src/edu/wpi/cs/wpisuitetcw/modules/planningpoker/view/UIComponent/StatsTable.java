@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -91,7 +92,7 @@ public class StatsTable extends JPanel {
 	 * be assigned to the mean
 	 */
 	public void setMean(String mean) {
-		this.mean = mean;
+		statsTable.getModel().setValueAt(mean, 0, 1);
 	}
 
 	/**
@@ -100,7 +101,7 @@ public class StatsTable extends JPanel {
 	 * be assigned to the median
 	 */
 	public void setMedian(String median) {
-		this.median = median;
+		statsTable.getModel().setValueAt(median, 1, 1);
 	}
 
 	/**
@@ -109,7 +110,7 @@ public class StatsTable extends JPanel {
 	 * be assigned to the mode
 	 */
 	public void setMode(String mode) {
-		this.mode = mode;
+		statsTable.getModel().setValueAt(mode, 2, 1);
 	}
 
 	/**
@@ -118,7 +119,7 @@ public class StatsTable extends JPanel {
 	 * be assigned to the standard deviation
 	 */
 	public void setStandardDeviation(String sd) {
-		this.standardDeviation = sd;
+		statsTable.getModel().setValueAt(sd, 3, 1);
 	}
 	
 }
