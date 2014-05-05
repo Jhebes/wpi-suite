@@ -263,4 +263,33 @@ public class ViewEventManager {
 		return overviewTreePanel;
 	}
 
+	/**
+	 * Changes the selected tab to the tab left of the current tab
+	 */
+	public void switchToLeftTab() {
+		if (main.getSelectedIndex() > 0) {
+			switchToTab(main.getSelectedIndex() - 1);
+		}
+	}
+	
+	/**
+	 * Changes the selected tab to the tab right of the current tab
+	 */
+	public void switchToRightTab() {
+		switchToTab(main.getSelectedIndex() + 1);
+	}
+
+	/**
+	 * Changes the selected tab to the tab with the given index
+	 * @param tabIndex the index of the tab to select
+	 */
+	private void switchToTab(int tabIndex) {
+		try {
+			main.setSelectedIndex(tabIndex);
+		}
+		catch (IndexOutOfBoundsException e) {
+			// an invalid tab was requested, do nothing
+		}
+	}
+
 }

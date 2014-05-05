@@ -94,6 +94,13 @@ public class TransparentTextPane extends JTextPane {
 		}
 	}
 	
+	/**
+	 * Clear the text
+	 */
+	public void clearText() {
+		setText("");
+	}
+	
 	@Override
 	protected void paintComponent(Graphics g) {
 		g.setColor(getBackground());

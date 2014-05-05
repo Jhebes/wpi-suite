@@ -176,7 +176,7 @@ public class CompletedSessionEstimatePanel extends JPanel {
 		setLayout(new MigLayout("insets 0, fill", "push[]20[]push", "push[]push"));
 
 		add(card, "height 194!, width 146!");
-		add(statsTable, "wrap");
+		add(statsTable, "wrap, gapright 3");
 		
 //		pnlFinishedReq.add(lblFinalEstimate, "gapbottom 10,wrap");
 //		pnlFinishedReq.add(finalEstimateCard,

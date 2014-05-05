@@ -57,7 +57,8 @@ import org.jdesktop.swingx.JXDatePicker;
 
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.CreateSessionPanelController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.GetAllDecksController;
-import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.keys.PanelKeyShortcut;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.keys.CTRLSPanelKeyShortcut;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.keys.CTRLWPanelKeyShortcut;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.ActivateSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.controllers.session.SaveSessionController;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerRequirement;
@@ -209,8 +210,11 @@ public class EditSessionPanel extends JPanel {
 	 */
 	private void registerKeyboardShortcuts() {
 		
-		// Create KeyStroke that will be used to invoke the action.
+		// Create KeyStroke that will be used to invoke the action. (CLOSING)
 		final KeyStroke ctrlW = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK);
+		
+		// Create KeyStroke that will be used to invoke the action. (SAVING)
+		final KeyStroke ctrlS = KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK);
 		
 		InputMap inputMap = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         ActionMap actionMap = getActionMap();
@@ -218,11 +222,14 @@ public class EditSessionPanel extends JPanel {
         // Now register KeyStroke used to fire the action.  I am registering this with the
      	// InputMap used when the component's parent window has focus.
      	inputMap.put(ctrlW, "close");
+     	inputMap.put(ctrlS, "save");
 		
-		final Action closeTab = new PanelKeyShortcut(EditSessionPanel.this);
+		final Action closeTab = new CTRLWPanelKeyShortcut(EditSessionPanel.this);
+		final Action saveData = new CTRLSPanelKeyShortcut(this,session);
 		
 		// Register Action in component's ActionMap.
         actionMap.put("close", closeTab);
+        actionMap.put("save", saveData);
 
 	}
 
@@ -661,13 +668,7 @@ public class EditSessionPanel extends JPanel {
 				pickerDeadlineTime, "HH:mm:ss");
 		pickerDeadlineTime.setEditor(timeEditor);
 
-		// add an hour to the deadline
-		Date startDate = new Date();
-		final Calendar cal = Calendar.getInstance();
-		cal.setTime(startDate);
-		cal.add(Calendar.HOUR_OF_DAY, 1);
-		startDate = cal.getTime();
-		pickerDeadlineTime.setValue(startDate); // will only show the current
+		pickerDeadlineTime.setValue(new Date()); // will only show the current
 												// time + 1 hour
 
 		pickerDeadlineTime.setEnabled(false);

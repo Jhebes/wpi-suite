@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.MigLayout;
@@ -28,7 +29,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.models.PlanningPokerVote;
 public class UserVoteListPanel extends JPanel {
 
 	private static final Object[] COLUMN_LABELS = { "User", "Vote" };
-	private static final int VOTE_COLUMN_MAX_WIDTH = 150;
+	private static final int VOTE_COLUMN_MAX_WIDTH = 100;
 	
 	/** Header for the votes panel */
 	private final JLabel lblVotes;
@@ -71,6 +72,11 @@ public class UserVoteListPanel extends JPanel {
 		tblVotes.getColumnModel().getColumn(1).setMaxWidth(VOTE_COLUMN_MAX_WIDTH);
 		tblVotes.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		tblVotes.setFillsViewportHeight(true);
+		
+		// Set the value in the vote column to center
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		tblVotes.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
 
 		tableScrollFrame = new JScrollPane(tblVotes);
 	}

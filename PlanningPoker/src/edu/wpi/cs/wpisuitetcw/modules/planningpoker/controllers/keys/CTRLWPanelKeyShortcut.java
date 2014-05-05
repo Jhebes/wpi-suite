@@ -20,14 +20,14 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.session.EditSessionPane
 
 
 @SuppressWarnings("serial")
-public class PanelKeyShortcut extends AbstractAction {
+public class CTRLWPanelKeyShortcut extends AbstractAction {
 
 	private JComponent panel;
 
 	/**
 	 * Default constructor for this class
 	 */
-	public PanelKeyShortcut(JComponent panel) {
+	public CTRLWPanelKeyShortcut(JComponent panel) {
 
 		this.panel = panel;
 	}
