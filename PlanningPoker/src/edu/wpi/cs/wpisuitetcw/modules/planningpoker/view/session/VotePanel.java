@@ -80,10 +80,12 @@ public class VotePanel extends JPanel {
 	private static final String INVALID_VOTE_NUM_MSG = 
 			"<html><font face='sans-serif' color='red' size='9px'><center><b>Integer only!<b></center></font></html>";
 	private static final String CANCELLED_SESSION = "This session has been cancelled.";
+	private static final String MANUAL_VOTE_MSG = 
+			"<html><font color='red'><center><b>Vote here<b></center></font></html>";
 
 	private static final int DEFAULT_INSETS = 20;
 	private static final int DEFAULT_HEIGHT = 26;
-	private static final int MIN_VOTE_TEXTFIELD_WIDTH = 118;
+	private static final int MIN_VOTE_TEXTFIELD_WIDTH = 150;
 	private static final int MIN_VOTE_TEXTFIELD_HEIGHT = 118;
 	private static final int MIN_BUTTON_WIDTH = 50;
 	private static final int VERTICAL_PADDING_RIGHT_PANEL = 10;
@@ -505,6 +507,7 @@ public class VotePanel extends JPanel {
 
 					updateUI();
 				}
+				voteTextField.clearBottomText();
 			}
 		});
 
@@ -548,7 +551,14 @@ public class VotePanel extends JPanel {
 
 		// Create a text field to store the final vote result
 		voteTextField = new LabelsWithTextField();
-		
+		// Create a title "Vote here"
+		voteTextField.setTextTop(MANUAL_VOTE_MSG);
+		// Clear the error message at the bottom
+		voteTextField.clearBottomText();
+		// Disable the text box if there is a deck
+		if (session.getDeck() != null) {
+			voteTextField.getTextField().setEnabled(false);
+		}
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
 
 		voteTextField.getTextField().getDocument().addDocumentListener(new DocumentListener() {
@@ -630,7 +640,7 @@ public class VotePanel extends JPanel {
 				rightPanel.add(cardFrame, "height 235::, grow, dock south");
 			} else {
 				// TODO remove the message
-				final JLabel messageLabel = new JLabel(NO_DECK_MSG);
+				final JLabel messageLabel = new JLabel();
 				rightPanel.add(messageLabel, "gapleft 150px, hmin 230px, grow, dock south");
 			}
 
@@ -641,10 +651,6 @@ public class VotePanel extends JPanel {
 										+ "gaptop "   + VERTICAL_PADDING_RIGHT_PANEL   + "px, "
 										+ "gapright " + HORIZONTAL_PADDING_RIGHT_PANEL + "px, "
 										+ "gapbottom" + VERTICAL_PADDING_RIGHT_PANEL   + "px");
-
-			// Add the error message to the right side
-			// Modify this to GUI component. Ben's request
-			rightPanel.add(errorMsg, "dock east");
 		}
 	}
 
@@ -701,7 +707,7 @@ public class VotePanel extends JPanel {
 	public int getVote() {
 		if (this.session.getDeck() == null) {
 			try {
-				voteTextField.setTextBottom("");
+				voteTextField.clearBottomText();
 				return Integer.parseInt(voteTextField.getTextMiddle());
 			} catch (NumberFormatException e) {
 				voteTextField.setTextBottom(INVALID_VOTE_NUM_MSG);
