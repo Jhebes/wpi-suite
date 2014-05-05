@@ -59,6 +59,7 @@ public class AddRequirementToSessionController implements ActionListener {
 		final PlanningPokerRequirement requirement = new PlanningPokerRequirement();
 		requirement.setName(this.panel.getNewReqName());
 		requirement.setDescription(this.panel.getNewReqDesc());
+		requirement.setSessionID(session.getID());
 
 		
 		// Create RequirementModel and Requirement to UPDATE the requirement

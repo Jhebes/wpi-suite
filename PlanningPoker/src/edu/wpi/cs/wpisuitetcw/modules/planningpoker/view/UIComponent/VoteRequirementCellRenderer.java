@@ -63,7 +63,7 @@ public class VoteRequirementCellRenderer extends JLabel implements ListCellRende
 		
 		PlanningPokerSession session = SessionStash.getInstance().getSessionByID(value.getSessionID());
 		
-		if (session == null || session.isActive()) {
+		if (!session.isClosed()) {
 			for (PlanningPokerVote vote : value.getVotes()) {
 				if (vote.getUser().equals(user)) {
 					isVoted = true;

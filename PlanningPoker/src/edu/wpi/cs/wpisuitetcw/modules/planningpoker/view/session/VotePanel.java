@@ -275,6 +275,8 @@ public class VotePanel extends JPanel {
 				ViewEventController.getInstance().refreshTree();
 				
 				submitFinalEstimationButton.setEnabled(false);
+				
+				advanceInList();
 
 //				successMsg.setVisible(true);
 //				pnlFinalEstimate.add(successMsg);
@@ -320,6 +322,7 @@ public class VotePanel extends JPanel {
 				openFinalEstimation();
 				SessionTableModel.getInstance().update();
 
+				updateUI();
 			}
 		});
 
@@ -788,12 +791,21 @@ public class VotePanel extends JPanel {
 		int i;
 		for (i = selectedReqIndex + 1; i < reqList.getModel().getSize(); i++) {
 			nextReq = reqList.getModel().getElementAt(i);
-			vote = nextReq.getVoteByUser(ConfigManager.getConfig().getUserName());
+				
+			if (!session.isClosed()) {
+				vote = nextReq.getVoteByUser(ConfigManager.getConfig().getUserName());
 
-			if (vote == null) {
-				moveTo(i);
+				if (vote == null) {
+					moveTo(i);
 
-				return;
+					return;
+				}
+			} else {
+				if (nextReq.getFinalEstimate() == 0) {
+					moveTo(i);
+
+					return;
+				}
 			}
 		}
 
@@ -801,10 +813,20 @@ public class VotePanel extends JPanel {
 			nextReq = reqList.getModel().getElementAt(i);
 			vote = nextReq.getVoteByUser(ConfigManager.getConfig().getUserName());
 
-			if (vote == null) {
-				moveTo(i);
+			if (!session.isClosed()) {
+				vote = nextReq.getVoteByUser(ConfigManager.getConfig().getUserName());
 
-				return;
+				if (vote == null) {
+					moveTo(i);
+
+					return;
+				}
+			} else {
+				if (nextReq.getFinalEstimate() == 0) {
+					moveTo(i);
+
+					return;
+				}
 			}
 		}
 
@@ -834,6 +856,8 @@ public class VotePanel extends JPanel {
 			if (usesDeck())
 				clearDeckPanel();
 		}
+		
+		updateUI();
 	}
 
 	/**
