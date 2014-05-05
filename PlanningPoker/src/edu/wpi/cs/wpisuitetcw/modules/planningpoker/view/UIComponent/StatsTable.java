@@ -43,7 +43,7 @@ public class StatsTable extends JPanel {
 		Object[] header = {"Type", "Value"};
 		Object[][] data = {{"Mean", mean}, 
 						   {"Median", median},
-						   {"Median", mode},
+						   {"Mode", mode},
 						   {"<html>Standard<br>deviation</html>", standardDeviation}};
 		
 		statsTable = new JTable(data, header);
