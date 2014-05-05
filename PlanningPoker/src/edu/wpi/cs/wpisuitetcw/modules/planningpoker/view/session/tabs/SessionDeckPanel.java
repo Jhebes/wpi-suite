@@ -16,6 +16,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.SimpleDateFormat;
@@ -176,6 +178,7 @@ public class SessionDeckPanel extends JPanel {
 		labelName = new JLabel(DECK_NAME_LABEL);
 		textboxName = new JTextField(18);
 		textboxName.setText(TEXTBOX_PLACEHOLDER);
+		setAutoHighLightWhenClicked(textboxName);
 
 		// Create card selection dropdown
 		labelCardSelection = new JLabel(CARD_SELECTION_LABEL);
@@ -199,6 +202,27 @@ public class SessionDeckPanel extends JPanel {
 		// Add sets of buttons that modify the deck to a panel
 		addModifyDeckButtons(topPanel);
 		addTextInputValidation(textboxName);
+	}
+
+	/**
+	 * Modify the given text field so it auto
+	 * highlights all text when user clicks on it
+	 * @param textfield The text field that would
+	 * have the feature described above
+	 */
+	private void setAutoHighLightWhenClicked(final JTextField textfield) {
+		textfield.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				// Do nothing when user clicks somewhere else
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				textfield.selectAll();
+			}
+		});
 	}
 
 	/**
