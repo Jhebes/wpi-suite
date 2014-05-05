@@ -88,7 +88,7 @@ public class VotePanel extends JPanel {
 
 	private static final int DEFAULT_INSETS = 20;
 	private static final int DEFAULT_HEIGHT = 26;
-	private static final int MIN_VOTE_TEXTFIELD_WIDTH = 118;
+	private static final int MIN_VOTE_TEXTFIELD_WIDTH = 150;
 	private static final int MIN_VOTE_TEXTFIELD_HEIGHT = 118;
 	private static final int MIN_BUTTON_WIDTH = 50;
 	private static final int VERTICAL_PADDING_RIGHT_PANEL = 10;
@@ -642,10 +642,6 @@ public class VotePanel extends JPanel {
 										+ "gaptop "   + VERTICAL_PADDING_RIGHT_PANEL   + "px, "
 										+ "gapright " + HORIZONTAL_PADDING_RIGHT_PANEL + "px, "
 										+ "gapbottom" + VERTICAL_PADDING_RIGHT_PANEL   + "px");
-
-			// Add the error message to the right side
-			// Modify this to GUI component. Ben's request
-			rightPanel.add(errorMsg, "dock east");
 		}
 	}
 
