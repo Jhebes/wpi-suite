@@ -133,10 +133,6 @@ public class EditSessionPanel extends JPanel {
 	private JLabel labelName;
 	private JTextField nameTextField;
 
-	/** Dropdown menu to choose type of session */
-	private JLabel labelDropdownType;
-	private JComboBox<SessionLiveType> dropdownType;
-
 	/** Text box to fill a session's description in */
 	private JScrollPane descriptionFrame;
 	private JLabel labelDescriptionBox;
@@ -435,15 +431,6 @@ public class EditSessionPanel extends JPanel {
 	}
 
 	/**
-	 * Return the dropdown menu for selecting the type
-	 * 
-	 * @return dropdown menu for session type
-	 */
-	public JComboBox<SessionLiveType> getDropdownType() {
-		return dropdownType;
-	}
-
-	/**
 	 * 
 	 * @return deck Type pull down menu
 	 */
@@ -526,7 +513,6 @@ public class EditSessionPanel extends JPanel {
 		leftPanel = new JPanel();
 
 		createSessionNameTextbox();
-		createSessionTypeDropdown();
 		createDeckSelectionDropdown();
 		createDescriptionTextbox();
 		createDeadlineButtonGroup();
@@ -549,13 +535,9 @@ public class EditSessionPanel extends JPanel {
 				+ "px!");
 
 		// Add labels for the dropdowns of session type and deck to 1 row
-		leftPanel.add(labelDropdownType, "width " + DROPDOWN_WIDTH
-				+ "px!, left, split2");
 		leftPanel.add(labeDeck, "left, wrap");
 
 		// Add the dropdowns of session type and deck to 1 row
-		leftPanel.add(dropdownType, "width " + DROPDOWN_WIDTH
-				+ "px!, left, split2");
 		leftPanel.add(deckType, "width " + DROPDOWN_DECK_WIDTH
 				+ "px!, left, wrap");
 
@@ -849,16 +831,6 @@ public class EditSessionPanel extends JPanel {
 				checkSessionChanges();
 			}
 		});
-	}
-
-	/*
-	 * Create dropdown menu to select type of session
-	 */
-	private void createSessionTypeDropdown() {
-		labelDropdownType = new JLabel("Type *");
-		dropdownType = new JComboBox<SessionLiveType>(SessionLiveType.values());
-		dropdownType.setEditable(false);
-		dropdownType.setBackground(Color.WHITE);
 	}
 
 	/*
