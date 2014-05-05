@@ -397,8 +397,10 @@ public class VotePanel extends JPanel {
 		cardSelectionModeLabel = new JLabel();
 		if (session.getDeck() != null && session.getDeck().getMaxSelection() == 1) {
 			cardSelectionModeLabel.setText("Single selection deck");
-		} else {
+		} else if (session.getDeck() != null && session.getDeck().getMaxSelection() > 1) {
 			cardSelectionModeLabel.setText("Multiple selection deck");
+		} else {
+			cardSelectionModeLabel.setText("No deck");
 		}
 
 		addGUIComponentsToBottomPanel();
@@ -543,6 +545,9 @@ public class VotePanel extends JPanel {
 		if (session.isClosed()) {
 			// Remove the name text box in final estimation
 			nameDescriptionPanel.removeNameTextbox();
+			
+			// Change the description title
+			nameDescriptionPanel.setDescriptionTitle("Requirement Description");
 		}
 
 		// Create a text field to store the final vote result
