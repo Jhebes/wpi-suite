@@ -40,7 +40,7 @@ public class HelpPanel extends JSplitPane {
 
 		JScrollPane jsp = new JScrollPane(descriptionPanel);
 		jsp.setViewportView(descriptionPanel);
-		jsp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		jsp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		jsp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
 		// Set layout for right panel;

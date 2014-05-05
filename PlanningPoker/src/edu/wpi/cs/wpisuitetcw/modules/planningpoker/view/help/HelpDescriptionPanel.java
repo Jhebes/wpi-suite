@@ -4,7 +4,6 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.help;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
@@ -31,8 +30,9 @@ public class HelpDescriptionPanel extends JPanel {
 
 	private final String[] HELP_GUIDE_TEXT = {
 			"How to Use this Guide", // super huge
+			"",
 			"\n\nWelcome to the Planning Poker Guide. To browse topics, navigate using the"
-					+ "panel to the left. Click on a topic to have it displayed." // large
+					+ "\npanel to the left. Click on a topic to have it displayed." // large
 	};
 
 	/** constants */
@@ -40,111 +40,114 @@ public class HelpDescriptionPanel extends JPanel {
 			"Frequently Asked Questions", // Super huge
 			"\n\nWho can view my vote?", // medium
 			"\n Once your vote is submitted, your vote remains anonymous and is only"
-					+ " used for the calculation of the final estimation of a requirement.", // small
+					+ " \nused for the calculation of the final estimation of a requirement.", // small
 			"\n\nWhat is the difference between cancelling and ending a session?", // medium
-			"\n   When a session ends due to the deadline being reached or the administrator"
-					+ " manually ending a session, a final estimation is calculated, while cancelling "
-					+ "a session does not generate a final estimation.", // small
+			"\nWhen a session ends due to the deadline being reached or the administrator"
+					+ " \nmanually ending a session, a final estimation is calculated, while cancelling "
+					+ "\na session does not generate a final estimation.", // small
 			"", // medium
 			"" // small
 	};
 
 	private final String[] PLANNING_POKER_TEXT = {
 			"Planning Poker", // super huge
-			"\nWhat is Planning Poker?", // large
+			"\n\nWhat is Planning Poker?", // large
 			"\nPlanning Poker is a software development tool for estimating requirements "
-					+ "in software development projects. In Planning Poker, each group member "
-					+ "has a deck of cards to rank the requirements of a project according to "
-					+ "how important they think that task ranks among the others. The project "
-					+ "administrators can then use this data to create a final priority list "
-					+ "for the project.", // medium
+					+ "\nin software development projects. In Planning Poker, each group member "
+					+ "\nhas a deck of cards to rank the requirements of a project according to "
+					+ "\nhow important they think that task ranks among the others. The project "
+					+ "\nadministrators can then use this data to create a final priority list "
+					+ "\nfor the project.", // medium
 			"\n" + "\n" + "How Does Planning Poker Work?", // large
 			"\nIndividual stories and requirements are created by customers or programmers "
-					+ "are presented for estimation. After a period of time, each participant "
-					+ "chooses from his own deck the numbered card that represents his estimate "
-					+ "of how much work is involved in the story under discussion. All estimates "
-					+ "are kept private until each participant has chosen a card. At that time, "
-					+ "all estimates are revealed and discussion can begin again.", // medium
+					+ "\nare presented for estimation. After a period of time, each participant "
+					+ "\nchooses from his own deck the numbered card that represents his estimate "
+					+ "\nof how much work is involved in the story under discussion. All estimates "
+					+ "\nare kept private until each participant has chosen a card. At that time, "
+					+ "\nall estimates are revealed and discussion can begin again.", // medium
 			"\n" + "\n" + "Who Can Use Planning Poker?", // large
 			"\nAll developers of a team should use Planning Poker. Planning Poker will aid "
-					+ "the programming team in prioritizing requirements.", // medium
-			"Roles", // large
-			"When a user creates a session, they become the administrator. The administrator "
-					+ "has the ability to add requirements to a session in addition to being able to "
-					+ "edit the session after it has been created. The administrator also sets the "
-					+ "final estimation for requirements. When a session has been created by the "
-					+ "administrator, all users, including the administrator, are able to anonymously "
-					+ "vote on requirements." // medium
+					+ "\nthe programming team in prioritizing requirements.", // medium
+			"\n\nRoles", // large
+			"\nWhen a user creates a session, they become the administrator. The administrator "
+					+ "\nhas the ability to add requirements to a session in addition to being able to "
+					+ "\nedit the session after it has been created. The administrator also sets the "
+					+ "\nfinal estimation for requirements. When a session has been created by the "
+					+ "\nadministrator, all users, including the administrator, are able to anonymously "
+					+ "\nvote on requirements." // medium
 	};
 
 	private final String[] SESSION_TEXT = {
 			"Sessions", // super huge
-			"\n\nTo begin using Planning Poker, an administrator creates a session that contains "
-					+ "the requirements that are to be voted upon. A session runs until a session deadline "
-					+ "has been reached or the administrator ends a session.", // medium
+			"\n\nWhat is a Session?",
+			"\nTo begin using Planning Poker, an administrator creates a session that contains "
+					+ "\nthe requirements that are to be voted upon. A session runs until a session deadline "
+					+ "\nhas been reached or the administrator ends a session.", // medium
 			"\n\nViewing Sessions", // large
 			"\nTo view sessions...", // medium
 			"\n\nCreate a Session", // large
 			"\nTo create a session click on the \"Create Session\" button, which will bring up a "
-					+ "page where it is possible to customize a session. A session must have a name, type "
-					+ "of deck, session description, and set of requirements. The administrator has the "
-					+ "option of using the default Fibonacci sequence deck, using a previously created deck, "
-					+ "or creating a new one. It is possible to add a deadline for the voting process by "
-					+ "selecting the Deadline text box followed by setting an end date and time. Click "
-					+ "save to store the session.", // medium
+					+ "\npage where it is possible to customize a session. A session must have a name, type "
+					+ "\nof deck, session description, and set of requirements. The administrator has the "
+					+ "\noption of using the default Fibonacci sequence deck, using a previously created deck, "
+					+ "\nor creating a new one. It is possible to add a deadline for the voting process by "
+					+ "\nselecting the Deadline text box followed by setting an end date and time. Click "
+					+ "\nsave to store the session.", // medium
 			"\n\nState of Sessions", // large
 			"\nOnce a session has been created, there are four possible states...", // medium
 			"\n\nEditing a Session", // large
 			"\nSessions can be edited by the administrator before users begin voting. To edit a session,"
-					+ "first open the session by selecting the desired session from the Session Overview tree on"
-					+ "the left hand side of the Home Page. Once the session is open, the administrator is able"
-					+ "to make changes to the session and save them by clicking on save changes. The administrator"
-					+ "also has the option of discarding the changes by selecting the discard changes button.", // medium
+					+ "\nfirst open the session by selecting the desired session from the Session Overview tree on"
+					+ "\nthe left hand side of the Home Page. Once the session is open, the administrator is able"
+					+ "\nto make changes to the session and save them by clicking on save changes. The administrator"
+					+ "\nalso has the option of discarding the changes by selecting the discard changes button.", // medium
 			"\n\nEnding a Session", // large
 			"\nThere are two ways in which a session can end. The first occurs automatically when a session "
-					+ "deadline has been reached. This option can be enabled when creating a session. The second "
-					+ "way is by manually selecting to end a session on the edit session panel. Upon session "
-					+ "completion, all the votes are calculated into mean, median, and mode and available for "
-					+ "final estimations.", // medium
+					+ "\ndeadline has been reached. This option can be enabled when creating a session. The second "
+					+ "\nway is by manually selecting to end a session on the edit session panel. Upon session "
+					+ "\ncompletion, all the votes are calculated into mean, median, and mode and available for "
+					+ "\nfinal estimations.", // medium
 			"\n\nCancelling a Session", // large
 			"\nAfter a session has been created, the administrator has the ability to cancel the session by"
-					+ "selecting Cancel on the edit session page. Once the session has been canceled, a final"
-					+ "estimation will no longer be calculated." };
+					+ "\nselecting Cancel on the edit session page. Once the session has been canceled, a final"
+					+ "\nestimation will no longer be calculated." };
 
 	private final String[] DECK_TEXT = {
 			"Planning Poker Deck", // super huge
-			"\n\nWhen a session has been created, each user is given a deck of cards. Each "
-					+ "card has been previously created by the administrator to display one "
-					+ "of the valid estimates. Each voter may, for example, be given a deck of "
-					+ "cards that reads 0, 1, 1, 2, 3, 5, 8, and 13.", // medium
-			"Selecting a Deck", // large
-			"When creating a session, the administrator has four deck selections to "
-					+ "choose from. The first is to use the default Fibonacci deck which has "
-					+ "cards of value 0, 1, 1, 2, 3, 5, 8, and 13. The second is to create a "
-					+ "new deck by selecting \"Create New Deck\" from the deck dropdown menu. "
-					+ "This gives the administrator the ability to assign numerical values to "
-					+ "a desired amount of cards." // medium
+			"\n\nWhat is Planning Poker Deck?",
+			"\nWhen a session has been created, each user is given a deck of cards. Each "
+					+ "\ncard has been previously created by the administrator to display one "
+					+ "\nof the valid estimates. Each voter may, for example, be given a deck of "
+					+ "\ncards that reads 0, 1, 1, 2, 3, 5, 8, and 13.", // medium
+			"\n\nSelecting a Deck", // large
+			"\nWhen creating a session, the administrator has four deck selections to "
+					+ "\nchoose from. The first is to use the default Fibonacci deck which has "
+					+ "\ncards of value 0, 1, 1, 2, 3, 5, 8, and 13. The second is to create a "
+					+ "\nnew deck by selecting \"Create New Deck\" from the deck dropdown menu. "
+					+ "\nThis gives the administrator the ability to assign numerical values to "
+					+ "\na desired amount of cards." // medium
 	};
 
 	private final String[] REQUIREMENTS_TEXT = {
 			"Requirements", // super huge
-			"A requirement is a description of the item that is to be voted upon.", // medium
-			"Importing Requirements", // large
-			"PENDING...", // medium
-			"Adding Requirements", // large
-			"Adding requirements to a session is done when creating the session. Click on the"
-					+ "Requirement tab on the right hand side of the page to open the list of imported "
-					+ "requirements. You also have the option of manually entering requirements", // medium
-			"Creating Requirements", // large
-			"Creating requirements can be done when creating or editing a session." // medium
+			"\n\nWhat is a Requirement?",
+			"\nA requirement is a description of the item that is to be voted upon.", // medium
+			"\n\nImporting Requirements", // large
+			"\nPENDING...", // medium
+			"\n\nAdding Requirements", // large
+			"\nAdding requirements to a session is done when creating the session. Click on the"
+					+ "\nRequirement tab on the right hand side of the page to open the list of imported "
+					+ "\nrequirements. You also have the option of manually entering requirements", // medium
+			"\n\nCreating Requirements", // large
+			"\nCreating requirements can be done when creating or editing a session." // medium
 	};
 
 	private final String[] VOTING_TEXT = { "Voting", // super huge
-			"Describe what voting is used for", // large
-			"How To Vote",// large
-			"Viewing Votes",// large
-			"Setting a Final Estimation"// large
-	};
+			"\nDescribe what voting is used for", // large
+			"", "\n\nHow To Vote",// large
+			"", "\n\nViewing Votes",// large
+			"", "\n\nSetting a Final Estimation",// large
+			"" };
 
 	private final String[] SHORTCUTS_TEXT = {
 			"Keyboard Shortcuts", // super huge
@@ -155,7 +158,7 @@ public class HelpDescriptionPanel extends JPanel {
 					+ "\nCTRL + S                  Saves a Session"
 					+ "\nCTRL + Shift              Move to the next tab"
 					+ "\nCTRL + Tab + Shift        Move to the previous tab"
-					+ "\nF1 		 Pull up the Help Page" // medium
+					+ "\nF1 		               Pull up the Help Page" // medium
 	};
 
 	/** styles for the help context */
@@ -167,7 +170,6 @@ public class HelpDescriptionPanel extends JPanel {
 
 	/** hashmap for storing help context */
 	private HashMap<HelpEntry, String[]> helpEntries;
-	private final Border compound, paneEdgeBorder, grayAndDarkGrayBorder;
 
 	/**
 	 * Constructor to create a new help description panel for display help
@@ -175,16 +177,11 @@ public class HelpDescriptionPanel extends JPanel {
 	 */
 	public HelpDescriptionPanel() {
 		// Default Home Panel's borders
-		paneEdgeBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-		grayAndDarkGrayBorder = BorderFactory.createEtchedBorder(
-				Color.lightGray, Color.darkGray);
-
-		// Combines borders, grayAndDarkBorder within 10 pixels of padding
-		compound = BorderFactory.createCompoundBorder(paneEdgeBorder,
-				grayAndDarkGrayBorder);
+		final Border paneEdgeBorder = BorderFactory.createEmptyBorder(10, 10,
+				10, 10);
 
 		// sets the panel border
-		this.setBorder(compound);
+		this.setBorder(paneEdgeBorder);
 
 		// create help entries
 		helpEntries = new HashMap<HelpEntry, String[]>();
@@ -281,22 +278,15 @@ public class HelpDescriptionPanel extends JPanel {
 		Style Georgia = doc.addStyle("georgia", def);
 		StyleConstants.setFontFamily(def, "Georgia");
 
-		Style s = doc.addStyle("italic", regular);
-		StyleConstants.setItalic(s, true);
-
-		s = doc.addStyle("bold", regular);
-		StyleConstants.setBold(s, true);
-
-		s = doc.addStyle("small", regular);
-		StyleConstants.setFontSize(s, 19);
+		Style s;
 
 		s = doc.addStyle("medium", regular);
 		StyleConstants.setFontSize(s, 20);
-		StyleConstants.setBold(s, true);
 
 		s = doc.addStyle("large", Georgia);
 		StyleConstants.setFontSize(s, 24);
 		StyleConstants.setBold(s, true);
+		StyleConstants.setItalic(s, true);
 
 		s = doc.addStyle("super huge", Georgia);
 		StyleConstants.setFontSize(s, 34);
