@@ -57,6 +57,7 @@ import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.ViewEventManager;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.NameDescriptionPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.UserVoteListPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.VoteRequirementCellRenderer;
+import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.UIComponent.textfield.LabelsWithTextField;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.pokers.DisplayDeckPanel;
 import edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.tablemanager.RequirementTableManager;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
@@ -78,7 +79,10 @@ public class VotePanel extends JPanel {
 	private static final String SESSION_NAME_LABEL = "Name:";
 	private static final String SESSION_DESC_LABEL = "Description:";
 	private static final String END_SESSION_BUTTON_LABEL = "End Session";
-	private static final String NO_DECK_MSG = "<html><font color='red'>No deck. Please enter your vote in the white box</font></html>";
+	private static final String NO_DECK_MSG = 
+			"<html><font color='red'>No deck. Please enter your vote in the white box</font></html>";
+	private static final String INVALID_VOTE_NUM_MSG = 
+			"<html><font face='sans-serif' color='red' size='9px'><center><b>Integer only!<b></center></font></html>";
 
 	private static final int DEFAULT_INSETS = 20;
 	private static final int DEFAULT_HEIGHT = 26;
@@ -119,7 +123,7 @@ public class VotePanel extends JPanel {
 	private DisplayDeckPanel cardPanel;
 
 	/** A text field holding the final result */
-	private JTextField voteTextField;
+	private LabelsWithTextField voteTextField;
 	private JLabel errorMsg;
 
 	/** Button submit the vote to the database */
@@ -537,8 +541,8 @@ public class VotePanel extends JPanel {
 		}
 
 		// Create a text field to store the final vote result
-		voteTextField = new JTextField(3);
-
+		voteTextField = new LabelsWithTextField();
+		
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
 		voteTextField.setHorizontalAlignment(JTextField.CENTER);
 
@@ -689,12 +693,12 @@ public class VotePanel extends JPanel {
 	public int getVote() {
 		if (this.session.getDeck() == null) {
 			try {
-				setErrorMsg(""); // Clear Error Message
-				return Integer.parseInt(voteTextField.getText());
+				voteTextField.setTextBottom("");
+				return Integer.parseInt(voteTextField.getTextMiddle());
 			} catch (NumberFormatException e) {
-				setErrorMsg("Must enter an integer");
-
-				return -1;
+				voteTextField.setTextBottom(INVALID_VOTE_NUM_MSG);
+				
+				return 0;
 			}
 		} else {
 			return cardPanel.getVoteValue();
@@ -708,7 +712,7 @@ public class VotePanel extends JPanel {
 	/**
 	 * @return the voteTextField
 	 */
-	public JTextField getVoteTextField() {
+	public LabelsWithTextField getVoteTextField() {
 		return voteTextField;
 	}
 
@@ -718,7 +722,7 @@ public class VotePanel extends JPanel {
 	 * @param voteTextField
 	 */
 	public void setVoteTextFieldWithValue(int value) {
-		voteTextField.setText(Integer.toString(value));
+		voteTextField.setTextMiddle(Integer.toString(value));
 	}
 
 	/**
@@ -727,7 +731,7 @@ public class VotePanel extends JPanel {
 	 * @param voteTextField
 	 */
 	public void clearVoteTextField() {
-		voteTextField.setText("");
+		voteTextField.setTextMiddle("");
 	}
 
 	/**
