@@ -3,7 +3,13 @@
  */
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.help;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.ScrollPaneConstants;
 
 /**
  * Help panel that display the index tree and contents
@@ -26,25 +32,39 @@ public class HelpPanel extends JSplitPane {
 	 * Constructor to create a help panel
 	 */
 	public HelpPanel() {
+		JPanel rightPanel = new JPanel();
 
 		// set up panels
 		treePanel = new HelpTreePanel(this);
 		descriptionPanel = new HelpDescriptionPanel();
 
+		JScrollPane jsp = new JScrollPane(descriptionPanel);
+		jsp.setViewportView(descriptionPanel);
+		jsp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		jsp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+		// Set layout for right panel;
+		rightPanel.setLayout(new BorderLayout());
+
+		// Add the JSP to the rightPanel
+		rightPanel.add(jsp);
+
+		// Set panels background to white (matching table)
+		rightPanel.setBackground(Color.WHITE);
+
 		// set up the entire panel
-		this.setRightComponent(descriptionPanel);
 		this.setLeftComponent(treePanel);
+		this.setRightComponent(rightPanel);
 
 		// Set divider location between right and left panel
 		this.setDividerLocation(220);
 	}
-	
+
 	/**
 	 * Update the right panel to show the help content
 	 */
 	public void updateHelpContent(HelpEntry entry) {
 		descriptionPanel.updateHelp(entry);
 	}
-	
 
 }

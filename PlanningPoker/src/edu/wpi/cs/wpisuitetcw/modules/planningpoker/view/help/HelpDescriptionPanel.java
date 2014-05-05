@@ -4,10 +4,13 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.help;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.HashMap;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
+import javax.swing.border.Border;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
@@ -164,12 +167,24 @@ public class HelpDescriptionPanel extends JPanel {
 
 	/** hashmap for storing help context */
 	private HashMap<HelpEntry, String[]> helpEntries;
+	private final Border compound, paneEdgeBorder, grayAndDarkGrayBorder;
 
 	/**
 	 * Constructor to create a new help description panel for display help
 	 * context
 	 */
 	public HelpDescriptionPanel() {
+		// Default Home Panel's borders
+		paneEdgeBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+		grayAndDarkGrayBorder = BorderFactory.createEtchedBorder(
+				Color.lightGray, Color.darkGray);
+
+		// Combines borders, grayAndDarkBorder within 10 pixels of padding
+		compound = BorderFactory.createCompoundBorder(paneEdgeBorder,
+				grayAndDarkGrayBorder);
+
+		// sets the panel border
+		this.setBorder(compound);
 
 		// create help entries
 		helpEntries = new HashMap<HelpEntry, String[]>();
@@ -268,7 +283,7 @@ public class HelpDescriptionPanel extends JPanel {
 
 		Style s = doc.addStyle("italic", regular);
 		StyleConstants.setItalic(s, true);
-		//
+
 		s = doc.addStyle("bold", regular);
 		StyleConstants.setBold(s, true);
 
