@@ -544,9 +544,8 @@ public class VotePanel extends JPanel {
 		voteTextField = new LabelsWithTextField();
 		
 		voteTextField.setFont(new Font("SansSerif", Font.BOLD, 60));
-		voteTextField.setHorizontalAlignment(JTextField.CENTER);
 
-		voteTextField.getDocument().addDocumentListener(new DocumentListener() {
+		voteTextField.getTextField().getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
 			public void removeUpdate(DocumentEvent e) {
