@@ -85,7 +85,7 @@ public class HelpDescriptionPanel extends JPanel {
 					+ "\nthe requirements that are to be voted upon. A session runs until a session deadline "
 					+ "\nhas been reached or the administrator ends a session.", // medium
 			"\n\nViewing Sessions", // large
-			"\nTo view sessions...", // medium
+			"\nTo view sessions, click on the Session Overview tab and expand the sessions.", // medium
 			"\n\nCreate a Session", // large
 			"\nTo create a session click on the \"Create Session\" button, which will bring up a "
 					+ "\npage where it is possible to customize a session. A session must have a name, type "
@@ -95,7 +95,12 @@ public class HelpDescriptionPanel extends JPanel {
 					+ "\nselecting the Deadline text box followed by setting an end date and time. Click "
 					+ "\nsave to store the session.", // medium
 			"\n\nState of Sessions", // large
-			"\nOnce a session has been created, there are four possible states...", // medium
+			"\nOnce a session is created, it can be in three possible states: new, open, or closed, or canceled."
+					+ "\nA New session is a state that has been created, but has not yet been activated. "
+					+ "\nAn open session is a session that has been activated by the administrator that is "
+					+ "\navailable for users to vote upon. A closed session is a session that has been closed "
+					+ "\nfor voting for which requirement statistics have been calculated. A canceled session "
+					+ "\nis a session that has closed, but does not display requirement statistics.", // medium
 			"\n\nEditing a Session", // large
 			"\nSessions can be edited by the administrator before users begin voting. To edit a session,"
 					+ "\nfirst open the session by selecting the desired session from the Session Overview tree on"
@@ -144,11 +149,22 @@ public class HelpDescriptionPanel extends JPanel {
 	};
 
 	private final String[] VOTING_TEXT = { "Voting", // super huge
-			"\nDescribe what voting is used for", // large
-			"", "\n\nHow To Vote",// large
-			"", "\n\nViewing Votes",// large
-			"", "\n\nSetting a Final Estimation",// large
-			"" };
+			"\n\nDescribe what voting is used for", // large
+			"\nVoting happens when users anonymously set a rank to each requirement", // medium
+			"\n\nHow To Vote",// large
+			"\nWhen a session has become active, users are able to set a rank to each requirement. "
+			+ "\nIn order to vote, click on the session under Open Sessions To vote on a certain requirement, "
+			+ "\nselect that requirement from the Session Requirements. If the session uses a deck for voting, "
+			+ "\nselect a card to represent the rank assigned to the requirement. If the administrator has enabled "
+			+ "\nmultiple selections, it is possible to select multiple cards. If no deck has been assigned to the "
+			+ "\nsession, the user is able to manually enter a value in the \"Vote Here\" text box.", // medium
+			"\n\nSetting a Final Estimation",// large
+			"\nOnce the voting process has finished and the session has ended, the administrator "
+			+ "\nwill be able to view requirement statistics which include the mean, median, mode,"
+			+ "\nand standard deviation. Using this information, the administrator is able to manually "
+			+ "\nsubmit a final estimation for each requirement in the final estimation card which will "
+			+ "\nthen be reflected under the requirement manager section." // medium
+			};
 
 	private final String[] SHORTCUTS_TEXT = {
 			"Keyboard Shortcuts", // super huge
@@ -236,7 +252,7 @@ public class HelpDescriptionPanel extends JPanel {
 
 		// add the text
 		this.add(textPane, "center");
-		
+
 		// set up the panel
 		this.setEnabled(true);
 		this.validate();
