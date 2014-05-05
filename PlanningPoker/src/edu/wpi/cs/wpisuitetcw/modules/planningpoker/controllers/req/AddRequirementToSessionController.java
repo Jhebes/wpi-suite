@@ -80,9 +80,6 @@ public class AddRequirementToSessionController implements ActionListener {
 		// AND the requirement module don't have it
 		if (!hasPlanningPokerRequirement(requirements, requirement) && 
 			!hasRequirement(addReqModel, requirement.getInnerRequirement())) {
-			// Add new requirement to the session
-			session.addRequirement(requirement);
-			session.save();
 			
 			// Add the requirement to the Requirement Manager
 			reqManagerRequirement.setId(addReqModel.getNextID());
@@ -90,6 +87,11 @@ public class AddRequirementToSessionController implements ActionListener {
 			reqManagerRequirement.setDescription(requirement.getDescription());
 			addReqModel.addRequirement(reqManagerRequirement);
 
+			requirement.setCorrespondingReqManagerID(reqManagerRequirement.getId());
+
+			// Add new requirement to the session
+			session.addRequirement(requirement);
+			session.save();
 			// Validate session
 			(new RequirementTableManager()).fetch(session.getID());
 			panel.getSaveRequirement().setEnabled(false);
