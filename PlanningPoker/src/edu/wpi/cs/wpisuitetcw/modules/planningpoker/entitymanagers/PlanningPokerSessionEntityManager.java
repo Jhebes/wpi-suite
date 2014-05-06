@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.entitymanagers;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,28 +59,30 @@ public class PlanningPokerSessionEntityManager implements
 			public void run() {
 				// my favorite type of loop!
 				while (true) {
-				try {
-
-					// get the sessions
-					final List<PlanningPokerSession> sessions = PlanningPokerSessionEntityManager.this.db
-							.retrieveAll(new PlanningPokerSession());
-					for (PlanningPokerSession session : sessions) {
-
-					// check if they're closed
-					if (session.hasPassedDeadline()) {
-					// update the session
-						session.close();
 					try {
-					PlanningPokerSessionEntityManager.this
-						.updateSession(session);
-					} catch (WPISuiteException e) {
-						e.printStackTrace();
-					}
-					}
-					}
 
-					// get ready to do it again
-					Thread.sleep(5000);
+						// get the sessions
+						final List<PlanningPokerSession> sessions = PlanningPokerSessionEntityManager.this.db
+								.retrieveAll(new PlanningPokerSession());
+						for (PlanningPokerSession session : sessions) {
+
+							// check if they're closed
+							if (session.getDeadline() != null && session.isOpen() && session.hasPassedDeadline()) {
+								System.out.println("current time is " + new Date());
+								System.out.println("session time was " + session.getDeadline());
+								// update the session
+								session.close();
+								try {
+									PlanningPokerSessionEntityManager.this.updateSession(session);
+									LongPollingResponseEntityManager.pushToClients(session.getClass(), session, null);
+								} catch (WPISuiteException e) {
+									e.printStackTrace();
+								}
+							}
+						}
+
+						// get ready to do it again
+						Thread.sleep(5000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}

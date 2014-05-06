@@ -656,7 +656,7 @@ public class PlanningPokerSession extends AbstractModel {
     * @return whether or not the session has ended
     */
     public boolean hasPassedDeadline(){
-        return deadline.after(new Date());
+        return deadline.before(new Date());
     }
 
 	public boolean isEditMode() {
