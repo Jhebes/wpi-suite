@@ -11,6 +11,7 @@ package edu.wpi.cs.wpisuitetcw.modules.planningpoker.view.overviews;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -32,7 +33,8 @@ public class OverviewPanel extends JSplitPane {
 	public OverviewPanel() {
 		// Create the right side of the panel
 		rightPanel = new JPanel();
-
+		rightPanel.setMinimumSize(new Dimension(500, 600));
+		
 		// Create the left side
 		treePanel = new OverviewTreePanel();
 
@@ -54,7 +56,7 @@ public class OverviewPanel extends JSplitPane {
 		// Add panels to main JSplitPane
 		this.setRightComponent(rightPanel);
 		this.setLeftComponent(treePanel);
-
+		
 		// Set divider location between right and left panel
 		this.setDividerLocation(220);
 		ViewEventManager.getInstance().setOverviewPanel(this);
