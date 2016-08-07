@@ -11,6 +11,7 @@
 package edu.wpi.cs.wpisuitetcw.modules.planningpoker.models;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Collections;
 
@@ -178,9 +179,10 @@ public class PlanningPokerDeck extends AbstractModel {
 	
 	/**
 	 * 
-	 * @return the deck list
+	 * @return the deck list in ascending order
 	 */
 	public List<Integer> getDeck() {
+		Collections.sort(deck);
 		return deck;
 	}
 
